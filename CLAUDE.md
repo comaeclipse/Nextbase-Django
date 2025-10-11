@@ -15,8 +15,8 @@ This is a new Django project. The codebase currently contains only design specif
 ### Initial Setup
 
 ```bash
-# Install Django
-pip install django
+# Install dependencies
+pip install django psycopg2-binary python-decouple
 
 # Create the Django project structure
 django-admin startproject vetretire_project
@@ -25,6 +25,11 @@ python manage.py startapp locations
 
 # Create templates directory
 mkdir -p locations/templates/locations
+
+# Set up environment variables (create .env file)
+# DATABASE_URL=postgresql://user:password@localhost:5432/vetretire_db
+# SECRET_KEY=your-secret-key
+# DEBUG=True
 
 # Run initial migrations
 python manage.py migrate
@@ -111,9 +116,45 @@ The application uses Django template language with inline CSS. Key features:
 
 ## Database Configuration
 
-Currently using SQLite3 (default Django database). The database file `db.sqlite3` is stored in `BASE_DIR`.
+**Production Database**: PostgreSQL (via Render or Vercel/Neon)
 
-**Important**: Before deploying to production, update `settings.py` to use a production database (PostgreSQL recommended) and change the `SECRET_KEY`.
+**Development Options**:
+- Use PostgreSQL locally for parity with production
+- Or use SQLite for quick local development (but test with PostgreSQL before deploying)
+
+### PostgreSQL Setup
+
+**Local PostgreSQL** (for development):
+```bash
+# Install psycopg2-binary for PostgreSQL support
+pip install psycopg2-binary
+
+# Create local database
+createdb vetretire_db
+```
+
+**Production PostgreSQL Options**:
+1. **Render**: PostgreSQL database instance with automatic backups
+2. **Vercel + Neon**: Serverless PostgreSQL optimized for edge deployments
+
+### Database Configuration in settings.py
+
+Use environment variables for database configuration:
+```python
+import dj_database_url
+from decouple import config
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='sqlite:///db.sqlite3')
+    )
+}
+```
+
+This allows:
+- Local development with SQLite (if DATABASE_URL not set)
+- Production deployment with PostgreSQL (DATABASE_URL from hosting platform)
+- Easy switching between environments
 
 ## Development Workflow
 
@@ -149,7 +190,21 @@ python manage.py test locations
 - `DEBUG = True` in settings - must be set to `False` in production
 - `SECRET_KEY` needs to be changed before production deployment
 - `ALLOWED_HOSTS = []` - must be configured for production
-- No `.env` file for environment variables yet
+- Use `.env` file for environment variables (DATABASE_URL, SECRET_KEY, DEBUG)
+- Never commit `.env` to git (already in .gitignore)
+- Use platform environment variables for production (Render/Vercel)
+
+### Deployment Considerations
+
+**Platform Options**:
+- **Render**: Full Django support, managed PostgreSQL, easy configuration
+- **Vercel + Neon**: Serverless PostgreSQL, edge deployment, fast global access
+
+**Required Environment Variables**:
+- `DATABASE_URL`: PostgreSQL connection string
+- `SECRET_KEY`: Django secret key
+- `DEBUG`: Set to `False` in production
+- `ALLOWED_HOSTS`: Comma-separated list of allowed domains
 
 ### Future Development Areas
 
