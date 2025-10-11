@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetRetire - Find Your Perfect Retirement Destination</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1.5rem 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 6rem 5% 8rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #2563eb;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .features {
+            padding: 5rem 5%;
+            background: #f9fafb;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 4rem;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .filter-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .filter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .filter-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #1f2937;
+        }
+
+        .filter-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        .how-it-works {
+            padding: 5rem 5%;
+            background: white;
+        }
+
+        .steps {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #eff6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #1f2937;
+        }
+
+        .step p {
+            color: #6b7280;
+        }
+
+        .final-cta {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: #1f2937;
+            color: #9ca3af;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">VetRetire</div>
+            <ul class="nav-links">
+                <li><a href="{% url 'locations:home' %}">Home</a></li>
+                <li><a href="{% url 'locations:explore' %}">Explore</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Your Perfect Retirement Destination</h1>
+            <p>Discover the ideal place to enjoy your well-earned retirement. Filter by climate, lifestyle, cost of living, and more to find communities built for veterans like you.</p>
+            <a href="{% url 'locations:explore' %}" class="cta-button">Start Exploring</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">Filter Your Perfect Match</h2>
+            <p class="section-subtitle">Use our comprehensive filters to find locations that match your retirement vision</p>
+            
+            <div class="filter-grid">
+                <div class="filter-card">
+                    <div class="filter-icon">☀️</div>
+                    <h3>Climate</h3>
+                    <p>Find warm beaches, cool mountains, or four-season variety. Filter by temperature, precipitation, and seasonal preferences.</p>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-icon">🏡</div>
+                    <h3>Lifestyle</h3>
+                    <p>Choose between urban excitement, quiet suburbs, or peaceful rural settings. Match your activity level and interests.</p>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-icon">💰</div>
+                    <h3>Economy</h3>
+                    <p>Compare cost of living, tax rates, and housing prices. Make your retirement savings go further.</p>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-icon">🏥</div>
+                    <h3>Healthcare</h3>
+                    <p>Access to VA facilities, quality hospitals, and specialized care. Your health comes first.</p>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-icon">🎯</div>
+                    <h3>Activities</h3>
+                    <p>Golf, fishing, hiking, arts, or culture. Find communities that match your hobbies and passions.</p>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-icon">🤝</div>
+                    <h3>Community</h3>
+                    <p>Connect with fellow veterans. Find areas with strong veteran communities and support networks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="features-container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Three simple steps to find your retirement paradise</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Set Your Preferences</h3>
+                    <p>Tell us what matters most to you. Climate, budget, activities, and lifestyle preferences.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Explore Matches</h3>
+                    <p>Browse personalized location recommendations with detailed insights and veteran-specific information.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Plan Your Visit</h3>
+                    <p>Get connected with local resources, veteran organizations, and community information to make your decision.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <h2>Ready to Find Your Next Chapter?</h2>
+        <p>Join thousands of veterans who've found their perfect retirement destination</p>
+        <a href="{% url 'locations:explore' %}" class="cta-button">Get Started Today</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 VetRetire. Serving those who served. All rights reserved.</p>
+    </footer>
+</body>
+</html>
