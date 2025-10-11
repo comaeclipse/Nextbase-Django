@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import shutil
 import dj_database_url
 from decouple import config
 
@@ -59,12 +60,51 @@ WSGI_APPLICATION = 'vetretire_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='sqlite:///db.sqlite3'),
-        conn_max_age=600
-    )
-}
+# Default to a bundled SQLite file for local dev
+_default_sqlite_path = BASE_DIR / 'db.sqlite3'
+
+# On serverless platforms (e.g., Vercel on AWS Lambda), the code directory
+# is read-only at runtime. Use /tmp for a writable SQLite location and copy
+# the bundled DB there on cold start so reads work.
+_is_build_phase = os.environ.get('DJANGO_BUILD') == '1'
+_is_serverless = False if _is_build_phase else bool(
+    os.environ.get('VERCEL')
+    or os.environ.get('VERCEL_ENV')
+    or os.environ.get('AWS_LAMBDA_FUNCTION_NAME')
+)
+
+if _is_serverless:
+    _writable_sqlite_path = Path('/tmp/db.sqlite3')
+    try:
+        if _default_sqlite_path.exists():
+            # Copy once per cold start; ignore errors if already present
+            if not _writable_sqlite_path.exists():
+                shutil.copy2(_default_sqlite_path, _writable_sqlite_path)
+        else:
+            # Ensure parent exists; SQLite will create the file if migrations run
+            _writable_sqlite_path.parent.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        # Fallback: still point to /tmp even if copy fails
+        pass
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': str(_writable_sqlite_path),
+            'OPTIONS': {
+                # Serverless can run concurrent requests in a single process
+                'check_same_thread': False,
+            },
+        }
+    }
+else:
+    # Local development or build phase
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': _default_sqlite_path,
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -103,6 +143,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # WhiteNoise configuration for serving static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# CSRF Settings for Vercel deployment
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+]
+
+# Use cookie-based sessions to avoid database writes in serverless
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
