@@ -2,6 +2,21 @@
 
 This document explains the data structure for retirement locations in the VetRetire application.
 
+## StateInfo Model Fields
+
+State-level information that applies to all locations within a state (no need to duplicate for each city).
+
+### Gun Laws & Regulations
+- **State**: Two-letter state abbreviation (Primary Key)
+- **MagazineLimit**: Magazine capacity restrictions (e.g., "limits magazines over 10 rounds")
+- **GiffordScore**: Giffords Law Center grade (A through F, with +/- modifiers)
+- **GhostGunBan**: Whether ghost guns are banned (Y/N)
+- **AssaultWeaponBan**: Whether assault weapons are banned (Y/N)
+
+**Note**: This table contains state-specific regulatory information. Empty fields indicate no restriction or grade available.
+
+---
+
 ## Location Model Fields
 
 ### Basic Location Information

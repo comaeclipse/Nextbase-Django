@@ -1,5 +1,54 @@
 from django.db import models
 
+
+class StateInfo(models.Model):
+    """State-level information (gun laws, regulations, etc.)"""
+
+    # Primary key
+    state = models.CharField(
+        max_length=2,
+        primary_key=True,
+        help_text="Two-letter state abbreviation"
+    )
+
+    # Gun Laws & Regulations
+    magazine_limit = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Magazine capacity restrictions"
+    )
+    gifford_score = models.CharField(
+        max_length=5,
+        null=True,
+        blank=True,
+        help_text="Giffords Law Center grade (A-F with +/-)"
+    )
+    ghost_gun_ban = models.CharField(
+        max_length=5,
+        null=True,
+        blank=True,
+        help_text="Ghost gun ban status (Y/N)"
+    )
+    assault_weapon_ban = models.CharField(
+        max_length=5,
+        null=True,
+        blank=True,
+        help_text="Assault weapon ban status (Y/N)"
+    )
+
+    # Metadata
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['state']
+        verbose_name = 'State Information'
+        verbose_name_plural = 'State Information'
+
+    def __str__(self):
+        return f"{self.state} - Gifford Score: {self.gifford_score or 'N/A'}"
+
+
 class Location(models.Model):
     """Model representing a retirement location"""
 
