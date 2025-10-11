@@ -15,7 +15,13 @@
       "Bash(\"/c/Program Files/GitHub CLI/gh\" auth login)",
       "Bash(\"/c/Program Files/GitHub CLI/gh\" repo create Nextbase-Django --public --source=. --remote=origin --push)",
       "Bash(git push:*)",
-      "Bash(py --version)"
+      "Bash(py --version)",
+      "Bash(vercel:*)",
+      "Bash(python -m pip:*)",
+      "Bash(py -m pip:*)",
+      "Bash(python manage.py makemigrations:*)",
+      "Bash(python manage.py:*)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []
