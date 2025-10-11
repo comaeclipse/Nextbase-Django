@@ -22,7 +22,8 @@
       "Bash(python manage.py makemigrations:*)",
       "Bash(python manage.py:*)",
       "Bash(timeout:*)",
-      "Read(//c/Users/Jordan/Projects/Vercel-Django-Sqlite/**)"
+      "Read(//c/Users/Jordan/Projects/Vercel-Django-Sqlite/**)",
+      "Read(//c/Users/Jordan/Downloads/**)"
     ],
     "deny": [],
     "ask": []

@@ -6,6 +6,7 @@ class Location(models.Model):
     # Basic information
     name = models.CharField(max_length=100, help_text="City or town name")
     state = models.CharField(max_length=50, help_text="State name")
+    county = models.CharField(max_length=100, null=True, blank=True, help_text="County name")
 
     # Metrics
     match_score = models.IntegerField(
@@ -45,6 +46,54 @@ class Location(models.Model):
         max_length=50,
         help_text="Distance to nearest VA facility (e.g., '3 miles')"
     )
+
+    # ===== NEW CSV DATA FIELDS =====
+    # See SCHEMA.md for detailed field descriptions
+
+    # Political Information
+    state_party = models.CharField(max_length=10, null=True, blank=True, help_text="State political party (R/D)")
+    governor = models.CharField(max_length=10, null=True, blank=True, help_text="Governor's party (R/D)")
+    city_politics = models.CharField(max_length=100, null=True, blank=True, help_text="City political leaning")
+    election_2016 = models.CharField(max_length=50, null=True, blank=True, help_text="2016 presidential winner")
+    election_2016_percent = models.IntegerField(null=True, blank=True, help_text="2016 winner percentage")
+    election_2024 = models.CharField(max_length=50, null=True, blank=True, help_text="2024 presidential winner")
+    election_2024_percent = models.IntegerField(null=True, blank=True, help_text="2024 winner percentage")
+    election_change = models.CharField(max_length=100, null=True, blank=True, help_text="Voting shift 2016-2024")
+
+    # Demographics & Economics
+    population_raw = models.CharField(max_length=50, null=True, blank=True, help_text="Population (raw from CSV)")
+    density = models.CharField(max_length=50, null=True, blank=True, help_text="Population density per sq mi")
+    sales_tax = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, help_text="Sales tax %")
+    income_tax = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, help_text="Income tax %")
+    col_index = models.IntegerField(null=True, blank=True, help_text="Cost of living index (100=avg)")
+
+    # Veterans Affairs (detailed)
+    has_va = models.CharField(max_length=10, null=True, blank=True, help_text="Has VA facility (Yes/No)")
+    nearest_va = models.CharField(max_length=200, null=True, blank=True, help_text="Nearest VA facility name")
+    distance_to_va = models.CharField(max_length=50, null=True, blank=True, help_text="Distance to VA")
+    veterans_benefits = models.TextField(null=True, blank=True, help_text="Veteran-specific benefits")
+
+    # Safety & Social
+    tci = models.IntegerField(null=True, blank=True, help_text="Total crime index (lower is safer)")
+    marijuana_status = models.CharField(max_length=50, null=True, blank=True, help_text="Marijuana legal status")
+    lgbtq_rating = models.CharField(max_length=50, null=True, blank=True, help_text="LGBTQ friendliness")
+
+    # Economic Hubs
+    tech_hub = models.CharField(max_length=10, null=True, blank=True, help_text="Tech hub (Y/N)")
+    defense_hub = models.CharField(max_length=10, null=True, blank=True, help_text="Defense/military hub (Y/N)")
+
+    # Weather & Climate (detailed)
+    snow_annual = models.IntegerField(null=True, blank=True, help_text="Average annual snowfall (inches)")
+    rain_annual = models.IntegerField(null=True, blank=True, help_text="Average annual rainfall (inches)")
+    sun_days = models.IntegerField(null=True, blank=True, help_text="Average sunny days per year")
+    avg_low_winter = models.IntegerField(null=True, blank=True, help_text="Average low temp in winter (°F)")
+    avg_high_summer = models.IntegerField(null=True, blank=True, help_text="Average high temp in summer (°F)")
+    humidity_summer = models.IntegerField(null=True, blank=True, help_text="Average July humidity %")
+    climate_detailed = models.CharField(max_length=200, null=True, blank=True, help_text="Detailed climate description")
+
+    # Other
+    gas_price = models.CharField(max_length=20, null=True, blank=True, help_text="Average gas price")
+    description = models.TextField(null=True, blank=True, help_text="Location description")
 
     # Display properties
     emoji = models.CharField(
