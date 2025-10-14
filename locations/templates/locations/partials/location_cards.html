@@ -41,7 +41,16 @@
         </div>
 
         <div class="card-footer">
-            <div class="va-distance">🏥 VA Hospital: {{ location.va_distance }}</div>
+            <div class="va-distance">
+                🏥 VA Hospital:
+                {% if location.has_va == "Yes" %}
+                    Yes
+                {% elif location.distance_to_va %}
+                    Nearest is {{ location.distance_to_va }} away
+                {% else %}
+                    Distance unknown
+                {% endif %}
+            </div>
             <a href="#" class="learn-more">Learn More →</a>
         </div>
     </div>
