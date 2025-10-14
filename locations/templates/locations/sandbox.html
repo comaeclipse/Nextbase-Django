@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Trend Cards - Sandbox</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .baseball-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 4px solid #ddd;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .baseball-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-header {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .city-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1f2937;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .state-name {
+            font-size: 1rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .stats-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .trend-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .trend-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .trend-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        .trend-icon {
+            font-size: 2rem;
+        }
+
+        .trend-democratic {
+            color: #2563eb;
+        }
+
+        .trend-republican {
+            color: #dc2626;
+        }
+
+        .trend-neutral {
+            color: #6b7280;
+        }
+
+        .election-year {
+            background: #f9fafb;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+        }
+
+        .winner-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .winner-trump {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .winner-clinton {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .winner-harris {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .back-link a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗳️ Election Trend Baseball Cards</h1>
+
+        <div class="cards-grid">
+            {% for location in locations %}
+            <div class="baseball-card">
+                <div class="card-header">
+                    <div class="city-name">{{ location.name }}</div>
+                    <div class="state-name">{{ location.state }}</div>
+                </div>
+
+                <div class="stats-section">
+                    {% if location.election_2016 %}
+                    <div class="stat-row">
+                        <span class="stat-label">2016 Winner</span>
+                        <span class="stat-value">
+                            {{ location.election_2016 }}
+                            {% if location.election_2016_percent %}
+                                ({{ location.election_2016_percent }}%)
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+
+                    {% if location.election_2024 %}
+                    <div class="stat-row">
+                        <span class="stat-label">2024 Winner</span>
+                        <span class="stat-value">
+                            {{ location.election_2024 }}
+                            {% if location.election_2024_percent %}
+                                ({{ location.election_2024_percent }}%)
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+
+                    {% if location.city_politics %}
+                    <div class="stat-row">
+                        <span class="stat-label">City Politics</span>
+                        <span class="stat-value">{{ location.city_politics }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if location.election_change %}
+                <div class="trend-section">
+                    <div class="trend-label">Voting Trend (2016-2024)</div>
+                    <div class="trend-display">
+                        {% if forloop.first %}
+                            {# First card uses chart-line icon as a test #}
+                            {% if "Democratic" in location.election_change or "Blue" in location.election_change %}
+                                <i class="fa-solid fa-chart-line trend-icon trend-democratic"></i>
+                                <span class="trend-democratic">{{ location.election_change }}</span>
+                            {% elif "Republican" in location.election_change or "Red" in location.election_change %}
+                                <i class="fa-solid fa-chart-line trend-icon trend-republican"></i>
+                                <span class="trend-republican">{{ location.election_change }}</span>
+                            {% else %}
+                                <i class="fa-solid fa-chart-line trend-icon trend-neutral"></i>
+                                <span class="trend-neutral">{{ location.election_change }}</span>
+                            {% endif %}
+                        {% else %}
+                            {# Other cards use arrow icons #}
+                            {% if "Democratic" in location.election_change or "Blue" in location.election_change %}
+                                <i class="fa-solid fa-arrow-trend-up trend-icon trend-democratic"></i>
+                                <span class="trend-democratic">{{ location.election_change }}</span>
+                            {% elif "Republican" in location.election_change or "Red" in location.election_change %}
+                                <i class="fa-solid fa-arrow-trend-down trend-icon trend-republican"></i>
+                                <span class="trend-republican">{{ location.election_change }}</span>
+                            {% elif "no change" in location.election_change|lower or "stable" in location.election_change|lower %}
+                                <i class="fa-solid fa-minus trend-icon trend-neutral"></i>
+                                <span class="trend-neutral">{{ location.election_change }}</span>
+                            {% else %}
+                                <span class="trend-neutral">{{ location.election_change }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div style="color: white; text-align: center; grid-column: 1 / -1; font-size: 1.2rem;">
+                No locations with election data found.
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="back-link">
+            <a href="{% url 'locations:explore' %}">← Back to Explore</a>
+        </div>
+    </div>
+</body>
+</html>

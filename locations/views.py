@@ -115,3 +115,15 @@ def filter_locations(request):
         'locations': locations,
     }
     return render(request, 'locations/partials/location_cards.html', context)
+
+def sandbox(request):
+    """Sandbox page for testing election trend visualizations"""
+    # Get locations with election data
+    locations = Location.objects.filter(
+        election_change__isnull=False
+    ).exclude(election_change='').order_by('name')
+
+    context = {
+        'locations': locations,
+    }
+    return render(request, 'locations/sandbox.html', context)
