@@ -501,12 +501,14 @@
                 </div>
                 <div class="sort-options">
                     <label>Sort by:</label>
-                    <select>
-                        <option>Best Match</option>
-                        <option>Cost (Low to High)</option>
-                        <option>Cost (High to Low)</option>
-                        <option>Climate</option>
-                        <option>VA Access</option>
+                    <select id="sort-select">
+                        <option value="best">Best Match</option>
+                        <option value="cost_asc">Cost (Low to High)</option>
+                        <option value="cost_desc">Cost (High to Low)</option>
+                        <option value="climate">Climate</option>
+                        <option value="va">VA Access</option>
+                        <option value="gas_asc">Gas Price (Low to High)</option>
+                        <option value="gas_desc">Gas Price (High to Low)</option>
                     </select>
                     <div class="view-toggle">
                         <button class="view-btn active">Grid</button>
@@ -524,32 +526,45 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pillboxes = document.querySelectorAll('.pillbox');
-            
+            const sortSelect = document.getElementById('sort-select');
+
+            function getActiveSnow() {
+                const active = document.querySelector('.pillbox.active');
+                return active ? active.getAttribute('data-snow') : null;
+            }
+
+            function refreshResults() {
+                const snowValue = getActiveSnow();
+                const sortValue = sortSelect ? sortSelect.value : 'best';
+                const params = new URLSearchParams();
+                if (snowValue) params.append('snow', snowValue);
+                if (sortValue) params.append('sort', sortValue);
+                htmx.ajax('GET', "{% url 'locations:filter_locations' %}" + (params.toString() ? ('?' + params.toString()) : ''), {
+                    target: '#results-grid',
+                    swap: 'innerHTML'
+                });
+            }
+
+            // Handle pillbox clicks (include current sort)
             pillboxes.forEach(pillbox => {
                 pillbox.addEventListener('click', function() {
-                    const snowValue = this.getAttribute('data-snow');
-                    
-                    // Toggle active state
                     if (this.classList.contains('active')) {
-                        // Deactivate - show all locations
                         this.classList.remove('active');
-                        htmx.ajax('GET', "{% url 'locations:filter_locations' %}", {
-                            target: '#results-grid',
-                            swap: 'innerHTML'
-                        });
+                        refreshResults();
                     } else {
-                        // Remove active from all pillboxes
                         pillboxes.forEach(p => p.classList.remove('active'));
-                        // Activate this one
                         this.classList.add('active');
-                        // Trigger HTMX request
-                        htmx.ajax('GET', "{% url 'locations:filter_locations' %}?snow=" + snowValue, {
-                            target: '#results-grid',
-                            swap: 'innerHTML'
-                        });
+                        refreshResults();
                     }
                 });
             });
+
+            // Handle sort changes (preserve current snow)
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    refreshResults();
+                });
+            }
         });
     </script>
 </body>

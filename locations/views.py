@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, Case, When, IntegerField
 from .models import Location
 
 def home(request):
@@ -20,6 +20,7 @@ def explore(request):
 def filter_locations(request):
     """Filter locations based on criteria and return partial HTML"""
     snow_filter = request.GET.get('snow', None)
+    sort = request.GET.get('sort', 'best')
     
     # Start with all locations
     locations = Location.objects.all()
@@ -35,6 +36,52 @@ def filter_locations(request):
         # Lots of snow: >20 inches
         locations = locations.filter(snow_annual__gt=20)
     
+    # Sorting
+    if sort == 'best':
+        locations = locations.order_by('-match_score', 'name')
+    elif sort in ('cost_asc', 'cost_desc'):
+        cost_rank = Case(
+            When(cost_of_living='Low', then=0),
+            When(cost_of_living='Moderate', then=1),
+            When(cost_of_living='High', then=2),
+            default=1,
+            output_field=IntegerField(),
+        )
+        locations = locations.annotate(cost_rank=cost_rank)
+        locations = locations.order_by(('cost_rank' if sort == 'cost_asc' else '-cost_rank'), 'name')
+    elif sort == 'climate':
+        locations = locations.order_by('climate', 'name')
+    elif sort == 'va':
+        # Primary: has VA first; we'll refine by distance in Python
+        locations = locations.order_by('-has_va', 'name')
+        # Python-side stable sort by parsed distance (smaller first)
+        def parse_distance(value: str) -> float:
+            if not value:
+                return float('inf')
+            # Try distance_to_va first (may be like '3 miles'), else va_distance
+            text = value
+            try:
+                # Extract first number (int/float)
+                import re
+                m = re.search(r"\d+(?:\.\d+)?", str(text))
+                return float(m.group(0)) if m else float('inf')
+            except Exception:
+                return float('inf')
+        locations = sorted(list(locations), key=lambda loc: (0 if (loc.has_va and str(loc.has_va).lower().startswith('y')) else 1, parse_distance(loc.distance_to_va or loc.va_distance)))
+    elif sort in ('gas_asc', 'gas_desc'):
+        # Parse gas price like '$3.89' -> 3.89
+        def parse_gas_price(value: str) -> float:
+            if not value:
+                return float('inf')
+            try:
+                import re
+                m = re.search(r"\d+(?:\.\d+)?", str(value))
+                return float(m.group(0)) if m else float('inf')
+            except Exception:
+                return float('inf')
+        reverse = (sort == 'gas_desc')
+        locations = sorted(list(locations), key=lambda loc: parse_gas_price(loc.gas_price), reverse=reverse)
+
     context = {
         'locations': locations,
     }
