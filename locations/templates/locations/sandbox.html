@@ -254,14 +254,25 @@
                                 <span class="trend-neutral">{{ location.election_change }}</span>
                             {% endif %}
                         {% else %}
-                            {# Other cards use arrow icons #}
-                            {% if "Democratic" in location.election_change or "Blue" in location.election_change %}
-                                <i class="fa-solid fa-arrow-trend-up trend-icon trend-democratic"></i>
-                                <span class="trend-democratic">{{ location.election_change }}</span>
-                            {% elif "Republican" in location.election_change or "Red" in location.election_change %}
+                            {# Other cards use arrow icons with proper logic #}
+                            {% if "more Republican" in location.election_change or "more Red" in location.election_change %}
+                                {# Trending more Republican = red + up #}
+                                <i class="fa-solid fa-arrow-trend-up trend-icon trend-republican"></i>
+                                <span class="trend-republican">{{ location.election_change }}</span>
+                            {% elif "less Republican" in location.election_change or "less Red" in location.election_change %}
+                                {# Trending less Republican = red + down #}
                                 <i class="fa-solid fa-arrow-trend-down trend-icon trend-republican"></i>
                                 <span class="trend-republican">{{ location.election_change }}</span>
+                            {% elif "more Democratic" in location.election_change or "more Blue" in location.election_change %}
+                                {# Trending more Democratic = blue + up #}
+                                <i class="fa-solid fa-arrow-trend-up trend-icon trend-democratic"></i>
+                                <span class="trend-democratic">{{ location.election_change }}</span>
+                            {% elif "less Democratic" in location.election_change or "less Blue" in location.election_change %}
+                                {# Trending less Democratic = blue + down #}
+                                <i class="fa-solid fa-arrow-trend-down trend-icon trend-democratic"></i>
+                                <span class="trend-democratic">{{ location.election_change }}</span>
                             {% elif "no change" in location.election_change|lower or "stable" in location.election_change|lower %}
+                                {# No change = neutral + minus #}
                                 <i class="fa-solid fa-minus trend-icon trend-neutral"></i>
                                 <span class="trend-neutral">{{ location.election_change }}</span>
                             {% else %}
