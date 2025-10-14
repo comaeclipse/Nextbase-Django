@@ -420,6 +420,13 @@
                     <div class="pillbox" data-snow="some">Some Snow</div>
                     <div class="pillbox" data-snow="lots">Lots of Snow</div>
                 </div>
+
+                <h3 style="margin-top: 1.5rem;">Gun Laws</h3>
+                <div class="pillbox-container">
+                    <div class="pillbox" data-gun-laws="relaxed">Relaxed Gun Laws</div>
+                    <div class="pillbox" data-gun-laws="some">Some Gun Laws</div>
+                    <div class="pillbox" data-gun-laws="strict">Strict Gun Laws</div>
+                </div>
             </div>
 
             <div class="filter-section">
@@ -529,15 +536,22 @@
             const sortSelect = document.getElementById('sort-select');
 
             function getActiveSnow() {
-                const active = document.querySelector('.pillbox.active');
+                const active = document.querySelector('.pillbox[data-snow].active');
                 return active ? active.getAttribute('data-snow') : null;
+            }
+
+            function getActiveGunLaws() {
+                const active = document.querySelector('.pillbox[data-gun-laws].active');
+                return active ? active.getAttribute('data-gun-laws') : null;
             }
 
             function refreshResults() {
                 const snowValue = getActiveSnow();
+                const gunLawsValue = getActiveGunLaws();
                 const sortValue = sortSelect ? sortSelect.value : 'best';
                 const params = new URLSearchParams();
                 if (snowValue) params.append('snow', snowValue);
+                if (gunLawsValue) params.append('gun_laws', gunLawsValue);
                 if (sortValue) params.append('sort', sortValue);
                 htmx.ajax('GET', "{% url 'locations:filter_locations' %}" + (params.toString() ? ('?' + params.toString()) : ''), {
                     target: '#results-grid',
@@ -545,21 +559,25 @@
                 });
             }
 
-            // Handle pillbox clicks (include current sort)
+            // Handle pillbox clicks (include current sort and all filters)
             pillboxes.forEach(pillbox => {
                 pillbox.addEventListener('click', function() {
+                    const filterType = this.hasAttribute('data-snow') ? 'snow' : 'gun-laws';
+                    const selector = filterType === 'snow' ? '.pillbox[data-snow]' : '.pillbox[data-gun-laws]';
+
                     if (this.classList.contains('active')) {
                         this.classList.remove('active');
                         refreshResults();
                     } else {
-                        pillboxes.forEach(p => p.classList.remove('active'));
+                        // Only remove active from same filter type
+                        document.querySelectorAll(selector).forEach(p => p.classList.remove('active'));
                         this.classList.add('active');
                         refreshResults();
                     }
                 });
             });
 
-            // Handle sort changes (preserve current snow)
+            // Handle sort changes (preserve current filters)
             if (sortSelect) {
                 sortSelect.addEventListener('change', function() {
                     refreshResults();

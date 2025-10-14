@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q, Case, When, IntegerField
-from .models import Location
+from .models import Location, StateInfo
 
 def home(request):
     """Render the homepage"""
@@ -20,11 +20,12 @@ def explore(request):
 def filter_locations(request):
     """Filter locations based on criteria and return partial HTML"""
     snow_filter = request.GET.get('snow', None)
+    gun_laws_filter = request.GET.get('gun_laws', None)
     sort = request.GET.get('sort', 'best')
-    
+
     # Start with all locations
     locations = Location.objects.all()
-    
+
     # Apply snow filter if present
     if snow_filter == 'zero':
         # Zero snow: 0 inches or null
@@ -35,6 +36,34 @@ def filter_locations(request):
     elif snow_filter == 'lots':
         # Lots of snow: >20 inches
         locations = locations.filter(snow_annual__gt=20)
+
+    # Apply gun laws filter if present
+    if gun_laws_filter:
+        # Get all state info with gifford scores
+        state_info_dict = {si.state: si.gifford_score for si in StateInfo.objects.all() if si.gifford_score}
+
+        # Categorize states based on Giffords score
+        relaxed_states = []
+        some_states = []
+        strict_states = []
+
+        for state_abbr, score in state_info_dict.items():
+            score_upper = score.upper().strip()
+            # Extract letter grade (ignore +/-)
+            if score_upper.startswith('A') or score_upper.startswith('B'):
+                strict_states.append(state_abbr)
+            elif score_upper.startswith('C'):
+                some_states.append(state_abbr)
+            elif score_upper.startswith('D') or score_upper.startswith('F'):
+                relaxed_states.append(state_abbr)
+
+        # Filter based on selected category
+        if gun_laws_filter == 'relaxed':
+            locations = locations.filter(state__in=relaxed_states)
+        elif gun_laws_filter == 'some':
+            locations = locations.filter(state__in=some_states)
+        elif gun_laws_filter == 'strict':
+            locations = locations.filter(state__in=strict_states)
     
     # Sorting
     if sort == 'best':
