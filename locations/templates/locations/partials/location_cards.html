@@ -1,0 +1,50 @@
+{% for location in locations %}
+<div class="location-card">
+    <div class="card-image" style="background: {{ location.gradient }};">
+        {{ location.emoji }}
+        {% if location.featured %}
+        <span class="card-badge">Featured</span>
+        {% endif %}
+    </div>
+    <div class="card-content">
+        <div class="location-header">
+            <div>
+                <div class="location-name">{{ location.name }}</div>
+                <div class="location-state">{{ location.state }}</div>
+            </div>
+            <div class="match-score">{{ location.match_score }}% Match</div>
+        </div>
+
+        <div class="card-stats">
+            <div class="stat">
+                <span class="stat-label">Avg. Home Price</span>
+                <span class="stat-value">{{ location.avg_price }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Climate</span>
+                <span class="stat-value">{{ location.climate }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Cost of Living</span>
+                <span class="stat-value">{{ location.cost_of_living }}</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Population</span>
+                <span class="stat-value">{{ location.population }}</span>
+            </div>
+        </div>
+
+        <div class="card-tags">
+            {% for tag in location.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="card-footer">
+            <div class="va-distance">🏥 VA Hospital: {{ location.va_distance }}</div>
+            <a href="#" class="learn-more">Learn More →</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
