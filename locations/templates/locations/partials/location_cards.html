@@ -1,6 +1,8 @@
+{% if request.headers.HX-Request %}
 <div class="results-info" id="results-info" hx-swap-oob="true">
     Found <strong>{{ total_results }} locations</strong> matching your criteria
 </div>
+{% endif %}
 
 {% for location in locations %}
 <div class="location-card">
