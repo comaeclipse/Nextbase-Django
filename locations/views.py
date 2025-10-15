@@ -129,8 +129,12 @@ def filter_locations(request):
         reverse = (sort == 'gas_desc')
         locations = sorted(list(locations), key=lambda loc: parse_gas_price(loc.gas_price), reverse=reverse)
 
+    # Get the count (handle both QuerySet and list)
+    total_results = len(locations) if isinstance(locations, list) else locations.count()
+
     context = {
         'locations': locations,
+        'total_results': total_results,
     }
     return render(request, 'locations/partials/location_cards.html', context)
 

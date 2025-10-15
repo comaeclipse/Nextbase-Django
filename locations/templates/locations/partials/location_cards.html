@@ -1,3 +1,7 @@
+<div class="results-info" id="results-info" hx-swap-oob="true">
+    Found <strong>{{ total_results }} locations</strong> matching your criteria
+</div>
+
 {% for location in locations %}
 <div class="location-card">
     <div class="card-image" style="background: {{ location.gradient }};">
