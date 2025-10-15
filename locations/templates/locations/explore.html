@@ -427,6 +427,12 @@
                     <div class="pillbox" data-gun-laws="some">Some Gun Laws</div>
                     <div class="pillbox" data-gun-laws="strict">Strict Gun Laws</div>
                 </div>
+
+                <h3 style="margin-top: 1.5rem;">Misc</h3>
+                <div class="filter-option">
+                    <input type="checkbox" id="lgbtq-friendly">
+                    <label for="lgbtq-friendly">LGBTQ Friendly</label>
+                </div>
             </div>
 
             <div class="filter-section">
@@ -534,6 +540,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const pillboxes = document.querySelectorAll('.pillbox');
             const sortSelect = document.getElementById('sort-select');
+            const lgbtqCheckbox = document.getElementById('lgbtq-friendly');
 
             function getActiveSnow() {
                 const active = document.querySelector('.pillbox[data-snow].active');
@@ -545,13 +552,19 @@
                 return active ? active.getAttribute('data-gun-laws') : null;
             }
 
+            function getLgbtqFriendly() {
+                return lgbtqCheckbox && lgbtqCheckbox.checked;
+            }
+
             function refreshResults() {
                 const snowValue = getActiveSnow();
                 const gunLawsValue = getActiveGunLaws();
+                const lgbtqValue = getLgbtqFriendly();
                 const sortValue = sortSelect ? sortSelect.value : 'best';
                 const params = new URLSearchParams();
                 if (snowValue) params.append('snow', snowValue);
                 if (gunLawsValue) params.append('gun_laws', gunLawsValue);
+                if (lgbtqValue) params.append('lgbtq_friendly', 'true');
                 if (sortValue) params.append('sort', sortValue);
                 htmx.ajax('GET', "{% url 'locations:filter_locations' %}" + (params.toString() ? ('?' + params.toString()) : ''), {
                     target: '#results-grid',
@@ -576,6 +589,13 @@
                     }
                 });
             });
+
+            // Handle LGBTQ checkbox change
+            if (lgbtqCheckbox) {
+                lgbtqCheckbox.addEventListener('change', function() {
+                    refreshResults();
+                });
+            }
 
             // Handle sort changes (preserve current filters)
             if (sortSelect) {

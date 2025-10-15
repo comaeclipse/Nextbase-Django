@@ -21,6 +21,7 @@ def filter_locations(request):
     """Filter locations based on criteria and return partial HTML"""
     snow_filter = request.GET.get('snow', None)
     gun_laws_filter = request.GET.get('gun_laws', None)
+    lgbtq_friendly = request.GET.get('lgbtq_friendly', None)
     sort = request.GET.get('sort', 'best')
 
     # Start with all locations
@@ -64,6 +65,23 @@ def filter_locations(request):
             locations = locations.filter(state__in=some_states)
         elif gun_laws_filter == 'strict':
             locations = locations.filter(state__in=strict_states)
+
+    # Apply LGBTQ friendly filter if present
+    if lgbtq_friendly == 'true':
+        # Filter for locations where lgbtq_rating < 50
+        # Since lgbtq_rating is a CharField, we need to convert it to int for comparison
+        # We'll filter in Python to handle potential non-numeric values
+        all_locs = list(locations)
+        filtered_locs = []
+        for loc in all_locs:
+            if loc.lgbtq_rating:
+                try:
+                    rating = float(loc.lgbtq_rating)
+                    if rating < 50:
+                        filtered_locs.append(loc.id)
+                except (ValueError, TypeError):
+                    pass
+        locations = locations.filter(id__in=filtered_locs)
     
     # Sorting
     if sort == 'best':
