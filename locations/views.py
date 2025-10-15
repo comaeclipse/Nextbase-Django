@@ -135,6 +135,7 @@ def filter_locations(request):
     context = {
         'locations': locations,
         'total_results': total_results,
+        'is_htmx': True,  # This view is only called via htmx
     }
     return render(request, 'locations/partials/location_cards.html', context)
 
