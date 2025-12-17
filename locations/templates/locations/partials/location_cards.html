@@ -18,7 +18,7 @@
                 <div class="location-name">{{ location.name }}</div>
                 <div class="location-state">{{ location.state }}</div>
             </div>
-            <div class="match-score">{{ location.match_score }}% Match</div>
+            <div class="match-score">{% if location.calculated_match_score is not None %}{{ location.calculated_match_score }}{% else %}{{ location.match_score }}{% endif %}% Match</div>
         </div>
 
         <div class="card-stats">

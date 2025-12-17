@@ -398,7 +398,7 @@
             <div class="filter-section">
                 <h3>Climate</h3>
                 <div class="filter-option">
-                    <input type="checkbox" id="warm" checked>
+                    <input type="checkbox" id="warm">
                     <label for="warm">Warm & Sunny</label>
                 </div>
                 <div class="filter-option">
@@ -437,27 +437,27 @@
 
             <div class="filter-section">
                 <h3>Cost of Living</h3>
-                <select>
-                    <option>Any Budget</option>
-                    <option>Low ($)</option>
-                    <option selected>Moderate ($$)</option>
-                    <option>High ($$$)</option>
+                <select id="cost-select">
+                    <option value="">Any Budget</option>
+                    <option value="low">Low ($)</option>
+                    <option value="moderate">Moderate ($$)</option>
+                    <option value="high">High ($$$)</option>
                 </select>
                 <div class="price-range">
-                    <input type="text" placeholder="Min $" value="$50k">
+                    <input type="text" id="price-min" placeholder="Min $" value="">
                     <span>-</span>
-                    <input type="text" placeholder="Max $" value="$150k">
+                    <input type="text" id="price-max" placeholder="Max $" value="">
                 </div>
             </div>
 
             <div class="filter-section">
                 <h3>Lifestyle</h3>
                 <div class="filter-option">
-                    <input type="checkbox" id="urban" checked>
+                    <input type="checkbox" id="urban">
                     <label for="urban">Urban</label>
                 </div>
                 <div class="filter-option">
-                    <input type="checkbox" id="suburban" checked>
+                    <input type="checkbox" id="suburban">
                     <label for="suburban">Suburban</label>
                 </div>
                 <div class="filter-option">
@@ -469,7 +469,7 @@
             <div class="filter-section">
                 <h3>Healthcare Access</h3>
                 <div class="filter-option">
-                    <input type="checkbox" id="va-hospital" checked>
+                    <input type="checkbox" id="va-hospital">
                     <label for="va-hospital">VA Hospital Nearby</label>
                 </div>
                 <div class="filter-option">
@@ -489,7 +489,7 @@
                     <label for="golf">Golf</label>
                 </div>
                 <div class="filter-option">
-                    <input type="checkbox" id="fishing" checked>
+                    <input type="checkbox" id="fishing">
                     <label for="fishing">Fishing</label>
                 </div>
                 <div class="filter-option">
@@ -541,6 +541,11 @@
             const pillboxes = document.querySelectorAll('.pillbox');
             const sortSelect = document.getElementById('sort-select');
             const lgbtqCheckbox = document.getElementById('lgbtq-friendly');
+            const costSelect = document.getElementById('cost-select');
+            const priceMinInput = document.getElementById('price-min');
+            const priceMaxInput = document.getElementById('price-max');
+
+            // ============== Helper Functions ==============
 
             function getActiveSnow() {
                 const active = document.querySelector('.pillbox[data-snow].active');
@@ -556,23 +561,105 @@
                 return lgbtqCheckbox && lgbtqCheckbox.checked;
             }
 
+            function getActiveClimate() {
+                const ids = ['warm', 'mild', 'cool', 'four-season'];
+                const checked = ids.filter(id => {
+                    const el = document.getElementById(id);
+                    return el && el.checked;
+                });
+                // Convert four-season to four_seasons for backend
+                return checked.map(id => id === 'four-season' ? 'four_seasons' : id).join(',');
+            }
+
+            function getActiveCostOfLiving() {
+                return costSelect ? costSelect.value : '';
+            }
+
+            function getPriceRange() {
+                const parsePrice = (val) => {
+                    if (!val) return null;
+                    const match = val.match(/\d+/);
+                    return match ? parseInt(match[0]) : null;
+                };
+                return {
+                    min: parsePrice(priceMinInput?.value),
+                    max: parsePrice(priceMaxInput?.value)
+                };
+            }
+
+            function getActiveLifestyle() {
+                const ids = ['urban', 'suburban', 'rural'];
+                const checked = ids.filter(id => {
+                    const el = document.getElementById(id);
+                    return el && el.checked;
+                });
+                return checked.join(',');
+            }
+
+            function getActiveHealthcare() {
+                const mapping = {
+                    'va-hospital': 'va_hospital',
+                    'va-clinic': 'va_clinic',
+                    'quality-care': 'quality_care'
+                };
+                const ids = Object.keys(mapping);
+                const checked = ids.filter(id => {
+                    const el = document.getElementById(id);
+                    return el && el.checked;
+                });
+                return checked.map(id => mapping[id]).join(',');
+            }
+
+            function getActiveActivities() {
+                const ids = ['golf', 'fishing', 'hiking', 'culture'];
+                const checked = ids.filter(id => {
+                    const el = document.getElementById(id);
+                    return el && el.checked;
+                });
+                return checked.join(',');
+            }
+
+            // ============== Main Refresh Function ==============
+
             function refreshResults() {
+                const params = new URLSearchParams();
+
+                // Existing filters
                 const snowValue = getActiveSnow();
                 const gunLawsValue = getActiveGunLaws();
                 const lgbtqValue = getLgbtqFriendly();
                 const sortValue = sortSelect ? sortSelect.value : 'best';
-                const params = new URLSearchParams();
+
+                // New filters
+                const climateValue = getActiveClimate();
+                const costValue = getActiveCostOfLiving();
+                const priceRange = getPriceRange();
+                const lifestyleValue = getActiveLifestyle();
+                const healthcareValue = getActiveHealthcare();
+                const activitiesValue = getActiveActivities();
+
+                // Build params
                 if (snowValue) params.append('snow', snowValue);
                 if (gunLawsValue) params.append('gun_laws', gunLawsValue);
                 if (lgbtqValue) params.append('lgbtq_friendly', 'true');
                 if (sortValue) params.append('sort', sortValue);
+                if (climateValue) params.append('climate', climateValue);
+                if (costValue) params.append('cost_of_living', costValue);
+                if (priceRange.min) params.append('price_min', priceRange.min);
+                if (priceRange.max) params.append('price_max', priceRange.max);
+                if (lifestyleValue) params.append('lifestyle', lifestyleValue);
+                if (healthcareValue) params.append('healthcare', healthcareValue);
+                if (activitiesValue) params.append('activities', activitiesValue);
+
                 htmx.ajax('GET', "{% url 'locations:filter_locations' %}" + (params.toString() ? ('?' + params.toString()) : ''), {
                     target: '#results-grid',
                     swap: 'innerHTML'
                 });
             }
 
-            // Handle pillbox clicks (include current sort and all filters)
+            // ============== Event Listeners ==============
+
+            // Pillbox clicks (Snow and Gun Laws)
             pillboxes.forEach(pillbox => {
                 pillbox.addEventListener('click', function() {
                     const filterType = this.hasAttribute('data-snow') ? 'snow' : 'gun-laws';
@@ -580,28 +667,65 @@
 
                     if (this.classList.contains('active')) {
                         this.classList.remove('active');
-                        refreshResults();
                     } else {
-                        // Only remove active from same filter type
                         document.querySelectorAll(selector).forEach(p => p.classList.remove('active'));
                         this.classList.add('active');
-                        refreshResults();
                     }
+                    refreshResults();
                 });
             });
 
-            // Handle LGBTQ checkbox change
+            // LGBTQ checkbox
             if (lgbtqCheckbox) {
-                lgbtqCheckbox.addEventListener('change', function() {
-                    refreshResults();
-                });
+                lgbtqCheckbox.addEventListener('change', refreshResults);
             }
 
-            // Handle sort changes (preserve current filters)
+            // Sort dropdown
             if (sortSelect) {
-                sortSelect.addEventListener('change', function() {
-                    refreshResults();
-                });
+                sortSelect.addEventListener('change', refreshResults);
+            }
+
+            // Climate checkboxes
+            ['warm', 'mild', 'cool', 'four-season'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', refreshResults);
+            });
+
+            // Cost of Living dropdown
+            if (costSelect) {
+                costSelect.addEventListener('change', refreshResults);
+            }
+
+            // Price range inputs (trigger on blur/change for better UX)
+            if (priceMinInput) {
+                priceMinInput.addEventListener('change', refreshResults);
+            }
+            if (priceMaxInput) {
+                priceMaxInput.addEventListener('change', refreshResults);
+            }
+
+            // Lifestyle checkboxes
+            ['urban', 'suburban', 'rural'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', refreshResults);
+            });
+
+            // Healthcare checkboxes
+            ['va-hospital', 'va-clinic', 'quality-care'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', refreshResults);
+            });
+
+            // Activities checkboxes
+            ['golf', 'fishing', 'hiking', 'culture'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', refreshResults);
+            });
+
+            // Apply Filters button (now triggers refresh)
+            const applyBtn = document.querySelector('.apply-filters');
+            if (applyBtn) {
+                applyBtn.addEventListener('click', refreshResults);
             }
         });
     </script>
