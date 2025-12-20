@@ -144,6 +144,36 @@ class Location(models.Model):
     gas_price = models.CharField(max_length=20, null=True, blank=True, help_text="Average gas price")
     description = models.TextField(null=True, blank=True, help_text="Location description")
 
+    # Additional economic data
+    avg_home_value = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Average home value (numeric)"
+    )
+    avg_home_value_display = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+        help_text="Formatted home value (e.g., '$385k')"
+    )
+
+    # Safety metric
+    crime = models.CharField(
+        max_length=10,
+        null=True,
+        blank=True,
+        help_text="Crime rating/category"
+    )
+
+    # Additional metric
+    pps = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text="Per person spending or metric"
+    )
+
     # Display properties
     emoji = models.CharField(
         max_length=10,
