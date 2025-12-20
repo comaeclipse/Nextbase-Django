@@ -6,12 +6,24 @@
 {% block extrahead %}
 {{ block.super }}
 <style>
+    /* Override Django Admin Layout for Full Width */
+    #content {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    #content-main {
+        width: 100% !important;
+    }
+
     /* Container */
     .spreadsheet-wrapper {
-        margin: 20px;
+        margin: 0;
         background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 0;
+        box-shadow: none;
         overflow: hidden;
     }
 
