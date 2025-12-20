@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django import forms
+from django.urls import path
+from django.http import HttpResponse, JsonResponse
+from django.template.response import TemplateResponse
 from .models import Location, StateInfo
 import csv
-from django.http import HttpResponse
+import json
 
 
 # Custom List Filters
@@ -307,6 +310,80 @@ class LocationAdmin(admin.ModelAdmin):
             obj.emoji = '📍'
 
         super().save_model(request, obj, form, change)
+
+    # Custom URLs for spreadsheet view
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('spreadsheet/',
+                 self.admin_site.admin_view(self.spreadsheet_view),
+                 name='locations_location_spreadsheet'),
+            path('cell-update/',
+                 self.admin_site.admin_view(self.cell_update_view),
+                 name='locations_location_cell_update'),
+        ]
+        return custom_urls + urls
+
+    def spreadsheet_view(self, request):
+        """Google Sheets-style view with all columns editable inline."""
+        locations = Location.objects.all().order_by('name')
+        
+        # Get all concrete fields (exclude relations)
+        fields = [f for f in Location._meta.get_fields()
+                  if f.concrete and not f.many_to_many and not f.one_to_many]
+        
+        context = {
+            **self.admin_site.each_context(request),
+            'locations': locations,
+            'fields': fields,
+            'title': 'Location Spreadsheet',
+            'opts': self.model._meta,
+        }
+        return TemplateResponse(
+            request,
+            'admin/locations/location/spreadsheet.html',
+            context
+        )
+
+    def cell_update_view(self, request):
+        """AJAX endpoint for inline cell updates."""
+        if request.method != 'POST':
+            return JsonResponse({'status': 'error', 'message': 'POST required'}, status=400)
+        
+        try:
+            data = json.loads(request.body)
+            location_id = data.get('id')
+            field_name = data.get('field')
+            new_value = data.get('value')
+            
+            # Security: only allow updating actual model fields
+            allowed_fields = {f.name for f in Location._meta.get_fields() if f.concrete}
+            if field_name not in allowed_fields:
+                return JsonResponse({'status': 'error', 'message': 'Invalid field'}, status=400)
+            
+            # Don't allow updating certain fields
+            readonly_fields = {'id', 'created_at', 'updated_at'}
+            if field_name in readonly_fields:
+                return JsonResponse({'status': 'error', 'message': 'Field is read-only'}, status=400)
+            
+            location = Location.objects.get(pk=location_id)
+            
+            # Handle empty strings for nullable fields
+            field = Location._meta.get_field(field_name)
+            if new_value == '' and field.null:
+                new_value = None
+            
+            setattr(location, field_name, new_value)
+            location.save(update_fields=[field_name, 'updated_at'])
+            
+            return JsonResponse({'status': 'success'})
+            
+        except Location.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Location not found'}, status=404)
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
 # StateInfo Admin
