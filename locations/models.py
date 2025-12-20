@@ -174,6 +174,20 @@ class Location(models.Model):
         help_text="Per person spending or metric"
     )
 
+    # Climate categorization
+    climate_category = models.CharField(
+        max_length=20,
+        choices=[
+            ('cold_snowy', 'Cold / Snowy'),
+            ('hot_humid', 'Hot / Humid'),
+            ('hot_dry', 'Hot / Dry'),
+            ('mild_coastal', 'Mild / Coastal'),
+        ],
+        null=True,
+        blank=True,
+        help_text="Computed climate category for filtering"
+    )
+
     # Display properties
     emoji = models.CharField(
         max_length=10,
@@ -197,6 +211,7 @@ class Location(models.Model):
     class Meta:
         ordering = ['-match_score', 'name']
         indexes = [
+            models.Index(fields=['climate_category']),
             models.Index(fields=['match_score']),
             models.Index(fields=['state']),
             models.Index(fields=['featured']),

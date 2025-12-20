@@ -398,22 +398,22 @@
             <div class="filter-section">
                 <h3>Climate</h3>
                 <div class="filter-option">
-                    <input type="checkbox" id="warm">
-                    <label for="warm">Warm & Sunny</label>
+                    <input type="checkbox" id="cold_snowy">
+                    <label for="cold_snowy">❄️ Cold / Snowy</label>
                 </div>
                 <div class="filter-option">
-                    <input type="checkbox" id="mild">
-                    <label for="mild">Mild & Temperate</label>
+                    <input type="checkbox" id="hot_humid">
+                    <label for="hot_humid">💧 Hot / Humid</label>
                 </div>
                 <div class="filter-option">
-                    <input type="checkbox" id="cool">
-                    <label for="cool">Cool & Dry</label>
+                    <input type="checkbox" id="hot_dry">
+                    <label for="hot_dry">☀️ Hot / Dry</label>
                 </div>
                 <div class="filter-option">
-                    <input type="checkbox" id="four-season">
-                    <label for="four-season">Four Seasons</label>
+                    <input type="checkbox" id="mild_coastal">
+                    <label for="mild_coastal">🌊 Mild / Coastal</label>
                 </div>
-                
+
                 <h3 style="margin-top: 1.5rem;">Snow</h3>
                 <div class="pillbox-container">
                     <div class="pillbox" data-snow="zero">Zero Snow</div>
@@ -562,13 +562,12 @@
             }
 
             function getActiveClimate() {
-                const ids = ['warm', 'mild', 'cool', 'four-season'];
+                const ids = ['cold_snowy', 'hot_humid', 'hot_dry', 'mild_coastal'];
                 const checked = ids.filter(id => {
                     const el = document.getElementById(id);
                     return el && el.checked;
                 });
-                // Convert four-season to four_seasons for backend
-                return checked.map(id => id === 'four-season' ? 'four_seasons' : id).join(',');
+                return checked.join(',');
             }
 
             function getActiveCostOfLiving() {
@@ -686,7 +685,7 @@
             }
 
             // Climate checkboxes
-            ['warm', 'mild', 'cool', 'four-season'].forEach(id => {
+            ['cold_snowy', 'hot_humid', 'hot_dry', 'mild_coastal'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.addEventListener('change', refreshResults);
             });

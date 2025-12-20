@@ -35,33 +35,13 @@ def parse_number(value):
 
 
 def location_matches_climate(loc, climate_types):
-    """Check if location matches any of the selected climate types (OR logic)"""
+    """Check if location matches any of the selected climate categories (OR logic)"""
     types = [t.strip() for t in climate_types.split(',') if t.strip()]
     if not types:
         return True
 
-    for climate_type in types:
-        if climate_type == 'warm':
-            # Warm & Sunny: avg_high_summer >= 85 AND snow_annual <= 5
-            if (loc.avg_high_summer and loc.avg_high_summer >= 85 and
-                (loc.snow_annual is None or loc.snow_annual <= 5)):
-                return True
-        elif climate_type == 'mild':
-            # Mild & Temperate: avg_high_summer 70-84 AND avg_low_winter >= 40
-            if (loc.avg_high_summer and 70 <= loc.avg_high_summer <= 84 and
-                loc.avg_low_winter and loc.avg_low_winter >= 40):
-                return True
-        elif climate_type == 'cool':
-            # Cool & Dry: avg_high_summer < 80 AND humidity_summer < 50
-            if (loc.avg_high_summer and loc.avg_high_summer < 80 and
-                loc.humidity_summer and loc.humidity_summer < 50):
-                return True
-        elif climate_type == 'four_seasons':
-            # Four Seasons: snow_annual > 10 AND avg_high_summer >= 75
-            if (loc.snow_annual and loc.snow_annual > 10 and
-                loc.avg_high_summer and loc.avg_high_summer >= 75):
-                return True
-    return False
+    # Check if location's category matches any selected filter
+    return loc.climate_category in types
 
 
 def location_matches_lifestyle(loc, lifestyle_types):
