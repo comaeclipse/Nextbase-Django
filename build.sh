@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Mark as build phase so settings use a project-local SQLite path
-export DJANGO_BUILD=1
+# Vercel build script - connects to Neon PostgreSQL via DATABASE_URL
 
 # Install dependencies
 pip install -r requirements.txt
@@ -9,5 +8,5 @@ pip install -r requirements.txt
 # Collect static files
 python manage.py collectstatic --noinput
 
-# Run migrations against project-local DB (bundled into the deployment)
+# Run migrations against Neon PostgreSQL
 python manage.py migrate --noinput

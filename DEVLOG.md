@@ -1,5 +1,40 @@
 # Development Log
 
+## 2025-12-20: SQLite Removal - Neon PostgreSQL Only
+
+**Objective:** Remove all SQLite3 references, fallbacks, and dependencies. Project now uses Neon PostgreSQL exclusively.
+
+**Changes Made:**
+1. **settings.py**
+   - Removed `shutil` import (no longer needed for SQLite copy)
+   - Removed ~50 lines of SQLite fallback logic
+   - `DATABASE_URL` is now **required** - raises `ValueError` if missing
+   - Simplified database configuration to Neon PostgreSQL only
+
+2. **vercel.json**
+   - Removed `includeFiles: db.sqlite3` from builds config
+
+3. **build.sh**
+   - Removed `DJANGO_BUILD=1` environment variable
+   - Updated comments to reflect Neon-only architecture
+
+4. **.gitignore**
+   - Added `db.sqlite3` to gitignore (previously had exception comment)
+
+5. **Deleted Files**
+   - Removed `db.sqlite3` file from repository
+
+6. **Documentation**
+   - Updated `GEMINI.md` - changed database reference to Neon PostgreSQL
+   - Updated `CLAUDE.md` - removed SQLite references, updated database config section
+
+**Result:**
+- Cleaner, simpler codebase (~50 fewer lines in settings.py)
+- Clear error message if `DATABASE_URL` not configured
+- No ambiguity about database backend
+
+---
+
 ## 2025-12-20: Climate Categorization System Implementation
 
 **Objective:** Replace existing climate filters with science-based categorization system; each location assigned exactly one climate type.

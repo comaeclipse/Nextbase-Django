@@ -116,45 +116,40 @@ The application uses Django template language with inline CSS. Key features:
 
 ## Database Configuration
 
-**Production Database**: PostgreSQL (via Render or Vercel/Neon)
+**Database**: Neon PostgreSQL (DATABASE_URL required)
 
-**Development Options**:
-- Use PostgreSQL locally for parity with production
-- Or use SQLite for quick local development (but test with PostgreSQL before deploying)
+This project uses Neon PostgreSQL exclusively. The `DATABASE_URL` environment variable is required for both local development and production.
 
-### PostgreSQL Setup
+### Setup
 
-**Local PostgreSQL** (for development):
+1. Create a Neon database at https://neon.tech
+2. Copy the connection string
+3. Set `DATABASE_URL` in your `.env` file:
+
 ```bash
-# Install psycopg2-binary for PostgreSQL support
-pip install psycopg2-binary
-
-# Create local database
-createdb vetretire_db
+DATABASE_URL=postgresql://user:password@ep-xxx.us-east-1.aws.neon.tech/dbname?sslmode=require
 ```
-
-**Production PostgreSQL Options**:
-1. **Render**: PostgreSQL database instance with automatic backups
-2. **Vercel + Neon**: Serverless PostgreSQL optimized for edge deployments
 
 ### Database Configuration in settings.py
 
-Use environment variables for database configuration:
 ```python
 import dj_database_url
 from decouple import config
 
+_database_url = config('DATABASE_URL', default=None)
+
+if not _database_url:
+    raise ValueError("DATABASE_URL environment variable is required.")
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='sqlite:///db.sqlite3')
+        default=_database_url,
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
     )
 }
 ```
-
-This allows:
-- Local development with SQLite (if DATABASE_URL not set)
-- Production deployment with PostgreSQL (DATABASE_URL from hosting platform)
-- Easy switching between environments
 
 ## Development Workflow
 
