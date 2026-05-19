@@ -128,22 +128,7 @@ def location_in_price_range(loc, price_min, price_max):
     return True
 
 
-def get_gun_law_category(state_abbr, state_info_dict):
-    """Get gun law category for a state"""
-    score = state_info_dict.get(state_abbr)
-    if not score:
-        return None
-    score_upper = score.upper().strip()
-    if score_upper.startswith('A') or score_upper.startswith('B'):
-        return 'strict'
-    elif score_upper.startswith('C'):
-        return 'some'
-    elif score_upper.startswith('D') or score_upper.startswith('F'):
-        return 'relaxed'
-    return None
-
-
-def calculate_match_score(loc, filters, state_info_dict):
+def calculate_match_score(loc, filters, _state_info_dict=None):
     """Calculate how well a location matches the active filters (0-100)"""
     score = 0
     total = 0
@@ -195,11 +180,18 @@ def calculate_match_score(loc, filters, state_info_dict):
         elif snow == 'lots' and loc.snow_annual and loc.snow_annual > 20:
             score += 1
 
-    # Gun Laws
-    if filters.get('gun_laws'):
+    # No AWB
+    if filters.get('no_awb'):
         total += 1
-        category = get_gun_law_category(loc.state, state_info_dict)
-        if category == filters['gun_laws']:
+        awb_states = filters.get('awb_states', set())
+        if loc.state not in awb_states:
+            score += 1
+
+    # No High-Cap Mag Ban
+    if filters.get('no_hcm'):
+        total += 1
+        hcm_states = filters.get('hcm_states', set())
+        if loc.state not in hcm_states:
             score += 1
 
     # LGBTQ Friendly
@@ -218,7 +210,8 @@ def filter_locations(request):
     """Filter locations based on criteria and return partial HTML"""
     # Get all filter parameters
     snow_filter = request.GET.get('snow', None)
-    gun_laws_filter = request.GET.get('gun_laws', None)
+    no_awb = request.GET.get('no_awb', None)
+    no_hcm = request.GET.get('no_hcm', None)
     lgbtq_friendly = request.GET.get('lgbtq_friendly', None)
     climate_filter = request.GET.get('climate', None)
     cost_of_living_filter = request.GET.get('cost_of_living', None)
@@ -237,8 +230,10 @@ def filter_locations(request):
     active_filters = {}
     if snow_filter:
         active_filters['snow'] = snow_filter
-    if gun_laws_filter:
-        active_filters['gun_laws'] = gun_laws_filter
+    if no_awb == 'true':
+        active_filters['no_awb'] = True
+    if no_hcm == 'true':
+        active_filters['no_hcm'] = True
     if lgbtq_friendly == 'true':
         active_filters['lgbtq_friendly'] = True
     if climate_filter:
@@ -259,8 +254,13 @@ def filter_locations(request):
     # Start with all locations
     locations = Location.objects.all()
 
-    # Get state info for gun laws
-    state_info_dict = {si.state: si.gifford_score for si in StateInfo.objects.all() if si.gifford_score}
+    # Build gun law state sets for filtering and match scoring
+    awb_states = set(si.state for si in StateInfo.objects.filter(assault_weapons_ban=True))
+    hcm_states = set(si.state for si in StateInfo.objects.filter(high_cap_mag_ban=True))
+    if active_filters.get('no_awb'):
+        active_filters['awb_states'] = awb_states
+    if active_filters.get('no_hcm'):
+        active_filters['hcm_states'] = hcm_states
 
     # ============== Apply Filters ==============
 
@@ -272,27 +272,11 @@ def filter_locations(request):
     elif snow_filter == 'lots':
         locations = locations.filter(snow_annual__gt=20)
 
-    # Gun laws filter
-    if gun_laws_filter:
-        relaxed_states = []
-        some_states = []
-        strict_states = []
-
-        for state_abbr, score in state_info_dict.items():
-            score_upper = score.upper().strip()
-            if score_upper.startswith('A') or score_upper.startswith('B'):
-                strict_states.append(state_abbr)
-            elif score_upper.startswith('C'):
-                some_states.append(state_abbr)
-            elif score_upper.startswith('D') or score_upper.startswith('F'):
-                relaxed_states.append(state_abbr)
-
-        if gun_laws_filter == 'relaxed':
-            locations = locations.filter(state__in=relaxed_states)
-        elif gun_laws_filter == 'some':
-            locations = locations.filter(state__in=some_states)
-        elif gun_laws_filter == 'strict':
-            locations = locations.filter(state__in=strict_states)
+    # AWB / High-Cap Mag filters
+    if no_awb == 'true':
+        locations = locations.exclude(state__in=awb_states)
+    if no_hcm == 'true':
+        locations = locations.exclude(state__in=hcm_states)
 
     # Cost of Living filter
     if cost_of_living_filter:
@@ -337,7 +321,7 @@ def filter_locations(request):
 
     # ============== Calculate Match Scores ==============
     for loc in locations_list:
-        loc.calculated_match_score = calculate_match_score(loc, active_filters, state_info_dict)
+        loc.calculated_match_score = calculate_match_score(loc, active_filters, {})
 
     # ============== Sorting ==============
     if sort == 'best':

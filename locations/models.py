@@ -29,11 +29,15 @@ class StateInfo(models.Model):
         blank=True,
         help_text="Ghost gun ban status (Y/N)"
     )
-    assault_weapon_ban = models.CharField(
-        max_length=5,
+    assault_weapons_ban = models.BooleanField(
         null=True,
         blank=True,
-        help_text="Assault weapon ban status (Y/N)"
+        help_text="State has an assault weapons ban"
+    )
+    high_cap_mag_ban = models.BooleanField(
+        null=True,
+        blank=True,
+        help_text="State has a high-capacity magazine ban"
     )
 
     # Metadata

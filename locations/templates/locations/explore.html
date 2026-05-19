@@ -523,17 +523,18 @@
                     <div class="pillbox" data-snow="lots">Lots of Snow</div>
                 </div>
 
-                <h3 style="margin-top: 1.5rem;">Gun Laws</h3>
-                <div class="pillbox-container">
-                    <div class="pillbox" data-gun-laws="relaxed">Relaxed Gun Laws</div>
-                    <div class="pillbox" data-gun-laws="some">Some Gun Laws</div>
-                    <div class="pillbox" data-gun-laws="strict">Strict Gun Laws</div>
-                </div>
-
                 <h3 style="margin-top: 1.5rem;">Misc</h3>
                 <div class="filter-option">
                     <input type="checkbox" id="lgbtq-friendly">
                     <label for="lgbtq-friendly">LGBTQ Friendly</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="no-awb">
+                    <label for="no-awb">No Assault Weapons Ban</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="no-hcm">
+                    <label for="no-hcm">No High-Cap Mag Restrictions</label>
                 </div>
             </div>
 
@@ -643,6 +644,8 @@
             const pillboxes = document.querySelectorAll('.pillbox');
             const sortSelect = document.getElementById('sort-select');
             const lgbtqCheckbox = document.getElementById('lgbtq-friendly');
+            const noAwbCheckbox = document.getElementById('no-awb');
+            const noHcmCheckbox = document.getElementById('no-hcm');
             const costSelect = document.getElementById('cost-select');
             const priceMinInput = document.getElementById('price-min');
             const priceMaxInput = document.getElementById('price-max');
@@ -652,11 +655,6 @@
             function getActiveSnow() {
                 const active = document.querySelector('.pillbox[data-snow].active');
                 return active ? active.getAttribute('data-snow') : null;
-            }
-
-            function getActiveGunLaws() {
-                const active = document.querySelector('.pillbox[data-gun-laws].active');
-                return active ? active.getAttribute('data-gun-laws') : null;
             }
 
             function getLgbtqFriendly() {
@@ -727,8 +725,9 @@
 
                 // Existing filters
                 const snowValue = getActiveSnow();
-                const gunLawsValue = getActiveGunLaws();
                 const lgbtqValue = getLgbtqFriendly();
+                const noAwbValue = noAwbCheckbox && noAwbCheckbox.checked;
+                const noHcmValue = noHcmCheckbox && noHcmCheckbox.checked;
                 const sortValue = sortSelect ? sortSelect.value : 'best';
 
                 // New filters
@@ -741,8 +740,9 @@
 
                 // Build params
                 if (snowValue) params.append('snow', snowValue);
-                if (gunLawsValue) params.append('gun_laws', gunLawsValue);
                 if (lgbtqValue) params.append('lgbtq_friendly', 'true');
+                if (noAwbValue) params.append('no_awb', 'true');
+                if (noHcmValue) params.append('no_hcm', 'true');
                 if (sortValue) params.append('sort', sortValue);
                 if (climateValue) params.append('climate', climateValue);
                 if (costValue) params.append('cost_of_living', costValue);
@@ -763,8 +763,7 @@
             // Pillbox clicks (Snow and Gun Laws)
             pillboxes.forEach(pillbox => {
                 pillbox.addEventListener('click', function() {
-                    const filterType = this.hasAttribute('data-snow') ? 'snow' : 'gun-laws';
-                    const selector = filterType === 'snow' ? '.pillbox[data-snow]' : '.pillbox[data-gun-laws]';
+                    const selector = '.pillbox[data-snow]';
 
                     if (this.classList.contains('active')) {
                         this.classList.remove('active');
@@ -780,6 +779,10 @@
             if (lgbtqCheckbox) {
                 lgbtqCheckbox.addEventListener('change', refreshResults);
             }
+
+            // Gun law toggles
+            if (noAwbCheckbox) noAwbCheckbox.addEventListener('change', refreshResults);
+            if (noHcmCheckbox) noHcmCheckbox.addEventListener('change', refreshResults);
 
             // Sort dropdown
             if (sortSelect) {
