@@ -1,4 +1,6 @@
 import re
+import json
+from collections import Counter
 from django.shortcuts import render
 from django.db.models import Q, Case, When, IntegerField
 from .models import Location, StateInfo
@@ -11,12 +13,13 @@ def home(request):
 
 def explore(request):
     """Render the explore/search page with locations from database"""
-    # Query all locations from database (ordered by match_score descending)
     locations = Location.objects.all()
+    state_counts = dict(Counter(loc.state for loc in locations))
 
     context = {
         'total_results': locations.count(),
         'locations': locations,
+        'state_counts_json': json.dumps(state_counts),
     }
     return render(request, 'locations/explore.html', context)
 
@@ -212,6 +215,7 @@ def filter_locations(request):
     snow_filter = request.GET.get('snow', None)
     no_awb = request.GET.get('no_awb', None)
     no_hcm = request.GET.get('no_hcm', None)
+    state_filter = request.GET.get('state_filter', None)
     lgbtq_friendly = request.GET.get('lgbtq_friendly', None)
     climate_filter = request.GET.get('climate', None)
     cost_of_living_filter = request.GET.get('cost_of_living', None)
@@ -277,6 +281,10 @@ def filter_locations(request):
         locations = locations.exclude(state__in=awb_states)
     if no_hcm == 'true':
         locations = locations.exclude(state__in=hcm_states)
+
+    # Map state filter
+    if state_filter:
+        locations = locations.filter(state=state_filter)
 
     # Cost of Living filter
     if cost_of_living_filter:
