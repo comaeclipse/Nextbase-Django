@@ -22,8 +22,6 @@
       "Bash(python manage.py makemigrations:*)",
       "Bash(python manage.py:*)",
       "Bash(timeout:*)",
-      "Read(//c/Users/Jordan/Projects/Vercel-Django-Sqlite/**)",
-      "Read(//c/Users/Jordan/Downloads/**)",
       "mcp__plugin_playwright_playwright__browser_navigate",
       "mcp__plugin_playwright_playwright__browser_click",
       "mcp__plugin_playwright_playwright__browser_snapshot",
@@ -43,7 +41,9 @@
       "Bash(else echo \"Directory does not exist\")",
       "Bash(fi)",
       "mcp__Neon__describe_table_schema",
-      "mcp__Neon__get_connection_string"
+      "mcp__Neon__get_connection_string",
+      "Bash(del *)",
+      "Bash(powershell *)"
     ],
     "deny": [],
     "ask": []

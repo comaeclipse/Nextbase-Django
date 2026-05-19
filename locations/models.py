@@ -204,6 +204,18 @@ class Location(models.Model):
         help_text="Whether this location is featured"
     )
 
+    # Election trend data
+    rep_vote_share_change_pp = models.FloatField(
+        null=True,
+        blank=True,
+        help_text="Republican vote share change 2016-2024 (percentage points)"
+    )
+    dem_vote_share_change_pp = models.FloatField(
+        null=True,
+        blank=True,
+        help_text="Democrat vote share change 2016-2024 (percentage points)"
+    )
+
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -41,11 +41,10 @@ class Command(BaseCommand):
                 updated_count = 0
                 error_count = 0
 
-                for row_num, row in enumerate(reader, start=2):  # Start at 2 (header is row 1)
+                for row_num, row in enumerate(reader, start=2):
                     try:
                         location_data = self.parse_row(row)
 
-                        # Try to find existing location by city and state
                         location, created = Location.objects.update_or_create(
                             name=location_data['name'],
                             state=location_data['state'],
@@ -93,24 +92,20 @@ class Command(BaseCommand):
         """Parse a CSV row into Location model fields"""
 
         def clean_empty(value):
-            """Convert empty, '?', 'NA' to None"""
             if not value or value.strip() in ['', '?', 'NA']:
                 return None
             return value.strip()
 
         def parse_int(value):
-            """Parse integer, handling commas and empty values"""
             value = clean_empty(value)
             if value is None:
                 return None
             try:
-                # Remove commas from numbers
                 return int(value.replace(',', ''))
             except (ValueError, AttributeError):
                 return None
 
         def parse_decimal(value):
-            """Parse decimal value"""
             value = clean_empty(value)
             if value is None:
                 return None
@@ -119,18 +114,37 @@ class Command(BaseCommand):
             except (InvalidOperation, ValueError):
                 return None
 
-        # Build location data dictionary
+        def parse_float(value):
+            value = clean_empty(value)
+            if value is None:
+                return None
+            try:
+                return float(value)
+            except (ValueError, AttributeError):
+                return None
+
+        def parse_home_value(value):
+            value = clean_empty(value)
+            if value is None:
+                return None
+            try:
+                return Decimal(value.replace('$', '').replace(',', ''))
+            except (InvalidOperation, ValueError, AttributeError):
+                return None
+
+        raw_home_value = row.get('AvgHomeValue', '')
+
         data = {
             # Basic info
             'name': clean_empty(row.get('City', '')),
             'state': clean_empty(row.get('State', '')),
             'county': clean_empty(row.get('County')),
 
-            # Keep old fields empty for now (user can calculate/set later)
+            # Keep legacy display fields at defaults
             'match_score': 0,
             'avg_price': '',
             'climate': clean_empty(row.get('Climate', '')) or '',
-            'cost_of_living': 'Moderate',  # Default
+            'cost_of_living': 'Moderate',
             'population': '',
             'va_distance': clean_empty(row.get('DistanceToVA', '')) or 'NA',
 
@@ -142,14 +156,17 @@ class Command(BaseCommand):
             'election_2016_percent': parse_int(row.get('2016PresidentPercent')),
             'election_2024': clean_empty(row.get('2024 Election')),
             'election_2024_percent': parse_int(row.get('2024PresidentPercent')),
-            'election_change': clean_empty(row.get('ElectionChange')),
 
             # Demographics & Economics
             'population_raw': clean_empty(row.get('Population')),
             'density': clean_empty(row.get('Density')),
-            'sales_tax': parse_decimal(row.get('Sales Tax')),
+            'sales_tax': parse_decimal(row.get('SalesTax')),
             'income_tax': parse_decimal(row.get('Income')),
-            'col_index': parse_int(row.get('COL')),
+            'col_index': parse_int(row.get('CostOfLiving')),
+
+            # Home value
+            'avg_home_value': parse_home_value(raw_home_value),
+            'avg_home_value_display': clean_empty(raw_home_value),
 
             # Veterans Affairs
             'has_va': clean_empty(row.get('VA')),
@@ -158,7 +175,7 @@ class Command(BaseCommand):
             'veterans_benefits': clean_empty(row.get('Veterans Benefits')),
 
             # Safety & Social
-            'tci': parse_int(row.get('TCI')),
+            'crime': clean_empty(row.get('CrimeRating')),
             'marijuana_status': clean_empty(row.get('Marijuana')),
             'lgbtq_rating': clean_empty(row.get('LGBTQ')),
 
@@ -169,17 +186,23 @@ class Command(BaseCommand):
             # Weather & Climate
             'snow_annual': parse_int(row.get('Snow')),
             'rain_annual': parse_int(row.get('Rain')),
-            'sun_days': parse_int(row.get('Sun')),
-            'avg_low_winter': parse_int(row.get('ALW')),
-            'avg_high_summer': parse_int(row.get('AHS')),
+            'sun_days': parse_int(row.get('SunnyDays')),
+            'pps': parse_int(row.get('PercentPossibleSunshine')),
+            'avg_low_winter': parse_int(row.get('AverageLowWinter')),
+            'avg_high_summer': parse_int(row.get('AverageHighSummer')),
             'humidity_summer': parse_int(row.get('HumiditySummer')),
             'climate_detailed': clean_empty(row.get('Climate')),
 
             # Other
             'gas_price': clean_empty(row.get('Gas')),
+            'gifford_score': clean_empty(row.get('GiffordScore')),
             'description': clean_empty(row.get('Description')),
 
-            # Display properties (keep defaults for now)
+            # Election trend
+            'rep_vote_share_change_pp': parse_float(row.get('rep_vote_share_change_pp')),
+            'dem_vote_share_change_pp': parse_float(row.get('dem_vote_share_change_pp')),
+
+            # Display properties (keep defaults)
             'emoji': '📍',
             'gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             'featured': False,
