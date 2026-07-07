@@ -1,23 +1,6 @@
 {
-  "version": 2,
-  "buildCommand": "bash build.sh",
-  "builds": [
-    {
-      "src": "vetretire_project/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.9"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "vetretire_project/wsgi.py"
-    }
-  ],
-  "env": {
-    "PYTHONUNBUFFERED": "1"
-  }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "installCommand": "npm install"
 }
