@@ -100,13 +100,38 @@ class Command(BaseCommand):
                 return None
             return value.strip()
 
+        def parse_bool(value):
+            """Parse common CSV boolean values into True/False/None."""
+            value = clean_empty(value)
+            if value is None:
+                return None
+            normalized = value.lower()
+            if normalized in ('y', 'yes', 'true', '1'):
+                return True
+            if normalized in ('n', 'no', 'false', '0'):
+                return False
+            return None
+
+        def parse_flag(value):
+            """Parse common CSV boolean values into compact Y/N flags."""
+            parsed = parse_bool(value)
+            if parsed is True:
+                return 'Y'
+            if parsed is False:
+                return 'N'
+            return clean_empty(value)
+
         # Build state info data dictionary
         data = {
             'state': clean_empty(row.get('State', '')),
             'magazine_limit': clean_empty(row.get('MagazineLimit')),
             'gifford_score': clean_empty(row.get('GiffordScore')),
-            'ghost_gun_ban': clean_empty(row.get('GhostGunBan')),
-            'assault_weapon_ban': clean_empty(row.get('AssaultWeaponBan')),
+            'ghost_gun_ban': parse_flag(row.get('GhostGunBan')),
+            'assault_weapons_ban': parse_bool(
+                row.get('AssaultWeaponBan') or row.get('AssaultWeaponsBan')
+            ),
         }
+        if 'HighCapMagBan' in row:
+            data['high_cap_mag_ban'] = parse_bool(row.get('HighCapMagBan'))
 
         return data

@@ -397,7 +397,8 @@ class StateInfoAdmin(admin.ModelAdmin):
         'gifford_score',
         'magazine_limit_preview',
         'ghost_gun_ban',
-        'assault_weapon_ban',
+        'assault_weapons_ban',
+        'high_cap_mag_ban',
         'updated_at'
     ]
 
@@ -405,7 +406,8 @@ class StateInfoAdmin(admin.ModelAdmin):
     list_filter = [
         'gifford_score',
         'ghost_gun_ban',
-        'assault_weapon_ban',
+        'assault_weapons_ban',
+        'high_cap_mag_ban',
     ]
 
     # Search
@@ -427,7 +429,8 @@ class StateInfoAdmin(admin.ModelAdmin):
                 'gifford_score',
                 'magazine_limit',
                 'ghost_gun_ban',
-                'assault_weapon_ban',
+                'assault_weapons_ban',
+                'high_cap_mag_ban',
             )
         }),
         ('Metadata', {

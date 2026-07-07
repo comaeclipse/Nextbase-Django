@@ -8,12 +8,13 @@ State-level information that applies to all locations within a state (no need to
 
 ### Gun Laws & Regulations
 - **State**: Two-letter state abbreviation (Primary Key)
-- **MagazineLimit**: Magazine capacity restrictions (e.g., "limits magazines over 10 rounds")
+- **MagazineLimit**: Statewide magazine capacity threshold or "No statewide magazine capacity limit"
 - **GiffordScore**: Giffords Law Center grade (A through F, with +/- modifiers)
-- **GhostGunBan**: Whether ghost guns are banned (Y/N)
-- **AssaultWeaponBan**: Whether assault weapons are banned (Y/N)
+- **GhostGunBan**: Whether ghost guns are regulated or banned (Y/N)
+- **AssaultWeaponBan**: Whether the state has a general statewide assault weapons ban (Boolean)
+- **HighCapMagBan**: Whether the state has a high-capacity magazine ban (Boolean)
 
-**Note**: This table contains state-specific regulatory information. Empty fields indicate no restriction or grade available.
+**Note**: This table contains state-specific regulatory information. Empty fields indicate no restriction or grade available. `AssaultWeaponBan` reflects the current general-ban state list used by the app's "No Assault Weapons Ban" filter, not narrower assault-weapon regulations. `MagazineLimit`, `GhostGunBan`, and `HighCapMagBan` can be refreshed with `python manage.py update_state_law_data`.
 
 ---
 
