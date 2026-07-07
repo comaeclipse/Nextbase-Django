@@ -1,65 +1,71 @@
-# VetRetire (Nextbase-Django)
+# CLAUDE.md
 
-**VetRetire** is a Django-based web application designed to help military veterans discover ideal retirement locations based on specific criteria like VA facility proximity, political climate, cost of living, and veteran-specific benefits.
+Guidance for agents working in this repository.
 
 ## Project Overview
 
-*   **Type:** Django Web Application
-*   **Core App:** `locations`
-*   **Database:** Neon PostgreSQL (via DATABASE_URL)
-*   **Deployment:** Vercel (configured via `vercel.json` and `build.sh`)
+**VetRetire** is a **Next.js 16** (App Router) + **React 19** + **TypeScript** web app that helps military veterans find retirement locations, with filters for climate, cost of living, lifestyle, healthcare/VA access, safety, and LGBTQ friendliness.
 
-## Architecture & State
+It was migrated from Django in 2026 (the Django implementation is in git history). The app reads the **existing Neon PostgreSQL** schema directly, keeping the original table/column names (`locations_location`, `locations_stateinfo`).
 
-### Data Models (`locations/models.py`)
-The data layer is fully implemented and matches the project schema:
-*   **Location:** Comprehensive model storing demographics, climate, economic, political, and veteran-specific data.
-*   **StateInfo:** Stores state-level regulations (gun laws, etc.).
+## Stack
 
-### Admin Interface (`locations/admin.py`)
-A highly customized admin interface exists with:
-*   Custom filters (Match Score, Crime Index).
-*   Bulk actions (CSV export, Feature/Unfeature).
-*   Fieldsets for organizing the extensive data points.
+- Next.js 16 App Router, React 19, TypeScript
+- `@neondatabase/serverless` for direct Neon Postgres access (read-only in the app)
+- Tailwind v4 + shadcn/ui — **scoped to a future admin section only** (`app/styles/shadcn.css`), never imported globally, because Tailwind's Preflight reset breaks the pixel-parity public pages
+- d3 + topojson-client + us-atlas for the explore map
 
-### Data Ingestion
-*   **Command:** `python manage.py import_csv <path_to_csv>`
-*   **Logic:** Located in `locations/management/commands/import_csv.py`. Handles data cleaning, type conversion, and updates existing records.
+## Setup & Commands
 
-### Views (`locations/views.py`)
-*   **Current Status:** The views (`home`, `explore`) are currently serving **hardcoded data** dictionaries.
-*   **Immediate Goal:** Refactor views to query the fully implemented `Location` model instead of using static data.
+```bash
+npm install
+# .env (gitignored) must contain DATABASE_URL (Neon connection string)
+npm run dev        # http://localhost:3000
+npm run build      # production build
+npx tsc --noEmit   # typecheck
+```
 
-## Development
+Data scripts (run with tsx + the env file):
 
-### Setup
-1.  **Environment:** Create a `.env` file (see `.env.example`).
-2.  **Install:** `pip install -r requirements.txt`
-3.  **Migrate:** `python manage.py migrate`
-4.  **Run:** `python manage.py runserver`
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/django_scores.json
+```
 
-### Key Commands
-*   **Import Data:** `python manage.py import_csv path/to/data.csv --clear`
-*   **Run Tests:** `python manage.py test locations`
-*   **Create Superuser:** `python manage.py createsuperuser`
+## Structure
 
-### Deployment (Vercel)
-*   **Config:** `vercel.json` handles routing and build settings.
-*   **Build Script:** `build.sh` runs during deployment. It sets `DJANGO_BUILD=1`, installs deps, collects static files, and runs migrations.
+```
+app/
+  page.tsx              # home
+  explore/page.tsx      # explore (server shell) -> <ExploreClient>
+  city/[id]/page.tsx    # Zillow-style city detail
+  api/locations/route.ts# filter/sort API (query params below)
+  styles/*.css          # copied-verbatim page CSS (home/explore/city), UNLAYERED
+  styles/shadcn.css     # Tailwind + shadcn (admin-only, not imported globally)
+components/             # ExploreClient, LocationCard, StateMap
+lib/
+  db.ts                 # lazy Neon client (getSql)
+  types.ts              # LocationRow/StateInfoRow (snake_case, mirrors DB)
+  locations.ts          # read-only queries (ORDER BY featured DESC, name ASC)
+  scoring.ts            # editorial "Fit" score (5 factors x 20%), pyRound
+  filters.ts            # filter + sort (mirrors old views.filter_locations)
+  states.ts             # state-name -> USPS abbr
+scripts/                # data + verification scripts
+baselines/              # parity references (django_scores.json used by tests)
+```
 
-## Codebase Map
+## Key domain logic
 
-| File/Path | Description |
-|-----------|-------------|
-| `vetretire_project/settings.py` | Main Django config. Uses `dj-database-url` and `python-decouple`. |
-| `locations/models.py` | detailed `Location` and `StateInfo` models. |
-| `locations/admin.py` | Custom admin configuration. |
-| `locations/views.py` | **TODO:** Needs refactoring to use ORM. |
-| `locations/management/commands/` | Data import scripts. |
-| `SCHEMA.md` | Database schema documentation. |
-| `CLAUDE.md` | Legacy context/commands file. |
+- **Fit score** (`lib/scoring.ts`): five equally weighted factors — LGBTQ friendliness, VA access, cost of living, home affordability, safety. Uses Python-compatible round-half-to-even (`pyRound`).
+- **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, sort`. Response: `{ totalResults, locations }`.
+- **Pixel parity is a hard requirement** for public pages. Their CSS is copied verbatim into `app/styles/*.css` and left **unlayered** so it always beats any Tailwind base. Do not introduce global Tailwind/Preflight.
 
-## Conventions
-*   **Environment:** Use `python-decouple` (`config('KEY')`) for secrets.
-*   **Styling:** Inline CSS and template-based styling (no complex frontend build step detected).
-*   **Templates:** Located in `locations/templates/locations/`.
+## Deployment
+
+Vercel, `framework: nextjs` (see `vercel.json`). Requires `DATABASE_URL` in the Vercel project env (provided by the Neon integration). Pages that read the DB use `export const dynamic = "force-dynamic"`.
+
+## Notes
+
+- Three data-maintenance commands were not ported from Django and live only in git history: `import_state_info`, `update_state_law_data`, `update_lgbtq_data`. Port to TS (like `scripts/import-csv.ts`) when next needed.
+- `SCHEMA.md` documents the (unchanged) database schema.
