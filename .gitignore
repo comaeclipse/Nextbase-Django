@@ -51,3 +51,25 @@ Thumbs.db
 .env
 .env.local
 .vercel
+
+# ===== Next.js / Node (migration) =====
+/node_modules
+/.pnp
+.pnp.*
+/.next/
+/out/
+/coverage
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+
+# Re-include the TypeScript lib/ dir (the Python `lib/` rule above would ignore it)
+!/lib/
+!/lib/**
+
+# Playwright MCP scratch snapshots
+/.playwright-mcp/*.yml
+/.playwright-mcp/*.log
+
+# Baseline reference screenshots (large, regenerable from Django); keep the JSON
+/baselines/*.png

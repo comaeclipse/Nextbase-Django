@@ -43,7 +43,8 @@
       "mcp__Neon__describe_table_schema",
       "mcp__Neon__get_connection_string",
       "Bash(del *)",
-      "Bash(powershell *)"
+      "Bash(powershell *)",
+      "Bash(python -m py_compile locations/views.py locations/tests.py locations/management/commands/import_csv.py)"
     ],
     "deny": [],
     "ask": []

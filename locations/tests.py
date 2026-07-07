@@ -1,4 +1,6 @@
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
+
+from locations.management.commands.import_csv import Command
 
 from .models import Location
 from .views import (
@@ -62,3 +64,29 @@ class ExploreScoringTests(TestCase):
             calculate_baseline_score(safe),
             calculate_baseline_score(risky),
         )
+
+
+class ImportCsvParsingTests(SimpleTestCase):
+    def test_parse_row_handles_extended_location_fields(self):
+        row = {
+            "City": "Irvine",
+            "State": "CA",
+            "County": "Orange",
+            "CostOfLiving": "146",
+            "AvgHomeValue": "$1.5M",
+            "ElectionChange": "4.4 pp more Republican since 2016",
+            "TCI": "23",
+            "LGBTQ_MEI": "100",
+            "LGBTQSource": "HRC MEI 2025",
+            "Tags": '["Healthcare","Tech Hub"]',
+        }
+
+        data = Command().parse_row(row)
+
+        self.assertEqual(data["cost_of_living"], "High")
+        self.assertEqual(data["avg_home_value"], 1500000)
+        self.assertEqual(data["election_change"], "4.4 pp more Republican since 2016")
+        self.assertEqual(data["tci"], 23)
+        self.assertEqual(data["lgbtq_mei_score"], 100)
+        self.assertEqual(data["lgbtq_score_source"], "HRC MEI 2025")
+        self.assertEqual(data["tags"], ["Healthcare", "Tech Hub"])

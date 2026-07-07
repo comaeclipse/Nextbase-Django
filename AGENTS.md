@@ -210,3 +210,8 @@ python manage.py test locations
 - Add pagination for search results
 - Create location detail pages
 - Add user preference questionnaire
+
+## Location Geography Rules
+- **Geographic Discretion**: When conducting data retrieval for a location, the agent has full discretion to decide whether to define the location strictly by its city limits, as a Metropolitan Statistical Area (MSA), or to include unincorporated areas. 
+- **Data Availability**: The agent should base this decision on data availability and what makes the most sense for evaluating a retirement location.
+- **Documentation**: The agent must document which geographic definition was used for a given metric (e.g., "Population is for the MSA", "Crime data is strictly city limits").

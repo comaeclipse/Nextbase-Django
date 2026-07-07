@@ -3,6 +3,7 @@ Management command to import location data from CSV file.
 Usage: python manage.py import_csv <path_to_csv>
 """
 import csv
+import json
 from decimal import Decimal, InvalidOperation
 from django.core.management.base import BaseCommand
 from locations.models import Location
@@ -134,11 +135,44 @@ class Command(BaseCommand):
             if value is None:
                 return None
             try:
-                return Decimal(value.replace('$', '').replace(',', ''))
+                normalized = value.replace('$', '').replace(',', '').strip()
+                multiplier = Decimal('1')
+                if normalized.lower().endswith('m'):
+                    multiplier = Decimal('1000000')
+                    normalized = normalized[:-1]
+                elif normalized.lower().endswith('k'):
+                    multiplier = Decimal('1000')
+                    normalized = normalized[:-1]
+                return Decimal(normalized) * multiplier
             except (InvalidOperation, ValueError, AttributeError):
                 return None
 
+        def parse_tags(value):
+            value = clean_empty(value)
+            if value is None:
+                return []
+            try:
+                parsed = json.loads(value)
+                if isinstance(parsed, list):
+                    return [str(item).strip() for item in parsed if str(item).strip()]
+            except json.JSONDecodeError:
+                pass
+            for separator in ('|', ';', ','):
+                if separator in value:
+                    return [part.strip() for part in value.split(separator) if part.strip()]
+            return [value]
+
+        def derive_cost_of_living(col_index):
+            if col_index is None:
+                return 'Moderate'
+            if col_index < 95:
+                return 'Low'
+            if col_index <= 115:
+                return 'Moderate'
+            return 'High'
+
         raw_home_value = row.get('AvgHomeValue', '')
+        col_index = parse_int(row.get('CostOfLiving'))
 
         data = {
             # Basic info
@@ -147,7 +181,7 @@ class Command(BaseCommand):
             'county': clean_empty(row.get('County')),
 
             'climate': clean_empty(row.get('Climate', '')) or '',
-            'cost_of_living': 'Moderate',
+            'cost_of_living': derive_cost_of_living(col_index),
 
             # Political info
             'state_party': clean_empty(row.get('StateParty')),
@@ -157,13 +191,14 @@ class Command(BaseCommand):
             'election_2016_percent': parse_int(row.get('2016PresidentPercent')),
             'election_2024': clean_empty(row.get('2024 Election')),
             'election_2024_percent': parse_int(row.get('2024PresidentPercent')),
+            'election_change': clean_empty(row.get('ElectionChange')),
 
             # Demographics & Economics
             'population': clean_empty(row.get('Population')),
             'density': parse_int(row.get('Density')),
             'sales_tax': parse_decimal(row.get('SalesTax')),
             'income_tax': parse_decimal(row.get('Income')),
-            'col_index': parse_int(row.get('CostOfLiving')),
+            'col_index': col_index,
 
             # Home value
             'avg_home_value': parse_home_value(raw_home_value),
@@ -176,9 +211,13 @@ class Command(BaseCommand):
             'veterans_benefits': clean_empty(row.get('Veterans Benefits')),
 
             # Safety & Social
+            'tci': parse_int(row.get('TCI')),
             'crime': clean_empty(row.get('CrimeRating')),
             'marijuana_status': clean_empty(row.get('Marijuana')),
             'lgbtq_rating': clean_empty(row.get('LGBTQ')),
+            'lgbtq_mei_score': parse_int(row.get('LGBTQ_MEI')),
+            'lgbtq_state_policy_score': parse_decimal(row.get('LGBTQStatePolicyScore')),
+            'lgbtq_score_source': clean_empty(row.get('LGBTQSource')),
 
             # Economic hubs
             'tech_hub': parse_bool(row.get('TechHub')),
@@ -204,7 +243,7 @@ class Command(BaseCommand):
             'emoji': '📍',
             'gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             'featured': False,
-            'tags': [],
+            'tags': parse_tags(row.get('Tags')),
         }
 
         return data

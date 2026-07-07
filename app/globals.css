@@ -1,0 +1,9 @@
+/*
+ * Intentionally inert. The public pixel-parity pages (home, explore, city) use
+ * only their own copied VetRetire CSS (app/styles/{home,explore,city}.css) and
+ * rely on browser defaults — exactly like the original Django templates.
+ *
+ * Tailwind + shadcn/ui live in app/styles/shadcn.css and are imported ONLY by
+ * the admin section layout, so Tailwind's Preflight base reset never leaks into
+ * the public pages (it was stretching line-height from `normal` to 1.5).
+ */
