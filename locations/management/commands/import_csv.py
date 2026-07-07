@@ -123,6 +123,12 @@ class Command(BaseCommand):
             except (ValueError, AttributeError):
                 return None
 
+        def parse_bool(value):
+            value = clean_empty(value)
+            if value is None:
+                return None
+            return value.strip().lower() in ('y', 'yes', 'true', 't', '1')
+
         def parse_home_value(value):
             value = clean_empty(value)
             if value is None:
@@ -140,13 +146,8 @@ class Command(BaseCommand):
             'state': clean_empty(row.get('State', '')),
             'county': clean_empty(row.get('County')),
 
-            # Keep legacy display fields at defaults
-            'match_score': 0,
-            'avg_price': '',
             'climate': clean_empty(row.get('Climate', '')) or '',
             'cost_of_living': 'Moderate',
-            'population': '',
-            'va_distance': clean_empty(row.get('DistanceToVA', '')) or 'NA',
 
             # Political info
             'state_party': clean_empty(row.get('StateParty')),
@@ -158,8 +159,8 @@ class Command(BaseCommand):
             'election_2024_percent': parse_int(row.get('2024PresidentPercent')),
 
             # Demographics & Economics
-            'population_raw': clean_empty(row.get('Population')),
-            'density': clean_empty(row.get('Density')),
+            'population': clean_empty(row.get('Population')),
+            'density': parse_int(row.get('Density')),
             'sales_tax': parse_decimal(row.get('SalesTax')),
             'income_tax': parse_decimal(row.get('Income')),
             'col_index': parse_int(row.get('CostOfLiving')),
@@ -169,7 +170,7 @@ class Command(BaseCommand):
             'avg_home_value_display': clean_empty(raw_home_value),
 
             # Veterans Affairs
-            'has_va': clean_empty(row.get('VA')),
+            'has_va': parse_bool(row.get('VA')),
             'nearest_va': clean_empty(row.get('NearestVA')),
             'distance_to_va': clean_empty(row.get('DistanceToVA')),
             'veterans_benefits': clean_empty(row.get('Veterans Benefits')),
@@ -180,22 +181,19 @@ class Command(BaseCommand):
             'lgbtq_rating': clean_empty(row.get('LGBTQ')),
 
             # Economic hubs
-            'tech_hub': clean_empty(row.get('TechHub')),
-            'defense_hub': clean_empty(row.get('DefenseHub')),
+            'tech_hub': parse_bool(row.get('TechHub')),
+            'defense_hub': parse_bool(row.get('DefenseHub')),
 
             # Weather & Climate
             'snow_annual': parse_int(row.get('Snow')),
             'rain_annual': parse_int(row.get('Rain')),
             'sun_days': parse_int(row.get('SunnyDays')),
-            'pps': parse_int(row.get('PercentPossibleSunshine')),
             'avg_low_winter': parse_int(row.get('AverageLowWinter')),
             'avg_high_summer': parse_int(row.get('AverageHighSummer')),
             'humidity_summer': parse_int(row.get('HumiditySummer')),
-            'climate_detailed': clean_empty(row.get('Climate')),
 
             # Other
             'gas_price': clean_empty(row.get('Gas')),
-            'gifford_score': clean_empty(row.get('GiffordScore')),
             'description': clean_empty(row.get('Description')),
 
             # Election trend

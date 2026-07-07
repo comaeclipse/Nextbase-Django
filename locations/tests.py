@@ -1,7 +1,12 @@
 from django.test import TestCase
 
 from .models import Location
-from .views import calculate_baseline_score, calculate_match_score, parse_lgbtq_score
+from .views import (
+    calculate_baseline_score,
+    parse_lgbtq_score,
+    score_crime_grade,
+    score_safety,
+)
 
 
 class ExploreScoringTests(TestCase):
@@ -9,15 +14,12 @@ class ExploreScoringTests(TestCase):
         data = {
             "name": "Test City",
             "state": "TC",
-            "match_score": 0,
-            "avg_price": "$300k",
             "climate": "Mild",
             "cost_of_living": "Moderate",
-            "population": "100k",
+            "population": "100,000",
             "tags": ["Golf", "Hiking", "Arts"],
-            "va_distance": "10 miles",
-            "has_va": "Yes",
-            "tci": 90,
+            "has_va": True,
+            "crime": "B+",
             "col_index": 95,
             "avg_home_value": 300000,
             "lgbtq_rating": "80",
@@ -30,17 +32,33 @@ class ExploreScoringTests(TestCase):
         self.assertEqual(parse_lgbtq_score("100"), 100)
         self.assertIsNone(parse_lgbtq_score(None))
 
-    def test_lgbtq_filter_rewards_scores_at_or_above_threshold(self):
-        friendly = self.make_location(lgbtq_rating="70")
-        unfriendly = self.make_location(name="Low Score", lgbtq_rating="69")
-
-        self.assertGreaterEqual(
-            calculate_match_score(friendly, {"lgbtq_friendly": True}),
-            calculate_match_score(unfriendly, {"lgbtq_friendly": True}),
-        )
-
     def test_baseline_score_includes_lgbtq_rating(self):
         friendly = self.make_location(lgbtq_rating="95")
         less_friendly = self.make_location(name="Lower Score", lgbtq_rating="35")
 
-        self.assertGreater(calculate_baseline_score(friendly), calculate_baseline_score(less_friendly))
+        self.assertGreater(
+            calculate_baseline_score(friendly),
+            calculate_baseline_score(less_friendly),
+        )
+
+    def test_safety_scored_from_crime_letter_grade(self):
+        safe = self.make_location(name="Safe", crime="A+")
+        risky = self.make_location(name="Risky", crime="F")
+
+        self.assertGreater(score_safety(safe), score_safety(risky))
+        self.assertEqual(score_crime_grade(safe), 100)
+        self.assertEqual(score_crime_grade(risky), 20)
+
+    def test_safety_falls_back_to_neutral_without_a_grade(self):
+        loc = self.make_location(name="No Grade", crime=None)
+        self.assertIsNone(score_crime_grade(loc))
+        self.assertEqual(score_safety(loc), 60)
+
+    def test_baseline_score_reflects_crime_grade(self):
+        safe = self.make_location(name="Safe City", crime="A+")
+        risky = self.make_location(name="Risky City", crime="F")
+
+        self.assertGreater(
+            calculate_baseline_score(safe),
+            calculate_baseline_score(risky),
+        )

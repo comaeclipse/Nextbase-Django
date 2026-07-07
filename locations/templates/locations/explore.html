@@ -647,10 +647,6 @@
                     <input type="checkbox" id="va-clinic">
                     <label for="va-clinic">VA Clinic Access</label>
                 </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="quality-care">
-                    <label for="quality-care">Top-Rated Healthcare</label>
-                </div>
             </div>
 
             <div class="filter-section">
@@ -796,8 +792,7 @@
             function getActiveHealthcare() {
                 const mapping = {
                     'va-hospital': 'va_hospital',
-                    'va-clinic': 'va_clinic',
-                    'quality-care': 'quality_care'
+                    'va-clinic': 'va_clinic'
                 };
                 const ids = Object.keys(mapping);
                 const checked = ids.filter(id => {
@@ -914,7 +909,7 @@
             });
 
             // Healthcare checkboxes
-            ['va-hospital', 'va-clinic', 'quality-care'].forEach(id => {
+            ['va-hospital', 'va-clinic'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.addEventListener('change', refreshResults);
             });

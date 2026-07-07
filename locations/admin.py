@@ -10,33 +10,6 @@ import json
 
 
 # Custom List Filters
-class MatchScoreFilter(admin.SimpleListFilter):
-    """Custom filter for match score ranges"""
-    title = 'match score range'
-    parameter_name = 'match_score_range'
-
-    def lookups(self, request, model_admin):
-        return (
-            ('90-100', 'Excellent (90-100)'),
-            ('75-89', 'Very Good (75-89)'),
-            ('50-74', 'Good (50-74)'),
-            ('25-49', 'Fair (25-49)'),
-            ('0-24', 'Poor (0-24)'),
-        )
-
-    def queryset(self, request, queryset):
-        if self.value() == '90-100':
-            return queryset.filter(match_score__gte=90)
-        elif self.value() == '75-89':
-            return queryset.filter(match_score__gte=75, match_score__lt=90)
-        elif self.value() == '50-74':
-            return queryset.filter(match_score__gte=50, match_score__lt=75)
-        elif self.value() == '25-49':
-            return queryset.filter(match_score__gte=25, match_score__lt=50)
-        elif self.value() == '0-24':
-            return queryset.filter(match_score__lt=25)
-
-
 class CrimeIndexFilter(admin.SimpleListFilter):
     """Custom filter for crime levels based on TCI"""
     title = 'crime level'
@@ -76,13 +49,6 @@ def remove_featured(modeladmin, request, queryset):
     modeladmin.message_user(request, f'{updated} location(s) unmarked as featured.')
 
 
-@admin.action(description='Reset match scores to 0')
-def reset_match_scores(modeladmin, request, queryset):
-    """Bulk action to reset match scores"""
-    updated = queryset.update(match_score=0)
-    modeladmin.message_user(request, f'Reset match scores for {updated} location(s).')
-
-
 @admin.action(description='Export selected to CSV')
 def export_to_csv(modeladmin, request, queryset):
     """Export selected locations to CSV"""
@@ -92,16 +58,16 @@ def export_to_csv(modeladmin, request, queryset):
     writer = csv.writer(response)
     # Write header
     writer.writerow([
-        'Name', 'State', 'County', 'Match Score', 'Cost of Living',
-        'Population', 'Climate', 'VA Distance', 'Featured'
+        'Name', 'State', 'County', 'Cost of Living',
+        'Population', 'Climate', 'Distance to VA', 'Featured'
     ])
 
     # Write data
     for obj in queryset:
         writer.writerow([
-            obj.name, obj.state, obj.county or '', obj.match_score,
-            obj.cost_of_living, obj.population, obj.climate,
-            obj.va_distance, 'Yes' if obj.featured else 'No'
+            obj.name, obj.state, obj.county or '',
+            obj.cost_of_living, obj.population or '', obj.climate,
+            obj.distance_to_va or '', 'Yes' if obj.featured else 'No'
         ])
 
     return response
@@ -132,7 +98,7 @@ class LocationAdmin(admin.ModelAdmin):
 
     # List Display
     list_display = [
-        'name', 'state', 'county', 'match_score',
+        'name', 'state', 'county',
         'cost_indicator', 'population', 'featured',
         'va_status', 'created_at'
     ]
@@ -146,7 +112,6 @@ class LocationAdmin(admin.ModelAdmin):
         'tech_hub',
         'defense_hub',
         'marijuana_status',
-        MatchScoreFilter,
         CrimeIndexFilter,
     ]
 
@@ -157,7 +122,7 @@ class LocationAdmin(admin.ModelAdmin):
     ]
 
     # Ordering
-    ordering = ['-match_score', 'name']
+    ordering = ['-featured', 'name']
 
     # Readonly fields
     readonly_fields = ['created_at', 'updated_at']
@@ -166,24 +131,24 @@ class LocationAdmin(admin.ModelAdmin):
     list_per_page = 50
 
     # Editable in list view
-    list_editable = ['featured', 'match_score']
+    list_editable = ['featured']
 
     # Actions
-    actions = [make_featured, remove_featured, reset_match_scores, export_to_csv]
+    actions = [make_featured, remove_featured, export_to_csv]
 
     # Fieldsets
     fieldsets = [
         ('Basic Information', {
             'fields': (
                 ('name', 'state', 'county'),
-                ('featured', 'match_score'),
+                ('featured',),
                 ('emoji', 'gradient'),
             )
         }),
 
         ('Economics & Cost of Living', {
             'fields': (
-                ('avg_price', 'avg_home_value', 'avg_home_value_display'),
+                ('avg_home_value', 'avg_home_value_display'),
                 ('cost_of_living', 'col_index'),
                 ('sales_tax', 'income_tax'),
                 ('gas_price',),
@@ -193,7 +158,7 @@ class LocationAdmin(admin.ModelAdmin):
 
         ('Demographics', {
             'fields': (
-                ('population', 'population_raw'),
+                ('population',),
                 ('density',),
             ),
             'classes': ('collapse',),
@@ -213,7 +178,7 @@ class LocationAdmin(admin.ModelAdmin):
         ('Veterans Affairs & Military', {
             'fields': (
                 ('has_va', 'nearest_va'),
-                ('va_distance', 'distance_to_va'),
+                ('distance_to_va',),
                 ('veterans_benefits',),
                 ('defense_hub',),
             ),
@@ -221,7 +186,7 @@ class LocationAdmin(admin.ModelAdmin):
 
         ('Climate & Weather', {
             'fields': (
-                ('climate', 'climate_detailed'),
+                ('climate',),
                 ('snow_annual', 'rain_annual', 'sun_days'),
                 ('avg_low_winter', 'avg_high_summer'),
                 ('humidity_summer',),
@@ -249,7 +214,6 @@ class LocationAdmin(admin.ModelAdmin):
         ('Additional Information', {
             'fields': (
                 ('description',),
-                ('pps',),
             ),
             'classes': ('collapse',),
         }),
@@ -266,7 +230,7 @@ class LocationAdmin(admin.ModelAdmin):
     @admin.display(description='VA Status')
     def va_status(self, obj):
         """Display VA access status with color coding"""
-        if obj.has_va and obj.has_va.lower().startswith('y'):
+        if obj.has_va:
             return format_html('<span style="color: green;">✓ Has VA</span>')
         elif obj.nearest_va:
             nearest = obj.nearest_va[:30] + '...' if len(obj.nearest_va) > 30 else obj.nearest_va

@@ -42,8 +42,14 @@ State-level information that applies to all locations within a state (no need to
 - **Income**: State income tax percentage (0.00 = no income tax)
 - **COL**: Cost of Living index (100 = national average)
 
+> **Schema note (Phase 4 cleanup):** `has_va`, `tech_hub`, and `defense_hub` are stored as
+> Booleans (the importer parses "Yes"/"No"/"Y"/"N"); `density` is stored as an integer; and
+> `population` holds the full number (e.g. `915,927`). The legacy/duplicate columns `match_score`,
+> `avg_price`, `va_distance`, `climate_detailed`, `pps`, and the old formatted `population` string
+> have been removed. Ranking is computed at request time (see `calculate_baseline_score`), not stored.
+
 ### Veterans Affairs
-- **VA**: Whether location has a VA facility ("Yes"/"No")
+- **VA**: Whether location has a VA facility ("Yes"/"No" in CSV → Boolean `has_va`)
 - **NearestVA**: Name of nearest VA facility (if VA = "No")
 - **DistanceToVA**: Distance to nearest VA facility (e.g., "24 miles", "NA" if local)
 - **Veterans Benefits**: Additional veteran-specific benefits/tax breaks available

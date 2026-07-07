@@ -62,14 +62,6 @@ class Location(models.Model):
     county = models.CharField(max_length=100, null=True, blank=True, help_text="County name")
 
     # Metrics
-    match_score = models.IntegerField(
-        default=0,
-        help_text="Match score from 0-100"
-    )
-    avg_price = models.CharField(
-        max_length=20,
-        help_text="Average home price (formatted, e.g., '$385k')"
-    )
     climate = models.CharField(
         max_length=50,
         help_text="Climate description (e.g., 'Warm', '4 Seasons')"
@@ -83,11 +75,6 @@ class Location(models.Model):
         ],
         default='Moderate'
     )
-    population = models.CharField(
-        max_length=20,
-        help_text="Population (formatted, e.g., '58k')"
-    )
-
     # Features and amenities
     tags = models.JSONField(
         default=list,
@@ -95,11 +82,6 @@ class Location(models.Model):
     )
 
     # VA facility information
-    va_distance = models.CharField(
-        max_length=50,
-        help_text="Distance to nearest VA facility (e.g., '3 miles')"
-    )
-
     # ===== NEW CSV DATA FIELDS =====
     # See SCHEMA.md for detailed field descriptions
 
@@ -114,14 +96,14 @@ class Location(models.Model):
     election_change = models.CharField(max_length=100, null=True, blank=True, help_text="Voting shift 2016-2024")
 
     # Demographics & Economics
-    population_raw = models.CharField(max_length=50, null=True, blank=True, help_text="Population (raw from CSV)")
-    density = models.CharField(max_length=50, null=True, blank=True, help_text="Population density per sq mi")
+    population = models.CharField(max_length=50, null=True, blank=True, help_text="Population (e.g., '915,927')")
+    density = models.IntegerField(null=True, blank=True, help_text="Population density per sq mi")
     sales_tax = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, help_text="Sales tax %")
     income_tax = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, help_text="Income tax %")
     col_index = models.IntegerField(null=True, blank=True, help_text="Cost of living index (100=avg)")
 
     # Veterans Affairs (detailed)
-    has_va = models.CharField(max_length=10, null=True, blank=True, help_text="Has VA facility (Yes/No)")
+    has_va = models.BooleanField(null=True, blank=True, help_text="Has a local VA facility")
     nearest_va = models.CharField(max_length=200, null=True, blank=True, help_text="Nearest VA facility name")
     distance_to_va = models.CharField(max_length=50, null=True, blank=True, help_text="Distance to VA")
     veterans_benefits = models.TextField(null=True, blank=True, help_text="Veteran-specific benefits")
@@ -150,8 +132,8 @@ class Location(models.Model):
     )
 
     # Economic Hubs
-    tech_hub = models.CharField(max_length=10, null=True, blank=True, help_text="Tech hub (Y/N)")
-    defense_hub = models.CharField(max_length=10, null=True, blank=True, help_text="Defense/military hub (Y/N)")
+    tech_hub = models.BooleanField(null=True, blank=True, help_text="Technology hub")
+    defense_hub = models.BooleanField(null=True, blank=True, help_text="Defense/military hub")
 
     # Weather & Climate (detailed)
     snow_annual = models.IntegerField(null=True, blank=True, help_text="Average annual snowfall (inches)")
@@ -160,8 +142,6 @@ class Location(models.Model):
     avg_low_winter = models.IntegerField(null=True, blank=True, help_text="Average low temp in winter (°F)")
     avg_high_summer = models.IntegerField(null=True, blank=True, help_text="Average high temp in summer (°F)")
     humidity_summer = models.IntegerField(null=True, blank=True, help_text="Average July humidity %")
-    climate_detailed = models.CharField(max_length=200, null=True, blank=True, help_text="Detailed climate description")
-
     # Other
     gas_price = models.CharField(max_length=20, null=True, blank=True, help_text="Average gas price")
     description = models.TextField(null=True, blank=True, help_text="Location description")
@@ -187,13 +167,6 @@ class Location(models.Model):
         null=True,
         blank=True,
         help_text="Crime rating/category"
-    )
-
-    # Additional metric
-    pps = models.IntegerField(
-        null=True,
-        blank=True,
-        help_text="Per person spending or metric"
     )
 
     # Climate categorization
@@ -243,13 +216,12 @@ class Location(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-match_score', 'name']
+        ordering = ['-featured', 'name']
         indexes = [
             models.Index(fields=['climate_category']),
-            models.Index(fields=['match_score']),
             models.Index(fields=['state']),
             models.Index(fields=['featured']),
         ]
 
     def __str__(self):
-        return f"{self.name}, {self.state} (Score: {self.match_score})"
+        return f"{self.name}, {self.state}"
