@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllLocations } from "@/lib/locations";
+import { getAllLocations, getAllStateInfo } from "@/lib/locations";
 import { calculateBaselineScore } from "@/lib/scoring";
 import { computeStateCounts } from "@/lib/filters";
 import type { Location } from "@/lib/types";
@@ -16,7 +16,10 @@ export const dynamic = "force-dynamic";
 
 // Ported from locations/templates/locations/explore.html + views.explore.
 export default async function ExplorePage() {
-  const rows = await getAllLocations();
+  const [rows, stateInfos] = await Promise.all([
+    getAllLocations(),
+    getAllStateInfo(),
+  ]);
   const locations: Location[] = rows.map((r) => ({
     ...r,
     calculated_match_score: calculateBaselineScore(r),
@@ -55,7 +58,11 @@ export default async function ExplorePage() {
         </div>
       </nav>
 
-      <ExploreClient initialLocations={locations} stateCounts={stateCounts} />
+      <ExploreClient
+        initialLocations={locations}
+        stateInfos={stateInfos}
+        stateCounts={stateCounts}
+      />
     </>
   );
 }

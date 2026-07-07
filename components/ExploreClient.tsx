@@ -1,15 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { Location } from "@/lib/types";
+import { useMemo, useState } from "react";
+import type { Location, StateInfoRow } from "@/lib/types";
+import { filterAndSort, type FilterParams } from "@/lib/filters";
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
 
 /*
  * Interactive explore area, ported from the inline script in
- * locations/templates/locations/explore.html. Replaces HTMX with fetch to
- * /api/locations. Initial results are server-rendered (props) for parity on
- * first paint; changes refetch and re-render the grid.
+ * locations/templates/locations/explore.html. HTMX's server round trip is
+ * replaced with in-browser filtering: the full dataset is already on the
+ * client (server-rendered as `initialLocations` for first-paint parity), so
+ * filter/sort changes reuse the exact same `filterAndSort` logic the
+ * /api/locations route runs, but instantly and without a network request.
  */
 
 const CLIMATE_KEYS = ["cold_snowy", "hot_humid", "hot_dry", "mild_coastal"] as const;
@@ -23,9 +26,11 @@ const falses = <K extends string>(keys: readonly K[]): BoolMap<K> =>
 
 export default function ExploreClient({
   initialLocations,
+  stateInfos,
   stateCounts,
 }: {
   initialLocations: Location[];
+  stateInfos: StateInfoRow[];
   stateCounts: Record<string, number>;
 }) {
   const [climate, setClimate] = useState(falses(CLIMATE_KEYS));
@@ -44,26 +49,11 @@ export default function ExploreClient({
   const [selectedMapState, setSelectedMapState] = useState<string | null>(null);
   const [mapMounted, setMapMounted] = useState(false);
 
-  const [results, setResults] = useState<Location[]>(initialLocations);
-  const [total, setTotal] = useState(initialLocations.length);
-
-  // Build the query string exactly like the Django explore JS.
-  const buildQuery = useCallback(() => {
-    const p = new URLSearchParams();
-    if (snow) p.append("snow", snow);
-    if (lgbtq) p.append("lgbtq_friendly", "true");
-    if (noAwb) p.append("no_awb", "true");
-    if (noHcm) p.append("no_hcm", "true");
-    if (sort) p.append("sort", sort);
+  // Build the same FilterParams shape the /api/locations route parses from
+  // query params, but as an object — no query string or network round trip.
+  const filterParams = useMemo<FilterParams>(() => {
     const climateVal = CLIMATE_KEYS.filter((k) => climate[k]).join(",");
-    if (climateVal) p.append("climate", climateVal);
-    if (cost) p.append("cost_of_living", cost);
-    const pmin = priceMin.match(/\d+/);
-    if (pmin) p.append("price_min", pmin[0]);
-    const pmax = priceMax.match(/\d+/);
-    if (pmax) p.append("price_max", pmax[0]);
     const lifeVal = LIFESTYLE_KEYS.filter((k) => lifestyle[k]).join(",");
-    if (lifeVal) p.append("lifestyle", lifeVal);
     const hcMap: Record<string, string> = {
       "va-hospital": "va_hospital",
       "va-clinic": "va_clinic",
@@ -71,43 +61,36 @@ export default function ExploreClient({
     const hcVal = HEALTHCARE_KEYS.filter((k) => healthcare[k])
       .map((k) => hcMap[k])
       .join(",");
-    if (hcVal) p.append("healthcare", hcVal);
     const actVal = ACTIVITY_KEYS.filter((k) => activities[k]).join(",");
-    if (actVal) p.append("activities", actVal);
-    if (selectedMapState) p.append("state_filter", selectedMapState);
-    return p.toString();
+    const pmin = priceMin.match(/\d+/);
+    const pmax = priceMax.match(/\d+/);
+    return {
+      snow: snow || null,
+      no_awb: noAwb ? "true" : null,
+      no_hcm: noHcm ? "true" : null,
+      state_filter: selectedMapState || null,
+      lgbtq_friendly: lgbtq ? "true" : null,
+      climate: climateVal || null,
+      cost_of_living: cost || null,
+      price_min: pmin ? pmin[0] : null,
+      price_max: pmax ? pmax[0] : null,
+      lifestyle: lifeVal || null,
+      healthcare: hcVal || null,
+      activities: actVal || null,
+      sort,
+    };
   }, [
     snow, lgbtq, noAwb, noHcm, sort, climate, cost, priceMin, priceMax,
     lifestyle, healthcare, activities, selectedMapState,
   ]);
 
-  const query = buildQuery();
-  const firstRun = useRef(true);
-
-  const doFetch = useCallback(async (qs: string, signal?: AbortSignal) => {
-    const res = await fetch("/api/locations" + (qs ? "?" + qs : ""), { signal });
-    const data = await res.json();
-    setResults(data.locations);
-    setTotal(data.totalResults);
-  }, []);
-
-  useEffect(() => {
-    // Initial results are already server-rendered; skip the first fetch.
-    if (firstRun.current) {
-      firstRun.current = false;
-      return;
-    }
-    const controller = new AbortController();
-    const t = setTimeout(() => {
-      doFetch(query, controller.signal).catch((e) => {
-        if (e.name !== "AbortError") console.error(e);
-      });
-    }, 200);
-    return () => {
-      controller.abort();
-      clearTimeout(t);
-    };
-  }, [query, doFetch]);
+  // Filtering ~70 in-memory rows is sub-millisecond, so this recomputes
+  // live on every change instead of debouncing a network request.
+  const results = useMemo(
+    () => filterAndSort(initialLocations, stateInfos, filterParams),
+    [initialLocations, stateInfos, filterParams]
+  );
+  const total = results.length;
 
   function selectView(v: "grid" | "list" | "map") {
     if (v === "map") setMapMounted(true);
@@ -295,7 +278,9 @@ export default function ExploreClient({
           ))}
         </div>
 
-        <button className="apply-filters" onClick={() => doFetch(query)}>
+        {/* Filtering is already live (see `results` above); this button is
+            kept for pixel/UX parity with the original design as a no-op. */}
+        <button className="apply-filters" type="button">
           Apply Filters
         </button>
       </aside>

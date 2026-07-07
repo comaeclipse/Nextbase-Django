@@ -57,9 +57,12 @@ export default async function CityDetailPage({
   const [crimeGrade] = crimeGradeMeta(row);
 
   const stateAbbr = resolveStateAbbr(location.state);
-  const stateInfo = stateAbbr ? await getStateInfo(stateAbbr) : null;
-
-  const similarRows = await getSimilarLocations(location.state, location.id);
+  // Independent of each other once we have `location`, so run in parallel
+  // instead of two sequential Neon round trips.
+  const [stateInfo, similarRows] = await Promise.all([
+    stateAbbr ? getStateInfo(stateAbbr) : Promise.resolve(null),
+    getSimilarLocations(location.state, location.id),
+  ]);
   const similar: Location[] = similarRows.map((r) => ({
     ...r,
     calculated_match_score: calculateBaselineScore(r),
@@ -837,7 +840,12 @@ export default async function CityDetailPage({
           <h2>More in {location.state}</h2>
           <div className="similar-grid">
             {similar.map((loc) => (
-              <Link className="similar-card" href={`/city/${loc.id}`} key={loc.id}>
+              <Link
+                className="similar-card"
+                href={`/city/${loc.id}`}
+                key={loc.id}
+                prefetch={false}
+              >
                 <div
                   className="similar-emoji"
                   style={{ background: loc.gradient }}

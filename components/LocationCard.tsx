@@ -73,6 +73,7 @@ export default function LocationCard({ location }: { location: Location }) {
           <Link
             href={href}
             className="learn-more"
+            prefetch={false}
             onClick={(e) => e.stopPropagation()}
           >
             Learn More →
