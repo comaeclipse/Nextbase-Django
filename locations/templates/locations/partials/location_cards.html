@@ -5,7 +5,7 @@
 {% endif %}
 
 {% for location in locations %}
-<div class="location-card">
+<div class="location-card" onclick="window.location.href='{% url 'locations:city_detail' location.pk %}'">
     <div class="card-image" style="background: {{ location.gradient }};">
         {{ location.emoji }}
         {% if location.featured %}
@@ -59,7 +59,7 @@
                     Distance unknown
                 {% endif %}
             </div>
-            <a href="#" class="learn-more">Learn More →</a>
+            <a href="{% url 'locations:city_detail' location.pk %}" class="learn-more">Learn More →</a>
         </div>
     </div>
 </div>

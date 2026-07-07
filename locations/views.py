@@ -1,9 +1,29 @@
 import re
 import json
 from collections import Counter
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Case, When, IntegerField
 from .models import Location, StateInfo
+
+
+# Full state name -> USPS abbreviation, used to join Location.state (full name)
+# against StateInfo.state (two-letter code) for the city detail page.
+STATE_NAME_TO_ABBR = {
+    'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
+    'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
+    'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID',
+    'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS',
+    'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+    'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN',
+    'Mississippi': 'MS', 'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE',
+    'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ',
+    'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC',
+    'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR',
+    'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
+    'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT',
+    'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA',
+    'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY',
+}
 
 
 def home(request):
@@ -378,6 +398,71 @@ def filter_locations(request):
         'is_htmx': True,
     }
     return render(request, 'locations/partials/location_cards.html', context)
+
+def calculate_fit_breakdown(loc):
+    """Return the five equally-weighted factors behind the baseline Fit score.
+
+    Mirrors ``calculate_baseline_score`` so the city page can show a Zillow-style
+    breakdown of *why* a location scores the way it does.
+    """
+    lgbtq_score = parse_lgbtq_score(loc.lgbtq_rating)
+    if lgbtq_score is None:
+        lgbtq_score = 50
+
+    return [
+        {'key': 'affordability', 'label': 'Home Affordability', 'score': score_home_value(loc)},
+        {'key': 'cost', 'label': 'Cost of Living', 'score': score_cost_of_living(loc)},
+        {'key': 'va', 'label': 'VA Access', 'score': score_va_access(loc)},
+        {'key': 'safety', 'label': 'Safety', 'score': score_safety(loc)},
+        {'key': 'inclusivity', 'label': 'LGBTQ Friendliness', 'score': lgbtq_score},
+    ]
+
+
+def crime_grade_meta(loc):
+    """Return (grade, tone) for the crime letter grade, or (None, None)."""
+    if not loc.crime:
+        return None, None
+    grade = loc.crime.strip().upper()
+    letter = grade[0]
+    tone = {
+        'A': 'good', 'B': 'good', 'C': 'warn', 'D': 'bad', 'F': 'bad',
+    }.get(letter, 'neutral')
+    return grade, tone
+
+
+def city_detail(request, pk):
+    """Render the Zillow-style detail page for a single location."""
+    location = get_object_or_404(Location, pk=pk)
+
+    location.calculated_match_score = calculate_baseline_score(location)
+    fit_breakdown = calculate_fit_breakdown(location)
+    crime_grade, crime_tone = crime_grade_meta(location)
+
+    # State-level gun-law data is keyed by USPS abbreviation.
+    state_abbr = STATE_NAME_TO_ABBR.get(location.state)
+    state_info = None
+    if state_abbr:
+        state_info = StateInfo.objects.filter(state=state_abbr).first()
+
+    # A few "more like this" picks from the same state for the footer strip.
+    similar = list(
+        Location.objects.filter(state=location.state)
+        .exclude(pk=location.pk)[:3]
+    )
+    for loc in similar:
+        loc.calculated_match_score = calculate_baseline_score(loc)
+
+    context = {
+        'location': location,
+        'fit_breakdown': fit_breakdown,
+        'crime_grade': crime_grade,
+        'crime_tone': crime_tone,
+        'state_abbr': state_abbr,
+        'state_info': state_info,
+        'similar': similar,
+    }
+    return render(request, 'locations/city_detail.html', context)
+
 
 def sandbox(request):
     """Sandbox page for testing election trend visualizations"""
