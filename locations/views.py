@@ -13,11 +13,15 @@ def home(request):
 
 def explore(request):
     """Render the explore/search page with locations from database"""
-    locations = Location.objects.all()
+    locations = list(Location.objects.all())
+    for loc in locations:
+        loc.calculated_match_score = calculate_baseline_score(loc)
+    locations.sort(key=lambda x: (-x.calculated_match_score, x.name))
+
     state_counts = dict(Counter(loc.state for loc in locations))
 
     context = {
-        'total_results': locations.count(),
+        'total_results': len(locations),
         'locations': locations,
         'state_counts_json': json.dumps(state_counts),
     }
@@ -35,6 +39,133 @@ def parse_number(value):
         return float(m.group(0)) if m else None
     except Exception:
         return None
+
+
+def clamp_score(value):
+    """Clamp a numeric score to the 0-100 range."""
+    return max(0, min(100, int(round(value))))
+
+
+def parse_lgbtq_score(value):
+    """Parse the stored 0-100 LGBTQ friendliness score."""
+    score = parse_number(value)
+    if score is None:
+        return None
+    return clamp_score(score)
+
+
+def score_va_access(loc):
+    """Score access to VA care based on local facility and distance."""
+    if loc.has_va and str(loc.has_va).lower().startswith('y'):
+        return 100
+
+    distance = parse_number(loc.distance_to_va or loc.va_distance)
+    if distance is None:
+        return 50
+    if distance <= 5:
+        return 95
+    if distance <= 15:
+        return 80
+    if distance <= 30:
+        return 65
+    if distance <= 60:
+        return 45
+    return 25
+
+
+def score_cost_of_living(loc):
+    """Score affordability from COL index, falling back to the app category."""
+    if loc.col_index is not None:
+        if loc.col_index <= 90:
+            return 100
+        if loc.col_index <= 100:
+            return 85
+        if loc.col_index <= 110:
+            return 70
+        if loc.col_index <= 125:
+            return 50
+        return 30
+
+    return {
+        'low': 90,
+        'moderate': 65,
+        'high': 35,
+    }.get((loc.cost_of_living or '').lower(), 60)
+
+
+def score_home_value(loc):
+    """Score home affordability using numeric or display home values."""
+    price = None
+    if loc.avg_home_value is not None:
+        price = float(loc.avg_home_value)
+    else:
+        parsed = parse_number(loc.avg_home_value_display or loc.avg_price)
+        if parsed is not None:
+            price = parsed * 1000 if parsed < 10000 else parsed
+
+    if price is None:
+        return 60
+    if price <= 250000:
+        return 100
+    if price <= 350000:
+        return 85
+    if price <= 450000:
+        return 70
+    if price <= 600000:
+        return 50
+    return 30
+
+
+def score_safety(loc):
+    """Score safety from total crime index, where lower is safer."""
+    if loc.tci is None:
+        return 60
+    if loc.tci <= 80:
+        return 100
+    if loc.tci <= 120:
+        return 80
+    if loc.tci <= 160:
+        return 60
+    if loc.tci <= 220:
+        return 40
+    return 20
+
+
+def score_amenities(loc):
+    """Score lifestyle depth from available tags and economic/military hubs."""
+    tags = loc.tags or []
+    if isinstance(tags, str):
+        tags = [tags]
+
+    score = min(80, 40 + len(tags) * 8)
+    if loc.tech_hub and str(loc.tech_hub).lower().startswith('y'):
+        score += 10
+    if loc.defense_hub and str(loc.defense_hub).lower().startswith('y'):
+        score += 10
+    return clamp_score(score)
+
+
+def calculate_baseline_score(loc):
+    """
+    Rank retirement fit using explore-page factors even when no filters are active.
+
+    Weights:
+    LGBTQ friendliness 20%, VA access 20%, cost of living 20%,
+    home affordability 15%, safety 15%, amenities 10%.
+    """
+    lgbtq_score = parse_lgbtq_score(loc.lgbtq_rating)
+    if lgbtq_score is None:
+        lgbtq_score = 50
+
+    weighted = (
+        lgbtq_score * 0.20
+        + score_va_access(loc) * 0.20
+        + score_cost_of_living(loc) * 0.20
+        + score_home_value(loc) * 0.15
+        + score_safety(loc) * 0.15
+        + score_amenities(loc) * 0.10
+    )
+    return clamp_score(weighted)
 
 
 def location_matches_climate(loc, climate_types):
@@ -132,81 +263,84 @@ def location_in_price_range(loc, price_min, price_max):
 
 
 def calculate_match_score(loc, filters, _state_info_dict=None):
-    """Calculate how well a location matches the active filters (0-100)"""
+    """Calculate weighted explore ranking score (0-100)."""
     score = 0
     total = 0
 
     # Climate
     if filters.get('climate'):
-        total += 1
+        total += 12
         if location_matches_climate(loc, filters['climate']):
-            score += 1
+            score += 12
 
     # Cost of Living
     if filters.get('cost_of_living'):
-        total += 1
+        total += 10
         if loc.cost_of_living and loc.cost_of_living.lower() == filters['cost_of_living']:
-            score += 1
+            score += 10
 
     # Price Range
     if filters.get('price_min') or filters.get('price_max'):
-        total += 1
+        total += 10
         if location_in_price_range(loc, filters.get('price_min'), filters.get('price_max')):
-            score += 1
+            score += 10
 
     # Lifestyle
     if filters.get('lifestyle'):
-        total += 1
+        total += 8
         if location_matches_lifestyle(loc, filters['lifestyle']):
-            score += 1
+            score += 8
 
     # Healthcare
     if filters.get('healthcare'):
-        total += 1
+        total += 12
         if location_matches_healthcare(loc, filters['healthcare']):
-            score += 1
+            score += 12
 
     # Activities
     if filters.get('activities'):
-        total += 1
+        total += 10
         if location_matches_activities(loc, filters['activities']):
-            score += 1
+            score += 10
 
     # Snow
     if filters.get('snow'):
-        total += 1
+        total += 8
         snow = filters['snow']
         if snow == 'zero' and (loc.snow_annual is None or loc.snow_annual == 0):
-            score += 1
+            score += 8
         elif snow == 'some' and loc.snow_annual and 0 < loc.snow_annual <= 20:
-            score += 1
+            score += 8
         elif snow == 'lots' and loc.snow_annual and loc.snow_annual > 20:
-            score += 1
+            score += 8
 
     # No AWB
     if filters.get('no_awb'):
-        total += 1
+        total += 5
         awb_states = filters.get('awb_states', set())
         if loc.state not in awb_states:
-            score += 1
+            score += 5
 
     # No High-Cap Mag Ban
     if filters.get('no_hcm'):
-        total += 1
+        total += 5
         hcm_states = filters.get('hcm_states', set())
         if loc.state not in hcm_states:
-            score += 1
+            score += 5
 
     # LGBTQ Friendly
     if filters.get('lgbtq_friendly'):
-        total += 1
-        try:
-            if loc.lgbtq_rating and float(loc.lgbtq_rating) < 50:
-                score += 1
-        except (ValueError, TypeError):
-            pass
+        total += 12
+        lgbtq_score = parse_lgbtq_score(loc.lgbtq_rating)
+        if lgbtq_score is not None and lgbtq_score >= 70:
+            score += 12
 
-    return int((score / max(total, 1)) * 100)
+    baseline = calculate_baseline_score(loc)
+    if not total:
+        return baseline
+
+    filter_score = (score / total) * 100
+    return clamp_score((filter_score * 0.75) + (baseline * 0.25))
 
 
 def filter_locations(request):
@@ -319,12 +453,9 @@ def filter_locations(request):
     if lgbtq_friendly == 'true':
         filtered = []
         for loc in locations_list:
-            if loc.lgbtq_rating:
-                try:
-                    if float(loc.lgbtq_rating) < 50:
-                        filtered.append(loc)
-                except (ValueError, TypeError):
-                    pass
+            lgbtq_score = parse_lgbtq_score(loc.lgbtq_rating)
+            if lgbtq_score is not None and lgbtq_score >= 70:
+                filtered.append(loc)
         locations_list = filtered
 
     # ============== Calculate Match Scores ==============

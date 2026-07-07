@@ -130,6 +130,24 @@ class Location(models.Model):
     tci = models.IntegerField(null=True, blank=True, help_text="Total crime index (lower is safer)")
     marijuana_status = models.CharField(max_length=50, null=True, blank=True, help_text="Marijuana legal status")
     lgbtq_rating = models.CharField(max_length=50, null=True, blank=True, help_text="LGBTQ friendliness")
+    lgbtq_mei_score = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text="HRC Municipal Equality Index city score, where available (0-100)"
+    )
+    lgbtq_state_policy_score = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="MAP overall state LGBTQ policy score out of 49"
+    )
+    lgbtq_score_source = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="Source/method used for the LGBTQ friendliness score"
+    )
 
     # Economic Hubs
     tech_hub = models.CharField(max_length=10, null=True, blank=True, help_text="Tech hub (Y/N)")
