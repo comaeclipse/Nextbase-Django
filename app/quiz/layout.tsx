@@ -12,7 +12,7 @@ export default function QuizLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
+    <div className="flex min-h-screen items-center justify-center bg-background font-sans text-foreground">
       {children}
     </div>
   );
