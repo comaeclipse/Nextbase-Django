@@ -5,7 +5,7 @@
  *
  * Keep this file in lockstep with views.py until Django is removed.
  */
-import type { LocationRow } from "./types";
+import type { LocationRow, StateInfoRow } from "./types";
 
 /** Extract the first numeric value from a string like "$385k", "3 miles". */
 export function parseNumber(value: unknown): number | null {
@@ -148,6 +148,83 @@ export function calculateFitBreakdown(loc: LocationRow): FitFactor[] {
     { key: "safety", label: "Safety", score: scoreSafety(loc) },
     { key: "inclusivity", label: "LGBTQ Friendliness", score: lgbtqScore },
   ];
+}
+
+/*
+ * Quiz/profile-driven personalized scoring. New for the /quiz feature (not
+ * ported from Django) — layered on top of the same per-factor scorers used
+ * by the baseline Fit score, so it stays consistent with the editorial
+ * scoring model while letting a visitor's stated priorities reweight it.
+ */
+
+// Giffords Law Center grades measure the *strength of gun control* (A = most
+// restrictive, F = least). Gun-rights friendliness is the inverse of that.
+const GIFFORDS_GUN_RIGHTS_SCORE: Record<string, number> = {
+  "A+": 5, A: 10, "A-": 15,
+  "B+": 25, B: 35, "B-": 45,
+  "C+": 55, C: 62, "C-": 68,
+  "D+": 75, D: 80, "D-": 85,
+  F: 95,
+};
+
+/** Score a state's gun-rights friendliness 0-100 from Giffords grade + bans. */
+export function scoreGunRights(stateInfo: StateInfoRow | null | undefined): number {
+  if (!stateInfo) return 50;
+  let score = 60; // neutral-permissive baseline when no Giffords grade on file
+  const grade = stateInfo.gifford_score?.trim().toUpperCase();
+  if (grade && grade in GIFFORDS_GUN_RIGHTS_SCORE) {
+    score = GIFFORDS_GUN_RIGHTS_SCORE[grade];
+  }
+  if (stateInfo.assault_weapons_ban) score -= 10;
+  if (stateInfo.high_cap_mag_ban) score -= 8;
+  return clampScore(score);
+}
+
+/** Normalized 0-1 importance weights collected from the quiz. */
+export interface PersonalizedWeights {
+  lgbtq: number;
+  va: number;
+  costOfLiving: number;
+  homeValue: number;
+  safety: number;
+  gunRights: number;
+}
+
+/**
+ * Rank retirement fit using the visitor's quiz-derived importance weights
+ * instead of the fixed 20%-each baseline. Falls back to equal weighting if
+ * every weight is 0, so it never divides by zero or degenerates.
+ */
+export function calculatePersonalizedScore(
+  loc: LocationRow,
+  stateInfo: StateInfoRow | null | undefined,
+  weights: PersonalizedWeights
+): number {
+  let lgbtqScore = parseLgbtqScore(loc);
+  if (lgbtqScore === null) lgbtqScore = 50;
+
+  const factors: PersonalizedWeights = {
+    lgbtq: lgbtqScore,
+    va: scoreVaAccess(loc),
+    costOfLiving: scoreCostOfLiving(loc),
+    homeValue: scoreHomeValue(loc),
+    safety: scoreSafety(loc),
+    gunRights: scoreGunRights(stateInfo),
+  };
+
+  const keys = Object.keys(factors) as (keyof PersonalizedWeights)[];
+  const totalWeight = keys.reduce((sum, k) => sum + (weights[k] || 0), 0);
+  const EQUAL_WEIGHTS: PersonalizedWeights = {
+    lgbtq: 1, va: 1, costOfLiving: 1, homeValue: 1, safety: 1, gunRights: 1,
+  };
+  const effectiveWeights = totalWeight > 0 ? weights : EQUAL_WEIGHTS;
+  const norm = totalWeight > 0 ? totalWeight : keys.length;
+
+  const weighted = keys.reduce(
+    (sum, k) => sum + factors[k] * (effectiveWeights[k] / norm),
+    0
+  );
+  return clampScore(weighted);
 }
 
 export type CrimeTone = "good" | "warn" | "bad" | "neutral";

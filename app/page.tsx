@@ -21,6 +21,9 @@ export default function Home() {
               <Link href="/explore">Explore</Link>
             </li>
             <li>
+              <Link href="/quiz">Take the Quiz</Link>
+            </li>
+            <li>
               <a href="#about">About</a>
             </li>
             <li>

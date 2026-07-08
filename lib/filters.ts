@@ -147,7 +147,8 @@ function sortList(list: Location[], sort: string): void {
 export function filterAndSort(
   all: LocationRow[],
   stateInfos: StateInfoRow[],
-  p: FilterParams
+  p: FilterParams,
+  scoreFn: (loc: LocationRow) => number = calculateBaselineScore
 ): Location[] {
   const awbStates = new Set(
     stateInfos.filter((s) => s.assault_weapons_ban).map((s) => s.state)
@@ -215,7 +216,7 @@ export function filterAndSort(
   // Scores + sorting
   const scored: Location[] = list.map((l) => ({
     ...l,
-    calculated_match_score: calculateBaselineScore(l),
+    calculated_match_score: scoreFn(l),
   }));
   sortList(scored, p.sort || "best");
   return scored;

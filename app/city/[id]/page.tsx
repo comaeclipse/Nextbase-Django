@@ -89,7 +89,7 @@ export default async function CityDetailPage({
               <a href="#">Saved</a>
             </li>
             <li>
-              <a href="#">Profile</a>
+              <Link href="/quiz">Take the Quiz</Link>
             </li>
           </ul>
         </div>

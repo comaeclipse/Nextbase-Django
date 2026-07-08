@@ -1,8 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Location, StateInfoRow } from "@/lib/types";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import type { Location, LocationRow, StateInfoRow } from "@/lib/types";
 import { filterAndSort, type FilterParams } from "@/lib/filters";
+import { calculateBaselineScore, calculatePersonalizedScore } from "@/lib/scoring";
+import {
+  clearQuizProfileCookie,
+  profileToWeights,
+  type QuizProfile,
+} from "@/lib/quiz";
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
 
@@ -24,30 +32,90 @@ type BoolMap<K extends string> = Record<K, boolean>;
 const falses = <K extends string>(keys: readonly K[]): BoolMap<K> =>
   Object.fromEntries(keys.map((k) => [k, false])) as BoolMap<K>;
 
+/** Seed a BoolMap from a quiz answer array (e.g. profile.climate). */
+function fromSelected<K extends string>(
+  keys: readonly K[],
+  selected: readonly string[] | undefined
+): BoolMap<K> {
+  const map = falses(keys);
+  for (const k of selected ?? []) {
+    if ((keys as readonly string[]).includes(k)) map[k as K] = true;
+  }
+  return map;
+}
+
 export default function ExploreClient({
   initialLocations,
   stateInfos,
   stateCounts,
+  initialProfile,
 }: {
   initialLocations: Location[];
   stateInfos: StateInfoRow[];
   stateCounts: Record<string, number>;
+  initialProfile?: QuizProfile | null;
 }) {
-  const [climate, setClimate] = useState(falses(CLIMATE_KEYS));
+  const router = useRouter();
+  const [profile, setProfile] = useState<QuizProfile | null>(
+    initialProfile ?? null
+  );
+
+  // Preference answers from the quiz (if any) pre-fill these filters exactly
+  // like a manually-applied filter; they stay fully editable afterward.
+  const [climate, setClimate] = useState(() =>
+    fromSelected(CLIMATE_KEYS, initialProfile?.climate)
+  );
   const [snow, setSnow] = useState<string | null>(null);
   const [lgbtq, setLgbtq] = useState(false);
   const [noAwb, setNoAwb] = useState(false);
   const [noHcm, setNoHcm] = useState(false);
-  const [cost, setCost] = useState("");
+  const [cost, setCost] = useState(initialProfile?.costOfLiving || "");
   const [priceMin, setPriceMin] = useState("");
-  const [priceMax, setPriceMax] = useState("");
-  const [lifestyle, setLifestyle] = useState(falses(LIFESTYLE_KEYS));
+  const [priceMax, setPriceMax] = useState(initialProfile?.priceMax || "");
+  const [lifestyle, setLifestyle] = useState(() =>
+    fromSelected(
+      LIFESTYLE_KEYS,
+      initialProfile?.lifestyle ? [initialProfile.lifestyle] : []
+    )
+  );
   const [healthcare, setHealthcare] = useState(falses(HEALTHCARE_KEYS));
-  const [activities, setActivities] = useState(falses(ACTIVITY_KEYS));
+  const [activities, setActivities] = useState(() =>
+    fromSelected(ACTIVITY_KEYS, initialProfile?.activities)
+  );
   const [sort, setSort] = useState("best");
   const [view, setView] = useState<"grid" | "list" | "map">("grid");
   const [selectedMapState, setSelectedMapState] = useState<string | null>(null);
   const [mapMounted, setMapMounted] = useState(false);
+
+  // Importance weights stay fixed to what the quiz captured — filters above
+  // can be tweaked freely without needing to retake the quiz to re-rank.
+  const weights = useMemo(
+    () => (profile ? profileToWeights(profile) : null),
+    [profile]
+  );
+  const stateInfoByAbbr = useMemo(() => {
+    const map: Record<string, StateInfoRow> = {};
+    for (const s of stateInfos) map[s.state] = s;
+    return map;
+  }, [stateInfos]);
+  const scoreFn = useMemo(() => {
+    if (!weights) return calculateBaselineScore;
+    return (loc: LocationRow) =>
+      calculatePersonalizedScore(loc, stateInfoByAbbr[loc.state], weights);
+  }, [weights, stateInfoByAbbr]);
+
+  function clearProfile() {
+    clearQuizProfileCookie();
+    setProfile(null);
+    // Also reset the filters the profile had pre-seeded, so "Clear" fully
+    // reverts to the default, unfiltered explore experience.
+    setClimate(falses(CLIMATE_KEYS));
+    setLifestyle(falses(LIFESTYLE_KEYS));
+    setActivities(falses(ACTIVITY_KEYS));
+    setCost("");
+    setPriceMax("");
+    router.refresh();
+  }
 
   // Build the same FilterParams shape the /api/locations route parses from
   // query params, but as an object — no query string or network round trip.
@@ -87,8 +155,8 @@ export default function ExploreClient({
   // Filtering ~70 in-memory rows is sub-millisecond, so this recomputes
   // live on every change instead of debouncing a network request.
   const results = useMemo(
-    () => filterAndSort(initialLocations, stateInfos, filterParams),
-    [initialLocations, stateInfos, filterParams]
+    () => filterAndSort(initialLocations, stateInfos, filterParams, scoreFn),
+    [initialLocations, stateInfos, filterParams, scoreFn]
   );
   const total = results.length;
 
@@ -286,6 +354,69 @@ export default function ExploreClient({
       </aside>
 
       <main className="main-content">
+        {profile ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "0.75rem",
+              flexWrap: "wrap",
+              background: "#eff6ff",
+              border: "1px solid #bfdbfe",
+              borderRadius: "0.5rem",
+              padding: "0.75rem 1rem",
+              marginBottom: "1rem",
+              fontSize: "0.875rem",
+              color: "#1e3a8a",
+            }}
+          >
+            <span>✨ Personalized for you — ranked and filtered by your quiz answers.</span>
+            <span style={{ display: "flex", gap: "0.75rem" }}>
+              <Link href="/quiz" style={{ color: "#2563eb", fontWeight: 600 }}>
+                Retake Quiz
+              </Link>
+              <button
+                type="button"
+                onClick={clearProfile}
+                style={{
+                  color: "#2563eb",
+                  fontWeight: 600,
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  font: "inherit",
+                }}
+              >
+                Clear
+              </button>
+            </span>
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "0.75rem",
+              flexWrap: "wrap",
+              background: "#f8fafc",
+              border: "1px solid #e2e8f0",
+              borderRadius: "0.5rem",
+              padding: "0.75rem 1rem",
+              marginBottom: "1rem",
+              fontSize: "0.875rem",
+              color: "#334155",
+            }}
+          >
+            <span>Take the 2-minute quiz to personalize your matches.</span>
+            <Link href="/quiz" style={{ color: "#2563eb", fontWeight: 600 }}>
+              Take the Quiz →
+            </Link>
+          </div>
+        )}
+
         <div className="results-header">
           <div>
             <div className="results-info" id="results-info">

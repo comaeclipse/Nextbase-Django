@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { getAllLocations, getAllStateInfo } from "@/lib/locations";
 import { calculateBaselineScore } from "@/lib/scoring";
 import { computeStateCounts } from "@/lib/filters";
+import { QUIZ_COOKIE_NAME, decodeQuizProfile } from "@/lib/quiz";
 import type { Location } from "@/lib/types";
 import ExploreClient from "@/components/ExploreClient";
 import "../styles/explore.css";
@@ -16,9 +18,10 @@ export const dynamic = "force-dynamic";
 
 // Ported from locations/templates/locations/explore.html + views.explore.
 export default async function ExplorePage() {
-  const [rows, stateInfos] = await Promise.all([
+  const [rows, stateInfos, cookieStore] = await Promise.all([
     getAllLocations(),
     getAllStateInfo(),
+    cookies(),
   ]);
   const locations: Location[] = rows.map((r) => ({
     ...r,
@@ -33,6 +36,11 @@ export default async function ExplorePage() {
   });
 
   const stateCounts = computeStateCounts(rows);
+  // A quiz profile (if any) pre-fills filters + reranks by personalized
+  // weights client-side — see components/ExploreClient.tsx.
+  const initialProfile = decodeQuizProfile(
+    cookieStore.get(QUIZ_COOKIE_NAME)?.value
+  );
 
   return (
     <>
@@ -52,7 +60,7 @@ export default async function ExplorePage() {
               <a href="#">Saved</a>
             </li>
             <li>
-              <a href="#">Profile</a>
+              <Link href="/quiz">Take the Quiz</Link>
             </li>
           </ul>
         </div>
@@ -62,6 +70,7 @@ export default async function ExplorePage() {
         initialLocations={locations}
         stateInfos={stateInfos}
         stateCounts={stateCounts}
+        initialProfile={initialProfile}
       />
     </>
   );
