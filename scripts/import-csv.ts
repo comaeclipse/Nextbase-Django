@@ -124,7 +124,7 @@ function parseRow(row: Row): Record<string, unknown> {
     snow_annual: parseIntV(row["Snow"]),
     rain_annual: parseIntV(row["Rain"]),
     sun_days: parseIntV(row["SunnyDays"]),
-    avg_low_winter: parseIntV(row["AverageLowWinter"]),
+    alw: parseIntV(row["AverageLowWinter"]),
     avg_high_summer: parseIntV(row["AverageHighSummer"]),
     humidity_summer: parseIntV(row["HumiditySummer"]),
     gas_price: cleanEmpty(row["Gas"]),

@@ -6,13 +6,11 @@ import { filterAndSort } from "@/lib/filters";
 import { calculatePersonalizedScore } from "@/lib/scoring";
 import {
   DEFAULT_QUIZ_PROFILE,
-  IMPORTANCE_OPTIONS,
   QUIZ_QUESTIONS,
   profileToFilterParams,
   profileToWeights,
   setQuizProfileCookie,
   clearQuizProfileCookie,
-  type ImportanceLevel,
   type QuizProfile,
   type QuizQuestion,
 } from "@/lib/quiz";
@@ -21,7 +19,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Label } from "@/components/ui/label";
 import QuizResults from "./QuizResults";
 
@@ -98,7 +95,7 @@ export default function QuizClient({
   // callers only ever pass a value matching the question's own type.
   function updateAnswer(
     id: keyof QuizProfile,
-    value: string | string[] | ImportanceLevel
+    value: string | string[]
   ) {
     setAnswers((prev) => ({ ...prev, [id]: value }) as QuizProfile);
   }
@@ -140,7 +137,7 @@ export default function QuizClient({
   if (!question) return null;
 
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-col gap-6 px-4 py-10">
+    <div className="quiz-flow">
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span>
@@ -188,29 +185,6 @@ export default function QuizClient({
             />
           )}
 
-          {question.type === "importance" && (
-            <ToggleGroup
-              value={[String(answers[question.id])]}
-              onValueChange={(vals) =>
-                updateAnswer(
-                  question.id,
-                  (vals.length ? Number(vals[0]) : 2) as ImportanceLevel
-                )
-              }
-              orientation="vertical"
-              className="w-full"
-            >
-              {IMPORTANCE_OPTIONS.map((opt) => (
-                <ToggleGroupItem
-                  key={opt.value}
-                  value={String(opt.value)}
-                  className="w-full justify-start"
-                >
-                  {opt.label}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          )}
         </CardContent>
       </Card>
 

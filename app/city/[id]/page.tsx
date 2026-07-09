@@ -378,8 +378,8 @@ export default async function CityDetailPage({
                     Winter Low
                   </span>
                   <span className="spec-val">
-                    {location.avg_low_winter != null
-                      ? `${location.avg_low_winter}°F`
+                    {location.alw != null
+                      ? `${location.alw}°F`
                       : "—"}
                   </span>
                 </div>
@@ -830,6 +830,30 @@ export default async function CityDetailPage({
                     : "VA facility distance data unavailable."}
               </span>
             </div>
+          </div>
+
+          <div className="quiz-plug">
+            <div className="quiz-plug-badge">
+              <svg className="icon" viewBox="0 0 24 24">
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <path d="M12 17h.01" />
+                <circle cx="12" cy="12" r="10" />
+              </svg>
+            </div>
+            <h3>Is {location.name} right for you?</h3>
+            <p>
+              This score weighs five factors equally. Take the 2-minute quiz to
+              re-rank it against <em>your</em> priorities — climate, budget,
+              politics, and more.
+            </p>
+            <Link className="btn btn-primary" href="/quiz">
+              <svg className="icon" viewBox="0 0 24 24">
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <path d="M12 17h.01" />
+                <circle cx="12" cy="12" r="10" />
+              </svg>
+              Get my personalized match
+            </Link>
           </div>
         </aside>
       </div>

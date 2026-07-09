@@ -1,0 +1,146 @@
+/* Quiz-only presentation. Keeps the quiz in the same visual family as the
+   public pages while allowing its controls to use the scoped shadcn theme. */
+.quiz-shell {
+  min-height: 100vh;
+  background: #f9fafb;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Align the scoped shadcn theme with the site's brand blue so the quiz
+     controls (buttons, progress, focus rings) match the rest of the site
+     rather than shadcn's default near-black primary. */
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --ring: #2563eb;
+}
+
+.quiz-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  padding: 1rem 5%;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 5%);
+}
+
+.quiz-nav-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quiz-logo {
+  color: #2563eb;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.quiz-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quiz-nav-links a {
+  color: #4b5563;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.quiz-nav-links a:hover,
+.quiz-nav-links a[aria-current="page"] {
+  color: #2563eb;
+}
+
+.quiz-hero {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  padding: 3.5rem 5% 3.5rem;
+  text-align: center;
+}
+
+.quiz-hero-content {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.quiz-hero-badge {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 15%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.quiz-hero h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.85rem;
+}
+
+.quiz-hero p {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  opacity: 0.95;
+}
+
+.quiz-main {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.quiz-flow,
+.quiz-results {
+  display: flex;
+  width: min(100%, 40rem);
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.quiz-results {
+  width: min(100%, 56rem);
+}
+
+@media (max-width: 640px) {
+  .quiz-navbar {
+    padding: 0.9rem 1.25rem;
+  }
+
+  .quiz-nav-container {
+    gap: 1rem;
+  }
+
+  .quiz-nav-links {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .quiz-hero {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .quiz-hero h1 {
+    font-size: 1.9rem;
+  }
+
+  .quiz-hero p {
+    font-size: 1.02rem;
+  }
+
+  .quiz-main {
+    padding: 2rem 1rem 3rem;
+  }
+}

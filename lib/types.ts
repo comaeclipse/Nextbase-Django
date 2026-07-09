@@ -60,7 +60,7 @@ export interface LocationRow {
   snow_annual: number | null;
   rain_annual: number | null;
   sun_days: number | null;
-  avg_low_winter: number | null;
+  alw: number | null;
   avg_high_summer: number | null;
   humidity_summer: number | null;
 

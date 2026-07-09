@@ -9,7 +9,6 @@
  * explore climate filter). --dry-run reports without writing.
  */
 import { getSql } from "../lib/db";
-import { getAllLocations } from "../lib/locations";
 import type { LocationRow } from "../lib/types";
 
 type Category = "cold_snowy" | "hot_humid" | "hot_dry" | "mild_coastal";
@@ -18,8 +17,8 @@ function classify(loc: LocationRow): Category {
   // Rule 1: Cold/Snowy
   if (
     (loc.snow_annual && loc.snow_annual >= 30) ||
-    (loc.avg_low_winter != null &&
-      loc.avg_low_winter <= 25 &&
+    (loc.alw != null &&
+      loc.alw <= 25 &&
       loc.snow_annual &&
       loc.snow_annual >= 15)
   ) {
@@ -46,8 +45,8 @@ function classify(loc: LocationRow): Category {
       loc.avg_high_summer >= 88 &&
       loc.humidity_summer &&
       loc.humidity_summer >= 60) ||
-    (loc.avg_low_winter &&
-      loc.avg_low_winter >= 45 &&
+    (loc.alw &&
+      loc.alw >= 45 &&
       loc.humidity_summer &&
       loc.humidity_summer >= 65)
   ) {
@@ -61,7 +60,9 @@ function classify(loc: LocationRow): Category {
 async function main() {
   const dryRun = process.argv.includes("--dry-run");
   const sql = getSql();
-  const locations = await getAllLocations();
+  const locations = (await sql`
+    SELECT * FROM locations_location
+    ORDER BY featured DESC, name ASC`) as unknown as LocationRow[];
   const counts: Record<Category, number> = {
     cold_snowy: 0,
     hot_humid: 0,

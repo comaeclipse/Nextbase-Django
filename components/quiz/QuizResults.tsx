@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { Location } from "@/lib/types";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function QuizResults({
@@ -13,7 +13,7 @@ export default function QuizResults({
   onRetake: () => void;
 }) {
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-10">
+    <div className="quiz-results">
       <div className="flex flex-col gap-2 text-center">
         <h1 className="text-2xl font-semibold">Your Top Matches</h1>
         <p className="text-sm text-muted-foreground">
@@ -65,9 +65,9 @@ export default function QuizResults({
       )}
 
       <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-center">
-        <Button size="lg" render={<Link href="/explore" />}>
+        <Link href="/explore" className={buttonVariants({ size: "lg" })}>
           See All Matches on Explore
-        </Button>
+        </Link>
         <Button variant="outline" onClick={onRetake}>
           Retake the Quiz
         </Button>

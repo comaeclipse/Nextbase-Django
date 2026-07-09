@@ -4,51 +4,63 @@ Use this guide when an LLM or operator needs to refresh or expand the VetRetire 
 
 ## Scope
 
-The project stores two main data shapes:
+The project stores two main Neon PostgreSQL tables:
 
-- `locations.models.Location`: city/metro retirement-location facts used by the public explore UI.
-- `locations.models.StateInfo`: state-level gun-law and scorecard facts used by filters and admin views.
+- `locations_location`: city/metro retirement-location facts used by the public explore UI.
+- `locations_stateinfo`: state-level gun-law and scorecard facts used by filters and admin views.
+
+The application was migrated from Django to Next.js + TypeScript in 2026. Django management commands shown in older notes are historical only; use the TypeScript scripts and Neon workflow documented below.
 
 Treat the current Neon database as the working state, but do not assume it is complete or current. Always inspect it before importing.
 
 ## Current Known Gaps
 
-As of the latest inspection, `Location` has 60 rows across all 50 states and `StateInfo` has 50 rows.
-
-Notable `Location` gaps:
-
-- `tags`: missing for all 60 locations.
-- `tci`: missing for all 60 locations.
-- `description`: missing for 52 locations.
-- `nearest_va` and `distance_to_va`: missing for 55 locations.
-- `veterans_benefits`: missing for 57 locations.
-- `lgbtq_rating`: missing for 59 locations.
-- `rep_vote_share_change_pp` and `dem_vote_share_change_pp`: missing for 59 locations.
-- `defense_hub`: missing for 18 locations.
-- `tech_hub`: missing for 3 locations.
-- Chicago, IL is missing `avg_price`, `population`, `has_va`, and `climate_category`.
+Coverage changes with every import. Do not rely on historical row counts or static gap lists; run the inspection query below before each refresh. Prioritize missing `tags`, `tci`, `description`, VA access, veterans benefits, LGBTQ fields, election-trend deltas, hub flags, and climate category when they are blank in the live database.
 
 Do not fill gaps with guesses. If a source is weak, leave the field blank and record the gap.
 
 ## Inspect Current Data
 
-Load `DATABASE_URL` without printing secrets:
+Choose the local environment file without printing secrets. Prefer `.env`; use `.env.vercel` only when it is the available local Neon configuration:
 
 ```powershell
-$line = Get-Content .env.vercel | Where-Object { $_ -match '^\s*DATABASE_URL=' } | Select-Object -First 1
-$env:DATABASE_URL = ($line -split '=',2)[1].Trim().Trim('"').Trim("'")
+$envFile = if (Test-Path .env) { '.env' } elseif (Test-Path .env.vercel) { '.env.vercel' } else { throw 'DATABASE_URL env file not found' }
 ```
 
-Summarize row and missing-field coverage:
+Summarize row and selected missing-field coverage directly from Neon:
 
 ```powershell
-python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE','vetretire_project.settings'); import django; django.setup(); from locations.models import Location, StateInfo; fields=[f.name for f in Location._meta.fields if f.name not in ('id','created_at','updated_at')]; print('Location rows', Location.objects.count()); [print(f'{f}:{sum(1 for loc in Location.objects.all() if getattr(loc,f) is None or getattr(loc,f)=='' or getattr(loc,f)==[])}') for f in fields]; print('StateInfo rows', StateInfo.objects.count())"
+$script = @'
+const { neon } = require(`@neondatabase/serverless`);
+const sql = neon(process.env.DATABASE_URL);
+(async () => {
+  const [coverage] = await sql`
+    SELECT count(*)::int AS locations,
+      count(*) FILTER (WHERE tags IS NULL OR tags = '[]'::jsonb)::int AS missing_tags,
+      count(*) FILTER (WHERE tci IS NULL)::int AS missing_tci,
+      count(*) FILTER (WHERE description IS NULL OR description = '')::int AS missing_description,
+      count(*) FILTER (WHERE nearest_va IS NULL OR distance_to_va IS NULL)::int AS missing_va_access,
+      count(*) FILTER (WHERE rep_vote_share_change_pp IS NULL OR dem_vote_share_change_pp IS NULL)::int AS missing_election_trends
+    FROM locations_location`;
+  const [stateInfo] = await sql`SELECT count(*)::int AS state_info FROM locations_stateinfo`;
+  console.log({ ...coverage, ...stateInfo });
+})().catch((error) => { console.error(error); process.exit(1); });
+'@
+node "--env-file=$envFile" -e $script
 ```
 
 Dump the current location keys before matching imports:
 
 ```powershell
-python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE','vetretire_project.settings'); import django; django.setup(); from locations.models import Location; [print(f'{l.state}|{l.name}|{l.county}') for l in Location.objects.order_by('state','name')]"
+$script = @'
+const { neon } = require(`@neondatabase/serverless`);
+const sql = neon(process.env.DATABASE_URL);
+(async () => {
+  const rows = await sql`SELECT state, name, county FROM locations_location ORDER BY state, name`;
+  for (const row of rows) console.log(`${row.state}|${row.name}|${row.county ?? ''}`);
+})().catch((error) => { console.error(error); process.exit(1); });
+'@
+node "--env-file=$envFile" -e $script
 ```
 
 ## Source Priority
@@ -194,7 +206,7 @@ Fields:
 - `snow_annual`
 - `rain_annual`
 - `sun_days`
-- `avg_low_winter`
+- `alw` (CSV: `AverageLowWinter`)
 - `avg_high_summer`
 - `humidity_summer`
 - `climate`
@@ -217,10 +229,10 @@ Retrieval notes:
 
 Normalization:
 
-- `snow_annual`, `rain_annual`, `sun_days`, `avg_low_winter`, `avg_high_summer`, `humidity_summer`: integers.
+- `snow_annual`, `rain_annual`, `sun_days`, `alw` (CSV: `AverageLowWinter`), `avg_high_summer`, `humidity_summer`: integers.
 - `climate_detailed`: source climate description.
 - `climate`: short display label.
-- `climate_category`: run `python manage.py categorize_climate` after updating weather fields.
+- `climate_category`: run the TypeScript categorizer after a batch weather update. It currently rewrites all rows, so do not use it for a one-city update unless a global recategorization is intended.
 
 ### Politics and Elections
 
@@ -387,12 +399,7 @@ Recommended sources:
 - Everytown policy ranking pages.
 - Current legal/news sources for pending effective dates or injunctions.
 
-Preferred update command:
-
-```powershell
-python manage.py update_state_law_data --dry-run
-python manage.py update_state_law_data
-```
+There is no current TypeScript replacement for the Django `update_state_law_data` command. Do not invoke the removed Django command. For a state-law refresh, first port a reviewed, source-backed TS script patterned after `scripts/import-csv.ts`; until then, record sources and proposed values without writing them.
 
 ## Matching and Geocoding Rules
 
@@ -414,29 +421,30 @@ Use this crosswalk for all joins. Do not rely on fuzzy matching at import time w
 
 ### Existing CSV Import
 
-`locations/management/commands/import_csv.py` imports location rows from a curated CSV.
+`scripts/import-csv.ts` upserts curated location rows into `locations_location` by `(name, state)`.
 
 Expected CSV columns include:
 
 ```text
-City,State,County,StateParty,Governor,CityPolitics,2016Election,2016PresidentPercent,2024 Election,2024PresidentPercent,Population,Density,SalesTax,Income,CostOfLiving,AvgHomeValue,VA,NearestVA,DistanceToVA,Veterans Benefits,CrimeRating,Marijuana,LGBTQ,TechHub,DefenseHub,Snow,Rain,SunnyDays,PercentPossibleSunshine,AverageLowWinter,AverageHighSummer,HumiditySummer,Climate,Gas,Description,rep_vote_share_change_pp,dem_vote_share_change_pp
+City,State,County,StateParty,Governor,CityPolitics,2016Election,2016PresidentPercent,2024 Election,2024PresidentPercent,ElectionChange,Population,Density,SalesTax,Income,CostOfLiving,AvgHomeValue,VA,NearestVA,DistanceToVA,Veterans Benefits,TCI,CrimeRating,Marijuana,LGBTQ,LGBTQ_MEI,LGBTQStatePolicyScore,LGBTQSource,TechHub,DefenseHub,Snow,Rain,SunnyDays,AverageLowWinter,AverageHighSummer,HumiditySummer,Climate,Gas,Description,Tags,rep_vote_share_change_pp,dem_vote_share_change_pp
 ```
 
 Run:
 
 ```powershell
-python manage.py import_csv path\to\locations.csv
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv
 ```
 
 Use `--clear` only when intentionally replacing all locations:
 
 ```powershell
-python manage.py import_csv path\to\locations.csv --clear
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv --clear
 ```
 
 ### State Info CSV Import
 
-`locations/management/commands/import_state_info.py` imports state-level data from CSV.
+The Django `import_state_info` command was not ported to TypeScript.
 
 Expected columns include:
 
@@ -444,49 +452,51 @@ Expected columns include:
 State,MagazineLimit,GiffordScore,GhostGunBan,AssaultWeaponBan,HighCapMagBan
 ```
 
-Run:
+Do not run a Django command or hand-edit live state data. Keep the curated CSV and source notes ready, then port and review a dedicated TypeScript importer before applying a `locations_stateinfo` update.
+
+### TypeScript Maintenance Scripts
+
+Use the available TypeScript script for repeatable data maintenance:
 
 ```powershell
-python manage.py import_state_info path\to\state_info.csv
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts
 ```
 
-### Direct Management Commands
-
-Use dedicated management commands when data is computed or has a stable normalized mapping:
-
-```powershell
-python manage.py update_state_law_data
-python manage.py categorize_climate
-```
-
-Prefer a management command over ad hoc shell SQL for repeatable updates.
+`categorize-climate.ts` currently updates every location. Run its write mode only after a batch review. For a single-city import, calculate and verify the category from the documented rule, then use a narrowly scoped parameterized Neon update that asserts exactly one matched row.
 
 ## Verification Checklist
 
 After any import or refresh:
 
-1. Run Django checks.
+1. Run the TypeScript check.
 
 ```powershell
-python manage.py check
+npx tsc --noEmit
 ```
 
 2. Recompute climate categories if weather fields changed.
 
 ```powershell
-python manage.py categorize_climate
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts --dry-run
 ```
 
-3. Check missing-field counts.
-
-```powershell
-python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE','vetretire_project.settings'); import django; django.setup(); from locations.models import Location, StateInfo; fields=[f.name for f in Location._meta.fields if f.name not in ('id','created_at','updated_at')]; print('Location rows', Location.objects.count()); [print(f'{f}:{sum(1 for loc in Location.objects.all() if getattr(loc,f) is None or getattr(loc,f)=='' or getattr(loc,f)==[])}') for f in fields]; print('StateInfo rows', StateInfo.objects.count())"
-```
+3. Re-run the **Summarize row and selected missing-field coverage** command from **Inspect Current Data** and compare the result with the pre-import baseline.
 
 4. Verify all 50 states still have `StateInfo`.
 
 ```powershell
-python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE','vetretire_project.settings'); import django; django.setup(); from locations.models import StateInfo; states=set('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split()); found=set(StateInfo.objects.values_list('state', flat=True)); print('missing', sorted(states-found)); print('extra', sorted(found-states))"
+$script = @'
+const { neon } = require(`@neondatabase/serverless`);
+const sql = neon(process.env.DATABASE_URL);
+const states = `AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY`.split(` `);
+(async () => {
+  const rows = await sql`SELECT state FROM locations_stateinfo`;
+  const found = new Set(rows.map(({ state }) => state));
+  console.log({ missing: states.filter((state) => !found.has(state)), extra: [...found].filter((state) => !states.includes(state)) });
+})().catch((error) => { console.error(error); process.exit(1); });
+'@
+node "--env-file=$envFile" -e $script
 ```
 
 5. Spot-check the explore UI and filters if user-facing fields changed.
