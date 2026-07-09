@@ -82,6 +82,15 @@ export interface Location extends LocationRow {
   calculated_match_score: number;
 }
 
+/** How a state treats military retired pay for income-tax purposes. */
+export type RetiredPayTax =
+  | "no_income_tax"
+  | "exempt"
+  | "partial"
+  | "conditional"
+  | "taxed"
+  | "unknown";
+
 export interface StateInfoRow {
   state: string; // two-letter USPS abbreviation (primary key)
   magazine_limit: string | null;
@@ -89,4 +98,21 @@ export interface StateInfoRow {
   ghost_gun_ban: string | null;
   assault_weapons_ban: boolean | null;
   high_cap_mag_ban: boolean | null;
+
+  /*
+   * Veteran benefits. State-level facts — never duplicate these onto a location.
+   *
+   * The booleans are three-valued: `null` means the source summary was silent,
+   * which is NOT the same as `false`. Filter with `=== true`, never `!== false`.
+   */
+  no_income_tax: boolean | null;
+  retired_pay_tax: RetiredPayTax | null;
+  disabled_vet_property_tax: boolean | null;
+  employment_preference: boolean | null;
+  education_benefit: boolean | null;
+  parks_benefit: boolean | null;
+  hunt_fish_benefit: boolean | null;
+  vet_benefits_summary: string | null;
+  /** Null until a human checks the row against a primary source. */
+  vet_benefits_verified_on: string | null;
 }
