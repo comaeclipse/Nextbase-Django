@@ -4,7 +4,9 @@
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts
  */
 import { readFileSync } from "node:fs";
-import { getAllLocations } from "../lib/locations";
+// Uncached read: unstable_cache needs a Next.js request context, which a bare
+// tsx script doesn't have.
+import { fetchAllLocations } from "../lib/locations";
 import {
   calculateBaselineScore,
   calculateFitBreakdown,
@@ -24,7 +26,7 @@ async function main() {
   );
   const refById = new Map(ref.map((r) => [r.id, r]));
 
-  const rows = await getAllLocations();
+  const rows = await fetchAllLocations();
   console.log(`Django rows: ${ref.length} | Neon rows (TS): ${rows.length}`);
 
   let mismatches = 0;

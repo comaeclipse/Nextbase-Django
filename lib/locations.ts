@@ -24,18 +24,26 @@ function normalizeLocation(row: Record<string, unknown>): LocationRow {
   return { ...row, id: Number(row.id) } as LocationRow;
 }
 
+/*
+ * Uncached read. Exported so standalone scripts (scripts/verify_scores.ts) can
+ * query outside a Next.js request context — `unstable_cache` throws an
+ * "incrementalCache missing" invariant when called from a bare tsx process.
+ * Application code should use `getAllLocations` below.
+ */
+export async function fetchAllLocations(): Promise<LocationRow[]> {
+  const sql = getSql();
+  // Match Django's Location.Meta.ordering = ['-featured', 'name'] so that the
+  // base order is identical. This matters as the stable-sort tie-break when
+  // two rows share a sort key (e.g. same-named cities), keeping filter/sort
+  // results byte-for-byte with the Django views.
+  const rows = await sql`
+    SELECT * FROM locations_location
+    ORDER BY featured DESC, name ASC`;
+  return (rows as Record<string, unknown>[]).map(normalizeLocation);
+}
+
 export const getAllLocations = unstable_cache(
-  async (): Promise<LocationRow[]> => {
-    const sql = getSql();
-    // Match Django's Location.Meta.ordering = ['-featured', 'name'] so that the
-    // base order is identical. This matters as the stable-sort tie-break when
-    // two rows share a sort key (e.g. same-named cities), keeping filter/sort
-    // results byte-for-byte with the Django views.
-    const rows = await sql`
-      SELECT * FROM locations_location
-      ORDER BY featured DESC, name ASC`;
-    return (rows as Record<string, unknown>[]).map(normalizeLocation);
-  },
+  fetchAllLocations,
   ["locations:getAllLocations"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );
