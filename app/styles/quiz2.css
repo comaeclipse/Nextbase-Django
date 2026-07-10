@@ -1,0 +1,184 @@
+/* Presentation for the /quiz2 demo. Same containment rule as quiz.css: this is
+   loaded only by the quiz2 layout, alongside the scoped shadcn theme, so it
+   never reaches the pixel-parity public pages. */
+.quiz2-shell {
+  min-height: 100vh;
+  background: #f6f7fb;
+  color: #1f2430;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Align the scoped shadcn theme with the site's brand blue, matching the
+     approach in quiz.css. */
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --ring: #2563eb;
+}
+
+.quiz2-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgb(255 255 255 / 85%);
+  backdrop-filter: blur(10px);
+  padding: 1rem 5%;
+  border-bottom: 1px solid rgb(15 23 42 / 6%);
+}
+
+.quiz2-nav-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quiz2-logo {
+  color: #2563eb;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.quiz2-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quiz2-nav-links a {
+  color: #475069;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.quiz2-nav-links a:hover,
+.quiz2-nav-links a[aria-current="page"] {
+  color: #2563eb;
+}
+
+/* Hero */
+.quiz2-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 5% 6.5rem;
+  background:
+    radial-gradient(60rem 30rem at 15% -10%, rgb(37 99 235 / 45%), transparent 60%),
+    radial-gradient(50rem 28rem at 90% 0%, rgb(192 38 211 / 32%), transparent 55%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #fff;
+}
+
+.quiz2-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, #000, transparent 75%);
+  pointer-events: none;
+}
+
+.quiz2-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quiz2-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 10%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.quiz2-hero h1 {
+  margin: 1.1rem 0 0.75rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.quiz2-hero p {
+  margin: 0;
+  color: rgb(255 255 255 / 78%);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* Body: controls + sticky live preview */
+.quiz2-main {
+  max-width: 1200px;
+  margin: -4rem auto 0;
+  padding: 0 5% 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.quiz2-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (width <= 960px) {
+  .quiz2-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.quiz2-preview {
+  position: sticky;
+  top: 5.5rem;
+}
+
+@media (width <= 960px) {
+  .quiz2-preview {
+    position: static;
+  }
+}
+
+/* The stacked bar showing each factor's share of the Fit score. */
+.quiz2-mix {
+  display: flex;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6e8f0;
+}
+
+.quiz2-mix-segment {
+  height: 100%;
+  transition: flex-basis 220ms ease, background-color 220ms ease;
+}
+
+/* Slider accent, tinted per factor via the --accent-color custom property. */
+.quiz2-slider [data-slot="slider-range"] {
+  background: var(--accent-color, #2563eb);
+}
+
+.quiz2-slider [data-slot="slider-thumb"] {
+  border-color: var(--accent-color, #2563eb);
+  box-shadow: 0 1px 4px rgb(15 23 42 / 25%);
+}
+
+.quiz2-card-scroll {
+  max-height: 22rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
