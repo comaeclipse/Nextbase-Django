@@ -15,10 +15,15 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 // Ported from locations/templates/locations/explore.html + views.explore.
-export default async function ExplorePage() {
-  const [rows, stateInfos] = await Promise.all([
+export default async function ExplorePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ state_filter?: string | string[] }>;
+}) {
+  const [rows, stateInfos, params] = await Promise.all([
     getAllLocations(),
     getAllStateInfo(),
+    searchParams,
   ]);
   const locations: Location[] = rows.map((r) => ({
     ...r,
@@ -33,6 +38,16 @@ export default async function ExplorePage() {
   });
 
   const stateCounts = computeStateCounts(rows);
+
+  // `?state_filter=PA` deep-links to the map with that state selected. Only
+  // states we actually have locations for are honored, so a junk value falls
+  // back to the unfiltered grid rather than rendering an empty page.
+  const requested = Array.isArray(params.state_filter)
+    ? params.state_filter[0]
+    : params.state_filter;
+  const normalized = requested?.trim().toUpperCase();
+  const initialStateFilter =
+    normalized && normalized in stateCounts ? normalized : null;
 
   return (
     <>
@@ -62,6 +77,7 @@ export default async function ExplorePage() {
         initialLocations={locations}
         stateInfos={stateInfos}
         stateCounts={stateCounts}
+        initialStateFilter={initialStateFilter}
       />
     </>
   );

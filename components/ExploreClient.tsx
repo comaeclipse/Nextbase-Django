@@ -28,10 +28,13 @@ export default function ExploreClient({
   initialLocations,
   stateInfos,
   stateCounts,
+  initialStateFilter = null,
 }: {
   initialLocations: Location[];
   stateInfos: StateInfoRow[];
   stateCounts: Record<string, number>;
+  /** From `?state_filter=XX`; opens the map with that state already selected. */
+  initialStateFilter?: string | null;
 }) {
   const [climate, setClimate] = useState(falses(CLIMATE_KEYS));
   const [snow, setSnow] = useState<string | null>(null);
@@ -45,9 +48,15 @@ export default function ExploreClient({
   const [healthcare, setHealthcare] = useState(falses(HEALTHCARE_KEYS));
   const [activities, setActivities] = useState(falses(ACTIVITY_KEYS));
   const [sort, setSort] = useState("best");
-  const [view, setView] = useState<"grid" | "list" | "map">("grid");
-  const [selectedMapState, setSelectedMapState] = useState<string | null>(null);
-  const [mapMounted, setMapMounted] = useState(false);
+  // A state deep link lands on the map so the active filter is visible on the
+  // map itself, which is also the only way to clear it.
+  const [view, setView] = useState<"grid" | "list" | "map">(
+    initialStateFilter ? "map" : "grid"
+  );
+  const [selectedMapState, setSelectedMapState] = useState<string | null>(
+    initialStateFilter
+  );
+  const [mapMounted, setMapMounted] = useState(Boolean(initialStateFilter));
 
   // Build the same FilterParams shape the /api/locations route parses from
   // query params, but as an object — no query string or network round trip.
