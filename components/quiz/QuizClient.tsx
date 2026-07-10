@@ -85,9 +85,10 @@ export default function QuizClient({
     if (!finished) return [];
     const filterParams = profileToFilterParams(answers);
     const weights = profileToWeights(answers);
-    return filterAndSort(initialLocations, stateInfos, filterParams, (loc) =>
-      calculatePersonalizedScore(loc, stateInfoByAbbr[loc.state], weights)
-    ).slice(0, 6);
+    return filterAndSort(initialLocations, stateInfos, filterParams, {
+      scoreFn: (loc) =>
+        calculatePersonalizedScore(loc, stateInfoByAbbr[loc.state], weights),
+    }).slice(0, 6);
   }, [finished, answers, initialLocations, stateInfos, stateInfoByAbbr]);
 
   // The wizard is driven generically by QUIZ_QUESTIONS, so individual answer

@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
-import type { LocationRow, StateInfoRow } from "./types";
+import type { EmployerIndex, EmployerPresence } from "./defense";
+import type { DefenseEmployerRow, LocationRow, StateInfoRow } from "./types";
 
 /*
  * Read-only data access against the existing Neon schema.
@@ -19,6 +20,7 @@ import type { LocationRow, StateInfoRow } from "./types";
 const CACHE_REVALIDATE_SECONDS = 300;
 const LOCATIONS_TAG = "locations";
 const STATE_INFO_TAG = "state-info";
+const EMPLOYERS_TAG = "defense-employers";
 
 function normalizeLocation(row: Record<string, unknown>): LocationRow {
   return { ...row, id: Number(row.id) } as LocationRow;
@@ -91,4 +93,73 @@ export const getStateInfo = unstable_cache(
   },
   ["locations:getStateInfo"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [STATE_INFO_TAG] }
+);
+
+/** Employers offered by the explore filter, ordered for display. */
+export const getActiveEmployers = unstable_cache(
+  async (): Promise<DefenseEmployerRow[]> => {
+    const sql = getSql();
+    const rows = await sql`
+      SELECT id, slug, display_name, parent_company, sector, counts_as_defense, active
+      FROM defense_employers
+      WHERE active
+      ORDER BY parent_company ASC, display_name ASC`;
+    return (rows as Record<string, unknown>[]).map((r) => ({
+      ...r,
+      id: Number(r.id),
+    })) as DefenseEmployerRow[];
+  },
+  ["locations:getActiveEmployers"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [EMPLOYERS_TAG] }
+);
+
+/*
+ * location_id -> employers present in that city.
+ *
+ * Only rows already linked to a curated retirement location are returned; the
+ * ~150 other employer cities are irrelevant to filtering. Shipped to the client
+ * as a plain object so ExploreClient can filter without a round trip, mirroring
+ * how `stateInfos` is passed down.
+ */
+export const getEmployerIndex = unstable_cache(
+  async (): Promise<EmployerIndex> => {
+    const sql = getSql();
+    const rows = (await sql`
+      SELECT
+        d.location_id,
+        e.slug,
+        e.display_name,
+        e.parent_company,
+        e.counts_as_defense,
+        COALESCE(d.onsite_posting_count, 0) AS onsite,
+        COALESCE(d.hybrid_posting_count, 0) AS hybrid,
+        COALESCE(d.remote_posting_count, 0) AS remote,
+        COALESCE(d.total_posting_count, 0)  AS total
+      FROM defense_employer_locations d
+      JOIN defense_employers e ON e.id = d.employer_id
+      WHERE d.location_id IS NOT NULL AND e.active
+      ORDER BY d.location_id, COALESCE(d.total_posting_count, 0) DESC, e.display_name`) as Record<
+      string,
+      unknown
+    >[];
+
+    const index: EmployerIndex = {};
+    for (const row of rows) {
+      const id = Number(row.location_id);
+      const presence: EmployerPresence = {
+        slug: String(row.slug),
+        display_name: String(row.display_name),
+        parent_company: String(row.parent_company),
+        counts_as_defense: Boolean(row.counts_as_defense),
+        onsite: Number(row.onsite),
+        hybrid: Number(row.hybrid),
+        remote: Number(row.remote),
+        total: Number(row.total),
+      };
+      (index[id] ??= []).push(presence);
+    }
+    return index;
+  },
+  ["locations:getEmployerIndex"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [EMPLOYERS_TAG] }
 );

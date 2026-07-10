@@ -102,9 +102,10 @@ export default function Quiz2Client({
   // "See results" button.
   const results = useMemo(() => {
     const weights = profileToWeights(profile);
-    return filterAndSort(locations, stateInfos, profileToFilterParams(profile), (loc) =>
-      calculatePersonalizedScore(loc, stateInfoByAbbr[loc.state], weights)
-    );
+    return filterAndSort(locations, stateInfos, profileToFilterParams(profile), {
+      scoreFn: (loc) =>
+        calculatePersonalizedScore(loc, stateInfoByAbbr[loc.state], weights),
+    });
   }, [profile, locations, stateInfos, stateInfoByAbbr]);
 
   const shares = useMemo(() => weightShares(profile), [profile]);

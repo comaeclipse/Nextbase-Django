@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
+  getEmployerIndex,
   getLocationById,
   getSimilarLocations,
   getStateInfo,
@@ -59,10 +60,12 @@ export default async function CityDetailPage({
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
   // instead of two sequential Neon round trips.
-  const [stateInfo, similarRows] = await Promise.all([
+  const [stateInfo, similarRows, employerIndex] = await Promise.all([
     stateAbbr ? getStateInfo(stateAbbr) : Promise.resolve(null),
     getSimilarLocations(location.state, location.id),
+    getEmployerIndex(),
   ]);
+  const employersHere = employerIndex[location.id] ?? [];
   const similar: Location[] = similarRows.map((r) => ({
     ...r,
     calculated_match_score: calculateBaselineScore(r),
@@ -654,6 +657,20 @@ export default async function CityDetailPage({
                       Tech Hub
                     </span>
                   )}
+                </div>
+              )}
+              {employersHere.length > 0 && (
+                <div style={{ marginTop: "1rem" }}>
+                  {employersHere.map((e) => (
+                    <div className="spec" key={e.slug}>
+                      <span className="spec-key">{e.display_name}</span>
+                      <span className="spec-val">
+                        {e.total.toLocaleString()}{" "}
+                        {e.total === 1 ? "opening" : "openings"}
+                        {e.remote === e.total ? " (remote)" : ""}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

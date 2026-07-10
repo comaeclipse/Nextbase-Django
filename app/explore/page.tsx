@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllLocations, getAllStateInfo } from "@/lib/locations";
+import {
+  getActiveEmployers,
+  getAllLocations,
+  getAllStateInfo,
+  getEmployerIndex,
+} from "@/lib/locations";
 import { calculateBaselineScore } from "@/lib/scoring";
 import { computeStateCounts } from "@/lib/filters";
 import type { Location } from "@/lib/types";
@@ -20,9 +25,11 @@ export default async function ExplorePage({
 }: {
   searchParams: Promise<{ state_filter?: string | string[] }>;
 }) {
-  const [rows, stateInfos, params] = await Promise.all([
+  const [rows, stateInfos, employers, employerIndex, params] = await Promise.all([
     getAllLocations(),
     getAllStateInfo(),
+    getActiveEmployers(),
+    getEmployerIndex(),
     searchParams,
   ]);
   const locations: Location[] = rows.map((r) => ({
@@ -78,6 +85,8 @@ export default async function ExplorePage({
         stateInfos={stateInfos}
         stateCounts={stateCounts}
         initialStateFilter={initialStateFilter}
+        employers={employers}
+        employerIndex={employerIndex}
       />
     </>
   );

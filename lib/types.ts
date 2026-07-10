@@ -54,7 +54,10 @@ export interface LocationRow {
 
   // Economic hubs
   tech_hub: boolean | null;
+  /** Derived: employer presence OR curation. See lib/defense.ts. */
   defense_hub: boolean | null;
+  /** The hand-curated input to `defense_hub`; never written by employer sync. */
+  defense_hub_manual: boolean | null;
 
   // Weather & climate
   snow_annual: number | null;
@@ -115,4 +118,41 @@ export interface StateInfoRow {
   vet_benefits_summary: string | null;
   /** Null until a human checks the row against a primary source. */
   vet_benefits_verified_on: string | null;
+}
+
+/** A filterable employer (`defense_employers`), e.g. Raytheon under parent RTX. */
+export interface DefenseEmployerRow {
+  id: number;
+  slug: string;
+  display_name: string;
+  parent_company: string;
+  sector: string;
+  counts_as_defense: boolean;
+  active: boolean;
+}
+
+/** One employer's footprint in one city (`defense_employer_locations`). */
+export interface DefenseEmployerLocationRow {
+  id: number;
+  employer_id: number;
+  /** Null when the city is not one of the curated retirement locations. */
+  location_id: number | null;
+  country: string;
+  state: string;
+  city: string;
+  region_label: string;
+  location_name: string | null;
+  location_type: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  onsite_posting_count: number | null;
+  hybrid_posting_count: number | null;
+  remote_posting_count: number | null;
+  total_posting_count: number | null;
+  snapshot_date: string | null;
+  source_kind: string | null;
+  source_url: string | null;
+  source_retrieved_on: string | null;
+  is_featured: boolean;
+  notes: string | null;
 }

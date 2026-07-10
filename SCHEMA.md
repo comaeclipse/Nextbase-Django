@@ -61,7 +61,8 @@ State-level information that applies to all locations within a state (no need to
 
 ### Economic Hubs
 - **TechHub**: Whether location is a technology hub (Y/N)
-- **DefenseHub**: Whether location has significant defense/military presence (Y/N)
+- **DefenseHub**: Whether location has significant defense/military presence (Y/N). **Derived** — see [Defense hub (derived)](#defense-hub-derived); edit `defense_hub_manual`, never this column
+- **DefenseHubManual**: The hand-curated input to `DefenseHub`. Three-valued: `null` means "never researched", which is not `false`
 
 ### Weather & Climate
 - **Snow**: Average annual snowfall (inches)
@@ -102,3 +103,70 @@ State-level information that applies to all locations within a state (no need to
 - Cost of Living (COL) uses 100 as the national average baseline
 - Crime Index (TCI) uses similar baseline where 100 = national average
 - Political data represents county-level results in most cases
+
+---
+
+## DefenseEmployers
+
+The employer dimension backing the `/explore` employer filter. Keyed by a stable `slug` so the UI and importers do not depend on free-text names.
+
+Table: `defense_employers`
+
+- **Slug**: Stable identifier, e.g. `raytheon`, `collins-aerospace`, `lockheed-martin`
+- **DisplayName**: Label shown in the UI, e.g. `Pratt & Whitney`
+- **ParentCompany**: Grouping label, e.g. `RTX` for its three brands
+- **Sector**: `defense`, `defense_aerospace`, or `corporate`
+- **CountsAsDefense**: Whether presence contributes to the `defense_hub` signal. False for `rtx-corporate` (finance/legal/HR roles are not a defense-industry signal)
+- **AtsKind** / **AtsConfig**: How to refresh this employer automatically (`phenom` + the careers-site facet values). Null for employers with no importer yet
+- **Active**: Soft-delete flag; inactive employers vanish from the filter
+
+Seeds live in `lib/defense.ts` (`DEFENSE_EMPLOYER_SEEDS`) and are applied by `scripts/migrate-defense-employers.ts`. Lockheed Martin, General Dynamics, Northrop Grumman, L3Harris and Boeing are seeded with zero locations; they appear in the filter only once an importer populates them.
+
+---
+
+## DefenseEmployerLocations
+
+Company/job-location research data is stored outside `locations_location` so employer research does not create fake retirement-location rows.
+
+Table: `defense_employer_locations`
+
+- **EmployerId**: FK to `defense_employers`. The single source of truth for who this row belongs to
+- **LocationId**: FK to `locations_location`, resolved at import by `(lower(city), state)`. **Null for most rows** — RTX hires in ~170 US cities, only ~23 of which are curated retirement locations
+- **Country** / **State** / **City** / **RegionLabel**: Where. `State` is a two-letter abbreviation (including `PR`, `DC`)
+- **LocationName**: Human-readable site name
+- **LocationType**: Source-defined *site kind* such as `careers_location`. Not the same as a posting's onsite/hybrid/remote work arrangement, which is stored as the three count columns
+- **Latitude** / **Longitude**: City centroid from the careers map endpoint
+- **OnsitePostingCount** / **HybridPostingCount** / **RemotePostingCount**: Live posting counts by work arrangement
+- **TotalPostingCount**: Authoritative per-city total. **May exceed onsite+hybrid+remote**, because some postings have an `Unspecified` arrangement
+- **SnapshotDate**: When the counts were captured
+- **SourceKind** / **SourceUrl** / **SourceRetrievedOn**: Provenance. `careers_api` for synced rows, `official_location_page` for hand-researched ones
+- **IsFeatured**: Whether the employer presents this location as a highlighted careers/site-tour location
+- **Notes**: Short provenance note
+
+Rows are unique on `(employer_id, country, state, city, region_label)`.
+
+Two writers own **disjoint** column sets, so re-syncing never erases hand research:
+
+| Writer | Owns |
+| --- | --- |
+| `scripts/import-defense-employer-locations.ts` | Provenance: `source_*`, `is_featured`, `notes`, `location_name` |
+| `scripts/sync-rtx-employer-locations.ts` | Counts: `*_posting_count`, `snapshot_date`, `latitude`/`longitude` |
+
+> **Counting caveat:** per-city posting counts sum to *more* than the employer's job total, because one posting can list several cities. Never add them up to get a job count.
+
+---
+
+## Defense hub (derived)
+
+`locations_location.defense_hub` is **computed**, not curated. Its two inputs:
+
+1. `defense_hub_manual` — the hand-curated value, preserved verbatim at migration time. This carries military-installation towns (Norfolk, Fayetteville, Bremerton) that have no contractor plant and are invisible to employer data.
+2. Employer presence — a `counts_as_defense` employer with at least `DEFENSE_HUB_MIN_POSTINGS` (25) **onsite+hybrid** openings in the city. Remote postings are excluded: they are tagged to cities where the employer has no facility.
+
+```
+defense_hub = employer_signal ? true : defense_hub_manual
+```
+
+The relationship is one-directional by design. Employer data can promote a city to a hub; it can never demote a curated `true`. A `NULL` (never researched) stays `NULL` unless an employer resolves it — "unknown" is not the same claim as "not a defense hub", matching the three-valued convention used by the veteran-benefits booleans.
+
+Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It is idempotent, prints every proposed flip with its evidence under `--dry-run`, and aborts rather than demote a curated hub. The threshold is a named constant in `lib/defense.ts`.

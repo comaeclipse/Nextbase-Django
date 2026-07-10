@@ -4,6 +4,7 @@
  * results match the current Django behavior exactly.
  */
 import type { LocationRow, StateInfoRow, Location } from "./types";
+import { matchesEmployers, type EmployerIndex } from "./defense";
 import {
   parseNumber,
   locationHomeValue,
@@ -24,7 +25,15 @@ export interface FilterParams {
   lifestyle?: string | null;
   healthcare?: string | null;
   activities?: string | null;
+  /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
+  employers?: string | null;
   sort?: string | null;
+}
+
+export interface FilterOptions {
+  scoreFn?: (loc: LocationRow) => number;
+  /** Required only when `employers` is set. */
+  employerIndex?: EmployerIndex;
 }
 
 function splitTypes(value: string): string[] {
@@ -148,8 +157,9 @@ export function filterAndSort(
   all: LocationRow[],
   stateInfos: StateInfoRow[],
   p: FilterParams,
-  scoreFn: (loc: LocationRow) => number = calculateBaselineScore
+  options: FilterOptions = {}
 ): Location[] {
+  const { scoreFn = calculateBaselineScore, employerIndex } = options;
   const awbStates = new Set(
     stateInfos.filter((s) => s.assault_weapons_ban).map((s) => s.state)
   );
@@ -211,6 +221,16 @@ export function filterAndSort(
       const s = parseLgbtqScore(l);
       return s !== null && s >= 70;
     });
+  }
+
+  // Defense-employer presence. Any nonzero posting count counts here; the
+  // DEFENSE_HUB_MIN_POSTINGS threshold gates only the defense_hub promotion.
+  if (p.employers) {
+    const slugs = splitTypes(p.employers);
+    if (slugs.length > 0) {
+      const index = employerIndex ?? {};
+      list = list.filter((l) => matchesEmployers(index[l.id], slugs));
+    }
   }
 
   // Scores + sorting

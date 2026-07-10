@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Location, StateInfoRow } from "@/lib/types";
+import type { DefenseEmployerRow, Location, StateInfoRow } from "@/lib/types";
+import type { EmployerIndex } from "@/lib/defense";
 import { filterAndSort, type FilterParams } from "@/lib/filters";
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
@@ -29,12 +30,16 @@ export default function ExploreClient({
   stateInfos,
   stateCounts,
   initialStateFilter = null,
+  employers,
+  employerIndex,
 }: {
   initialLocations: Location[];
   stateInfos: StateInfoRow[];
   stateCounts: Record<string, number>;
   /** From `?state_filter=XX`; opens the map with that state already selected. */
   initialStateFilter?: string | null;
+  employers: DefenseEmployerRow[];
+  employerIndex: EmployerIndex;
 }) {
   const [climate, setClimate] = useState(falses(CLIMATE_KEYS));
   const [snow, setSnow] = useState<string | null>(null);
@@ -47,7 +52,31 @@ export default function ExploreClient({
   const [lifestyle, setLifestyle] = useState(falses(LIFESTYLE_KEYS));
   const [healthcare, setHealthcare] = useState(falses(HEALTHCARE_KEYS));
   const [activities, setActivities] = useState(falses(ACTIVITY_KEYS));
+  const [employerSel, setEmployerSel] = useState<Record<string, boolean>>({});
   const [sort, setSort] = useState("best");
+
+  /*
+   * Only employers that actually have a location are offered. Seeded employers
+   * with no data yet (Lockheed, General Dynamics, ...) would otherwise render a
+   * checkbox that can only ever return zero results. They appear on their own
+   * once an importer populates them.
+   */
+  const employerGroups = useMemo(() => {
+    const cityCount = new Map<string, number>();
+    for (const presences of Object.values(employerIndex)) {
+      for (const p of presences) {
+        if (p.total > 0) cityCount.set(p.slug, (cityCount.get(p.slug) ?? 0) + 1);
+      }
+    }
+    const groups = new Map<string, { employer: DefenseEmployerRow; cities: number }[]>();
+    for (const e of employers) {
+      const cities = cityCount.get(e.slug);
+      if (!cities) continue;
+      if (!groups.has(e.parent_company)) groups.set(e.parent_company, []);
+      groups.get(e.parent_company)!.push({ employer: e, cities });
+    }
+    return [...groups.entries()];
+  }, [employers, employerIndex]);
   // A state deep link lands on the map so the active filter is visible on the
   // map itself, which is also the only way to clear it.
   const [view, setView] = useState<"grid" | "list" | "map">(
@@ -86,18 +115,22 @@ export default function ExploreClient({
       lifestyle: lifeVal || null,
       healthcare: hcVal || null,
       activities: actVal || null,
+      employers:
+        Object.keys(employerSel)
+          .filter((s) => employerSel[s])
+          .join(",") || null,
       sort,
     };
   }, [
     snow, lgbtq, noAwb, noHcm, sort, climate, cost, priceMin, priceMax,
-    lifestyle, healthcare, activities, selectedMapState,
+    lifestyle, healthcare, activities, employerSel, selectedMapState,
   ]);
 
   // Filtering ~70 in-memory rows is sub-millisecond, so this recomputes
   // live on every change instead of debouncing a network request.
   const results = useMemo(
-    () => filterAndSort(initialLocations, stateInfos, filterParams),
-    [initialLocations, stateInfos, filterParams]
+    () => filterAndSort(initialLocations, stateInfos, filterParams, { employerIndex }),
+    [initialLocations, stateInfos, filterParams, employerIndex]
   );
   const total = results.length;
 
@@ -186,6 +219,53 @@ export default function ExploreClient({
             <label htmlFor="no-hcm">No High-Cap Mag Restrictions</label>
           </div>
         </div>
+
+        {employerGroups.length > 0 && (
+          <div className="filter-section">
+            <h3>Defense Employers</h3>
+            {employerGroups.map(([parent, entries]) => (
+              <div key={parent}>
+                {/* Show the parent only when it adds information (RTX over its
+                    three brands), not for standalone primes like Lockheed. */}
+                {(entries.length > 1 || entries[0].employer.display_name !== parent) && (
+                  <div
+                    style={{
+                      marginTop: "0.75rem",
+                      fontSize: "0.75rem",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.04em",
+                      color: "#6b7280",
+                    }}
+                  >
+                    {parent}
+                  </div>
+                )}
+                {entries.map(({ employer, cities }) => {
+                  const id = `employer-${employer.slug}`;
+                  return (
+                    <div className="filter-option" key={employer.slug}>
+                      <input
+                        type="checkbox"
+                        id={id}
+                        checked={Boolean(employerSel[employer.slug])}
+                        onChange={(e) =>
+                          setEmployerSel((s) => ({
+                            ...s,
+                            [employer.slug]: e.target.checked,
+                          }))
+                        }
+                      />
+                      <label htmlFor={id}>
+                        {employer.display_name}{" "}
+                        <span style={{ color: "#6b7280" }}>({cities})</span>
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="filter-section">
           <h3>Cost of Living</h3>
