@@ -74,9 +74,13 @@ function parseRow(row: Row): SourcedLocation {
     source_kind: clean(row.SourceKind),
     source_url: clean(row.SourceUrl),
     source_retrieved_on: clean(row.SourceRetrievedOn),
-    // ActivePostingCount is the legacy column name; the sync script owns the
-    // split onsite/hybrid/remote counts.
+    // ActivePostingCount is the legacy column name. Onsite/Hybrid/Remote are
+    // optional: RTX leaves them to the careers-API sync, but an employer with no
+    // ATS feed (System High) supplies attested counts here so presence can promote.
     total_posting_count: parseIntValue(row.TotalPostings ?? row.ActivePostingCount),
+    onsite_posting_count: parseIntValue(row.Onsite),
+    hybrid_posting_count: parseIntValue(row.Hybrid),
+    remote_posting_count: parseIntValue(row.Remote),
     is_featured: parseBool(row.IsFeatured),
     notes: clean(row.Notes),
   };

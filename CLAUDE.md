@@ -66,7 +66,7 @@ baselines/              # parity references (django_scores.json used by tests)
 ## Key domain logic
 
 - **Fit score** (`lib/scoring.ts`): five equally weighted factors — LGBTQ friendliness, VA access, cost of living, home affordability, safety. Uses Python-compatible round-half-to-even (`pyRound`). `defense_hub` is **not** a scoring factor.
-- **Defense hub** (`lib/defense.ts`): `defense_hub` is derived, not curated — `employer_signal ? true : defense_hub_manual`. Employer presence can promote a city, never demote a curated `true`. Edit `defense_hub_manual`, never `defense_hub`. See SCHEMA.md.
+- **Defense hub** (`lib/defense.ts`): `defense_hub` is derived, not curated — `manual === false ? false : presence ? true : manual`, where presence = ≥1 onsite+hybrid RTX opening (a physical facility). Any facility promotes; an explicit `defense_hub_manual = false` vetoes. Edit `defense_hub_manual`, never `defense_hub`. See SCHEMA.md.
 - **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, employers, sort`. Response: `{ totalResults, locations }`.
 - **Pixel parity is a hard requirement** for public pages. Their CSS is copied verbatim into `app/styles/*.css` and left **unlayered** so it always beats any Tailwind base. Do not introduce global Tailwind/Preflight.
 

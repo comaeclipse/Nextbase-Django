@@ -223,8 +223,8 @@ export function filterAndSort(
     });
   }
 
-  // Defense-employer presence. Any nonzero posting count counts here; the
-  // DEFENSE_HUB_MIN_POSTINGS threshold gates only the defense_hub promotion.
+  // Defense-employer presence. Any nonzero posting count (incl. remote) matches
+  // this facet; the onsite+hybrid presence rule gates only the defense_hub column.
   if (p.employers) {
     const slugs = splitTypes(p.employers);
     if (slugs.length > 0) {

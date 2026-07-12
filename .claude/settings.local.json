@@ -44,7 +44,9 @@
       "mcp__Neon__get_connection_string",
       "Bash(del *)",
       "Bash(powershell *)",
-      "Bash(python -m py_compile locations/views.py locations/tests.py locations/management/commands/import_csv.py)"
+      "Bash(python -m py_compile locations/views.py locations/tests.py locations/management/commands/import_csv.py)",
+      "Bash(node \"C:/Users/skarz/AppData/Local/Temp/claude/C--Users-skarz-Documents-Projects-Nextbase-Django/748fe1d1-6463-4f16-97c6-2a65b141daf7/scratchpad/peek.mjs\" irvine_ca.csv san_diego_ca.csv orlando_fl.csv)",
+      "Bash(claude --version)"
     ],
     "deny": [],
     "ask": []

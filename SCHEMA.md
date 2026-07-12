@@ -120,7 +120,7 @@ Table: `defense_employers`
 - **AtsKind** / **AtsConfig**: How to refresh this employer automatically (`phenom` + the careers-site facet values). Null for employers with no importer yet
 - **Active**: Soft-delete flag; inactive employers vanish from the filter
 
-Seeds live in `lib/defense.ts` (`DEFENSE_EMPLOYER_SEEDS`) and are applied by `scripts/migrate-defense-employers.ts`. Lockheed Martin, General Dynamics, Northrop Grumman, L3Harris and Boeing are seeded with zero locations; they appear in the filter only once an importer populates them.
+Seeds live in `lib/defense.ts` (`DEFENSE_EMPLOYER_SEEDS`) and are applied by `scripts/migrate-defense-employers.ts`. Lockheed Martin, General Dynamics, Northrop Grumman, L3Harris and Boeing are seeded with zero locations; they appear in the filter only once an importer populates them. **System High** has no scrapable ATS either, but its footprint is hand-sourced in `data/system_high_job_locations.csv` (see `data/system_high_sources.md`) with attested onsite counts, so it behaves like any populated employer.
 
 ---
 
@@ -145,12 +145,12 @@ Table: `defense_employer_locations`
 
 Rows are unique on `(employer_id, country, state, city, region_label)`.
 
-Two writers own **disjoint** column sets, so re-syncing never erases hand research:
+Two writers favor **near-disjoint** column sets and both use `COALESCE`, so neither erases the other's work:
 
 | Writer | Owns |
 | --- | --- |
-| `scripts/import-defense-employer-locations.ts` | Provenance: `source_*`, `is_featured`, `notes`, `location_name` |
-| `scripts/sync-rtx-employer-locations.ts` | Counts: `*_posting_count`, `snapshot_date`, `latitude`/`longitude` |
+| `scripts/import-defense-employer-locations.ts` | Provenance: `source_*`, `is_featured`, `notes`, `location_name`. Also seeds `*_posting_count` from optional `Onsite`/`Hybrid`/`Remote`/`TotalPostings` CSV columns for employers with no ATS sync (System High); absent columns leave existing counts untouched. |
+| `scripts/sync-rtx-employer-locations.ts` | Counts: `*_posting_count`, `snapshot_date`, `latitude`/`longitude` (authoritative for scraped employers; overwrites) |
 
 > **Counting caveat:** per-city posting counts sum to *more* than the employer's job total, because one posting can list several cities. Never add them up to get a job count.
 
@@ -158,15 +158,18 @@ Two writers own **disjoint** column sets, so re-syncing never erases hand resear
 
 ## Defense hub (derived)
 
-`locations_location.defense_hub` is **computed**, not curated. Its two inputs:
+`locations_location.defense_hub` is **computed**, not curated. Three inputs, in priority order:
 
-1. `defense_hub_manual` — the hand-curated value, preserved verbatim at migration time. This carries military-installation towns (Norfolk, Fayetteville, Bremerton) that have no contractor plant and are invisible to employer data.
-2. Employer presence — a `counts_as_defense` employer with at least `DEFENSE_HUB_MIN_POSTINGS` (25) **onsite+hybrid** openings in the city. Remote postings are excluded: they are tagged to cities where the employer has no facility.
+1. `defense_hub_manual = false` — a hard human veto, always wins. For cities that host an RTX facility but are not defense hubs for a retiree: a lone Collins depot in a small town (Jamestown ND, Burnsville MN).
+2. Employer presence — a `counts_as_defense`, active employer with at least `DEFENSE_HUB_MIN_POSTINGS` (1) **onsite+hybrid** opening in the city, i.e. a physical facility. Remote postings are excluded (tagged to cities where the employer has no facility). Since only RTX is ingested, one site samples a wider, untracked cluster, so presence promotes to a hub.
+3. `defense_hub_manual` otherwise — the hand-curated value. Carries hubs employer data can't see: military-installation towns (Norfolk, Fayetteville, Bremerton) with no contractor plant, or a hub whose RTX openings are momentarily zero (Boston).
 
 ```
-defense_hub = employer_signal ? true : defense_hub_manual
+defense_hub = defense_hub_manual === false ? false
+            : employer_presence            ? true
+            : defense_hub_manual
 ```
 
-The relationship is one-directional by design. Employer data can promote a city to a hub; it can never demote a curated `true`. A `NULL` (never researched) stays `NULL` unless an employer resolves it — "unknown" is not the same claim as "not a defense hub", matching the three-valued convention used by the veteran-benefits booleans.
+A `NULL` (never researched, no presence) stays `NULL` — "unknown" is not the same claim as "not a defense hub", matching the three-valued convention used by the veteran-benefits booleans.
 
-Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It is idempotent, prints every proposed flip with its evidence under `--dry-run`, and aborts rather than demote a curated hub. The threshold is a named constant in `lib/defense.ts`.
+Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It is idempotent, prints every proposed flip with its evidence under `--dry-run`, and aborts on an *unexplained* demotion (a `true` with no `defense_hub_manual = false` veto behind it). A `true → false` transition is allowed only when you set the veto deliberately. The presence threshold is a named constant in `lib/defense.ts`.

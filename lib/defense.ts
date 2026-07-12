@@ -1,32 +1,38 @@
 /*
  * Defense-employer domain logic, shared by the data scripts and the app.
  *
- * `locations_location.defense_hub` is a *derived* column combining two independent
- * signals:
+ * `locations_location.defense_hub` is a *derived* column with three inputs, in
+ * priority order:
  *
- *   1. `defense_hub_manual` — the hand-curated value. This carries military
- *      installations (Norfolk, Fayetteville, Bremerton) that have no contractor
- *      plant and would otherwise be invisible to employer data.
- *   2. Contractor presence — an employer with `counts_as_defense` and at least
- *      DEFENSE_HUB_MIN_POSTINGS non-remote openings in the city.
+ *   1. `defense_hub_manual = false` — a hard human veto. Some cities host an RTX
+ *      facility yet are not defense hubs for a retiree (a lone Collins depot in a
+ *      small town: Jamestown ND, Burnsville MN). An explicit `false` always wins.
+ *   2. Contractor presence — any `counts_as_defense`, active employer with at
+ *      least DEFENSE_HUB_MIN_POSTINGS onsite+hybrid (non-remote) openings, i.e. a
+ *      physical facility. We only ingest RTX, so a single RTX site is a *sample*
+ *      of a wider, untracked defense cluster; presence therefore promotes to a hub.
+ *   3. `defense_hub_manual` otherwise — carries hubs employer data can't see:
+ *      military-installation towns (Norfolk, Fayetteville, Bremerton) with no
+ *      contractor plant, or hubs whose RTX openings are momentarily zero (Boston).
  *
- *     defense_hub = employer_signal ? true : defense_hub_manual
+ *     defense_hub = manual === false ? false
+ *                 : presence          ? true
+ *                 : manual
  *
- * One-directional on purpose: employer data can promote a city to a hub, but can
- * never demote a curated `true`. A NULL (never researched) stays NULL unless an
- * employer resolves it — "unknown" is not the same claim as "not a defense hub".
- * See scripts/recompute-defense-hub.ts.
+ * A NULL (never researched, no presence) stays NULL — "unknown" is not "not a
+ * hub". See scripts/recompute-defense-hub.ts.
  */
 
 /*
- * Minimum onsite+hybrid openings before an employer counts as a hub signal.
+ * Minimum onsite+hybrid openings for an employer to count as a *physical presence*.
  *
- * Calibrated against the 77 curated locations: at 1, six cities with a single
- * stray posting (Decorah IA, Houston TX) would flip; at 25, RTX agrees with the
- * existing curation on every row. Remote postings are excluded entirely — they
- * are tagged to a city where the employer has no facility.
+ * One is enough: a single onsite/hybrid opening implies a real facility, and since
+ * we only ingest RTX that facility is a sample of a wider (untracked) defense
+ * cluster. Presence then promotes the city to a hub unless `defense_hub_manual`
+ * vetoes it (see the module header). Remote postings are excluded entirely — they
+ * are tagged to a city where the employer has no facility, so they never promote.
  */
-export const DEFENSE_HUB_MIN_POSTINGS = 25;
+export const DEFENSE_HUB_MIN_POSTINGS = 1;
 
 export type EmployerSector = "defense" | "defense_aerospace" | "corporate";
 
@@ -90,6 +96,21 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_kind: "phenom",
     ats_config: { ...PHENOM_RTX, businessUnit: "Corporate Headquarters" },
     legacy_aliases: ["RTX|Corporate Headquarters"],
+  },
+
+  {
+    // Intelligence/defense integrator. No public ATS feed we scrape; its site
+    // footprint is hand-sourced (source_kind = official_location_page), and each
+    // sourced row carries an attested onsite opening count, so presence promotes
+    // exactly like an RTX facility does.
+    slug: "system-high",
+    display_name: "System High",
+    parent_company: "System High",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
   },
 
   // Seeded with zero locations. Each uses a different ATS; importers land later.
@@ -168,7 +189,12 @@ export interface EmployerPresence {
  */
 export type EmployerIndex = Record<number, EmployerPresence[]>;
 
-/** Does any employer in this city clear the bar for a defense-hub promotion? */
+/**
+ * Does this city have a physical defense-employer presence (onsite+hybrid ≥
+ * DEFENSE_HUB_MIN_POSTINGS)? This is the promotion signal only — it does not apply
+ * the `defense_hub_manual = false` veto, so the stored `defense_hub` column, not
+ * this helper, is the final answer.
+ */
 export function hasDefenseEmployerSignal(
   presences: readonly EmployerPresence[] | undefined
 ): boolean {

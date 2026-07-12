@@ -120,7 +120,11 @@ function parseRow(row: Row): Record<string, unknown> {
     lgbtq_state_policy_score: parseDecimalV(row["LGBTQStatePolicyScore"]),
     lgbtq_score_source: cleanEmpty(row["LGBTQSource"]),
     tech_hub: parseBoolV(row["TechHub"]),
-    defense_hub: parseBoolV(row["DefenseHub"]),
+    // The CSV's DefenseHub is a human judgment, so it feeds the curated input
+    // `defense_hub_manual` (in particular, DefenseHub=N becomes a `false` veto).
+    // The derived `defense_hub` column is left for scripts/recompute-defense-hub.ts
+    // (manual===false ? false : presence ? true : manual). See lib/defense.ts.
+    defense_hub_manual: parseBoolV(row["DefenseHub"]),
     snow_annual: parseIntV(row["Snow"]),
     rain_annual: parseIntV(row["Rain"]),
     sun_days: parseIntV(row["SunnyDays"]),

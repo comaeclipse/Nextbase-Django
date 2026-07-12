@@ -1,19 +1,23 @@
 /*
- * Recomputes locations_location.defense_hub from its two inputs:
+ * Recomputes locations_location.defense_hub from its three inputs, in priority order:
  *
- *   defense_hub = employer_signal ? true : defense_hub_manual
+ *   defense_hub = defense_hub_manual === false ? false   // hard human veto
+ *               : employer_presence            ? true    // a physical RTX facility
+ *               : defense_hub_manual                      // curated value / NULL
  *
- * where employer_signal means "a counts_as_defense employer has at least
- * DEFENSE_HUB_MIN_POSTINGS onsite+hybrid openings here".
+ * where employer_presence means "a counts_as_defense, active employer has at least
+ * DEFENSE_HUB_MIN_POSTINGS (1) onsite+hybrid openings here" — i.e. a real facility.
+ * Because only RTX is ingested, one site is a sample of a wider cluster, so it
+ * promotes; remote-only postings never do.
  *
- * `defense_hub_manual` carries the hand curation, including military-installation
- * towns (Norfolk, Fayetteville, Bremerton) that have no contractor plant and are
- * invisible to employer data. Employer presence can therefore only *promote* a
- * city; a curated `true` is never demoted.
+ * `defense_hub_manual = false` is a deliberate veto for RTX-facility towns that are
+ * not hubs for a retiree (Jamestown ND, Burnsville MN). `defense_hub_manual = true`
+ * carries hubs employer data can't see (military towns with no plant; Boston when
+ * its RTX openings are momentarily zero).
  *
- * NULL is preserved rather than coalesced to false: 18 locations have never been
- * researched, and "unknown" is not the same claim as "not a defense hub". Only a
- * positive employer signal can resolve a NULL. Idempotent.
+ * NULL is preserved rather than coalesced to false: never-researched, no-presence
+ * locations stay "unknown", which is not the same claim as "not a defense hub".
+ * Only presence or a manual value resolves a NULL. Idempotent.
  *
  * Run after any employer import/sync.
  *
@@ -38,7 +42,7 @@ interface Candidate {
 async function main() {
   const sql = getSql();
   console.log(
-    `Recompute defense_hub${dryRun ? " (dry run)" : ""} — threshold ${DEFENSE_HUB_MIN_POSTINGS} onsite+hybrid\n`
+    `Recompute defense_hub${dryRun ? " (dry run)" : ""} — presence = ≥${DEFENSE_HUB_MIN_POSTINGS} onsite+hybrid; defense_hub_manual=false vetoes\n`
   );
 
   const rows = (await sql.query(
@@ -70,8 +74,9 @@ async function main() {
     [DEFENSE_HUB_MIN_POSTINGS]
   )) as Candidate[];
 
-  /** Employer evidence promotes to true; otherwise the curated value stands, NULL included. */
-  const derive = (r: Candidate): boolean | null => (r.employer_signal ? true : r.manual);
+  /** Veto wins; else a physical presence promotes; else the curated value stands (NULL included). */
+  const derive = (r: Candidate): boolean | null =>
+    r.manual === false ? false : r.employer_signal ? true : r.manual;
 
   const flips = rows.filter((r) => derive(r) !== r.current);
 
@@ -80,21 +85,28 @@ async function main() {
   } else {
     console.log(`${flips.length} row(s) would change:\n`);
     for (const f of flips) {
-      const why = f.employer_signal ? `employer: ${f.evidence}` : "manual curation";
+      const why = f.employer_signal
+        ? `employer: ${f.evidence}`
+        : f.manual === false
+          ? "manual veto (defense_hub_manual=false)"
+          : "manual curation";
       console.log(
         `  ${f.name}, ${f.state}: ${String(f.current)} -> ${String(derive(f))}   (manual=${String(f.manual)}; ${why})`
       );
     }
   }
 
-  // Guard the invariant even though the formula cannot express a demotion: a bad
-  // backfill of defense_hub_manual would show up here rather than silently apply.
-  const demotions = flips.filter((f) => f.current === true && derive(f) !== true);
-  if (demotions.length > 0) {
+  // A curated `true` may only fall via an explicit manual veto (manual === false).
+  // Any other true -> non-true means defense_hub was set true with no matching
+  // veto or presence — surface it rather than silently applying.
+  const unexpected = flips.filter(
+    (f) => f.current === true && derive(f) !== true && f.manual !== false
+  );
+  if (unexpected.length > 0) {
     throw new Error(
-      `Refusing to demote ${demotions.length} curated hub(s): ${demotions
+      `Refusing to demote ${unexpected.length} hub(s) with no veto: ${unexpected
         .map((d) => `${d.name}, ${d.state}`)
-        .join("; ")}. Check defense_hub_manual.`
+        .join("; ")}. Set defense_hub_manual=false to intend it, or fix defense_hub.`
     );
   }
 
@@ -106,12 +118,16 @@ async function main() {
   if (flips.length > 0) {
     await sql.query(
       `UPDATE locations_location l
-       SET defense_hub = CASE WHEN EXISTS (
-         SELECT 1 FROM defense_employer_locations d
-         JOIN defense_employers e ON e.id = d.employer_id
-         WHERE d.location_id = l.id AND e.counts_as_defense AND e.active
-           AND COALESCE(d.onsite_posting_count, 0) + COALESCE(d.hybrid_posting_count, 0) >= $1
-       ) THEN true ELSE l.defense_hub_manual END`,
+       SET defense_hub = CASE
+         WHEN l.defense_hub_manual = false THEN false
+         WHEN EXISTS (
+           SELECT 1 FROM defense_employer_locations d
+           JOIN defense_employers e ON e.id = d.employer_id
+           WHERE d.location_id = l.id AND e.counts_as_defense AND e.active
+             AND COALESCE(d.onsite_posting_count, 0) + COALESCE(d.hybrid_posting_count, 0) >= $1
+         ) THEN true
+         ELSE l.defense_hub_manual
+       END`,
       [DEFENSE_HUB_MIN_POSTINGS]
     );
   }

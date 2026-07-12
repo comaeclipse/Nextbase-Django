@@ -4,10 +4,12 @@ Use this guide when an LLM or operator needs to refresh or expand the VetRetire 
 
 ## Scope
 
-The project stores two main Neon PostgreSQL tables:
+The project stores these main Neon PostgreSQL tables:
 
 - `locations_location`: city/metro retirement-location facts used by the public explore UI.
 - `locations_stateinfo`: state-level gun-law and scorecard facts used by filters and admin views.
+- `defense_employers`: defense/aerospace parent companies and brands (e.g. Raytheon, Collins Aerospace, both parent `RTX`).
+- `defense_employer_locations`: individual employer job-sites with `city`/`state`, tied to a `defense_employers` row and optionally linked to a `locations_location` row via `location_id`. See **Defense Employer Location Linking** below.
 
 The application was migrated from Django to Next.js + TypeScript in 2026. Django management commands shown in older notes are historical only; use the TypeScript scripts and Neon workflow documented below.
 
@@ -109,6 +111,72 @@ Normalization:
 - `population_raw`: comma-formatted source population.
 - `population`: short display string only if needed by UI. Use values like `545k` or `1.2M`.
 - `density`: source density if available, otherwise calculate population divided by land area and document the method.
+
+### Pace / Settlement Type
+
+Every curated location must have exactly one retirement pace label:
+
+- `pace:urban`
+- `pace:suburban`
+- `pace:small-town`
+- `pace:rural`
+
+Store this exact machine-readable label in the row's `Tags` list (alongside the
+usual activity tags); do not create a second label or omit the prefix. The
+current public `lifestyle` filter is a legacy, density-only three-way heuristic
+(`urban`, `suburban`, `rural`) and does **not** persist this judgment or yet
+offer a Small Town choice. The `pace:*` tag is therefore the source-of-truth
+classification for ingestion and future UI/filter work.
+
+Classify from the **same geography represented by the row** and record the
+evidence in the companion source note. Do not combine a metro-area population
+with incorporated-place density to infer a pace. Use the following editorial
+definitions:
+
+- **Urban**: a principal city or dense, mixed-use urban core with city-scale
+  services, transit, and a generally active day-to-day setting.
+- **Suburban**: a primarily residential, metro-connected community whose
+  identity and daily services are substantially tied to a larger urban area.
+- **Small Town**: an incorporated small community with its own town center and
+  local identity, typically slower-paced than a suburb or principal city.
+- **Rural**: a sparsely settled or remote setting where homes, services, and
+  amenities are widely dispersed; do not use this label merely because a place
+  has a small population.
+
+Population and density are useful cross-checks, not automatic cutoffs. In
+particular, a compact small town can be dense, and a large city or metro can
+have a low average density. Prefer Census geography plus official local or
+regional planning material that establishes whether the place is a principal
+city, a suburb, a small town, or rural. When the evidence is genuinely mixed,
+choose the pace a retiree would experience at the represented geography and
+state the reasoning in the source note.
+
+Before importing, validate that the CSV has one and only one `pace:` tag per
+row. After importing, audit both omissions and duplicate/conflicting labels:
+
+```powershell
+$script = @'
+const { neon } = require(`@neondatabase/serverless`);
+const sql = neon(process.env.DATABASE_URL);
+(async () => {
+  const rows = await sql`
+    SELECT name, state,
+      array_agg(tag.value #>> '{}') FILTER (
+        WHERE tag.value #>> '{}' LIKE 'pace:%'
+      ) AS pace_tags
+    FROM locations_location loc
+    LEFT JOIN LATERAL jsonb_array_elements(loc.tags) AS tag(value) ON true
+    GROUP BY loc.id, loc.name, loc.state
+    HAVING count(*) FILTER (WHERE tag.value #>> '{}' LIKE 'pace:%') <> 1
+        OR bool_or(tag.value #>> '{}' NOT IN (
+          'pace:urban', 'pace:suburban', 'pace:small-town', 'pace:rural'
+        )) FILTER (WHERE tag.value #>> '{}' LIKE 'pace:%')
+    ORDER BY state, name`;
+  console.log(rows); // expect []
+})().catch((error) => { console.error(error); process.exit(1); });
+'@
+$script | node "--env-file=$envFile" -
+```
 
 ### Housing
 
@@ -357,7 +425,8 @@ Normalization:
 Fields:
 
 - `tech_hub`
-- `defense_hub`
+- `defense_hub` (derived — see below)
+- `defense_hub_manual`
 - `tags`
 - `description`
 
@@ -371,7 +440,8 @@ Recommended sources:
 
 Retrieval notes:
 
-- Use `Y` / `N` for `tech_hub` and `defense_hub`.
+- Use `Y` / `N` for `tech_hub`.
+- Do **not** hand-set `defense_hub`. It is derived by `scripts/recompute-defense-hub.ts` from employer presence plus `defense_hub_manual`. Put any human "this is a defense city" judgment in `defense_hub_manual` (the CSV `DefenseHub` column maps there), then run the recompute. See **Defense Employer Location Linking**.
 - `tags` should be a JSON list of 3-8 short terms used by filters and cards.
 - Avoid marketing fluff in `description`; write a short factual retirement-oriented summary from sourced facts.
 
@@ -417,6 +487,133 @@ state,name,county,census_place_geoid,county_fips,cbsa_code,latitude,longitude,so
 
 Use this crosswalk for all joins. Do not rely on fuzzy matching at import time without reviewing matches.
 
+## Defense Employer Location Linking
+
+The `defense_employer_locations` table lists individual defense/aerospace job-sites. Each site can be tied to a curated retirement city so the explore UI can show "this city hosts an RTX-affiliated employer." The tie is the nullable foreign key:
+
+```text
+defense_employer_locations.location_id  ->  locations_location.id
+```
+
+Relationship shape and rules:
+
+- **Many-to-one, not 1:1.** One curated city can host several employer sites. Example: Fort Wayne, IN links to both a `Raytheon` row and a `Collins Aerospace` row (both parent `RTX`). Do not assume a single employer per city.
+- **Match key** is city + state, case-insensitive and trimmed: `lower(city) = lower(name)` and `upper(state) = upper(state)`. Both tables use two-letter postal state codes, so this is a clean equijoin, not fuzzy matching.
+- **Brand vs. parent.** A city may be RTX-affiliated through a brand other than Raytheon (e.g. Pueblo, CO is `Collins Aerospace`, parent `RTX` — there is no Raytheon-branded row there). Match on the site's own `city`/`state`; use `defense_employers.parent_company` (e.g. `RTX`) when you need the affiliation family rather than the specific brand.
+- **Unlinked is expected.** Employer sites in cities that are not (yet) in `locations_location` keep `location_id = NULL` by design. As you add curated cities one by one, their employer sites link automatically (see trigger below).
+
+### Database objects
+
+Two Neon objects maintain the link. Both already exist in the live database; the DDL is recorded here so they can be recreated on a fresh branch or environment.
+
+`link_employer_locations_to_cities()` — idempotent backfill. Links every unlinked-or-mismatched employer site to its matching city and returns the number of rows changed. Safe to re-run anytime.
+
+```sql
+CREATE OR REPLACE FUNCTION link_employer_locations_to_cities()
+RETURNS integer LANGUAGE plpgsql AS $$
+DECLARE updated integer;
+BEGIN
+  UPDATE defense_employer_locations del
+     SET location_id = loc.id, updated_at = now()
+    FROM locations_location loc
+   WHERE del.location_id IS DISTINCT FROM loc.id
+     AND del.country = 'US'
+     AND lower(btrim(del.city))  = lower(btrim(loc.name))
+     AND upper(btrim(del.state)) = upper(btrim(loc.state));
+  GET DIAGNOSTICS updated = ROW_COUNT;
+  RETURN updated;
+END;
+$$;
+```
+
+`link_city_to_employer_locations` — AFTER INSERT trigger on `locations_location`. When a brand-new city is inserted, its matching employer sites are linked immediately, so the one-by-one add workflow needs no manual step.
+
+```sql
+CREATE OR REPLACE FUNCTION trg_link_city_to_employer_locations()
+RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  UPDATE defense_employer_locations del
+     SET location_id = NEW.id, updated_at = now()
+   WHERE del.location_id IS NULL
+     AND lower(btrim(del.city))  = lower(btrim(NEW.name))
+     AND upper(btrim(del.state)) = upper(btrim(NEW.state));
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS link_city_to_employer_locations ON locations_location;
+CREATE TRIGGER link_city_to_employer_locations
+AFTER INSERT ON locations_location
+FOR EACH ROW EXECUTE FUNCTION trg_link_city_to_employer_locations();
+```
+
+### When to run the backfill
+
+The trigger fires only on a true `INSERT`. `scripts/import-csv.ts` upserts by `(name, state)`, so an import that only **updates** an already-present city does not re-fire it. Run the backfill as a catch-all after any location import, and after adding or correcting `defense_employer_locations` rows:
+
+```powershell
+$script = @'
+const { neon } = require(`@neondatabase/serverless`);
+const sql = neon(process.env.DATABASE_URL);
+(async () => {
+  const [{ rows_linked }] = await sql`SELECT link_employer_locations_to_cities() AS rows_linked`;
+  console.log({ rows_linked });
+})().catch((error) => { console.error(error); process.exit(1); });
+'@
+node "--env-file=$envFile" -e $script
+```
+
+### Verify
+
+Confirm nothing that should be linked is still `NULL`:
+
+```powershell
+$script = @'
+const { neon } = require(`@neondatabase/serverless`);
+const sql = neon(process.env.DATABASE_URL);
+(async () => {
+  const [gap] = await sql`
+    SELECT count(*)::int AS unlinked_but_matchable
+    FROM defense_employer_locations del
+    JOIN locations_location loc
+      ON lower(btrim(del.city))  = lower(btrim(loc.name))
+     AND upper(btrim(del.state)) = upper(btrim(loc.state))
+    WHERE del.location_id IS NULL AND del.country = 'US'`;
+  console.log(gap); // expect { unlinked_but_matchable: 0 }
+})().catch((error) => { console.error(error); process.exit(1); });
+'@
+node "--env-file=$envFile" -e $script
+```
+
+Employer sites whose city is not in `locations_location` will remain `NULL` and are not counted above — that is correct.
+
+### Deriving `defense_hub` from the link
+
+Linking only populates `location_id`. It does **not** set `defense_hub`. That column is *derived* and owned by `scripts/recompute-defense-hub.ts` (logic in `lib/defense.ts`), from three inputs in priority order:
+
+```text
+defense_hub = defense_hub_manual === false ? false   // hard human veto
+            : employer_presence            ? true    // a physical RTX facility
+            : defense_hub_manual                      // curated value / NULL
+```
+
+- **`defense_hub_manual = false`** is a hard veto and always wins. Use it for cities that host an RTX facility but are not defense hubs for a retiree — a lone Collins depot in a small town (Jamestown ND, Burnsville MN).
+- **`employer_presence`** = a `counts_as_defense`, `active` employer with at least `DEFENSE_HUB_MIN_POSTINGS` (**1**) onsite+hybrid opening in the city — i.e. a physical facility. Remote-only postings never count. Because only RTX is ingested, one RTX site is a *sample* of a wider, untracked defense cluster, so presence **promotes** the city to a hub.
+- **`defense_hub_manual` otherwise** carries hubs employer data can't see: military-installation towns with no contractor plant, or a hub whose RTX openings are momentarily zero (Boston). A `NULL` with no presence stays `NULL` — "unknown" is not "not a hub".
+
+The dry run refuses to demote a `true` hub that has *no* veto (a `true` with `defense_hub_manual` unset or a stray value), so such rows surface for you to fix — set `defense_hub_manual = true` for a genuine hub, or `false` to veto it. A `true → false` transition is allowed only when you have explicitly set `defense_hub_manual = false`.
+
+Because the link feeds `employer_presence`, always **link first, then recompute**:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
+```
+
+The dry run lists every proposed flip; review it before writing.
+
+> Human "this is a defense city" judgment belongs in `defense_hub_manual`, never directly in `defense_hub`. `scripts/import-csv.ts` maps the CSV `DefenseHub` column to `defense_hub_manual` for this reason; `defense_hub` is always left to the recompute.
+
 ## Import Paths
 
 ### Existing CSV Import
@@ -440,6 +637,16 @@ Use `--clear` only when intentionally replacing all locations:
 
 ```powershell
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv --clear
+```
+
+The importer writes the CSV `DefenseHub` column to `defense_hub_manual`, not `defense_hub`. A brand-new city's employer sites are auto-linked on insert by the `link_city_to_employer_locations` trigger, but `defense_hub` stays unresolved until you recompute. **After every import, run the two follow-ups** (order matters — link, then derive):
+
+```powershell
+# 1. Catch-all link (the trigger only fires on brand-new inserts, not upsert-updates)
+node "--env-file=$envFile" -e $script   # link_employer_locations_to_cities(), see Defense Employer Location Linking
+# 2. Derive defense_hub from the fresh links + manual curation
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
 ```
 
 ### State Info CSV Import
@@ -483,7 +690,9 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-clim
 
 3. Re-run the **Summarize row and selected missing-field coverage** command from **Inspect Current Data** and compare the result with the pre-import baseline.
 
-4. Verify all 50 states still have `StateInfo`.
+4. If cities or `defense_employer_locations` rows changed, run the **Defense Employer Location Linking** backfill (confirm the verify query reports `unlinked_but_matchable: 0`), then run `scripts/recompute-defense-hub.ts --dry-run` and, if clean, without `--dry-run` to derive `defense_hub`.
+
+5. Verify all 50 states still have `StateInfo`.
 
 ```powershell
 $script = @'
@@ -499,9 +708,9 @@ const states = `AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA M
 node "--env-file=$envFile" -e $script
 ```
 
-5. Spot-check the explore UI and filters if user-facing fields changed.
+6. Spot-check the explore UI and filters if user-facing fields changed.
 
-6. Record source URLs, vintage dates, and retrieval date in the commit message or a companion note.
+7. Record source URLs, vintage dates, and retrieval date in the commit message or a companion note.
 
 ## Quality Rules
 
