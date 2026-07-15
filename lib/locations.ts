@@ -1,7 +1,12 @@
 import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
 import type { EmployerIndex, EmployerPresence } from "./defense";
-import type { DefenseEmployerRow, LocationRow, StateInfoRow } from "./types";
+import type {
+  DefenseEmployerRow,
+  LocationRow,
+  StateInfoRow,
+  WeatherMonthlyRow,
+} from "./types";
 
 /*
  * Read-only data access against the existing Neon schema.
@@ -126,6 +131,63 @@ export const getStateInfo = unstable_cache(
   },
   ["locations:getStateInfo"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [STATE_INFO_TAG] }
+);
+
+/**
+ * Monthly weather normals for one city, ordered Jan→Dec.
+ *
+ * Returns `[]` if the `location_weather_monthly` table doesn't exist yet (the
+ * migration is additive and may not have been applied), so callers can render
+ * an "unavailable" state instead of crashing.
+ */
+export const getMonthlyWeather = unstable_cache(
+  async (locationId: number): Promise<WeatherMonthlyRow[]> => {
+    const sql = getSql();
+    try {
+      const rows = await sql`
+        SELECT * FROM location_weather_monthly
+        WHERE location_id = ${locationId}
+        ORDER BY month ASC`;
+      return (rows as Record<string, unknown>[]).map((r) => ({
+        ...r,
+        id: Number(r.id),
+        location_id: Number(r.location_id),
+      })) as WeatherMonthlyRow[];
+    } catch (err) {
+      // 42P01 = undefined_table: table not migrated yet.
+      if ((err as { code?: string })?.code === "42P01") return [];
+      throw err;
+    }
+  },
+  ["locations:getMonthlyWeather"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
+);
+
+/**
+ * Every monthly weather row, sorted by location then month. One query for the
+ * whole /weather page; callers group by `location_id`. Returns a flat array
+ * (not a Map) because `unstable_cache` serializes results to JSON. Empty if the
+ * table isn't migrated yet.
+ */
+export const getAllMonthlyWeather = unstable_cache(
+  async (): Promise<WeatherMonthlyRow[]> => {
+    const sql = getSql();
+    try {
+      const rows = await sql`
+        SELECT * FROM location_weather_monthly
+        ORDER BY location_id ASC, month ASC`;
+      return (rows as Record<string, unknown>[]).map((raw) => ({
+        ...raw,
+        id: Number(raw.id),
+        location_id: Number(raw.location_id),
+      })) as WeatherMonthlyRow[];
+    } catch (err) {
+      if ((err as { code?: string })?.code === "42P01") return [];
+      throw err;
+    }
+  },
+  ["locations:getAllMonthlyWeather"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );
 
 /** Employers offered by the explore filter, ordered for display. */

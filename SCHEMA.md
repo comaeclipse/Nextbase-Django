@@ -208,3 +208,28 @@ Latest usable category per location:
 Application reads join this view as `pace_category`. The Explore / API / quiz `lifestyle` filter matches that column (including `small_town`). There is **no** density fallback.
 
 Migrate with `scripts/migrate-pace-classifications.ts`. Prepare fixed RUCA 2020 + EPA SLD 2021 extracts with `scripts/prepare-pace-sources.ts`, then classify with `scripts/classify-pace.ts`.
+
+---
+
+## Monthly weather normals
+
+Month-by-month climate normals live outside `locations_location` so a city stays one row while carrying 12 months of weather. **Additive**: the annual columns in [Weather & Climate](#weather--climate) (`snow_annual`, `alw`, `avg_high_summer`, `humidity_summer`, `sun_days`) remain authoritative for scoring/filters and are **not** derived from this table.
+
+Table: `location_weather_monthly`
+
+- **LocationId**: FK to `locations_location`, `ON DELETE CASCADE`
+- **Month**: `1`–`12` (calendar month). Unique with `LocationId` — one row per city-month
+- **AvgHighF** / **AvgLowF** / **AvgTempF**: Mean daily max / min / mean temperature (°F)
+- **PrecipIn**: Total precipitation, rain-equivalent inches
+- **SnowIn**: Snowfall, inches
+- **PrecipDays**: Days with measurable precipitation
+- **HumidityPct**: Mean relative humidity
+- **SunPct**: Percent of possible sunshine
+- **DataVintage**: Normals period, e.g. `1991-2020`
+- **SourceKind** / **SourceUrl** / **SourceRetrievedOn**: Provenance. `noaa_normals` for NOAA/NCEI Climate Normals
+
+Every metric is **nullable** — a city may have temperature normals but no humidity. The `/weather` page renders each metric's panel as "data unavailable" when null, so partial coverage degrades gracefully.
+
+Rows are unique on `(location_id, month)`; importers upsert on that key. Climate *normals* are stable (NOAA revises once a decade), so a single-vintage upsert table with a `data_vintage` tag suffices — no append-only history / current-view layer like pace uses.
+
+Migrate with `scripts/migrate-weather-monthly.ts` (idempotent, `--dry-run`). Application reads via `getMonthlyWeather(locationId)` in `lib/locations.ts`, which returns `[]` if the table is not yet migrated.

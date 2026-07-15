@@ -126,6 +126,33 @@ export interface StateInfoRow {
   vet_benefits_verified_on: string | null;
 }
 
+/**
+ * One calendar month of weather normals for a city (`location_weather_monthly`).
+ * 12 rows per location. Additive to the annual columns on `locations_location`,
+ * which stay authoritative for scoring/filters. Numeric columns come back as
+ * strings from the driver; parse where needed. All metrics nullable — a city
+ * may have temperature normals but no humidity, etc.
+ */
+export interface WeatherMonthlyRow {
+  id: number;
+  location_id: number;
+  month: number; // 1-12
+
+  avg_high_f: string | null; // numeric
+  avg_low_f: string | null; // numeric
+  avg_temp_f: string | null; // numeric
+  precip_in: string | null; // numeric
+  snow_in: string | null; // numeric
+  precip_days: number | null;
+  humidity_pct: number | null;
+  sun_pct: number | null;
+
+  data_vintage: string | null;
+  source_kind: string | null;
+  source_url: string | null;
+  source_retrieved_on: string | null;
+}
+
 /** A filterable employer (`defense_employers`), e.g. Raytheon under parent RTX. */
 export interface DefenseEmployerRow {
   id: number;
