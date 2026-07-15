@@ -1,0 +1,204 @@
+.mapFrame {
+  overflow: hidden;
+  border: 1px solid #dbe4ec;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.12);
+}
+
+.mapHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.kicker {
+  margin: 0 0 5px;
+  color: #0f766e;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.mapHeader h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.08rem;
+  letter-spacing: -0.01em;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 11px;
+  color: #475569;
+  font-size: 0.74rem;
+  font-weight: 650;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.legend i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.mapViewport {
+  position: relative;
+  height: min(69vh, 680px);
+  min-height: 460px;
+  background: #e6eff3;
+}
+
+.mapCanvas {
+  height: 100%;
+  width: 100%;
+}
+
+.controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 5px 16px rgba(15, 23, 42, 0.17);
+}
+
+.controls button {
+  display: grid;
+  width: 36px;
+  height: 35px;
+  place-items: center;
+  border: 0;
+  border-bottom: 1px solid #e2e8f0;
+  background: transparent;
+  color: #1e293b;
+  cursor: pointer;
+}
+
+.controls button:hover { background: #f1f5f9; }
+.controls button:last-child { border-bottom: 0; }
+
+.marker {
+  display: grid;
+  width: 19px;
+  height: 19px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  background: var(--marker-color);
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.35);
+  cursor: pointer;
+  transform: rotate(-45deg);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.marker span {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.marker:hover, .marker:focus-visible {
+  outline: none;
+  box-shadow: 0 4px 0 rgba(15, 23, 42, 0.13), 0 5px 15px rgba(15, 23, 42, 0.36);
+  transform: rotate(-45deg) scale(1.19);
+}
+
+.tooltip {
+  padding: 6px 8px !important;
+  border: 0 !important;
+  border-radius: 7px !important;
+  background: #0f172a !important;
+  color: #fff !important;
+  font-size: 0.75rem;
+  font-weight: 650;
+  box-shadow: 0 5px 15px rgba(15, 23, 42, 0.2) !important;
+}
+
+.popup {
+  min-width: 206px;
+  padding: 15px !important;
+  border: 1px solid #dbe4ec !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: #0f172a !important;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.18) !important;
+}
+
+.popupTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.paceBadge {
+  padding: 4px 7px;
+  border-radius: 999px;
+  font-size: 0.63rem;
+  letter-spacing: 0;
+}
+
+.popup h3 { margin: 10px 0 4px; font-size: 1.13rem; }
+.popup p { margin: 0; color: #64748b; font-size: 0.78rem; line-height: 1.45; }
+
+.defenseLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 9px !important;
+  color: #0f766e !important;
+  font-size: 0.73rem !important;
+  font-weight: 700;
+}
+
+.cityLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 11px;
+  border-top: 1px solid #e2e8f0;
+  color: #155e75;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.cityLink:hover { color: #0f766e; }
+
+.mapFootnote {
+  margin: 0;
+  padding: 11px 20px;
+  color: #64748b;
+  font-size: 0.71rem;
+  text-align: center;
+}
+
+@media (max-width: 680px) {
+  .mapHeader { align-items: flex-start; flex-direction: column; }
+  .legend { justify-content: flex-start; }
+  .mapViewport { height: 66vh; min-height: 400px; }
+}

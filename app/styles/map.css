@@ -1,0 +1,53 @@
+/* Route-local styling for /map. Do not import Tailwind or the shadcn reset here:
+   public pages retain the legacy browser-default baseline for pixel parity. */
+
+.map-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% -15%, #d8f4ed 0, transparent 34%), #f6f9fb;
+  color: #0f172a;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.map-nav {
+  border-bottom: 1px solid rgba(203, 213, 225, 0.72);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+}
+
+.map-nav-inner {
+  display: flex;
+  max-width: 1280px;
+  min-height: 66px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.map-brand { color: #0f766e; font-size: 1.25rem; font-weight: 850; letter-spacing: -0.04em; text-decoration: none; }
+.map-nav-links { display: flex; gap: 23px; }
+.map-nav-links a { color: #475569; font-size: 0.87rem; font-weight: 650; text-decoration: none; }
+.map-nav-links a:hover, .map-nav-links a[aria-current="page"] { color: #0f766e; }
+
+.map-hero {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 67px 28px 34px;
+  text-align: center;
+}
+
+.map-eyebrow { margin: 0 0 10px; color: #0f766e; font-size: 0.71rem; font-weight: 850; letter-spacing: 0.15em; }
+.map-hero h1 { max-width: 640px; margin: 0 auto; color: #0f172a; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.04; letter-spacing: -0.055em; }
+.map-hero > p:last-child { max-width: 540px; margin: 17px auto 0; color: #526274; font-size: 1.02rem; line-height: 1.6; }
+
+.map-shell { max-width: 1280px; margin: 0 auto; padding: 0 28px 56px; }
+
+.map-page .maplibregl-popup-content { padding: 0; border-radius: 12px; background: transparent; box-shadow: none; }
+.map-page .maplibregl-popup-tip { border-top-color: #fff; }
+
+@media (max-width: 680px) {
+  .map-nav-inner { padding: 0 18px; }
+  .map-nav-links { gap: 14px; }
+  .map-hero { padding: 48px 22px 28px; }
+  .map-shell { padding: 0 14px 36px; }
+}

@@ -1,0 +1,587 @@
+{
+  "source": "U.S. Census Bureau 2024 Gazetteer Files, Places",
+  "source_url": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html",
+  "coordinates": [
+    {
+      "name": "Anchorage",
+      "state": "AK",
+      "census_place_geoid": "0203000",
+      "latitude": 61.17425,
+      "longitude": -149.284329
+    },
+    {
+      "name": "Huntsville",
+      "state": "AL",
+      "census_place_geoid": "0137000",
+      "latitude": 34.69772,
+      "longitude": -86.67667
+    },
+    {
+      "name": "Mobile",
+      "state": "AL",
+      "census_place_geoid": "0150000",
+      "latitude": 30.668246,
+      "longitude": -88.107853
+    },
+    {
+      "name": "Camden",
+      "state": "AR",
+      "census_place_geoid": "0510720",
+      "latitude": 33.567672,
+      "longitude": -92.849064
+    },
+    {
+      "name": "Little Rock",
+      "state": "AR",
+      "census_place_geoid": "0541000",
+      "latitude": 34.725393,
+      "longitude": -92.358556
+    },
+    {
+      "name": "Phoenix",
+      "state": "AZ",
+      "census_place_geoid": "0455000",
+      "latitude": 33.572154,
+      "longitude": -112.090132
+    },
+    {
+      "name": "Sierra Vista",
+      "state": "AZ",
+      "census_place_geoid": "0466820",
+      "latitude": 31.56541,
+      "longitude": -110.314508
+    },
+    {
+      "name": "Tucson",
+      "state": "AZ",
+      "census_place_geoid": "0477000",
+      "latitude": 32.153036,
+      "longitude": -110.870773
+    },
+    {
+      "name": "Costa Mesa",
+      "state": "CA",
+      "census_place_geoid": "0616532",
+      "latitude": 33.665905,
+      "longitude": -117.912336
+    },
+    {
+      "name": "Irvine",
+      "state": "CA",
+      "census_place_geoid": "0636770",
+      "latitude": 33.678399,
+      "longitude": -117.771254
+    },
+    {
+      "name": "San Diego",
+      "state": "CA",
+      "census_place_geoid": "0666000",
+      "latitude": 32.814977,
+      "longitude": -117.135562
+    },
+    {
+      "name": "Yuba City",
+      "state": "CA",
+      "census_place_geoid": "0686972",
+      "latitude": 39.129842,
+      "longitude": -121.641549
+    },
+    {
+      "name": "Colorado Springs",
+      "state": "CO",
+      "census_place_geoid": "0816000",
+      "latitude": 38.867255,
+      "longitude": -104.760749
+    },
+    {
+      "name": "Pueblo",
+      "state": "CO",
+      "census_place_geoid": "0862000",
+      "latitude": 38.269228,
+      "longitude": -104.610816
+    },
+    {
+      "name": "Bridgeport",
+      "state": "CT",
+      "census_place_geoid": "0908000",
+      "latitude": 41.187393,
+      "longitude": -73.195757
+    },
+    {
+      "name": "Wilmington",
+      "state": "DE",
+      "census_place_geoid": "1077580",
+      "latitude": 39.735651,
+      "longitude": -75.532104
+    },
+    {
+      "name": "Malabar",
+      "state": "FL",
+      "census_place_geoid": "1242625",
+      "latitude": 27.987057,
+      "longitude": -80.58245
+    },
+    {
+      "name": "Orlando",
+      "state": "FL",
+      "census_place_geoid": "1253000",
+      "latitude": 28.40865,
+      "longitude": -81.254805
+    },
+    {
+      "name": "Pensacola",
+      "state": "FL",
+      "census_place_geoid": "1255925",
+      "latitude": 30.440989,
+      "longitude": -87.191242
+    },
+    {
+      "name": "Atlanta",
+      "state": "GA",
+      "census_place_geoid": "1304000",
+      "latitude": 33.762909,
+      "longitude": -84.422675
+    },
+    {
+      "name": "Marietta",
+      "state": "GA",
+      "census_place_geoid": "1349756",
+      "latitude": 33.953561,
+      "longitude": -84.542463
+    },
+    {
+      "name": "Honolulu",
+      "state": "HI",
+      "census_place_geoid": "1571550",
+      "latitude": 21.324347,
+      "longitude": -157.84764
+    },
+    {
+      "name": "Carroll",
+      "state": "IA",
+      "census_place_geoid": "1911080",
+      "latitude": 42.070321,
+      "longitude": -94.864597
+    },
+    {
+      "name": "Decorah",
+      "state": "IA",
+      "census_place_geoid": "1919405",
+      "latitude": 43.301618,
+      "longitude": -91.78475
+    },
+    {
+      "name": "Des Moines",
+      "state": "IA",
+      "census_place_geoid": "1921000",
+      "latitude": 41.57259,
+      "longitude": -93.610243
+    },
+    {
+      "name": "Boise",
+      "state": "ID",
+      "census_place_geoid": "1608830",
+      "latitude": 43.599335,
+      "longitude": -116.229817
+    },
+    {
+      "name": "Kuna",
+      "state": "ID",
+      "census_place_geoid": "1644290",
+      "latitude": 43.52484,
+      "longitude": -116.403639
+    },
+    {
+      "name": "Chicago",
+      "state": "IL",
+      "census_place_geoid": "1714000",
+      "latitude": 41.837045,
+      "longitude": -87.684939
+    },
+    {
+      "name": "Danville",
+      "state": "IL",
+      "census_place_geoid": "1718563",
+      "latitude": 40.142628,
+      "longitude": -87.610707
+    },
+    {
+      "name": "Fort Wayne",
+      "state": "IN",
+      "census_place_geoid": "1825000",
+      "latitude": 41.088193,
+      "longitude": -85.142791
+    },
+    {
+      "name": "Indianopolis",
+      "state": "IN",
+      "census_place_geoid": "1836003",
+      "latitude": 39.776664,
+      "longitude": -86.145935
+    },
+    {
+      "name": "Overland Park",
+      "state": "KS",
+      "census_place_geoid": "2053775",
+      "latitude": 38.889042,
+      "longitude": -94.690584
+    },
+    {
+      "name": "Wichita",
+      "state": "KS",
+      "census_place_geoid": "2079000",
+      "latitude": 37.690638,
+      "longitude": -97.345836
+    },
+    {
+      "name": "Louisville",
+      "state": "KY",
+      "census_place_geoid": "2148000",
+      "latitude": 38.224728,
+      "longitude": -85.740614
+    },
+    {
+      "name": "New Orleans",
+      "state": "LA",
+      "census_place_geoid": "2255000",
+      "latitude": 30.05342,
+      "longitude": -89.934502
+    },
+    {
+      "name": "Boston",
+      "state": "MA",
+      "census_place_geoid": "2507000",
+      "latitude": 42.338551,
+      "longitude": -71.018253
+    },
+    {
+      "name": "Baltimore",
+      "state": "MD",
+      "census_place_geoid": "2404000",
+      "latitude": 39.300032,
+      "longitude": -76.610476
+    },
+    {
+      "name": "Bath",
+      "state": "ME",
+      "census_place_geoid": "2303355",
+      "latitude": 43.93253,
+      "longitude": -69.847186
+    },
+    {
+      "name": "Portland",
+      "state": "ME",
+      "census_place_geoid": "2360545",
+      "latitude": 43.633157,
+      "longitude": -70.185305
+    },
+    {
+      "name": "Warren",
+      "state": "MI",
+      "census_place_geoid": "2684000",
+      "latitude": 42.492904,
+      "longitude": -83.025001
+    },
+    {
+      "name": "Burnsville",
+      "state": "MN",
+      "census_place_geoid": "2708794",
+      "latitude": 44.764409,
+      "longitude": -93.279372
+    },
+    {
+      "name": "Minneapolis",
+      "state": "MN",
+      "census_place_geoid": "2743000",
+      "latitude": 44.963324,
+      "longitude": -93.26832
+    },
+    {
+      "name": "St. Charles",
+      "state": "MO",
+      "census_place_geoid": "2964082",
+      "latitude": 38.795702,
+      "longitude": -90.515364
+    },
+    {
+      "name": "Forest",
+      "state": "MS",
+      "census_place_geoid": "2825340",
+      "latitude": 32.359838,
+      "longitude": -89.475908
+    },
+    {
+      "name": "Jackson",
+      "state": "MS",
+      "census_place_geoid": "2836000",
+      "latitude": 32.315834,
+      "longitude": -90.21285
+    },
+    {
+      "name": "Billings",
+      "state": "MT",
+      "census_place_geoid": "3006550",
+      "latitude": 45.788538,
+      "longitude": -108.552475
+    },
+    {
+      "name": "Great Falls",
+      "state": "MT",
+      "census_place_geoid": "3032800",
+      "latitude": 47.502518,
+      "longitude": -111.29997
+    },
+    {
+      "name": "Fayetteville",
+      "state": "NC",
+      "census_place_geoid": "3722920",
+      "latitude": 35.082766,
+      "longitude": -78.973515
+    },
+    {
+      "name": "Indian Trail",
+      "state": "NC",
+      "census_place_geoid": "3733560",
+      "latitude": 35.068638,
+      "longitude": -80.651152
+    },
+    {
+      "name": "Raleigh",
+      "state": "NC",
+      "census_place_geoid": "3755000",
+      "latitude": 35.831868,
+      "longitude": -78.641042
+    },
+    {
+      "name": "Fargo",
+      "state": "ND",
+      "census_place_geoid": "3825700",
+      "latitude": 46.8647,
+      "longitude": -96.82908
+    },
+    {
+      "name": "Jamestown",
+      "state": "ND",
+      "census_place_geoid": "3840580",
+      "latitude": 46.905851,
+      "longitude": -98.693579
+    },
+    {
+      "name": "Omaha",
+      "state": "NE",
+      "census_place_geoid": "3137000",
+      "latitude": 41.262705,
+      "longitude": -96.053475
+    },
+    {
+      "name": "Manchester",
+      "state": "NH",
+      "census_place_geoid": "3345140",
+      "latitude": 42.984941,
+      "longitude": -71.444131
+    },
+    {
+      "name": "Paterson",
+      "state": "NJ",
+      "census_place_geoid": "3457000",
+      "latitude": 40.914766,
+      "longitude": -74.162829
+    },
+    {
+      "name": "Albuquerque",
+      "state": "NM",
+      "census_place_geoid": "3502000",
+      "latitude": 35.10478,
+      "longitude": -106.646809
+    },
+    {
+      "name": "Las Vegas",
+      "state": "NV",
+      "census_place_geoid": "3240000",
+      "latitude": 36.233499,
+      "longitude": -115.264037
+    },
+    {
+      "name": "Rome",
+      "state": "NY",
+      "census_place_geoid": "3663418",
+      "latitude": 43.226002,
+      "longitude": -75.489523
+    },
+    {
+      "name": "Syracuse",
+      "state": "NY",
+      "census_place_geoid": "3673000",
+      "latitude": 43.040998,
+      "longitude": -76.143554
+    },
+    {
+      "name": "Akron",
+      "state": "OH",
+      "census_place_geoid": "3901000",
+      "latitude": 41.080456,
+      "longitude": -81.521429
+    },
+    {
+      "name": "Cincinnati",
+      "state": "OH",
+      "census_place_geoid": "3915000",
+      "latitude": 39.140183,
+      "longitude": -84.505829
+    },
+    {
+      "name": "Columbus",
+      "state": "OH",
+      "census_place_geoid": "3918000",
+      "latitude": 39.983938,
+      "longitude": -82.984882
+    },
+    {
+      "name": "Tulsa",
+      "state": "OK",
+      "census_place_geoid": "4075000",
+      "latitude": 36.127949,
+      "longitude": -95.902316
+    },
+    {
+      "name": "Portland",
+      "state": "OR",
+      "census_place_geoid": "4159000",
+      "latitude": 45.536951,
+      "longitude": -122.649971
+    },
+    {
+      "name": "King of Prussia",
+      "state": "PA",
+      "census_place_geoid": "4239736",
+      "latitude": 40.096029,
+      "longitude": -75.379074
+    },
+    {
+      "name": "Philadelphia",
+      "state": "PA",
+      "census_place_geoid": "4260000",
+      "latitude": 40.009376,
+      "longitude": -75.133346
+    },
+    {
+      "name": "Providence",
+      "state": "RI",
+      "census_place_geoid": "4459000",
+      "latitude": 41.823056,
+      "longitude": -71.418784
+    },
+    {
+      "name": "Greenville",
+      "state": "SC",
+      "census_place_geoid": "4530850",
+      "latitude": 34.836902,
+      "longitude": -82.362997
+    },
+    {
+      "name": "Irmo",
+      "state": "SC",
+      "census_place_geoid": "4535890",
+      "latitude": 34.1026,
+      "longitude": -81.195897
+    },
+    {
+      "name": "Sioux Falls",
+      "state": "SD",
+      "census_place_geoid": "4659020",
+      "latitude": 43.540696,
+      "longitude": -96.731962
+    },
+    {
+      "name": "Nashville",
+      "state": "TN",
+      "census_place_geoid": "4752006",
+      "latitude": 36.1718,
+      "longitude": -86.785002
+    },
+    {
+      "name": "El Paso",
+      "state": "TX",
+      "census_place_geoid": "4824000",
+      "latitude": 31.84778,
+      "longitude": -106.431106
+    },
+    {
+      "name": "Houston",
+      "state": "TX",
+      "census_place_geoid": "4835000",
+      "latitude": 29.785743,
+      "longitude": -95.388806
+    },
+    {
+      "name": "San Antonio",
+      "state": "TX",
+      "census_place_geoid": "4865000",
+      "latitude": 29.462809,
+      "longitude": -98.524635
+    },
+    {
+      "name": "Salt Lake City",
+      "state": "UT",
+      "census_place_geoid": "4967000",
+      "latitude": 40.776928,
+      "longitude": -111.930991
+    },
+    {
+      "name": "Chantilly",
+      "state": "VA",
+      "census_place_geoid": "5114744",
+      "latitude": 38.88918,
+      "longitude": -77.442088
+    },
+    {
+      "name": "Norfolk",
+      "state": "VA",
+      "census_place_geoid": "5157000",
+      "latitude": 36.923015,
+      "longitude": -76.244641
+    },
+    {
+      "name": "Virginia Beach",
+      "state": "VA",
+      "census_place_geoid": "5182000",
+      "latitude": 36.779525,
+      "longitude": -76.029142
+    },
+    {
+      "name": "Burlington",
+      "state": "VT",
+      "census_place_geoid": "5010675",
+      "latitude": 44.491927,
+      "longitude": -73.238882
+    },
+    {
+      "name": "Bremerton",
+      "state": "WA",
+      "census_place_geoid": "5307695",
+      "latitude": 47.539877,
+      "longitude": -122.717048
+    },
+    {
+      "name": "Milwaukee",
+      "state": "WI",
+      "census_place_geoid": "5553000",
+      "latitude": 43.063348,
+      "longitude": -87.966695
+    },
+    {
+      "name": "Charleston",
+      "state": "WV",
+      "census_place_geoid": "5414600",
+      "latitude": 38.348692,
+      "longitude": -81.632324
+    },
+    {
+      "name": "Cheyenne",
+      "state": "WY",
+      "census_place_geoid": "5613900",
+      "latitude": 41.128702,
+      "longitude": -104.790778
+    }
+  ]
+}

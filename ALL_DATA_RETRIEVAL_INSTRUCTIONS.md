@@ -494,6 +494,28 @@ state,name,county,census_place_geoid,county_fips,cbsa_code,latitude,longitude,so
 
 Use this crosswalk for all joins. Do not rely on fuzzy matching at import time without reviewing matches.
 
+### Interactive Map Coordinates
+
+`/map` uses a compact, checked-in coordinate crosswalk at
+`data/location-map-coordinates.json`. It contains Census 2024 Gazetteer place
+internal points for every curated city; the app still reads the city details
+live from Neon. This keeps map loading small and makes the geographic source
+auditable without placing latitude/longitude fields onto the legacy location
+table.
+
+After adding, renaming, or removing a `locations_location` row, regenerate the
+crosswalk before shipping:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/prepare-map-coordinates.ts
+```
+
+The script fails if any live location cannot be matched to the Census place
+snapshot. Review and add a narrowly documented alias in the script only for an
+official Census naming difference (for example, `Boise` vs. `Boise City`);
+never use an approximate neighboring place as a silent fallback. Commit the
+updated JSON with the city CSV and source notes.
+
 ## Defense Employer Location Linking
 
 The `defense_employer_locations` table lists individual defense/aerospace job-sites. Each site can be tied to a curated retirement city so the explore UI can show "this city hosts an RTX-affiliated employer." The tie is the nullable foreign key:
@@ -655,6 +677,19 @@ node "--env-file=$envFile" -e $script   # link_employer_locations_to_cities(), s
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts --dry-run
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
 ```
+
+If the importer creates a `needs_review` pace result, do not leave the new city
+uncategorized. Review the candidate against the actual place experience, then
+record the decision in the history table rather than modifying the live view:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/approve-pace.ts `
+  --name "City, ST" --category small_town --reason "Place-level review rationale"
+```
+
+Use `--dry-run` first. Choose an override only when the reviewed place differs
+from the modeled candidate; the original candidate and rationale remain
+preserved in `location_pace_classifications`.
 
 ### State Info CSV Import
 
