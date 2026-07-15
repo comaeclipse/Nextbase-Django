@@ -57,15 +57,9 @@ function matchesClimate(loc: LocationRow, climateTypes: string): boolean {
 function matchesLifestyle(loc: LocationRow, lifestyleTypes: string): boolean {
   const types = splitTypes(lifestyleTypes);
   if (types.length === 0) return true;
-  const density = loc.density;
-  if (density === null || density === undefined) return false;
-  for (const lifestyle of types) {
-    if (lifestyle === "urban" && density > 3000) return true;
-    if (lifestyle === "suburban" && density >= 1000 && density <= 3000)
-      return true;
-    if (lifestyle === "rural" && density < 1000) return true;
-  }
-  return false;
+  const category = loc.pace_category;
+  if (category == null) return false;
+  return types.includes(category);
 }
 
 function matchesHealthcare(loc: LocationRow, healthcareTypes: string): boolean {

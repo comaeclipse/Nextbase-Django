@@ -23,6 +23,7 @@ npm install
 npm run dev        # http://localhost:3000
 npm run build      # production build
 npx tsc --noEmit   # typecheck
+npm test           # vitest unit tests
 ```
 
 Data scripts (run with tsx + the env file):
@@ -31,6 +32,23 @@ Data scripts (run with tsx + the env file):
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts [--dry-run]
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/django_scores.json
+```
+
+Pace classification (lifestyle / settlement type):
+
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-pace-classifications.ts [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/prepare-pace-sources.ts [--skip-download]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/classify-pace.ts --all [--dry-run]
+# also: --id N | --name "City, ST"
+```
+
+Defense employers (run in this order; each takes `--dry-run`):
+
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-defense-employers.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-rtx-employer-locations.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
 ```
 
 ## Structure
@@ -50,6 +68,7 @@ lib/
   locations.ts          # read-only queries (ORDER BY featured DESC, name ASC)
   scoring.ts            # editorial "Fit" score (5 factors x 20%), pyRound
   filters.ts            # filter + sort (mirrors old views.filter_locations)
+  pace/                 # retirement-pace classifier (RUCA + EPA)
   states.ts             # state-name -> USPS abbr
 scripts/                # data + verification scripts
 baselines/              # parity references (django_scores.json used by tests)
@@ -57,8 +76,10 @@ baselines/              # parity references (django_scores.json used by tests)
 
 ## Key domain logic
 
-- **Fit score** (`lib/scoring.ts`): five equally weighted factors — LGBTQ friendliness, VA access, cost of living, home affordability, safety. Uses Python-compatible round-half-to-even (`pyRound`).
-- **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, sort`. Response: `{ totalResults, locations }`.
+- **Fit score** (`lib/scoring.ts`): five equally weighted factors — LGBTQ friendliness, VA access, cost of living, home affordability, safety. Uses Python-compatible round-half-to-even (`pyRound`). `defense_hub` is **not** a scoring factor.
+- **Defense hub** (`lib/defense.ts`): `defense_hub` is derived, not curated — `manual === false ? false : presence ? true : manual`, where presence = ≥1 onsite+hybrid RTX opening (a physical facility). Any facility promotes; an explicit `defense_hub_manual = false` vetoes. Edit `defense_hub_manual`, never `defense_hub`. See SCHEMA.md.
+- **Pace / lifestyle** (`lib/pace/`): `urban` | `suburban` | `small_town` | `rural` from `location_pace_current` (RUCA + EPA SLD). The `lifestyle` filter matches `pace_category`; there is no density fallback. See SCHEMA.md and `PACE_CLASSIFICATION_PLAN.md`.
+- **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, employers, sort`. Response: `{ totalResults, locations }`. `lifestyle` accepts `urban,suburban,small_town,rural`.
 - **Pixel parity is a hard requirement** for public pages. Their CSS is copied verbatim into `app/styles/*.css` and left **unlayered** so it always beats any Tailwind base. Do not introduce global Tailwind/Preflight.
 
 ## Deployment

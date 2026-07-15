@@ -75,6 +75,12 @@ export interface LocationRow {
   crime: string | null;
   climate_category: string | null;
 
+  /**
+   * Approved current retirement pace from `location_pace_current`.
+   * Null when unclassified or still in review. Not a column on locations_location.
+   */
+  pace_category: "urban" | "suburban" | "small_town" | "rural" | null;
+
   // Election trend
   rep_vote_share_change_pp: number | null;
   dem_vote_share_change_pp: number | null;

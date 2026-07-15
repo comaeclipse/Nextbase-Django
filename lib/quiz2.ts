@@ -81,6 +81,7 @@ export const CLIMATE_OPTIONS = [
 export const LIFESTYLE_OPTIONS = [
   { value: "urban", label: "Urban", hint: "Walkable and lively" },
   { value: "suburban", label: "Suburban", hint: "Room to breathe" },
+  { value: "small_town", label: "Small Town", hint: "Local and unhurried" },
   { value: "rural", label: "Rural", hint: "Quiet and spacious" },
 ];
 
@@ -196,8 +197,8 @@ export const PRESETS: Quiz2Preset[] = [
     blurb: "Trails, water, gun friendly",
     profile: {
       ...DEFAULT_QUIZ2_PROFILE,
-      // No lifestyle filter: only a handful of locations are classed rural, and
-      // pairing it with the outdoor tags collapses the preset to one result.
+      // No lifestyle filter: rural pace is sparse, and pairing it with outdoor
+      // tags collapses the preset to very few results.
       weights: { va: 40, costOfLiving: 60, homeValue: 70, safety: 35, lgbtq: 10, gunRights: 95 },
       activities: ["hiking", "fishing"],
     },

@@ -173,3 +173,38 @@ defense_hub = defense_hub_manual === false ? false
 A `NULL` (never researched, no presence) stays `NULL` — "unknown" is not the same claim as "not a defense hub", matching the three-valued convention used by the veteran-benefits booleans.
 
 Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It is idempotent, prints every proposed flip with its evidence under `--dry-run`, and aborts on an *unexplained* demotion (a `true` with no `defense_hub_manual = false` veto behind it). A `true → false` transition is allowed only when you set the veto deliberately. The presence threshold is a named constant in `lib/defense.ts`.
+
+---
+
+## Pace classification (derived)
+
+Retirement pace (`urban` / `suburban` / `small_town` / `rural`) is **not** stored on `locations_location`. It lives in an append-only history table plus a current view.
+
+### `location_pace_classifications`
+
+Immutable run history for the classifier (`scripts/classify-pace.ts`, also invoked from CSV import):
+
+- **LocationId**: FK to `locations_location`
+- **Scope**: `cbsa` (metro experience) or `place` (non-metro Census place fallback)
+- **CbsaGeoid** / **PlaceGeoid** / **TractGeoids**: Census geography IDs used for the run
+- **CensusVintage**: Geocoder vintage string recorded with the run
+- **InputValues**: Raw aggregates, normalized factors, review reasons (jsonb)
+- **SourceVersions** / **SourceChecksums**: RUCA / EPA snapshot provenance from `data/sources/pace/manifest.json`
+- **Score**: 0–100 urbanicity score (nullable when incomplete)
+- **CandidateCategory**: Algorithm category before any override
+- **Confidence**: Distance in score points to the nearest category boundary
+- **ReviewState**: `auto_approved` | `needs_review` | `approved` | `rejected`
+- **OverrideCategory** / **OverrideReason** / **ReviewedAt**: Optional human override (preserved across later reruns)
+- **AlgorithmVersion**: e.g. `pace-v1`
+- **CreatedAt**: Insert time
+
+### `location_pace_current` (view)
+
+Latest usable category per location:
+
+1. Prefer the newest row with an approved `override_category`
+2. Else the newest `auto_approved` / `approved` candidate
+
+Application reads join this view as `pace_category`. The Explore / API / quiz `lifestyle` filter matches that column (including `small_town`). There is **no** density fallback.
+
+Migrate with `scripts/migrate-pace-classifications.ts`. Prepare fixed RUCA 2020 + EPA SLD 2021 extracts with `scripts/prepare-pace-sources.ts`, then classify with `scripts/classify-pace.ts`.

@@ -73,3 +73,6 @@ npm-debug.log*
 
 # Baseline reference screenshots (large, regenerable from Django); keep the JSON
 /baselines/*.png
+
+# Pace classifier raw snapshots (large; regenerable via prepare-pace-sources.ts)
+/data/sources/pace/raw/

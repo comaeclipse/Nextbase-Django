@@ -20,7 +20,7 @@ const PREFERENCE_WEIGHT: Record<PreferenceLevel, number> = {
 
 export interface QuizProfile {
   climate: string[];
-  lifestyle: "urban" | "suburban" | "rural" | "";
+  lifestyle: "urban" | "suburban" | "small_town" | "rural" | "";
   costOfLiving: "low" | "moderate" | "high" | ""; // retained for /explore filter compat
   priceMax: string; // "" (no limit) or thousands, e.g. "350"
   activities: string[];
@@ -81,6 +81,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: "", label: "I'm open to different settings" },
       { value: "urban", label: "Walkable, lively, and close to things" },
       { value: "suburban", label: "Convenient, with a little more breathing room" },
+      { value: "small_town", label: "A small town with its own local pace" },
       { value: "rural", label: "Quiet, spacious, and a slower pace" },
     ],
   },

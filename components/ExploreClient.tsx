@@ -17,7 +17,7 @@ import StateMap from "./StateMap";
  */
 
 const CLIMATE_KEYS = ["cold_snowy", "hot_humid", "hot_dry", "mild_coastal"] as const;
-const LIFESTYLE_KEYS = ["urban", "suburban", "rural"] as const;
+const LIFESTYLE_KEYS = ["urban", "suburban", "small_town", "rural"] as const;
 const HEALTHCARE_KEYS = ["va-hospital", "va-clinic"] as const;
 const ACTIVITY_KEYS = ["golf", "fishing", "hiking", "culture"] as const;
 
@@ -304,6 +304,7 @@ export default function ExploreClient({
             [
               ["urban", "Urban"],
               ["suburban", "Suburban"],
+              ["small_town", "Small Town"],
               ["rural", "Rural"],
             ] as const
           ).map(([id, label]) => (

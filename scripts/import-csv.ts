@@ -11,6 +11,7 @@
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
+import { classifyAndPersist, classifyLocation } from "../lib/pace";
 
 type Row = Record<string, string>;
 
@@ -142,7 +143,9 @@ function parseRow(row: Row): Record<string, unknown> {
   };
 }
 
-async function upsert(data: Record<string, unknown>): Promise<"created" | "updated"> {
+async function upsert(
+  data: Record<string, unknown>
+): Promise<{ status: "created" | "updated"; id: number }> {
   const sql = getSql();
   const cols = Object.keys(data);
   // jsonb column needs a text param cast; everything else coerces fine.
@@ -161,15 +164,60 @@ async function upsert(data: Record<string, unknown>): Promise<"created" | "updat
       `UPDATE locations_location SET ${setClause}, updated_at = now() WHERE id = $${cols.length + 1}`,
       [...cols.map(value), existing[0].id]
     );
-    return "updated";
+    return { status: "updated", id: Number(existing[0].id) };
   }
   const colList = cols.join(", ");
   const placeholders = cols.map((c, i) => placeholder(c, i)).join(", ");
-  await sql.query(
-    `INSERT INTO locations_location (${colList}, created_at, updated_at) VALUES (${placeholders}, now(), now())`,
+  const inserted = (await sql.query(
+    `INSERT INTO locations_location (${colList}, created_at, updated_at)
+     VALUES (${placeholders}, now(), now())
+     RETURNING id`,
     cols.map(value)
-  );
-  return "created";
+  )) as { id: number }[];
+  return { status: "created", id: Number(inserted[0].id) };
+}
+
+/** Classify pace after upsert; never blocks the city import on failure. */
+async function classifyImportedLocation(
+  id: number,
+  name: string,
+  state: string
+): Promise<void> {
+  try {
+    const result = await classifyLocation({ locationId: id, name, state });
+    await classifyAndPersist(result, false);
+    const cat = result.scored.category ?? "n/a";
+    console.log(
+      `    pace: ${cat} (${result.reviewState}` +
+        (result.scored.reviewReasons.length
+          ? `; ${result.scored.reviewReasons.join(",")}`
+          : "") +
+        ")"
+    );
+  } catch (err) {
+    // Keep the city; queue a review row when possible.
+    console.error(
+      `    pace classify failed (city kept): ${(err as Error).message}`
+    );
+    try {
+      const sql = getSql();
+      await sql.query(
+        `INSERT INTO location_pace_classifications (
+           location_id, scope, input_values, source_versions, source_checksums,
+           review_state, algorithm_version
+         ) VALUES ($1, 'place', $2::jsonb, '{}'::jsonb, '{}'::jsonb, 'needs_review', 'pace-v1')`,
+        [
+          id,
+          JSON.stringify({
+            reviewReasons: ["classify_exception"],
+            error: err instanceof Error ? err.message : String(err),
+          }),
+        ]
+      );
+    } catch {
+      /* table may not exist yet; city import still succeeds */
+    }
+  }
 }
 
 async function main() {
@@ -204,13 +252,18 @@ async function main() {
         continue;
       }
       const result = await upsert(data);
-      if (result === "created") {
+      if (result.status === "created") {
         created++;
         console.log(`  + Created: ${data.name}, ${data.state}`);
       } else {
         updated++;
         console.log(`  ~ Updated: ${data.name}, ${data.state}`);
       }
+      await classifyImportedLocation(
+        result.id,
+        String(data.name),
+        String(data.state)
+      );
     } catch (e) {
       errors++;
       console.error(`  X Error on row ${i + 2}: ${(e as Error).message}`);

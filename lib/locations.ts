@@ -23,8 +23,29 @@ const STATE_INFO_TAG = "state-info";
 const EMPLOYERS_TAG = "defense-employers";
 
 function normalizeLocation(row: Record<string, unknown>): LocationRow {
-  return { ...row, id: Number(row.id) } as LocationRow;
+  const pace = row.pace_category;
+  return {
+    ...row,
+    id: Number(row.id),
+    pace_category:
+      pace === "urban" ||
+      pace === "suburban" ||
+      pace === "small_town" ||
+      pace === "rural"
+        ? pace
+        : null,
+  } as LocationRow;
 }
+
+const LOCATION_SELECT = `
+  l.*,
+  p.category AS pace_category
+`;
+
+const LOCATION_FROM = `
+  FROM locations_location l
+  LEFT JOIN location_pace_current p ON p.location_id = l.id
+`;
 
 /*
  * Uncached read. Exported so standalone scripts (scripts/verify_scores.ts) can
@@ -38,9 +59,11 @@ export async function fetchAllLocations(): Promise<LocationRow[]> {
   // base order is identical. This matters as the stable-sort tie-break when
   // two rows share a sort key (e.g. same-named cities), keeping filter/sort
   // results byte-for-byte with the Django views.
-  const rows = await sql`
-    SELECT * FROM locations_location
-    ORDER BY featured DESC, name ASC`;
+  const rows = await sql.query(
+    `SELECT ${LOCATION_SELECT}
+     ${LOCATION_FROM}
+     ORDER BY l.featured DESC, l.name ASC`
+  );
   return (rows as Record<string, unknown>[]).map(normalizeLocation);
 }
 
@@ -53,8 +76,15 @@ export const getAllLocations = unstable_cache(
 export const getLocationById = unstable_cache(
   async (id: number): Promise<LocationRow | null> => {
     const sql = getSql();
-    const rows = await sql`SELECT * FROM locations_location WHERE id = ${id}`;
-    return rows[0] ? normalizeLocation(rows[0] as Record<string, unknown>) : null;
+    const rows = await sql.query(
+      `SELECT ${LOCATION_SELECT}
+       ${LOCATION_FROM}
+       WHERE l.id = $1`,
+      [id]
+    );
+    return rows[0]
+      ? normalizeLocation(rows[0] as Record<string, unknown>)
+      : null;
   },
   ["locations:getLocationById"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
@@ -64,10 +94,13 @@ export const getLocationById = unstable_cache(
 export const getSimilarLocations = unstable_cache(
   async (state: string, excludeId: number): Promise<LocationRow[]> => {
     const sql = getSql();
-    const rows = await sql`
-      SELECT * FROM locations_location
-      WHERE state = ${state} AND id <> ${excludeId}
-      LIMIT 3`;
+    const rows = await sql.query(
+      `SELECT ${LOCATION_SELECT}
+       ${LOCATION_FROM}
+       WHERE l.state = $1 AND l.id <> $2
+       LIMIT 3`,
+      [state, excludeId]
+    );
     return (rows as Record<string, unknown>[]).map(normalizeLocation);
   },
   ["locations:getSimilarLocations"],

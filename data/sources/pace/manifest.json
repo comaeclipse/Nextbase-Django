@@ -1,0 +1,29 @@
+{
+  "description": "Fixed source snapshots for the VetRetire retirement-pace classifier (pace-v1). Raw files live under data/sources/pace/raw/ (gitignored); derived aggregates are written to data/sources/pace/derived/pace_derived.json.",
+  "files": [
+    {
+      "id": "ruca_2020_tracts",
+      "version": "2020-RUCA-tracts-2025-07",
+      "url": "https://www.ers.usda.gov/media/5443/2020-rural-urban-commuting-area-codes-census-tracts.csv?v=57525",
+      "filename": "2020-rural-urban-commuting-area-codes-census-tracts.csv",
+      "sha256": "e056ee1bcf387e39c220f20a506801030c1105351fa8a1bb814d0a686013a8a8",
+      "notes": "USDA ERS 2020 Rural-Urban Commuting Area Codes, census tract CSV. Columns: TractFIPS20, PrimaryRUCA, Population, LandArea, PopDensity, UrbanAreaCode20."
+    },
+    {
+      "id": "epa_sld_v3_2021",
+      "version": "EPA-SLD-V3-Jan-2021",
+      "url": "https://edg.epa.gov/data/public/OA/EPA_SmartLocationDatabase_V3_Jan_2021_Final.csv",
+      "filename": "EPA_SmartLocationDatabase_V3_Jan_2021_Final.csv",
+      "sha256": "24bbb2eed222f69f2cf5cbb89278864bd28eced8986bec2ba3d1458092ebab78",
+      "notes": "EPA Smart Location Database v3 (Jan 2021). Fields: STATEFP,COUNTYFP,TRACTCE,BLKGRPCE,CBSA,TotPop,D1C,NatWalkInd,D3BPO4. GEOID reconstructed from FIPS parts (CSV GEOID columns may be scientific notation)."
+    },
+    {
+      "id": "census_gaz_place_2024",
+      "version": "2024-Gaz-place-national",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_place_national.zip",
+      "filename": "2024_Gaz_place_national.zip",
+      "sha256": "cf262fc92b2326f7a8c62a89d156a60eb17d64d6d35f7a62310c43bb08972c06",
+      "notes": "Census 2024 national place gazetteer (centroids). Used when street-address geocoding fails for CDPs / odd place names."
+    }
+  ]
+}

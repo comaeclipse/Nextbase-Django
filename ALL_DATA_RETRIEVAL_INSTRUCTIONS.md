@@ -114,65 +114,72 @@ Normalization:
 
 ### Pace / Settlement Type
 
-Every curated location must have exactly one retirement pace label:
+Retirement pace is **not** a CSV tag. It is produced by the source-backed
+classifier and stored in `location_pace_classifications` / exposed via
+`location_pace_current`. Product query values (Explore, API, both quizzes):
 
-- `pace:urban`
-- `pace:suburban`
-- `pace:small-town`
-- `pace:rural`
+- `urban`
+- `suburban`
+- `small_town`
+- `rural`
 
-Store this exact machine-readable label in the row's `Tags` list (alongside the
-usual activity tags); do not create a second label or omit the prefix. The
-current public `lifestyle` filter is a legacy, density-only three-way heuristic
-(`urban`, `suburban`, `rural`) and does **not** persist this judgment or yet
-offer a Small Town choice. The `pace:*` tag is therefore the source-of-truth
-classification for ingestion and future UI/filter work.
+Do **not** add `pace:*` tags, and do **not** fall back to density cutoffs.
 
-Classify from the **same geography represented by the row** and record the
-evidence in the companion source note. Do not combine a metro-area population
-with incorporated-place density to infer a pace. Use the following editorial
-definitions:
+#### Classifier workflow
 
-- **Urban**: a principal city or dense, mixed-use urban core with city-scale
-  services, transit, and a generally active day-to-day setting.
-- **Suburban**: a primarily residential, metro-connected community whose
-  identity and daily services are substantially tied to a larger urban area.
-- **Small Town**: an incorporated small community with its own town center and
-  local identity, typically slower-paced than a suburb or principal city.
-- **Rural**: a sparsely settled or remote setting where homes, services, and
-  amenities are widely dispersed; do not use this label merely because a place
-  has a small population.
+1. Migrate schema (once):
+   `node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-pace-classifications.ts`
+2. Prepare fixed RUCA 2020 + EPA SLD 2021 extracts (downloads into
+   `data/sources/pace/raw/`, writes `data/sources/pace/derived/pace_derived.json`):
+   `node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/prepare-pace-sources.ts`
+3. Classify (supports `--dry-run`, `--all`, `--id N`, `--name "City, ST"`):
+   `node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/classify-pace.ts --all`
+4. CSV import (`scripts/import-csv.ts`) invokes classification for each upserted
+   row. If a source-backed result cannot be produced, the city import is kept
+   and a `needs_review` history row is created.
 
-Population and density are useful cross-checks, not automatic cutoffs. In
-particular, a compact small town can be dense, and a large city or metro can
-have a low average density. Prefer Census geography plus official local or
-regional planning material that establishes whether the place is a principal
-city, a suburb, a small town, or rural. When the evidence is genuinely mixed,
-choose the pace a retiree would experience at the represented geography and
-state the reasoning in the source note.
+Metro locations are scored on their CBSA experience; non-metro locations use
+the Census place’s geocoded tract metrics. Auto-approve only complete runs at
+least 10 points from a category boundary whose RUCA band is within one category
+of the score band. Ambiguous or incomplete runs stay in `needs_review`.
+Approved manual overrides on history rows are preserved across later reruns.
 
-Before importing, validate that the CSV has one and only one `pace:` tag per
-row. After importing, audit both omissions and duplicate/conflicting labels:
+#### Verification
+
+Every curated location should have either a current category or an explicit
+`needs_review` history row:
 
 ```powershell
 $script = @'
 const { neon } = require(`@neondatabase/serverless`);
 const sql = neon(process.env.DATABASE_URL);
 (async () => {
-  const rows = await sql`
-    SELECT name, state,
-      array_agg(tag.value #>> '{}') FILTER (
-        WHERE tag.value #>> '{}' LIKE 'pace:%'
-      ) AS pace_tags
-    FROM locations_location loc
-    LEFT JOIN LATERAL jsonb_array_elements(loc.tags) AS tag(value) ON true
-    GROUP BY loc.id, loc.name, loc.state
-    HAVING count(*) FILTER (WHERE tag.value #>> '{}' LIKE 'pace:%') <> 1
-        OR bool_or(tag.value #>> '{}' NOT IN (
-          'pace:urban', 'pace:suburban', 'pace:small-town', 'pace:rural'
-        )) FILTER (WHERE tag.value #>> '{}' LIKE 'pace:%')
-    ORDER BY state, name`;
-  console.log(rows); // expect []
+  const missing = await sql`
+    SELECT l.id, l.name, l.state
+    FROM locations_location l
+    LEFT JOIN location_pace_current c ON c.location_id = l.id
+    WHERE c.location_id IS NULL
+      AND NOT EXISTS (
+        SELECT 1 FROM location_pace_classifications h
+        WHERE h.location_id = l.id AND h.review_state = 'needs_review'
+      )
+    ORDER BY l.state, l.name`;
+  const review = await sql`
+    SELECT l.name, l.state, h.score, h.candidate_category, h.input_values
+    FROM location_pace_classifications h
+    JOIN locations_location l ON l.id = h.location_id
+    WHERE h.review_state = 'needs_review'
+      AND h.id = (
+        SELECT MAX(h2.id) FROM location_pace_classifications h2
+        WHERE h2.location_id = h.location_id
+      )
+    ORDER BY l.state, l.name`;
+  const current = await sql`
+    SELECT category, count(*)::int AS n
+    FROM location_pace_current
+    GROUP BY category
+    ORDER BY category`;
+  console.log({ missing, reviewCount: review.length, current, review });
 })().catch((error) => { console.error(error); process.exit(1); });
 '@
 $script | node "--env-file=$envFile" -
