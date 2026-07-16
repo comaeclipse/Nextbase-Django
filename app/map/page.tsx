@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LocationsMap from "@/components/LocationsMap";
+import LocationsMapExperience from "@/components/LocationsMapExperience";
 import PublicNav from "@/components/PublicNav";
 import coordinates from "@/data/location-map-coordinates.json";
 import { getAllLocations } from "@/lib/locations";
@@ -57,7 +57,7 @@ export default async function MapPage() {
         </section>
 
         <section className="map-shell" aria-label="VetRetire location map">
-          <LocationsMap locations={locations} />
+          <LocationsMapExperience locations={locations} />
         </section>
       </main>
     </>
