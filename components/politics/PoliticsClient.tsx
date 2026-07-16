@@ -18,15 +18,100 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import CrittersMap from "@/components/critters/CrittersMap";
-import { BANDS, CRITTER_RAMP, aggregate, type BandName } from "@/lib/critters";
+import {
+  BANDS,
+  CRITTER_RAMP,
+  aggregate,
+  bandForValue,
+  type BandName,
+} from "@/lib/critters";
 import type {
   PoliticsTier,
   StatePoliticsDataset,
   StatePoliticsValue,
 } from "@/lib/state-politics-data";
 
-const rampGradient = `linear-gradient(to right, ${CRITTER_RAMP.join(", ")})`;
+type MapMode = "conservative" | "liberal" | "combined";
+
+const CONSERVATIVE_RAMP = [
+  "#fee2e2",
+  "#fecaca",
+  "#fca5a5",
+  "#f87171",
+  "#ef4444",
+  "#dc2626",
+  "#991b1b",
+] as const;
+
+const LIBERAL_RAMP = [
+  "#dbeafe",
+  "#bfdbfe",
+  "#93c5fd",
+  "#60a5fa",
+  "#3b82f6",
+  "#2563eb",
+  "#1d4ed8",
+] as const;
+
+const COMBINED_RAMP = [
+  "#1d4ed8",
+  "#3b82f6",
+  "#93c5fd",
+  "#a78bfa",
+  "#fca5a5",
+  "#ef4444",
+  "#991b1b",
+] as const;
+
+const MODE_COPY: Record<
+  MapMode,
+  {
+    title: string;
+    description: string;
+    topTitle: string;
+    topDescription: string;
+    lowerLabel: string;
+    higherLabel: string;
+    ramp: readonly string[];
+    rankLabel: string;
+  }
+> = {
+  conservative: {
+    title: "Most conservative states",
+    description:
+      "Higher scores show stronger conservative lean on the 2026 index. 100 = most conservative in the nation.",
+    topTitle: "Top 10 conservative states",
+    topDescription: "Ranked by conservatism score",
+    lowerLabel: "Less conservative",
+    higherLabel: "More conservative",
+    ramp: CONSERVATIVE_RAMP,
+    rankLabel: "conservative rank",
+  },
+  liberal: {
+    title: "Most liberal states",
+    description:
+      "Higher scores show stronger liberal lean, using the inverse of the conservatism index. 100 = most liberal in the nation.",
+    topTitle: "Top 10 liberal states",
+    topDescription: "Ranked by liberal-lean score",
+    lowerLabel: "Less liberal",
+    higherLabel: "More liberal",
+    ramp: LIBERAL_RAMP,
+    rankLabel: "liberal rank",
+  },
+  combined: {
+    title: "Red / blue / purple map",
+    description:
+      "A combined view where blue states are more progressive, purple states are competitive, and red states are more conservative.",
+    topTitle: "Top 10 conservative states",
+    topDescription: "Ranked by conservatism score",
+    lowerLabel: "More blue",
+    higherLabel: "More red",
+    ramp: COMBINED_RAMP,
+    rankLabel: "conservative rank",
+  },
+};
 
 const TIER_ORDER: PoliticsTier[] = [
   "Very progressive",
@@ -50,14 +135,28 @@ export default function PoliticsClient({
 }: {
   dataset: StatePoliticsDataset;
 }) {
+  const [mapMode, setMapMode] = useState<MapMode>("combined");
   const [selected, setSelected] = useState<string | null>(null);
-  const agg = useMemo(() => aggregate(dataset.data), [dataset]);
+  const displayData = useMemo(
+    () => buildDisplayData(dataset.data, mapMode),
+    [dataset.data, mapMode]
+  );
+  const agg = useMemo(() => aggregate(displayData), [displayData]);
   const selectedStat = useMemo(
-    () => (selected ? dataset.data.find((d) => d.state === selected) ?? null : null),
-    [selected, dataset]
+    () => (selected ? displayData.find((d) => d.state === selected) ?? null : null),
+    [selected, displayData]
   );
   const tierCounts = useMemo(() => countTiers(dataset.data), [dataset]);
   const competitiveCount = dataset.data.filter((d) => d.value >= 40 && d.value <= 60).length;
+  const modeCopy = MODE_COPY[mapMode];
+  const rampGradient = `linear-gradient(to right, ${modeCopy.ramp.join(", ")})`;
+
+  function changeMapMode(values: string[]) {
+    const next = values[0];
+    if (next !== "conservative" && next !== "liberal" && next !== "combined") return;
+    setMapMode(next);
+    setSelected(null);
+  }
 
   return (
     <div className="space-y-6">
@@ -66,13 +165,34 @@ export default function PoliticsClient({
           <h2 className="text-lg font-semibold">{dataset.metricLabel}</h2>
           <p className="text-sm text-muted-foreground">{dataset.dataVintage}</p>
         </div>
-        <Badge variant="secondary">State politics dataset</Badge>
+        <div className="flex flex-col gap-2 sm:items-end">
+          <ToggleGroup
+            value={[mapMode]}
+            onValueChange={changeMapMode}
+            variant="outline"
+            size="sm"
+            spacing={0}
+            aria-label="Political map mode"
+            className="flex-wrap justify-start sm:justify-end"
+          >
+            <ToggleGroupItem value="conservative" aria-label="Most conservative map">
+              Most conservative
+            </ToggleGroupItem>
+            <ToggleGroupItem value="liberal" aria-label="Most liberal map">
+              Most liberal
+            </ToggleGroupItem>
+            <ToggleGroupItem value="combined" aria-label="Red blue purple map">
+              Red / blue / purple
+            </ToggleGroupItem>
+          </ToggleGroup>
+          <Badge variant="secondary">State politics dataset</Badge>
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           icon={<Trophy className="size-4" />}
-          label="Most conservative"
+          label={mapMode === "liberal" ? "Most liberal" : "Most conservative"}
           value={agg.worst.name}
           sub={`${agg.worst.value} - ${agg.worst.displayBand ?? agg.worst.band}`}
         />
@@ -99,25 +219,26 @@ export default function PoliticsClient({
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>{dataset.metricLabel} by state</CardTitle>
-            <CardDescription>{dataset.blurb}</CardDescription>
+            <CardTitle>{modeCopy.title}</CardTitle>
+            <CardDescription>{modeCopy.description}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <CrittersMap
-              data={dataset.data}
+              data={displayData}
               unit={dataset.unit}
               selected={selected}
               onSelect={setSelected}
               bandLabel={(stat) => stat.displayBand ?? stat.band}
+              colorRamp={modeCopy.ramp}
             />
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <span className="text-xs text-muted-foreground">More progressive</span>
+                <span className="text-xs text-muted-foreground">{modeCopy.lowerLabel}</span>
                 <div
                   className="h-2.5 flex-1 rounded-full"
                   style={{ background: rampGradient }}
                 />
-                <span className="text-xs text-muted-foreground">More conservative</span>
+                <span className="text-xs text-muted-foreground">{modeCopy.higherLabel}</span>
                 <span className="ml-1 text-xs text-muted-foreground">
                   ({dataset.unit})
                 </span>
@@ -148,13 +269,14 @@ export default function PoliticsClient({
             <SelectedCard
               stat={selectedStat}
               total={dataset.data.length}
+              rankLabel={modeCopy.rankLabel}
               onClear={() => setSelected(null)}
             />
           ) : (
             <Card>
               <CardHeader>
-                <CardTitle>Top 10 states</CardTitle>
-                <CardDescription>Ranked by conservatism score</CardDescription>
+                <CardTitle>{modeCopy.topTitle}</CardTitle>
+                <CardDescription>{modeCopy.topDescription}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2.5">
                 {agg.ranked.slice(0, 10).map((stat) => (
@@ -311,6 +433,34 @@ function countTiers(data: StatePoliticsValue[]) {
   });
 }
 
+function buildDisplayData(data: StatePoliticsValue[], mode: MapMode): StatePoliticsValue[] {
+  if (mode !== "liberal") return data;
+
+  const rows = data
+    .map((state) => ({
+      ...state,
+      value: Math.round((100 - state.value) * 10) / 10,
+    }))
+    .sort((a, b) => b.value - a.value || a.name.localeCompare(b.name));
+
+  return rows.map((state, index) => ({
+    ...state,
+    rank: index + 1,
+    band: bandForValue(state.value),
+    displayBand: liberalTierLabel(state),
+  }));
+}
+
+function liberalTierLabel(state: StatePoliticsValue) {
+  if (state.tier === "Very progressive") return "Very liberal";
+  if (state.tier === "Progressive") return "Liberal";
+  if (state.tier === "Lean progressive") return "Lean liberal";
+  if (state.tier === "Purple") return "Purple";
+  if (state.tier === "Lean conservative") return "Lean conservative";
+  if (state.tier === "Conservative") return "Conservative";
+  return "Very conservative";
+}
+
 function StatCard({
   icon,
   label,
@@ -341,10 +491,12 @@ function StatCard({
 function SelectedCard({
   stat,
   total,
+  rankLabel,
   onClear,
 }: {
   stat: StatePoliticsValue;
   total: number;
+  rankLabel: string;
   onClear: () => void;
 }) {
   const rankRange =
@@ -377,7 +529,7 @@ function SelectedCard({
           <span className="text-xs text-muted-foreground">0-100 index</span>
         </div>
         <Separator />
-        <InfoRow label="National rank" value={`#${stat.rank} of ${total}`} />
+        <InfoRow label={rankLabel} value={`#${stat.rank} of ${total}`} />
         <InfoRow label="Political tier" value={stat.tier} />
         <InfoRow label="Cook PVI" value={stat.cookPvi} />
         <InfoRow

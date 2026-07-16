@@ -4,17 +4,17 @@ import { useRef, useState } from "react";
 import { US_STATE_SHAPES } from "@/lib/maps/us-state-shapes";
 import { CRITTER_RAMP, type StateValue } from "@/lib/critters";
 
-type Tooltip = { x: number; y: number; stat: StateValue } | null;
+type Tooltip = { x: number; y: number; width: number; stat: StateValue } | null;
 
-function interpolateRamp(value: number, max: number) {
+function interpolateRamp(value: number, max: number, ramp: readonly string[]) {
   const progress = Math.max(0, Math.min(1, value / max));
-  const scaled = progress * (CRITTER_RAMP.length - 1);
+  const scaled = progress * (ramp.length - 1);
   const lower = Math.floor(scaled);
-  const upper = Math.min(lower + 1, CRITTER_RAMP.length - 1);
+  const upper = Math.min(lower + 1, ramp.length - 1);
   const mix = scaled - lower;
-  const from = CRITTER_RAMP[lower].match(/\w\w/g)?.map((hex) => Number.parseInt(hex, 16));
-  const to = CRITTER_RAMP[upper].match(/\w\w/g)?.map((hex) => Number.parseInt(hex, 16));
-  if (!from || !to) return CRITTER_RAMP[lower];
+  const from = ramp[lower].match(/\w\w/g)?.map((hex) => Number.parseInt(hex, 16));
+  const to = ramp[upper].match(/\w\w/g)?.map((hex) => Number.parseInt(hex, 16));
+  if (!from || !to) return ramp[lower];
   return `#${from
     .map((channel, index) => Math.round(channel + (to[index] - channel) * mix).toString(16).padStart(2, "0"))
     .join("")}`;
@@ -31,12 +31,14 @@ export default function CrittersMap({
   selected,
   onSelect,
   bandLabel,
+  colorRamp = CRITTER_RAMP,
 }: {
   data: StateValue[];
   unit: string;
   selected: string | null;
   onSelect: (abbr: string | null) => void;
   bandLabel?: (stat: StateValue) => string;
+  colorRamp?: readonly string[];
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<Tooltip>(null);
@@ -60,7 +62,7 @@ export default function CrittersMap({
               <path
                 key={shape.abbr}
                 d={shape.d}
-                fill={stat ? interpolateRamp(stat.value, maxValue) : "var(--muted)"}
+                fill={stat ? interpolateRamp(stat.value, maxValue, colorRamp) : "var(--muted)"}
                 stroke={isSelected ? "var(--foreground)" : "var(--background)"}
                 strokeWidth={isSelected ? 2.5 : 0.75}
                 style={{ cursor: stat ? "pointer" : "default", transition: "fill 120ms ease" }}
@@ -70,7 +72,12 @@ export default function CrittersMap({
                 onPointerMove={(event) => {
                   if (!stat) return;
                   const rect = (wrapRef.current ?? event.currentTarget).getBoundingClientRect();
-                  setTooltip({ x: event.clientX - rect.left, y: event.clientY - rect.top, stat });
+                  setTooltip({
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top,
+                    width: rect.width,
+                    stat,
+                  });
                 }}
                 onPointerLeave={() => setTooltip(null)}
                 onClick={() => stat && onSelect(selected === shape.abbr ? null : shape.abbr)}
@@ -111,7 +118,7 @@ export default function CrittersMap({
         <div
           className="pointer-events-none absolute z-20 w-44 rounded-md border bg-popover p-2.5 text-popover-foreground shadow-md"
           style={{
-            left: Math.max(0, Math.min(tooltip.x + 14, (wrapRef.current?.clientWidth ?? 0) - 180)),
+            left: Math.max(0, Math.min(tooltip.x + 14, tooltip.width - 180)),
             top: Math.max(tooltip.y - 10, 0),
           }}
         >
