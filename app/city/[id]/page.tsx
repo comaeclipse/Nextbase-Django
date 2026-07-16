@@ -337,7 +337,16 @@ export default async function CityDetailPage({
                 <path d="m6.34 17.66-1.41 1.41" />
                 <path d="m19.07 4.93-1.41 1.41" />
               </svg>
-              <h2>Climate & Weather</h2>
+              <h2>
+                <Link
+                  href={`/city/${location.id}/climate`}
+                  className="section-link"
+                  aria-label={`Open the full climate and weather dashboard for ${location.name}`}
+                >
+                  Climate & Weather
+                  <span aria-hidden>↗</span>
+                </Link>
+              </h2>
             </div>
             <div className="card-body">
               <div className="spec-grid">
