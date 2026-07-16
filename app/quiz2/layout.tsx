@@ -1,6 +1,6 @@
 import "../styles/shadcn.css";
 import "../styles/quiz2.css";
-import Link from "next/link";
+import PublicNav from "@/components/PublicNav";
 import { Sparkles } from "lucide-react";
 
 /*
@@ -15,17 +15,7 @@ export default function Quiz2Layout({
 }) {
   return (
     <div className="quiz2-shell">
-      <nav className="quiz2-navbar" aria-label="Primary navigation">
-        <div className="quiz2-nav-container">
-          <Link href="/" className="quiz2-logo">VetRetire</Link>
-          <ul className="quiz2-nav-links">
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/explore">Explore</Link></li>
-            <li><Link href="/quiz">Take the Quiz</Link></li>
-            <li><Link href="/quiz2" aria-current="page">Profile Studio</Link></li>
-          </ul>
-        </div>
-      </nav>
+      <PublicNav active="quiz" />
       <header className="quiz2-hero">
         <div className="quiz2-hero-content">
           <span className="quiz2-hero-badge">

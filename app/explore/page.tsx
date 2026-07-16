@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
   getActiveEmployers,
   getAllLocations,
@@ -10,6 +9,7 @@ import { calculateBaselineScore } from "@/lib/scoring";
 import { computeStateCounts } from "@/lib/filters";
 import type { Location } from "@/lib/types";
 import ExploreClient from "@/components/ExploreClient";
+import PublicNav from "@/components/PublicNav";
 import "../styles/explore.css";
 
 export const metadata: Metadata = {
@@ -58,27 +58,7 @@ export default async function ExplorePage({
 
   return (
     <>
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="logo">VetRetire</div>
-          <ul className="nav-links">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/explore" style={{ color: "#2563eb" }}>
-                Explore
-              </Link>
-            </li>
-            <li>
-              <a href="#">Saved</a>
-            </li>
-            <li>
-              <a href="#">Profile</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <PublicNav active="explore" />
 
       <ExploreClient
         initialLocations={locations}

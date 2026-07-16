@@ -14,6 +14,7 @@ import {
 } from "@/lib/scoring";
 import { resolveStateAbbr } from "@/lib/states";
 import type { Location } from "@/lib/types";
+import PublicNav from "@/components/PublicNav";
 import "../../styles/city.css";
 
 export const dynamic = "force-dynamic";
@@ -76,27 +77,7 @@ export default async function CityDetailPage({
 
   return (
     <>
-      <nav className="navbar">
-        <div className="nav-container">
-          <Link href="/" className="logo">
-            VetRetire
-          </Link>
-          <ul className="nav-links">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/explore">Explore</Link>
-            </li>
-            <li>
-              <a href="#">Saved</a>
-            </li>
-            <li>
-              <Link href="/quiz">Take the Quiz</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <PublicNav active="explore" />
 
       {/* Breadcrumb */}
       <div className="breadcrumb">

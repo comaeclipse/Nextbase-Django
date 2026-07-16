@@ -1,6 +1,6 @@
 import "../styles/shadcn.css";
 import "../styles/quiz.css";
-import Link from "next/link";
+import PublicNav from "@/components/PublicNav";
 
 /*
  * Scoped shadcn/Tailwind layout for the quiz feature, mirroring the pattern
@@ -15,16 +15,7 @@ export default function QuizLayout({
 }) {
   return (
     <div className="quiz-shell">
-      <nav className="quiz-navbar" aria-label="Primary navigation">
-        <div className="quiz-nav-container">
-          <Link href="/" className="quiz-logo">VetRetire</Link>
-          <ul className="quiz-nav-links">
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/explore">Explore</Link></li>
-            <li><Link href="/quiz" aria-current="page">Take the Quiz</Link></li>
-          </ul>
-        </div>
-      </nav>
+      <PublicNav active="quiz" />
       <header className="quiz-hero">
         <div className="quiz-hero-content">
           <span className="quiz-hero-badge">Personalized Match</span>

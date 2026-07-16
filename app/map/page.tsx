@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import LocationsMap from "@/components/LocationsMap";
+import PublicNav from "@/components/PublicNav";
 import coordinates from "@/data/location-map-coordinates.json";
 import { getAllLocations } from "@/lib/locations";
 import "../styles/map.css";
@@ -44,33 +44,22 @@ export default async function MapPage() {
   });
 
   return (
-    <main className="map-page">
-      <nav className="map-nav" aria-label="Primary navigation">
-        <div className="map-nav-inner">
-          <Link href="/" className="map-brand">
-            VetRetire
-          </Link>
-          <div className="map-nav-links">
-            <Link href="/explore">Explore</Link>
-            <Link href="/map" aria-current="page">
-              Map
-            </Link>
-            <Link href="/quiz">Take the Quiz</Link>
-          </div>
-        </div>
-      </nav>
+    <>
+      <PublicNav active="map" />
 
-      <section className="map-hero">
-        <p className="map-eyebrow">EXPLORE BY PLACE</p>
-        <h1>See every retirement location at a glance.</h1>
-        <p>
-          Pick a marker to preview a city, then open its complete retirement guide.
-        </p>
-      </section>
+      <main className="map-page">
+        <section className="map-hero">
+          <p className="map-eyebrow">EXPLORE BY PLACE</p>
+          <h1>See every retirement location at a glance.</h1>
+          <p>
+            Pick a marker to preview a city, then open its complete retirement guide.
+          </p>
+        </section>
 
-      <section className="map-shell" aria-label="VetRetire location map">
-        <LocationsMap locations={locations} />
-      </section>
-    </main>
+        <section className="map-shell" aria-label="VetRetire location map">
+          <LocationsMap locations={locations} />
+        </section>
+      </main>
+    </>
   );
 }

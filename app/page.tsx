@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PublicNav from "@/components/PublicNav";
 import "./styles/home.css";
 
 export const metadata: Metadata = {
@@ -10,28 +11,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="logo">VetRetire</div>
-          <ul className="nav-links">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/explore">Explore</Link>
-            </li>
-            <li>
-              <Link href="/quiz">Take the Quiz</Link>
-            </li>
-            <li>
-              <a href="#about">About</a>
-            </li>
-            <li>
-              <a href="#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <PublicNav active="home" />
 
       <section className="hero">
         <div className="hero-content">

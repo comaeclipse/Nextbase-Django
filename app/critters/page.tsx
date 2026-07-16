@@ -4,8 +4,7 @@ import CrittersClient from "@/components/critters/CrittersClient";
  * /critters — per-critter density choropleth.
  *
  * Datasets live in lib/critters.ts (CRITTER_DATASETS); the combobox on the page
- * switches between them. Mosquito is real, sourced data; add more critters by
- * pushing datasets onto that registry.
+ * switches between them.
  */
 export default function CrittersPage() {
   return (

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import PublicNav from "@/components/PublicNav";
 import "../styles/shadcn.css";
 
 /*
@@ -20,30 +20,7 @@ export default function WeatherLayout({
 }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <nav className="border-b bg-card">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link href="/" className="text-lg font-semibold tracking-tight">
-            VetRetire
-          </Link>
-          <ul className="flex items-center gap-5 text-sm text-muted-foreground">
-            <li>
-              <Link href="/" className="hover:text-foreground">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/explore" className="hover:text-foreground">
-                Explore
-              </Link>
-            </li>
-            <li>
-              <Link href="/weather" aria-current="page" className="text-foreground">
-                Weather
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <PublicNav active="weather" />
       <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
     </div>
   );

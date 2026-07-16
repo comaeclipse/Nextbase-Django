@@ -17,7 +17,7 @@
 
 .kicker {
   margin: 0 0 5px;
-  color: #0f766e;
+  color: #2563eb;
   font-size: 0.67rem;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -181,13 +181,13 @@
   margin-top: 14px;
   padding-top: 11px;
   border-top: 1px solid #e2e8f0;
-  color: #155e75;
+  color: #2563eb;
   font-size: 0.78rem;
   font-weight: 800;
   text-decoration: none;
 }
 
-.cityLink:hover { color: #0f766e; }
+.cityLink:hover { color: #1d4ed8; }
 
 .mapFootnote {
   margin: 0;

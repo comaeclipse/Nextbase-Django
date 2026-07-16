@@ -66,6 +66,13 @@
       "longitude": -117.912336
     },
     {
+      "name": "Eureka",
+      "state": "CA",
+      "census_place_geoid": "0623042",
+      "latitude": 40.797594,
+      "longitude": -124.154191
+    },
+    {
       "name": "Irvine",
       "state": "CA",
       "census_place_geoid": "0636770",
@@ -575,6 +582,13 @@
       "census_place_geoid": "5414600",
       "latitude": 38.348692,
       "longitude": -81.632324
+    },
+    {
+      "name": "Casper",
+      "state": "WY",
+      "census_place_geoid": "5613150",
+      "latitude": 42.84212,
+      "longitude": -106.321282
     },
     {
       "name": "Cheyenne",

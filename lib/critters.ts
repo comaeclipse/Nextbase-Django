@@ -27,7 +27,6 @@ export type CritterDataset = {
   id: string;
   /** Display name, e.g. "Mosquito". */
   critter: string;
-  emoji: string;
   /** What the index measures, e.g. "Mosquito index". */
   metricLabel: string;
   /** Unit / scale note, e.g. "0–100 index". */
@@ -102,11 +101,83 @@ const MOSQUITO_DATA: StateValue[] = MOSQUITO_ROWS.map(([name, state, value, rank
   band: bandForValue(value),
 }));
 
+// -- Biting flies -------------------------------------------------------------
+// Real data from data/us_state_biting_fly_index.csv (index/rank/band verbatim).
+// Sources: Purdue Extension, NC State Extension, UF IFAS Extension,
+// Colorado State Extension, NPS, NOAA NCEI, USDA FIA, USGS.
+const BITING_FLY_ROWS: [
+  name: string,
+  abbr: string,
+  value: number,
+  rank: number,
+  band: BandName,
+][] = [
+  ["Alabama", "AL", 96, 7, "Very High"],
+  ["Alaska", "AK", 77, 21, "High"],
+  ["Arizona", "AZ", 13, 49, "Very Low"],
+  ["Arkansas", "AR", 67, 24, "High"],
+  ["California", "CA", 42, 38, "Moderate"],
+  ["Colorado", "CO", 29, 45, "Low"],
+  ["Connecticut", "CT", 80, 18, "Very High"],
+  ["Delaware", "DE", 80, 16, "Very High"],
+  ["Florida", "FL", 98, 4, "Very High"],
+  ["Georgia", "GA", 96, 6, "Very High"],
+  ["Hawaii", "HI", 70, 22, "High"],
+  ["Idaho", "ID", 32, 42, "Low"],
+  ["Illinois", "IL", 51, 35, "Moderate"],
+  ["Indiana", "IN", 53, 34, "Moderate"],
+  ["Iowa", "IA", 45, 36, "Moderate"],
+  ["Kansas", "KS", 32, 43, "Low"],
+  ["Kentucky", "KY", 62, 29, "High"],
+  ["Louisiana", "LA", 97, 5, "Very High"],
+  ["Maine", "ME", 98, 3, "Very High"],
+  ["Maryland", "MD", 77, 20, "High"],
+  ["Massachusetts", "MA", 92, 9, "Very High"],
+  ["Michigan", "MI", 81, 15, "Very High"],
+  ["Minnesota", "MN", 77, 19, "High"],
+  ["Mississippi", "MS", 95, 8, "Very High"],
+  ["Missouri", "MO", 58, 31, "Moderate"],
+  ["Montana", "MT", 35, 41, "Low"],
+  ["Nebraska", "NE", 31, 44, "Low"],
+  ["Nevada", "NV", 0, 50, "Very Low"],
+  ["New Hampshire", "NH", 90, 10, "Very High"],
+  ["New Jersey", "NJ", 80, 17, "Very High"],
+  ["New Mexico", "NM", 15, 48, "Very Low"],
+  ["New York", "NY", 81, 14, "Very High"],
+  ["North Carolina", "NC", 100, 1, "Very High"],
+  ["North Dakota", "ND", 41, 39, "Moderate"],
+  ["Ohio", "OH", 54, 32, "Moderate"],
+  ["Oklahoma", "OK", 37, 40, "Low"],
+  ["Oregon", "OR", 54, 33, "Moderate"],
+  ["Pennsylvania", "PA", 66, 26, "High"],
+  ["Rhode Island", "RI", 89, 11, "Very High"],
+  ["South Carolina", "SC", 98, 2, "Very High"],
+  ["South Dakota", "SD", 44, 37, "Moderate"],
+  ["Tennessee", "TN", 67, 25, "High"],
+  ["Texas", "TX", 65, 27, "High"],
+  ["Utah", "UT", 16, 47, "Very Low"],
+  ["Vermont", "VT", 63, 28, "High"],
+  ["Virginia", "VA", 83, 12, "Very High"],
+  ["Washington", "WA", 58, 30, "Moderate"],
+  ["West Virginia", "WV", 67, 23, "High"],
+  ["Wisconsin", "WI", 82, 13, "Very High"],
+  ["Wyoming", "WY", 22, 46, "Low"],
+];
+
+const BITING_FLY_DATA: StateValue[] = BITING_FLY_ROWS.map(
+  ([name, state, value, rank, band]) => ({
+    name,
+    state,
+    value,
+    rank,
+    band,
+  })
+);
+
 export const CRITTER_DATASETS: CritterDataset[] = [
   {
     id: "mosquito",
     critter: "Mosquito",
-    emoji: "🦟",
     metricLabel: "Mosquito index",
     unit: "0–100 index",
     blurb:
@@ -120,6 +191,26 @@ export const CRITTER_DATASETS: CritterDataset[] = [
       "Climate Central",
     ],
     data: MOSQUITO_DATA,
+  },
+  {
+    id: "biting_flies",
+    critter: "Biting Flies",
+    metricLabel: "Biting-fly index",
+    unit: "0–100 index",
+    blurb:
+      "Relative biting-fly pressure by state, combining black fly, deer and horse fly, no-see-um, climate, water, and forest-edge signals. 100 = worst in the nation.",
+    sourced: true,
+    sources: [
+      "Purdue University Extension",
+      "North Carolina State University Extension",
+      "University of Florida IFAS Extension",
+      "Colorado State University Extension",
+      "National Park Service",
+      "NOAA National Centers for Environmental Information",
+      "USDA Forest Service — Forest Inventory and Analysis",
+      "U.S. Geological Survey (USGS)",
+    ],
+    data: BITING_FLY_DATA,
   },
 ];
 

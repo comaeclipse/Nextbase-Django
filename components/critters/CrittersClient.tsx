@@ -46,11 +46,10 @@ const distConfig = {
   count: { label: "States" },
 } satisfies ChartConfig;
 
-type Option = { id: string; label: string; emoji: string };
+type Option = { id: string; label: string };
 const OPTIONS: Option[] = CRITTER_DATASETS.map((d) => ({
   id: d.id,
   label: d.critter,
-  emoji: d.emoji,
 }));
 
 export default function CrittersClient() {
@@ -90,7 +89,6 @@ export default function CrittersClient() {
               <ComboboxList>
                 {(item: Option) => (
                   <ComboboxItem key={item.id} value={item}>
-                    <span aria-hidden>{item.emoji}</span>
                     <span>{item.label}</span>
                   </ComboboxItem>
                 )}
@@ -100,7 +98,7 @@ export default function CrittersClient() {
         </div>
         {dataset.sourced ? (
           <Badge variant="secondary" className="gap-1">
-            <span aria-hidden>{dataset.emoji}</span> Sourced dataset
+            Sourced dataset
           </Badge>
         ) : (
           <Badge variant="outline" className="gap-1 text-muted-foreground">
@@ -141,14 +139,12 @@ export default function CrittersClient() {
         {/* Map */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <span aria-hidden>{dataset.emoji}</span>
-              {dataset.metricLabel} by state
-            </CardTitle>
+            <CardTitle>{dataset.metricLabel} by state</CardTitle>
             <CardDescription>{dataset.blurb}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <CrittersMap
+              key={dataset.id}
               data={dataset.data}
               unit={dataset.unit}
               selected={selected}

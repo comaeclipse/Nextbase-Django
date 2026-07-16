@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./styles/public-nav.css";
 
 /*
  * Minimal root layout. No font application here — each ported page sets its

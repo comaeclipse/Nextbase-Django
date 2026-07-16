@@ -1,0 +1,51 @@
+state,state_abbr,biting_fly_index,rank,band,black_fly_index,deer_horse_fly_index,no_see_um_index
+Alabama,AL,96,7,Very High,69,95,85
+Alaska,AK,77,21,High,90,62,47
+Arizona,AZ,13,49,Very Low,16,12,6
+Arkansas,AR,67,24,High,66,67,42
+California,CA,42,38,Moderate,36,27,41
+Colorado,CO,29,45,Low,49,17,9
+Connecticut,CT,80,18,Very High,82,66,58
+Delaware,DE,80,16,Very High,53,74,78
+Florida,FL,98,4,Very High,50,100,100
+Georgia,GA,96,6,Very High,68,93,87
+Hawaii,HI,70,22,High,37,62,77
+Idaho,ID,32,42,Low,59,17,9
+Illinois,IL,51,35,Moderate,55,40,35
+Indiana,IN,53,34,Moderate,57,43,36
+Iowa,IA,45,36,Moderate,55,38,24
+Kansas,KS,32,43,Low,41,24,18
+Kentucky,KY,62,29,High,69,55,38
+Louisiana,LA,97,5,Very High,61,93,94
+Maine,ME,98,3,Very High,100,93,61
+Maryland,MD,77,20,High,69,61,66
+Massachusetts,MA,92,9,Very High,84,84,70
+Michigan,MI,81,15,Very High,87,78,47
+Minnesota,MN,77,19,High,86,71,44
+Mississippi,MS,95,8,Very High,66,92,86
+Missouri,MO,58,31,Moderate,65,48,36
+Montana,MT,35,41,Low,61,17,12
+Nebraska,NE,31,44,Low,42,21,17
+Nevada,NV,0,50,Very Low,0,0,0
+New Hampshire,NH,90,10,Very High,95,90,52
+New Jersey,NJ,80,17,Very High,72,64,69
+New Mexico,NM,15,48,Very Low,20,14,5
+New York,NY,81,14,Very High,90,67,52
+North Carolina,NC,100,1,Very High,83,90,84
+North Dakota,ND,41,39,Moderate,51,36,21
+Ohio,OH,54,32,Moderate,58,46,36
+Oklahoma,OK,37,40,Low,44,34,20
+Oregon,OR,54,33,Moderate,67,35,36
+Pennsylvania,PA,66,26,High,81,55,36
+Rhode Island,RI,89,11,Very High,76,81,73
+South Carolina,SC,98,2,Very High,69,95,89
+South Dakota,SD,44,37,Moderate,50,40,25
+Tennessee,TN,67,25,High,77,57,39
+Texas,TX,65,27,High,42,56,67
+Utah,UT,16,47,Very Low,25,9,6
+Vermont,VT,63,28,High,95,52,19
+Virginia,VA,83,12,Very High,75,71,68
+Washington,WA,58,30,Moderate,71,39,38
+West Virginia,WV,67,23,High,93,58,26
+Wisconsin,WI,82,13,Very High,90,78,46
+Wyoming,WY,22,46,Low,37,10,10
