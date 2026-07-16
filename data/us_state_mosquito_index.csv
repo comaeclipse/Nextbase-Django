@@ -1,0 +1,51 @@
+state,state_abbr,mosquito_index,rank,band
+Alabama,AL,75,5,High
+Alaska,AK,25,40,Low
+Arizona,AZ,20,41,Low
+Arkansas,AR,54,13,Moderate
+California,CA,27,38,Low
+Colorado,CO,5,46,Very Low
+Connecticut,CT,47,24,Moderate
+Delaware,DE,64,8,High
+Florida,FL,100,1,Very High
+Georgia,GA,75,4,High
+Hawaii,HI,61,9,High
+Idaho,ID,0,50,Very Low
+Illinois,IL,50,19,Moderate
+Indiana,IN,51,17,Moderate
+Iowa,IA,39,33,Low
+Kansas,KS,37,34,Low
+Kentucky,KY,45,26,Moderate
+Louisiana,LA,84,2,Very High
+Maine,ME,50,20,Moderate
+Maryland,MD,52,15,Moderate
+Massachusetts,MA,56,10,Moderate
+Michigan,MI,47,25,Moderate
+Minnesota,MN,48,22,Moderate
+Mississippi,MS,73,6,High
+Missouri,MO,43,29,Moderate
+Montana,MT,7,45,Very Low
+Nebraska,NE,31,37,Low
+Nevada,NV,2,48,Very Low
+New Hampshire,NH,50,21,Moderate
+New Jersey,NJ,55,12,Moderate
+New Mexico,NM,17,42,Very Low
+New York,NY,43,28,Moderate
+North Carolina,NC,73,7,High
+North Dakota,ND,26,39,Low
+Ohio,OH,39,32,Low
+Oklahoma,OK,41,31,Moderate
+Oregon,OR,10,44,Very Low
+Pennsylvania,PA,37,35,Low
+Rhode Island,RI,56,11,Moderate
+South Carolina,SC,76,3,High
+South Dakota,SD,33,36,Low
+Tennessee,TN,47,23,Moderate
+Texas,TX,50,18,Moderate
+Utah,UT,4,47,Very Low
+Vermont,VT,42,30,Moderate
+Virginia,VA,54,14,Moderate
+Washington,WA,15,43,Very Low
+West Virginia,WV,45,27,Moderate
+Wisconsin,WI,51,16,Moderate
+Wyoming,WY,2,49,Very Low
