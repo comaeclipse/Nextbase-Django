@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
-import { Bug, ShieldAlert, TrendingUp, Trophy, X } from "lucide-react";
+import { ShieldAlert, Sun, TrendingUp, Trophy, X } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -13,53 +13,35 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-  Combobox,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-} from "@/components/ui/combobox";
-import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import CrittersMap from "@/components/critters/CrittersMap";
 import {
   aggregate,
   BANDS,
-  CRITTER_DATASETS,
   CRITTER_RAMP,
-  getDataset,
   type BandName,
-  type StateValue,
 } from "@/lib/critters";
-import CrittersMap from "./CrittersMap";
+import type {
+  StateWeatherIndexDataset,
+  StateWeatherIndexValue,
+} from "@/lib/state-weather-data";
 
 const rampGradient = `linear-gradient(to right, ${CRITTER_RAMP.join(", ")})`;
-
-const bandColor = (band: BandName) =>
-  BANDS.find((b) => b.name === band)?.color ?? CRITTER_RAMP[3];
 
 const distConfig = {
   count: { label: "States" },
 } satisfies ChartConfig;
 
-type Option = { id: string; label: string };
-const OPTIONS: Option[] = CRITTER_DATASETS.map((d) => ({
-  id: d.id,
-  label: d.critter,
-}));
+const bandColor = (band: BandName) =>
+  BANDS.find((b) => b.name === band)?.color ?? CRITTER_RAMP[3];
 
-export default function CrittersClient() {
-  const [datasetId, setDatasetId] = useState(CRITTER_DATASETS[0].id);
+export default function UvClient({ dataset }: { dataset: StateWeatherIndexDataset }) {
   const [selected, setSelected] = useState<string | null>(null);
-
-  const dataset = getDataset(datasetId);
   const agg = useMemo(() => aggregate(dataset.data), [dataset]);
-  const selectedOption = OPTIONS.find((o) => o.id === datasetId)!;
-
   const selectedStat = useMemo(
     () => (selected ? dataset.data.find((d) => d.state === selected) ?? null : null),
     [selected, dataset]
@@ -67,51 +49,18 @@ export default function CrittersClient() {
 
   return (
     <div className="space-y-6">
-      {/* Critter selector */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap items-center gap-2">
-          <label className="text-sm font-medium">Critter</label>
-          <Combobox
-            items={OPTIONS}
-            value={selectedOption}
-            onValueChange={(o: Option | null) => {
-              if (o) {
-                setDatasetId(o.id);
-                setSelected(null);
-              }
-            }}
-            itemToStringLabel={(o: Option) => o.label}
-            isItemEqualToValue={(a: Option, b: Option) => a.id === b.id}
-          >
-            <ComboboxInput placeholder="Search critters…" className="w-full sm:w-64" />
-            <ComboboxContent>
-              <ComboboxEmpty>No critters found.</ComboboxEmpty>
-              <ComboboxList>
-                {(item: Option) => (
-                  <ComboboxItem key={item.id} value={item}>
-                    <span>{item.label}</span>
-                  </ComboboxItem>
-                )}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
+        <div>
+          <h2 className="text-lg font-semibold">{dataset.metricLabel}</h2>
+          <p className="text-sm text-muted-foreground">{dataset.dataVintage}</p>
         </div>
-        {dataset.sourced ? (
-          <Badge variant="secondary" className="gap-1">
-            Sourced dataset
-          </Badge>
-        ) : (
-          <Badge variant="outline" className="gap-1 text-muted-foreground">
-            Sample data
-          </Badge>
-        )}
+        <Badge variant="secondary">State weather dataset</Badge>
       </div>
 
-      {/* Summary stat cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           icon={<Trophy className="size-4" />}
-          label="Worst state"
+          label="Highest exposure"
           value={agg.worst.name}
           sub={`${agg.worst.value} · ${agg.worst.band}`}
         />
@@ -123,20 +72,19 @@ export default function CrittersClient() {
         />
         <StatCard
           icon={<ShieldAlert className="size-4" />}
-          label="High-risk states"
+          label="High-exposure states"
           value={String(agg.highCount)}
           sub="High or Very High band"
         />
         <StatCard
-          icon={<Bug className="size-4" />}
-          label="Most common band"
-          value={agg.modeBand}
-          sub="across all states"
+          icon={<Sun className="size-4" />}
+          label="Peak month"
+          value={mode(dataset.data.map((d) => d.peakMonth))}
+          sub="most common peak"
         />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Map */}
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>{dataset.metricLabel} by state</CardTitle>
@@ -144,13 +92,11 @@ export default function CrittersClient() {
           </CardHeader>
           <CardContent className="space-y-4">
             <CrittersMap
-              key={dataset.id}
               data={dataset.data}
               unit={dataset.unit}
               selected={selected}
               onSelect={setSelected}
             />
-            {/* Legend */}
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className="text-xs text-muted-foreground">Lower</span>
@@ -181,7 +127,6 @@ export default function CrittersClient() {
           </CardContent>
         </Card>
 
-        {/* Detail / ranked column */}
         <div className="space-y-6">
           {selectedStat ? (
             <SelectedCard
@@ -229,13 +174,10 @@ export default function CrittersClient() {
         </div>
       </div>
 
-      {/* Band distribution */}
       <Card>
         <CardHeader>
-          <CardTitle>States by risk band</CardTitle>
-          <CardDescription>
-            How the 50 states split across {dataset.critter.toLowerCase()} risk bands
-          </CardDescription>
+          <CardTitle>States by exposure band</CardTitle>
+          <CardDescription>How the 50 states split across UV exposure bands</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={distConfig} className="h-[240px] w-full">
@@ -261,23 +203,30 @@ export default function CrittersClient() {
         </CardContent>
       </Card>
 
-      {/* Sources */}
-      {dataset.sourced && dataset.sources && (
-        <Card size="sm">
-          <CardHeader>
-            <CardTitle className="text-sm">Sources</CardTitle>
-            <CardDescription>{dataset.critter} index inputs</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm leading-6 text-muted-foreground">
-              <span className="font-medium text-foreground">Sources:</span>{" "}
-              {dataset.sources.join(", ")}
-            </p>
-          </CardContent>
-        </Card>
-      )}
+      <Card size="sm">
+        <CardHeader>
+          <CardTitle className="text-sm">Sources</CardTitle>
+          <CardDescription>{dataset.label} inputs</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm leading-6 text-muted-foreground">
+            <span className="font-medium text-foreground">Sources:</span>{" "}
+            {dataset.sources.join(", ")}
+          </p>
+          <p className="text-sm leading-6 text-muted-foreground">
+            <span className="font-medium text-foreground">Methodology:</span>{" "}
+            {dataset.methodology}
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
+}
+
+function mode(values: string[]) {
+  const counts = new Map<string, number>();
+  for (const value of values) counts.set(value, (counts.get(value) ?? 0) + 1);
+  return [...counts].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
 }
 
 function StatCard({
@@ -313,7 +262,7 @@ function SelectedCard({
   total,
   onClear,
 }: {
-  stat: StateValue;
+  stat: StateWeatherIndexValue;
   unit: string;
   total: number;
   onClear: () => void;
@@ -343,22 +292,26 @@ function SelectedCard({
           <span className="text-xs text-muted-foreground">{unit}</span>
         </div>
         <Separator />
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-muted-foreground">National rank</span>
-          <span className="font-semibold tabular-nums">
-            #{stat.rank} of {total}
-          </span>
-        </div>
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-muted-foreground">Risk band</span>
-          <Badge
-            className="gap-1 border-transparent text-white"
-            style={{ background: bandColor(stat.band) }}
-          >
-            {stat.band}
-          </Badge>
-        </div>
+        <InfoRow label="National rank" value={`#${stat.rank} of ${total}`} />
+        <InfoRow label="Risk band" value={stat.band} />
+        <InfoRow
+          label="Annual solar-noon UVI"
+          value={stat.annualMeanSolarNoonUvi.toFixed(1)}
+        />
+        <InfoRow
+          label="Peak monthly UVI"
+          value={`${stat.peakMonthlyMeanUvi.toFixed(1)} in ${stat.peakMonth}`}
+        />
       </CardContent>
     </Card>
+  );
+}
+
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-4 text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="text-right font-semibold tabular-nums">{value}</span>
+    </div>
   );
 }

@@ -1,0 +1,51 @@
+state,state_abbr,uv_exposure_index_0_100,rank,band,annual_mean_solar_noon_uvi,peak_monthly_mean_uvi,peak_month,annual_uvi_p10_within_state,annual_uvi_p90_within_state
+Alabama,AL,64,11,High,7.699,11.304,Jul,7.355,8.017
+Alaska,AK,0,50,Very Low,2.48,5.527,Jun,1.838,3.229
+Arizona,AZ,76,4,High,8.669,12.715,Jul,8.098,9.222
+Arkansas,AR,58,16,Moderate,7.197,11.063,Jul,6.917,7.496
+California,CA,62,13,High,7.461,11.512,Jul,6.567,8.166
+Colorado,CO,70,6,High,8.142,12.501,Jul,7.201,9.063
+Connecticut,CT,38,38,Low,5.536,9.59,Jul,5.495,5.584
+Delaware,DE,43,30,Moderate,5.999,10.009,Jul,5.898,6.054
+Florida,FL,77,3,High,8.716,11.901,Jul,8.132,9.473
+Georgia,GA,65,10,High,7.713,11.299,Jul,7.469,8.017
+Hawaii,HI,100,1,Very High,10.575,13.127,Aug,10.204,11.174
+Idaho,ID,52,21,Moderate,6.685,10.89,Jul,5.647,7.211
+Illinois,IL,43,31,Moderate,5.988,10.132,Jul,5.595,6.389
+Indiana,IN,44,29,Moderate,6.058,10.164,Jul,5.757,6.363
+Iowa,IA,40,35,Moderate,5.728,9.981,Jul,5.506,5.956
+Kansas,KS,53,20,Moderate,6.79,11.036,Jul,6.395,7.211
+Kentucky,KY,51,22,Moderate,6.618,10.613,Jul,6.415,6.854
+Louisiana,LA,70,7,High,8.113,11.605,Jul,7.689,8.414
+Maine,ME,29,49,Low,4.834,8.822,Jul,4.616,5.077
+Maryland,MD,45,28,Moderate,6.087,10.105,Jul,5.961,6.18
+Massachusetts,MA,36,41,Low,5.388,9.431,Jul,5.26,5.511
+Michigan,MI,31,46,Low,4.991,9.073,Jul,4.454,5.48
+Minnesota,MN,30,47,Low,4.902,9.033,Jul,4.512,5.344
+Mississippi,MS,64,12,High,7.659,11.291,Jul,7.266,8.049
+Missouri,MO,49,25,Moderate,6.459,10.586,Jul,6.092,6.813
+Montana,MT,39,36,Low,5.653,9.805,Jul,5.03,6.51
+Nebraska,NE,47,26,Moderate,6.31,10.663,Jul,5.914,6.73
+Nevada,NV,65,9,High,7.731,11.947,Jul,7.158,8.188
+New Hampshire,NH,34,42,Low,5.231,9.27,Jul,5.129,5.344
+New Jersey,NJ,41,34,Moderate,5.799,9.841,Jul,5.694,5.924
+New Mexico,NM,80,2,Very High,8.967,13.027,Jul,8.507,9.322
+New York,NY,36,40,Low,5.406,9.468,Jul,5.124,5.662
+North Carolina,NC,56,19,Moderate,6.989,10.807,Jul,6.712,7.334
+North Dakota,ND,30,48,Low,4.887,9.029,Jul,4.559,5.218
+Ohio,OH,43,32,Moderate,5.969,10.067,Jul,5.642,6.217
+Oklahoma,OK,60,15,High,7.305,11.331,Jul,6.996,7.58
+Oregon,OR,45,27,Moderate,6.1,10.176,Jul,5.296,6.792
+Pennsylvania,PA,43,33,Moderate,5.921,9.995,Jul,5.762,6.107
+Rhode Island,RI,37,39,Low,5.449,9.498,Jul,5.396,5.5
+South Carolina,SC,60,14,High,7.336,11.021,Jul,7.156,7.532
+South Dakota,SD,38,37,Low,5.587,9.897,Jul,5.245,6.014
+Tennessee,TN,57,18,Moderate,7.067,10.942,Jul,6.828,7.318
+Texas,TX,74,5,High,8.479,12.135,Jul,7.752,9.211
+Utah,UT,68,8,High,7.981,12.31,Jul,7.357,8.398
+Vermont,VT,34,43,Low,5.219,9.251,Jul,5.035,5.38
+Virginia,VA,51,23,Moderate,6.574,10.521,Jul,6.248,7.016
+Washington,WA,32,45,Low,5.069,9.032,Jun,4.631,5.375
+West Virginia,WV,50,24,Moderate,6.546,10.571,Jul,6.258,6.875
+Wisconsin,WI,33,44,Low,5.145,9.29,Jul,4.857,5.422
+Wyoming,WY,57,17,Moderate,7.108,11.482,Jul,6.306,7.765

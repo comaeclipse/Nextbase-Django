@@ -174,6 +174,79 @@ const BITING_FLY_DATA: StateValue[] = BITING_FLY_ROWS.map(
   })
 );
 
+// -- Ticks --------------------------------------------------------------------
+// Real data from data/us_state_tick_index.csv (index/rank/band verbatim).
+// Sources: CDC tick surveillance and disease ecology data, NOAA climate
+// normals, USDA FIA forest data, Alaska DEC, Hawaii DOH, and CDC EID research.
+const TICK_ROWS: [
+  name: string,
+  abbr: string,
+  value: number,
+  rank: number,
+  band: BandName,
+][] = [
+  ["Alabama", "AL", 82, 13, "Very High"],
+  ["Alaska", "AK", 4, 49, "Very Low"],
+  ["Arizona", "AZ", 0, 50, "Very Low"],
+  ["Arkansas", "AR", 86, 8, "Very High"],
+  ["California", "CA", 48, 34, "Moderate"],
+  ["Colorado", "CO", 17, 41, "Very Low"],
+  ["Connecticut", "CT", 91, 5, "Very High"],
+  ["Delaware", "DE", 100, 1, "Very High"],
+  ["Florida", "FL", 99, 3, "Very High"],
+  ["Georgia", "GA", 62, 27, "High"],
+  ["Hawaii", "HI", 6, 47, "Very Low"],
+  ["Idaho", "ID", 12, 44, "Very Low"],
+  ["Illinois", "IL", 84, 9, "Very High"],
+  ["Indiana", "IN", 94, 4, "Very High"],
+  ["Iowa", "IA", 56, 29, "Moderate"],
+  ["Kansas", "KS", 27, 38, "Low"],
+  ["Kentucky", "KY", 71, 22, "High"],
+  ["Louisiana", "LA", 53, 30, "Moderate"],
+  ["Maine", "ME", 87, 7, "Very High"],
+  ["Maryland", "MD", 91, 6, "Very High"],
+  ["Massachusetts", "MA", 79, 16, "High"],
+  ["Michigan", "MI", 60, 28, "High"],
+  ["Minnesota", "MN", 51, 31, "Moderate"],
+  ["Mississippi", "MS", 83, 10, "Very High"],
+  ["Missouri", "MO", 49, 32, "Moderate"],
+  ["Montana", "MT", 14, 43, "Very Low"],
+  ["Nebraska", "NE", 32, 36, "Low"],
+  ["Nevada", "NV", 7, 46, "Very Low"],
+  ["New Hampshire", "NH", 82, 12, "Very High"],
+  ["New Jersey", "NJ", 100, 2, "Very High"],
+  ["New Mexico", "NM", 6, 48, "Very Low"],
+  ["New York", "NY", 83, 11, "Very High"],
+  ["North Carolina", "NC", 77, 18, "High"],
+  ["North Dakota", "ND", 15, 42, "Very Low"],
+  ["Ohio", "OH", 70, 24, "High"],
+  ["Oklahoma", "OK", 70, 23, "High"],
+  ["Oregon", "OR", 32, 35, "Low"],
+  ["Pennsylvania", "PA", 76, 19, "High"],
+  ["Rhode Island", "RI", 80, 14, "Very High"],
+  ["South Carolina", "SC", 77, 17, "High"],
+  ["South Dakota", "SD", 18, 39, "Very Low"],
+  ["Tennessee", "TN", 62, 26, "High"],
+  ["Texas", "TX", 49, 33, "Moderate"],
+  ["Utah", "UT", 18, 40, "Very Low"],
+  ["Vermont", "VT", 75, 20, "High"],
+  ["Virginia", "VA", 75, 21, "High"],
+  ["Washington", "WA", 32, 37, "Low"],
+  ["West Virginia", "WV", 79, 15, "High"],
+  ["Wisconsin", "WI", 63, 25, "High"],
+  ["Wyoming", "WY", 11, 45, "Very Low"],
+];
+
+const TICK_DATA: StateValue[] = TICK_ROWS.map(
+  ([name, state, value, rank, band]) => ({
+    name,
+    state,
+    value,
+    rank,
+    band,
+  })
+);
+
 export const CRITTER_DATASETS: CritterDataset[] = [
   {
     id: "mosquito",
@@ -211,6 +284,36 @@ export const CRITTER_DATASETS: CritterDataset[] = [
       "U.S. Geological Survey (USGS)",
     ],
     data: BITING_FLY_DATA,
+  },
+  {
+    id: "ticks",
+    critter: "Ticks",
+    metricLabel: "Tick index",
+    unit: "0–100 index",
+    blurb:
+      "Relative tick pressure by state, combining major tick-species surveillance, tickborne-disease ecology, climate normals, forest habitat, and range-expansion signals. 100 = worst in the nation.",
+    sourced: true,
+    sources: [
+      "Centers for Disease Control and Prevention (CDC)",
+      "Tick Surveillance Data Sets",
+      "Blacklegged and Western Blacklegged Tick Surveillance",
+      "Lone Star Tick Surveillance",
+      "American Dog Tick Surveillance",
+      "Tickborne Pathogen Surveillance",
+      "Lyme Disease Surveillance Data",
+      "Where Ticks Live",
+      "NOAA National Centers for Environmental Information",
+      "U.S. Climate Normals",
+      "USDA Forest Service",
+      "Forest Inventory and Analysis",
+      "Alaska Department of Environmental Conservation",
+      "Alaska tick surveillance and exposure information",
+      "Hawaii Department of Health",
+      "Brown dog tick and Hawaii tick-species information",
+      "CDC journal Emerging Infectious Diseases",
+      "Gulf Coast tick range-expansion research",
+    ],
+    data: TICK_DATA,
   },
 ];
 

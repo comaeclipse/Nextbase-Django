@@ -233,3 +233,23 @@ Every metric is **nullable** — a city may have temperature normals but no humi
 Rows are unique on `(location_id, month)`; importers upsert on that key. Climate *normals* are stable (NOAA revises once a decade), so a single-vintage upsert table with a `data_vintage` tag suffices — no append-only history / current-view layer like pace uses.
 
 Migrate with `scripts/migrate-weather-monthly.ts` (idempotent, `--dry-run`). Application reads via `getMonthlyWeather(locationId)` in `lib/locations.ts`, which returns `[]` if the table is not yet migrated.
+
+---
+
+## State weather indices
+
+State-level weather and exposure datasets that are not city-specific live outside `locations_location` and `location_weather_monthly`.
+
+Table: `state_weather_indices`
+
+- **IndexSlug**: Stable dataset identifier, e.g. `uv`. Unique with `State`.
+- **State** / **StateName**: USPS abbreviation and full state label.
+- **IndexLabel** / **MetricLabel** / **Unit** / **Blurb**: Display metadata for the page.
+- **Value**: Primary 0-100 index value used for map color and ranking.
+- **Rank**: National rank, `1` = highest exposure.
+- **Band**: `Very Low` / `Low` / `Moderate` / `High` / `Very High`.
+- **AnnualMeanSolarNoonUvi** / **PeakMonthlyMeanUvi** / **PeakMonth**: UV-specific supporting metrics. These are nullable so the table can later hold other state-weather indices.
+- **DataVintage** / **Sources** / **Methodology** / **SourceFile**: Provenance for the dataset.
+- **UpdatedAt**: Last upsert timestamp.
+
+The first dataset is the state UV exposure index, sourced from NASA Earth Observations UV climatology with EPA and NOAA comparison sources. Migrate and import with `scripts/migrate-state-weather-indices.ts` (idempotent, supports `--dry-run`). Application reads via `getStateWeatherIndex("uv")` in `lib/state-weather.ts`; if the table is absent in a local environment, the route falls back to the committed static dataset from `lib/state-weather-data.ts`.

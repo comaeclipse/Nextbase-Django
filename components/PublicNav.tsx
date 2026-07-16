@@ -1,6 +1,13 @@
 import Link from "next/link";
 
-type NavKey = "home" | "explore" | "map" | "quiz" | "weather" | "critters";
+type NavKey =
+  | "home"
+  | "explore"
+  | "map"
+  | "quiz"
+  | "weather"
+  | "uv"
+  | "critters";
 
 const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "home", href: "/", label: "Home" },
@@ -8,6 +15,7 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "map", href: "/map", label: "Map" },
   { key: "quiz", href: "/quiz", label: "Take the Quiz" },
   { key: "weather", href: "/weather", label: "Weather" },
+  { key: "uv", href: "/uv", label: "UV" },
   { key: "critters", href: "/critters", label: "Critters" },
 ];
 

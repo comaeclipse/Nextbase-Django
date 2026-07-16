@@ -1,0 +1,51 @@
+state,state_abbr,tick_index,rank,band,blacklegged_tick_index,lone_star_tick_index,dog_wood_tick_index,disease_ecology_index
+Alabama,AL,82,13,Very High,65,73,69,0
+Alaska,AK,4,49,Very Low,0,0,7,0
+Arizona,AZ,0,50,Very Low,7,0,2,0
+Arkansas,AR,86,8,Very High,53,97,83,0
+California,CA,48,34,Moderate,96,0,19,31
+Colorado,CO,17,41,Very Low,0,2,49,0
+Connecticut,CT,91,5,Very High,100,38,74,94
+Delaware,DE,100,1,Very High,100,80,67,90
+Florida,FL,99,3,Very High,89,80,86,0
+Georgia,GA,62,27,High,35,53,64,4
+Hawaii,HI,6,47,Very Low,0,0,3,0
+Idaho,ID,12,44,Very Low,0,0,35,0
+Illinois,IL,84,9,Very High,72,76,77,38
+Indiana,IN,94,4,Very High,99,59,84,60
+Iowa,IA,56,29,Moderate,62,43,53,17
+Kansas,KS,27,38,Low,13,35,33,0
+Kentucky,KY,71,22,High,52,78,54,12
+Louisiana,LA,53,30,Moderate,42,38,47,4
+Maine,ME,87,7,Very High,100,30,59,94
+Maryland,MD,91,6,Very High,93,82,51,69
+Massachusetts,MA,79,16,High,100,19,64,75
+Michigan,MI,60,28,High,74,25,46,40
+Minnesota,MN,51,31,Moderate,78,1,33,75
+Mississippi,MS,83,10,Very High,69,82,61,0
+Missouri,MO,49,32,Moderate,23,62,46,0
+Montana,MT,14,43,Very Low,1,0,40,0
+Nebraska,NE,32,36,Low,6,38,53,7
+Nevada,NV,7,46,Very Low,5,0,26,0
+New Hampshire,NH,82,12,Very High,100,14,67,94
+New Jersey,NJ,100,2,Very High,100,76,65,88
+New Mexico,NM,6,48,Very Low,0,1,18,0
+New York,NY,83,11,Very High,100,51,32,95
+North Carolina,NC,77,18,High,69,57,64,17
+North Dakota,ND,15,42,Very Low,15,0,32,5
+Ohio,OH,70,24,High,89,35,57,37
+Oklahoma,OK,70,23,High,50,90,55,0
+Oregon,OR,32,35,Low,54,0,26,10
+Pennsylvania,PA,76,19,High,100,19,49,90
+Rhode Island,RI,80,14,Very High,100,48,43,62
+South Carolina,SC,77,17,High,64,65,64,6
+South Dakota,SD,18,39,Very Low,8,7,42,4
+Tennessee,TN,62,26,High,42,61,55,9
+Texas,TX,49,33,Moderate,18,57,56,0
+Utah,UT,18,40,Very Low,25,0,30,0
+Vermont,VT,75,20,High,100,11,51,87
+Virginia,VA,75,21,High,59,61,49,63
+Washington,WA,32,37,Low,49,0,26,11
+West Virginia,WV,79,15,High,90,34,54,68
+Wisconsin,WI,63,25,High,89,16,32,84
+Wyoming,WY,11,45,Very Low,0,2,37,0
