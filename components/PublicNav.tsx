@@ -1,4 +1,13 @@
 import Link from "next/link";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 type NavKey =
   | "home"
@@ -17,12 +26,15 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "explore", href: "/explore", label: "Explore" },
   { key: "map", href: "/map", label: "Map" },
   { key: "quiz", href: "/quiz", label: "Take the Quiz" },
-  { key: "weather", href: "/weather", label: "Weather" },
-  { key: "uv", href: "/uv", label: "UV" },
   { key: "critters", href: "/critters", label: "Critters" },
-  { key: "air-quality", href: "/air-quality", label: "Air Quality" },
-  { key: "insurance", href: "/insurance", label: "Insurance" },
-  { key: "politics", href: "/politics", label: "Politics" },
+];
+
+const DATA_LINKS: { key: NavKey; href: string; label: string; description: string }[] = [
+  { key: "uv", href: "/uv", label: "UV", description: "State-level UV exposure" },
+  { key: "weather", href: "/weather", label: "Weather", description: "Climate and comfort data" },
+  { key: "air-quality", href: "/air-quality", label: "Air Quality", description: "Annual air-quality comparisons" },
+  { key: "politics", href: "/politics", label: "Politics", description: "State political landscape" },
+  { key: "insurance", href: "/insurance", label: "Insurance", description: "Home and auto cost benchmarks" },
 ];
 
 export default function PublicNav({ active }: { active?: NavKey }) {
@@ -32,15 +44,45 @@ export default function PublicNav({ active }: { active?: NavKey }) {
         <Link href="/" className="site-logo">
           VetRetire
         </Link>
-        <ul className="site-nav-links">
-          {LINKS.map((link) => (
-            <li key={link.key}>
-              <Link href={link.href} aria-current={active === link.key ? "page" : undefined}>
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <NavigationMenu className="site-nav-menu">
+          <NavigationMenuList className="site-nav-links">
+            {LINKS.map((link) => (
+              <NavigationMenuItem key={link.key}>
+                <NavigationMenuLink
+                  render={<Link href={link.href} />}
+                  className={navigationMenuTriggerStyle({ className: "site-nav-link" })}
+                  aria-current={active === link.key ? "page" : undefined}
+                >
+                  {link.label}
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+            <NavigationMenuItem>
+              <NavigationMenuTrigger
+                className="site-data-trigger"
+                aria-current={DATA_LINKS.some((link) => link.key === active) ? "page" : undefined}
+              >
+                Data
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="site-data-menu-content">
+                <ul aria-label="Data pages">
+                  {DATA_LINKS.map((link) => (
+                    <li key={link.key}>
+                      <NavigationMenuLink
+                        render={<Link href={link.href} />}
+                        className="site-data-menu-link"
+                        aria-current={active === link.key ? "page" : undefined}
+                      >
+                        <span>{link.label}</span>
+                        <small>{link.description}</small>
+                      </NavigationMenuLink>
+                    </li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
     </nav>
   );
