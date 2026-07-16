@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import * as d3 from "d3";
+import * as topojson from "topojson-client";
+import atlas from "us-atlas/states-10m.json";
 import { STATE_NAME_TO_ABBR } from "@/lib/states";
 import { CRITTER_RAMP, type StateValue } from "@/lib/critters";
 
@@ -8,7 +11,8 @@ import { CRITTER_RAMP, type StateValue } from "@/lib/critters";
  * D3 + topojson US choropleth of nuisance-critter density, built on the same
  * proven approach as components/StateMap.tsx: geoAlbersUsa (which repositions
  * Alaska/Hawaii as insets) applied to the geographic us-atlas topojson, with
- * libraries dynamically imported so they're code-split.
+ * libraries imported with the initial client bundle so a fresh direct visit
+ * cannot leave the map waiting on a secondary chunk.
  *
  * The SVG is owned imperatively; a floating HTML tooltip (styled with shadcn
  * tokens) follows the cursor, and clicking a state calls onSelect.
@@ -57,15 +61,10 @@ export default function CrittersMap({
 
     (async () => {
       try {
-        const [d3, topojson, atlas] = await Promise.all([
-          import("d3"),
-          import("topojson-client"),
-          import("us-atlas/states-10m.json") as Promise<{ default: unknown }>,
-        ]);
         if (cancelled || !svgRef.current) return;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const us = (atlas as any).default ?? atlas;
+        const us = atlas as any;
         container.innerHTML = "";
 
         const maxValue = Math.max(...data.map((d) => d.value), 1);
