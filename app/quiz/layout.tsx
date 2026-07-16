@@ -18,11 +18,11 @@ export default function QuizLayout({
       <PublicNav active="quiz" />
       <header className="quiz-hero">
         <div className="quiz-hero-content">
-          <span className="quiz-hero-badge">Personalized Match</span>
+          <span className="quiz-hero-badge">Dealbreaker Cards</span>
           <h1>Find Your Perfect Fit</h1>
           <p>
-            Answer a few quick questions about climate, budget, and lifestyle.
-            We&apos;ll re-rank every location against what matters most to you.
+            Ten quick flash cards. Agree, disagree, or say it doesn&apos;t
+            matter — each answer can rule places in or out.
           </p>
         </div>
       </header>

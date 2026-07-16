@@ -2,31 +2,50 @@
 
 import Link from "next/link";
 import type { Location } from "@/lib/types";
+import {
+  summarizeQuizConstraints,
+  type QuizProfile,
+} from "@/lib/quiz";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function QuizResults({
   matches,
+  profile,
   onRetake,
 }: {
   matches: Location[];
+  profile: QuizProfile;
   onRetake: () => void;
 }) {
+  const constraints = summarizeQuizConstraints(profile);
+
   return (
     <div className="quiz-results">
       <div className="flex flex-col gap-2 text-center">
         <h1 className="text-2xl font-semibold">Your Top Matches</h1>
         <p className="text-sm text-muted-foreground">
-          Based on your answers, these locations fit you best. Head to Explore
-          to see the full personalized list and filters.
+          Places that survive your dealbreakers, ranked by overall Fit. Open
+          Explore to browse the full list or loosen a constraint.
         </p>
       </div>
+
+      {constraints.length > 0 && (
+        <div className="quiz-constraint-chips">
+          {constraints.map((label) => (
+            <Badge key={label} variant="secondary">
+              {label}
+            </Badge>
+          ))}
+        </div>
+      )}
 
       {matches.length === 0 ? (
         <Card>
           <CardContent className="py-8 text-center text-sm text-muted-foreground">
-            No locations matched every preference — try loosening a filter or
-            retaking the quiz.
+            No locations matched every dealbreaker. Try marking a few cards as
+            &quot;Doesn&apos;t matter&quot; or retake the quiz.
           </CardContent>
         </Card>
       ) : (

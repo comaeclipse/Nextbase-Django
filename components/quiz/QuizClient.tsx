@@ -1,60 +1,49 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { Check, Minus, X } from "lucide-react";
 import type { Location, StateInfoRow } from "@/lib/types";
-import { filterAndSort } from "@/lib/filters";
-import { calculatePersonalizedScore } from "@/lib/scoring";
 import {
   DEFAULT_QUIZ_PROFILE,
-  QUIZ_QUESTIONS,
-  profileToFilterParams,
-  profileToWeights,
+  FLASH_QUESTIONS,
+  filterByQuizProfile,
+  firstUnansweredStep,
+  isQuizComplete,
   setQuizProfileCookie,
   clearQuizProfileCookie,
   type QuizProfile,
-  type QuizQuestion,
+  type Stance,
 } from "@/lib/quiz";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import QuizResults from "./QuizResults";
 
-const MULTI_IDS = new Set<keyof QuizProfile>(["climate", "activities"]);
-
-function isMultiId(id: keyof QuizProfile): id is "climate" | "activities" {
-  return MULTI_IDS.has(id);
-}
-
-/** Renders a checkbox list for a multi-select question with pre-narrowed props. */
-function MultiChoiceList({
-  id,
-  options,
-  selected,
-  onToggle,
-}: {
-  id: "climate" | "activities";
-  options: { value: string; label: string }[];
-  selected: string[];
-  onToggle: (id: "climate" | "activities", value: string) => void;
-}) {
-  return (
-    <div className="flex flex-col gap-3">
-      {options.map((opt) => (
-        <div key={opt.value} className="flex items-center gap-2.5">
-          <Checkbox
-            id={`${id}-${opt.value}`}
-            checked={selected.includes(opt.value)}
-            onCheckedChange={() => onToggle(id, opt.value)}
-          />
-          <Label htmlFor={`${id}-${opt.value}`}>{opt.label}</Label>
-        </div>
-      ))}
-    </div>
-  );
-}
+const STANCES: {
+  value: Stance;
+  label: string;
+  icon: typeof Check;
+  className: string;
+}[] = [
+  {
+    value: "agree",
+    label: "I agree",
+    icon: Check,
+    className: "quiz-stance-agree",
+  },
+  {
+    value: "neutral",
+    label: "Doesn't matter",
+    icon: Minus,
+    className: "quiz-stance-neutral",
+  },
+  {
+    value: "disagree",
+    label: "I disagree",
+    icon: X,
+    className: "quiz-stance-disagree",
+  },
+];
 
 export default function QuizClient({
   initialLocations,
@@ -65,137 +54,153 @@ export default function QuizClient({
   stateInfos: StateInfoRow[];
   initialProfile: QuizProfile | null;
 }) {
-  const [answers, setAnswers] = useState<QuizProfile>(
-    initialProfile ?? DEFAULT_QUIZ_PROFILE
+  const seed = initialProfile ?? DEFAULT_QUIZ_PROFILE;
+  const [answers, setAnswers] = useState<QuizProfile>(seed);
+  const [step, setStep] = useState(() =>
+    isQuizComplete(seed) ? 0 : firstUnansweredStep(seed)
   );
-  const [step, setStep] = useState(0);
-  const [finished, setFinished] = useState(false);
+  const [finished, setFinished] = useState(() => isQuizComplete(seed));
+  const [cardKey, setCardKey] = useState(0);
+  const [pendingStance, setPendingStance] = useState<Stance | null>(null);
+  const advanceTimer = useRef<number | null>(null);
 
-  const total = QUIZ_QUESTIONS.length;
-  const question: QuizQuestion | undefined = QUIZ_QUESTIONS[step];
-  const progressPct = finished ? 100 : Math.round((step / total) * 100);
-
-  const stateInfoByAbbr = useMemo(() => {
-    const map: Record<string, StateInfoRow> = {};
-    for (const s of stateInfos) map[s.state] = s;
-    return map;
-  }, [stateInfos]);
+  const total = FLASH_QUESTIONS.length;
+  const question = FLASH_QUESTIONS[step];
+  const answeredCount = FLASH_QUESTIONS.filter(
+    (q) => answers.answers[q.id] != null
+  ).length;
+  const progressPct = finished
+    ? 100
+    : Math.round(
+        ((answeredCount + (pendingStance ? 1 : 0)) / total) * 100
+      );
 
   const matches = useMemo(() => {
     if (!finished) return [];
-    const filterParams = profileToFilterParams(answers);
-    const weights = profileToWeights(answers);
-    return filterAndSort(initialLocations, stateInfos, filterParams, {
-      scoreFn: (loc) =>
-        calculatePersonalizedScore(loc, stateInfoByAbbr[loc.state], weights),
-    }).slice(0, 6);
-  }, [finished, answers, initialLocations, stateInfos, stateInfoByAbbr]);
+    return filterByQuizProfile(initialLocations, stateInfos, answers).slice(
+      0,
+      6
+    );
+  }, [finished, answers, initialLocations, stateInfos]);
 
-  // The wizard is driven generically by QUIZ_QUESTIONS, so individual answer
-  // updates can't be narrowed to a single QuizProfile key at compile time;
-  // callers only ever pass a value matching the question's own type.
-  function updateAnswer(
-    id: keyof QuizProfile,
-    value: string | string[]
-  ) {
-    setAnswers((prev) => ({ ...prev, [id]: value }) as QuizProfile);
-  }
-
-  function toggleMultiValue(id: "climate" | "activities", value: string) {
-    setAnswers((prev) => {
-      const current = prev[id];
-      const next = current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value];
-      return { ...prev, [id]: next };
-    });
-  }
-
-  function goNext() {
-    if (step < total - 1) {
-      setStep((s) => s + 1);
-    } else {
-      setQuizProfileCookie(answers);
-      setFinished(true);
+  function choose(stance: Stance) {
+    if (pendingStance || !question) return;
+    if (advanceTimer.current != null) {
+      window.clearTimeout(advanceTimer.current);
     }
+
+    setPendingStance(stance);
+    const nextProfile: QuizProfile = {
+      ...answers,
+      answers: { ...answers.answers, [question.id]: stance },
+    };
+
+    advanceTimer.current = window.setTimeout(() => {
+      setAnswers(nextProfile);
+      setPendingStance(null);
+      advanceTimer.current = null;
+
+      if (step < total - 1) {
+        setStep((s) => s + 1);
+        setCardKey((k) => k + 1);
+      } else {
+        setQuizProfileCookie(nextProfile);
+        setFinished(true);
+      }
+    }, 220);
   }
 
   function goBack() {
-    if (step > 0) setStep((s) => s - 1);
+    if (pendingStance || step === 0) return;
+    if (advanceTimer.current != null) {
+      window.clearTimeout(advanceTimer.current);
+      advanceTimer.current = null;
+      setPendingStance(null);
+    }
+    setStep((s) => s - 1);
+    setCardKey((k) => k + 1);
   }
 
   function retake() {
-    setAnswers(DEFAULT_QUIZ_PROFILE);
+    if (advanceTimer.current != null) {
+      window.clearTimeout(advanceTimer.current);
+      advanceTimer.current = null;
+    }
     clearQuizProfileCookie();
+    setAnswers(DEFAULT_QUIZ_PROFILE);
     setFinished(false);
     setStep(0);
+    setCardKey((k) => k + 1);
+    setPendingStance(null);
   }
 
   if (finished) {
-    return <QuizResults matches={matches} onRetake={retake} />;
+    return (
+      <QuizResults matches={matches} profile={answers} onRetake={retake} />
+    );
   }
 
   if (!question) return null;
+
+  const selected = pendingStance ?? answers.answers[question.id];
 
   return (
     <div className="quiz-flow">
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span>
-            Question {step + 1} of {total}
+            Card {step + 1} of {total}
           </span>
           <span>{progressPct}%</span>
         </div>
         <Progress value={progressPct} />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">{question.title}</CardTitle>
-          {question.description && (
-            <CardDescription>{question.description}</CardDescription>
-          )}
-        </CardHeader>
-        <CardContent>
-          {question.type === "single" && question.options && (
-            <RadioGroup
-              value={String(answers[question.id] ?? "")}
-              onValueChange={(v) => updateAnswer(question.id, String(v))}
-              className="flex flex-col gap-3"
+      <div
+        key={cardKey}
+        className="quiz-flash-card"
+        role="group"
+        aria-labelledby={`quiz-q-${question.id}`}
+      >
+        <p className="quiz-flash-eyebrow">How do you feel about this?</p>
+        <h2 id={`quiz-q-${question.id}`} className="quiz-flash-statement">
+          {question.statement}
+        </h2>
+        {question.hint && <p className="quiz-flash-hint">{question.hint}</p>}
+
+        <div className="quiz-stance-list">
+          {STANCES.map(({ value, label, icon: Icon, className }) => (
+            <button
+              key={value}
+              type="button"
+              className={cn(
+                "quiz-stance-btn",
+                className,
+                selected === value && "is-selected"
+              )}
+              onClick={() => choose(value)}
+              disabled={pendingStance != null}
             >
-              {question.options.map((opt) => (
-                <div key={opt.value} className="flex items-center gap-2.5">
-                  <RadioGroupItem
-                    id={`${question.id}-${opt.value}`}
-                    value={opt.value}
-                  />
-                  <Label htmlFor={`${question.id}-${opt.value}`}>
-                    {opt.label}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          )}
-
-          {question.type === "multi" && question.options && isMultiId(question.id) && (
-            <MultiChoiceList
-              id={question.id}
-              options={question.options}
-              selected={answers[question.id]}
-              onToggle={toggleMultiValue}
-            />
-          )}
-
-        </CardContent>
-      </Card>
+              <span className="quiz-stance-icon" aria-hidden>
+                <Icon />
+              </span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="flex items-center justify-between">
-        <Button variant="outline" onClick={goBack} disabled={step === 0}>
+        <Button
+          variant="outline"
+          onClick={goBack}
+          disabled={step === 0 || pendingStance != null}
+        >
           Back
         </Button>
-        <Button onClick={goNext}>
-          {step === total - 1 ? "See My Matches" : "Next"}
-        </Button>
+        <p className="text-xs text-muted-foreground">
+          Tap an answer to continue
+        </p>
       </div>
     </div>
   );

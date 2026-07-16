@@ -1,238 +1,305 @@
 /*
- * Quiz/profile model for the /quiz feature (GitHub issue #2). Captures a
- * visitor's retirement preferences and turns them into:
- *  - hard filters (via profileToFilterParams -> lib/filters.ts FilterParams)
- *  - personalized Fit-score weights (via profileToWeights -> lib/scoring.ts)
- * The resulting profile is persisted client-side in a cookie so /explore can
- * read it back and personalize matching without any server-side session.
+ * Flash-card quiz for /quiz. Each answer is a hard constraint that can rule
+ * locations in or out (via filterByQuizProfile). Soft Fit-score weighting is
+ * intentionally not used here — the product pitch is decisive dealbreakers.
+ *
+ * Profile is persisted in a cookie so a visitor can resume or retake without a
+ * server session. Cookie name is versioned; older wizard-shaped cookies are
+ * ignored rather than migrated.
  */
-import type { FilterParams } from "./filters";
-import type { PersonalizedWeights } from "./scoring";
+import type { Location, LocationRow, StateInfoRow } from "./types";
+import {
+  calculateBaselineScore,
+  parseLgbtqScore,
+  parseNumber,
+} from "./scoring";
 
-/** How strongly a consideration should influence a visitor's ranking. */
-export type PreferenceLevel = "priority" | "consider" | "skip";
+export type Stance = "agree" | "disagree" | "neutral";
 
-const PREFERENCE_WEIGHT: Record<PreferenceLevel, number> = {
-  priority: 1,
-  consider: 0.5,
-  skip: 0,
-};
+export type FlashQuestionId =
+  | "transit"
+  | "four_seasons"
+  | "no_snow"
+  | "nightlife"
+  | "va_military"
+  | "gun_control"
+  | "same_sex_marriage"
+  | "no_income_tax"
+  | "lakes"
+  | "dry_desert";
+
+export interface FlashQuestion {
+  id: FlashQuestionId;
+  statement: string;
+  /** Short note shown under the statement (optional). */
+  hint?: string;
+}
 
 export interface QuizProfile {
-  climate: string[];
-  lifestyle: "urban" | "suburban" | "small_town" | "rural" | "";
-  costOfLiving: "low" | "moderate" | "high" | ""; // retained for /explore filter compat
-  priceMax: string; // "" (no limit) or thousands, e.g. "350"
-  activities: string[];
-  vaImportance: PreferenceLevel;
-  lgbtqImportance: PreferenceLevel;
-  gunRightsImportance: PreferenceLevel;
-  affordabilityImportance: PreferenceLevel;
-};
-
-export const DEFAULT_QUIZ_PROFILE: QuizProfile = {
-  climate: [],
-  lifestyle: "",
-  costOfLiving: "",
-  priceMax: "",
-  activities: [],
-  vaImportance: "consider",
-  lgbtqImportance: "consider",
-  gunRightsImportance: "consider",
-  affordabilityImportance: "consider",
-};
-
-export type QuizQuestionType = "single" | "multi";
-
-export interface QuizQuestionOption {
-  value: string;
-  label: string;
+  version: 3;
+  answers: Record<FlashQuestionId, Stance | null>;
 }
 
-export interface QuizQuestion {
-  id: keyof QuizProfile;
-  title: string;
-  description?: string;
-  type: QuizQuestionType;
-  options: QuizQuestionOption[];
-}
-
-/** Data-driven question list — QuizClient renders generically from this. */
-export const QUIZ_QUESTIONS: QuizQuestion[] = [
+export const FLASH_QUESTIONS: FlashQuestion[] = [
   {
-    id: "climate",
-    type: "multi",
-    title: "What kind of weather feels most like home?",
-    description:
-      "Choose any climates you would genuinely consider. We'll keep places that fit at least one of them.",
-    options: [
-      { value: "cold_snowy", label: "❄️ Four seasons, including real winter" },
-      { value: "hot_humid", label: "💧 Warm, humid summers are fine" },
-      { value: "hot_dry", label: "☀️ Lots of sun and dry air" },
-      { value: "mild_coastal", label: "🌊 Milder weather, ideally near the coast" },
-    ],
+    id: "transit",
+    statement: "Access to public transportation is very important",
+    hint: "We treat walkable urban cores as the best transit proxy in our data.",
   },
   {
-    id: "lifestyle",
-    type: "single",
-    title: "What should an ordinary week in retirement feel like?",
-    description: "Think about the pace and surroundings you would enjoy day to day.",
-    options: [
-      { value: "", label: "I'm open to different settings" },
-      { value: "urban", label: "Walkable, lively, and close to things" },
-      { value: "suburban", label: "Convenient, with a little more breathing room" },
-      { value: "small_town", label: "A small town with its own local pace" },
-      { value: "rural", label: "Quiet, spacious, and a slower pace" },
-    ],
+    id: "four_seasons",
+    statement: "I need all four seasons",
+    hint: "Distinct winters with real cold or snow — not mild year-round weather.",
   },
   {
-    id: "priceMax",
-    type: "single",
-    title: "What home price would keep this move comfortable?",
-    description: "Use this as a ceiling, not a target. Places above it won't appear in your matches.",
-    options: [
-      { value: "", label: "Don't use home price to narrow my options" },
-      { value: "250", label: "Up to $250k" },
-      { value: "350", label: "Up to $350k" },
-      { value: "450", label: "Up to $450k" },
-      { value: "600", label: "Up to $600k" },
-    ],
+    id: "no_snow",
+    statement: "I cannot tolerate any snow",
+    hint: "Agree keeps only places with zero annual snowfall.",
   },
   {
-    id: "activities",
-    type: "multi",
-    title: "What would make a good weekend even better?",
-    description:
-      "Choose any interests that would make a place more appealing. A match needs at least one of them nearby.",
-    options: [
-      { value: "golf", label: "⛳ Golf" },
-      { value: "fishing", label: "🎣 Fishing" },
-      { value: "hiking", label: "🥾 Hiking" },
-      { value: "culture", label: "🎭 Arts & Culture" },
-    ],
+    id: "nightlife",
+    statement: "I need an active nightlife scene",
   },
   {
-    id: "vaImportance",
-    type: "single",
-    title: "How should VA care factor into your search?",
-    description: "This affects the order of your matches; it does not remove places from the list.",
-    options: [
-      { value: "priority", label: "Keep VA care close by" },
-      { value: "consider", label: "A reasonable drive is fine, but closer is better" },
-      { value: "skip", label: "Don't use it to rank my matches" },
-    ],
+    id: "va_military",
+    statement: "I'd like to be near a VA or military base",
+    hint: "Local VA facility or a defense / military hub.",
   },
   {
-    id: "affordabilityImportance",
-    type: "single",
-    title: "How much should everyday costs influence the results?",
-    description: "This looks at both local cost of living and typical home prices.",
-    options: [
-      { value: "priority", label: "Keep my budget front and center" },
-      { value: "consider", label: "Worth paying more for the right place" },
-      { value: "skip", label: "Don't use cost to rank my matches" },
-    ],
+    id: "gun_control",
+    statement: "I support common sense gun control",
+    hint: "Agree keeps states with assault-weapon or high-capacity magazine bans.",
   },
   {
-    id: "gunRightsImportance",
-    type: "single",
-    title: "How should state gun laws factor into your search?",
-    options: [
-      { value: "priority", label: "Make it a major consideration" },
-      { value: "consider", label: "Factor it in, but don't lead with it" },
-      { value: "skip", label: "Don't use it to rank my matches" },
-    ],
+    id: "same_sex_marriage",
+    statement: "Same-sex marriage rights are a must for me",
+    hint: "Agree keeps places with strong LGBTQ friendliness scores.",
   },
   {
-    id: "lgbtqImportance",
-    type: "single",
-    title: "What role should an affirming local community play?",
-    options: [
-      { value: "priority", label: "Prioritize inclusive, welcoming communities" },
-      { value: "consider", label: "It's a welcome plus" },
-      { value: "skip", label: "Don't use it to rank my matches" },
-    ],
+    id: "no_income_tax",
+    statement: "No income tax is important to me",
+  },
+  {
+    id: "lakes",
+    statement: "I want to be near lakes",
+  },
+  {
+    id: "dry_desert",
+    statement: "I prefer dry desert over humidity",
+    hint: "Agree keeps hot/dry climates; disagree keeps hot/humid ones.",
   },
 ];
 
-/** Map preference answers onto the existing /explore filter shape. */
-export function profileToFilterParams(profile: QuizProfile): FilterParams {
-  return {
-    climate: profile.climate.length ? profile.climate.join(",") : null,
-    lifestyle: profile.lifestyle || null,
-    cost_of_living: profile.costOfLiving || null,
-    price_max: profile.priceMax || null,
-    activities: profile.activities.length ? profile.activities.join(",") : null,
-    sort: "best",
-  };
+const QUESTION_IDS = FLASH_QUESTIONS.map((q) => q.id);
+
+function emptyAnswers(): Record<FlashQuestionId, Stance | null> {
+  return Object.fromEntries(QUESTION_IDS.map((id) => [id, null])) as Record<
+    FlashQuestionId,
+    Stance | null
+  >;
 }
 
-/**
- * Map the separate ranking preferences onto Fit-score weights. Affordability
- * covers two individual score factors, so its weight is divided between them.
- */
-export function profileToWeights(profile: QuizProfile): PersonalizedWeights {
-  const preferenceWeight = (value: unknown) => {
-    if (typeof value === "string" && value in PREFERENCE_WEIGHT) {
-      return PREFERENCE_WEIGHT[value as PreferenceLevel];
+export const DEFAULT_QUIZ_PROFILE: QuizProfile = {
+  version: 3,
+  answers: emptyAnswers(),
+};
+
+function nearVaOrMilitary(loc: LocationRow): boolean {
+  return Boolean(loc.has_va) || Boolean(loc.defense_hub);
+}
+
+function hasCommonSenseGunControl(stateInfo: StateInfoRow | null | undefined): boolean {
+  return (
+    stateInfo?.assault_weapons_ban === true ||
+    stateInfo?.high_cap_mag_ban === true
+  );
+}
+
+/** Whether a location survives one flash-card stance. Neutral never filters. */
+export function matchesFlashStance(
+  loc: LocationRow,
+  id: FlashQuestionId,
+  stance: Stance,
+  stateInfo?: StateInfoRow | null
+): boolean {
+  if (stance === "neutral") return true;
+
+  switch (id) {
+    case "transit": {
+      // No dedicated transit metric yet — urban pace is the closest proxy.
+      if (stance === "agree") return loc.pace_category === "urban";
+      return loc.pace_category != null && loc.pace_category !== "urban";
     }
-    // Preserve older numeric 0-4 cookies from the original quiz.
-    const numeric = Number(value);
-    if (Number.isFinite(numeric)) return Math.max(0, Math.min(numeric, 4)) / 4;
-    return PREFERENCE_WEIGHT.consider;
-  };
-  const affordability = preferenceWeight(profile.affordabilityImportance) / 2;
-  return {
-    lgbtq: preferenceWeight(profile.lgbtqImportance),
-    va: preferenceWeight(profile.vaImportance),
-    safety: 0,
-    gunRights: preferenceWeight(profile.gunRightsImportance),
-    costOfLiving: affordability,
-    homeValue: affordability,
-  };
+    case "four_seasons": {
+      if (stance === "agree") return loc.climate_category === "cold_snowy";
+      return (
+        loc.climate_category != null && loc.climate_category !== "cold_snowy"
+      );
+    }
+    case "no_snow": {
+      if (stance === "agree") {
+        return loc.snow_annual === 0 || loc.snow_annual == null;
+      }
+      return loc.snow_annual != null && loc.snow_annual > 0;
+    }
+    case "nightlife": {
+      const hasNightlife = loc.vibes?.includes("nightlife") ?? false;
+      return stance === "agree" ? hasNightlife : !hasNightlife;
+    }
+    case "va_military": {
+      const near = nearVaOrMilitary(loc);
+      return stance === "agree" ? near : !near;
+    }
+    case "gun_control": {
+      const controlled = hasCommonSenseGunControl(stateInfo);
+      return stance === "agree" ? controlled : !controlled;
+    }
+    case "same_sex_marriage": {
+      // Marriage is federally protected; local LGBTQ friendliness is the
+      // practical signal for whether a place feels affirming day to day.
+      const score = parseLgbtqScore(loc);
+      if (score === null) return false;
+      return stance === "agree" ? score >= 70 : score < 50;
+    }
+    case "no_income_tax": {
+      const rate = parseNumber(loc.income_tax);
+      if (rate === null) return false;
+      return stance === "agree" ? rate === 0 : rate > 0;
+    }
+    case "lakes": {
+      const near = loc.near_lake === true;
+      return stance === "agree" ? near : !near;
+    }
+    case "dry_desert": {
+      if (stance === "agree") return loc.climate_category === "hot_dry";
+      return loc.climate_category === "hot_humid";
+    }
+    default:
+      return true;
+  }
 }
 
-export const QUIZ_COOKIE_NAME = "vr_quiz_profile";
+/** Apply every answered flash card as a hard AND filter, then baseline-rank. */
+export function filterByQuizProfile(
+  all: LocationRow[],
+  stateInfos: StateInfoRow[],
+  profile: QuizProfile
+): Location[] {
+  const stateByAbbr: Record<string, StateInfoRow> = {};
+  for (const s of stateInfos) stateByAbbr[s.state] = s;
+
+  const constraints = QUESTION_IDS.filter((id) => {
+    const stance = profile.answers[id];
+    return stance === "agree" || stance === "disagree";
+  });
+
+  const filtered = all.filter((loc) =>
+    constraints.every((id) =>
+      matchesFlashStance(
+        loc,
+        id,
+        profile.answers[id] as Stance,
+        stateByAbbr[loc.state]
+      )
+    )
+  );
+
+  const scored: Location[] = filtered.map((loc) => ({
+    ...loc,
+    calculated_match_score: calculateBaselineScore(loc),
+  }));
+
+  scored.sort(
+    (a, b) =>
+      b.calculated_match_score - a.calculated_match_score ||
+      (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
+  );
+  return scored;
+}
+
+/** Plain-language tags summarizing hard constraints for the results screen. */
+export function summarizeQuizConstraints(profile: QuizProfile): string[] {
+  const labels: Partial<
+    Record<FlashQuestionId, { agree: string; disagree: string }>
+  > = {
+    transit: {
+      agree: "Needs transit-friendly urban areas",
+      disagree: "Avoids urban cores",
+    },
+    four_seasons: {
+      agree: "Requires four seasons",
+      disagree: "Skips four-season climates",
+    },
+    no_snow: {
+      agree: "Zero snow only",
+      disagree: "Needs some snowfall",
+    },
+    nightlife: {
+      agree: "Needs nightlife",
+      disagree: "Skips nightlife cities",
+    },
+    va_military: {
+      agree: "Near VA or military hub",
+      disagree: "Away from VA / military hubs",
+    },
+    no_income_tax: {
+      agree: "No state income tax",
+      disagree: "States with income tax",
+    },
+    gun_control: {
+      agree: "States with stronger gun laws",
+      disagree: "States without AWB / mag bans",
+    },
+    same_sex_marriage: {
+      agree: "LGBTQ-affirming communities",
+      disagree: "Lower LGBTQ friendliness",
+    },
+    lakes: { agree: "Near lakes", disagree: "Not near lakes" },
+    dry_desert: {
+      agree: "Hot / dry climate",
+      disagree: "Hot / humid climate",
+    },
+  };
+
+  const out: string[] = [];
+  for (const q of FLASH_QUESTIONS) {
+    const stance = profile.answers[q.id];
+    if (stance !== "agree" && stance !== "disagree") continue;
+    const pair = labels[q.id];
+    if (pair) out.push(pair[stance]);
+  }
+  return out;
+}
+
+export const QUIZ_COOKIE_NAME = "vr_quiz_flash_v3";
 const QUIZ_COOKIE_MAX_AGE = 60 * 60 * 24 * 180; // 180 days
 
 export function encodeQuizProfile(profile: QuizProfile): string {
   return encodeURIComponent(JSON.stringify(profile));
 }
 
-/**
- * Convert a point-budget cookie into the separate-preference shape. This keeps
- * people who used the previous quiz version from losing their saved profile.
- */
-function migratePriorityBudget(parsed: Record<string, unknown>): Record<string, unknown> {
-  if (!parsed.priorities || typeof parsed.priorities !== "object") return parsed;
-  const priorities = parsed.priorities as Record<string, unknown>;
-  const level = (key: string): PreferenceLevel => {
-    const points = Number(priorities[key]);
-    if (!Number.isFinite(points) || points <= 0) return "skip";
-    return points >= 3 ? "priority" : "consider";
-  };
-  return {
-    ...parsed,
-    vaImportance: level("va"),
-    lgbtqImportance: level("lgbtq"),
-    gunRightsImportance: level("gunRights"),
-    affordabilityImportance: level("affordability"),
-  };
-}
-
-export function decodeQuizProfile(raw: string | null | undefined): QuizProfile | null {
+export function decodeQuizProfile(
+  raw: string | null | undefined
+): QuizProfile | null {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(decodeURIComponent(raw));
     if (typeof parsed !== "object" || parsed === null) return null;
-    const migrated = migratePriorityBudget(parsed as Record<string, unknown>);
-    return { ...DEFAULT_QUIZ_PROFILE, ...migrated };
+    if (parsed.version !== 3 || typeof parsed.answers !== "object") return null;
+
+    const answers = emptyAnswers();
+    for (const id of QUESTION_IDS) {
+      const value = parsed.answers[id];
+      if (value === "agree" || value === "disagree" || value === "neutral") {
+        answers[id] = value;
+      }
+    }
+    return { version: 3, answers };
   } catch {
     return null;
   }
 }
 
-/** Persist the profile client-side. No server session/middleware required. */
 export function setQuizProfileCookie(profile: QuizProfile): void {
   if (typeof document === "undefined") return;
   document.cookie = `${QUIZ_COOKIE_NAME}=${encodeQuizProfile(profile)}; path=/; max-age=${QUIZ_COOKIE_MAX_AGE}; samesite=lax`;
@@ -249,4 +316,14 @@ export function readQuizProfileCookieClient(): QuizProfile | null {
     new RegExp(`(?:^|; )${QUIZ_COOKIE_NAME}=([^;]*)`)
   );
   return match ? decodeQuizProfile(match[1]) : null;
+}
+
+/** Resume mid-quiz when the cookie has answers but the visitor hasn't finished. */
+export function firstUnansweredStep(profile: QuizProfile): number {
+  const idx = QUESTION_IDS.findIndex((id) => profile.answers[id] == null);
+  return idx === -1 ? QUESTION_IDS.length : idx;
+}
+
+export function isQuizComplete(profile: QuizProfile): boolean {
+  return QUESTION_IDS.every((id) => profile.answers[id] != null);
 }
