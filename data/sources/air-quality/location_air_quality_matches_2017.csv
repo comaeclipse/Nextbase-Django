@@ -1,0 +1,86 @@
+LocationId,City,State,LocationCounty,MatchStatus,SourceGeoType,SourceStateName,SourceGeoName,Year,DaysWithAQI,MedianAQI,P90AQI,MaxAQI,GoodDays,ModerateDays,UnhealthySensitiveDays,UnhealthyDays,VeryUnhealthyDays,HazardousDays,SourceUrl
+7,Anchorage,AK,Alaska,matched_city_as_county,county,Alaska,Anchorage ,2017,365,28,59,105,299,65,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+8,Huntsville,AL,Madison,matched_county,county,Alabama,Madison,2017,335,40,54,100,277,58,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+9,Mobile,AL,Mobile,matched_county,county,Alabama,Mobile,2017,361,43,60,139,250,106,5,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+89,Camden,AR,Ouachita,unmatched,,,,2017,,,,,,,,,,,
+10,Little Rock,AR,Pulaski,matched_county,county,Arkansas,Pulaski,2017,365,52,64,115,161,203,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+12,Phoenix,AZ,Maricopa,matched_county,county,Arizona,Maricopa,2017,365,71,108,173,38,272,50,5,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+69,Sierra Vista,AZ,Cochise,matched_county,county,Arizona,Cochise,2017,365,45,71,111,248,115,2,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+11,Tucson,AZ,Pima,matched_county,county,Arizona,Pima,2017,365,54,80,122,121,237,7,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+14,Costa Mesa,CA,Orange,matched_county,county,California,Orange,2017,365,59,97,151,86,247,30,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+91,Eureka,CA,Humboldt,matched_county,county,California,Humboldt,2017,365,37,61,180,298,59,5,3,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+71,Irvine,CA,Orange,matched_county,county,California,Orange,2017,365,59,97,151,86,247,30,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+73,San Diego,CA,San Diego,matched_county,county,California,San Diego,2017,365,68,112,174,41,262,56,6,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+13,Yuba City,CA,Sutter,matched_county,county,California,Sutter,2017,365,56,84,130,128,228,9,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+15,Colorado Springs,CO,El Paso,matched_county,county,Colorado,El Paso,2017,365,47,71,116,223,139,3,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+85,Pueblo,CO,Pueblo,matched_county,county,Colorado,Pueblo,2017,125,26,49,108,113,10,2,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+16,Bridgeport,CT,Fairfield,matched_county,county,Connecticut,Fairfield,2017,365,46,74,179,208,141,12,4,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+17,Wilmington,DE,New Castle,matched_county,county,Delaware,New Castle,2017,365,50,71,147,187,168,10,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+19,Malabar,FL,Brevard,matched_county,county,Florida,Brevard,2017,352,43,56,97,254,98,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+72,Orlando,FL,Orange,matched_county,county,Florida,Orange,2017,365,49,64,147,195,168,2,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+18,Pensacola,FL,Escambia,matched_county,county,Florida,Escambia,2017,365,41,58,115,286,76,3,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+20,Atlanta,GA,Fulton,matched_county,county,Georgia,Fulton,2017,365,55,71,136,123,236,6,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+77,Marietta,GA,Cobb,matched_county,county,Georgia,Cobb,2017,284,43,58,97,211,73,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+21,Honolulu,HI,Honolulu,matched_county,county,Hawaii,Honolulu,2017,365,32,46,68,340,25,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+83,Carroll,IA,Carroll,unmatched,,,,2017,,,,,,,,,,,
+82,Decorah,IA,Winneshiek,unmatched,,,,2017,,,,,,,,,,,
+22,Des Moines,IA,Polk,matched_county,county,Iowa,Polk,2017,365,45,61,135,222,142,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+24,Boise,ID,Ada,matched_county,county,Idaho,Ada,2017,365,46,87,196,217,126,18,4,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+23,Kuna,ID,Ada,matched_county,county,Idaho,Ada,2017,365,46,87,196,217,126,18,4,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+66,Chicago,IL,Cook,matched_county,county,Illinois,Cook,2017,365,55,87,177,114,232,18,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+70,Danville,IL,Vermilion,unmatched,,,,2017,,,,,,,,,,,
+87,Fort Wayne,IN,Allen,matched_county,county,Indiana,Allen,2017,365,47,63,105,214,150,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+25,Indianopolis,IN,Marion,matched_county,county,Indiana,Marion,2017,365,54,71,122,134,227,4,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+74,Overland Park,KS,Johnson,matched_county,county,Kansas,Johnson,2017,364,40,56,100,281,83,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+26,Wichita,KS,Sedgwick,matched_county,county,Kansas,Sedgwick,2017,365,45,60,100,236,129,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+27,Louisville,KY,Jefferson,matched_county,county,Kentucky,Jefferson,2017,365,54,67,112,133,228,4,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+28,New Orleans,LA,Orleans,matched_county,county,Louisiana,Orleans,2017,365,49,58,98,191,174,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+29,Boston,MA,Suffolk,matched_county,county,Massachusetts,Suffolk,2017,365,56,70,119,98,264,3,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+30,Baltimore,MD,Baltimore,matched_county,county,Maryland,Baltimore,2017,365,43,69,166,262,91,11,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+86,Bath,ME,Sagadahoc,matched_cbsa,cbsa,Maine,"Portland-South Portland, ME",2017,365,41,58,159,270,93,1,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_cbsa_2017.zip
+31,Portland,ME,Cumberland,matched_county,county,Maine,Cumberland,2017,365,40,57,150,271,92,2,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+32,Warren,MI,Macomb,matched_county,county,Michigan,Macomb,2017,284,42,64,112,212,69,3,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+80,Burnsville,MN,Dakota,matched_county,county,Minnesota,Dakota,2017,365,37,57,85,267,98,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+33,Minneapolis,MN,Hennepin,matched_county,county,Minnesota,Hennepin,2017,365,52,67,115,166,198,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+34,St. Charles,MO,St. Charles,matched_cbsa,cbsa,Missouri,"St. Louis, MO-IL",2017,365,57,84,159,88,265,11,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_cbsa_2017.zip
+88,Forest,MS,Scott,unmatched,,,,2017,,,,,,,,,,,
+35,Jackson,MS,Hinds,matched_county,county,Mississippi,Hinds,2017,365,52,64,90,162,203,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+36,Billings,MT,Yellowstone,matched_county,county,Montana,Yellowstone,2017,356,33,63,141,272,79,5,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+78,Great Falls,MT,Cascade,matched_county,county,Montana,Cascade,2017,345,38,60,105,241,103,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+75,Fayetteville,NC,Cumberland,matched_county,county,North Carolina,Cumberland,2017,365,48,62,100,199,166,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+38,Indian Trail,NC,Union,matched_county,county,North Carolina,Union,2017,236,43,58,115,204,31,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+37,Raleigh,NC,Wake,matched_county,county,North Carolina,Wake,2017,365,52,64,100,161,204,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+39,Fargo,ND,Cass,matched_county,county,North Dakota,Cass,2017,362,44,57,79,232,130,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+79,Jamestown,ND,Stutsman,matched_county,county,North Dakota,Stutsman,2017,359,10,30,75,352,7,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+40,Omaha,NE,Douglas,matched_county,county,Nebraska,Douglas,2017,365,52,64,90,171,194,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+41,Manchester,NH,Hillsborough,matched_county,county,New Hampshire,Hillsborough,2017,365,37,48,101,336,28,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+42,Paterson,NJ,Passaic,matched_county,county,New Jersey,Passaic,2017,299,38,57,112,240,58,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+43,Albuquerque,NM,Bernalillo,matched_county,county,New Mexico,Bernalillo,2017,365,53,78,119,145,216,4,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+44,Las Vegas,NV,Clark,matched_county,county,Nevada,Clark,2017,365,61,97,154,100,236,28,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+81,Rome,NY,Oneida,matched_county,county,New York,Oneida,2017,359,26,52,67,313,46,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+45,Syracuse,NY,Onondaga,matched_county,county,New York,Onondaga,2017,365,36,54,93,310,55,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+46,Akron,OH,Summit,matched_county,county,Ohio,Summit,2017,365,46,63,97,221,144,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+48,Cincinnati,OH,Hamilton,matched_county,county,Ohio,Hamilton,2017,365,55,72,129,118,242,5,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+47,Columbus,OH,Franklin,matched_county,county,Ohio,Franklin,2017,365,46,62,112,227,135,3,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+49,Tulsa,OK,Tulsa,matched_county,county,Oklahoma,Tulsa,2017,365,54,70,102,138,226,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+50,Portland,OR,Multnomah,matched_county,county,Oregon,Multnomah,2017,365,38,63,166,278,81,1,5,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+76,King of Prussia,PA,Montgomery,matched_county,county,Pennsylvania,Montgomery,2017,364,47,68,129,210,147,7,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+51,Philadelphia,PA,Philadelphia,matched_county,county,Pennsylvania,Philadelphia,2017,365,56,74,166,96,257,10,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+52,Providence,RI,Providence,matched_county,county,Rhode Island,Providence,2017,365,45,61,150,225,136,4,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+54,Greenville,SC,Greenville,matched_county,county,South Carolina,Greenville,2017,365,49,63,97,195,170,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+53,Irmo,SC,Lexington,matched_county,county,South Carolina,Lexington,2017,354,44,60,85,220,134,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+55,Sioux Falls,SD,Minnehaha,matched_county,county,South Dakota,Minnehaha,2017,365,38,58,97,287,78,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+56,Nashville,TN,Davidson,matched_county,county,Tennessee,Davidson,2017,365,53,65,133,161,203,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+58,El Paso,TX,El Paso,matched_county,county,Texas,El Paso,2017,365,56,90,162,120,222,21,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+57,Houston,TX,Harris,matched_county,county,Texas,Harris,2017,365,54,80,177,107,238,18,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+68,San Antonio,TX,Bexar,matched_county,county,Texas,Bexar,2017,363,50,70,203,186,171,4,1,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+59,Salt Lake City,UT,Salt Lake,matched_county,county,Utah,Salt Lake,2017,365,60,104,156,131,190,43,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+84,Chantilly,VA,Fairfax,matched_county,county,Virginia,Fairfax,2017,365,49,61,105,206,158,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+60,Norfolk,VA,Norfolk,matched_county,county,Virginia,Norfolk City,2017,363,19,46,66,335,28,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+67,Virginia Beach,VA,Virginia Beach,matched_county,county,Virginia,Virginia Beach City,2017,233,34,54,69,184,49,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+61,Burlington,VT,Chittenden,matched_county,county,Vermont,Chittenden,2017,365,37,52,74,312,53,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+62,Bremerton,WA,Kitsap,matched_county,county,Washington,Kitsap,2017,360,19,47,144,326,29,5,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+63,Milwaukee,WI,Milwaukee,matched_county,county,Wisconsin,Milwaukee,2017,365,44,67,129,223,138,4,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+64,Charleston,WV,Kanawha,matched_county,county,West Virginia,Kanawha,2017,365,47,60,105,214,150,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+90,Casper,WY,Natrona,matched_county,county,Wyoming,Natrona,2017,365,44,61,137,286,77,2,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip
+65,Cheyenne,WY,Laramie,matched_county,county,Wyoming,Laramie,2017,365,45,64,163,267,95,1,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2017.zip

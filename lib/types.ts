@@ -153,6 +153,44 @@ export interface WeatherMonthlyRow {
   source_retrieved_on: string | null;
 }
 
+/**
+ * Annual AQI summary matched to a curated city. EPA AirData publishes these
+ * annual summaries by county/CBSA rather than exact municipal boundary, so the
+ * matched source geography is stored with every row.
+ */
+export interface AirQualityAnnualRow {
+  id: number;
+  location_id: number;
+  year: number;
+  source_geo_type: "county" | "cbsa" | "nearest_county";
+  source_state_name: string;
+  source_geo_name: string;
+  source_distance_miles: string | null;
+
+  days_with_aqi: number;
+  good_days: number;
+  moderate_days: number;
+  unhealthy_sensitive_days: number;
+  unhealthy_days: number;
+  very_unhealthy_days: number;
+  hazardous_days: number;
+  max_aqi: number;
+  p90_aqi: number;
+  median_aqi: number;
+
+  days_co: number;
+  days_no2: number;
+  days_ozone: number;
+  days_pm25: number;
+  days_pm10: number;
+
+  data_vintage: string;
+  source_kind: string;
+  source_url: string;
+  source_file: string;
+  source_retrieved_on: string;
+}
+
 /** A filterable employer (`defense_employers`), e.g. Raytheon under parent RTX. */
 export interface DefenseEmployerRow {
   id: number;

@@ -1,0 +1,86 @@
+LocationId,City,State,LocationCounty,MatchStatus,SourceGeoType,SourceStateName,SourceGeoName,Year,DaysWithAQI,MedianAQI,P90AQI,MaxAQI,GoodDays,ModerateDays,UnhealthySensitiveDays,UnhealthyDays,VeryUnhealthyDays,HazardousDays,SourceUrl
+7,Anchorage,AK,Alaska,matched_city_as_county,county,Alaska,Anchorage ,2003,310,26,53,484,267,39,3,0,0,1,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+8,Huntsville,AL,Madison,matched_county,county,Alabama,Madison,2003,365,46,84,143,208,143,14,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+9,Mobile,AL,Mobile,matched_county,county,Alabama,Mobile,2003,362,44,80,182,214,130,16,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+89,Camden,AR,Ouachita,unmatched,,,,2003,,,,,,,,,,,
+10,Little Rock,AR,Pulaski,matched_county,county,Arkansas,Pulaski,2003,365,61,84,151,68,283,13,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+12,Phoenix,AZ,Maricopa,matched_county,county,Arizona,Maricopa,2003,365,74,122,195,42,248,65,10,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+69,Sierra Vista,AZ,Cochise,matched_county,county,Arizona,Cochise,2003,351,49,80,126,190,154,7,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+11,Tucson,AZ,Pima,matched_county,county,Arizona,Pima,2003,365,54,97,154,140,194,30,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+14,Costa Mesa,CA,Orange,matched_county,county,California,Orange,2003,365,66,116,200,58,246,48,13,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+91,Eureka,CA,Humboldt,matched_county,county,California,Humboldt,2003,64,34,59,102,50,13,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+71,Irvine,CA,Orange,matched_county,county,California,Orange,2003,365,66,116,200,58,246,48,13,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+73,San Diego,CA,San Diego,matched_county,county,California,San Diego,2003,365,71,126,328,47,239,71,7,0,1,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+13,Yuba City,CA,Sutter,matched_county,county,California,Sutter,2003,365,42,101,185,245,83,32,5,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+15,Colorado Springs,CO,El Paso,matched_county,county,Colorado,El Paso,2003,365,45,77,147,243,109,13,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+85,Pueblo,CO,Pueblo,matched_county,county,Colorado,Pueblo,2003,128,38,55,94,98,30,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+16,Bridgeport,CT,Fairfield,matched_county,county,Connecticut,Fairfield,2003,365,44,95,221,228,105,22,7,3,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+17,Wilmington,DE,New Castle,matched_county,county,Delaware,New Castle,2003,365,60,97,217,94,241,26,2,2,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+19,Malabar,FL,Brevard,matched_county,county,Florida,Brevard,2003,365,37,55,147,302,56,7,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+72,Orlando,FL,Orange,matched_county,county,Florida,Orange,2003,365,53,69,147,131,226,8,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+18,Pensacola,FL,Escambia,matched_county,county,Florida,Escambia,2003,365,54,90,185,133,211,19,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+20,Atlanta,GA,Fulton,matched_county,county,Georgia,Fulton,2003,365,62,97,202,66,269,25,4,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+77,Marietta,GA,Cobb,matched_county,county,Georgia,Cobb,2003,285,53,93,203,128,139,15,2,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+21,Honolulu,HI,Honolulu,matched_county,county,Hawaii,Honolulu,2003,365,27,42,176,346,17,1,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+83,Carroll,IA,Carroll,unmatched,,,,2003,,,,,,,,,,,
+82,Decorah,IA,Winneshiek,unmatched,,,,2003,,,,,,,,,,,
+22,Des Moines,IA,Polk,matched_county,county,Iowa,Polk,2003,365,50,70,127,187,175,3,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+24,Boise,ID,Ada,matched_county,county,Idaho,Ada,2003,362,40,67,143,269,87,6,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+23,Kuna,ID,Ada,matched_county,county,Idaho,Ada,2003,362,40,67,143,269,87,6,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+66,Chicago,IL,Cook,matched_county,county,Illinois,Cook,2003,365,65,101,185,55,267,38,5,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+70,Danville,IL,Vermilion,unmatched,,,,2003,,,,,,,,,,,
+87,Fort Wayne,IN,Allen,matched_county,county,Indiana,Allen,2003,365,54,87,197,133,214,13,5,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+25,Indianopolis,IN,Marion,matched_county,county,Indiana,Marion,2003,365,63,96,197,40,296,24,5,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+74,Overland Park,KS,Johnson,matched_county,county,Kansas,Johnson,2003,285,51,101,201,140,115,27,2,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+26,Wichita,KS,Sedgwick,matched_county,county,Kansas,Sedgwick,2003,365,44,84,159,222,129,13,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+27,Louisville,KY,Jefferson,matched_county,county,Kentucky,Jefferson,2003,365,63,91,177,49,291,23,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+28,New Orleans,LA,Orleans,matched_county,county,Louisiana,Orleans,2003,365,55,73,143,117,242,6,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+29,Boston,MA,Suffolk,matched_county,county,Massachusetts,Suffolk,2003,365,62,89,192,40,308,15,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+30,Baltimore,MD,Baltimore,matched_county,county,Maryland,Baltimore,2003,365,58,90,204,103,240,19,2,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+86,Bath,ME,Sagadahoc,matched_county,county,Maine,Sagadahoc,2003,166,37,61,156,143,18,4,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+31,Portland,ME,Cumberland,matched_county,county,Maine,Cumberland,2003,365,37,54,147,318,39,8,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+32,Warren,MI,Macomb,matched_county,county,Michigan,Macomb,2003,364,36,81,215,252,95,12,2,3,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+80,Burnsville,MN,Dakota,matched_county,county,Minnesota,Dakota,2003,365,48,73,147,193,166,6,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+33,Minneapolis,MN,Hennepin,matched_county,county,Minnesota,Hennepin,2003,365,53,72,116,152,209,4,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+34,St. Charles,MO,St. Charles,matched_cbsa,cbsa,Missouri,"St. Louis, MO-IL",2003,365,69,115,212,39,268,47,8,3,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_cbsa_2003.zip
+88,Forest,MS,Scott,matched_county,county,Mississippi,Scott,2003,97,53,74,93,39,58,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+35,Jackson,MS,Hinds,matched_county,county,Mississippi,Hinds,2003,365,58,77,112,70,292,3,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+36,Billings,MT,Yellowstone,matched_county,county,Montana,Yellowstone,2003,365,17,47,100,333,32,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+78,Great Falls,MT,Cascade,matched_county,county,Montana,Cascade,2003,353,11,37,155,329,21,2,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+75,Fayetteville,NC,Cumberland,matched_county,county,North Carolina,Cumberland,2003,363,44,84,164,217,130,12,4,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+38,Indian Trail,NC,Union,matched_county,county,North Carolina,Union,2003,207,45,93,201,140,56,10,0,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+37,Raleigh,NC,Wake,matched_county,county,North Carolina,Wake,2003,363,58,90,210,88,245,24,5,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+39,Fargo,ND,Cass,matched_county,county,North Dakota,Cass,2003,365,38,59,131,291,73,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+79,Jamestown,ND,Stutsman,unmatched,,,,2003,,,,,,,,,,,
+40,Omaha,NE,Douglas,matched_county,county,Nebraska,Douglas,2003,365,53,74,186,159,200,5,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+41,Manchester,NH,Hillsborough,matched_county,county,New Hampshire,Hillsborough,2003,365,41,78,150,256,94,15,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+42,Paterson,NJ,Passaic,matched_county,county,New Jersey,Passaic,2003,253,44,84,156,159,80,13,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+43,Albuquerque,NM,Bernalillo,matched_county,county,New Mexico,Bernalillo,2003,365,64,108,168,96,213,52,4,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+44,Las Vegas,NV,Clark,matched_county,county,Nevada,Clark,2003,365,71,122,225,30,267,57,10,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+81,Rome,NY,Oneida,matched_county,county,New York,Oneida,2003,236,40,71,185,189,39,6,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+45,Syracuse,NY,Onondaga,matched_county,county,New York,Onondaga,2003,365,32,58,182,311,48,4,2,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+46,Akron,OH,Summit,matched_county,county,Ohio,Summit,2003,365,60,88,204,65,278,18,3,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+48,Cincinnati,OH,Hamilton,matched_county,county,Ohio,Hamilton,2003,365,64,97,197,40,294,25,6,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+47,Columbus,OH,Franklin,matched_county,county,Ohio,Franklin,2003,365,63,97,225,44,287,27,5,2,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+49,Tulsa,OK,Tulsa,matched_county,county,Oklahoma,Tulsa,2003,365,59,97,172,108,228,22,7,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+50,Portland,OR,Multnomah,matched_county,county,Oregon,Multnomah,2003,365,28,54,93,306,59,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+76,King of Prussia,PA,Montgomery,matched_county,county,Pennsylvania,Montgomery,2003,365,41,80,202,254,97,11,2,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+51,Philadelphia,PA,Philadelphia,matched_county,county,Pennsylvania,Philadelphia,2003,365,60,101,197,93,233,34,5,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+52,Providence,RI,Providence,matched_county,county,Rhode Island,Providence,2003,365,54,82,197,126,226,10,3,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+54,Greenville,SC,Greenville,matched_county,county,South Carolina,Greenville,2003,365,59,77,118,80,279,6,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+53,Irmo,SC,Lexington,matched_county,county,South Carolina,Lexington,2003,303,38,63,95,208,95,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+55,Sioux Falls,SD,Minnehaha,matched_county,county,South Dakota,Minnehaha,2003,365,29,61,105,290,74,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+56,Nashville,TN,Davidson,matched_county,county,Tennessee,Davidson,2003,365,61,87,150,48,302,15,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+58,El Paso,TX,El Paso,matched_county,county,Texas,El Paso,2003,365,61,110,1091,94,222,38,6,1,4,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+57,Houston,TX,Harris,matched_county,county,Texas,Harris,2003,365,64,151,226,46,250,32,25,12,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+68,San Antonio,TX,Bexar,matched_county,county,Texas,Bexar,2003,365,47,97,202,208,124,26,6,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+59,Salt Lake City,UT,Salt Lake,matched_county,county,Utah,Salt Lake,2003,365,58,101,296,126,200,32,6,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+84,Chantilly,VA,Fairfax,matched_county,county,Virginia,Fairfax,2003,365,57,93,219,107,231,22,4,1,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+60,Norfolk,VA,Norfolk,matched_county,county,Virginia,Norfolk City,2003,364,33,61,154,275,88,0,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+67,Virginia Beach,VA,Virginia Beach,matched_county,county,Virginia,Virginia Beach City,2003,123,54,77,156,43,79,0,1,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+61,Burlington,VT,Chittenden,matched_county,county,Vermont,Chittenden,2003,365,38,62,122,277,82,6,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+62,Bremerton,WA,Kitsap,matched_county,county,Washington,Kitsap,2003,21,52,64,77,10,11,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+63,Milwaukee,WI,Milwaukee,matched_county,county,Wisconsin,Milwaukee,2003,365,42,87,187,232,108,17,8,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+64,Charleston,WV,Kanawha,matched_county,county,West Virginia,Kanawha,2003,365,43,80,177,218,131,12,4,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+90,Casper,WY,Natrona,matched_county,county,Wyoming,Natrona,2003,57,16,38,120,54,2,1,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip
+65,Cheyenne,WY,Laramie,matched_county,county,Wyoming,Laramie,2003,117,24,44,68,108,9,0,0,0,0,https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2003.zip

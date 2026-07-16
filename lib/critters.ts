@@ -21,6 +21,8 @@ export type StateValue = {
   rank: number;
   /** Qualitative risk band. */
   band: BandName;
+  /** Optional domain-specific label for map tooltips. */
+  displayBand?: string;
 };
 
 export type CritterDataset = {

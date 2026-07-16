@@ -8,6 +8,7 @@ type NavKey =
   | "weather"
   | "uv"
   | "critters"
+  | "air-quality"
   | "insurance";
 
 const LINKS: { key: NavKey; href: string; label: string }[] = [
@@ -18,6 +19,7 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "weather", href: "/weather", label: "Weather" },
   { key: "uv", href: "/uv", label: "UV" },
   { key: "critters", href: "/critters", label: "Critters" },
+  { key: "air-quality", href: "/air-quality", label: "Air Quality" },
   { key: "insurance", href: "/insurance", label: "Insurance" },
 ];
 

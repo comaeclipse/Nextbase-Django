@@ -76,3 +76,8 @@ npm-debug.log*
 
 # Pace classifier raw snapshots (large; regenerable via prepare-pace-sources.ts)
 /data/sources/pace/raw/
+
+# Air quality importer raw snapshots (regenerable via import-air-quality.ts)
+/data/sources/air-quality/*.zip
+/data/sources/air-quality/annual_aqi_by_*.csv
+/data/sources/air-quality/*Gaz_counties*.txt

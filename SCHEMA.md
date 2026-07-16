@@ -253,3 +253,23 @@ Table: `state_weather_indices`
 - **UpdatedAt**: Last upsert timestamp.
 
 The first dataset is the state UV exposure index, sourced from NASA Earth Observations UV climatology with EPA and NOAA comparison sources. Migrate and import with `scripts/migrate-state-weather-indices.ts` (idempotent, supports `--dry-run`). Application reads via `getStateWeatherIndex("uv")` in `lib/state-weather.ts`; if the table is absent in a local environment, the route falls back to the committed static dataset from `lib/state-weather-data.ts`.
+
+---
+
+## Annual air quality
+
+City air-quality summaries live outside `locations_location` because EPA AQI data is published by monitor-derived reporting geography, not exact city boundary.
+
+Table: `location_air_quality_annual`
+
+- **LocationId**: FK to `locations_location`, `ON DELETE CASCADE`
+- **Year**: EPA AirData annual summary year.
+- **SourceGeoType**: `county`, `cbsa`, or `nearest_county`. The importer prefers county rows, falls back to CBSA rows when a county row is unavailable, and only then uses the nearest same-state county with EPA annual AQI data.
+- **SourceStateName** / **SourceGeoName**: The EPA geography matched to the city, e.g. `Florida` / `Orange`.
+- **SourceDistanceMiles**: Null for direct county/CBSA matches; distance from the city Census place centroid to the fallback county centroid for `nearest_county` rows.
+- **DaysWithAQI** / **GoodDays** / **ModerateDays** / **UnhealthySensitiveDays** / **UnhealthyDays** / **VeryUnhealthyDays** / **HazardousDays**: Annual AQI day counts.
+- **MaxAQI** / **P90AQI** / **MedianAQI**: Annual AQI summary statistics.
+- **DaysCO** / **DaysNO2** / **DaysOzone** / **DaysPM25** / **DaysPM10**: Days where each pollutant drove the AQI.
+- **DataVintage** / **SourceKind** / **SourceUrl** / **SourceFile** / **SourceRetrievedOn**: Provenance for the EPA AirData annual file.
+
+Rows are unique on `(location_id, year, source_geo_type)`. Migrate with `scripts/migrate-air-quality.ts`, then import with `scripts/import-air-quality.ts --year YYYY`. The importer downloads EPA AirData annual county and CBSA files when cached CSVs are missing, uses the Census county gazetteer plus the pace bundle's `county_cbsa` mapping for CBSA fallback, writes a city match report to `data/sources/air-quality/location_air_quality_matches_YYYY.csv`, and upserts matched locations. `nearest_county` rows are explicit approximations for cities with no direct county/CBSA annual AQI row; do not treat them as municipal-boundary measurements.

@@ -21,11 +21,13 @@ export default function CrittersMap({
   unit,
   selected,
   onSelect,
+  bandLabel,
 }: {
   data: StateValue[];
   unit: string;
   selected: string | null;
   onSelect: (abbr: string | null) => void;
+  bandLabel?: (stat: StateValue) => string;
 }) {
   // `svgRef` is owned imperatively by D3 and MUST have no React children, so
   // React reconciliation never collides with the injected <svg>. The loading
@@ -98,7 +100,6 @@ export default function CrittersMap({
           return color(stat.value) as string;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const paths = svg
           .append("g")
           .selectAll("path")
@@ -227,7 +228,7 @@ export default function CrittersMap({
             <span className="text-[10px] text-muted-foreground">{unit}</span>
           </div>
           <div className="mt-1.5 flex items-center justify-between text-xs text-muted-foreground">
-            <span>{tooltip.stat.band}</span>
+            <span>{bandLabel?.(tooltip.stat) ?? tooltip.stat.displayBand ?? tooltip.stat.band}</span>
             <span>#{tooltip.stat.rank} of {data.length}</span>
           </div>
         </div>
