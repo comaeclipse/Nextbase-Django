@@ -9,7 +9,8 @@ type NavKey =
   | "uv"
   | "critters"
   | "air-quality"
-  | "insurance";
+  | "insurance"
+  | "politics";
 
 const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "home", href: "/", label: "Home" },
@@ -21,6 +22,7 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "critters", href: "/critters", label: "Critters" },
   { key: "air-quality", href: "/air-quality", label: "Air Quality" },
   { key: "insurance", href: "/insurance", label: "Insurance" },
+  { key: "politics", href: "/politics", label: "Politics" },
 ];
 
 export default function PublicNav({ active }: { active?: NavKey }) {
