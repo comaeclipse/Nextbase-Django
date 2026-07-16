@@ -7,7 +7,8 @@ type NavKey =
   | "quiz"
   | "weather"
   | "uv"
-  | "critters";
+  | "critters"
+  | "insurance";
 
 const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "home", href: "/", label: "Home" },
@@ -17,6 +18,7 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "weather", href: "/weather", label: "Weather" },
   { key: "uv", href: "/uv", label: "UV" },
   { key: "critters", href: "/critters", label: "Critters" },
+  { key: "insurance", href: "/insurance", label: "Insurance" },
 ];
 
 export default function PublicNav({ active }: { active?: NavKey }) {
