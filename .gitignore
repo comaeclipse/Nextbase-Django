@@ -48,8 +48,10 @@ env/
 Thumbs.db
 
 # Environment variables
-.env
-.env.local
+# Wildcard, not a per-file list: .env.vercel slipped past the old `.env`/`.env.local`
+# rules and leaked live Neon credentials into this public repo.
+.env*
+!.env.example
 .vercel
 
 # ===== Next.js / Node (migration) =====
@@ -76,6 +78,11 @@ npm-debug.log*
 
 # Pace classifier raw snapshots (large; regenerable via prepare-pace-sources.ts)
 /data/sources/pace/raw/
+
+# Hourly normals station CSVs (~6MB each, ~550MB total; regenerable via
+# import-hourly-normals.ts --refresh). The monthly station CSVs are small enough
+# to track; these are not.
+/data/sources/weather/hourly/
 
 # Air quality importer raw snapshots (regenerable via import-air-quality.ts)
 /data/sources/air-quality/*.zip
