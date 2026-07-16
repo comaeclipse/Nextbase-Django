@@ -3,8 +3,8 @@ import PublicNav from "@/components/PublicNav";
 import "../styles/shadcn.css";
 
 export const metadata: Metadata = {
-  title: "Homeowners Insurance Cost Map — VetRetire",
-  description: "Compare 2026 standardized homeowners insurance cost benchmarks across the 50 states.",
+  title: "Insurance Cost Map — VetRetire",
+  description: "Compare 2026 standardized homeowners and car-insurance cost benchmarks across the 50 states.",
 };
 
 export default function InsuranceLayout({ children }: { children: React.ReactNode }) {
