@@ -1,20 +1,26 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
+import {
+  Building2,
+  ChevronDown,
+  Heart,
+  RotateCcw,
+  ShieldCheck,
+  SlidersHorizontal,
+} from "lucide-react";
 import type { DefenseEmployerRow, Location, StateInfoRow } from "@/lib/types";
 import type { EmployerIndex } from "@/lib/defense";
 import { filterAndSort, type FilterParams } from "@/lib/filters";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
-
-/*
- * Interactive explore area, ported from the inline script in
- * locations/templates/locations/explore.html. HTMX's server round trip is
- * replaced with in-browser filtering: the full dataset is already on the
- * client (server-rendered as `initialLocations` for first-paint parity), so
- * filter/sort changes reuse the exact same `filterAndSort` logic the
- * /api/locations route runs, but instantly and without a network request.
- */
 
 const CLIMATE_KEYS = ["cold_snowy", "hot_humid", "hot_dry", "mild_coastal"] as const;
 const LIFESTYLE_KEYS = ["urban", "suburban", "small_town", "rural"] as const;
@@ -23,23 +29,52 @@ const ACTIVITY_KEYS = ["golf", "fishing", "hiking", "culture"] as const;
 
 type BoolMap<K extends string> = Record<K, boolean>;
 const falses = <K extends string>(keys: readonly K[]): BoolMap<K> =>
-  Object.fromEntries(keys.map((k) => [k, false])) as BoolMap<K>;
+  Object.fromEntries(keys.map((key) => [key, false])) as BoolMap<K>;
+
+const CLIMATE_OPTIONS = [
+  ["cold_snowy", "Cold / Snowy"], ["hot_humid", "Hot / Humid"],
+  ["hot_dry", "Hot / Dry"], ["mild_coastal", "Mild / Coastal"],
+] as const;
+const LIFESTYLE_OPTIONS = [
+  ["urban", "Urban"], ["suburban", "Suburban"], ["small_town", "Small Town"], ["rural", "Rural"],
+] as const;
+const HEALTHCARE_OPTIONS = [["va-hospital", "VA hospital nearby"], ["va-clinic", "VA clinic access"]] as const;
+const ACTIVITY_OPTIONS = [["golf", "Golf"], ["fishing", "Fishing"], ["hiking", "Hiking"], ["culture", "Arts & culture"]] as const;
+
+function selectedLabel<K extends string>(values: BoolMap<K>, options: readonly (readonly [K, string])[], fallback: string) {
+  const labels = options.filter(([key]) => values[key]).map(([, label]) => label);
+  return labels.length === 0 ? fallback : labels.length === 1 ? labels[0] : `${labels.length} selected`;
+}
+
+function OptionList<K extends string>({
+  options, values, onChange,
+}: {
+  options: readonly (readonly [K, string])[];
+  values: BoolMap<K>;
+  onChange: (key: K, checked: boolean) => void;
+}) {
+  return <div className="filter-option-list">{options.map(([key, label]) => <label className="filter-check" key={key}>
+    <Checkbox checked={values[key]} onCheckedChange={(checked) => onChange(key, checked === true)} />
+    <span>{label}</span>
+  </label>)}</div>;
+}
+
+function FilterPill({ label, active, icon: Icon, children }: {
+  label: string; active?: boolean; icon?: typeof Building2; children: ReactNode;
+}) {
+  return <Popover>
+    <PopoverTrigger className={`filter-pill ${active ? "is-active" : ""}`}>
+      {Icon ? <Icon aria-hidden="true" /> : null}<span>{label}</span><ChevronDown aria-hidden="true" />
+    </PopoverTrigger>
+    <PopoverContent align="start" className="filter-popover">{children}</PopoverContent>
+  </Popover>;
+}
 
 export default function ExploreClient({
-  initialLocations,
-  stateInfos,
-  stateCounts,
-  initialStateFilter = null,
-  employers,
-  employerIndex,
+  initialLocations, stateInfos, stateCounts, initialStateFilter = null, employers, employerIndex,
 }: {
-  initialLocations: Location[];
-  stateInfos: StateInfoRow[];
-  stateCounts: Record<string, number>;
-  /** From `?state_filter=XX`; opens the map with that state already selected. */
-  initialStateFilter?: string | null;
-  employers: DefenseEmployerRow[];
-  employerIndex: EmployerIndex;
+  initialLocations: Location[]; stateInfos: StateInfoRow[]; stateCounts: Record<string, number>;
+  initialStateFilter?: string | null; employers: DefenseEmployerRow[]; employerIndex: EmployerIndex;
 }) {
   const [climate, setClimate] = useState(falses(CLIMATE_KEYS));
   const [snow, setSnow] = useState<string | null>(null);
@@ -54,380 +89,95 @@ export default function ExploreClient({
   const [activities, setActivities] = useState(falses(ACTIVITY_KEYS));
   const [employerSel, setEmployerSel] = useState<Record<string, boolean>>({});
   const [sort, setSort] = useState("best");
+  const [view, setView] = useState<"grid" | "list" | "map">(initialStateFilter ? "map" : "grid");
+  const [selectedMapState, setSelectedMapState] = useState<string | null>(initialStateFilter);
+  const [mapMounted, setMapMounted] = useState(Boolean(initialStateFilter));
 
-  /*
-   * Only employers that actually have a location are offered. Seeded employers
-   * with no data yet (Lockheed, General Dynamics, ...) would otherwise render a
-   * checkbox that can only ever return zero results. They appear on their own
-   * once an importer populates them.
-   */
   const employerGroups = useMemo(() => {
     const cityCount = new Map<string, number>();
-    for (const presences of Object.values(employerIndex)) {
-      for (const p of presences) {
-        if (p.total > 0) cityCount.set(p.slug, (cityCount.get(p.slug) ?? 0) + 1);
-      }
+    for (const presences of Object.values(employerIndex)) for (const presence of presences) {
+      if (presence.total > 0) cityCount.set(presence.slug, (cityCount.get(presence.slug) ?? 0) + 1);
     }
     const groups = new Map<string, { employer: DefenseEmployerRow; cities: number }[]>();
-    for (const e of employers) {
-      const cities = cityCount.get(e.slug);
-      if (!cities) continue;
-      if (!groups.has(e.parent_company)) groups.set(e.parent_company, []);
-      groups.get(e.parent_company)!.push({ employer: e, cities });
+    for (const employer of employers) {
+      const cities = cityCount.get(employer.slug); if (!cities) continue;
+      if (!groups.has(employer.parent_company)) groups.set(employer.parent_company, []);
+      groups.get(employer.parent_company)!.push({ employer, cities });
     }
     return [...groups.entries()];
   }, [employers, employerIndex]);
-  // A state deep link lands on the map so the active filter is visible on the
-  // map itself, which is also the only way to clear it.
-  const [view, setView] = useState<"grid" | "list" | "map">(
-    initialStateFilter ? "map" : "grid"
-  );
-  const [selectedMapState, setSelectedMapState] = useState<string | null>(
-    initialStateFilter
-  );
-  const [mapMounted, setMapMounted] = useState(Boolean(initialStateFilter));
 
-  // Build the same FilterParams shape the /api/locations route parses from
-  // query params, but as an object — no query string or network round trip.
   const filterParams = useMemo<FilterParams>(() => {
-    const climateVal = CLIMATE_KEYS.filter((k) => climate[k]).join(",");
-    const lifeVal = LIFESTYLE_KEYS.filter((k) => lifestyle[k]).join(",");
-    const hcMap: Record<string, string> = {
-      "va-hospital": "va_hospital",
-      "va-clinic": "va_clinic",
-    };
-    const hcVal = HEALTHCARE_KEYS.filter((k) => healthcare[k])
-      .map((k) => hcMap[k])
-      .join(",");
-    const actVal = ACTIVITY_KEYS.filter((k) => activities[k]).join(",");
-    const pmin = priceMin.match(/\d+/);
-    const pmax = priceMax.match(/\d+/);
+    const pmin = priceMin.match(/\d+/); const pmax = priceMax.match(/\d+/);
     return {
-      snow: snow || null,
-      no_awb: noAwb ? "true" : null,
-      no_hcm: noHcm ? "true" : null,
-      state_filter: selectedMapState || null,
-      lgbtq_friendly: lgbtq ? "true" : null,
-      climate: climateVal || null,
-      cost_of_living: cost || null,
-      price_min: pmin ? pmin[0] : null,
-      price_max: pmax ? pmax[0] : null,
-      lifestyle: lifeVal || null,
-      healthcare: hcVal || null,
-      activities: actVal || null,
-      employers:
-        Object.keys(employerSel)
-          .filter((s) => employerSel[s])
-          .join(",") || null,
-      sort,
+      snow: snow || null, no_awb: noAwb ? "true" : null, no_hcm: noHcm ? "true" : null,
+      state_filter: selectedMapState || null, lgbtq_friendly: lgbtq ? "true" : null,
+      climate: CLIMATE_KEYS.filter((key) => climate[key]).join(",") || null,
+      cost_of_living: cost || null, price_min: pmin?.[0] || null, price_max: pmax?.[0] || null,
+      lifestyle: LIFESTYLE_KEYS.filter((key) => lifestyle[key]).join(",") || null,
+      healthcare: HEALTHCARE_KEYS.filter((key) => healthcare[key]).map((key) => key === "va-hospital" ? "va_hospital" : "va_clinic").join(",") || null,
+      activities: ACTIVITY_KEYS.filter((key) => activities[key]).join(",") || null,
+      employers: Object.keys(employerSel).filter((key) => employerSel[key]).join(",") || null, sort,
     };
-  }, [
-    snow, lgbtq, noAwb, noHcm, sort, climate, cost, priceMin, priceMax,
-    lifestyle, healthcare, activities, employerSel, selectedMapState,
-  ]);
+  }, [activities, climate, cost, employerSel, healthcare, lgbtq, lifestyle, noAwb, noHcm, priceMax, priceMin, selectedMapState, snow, sort]);
 
-  // Filtering ~70 in-memory rows is sub-millisecond, so this recomputes
-  // live on every change instead of debouncing a network request.
-  const results = useMemo(
-    () => filterAndSort(initialLocations, stateInfos, filterParams, { employerIndex }),
-    [initialLocations, stateInfos, filterParams, employerIndex]
-  );
-  const total = results.length;
+  const results = useMemo(() => filterAndSort(initialLocations, stateInfos, filterParams, { employerIndex }), [employerIndex, filterParams, initialLocations, stateInfos]);
+  const activeCount = [climate, lifestyle, employerSel, healthcare, activities].reduce((total, group) => total + Object.values(group).filter(Boolean).length, 0)
+    + [snow, lgbtq, noAwb, noHcm, cost, priceMin, priceMax].filter(Boolean).length;
+  const personalCount = [lgbtq, noAwb, noHcm].filter(Boolean).length;
 
-  function selectView(v: "grid" | "list" | "map") {
-    if (v === "map") setMapMounted(true);
-    if (v !== "map" && selectedMapState) setSelectedMapState(null);
-    setView(v);
+  function resetAll() {
+    setClimate(falses(CLIMATE_KEYS)); setSnow(null); setLgbtq(false); setNoAwb(false); setNoHcm(false);
+    setCost(""); setPriceMin(""); setPriceMax(""); setLifestyle(falses(LIFESTYLE_KEYS));
+    setHealthcare(falses(HEALTHCARE_KEYS)); setActivities(falses(ACTIVITY_KEYS)); setEmployerSel({});
+    setSelectedMapState(null); setSort("best");
   }
+  function selectView(next: "grid" | "list" | "map") {
+    if (next === "map") setMapMounted(true); if (next !== "map") setSelectedMapState(null); setView(next);
+  }
+  const gridClass = `results-grid${view === "list" ? " list-view" : ""}`;
 
-  const gridClass = "results-grid" + (view === "list" ? " list-view" : "");
+  return <div className="explore-redesign">
+    <section className="explore-filter-shell" aria-label="Explore filters">
+      <div className="explore-filter-heading"><div><p className="eyebrow">Find your fit</p><h1>Explore retirement locations</h1></div>
+        <Button variant="ghost" onClick={resetAll} className="reset-filters" disabled={activeCount === 0}><RotateCcw aria-hidden="true" />Reset</Button>
+      </div>
+      <div className="explore-filter-bar">
+        <FilterPill label={selectedLabel(climate, CLIMATE_OPTIONS, "Climate")} active={CLIMATE_KEYS.some((key) => climate[key])}>
+          <h2>Climate</h2><p>Choose one or more year-round patterns.</p><OptionList options={CLIMATE_OPTIONS} values={climate} onChange={(key, checked) => setClimate((current) => ({ ...current, [key]: checked }))} />
+        </FilterPill>
+        <FilterPill label={selectedLabel(lifestyle, LIFESTYLE_OPTIONS, "Lifestyle")} active={LIFESTYLE_KEYS.some((key) => lifestyle[key])}>
+          <h2>Lifestyle</h2><p>How would you like everyday life to feel?</p><OptionList options={LIFESTYLE_OPTIONS} values={lifestyle} onChange={(key, checked) => setLifestyle((current) => ({ ...current, [key]: checked }))} />
+        </FilterPill>
+        <FilterPill label={Object.values(employerSel).filter(Boolean).length ? `${Object.values(employerSel).filter(Boolean).length} employers` : "Employers"} active={Object.values(employerSel).some(Boolean)} icon={Building2}>
+          <h2>Defense employers</h2><p>Show cities with a physical facility from a selected employer.</p>
+          <div className="employer-options">{employerGroups.map(([parent, entries]) => <div key={parent}><h3>{parent}</h3>{entries.map(({ employer, cities }) => <label className="filter-check" key={employer.slug}><Checkbox checked={Boolean(employerSel[employer.slug])} onCheckedChange={(checked) => setEmployerSel((current) => ({ ...current, [employer.slug]: checked === true }))} /><span>{employer.display_name} <small>{cities}</small></span></label>)}</div>)}</div>
+        </FilterPill>
+        <FilterPill label={personalCount ? `${personalCount} personal preference${personalCount > 1 ? "s" : ""}` : "More"} active={personalCount > 0} icon={SlidersHorizontal}>
+          <h2>Personal preferences</h2><p>Keep these choices out of your main search until they matter.</p>
+          <label className="toggle-row"><span><Heart aria-hidden="true" />LGBTQ friendly</span><Switch checked={lgbtq} onCheckedChange={setLgbtq} /></label>
+          <label className="toggle-row"><span><ShieldCheck aria-hidden="true" />No assault-weapons ban</span><Switch checked={noAwb} onCheckedChange={setNoAwb} /></label>
+          <label className="toggle-row"><span><ShieldCheck aria-hidden="true" />No high-capacity magazine restrictions</span><Switch checked={noHcm} onCheckedChange={setNoHcm} /></label>
+        </FilterPill>
+      </div>
+      <Accordion className="advanced-filters">
+        <AccordionItem value="advanced"><AccordionTrigger><span><SlidersHorizontal aria-hidden="true" />Advanced filters {activeCount > 0 ? <b>{activeCount}</b> : null}</span></AccordionTrigger>
+          <AccordionContent><div className="advanced-filter-grid">
+            <fieldset><legend>Snowfall</legend><div className="choice-pills">{[["zero", "Zero snow"], ["some", "Some snow"], ["lots", "Lots of snow"]].map(([value, label]) => <Button type="button" variant="outline" key={value} className={snow === value ? "is-selected" : ""} onClick={() => setSnow((current) => current === value ? null : value)}>{label}</Button>)}</div></fieldset>
+            <fieldset><legend>Budget</legend><Select value={cost || null} onValueChange={(value) => setCost(value ?? "")}><SelectTrigger><SelectValue placeholder="Any cost of living" /></SelectTrigger><SelectContent><SelectItem value="low">Low cost</SelectItem><SelectItem value="moderate">Moderate cost</SelectItem><SelectItem value="high">High cost</SelectItem></SelectContent></Select><div className="price-fields"><Input aria-label="Minimum home price" inputMode="numeric" placeholder="Min home price" value={priceMin} onChange={(event) => setPriceMin(event.target.value)} /><span>to</span><Input aria-label="Maximum home price" inputMode="numeric" placeholder="Max home price" value={priceMax} onChange={(event) => setPriceMax(event.target.value)} /></div></fieldset>
+            <fieldset><legend>Healthcare access</legend><OptionList options={HEALTHCARE_OPTIONS} values={healthcare} onChange={(key, checked) => setHealthcare((current) => ({ ...current, [key]: checked }))} /></fieldset>
+            <fieldset><legend>Activities</legend><OptionList options={ACTIVITY_OPTIONS} values={activities} onChange={(key, checked) => setActivities((current) => ({ ...current, [key]: checked }))} /></fieldset>
+          </div></AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </section>
 
-  return (
-    <div className="container">
-      <aside className="sidebar">
-        <h2>Filters</h2>
-
-        <div className="filter-section">
-          <h3>Climate</h3>
-          {(
-            [
-              ["cold_snowy", "❄️ Cold / Snowy"],
-              ["hot_humid", "💧 Hot / Humid"],
-              ["hot_dry", "☀️ Hot / Dry"],
-              ["mild_coastal", "🌊 Mild / Coastal"],
-            ] as const
-          ).map(([id, label]) => (
-            <div className="filter-option" key={id}>
-              <input
-                type="checkbox"
-                id={id}
-                checked={climate[id]}
-                onChange={(e) =>
-                  setClimate((c) => ({ ...c, [id]: e.target.checked }))
-                }
-              />
-              <label htmlFor={id}>{label}</label>
-            </div>
-          ))}
-
-          <h3 style={{ marginTop: "1.5rem" }}>Snow</h3>
-          <div className="pillbox-container">
-            {(
-              [
-                ["zero", "Zero Snow"],
-                ["some", "Some Snow"],
-                ["lots", "Lots of Snow"],
-              ] as const
-            ).map(([val, label]) => (
-              <div
-                key={val}
-                className={"pillbox" + (snow === val ? " active" : "")}
-                data-snow={val}
-                onClick={() => setSnow((s) => (s === val ? null : val))}
-              >
-                {label}
-              </div>
-            ))}
-          </div>
-
-          <h3 style={{ marginTop: "1.5rem" }}>Misc</h3>
-          <div className="filter-option">
-            <input
-              type="checkbox"
-              id="lgbtq-friendly"
-              checked={lgbtq}
-              onChange={(e) => setLgbtq(e.target.checked)}
-            />
-            <label htmlFor="lgbtq-friendly">LGBTQ Friendly</label>
-          </div>
-          <div className="filter-option">
-            <input
-              type="checkbox"
-              id="no-awb"
-              checked={noAwb}
-              onChange={(e) => setNoAwb(e.target.checked)}
-            />
-            <label htmlFor="no-awb">No Assault Weapons Ban</label>
-          </div>
-          <div className="filter-option">
-            <input
-              type="checkbox"
-              id="no-hcm"
-              checked={noHcm}
-              onChange={(e) => setNoHcm(e.target.checked)}
-            />
-            <label htmlFor="no-hcm">No High-Cap Mag Restrictions</label>
-          </div>
-        </div>
-
-        {employerGroups.length > 0 && (
-          <div className="filter-section">
-            <h3>Defense Employers</h3>
-            {employerGroups.map(([parent, entries]) => (
-              <div key={parent}>
-                {/* Show the parent only when it adds information (RTX over its
-                    three brands), not for standalone primes like Lockheed. */}
-                {(entries.length > 1 || entries[0].employer.display_name !== parent) && (
-                  <div
-                    style={{
-                      marginTop: "0.75rem",
-                      fontSize: "0.75rem",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.04em",
-                      color: "#6b7280",
-                    }}
-                  >
-                    {parent}
-                  </div>
-                )}
-                {entries.map(({ employer, cities }) => {
-                  const id = `employer-${employer.slug}`;
-                  return (
-                    <div className="filter-option" key={employer.slug}>
-                      <input
-                        type="checkbox"
-                        id={id}
-                        checked={Boolean(employerSel[employer.slug])}
-                        onChange={(e) =>
-                          setEmployerSel((s) => ({
-                            ...s,
-                            [employer.slug]: e.target.checked,
-                          }))
-                        }
-                      />
-                      <label htmlFor={id}>
-                        {employer.display_name}{" "}
-                        <span style={{ color: "#6b7280" }}>({cities})</span>
-                      </label>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="filter-section">
-          <h3>Cost of Living</h3>
-          <select
-            id="cost-select"
-            value={cost}
-            onChange={(e) => setCost(e.target.value)}
-          >
-            <option value="">Any Budget</option>
-            <option value="low">Low ($)</option>
-            <option value="moderate">Moderate ($$)</option>
-            <option value="high">High ($$$)</option>
-          </select>
-          <div className="price-range">
-            <input
-              type="text"
-              id="price-min"
-              placeholder="Min $"
-              value={priceMin}
-              onChange={(e) => setPriceMin(e.target.value)}
-            />
-            <span>-</span>
-            <input
-              type="text"
-              id="price-max"
-              placeholder="Max $"
-              value={priceMax}
-              onChange={(e) => setPriceMax(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="filter-section">
-          <h3>Lifestyle</h3>
-          {(
-            [
-              ["urban", "Urban"],
-              ["suburban", "Suburban"],
-              ["small_town", "Small Town"],
-              ["rural", "Rural"],
-            ] as const
-          ).map(([id, label]) => (
-            <div className="filter-option" key={id}>
-              <input
-                type="checkbox"
-                id={id}
-                checked={lifestyle[id]}
-                onChange={(e) =>
-                  setLifestyle((l) => ({ ...l, [id]: e.target.checked }))
-                }
-              />
-              <label htmlFor={id}>{label}</label>
-            </div>
-          ))}
-        </div>
-
-        <div className="filter-section">
-          <h3>Healthcare Access</h3>
-          {(
-            [
-              ["va-hospital", "VA Hospital Nearby"],
-              ["va-clinic", "VA Clinic Access"],
-            ] as const
-          ).map(([id, label]) => (
-            <div className="filter-option" key={id}>
-              <input
-                type="checkbox"
-                id={id}
-                checked={healthcare[id]}
-                onChange={(e) =>
-                  setHealthcare((h) => ({ ...h, [id]: e.target.checked }))
-                }
-              />
-              <label htmlFor={id}>{label}</label>
-            </div>
-          ))}
-        </div>
-
-        <div className="filter-section">
-          <h3>Activities</h3>
-          {(
-            [
-              ["golf", "Golf"],
-              ["fishing", "Fishing"],
-              ["hiking", "Hiking"],
-              ["culture", "Arts & Culture"],
-            ] as const
-          ).map(([id, label]) => (
-            <div className="filter-option" key={id}>
-              <input
-                type="checkbox"
-                id={id}
-                checked={activities[id]}
-                onChange={(e) =>
-                  setActivities((a) => ({ ...a, [id]: e.target.checked }))
-                }
-              />
-              <label htmlFor={id}>{label}</label>
-            </div>
-          ))}
-        </div>
-
-        {/* Filtering is already live (see `results` above); this button is
-            kept for pixel/UX parity with the original design as a no-op. */}
-        <button className="apply-filters" type="button">
-          Apply Filters
-        </button>
-      </aside>
-
-      <main className="main-content">
-        <div className="results-header">
-          <div>
-            <div className="results-info" id="results-info">
-              Found <strong>{total} locations</strong> matching your criteria
-            </div>
-          </div>
-          <div className="sort-options">
-            <label>Sort by:</label>
-            <select
-              id="sort-select"
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-            >
-              <option value="best">Best Match</option>
-              <option value="cost_asc">Cost (Low to High)</option>
-              <option value="cost_desc">Cost (High to Low)</option>
-              <option value="climate">Climate</option>
-              <option value="va">VA Access</option>
-              <option value="gas_asc">Gas Price (Low to High)</option>
-              <option value="gas_desc">Gas Price (High to Low)</option>
-            </select>
-            <div className="view-toggle">
-              {(["grid", "list", "map"] as const).map((v) => (
-                <button
-                  key={v}
-                  className={"view-btn" + (view === v ? " active" : "")}
-                  data-view={v}
-                  onClick={() => selectView(v)}
-                >
-                  {v === "grid" ? "Grid" : v === "list" ? "List" : "Map"}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div id="map-view" style={{ display: view === "map" ? "block" : "none" }}>
-          {mapMounted && (
-            <StateMap
-              stateCounts={stateCounts}
-              selected={selectedMapState}
-              onSelect={setSelectedMapState}
-            />
-          )}
-        </div>
-
-        <div className={gridClass} id="results-grid">
-          {results.map((loc) => (
-            <LocationCard key={loc.id} location={loc} />
-          ))}
-        </div>
-      </main>
-    </div>
-  );
+    <main className="explore-results">
+      <div className="results-header"><div className="results-info">Found <strong>{results.length} locations</strong> matching your criteria</div>
+        <div className="sort-options"><span>Sort by</span><Select value={sort} onValueChange={(value) => setSort(value ?? "best")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="best">Best match</SelectItem><SelectItem value="cost_asc">Cost: low to high</SelectItem><SelectItem value="cost_desc">Cost: high to low</SelectItem><SelectItem value="climate">Climate</SelectItem><SelectItem value="va">VA access</SelectItem><SelectItem value="gas_asc">Gas: low to high</SelectItem><SelectItem value="gas_desc">Gas: high to low</SelectItem></SelectContent></Select><div className="view-toggle">{(["grid", "list", "map"] as const).map((next) => <Button key={next} type="button" variant="outline" className={view === next ? "active" : ""} onClick={() => selectView(next)}>{next[0].toUpperCase() + next.slice(1)}</Button>)}</div></div>
+      </div>
+      <div id="map-view" style={{ display: view === "map" ? "block" : "none" }}>{mapMounted && <StateMap stateCounts={stateCounts} selected={selectedMapState} onSelect={setSelectedMapState} />}</div>
+      <div className={gridClass} id="results-grid">{results.map((location) => <LocationCard key={location.id} location={location} />)}</div>
+    </main>
+  </div>;
 }
