@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
     lifestyle: sp.get("lifestyle"),
     healthcare: sp.get("healthcare"),
     activities: sp.get("activities"),
+    geography: sp.get("geography"),
     employers: sp.get("employers"),
     sort: sp.get("sort"),
   };

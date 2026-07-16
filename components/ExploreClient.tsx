@@ -8,6 +8,7 @@ import {
   RotateCcw,
   ShieldCheck,
   SlidersHorizontal,
+  Waves,
 } from "lucide-react";
 import type { DefenseEmployerRow, Location, StateInfoRow } from "@/lib/types";
 import type { EmployerIndex } from "@/lib/defense";
@@ -26,6 +27,7 @@ const CLIMATE_KEYS = ["cold_snowy", "hot_humid", "hot_dry", "mild_coastal"] as c
 const LIFESTYLE_KEYS = ["urban", "suburban", "small_town", "rural"] as const;
 const HEALTHCARE_KEYS = ["va-hospital", "va-clinic"] as const;
 const ACTIVITY_KEYS = ["golf", "fishing", "hiking", "culture"] as const;
+const GEOGRAPHY_KEYS = ["lake", "ocean", "mountains"] as const;
 
 type BoolMap<K extends string> = Record<K, boolean>;
 const falses = <K extends string>(keys: readonly K[]): BoolMap<K> =>
@@ -40,6 +42,7 @@ const LIFESTYLE_OPTIONS = [
 ] as const;
 const HEALTHCARE_OPTIONS = [["va-hospital", "VA hospital nearby"], ["va-clinic", "VA clinic access"]] as const;
 const ACTIVITY_OPTIONS = [["golf", "Golf"], ["fishing", "Fishing"], ["hiking", "Hiking"], ["culture", "Arts & culture"]] as const;
+const GEOGRAPHY_OPTIONS = [["lake", "Near a lake"], ["ocean", "Near the ocean"], ["mountains", "Near the mountains"]] as const;
 
 function selectedLabel<K extends string>(values: BoolMap<K>, options: readonly (readonly [K, string])[], fallback: string) {
   const labels = options.filter(([key]) => values[key]).map(([, label]) => label);
@@ -85,6 +88,7 @@ export default function ExploreClient({
   const [priceMin, setPriceMin] = useState("");
   const [priceMax, setPriceMax] = useState("");
   const [lifestyle, setLifestyle] = useState(falses(LIFESTYLE_KEYS));
+  const [geography, setGeography] = useState(falses(GEOGRAPHY_KEYS));
   const [healthcare, setHealthcare] = useState(falses(HEALTHCARE_KEYS));
   const [activities, setActivities] = useState(falses(ACTIVITY_KEYS));
   const [employerSel, setEmployerSel] = useState<Record<string, boolean>>({});
@@ -117,17 +121,18 @@ export default function ExploreClient({
       lifestyle: LIFESTYLE_KEYS.filter((key) => lifestyle[key]).join(",") || null,
       healthcare: HEALTHCARE_KEYS.filter((key) => healthcare[key]).map((key) => key === "va-hospital" ? "va_hospital" : "va_clinic").join(",") || null,
       activities: ACTIVITY_KEYS.filter((key) => activities[key]).join(",") || null,
+      geography: GEOGRAPHY_KEYS.filter((key) => geography[key]).join(",") || null,
       employers: Object.keys(employerSel).filter((key) => employerSel[key]).join(",") || null, sort,
     };
-  }, [activities, climate, cost, employerSel, healthcare, lgbtq, lifestyle, noAwb, noHcm, priceMax, priceMin, selectedMapState, snow, sort]);
+  }, [activities, climate, cost, employerSel, geography, healthcare, lgbtq, lifestyle, noAwb, noHcm, priceMax, priceMin, selectedMapState, snow, sort]);
 
   const results = useMemo(() => filterAndSort(initialLocations, stateInfos, filterParams, { employerIndex }), [employerIndex, filterParams, initialLocations, stateInfos]);
-  const activeCount = [climate, lifestyle, employerSel, healthcare, activities].reduce((total, group) => total + Object.values(group).filter(Boolean).length, 0)
+  const activeCount = [climate, lifestyle, geography, employerSel, healthcare, activities].reduce((total, group) => total + Object.values(group).filter(Boolean).length, 0)
     + [snow, lgbtq, noAwb, noHcm, cost, priceMin, priceMax].filter(Boolean).length;
   const personalCount = [lgbtq, noAwb, noHcm].filter(Boolean).length;
 
   function resetAll() {
-    setClimate(falses(CLIMATE_KEYS)); setSnow(null); setLgbtq(false); setNoAwb(false); setNoHcm(false);
+    setClimate(falses(CLIMATE_KEYS)); setGeography(falses(GEOGRAPHY_KEYS)); setSnow(null); setLgbtq(false); setNoAwb(false); setNoHcm(false);
     setCost(""); setPriceMin(""); setPriceMax(""); setLifestyle(falses(LIFESTYLE_KEYS));
     setHealthcare(falses(HEALTHCARE_KEYS)); setActivities(falses(ACTIVITY_KEYS)); setEmployerSel({});
     setSelectedMapState(null); setSort("best");
@@ -148,6 +153,9 @@ export default function ExploreClient({
         </FilterPill>
         <FilterPill label={selectedLabel(lifestyle, LIFESTYLE_OPTIONS, "Lifestyle")} active={LIFESTYLE_KEYS.some((key) => lifestyle[key])}>
           <h2>Lifestyle</h2><p>How would you like everyday life to feel?</p><OptionList options={LIFESTYLE_OPTIONS} values={lifestyle} onChange={(key, checked) => setLifestyle((current) => ({ ...current, [key]: checked }))} />
+        </FilterPill>
+        <FilterPill label={selectedLabel(geography, GEOGRAPHY_OPTIONS, "Geography")} active={GEOGRAPHY_KEYS.some((key) => geography[key])} icon={Waves}>
+          <h2>Geography</h2><p>Choose nearby natural features; selecting more than one broadens results.</p><OptionList options={GEOGRAPHY_OPTIONS} values={geography} onChange={(key, checked) => setGeography((current) => ({ ...current, [key]: checked }))} />
         </FilterPill>
         <FilterPill label={Object.values(employerSel).filter(Boolean).length ? `${Object.values(employerSel).filter(Boolean).length} employers` : "Employers"} active={Object.values(employerSel).some(Boolean)} icon={Building2}>
           <h2>Defense employers</h2><p>Show cities with a physical facility from a selected employer.</p>

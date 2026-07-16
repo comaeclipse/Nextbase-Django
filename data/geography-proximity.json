@@ -1,0 +1,13 @@
+{
+  "methodology": "A city qualifies when its city center is roughly within 30 road/straight-line miles of a usable lake or a saltwater coastline, or within 35 miles of a named mountain range or sustained mountain terrain. Rivers and bays do not count as lakes; bays, sounds, and lagoons connected to the sea count as ocean access. This is a curated retirement-lifestyle facet, not a parcel-level distance guarantee.",
+  "source": "Initial editorial geography review, completed 2026-07-16. Recheck borderline locations before using this as a precise-distance claim.",
+  "near_lake": [
+    "Anchorage, AK", "Huntsville, AL", "Camden, AR", "Little Rock, AR", "Phoenix, AZ", "Sierra Vista, AZ", "Tucson, AZ", "Yuba City, CA", "Colorado Springs, CO", "Pueblo, CO", "Orlando, FL", "Carroll, IA", "Decorah, IA", "Des Moines, IA", "Boise, ID", "Kuna, ID", "Chicago, IL", "Fort Wayne, IN", "Indianopolis, IN", "Louisville, KY", "Boston, MA", "Bath, ME", "Portland, ME", "Warren, MI", "Burnsville, MN", "Minneapolis, MN", "Billings, MT", "Great Falls, MT", "Fargo, ND", "Omaha, NE", "Manchester, NH", "Syracuse, NY", "Akron, OH", "Columbus, OH", "Tulsa, OK", "Portland, OR", "Providence, RI", "Greenville, SC", "Sioux Falls, SD", "Nashville, TN", "El Paso, TX", "Salt Lake City, UT", "Burlington, VT", "Bremerton, WA", "Spokane, WA", "Milwaukee, WI", "Charleston, WV", "Casper, WY"
+  ],
+  "near_ocean": [
+    "Anchorage, AK", "Mobile, AL", "Costa Mesa, CA", "Eureka, CA", "Irvine, CA", "San Diego, CA", "Bridgeport, CT", "Wilmington, DE", "Malabar, FL", "Pensacola, FL", "Savannah, GA", "Honolulu, HI", "New Orleans, LA", "Boston, MA", "Bath, ME", "Portland, ME", "Norfolk, VA", "Virginia Beach, VA", "Bremerton, WA"
+  ],
+  "near_mountains": [
+    "Anchorage, AK", "Camden, AR", "Sierra Vista, AZ", "Tucson, AZ", "Eureka, CA", "Yuba City, CA", "Colorado Springs, CO", "Pueblo, CO", "Bridgeport, CT", "Honolulu, HI", "Boise, ID", "Decorah, IA", "Billings, MT", "Great Falls, MT", "Albuquerque, NM", "Las Vegas, NV", "Manchester, NH", "Portland, OR", "Greenville, SC", "Salt Lake City, UT", "Burlington, VT", "Bremerton, WA", "Spokane, WA", "Charleston, WV", "Casper, WY", "Cheyenne, WY"
+  ]
+}

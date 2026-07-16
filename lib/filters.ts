@@ -25,6 +25,7 @@ export interface FilterParams {
   lifestyle?: string | null;
   healthcare?: string | null;
   activities?: string | null;
+  geography?: string | null;
   /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
   employers?: string | null;
   sort?: string | null;
@@ -93,6 +94,16 @@ function matchesActivities(loc: LocationRow, activityTypes: string): boolean {
     }
   }
   return false;
+}
+
+function matchesGeography(loc: LocationRow, geographyTypes: string): boolean {
+  const types = splitTypes(geographyTypes);
+  if (types.length === 0) return true;
+  return types.some((type) =>
+    (type === "lake" && loc.near_lake === true) ||
+    (type === "ocean" && loc.near_ocean === true) ||
+    (type === "mountains" && loc.near_mountains === true)
+  );
 }
 
 function inPriceRange(
@@ -210,6 +221,7 @@ export function filterAndSort(
   if (p.activities) {
     list = list.filter((l) => matchesActivities(l, p.activities!));
   }
+  if (p.geography) list = list.filter((l) => matchesGeography(l, p.geography!));
   if (p.lgbtq_friendly === "true") {
     list = list.filter((l) => {
       const s = parseLgbtqScore(l);

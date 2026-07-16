@@ -73,6 +73,8 @@ State-level information that applies to all locations within a state (no need to
 - **HumiditySummer**: Average humidity percentage in July (representative of summer)
 - **Climate**: Climate zone description (e.g., "Humid subtropical", "Hot desert")
 
+### Geography proximity
+- **NearLake**, **NearOcean**, **NearMountains**: Curated boolean facets for the Explore geography filter. A city qualifies when its center is roughly within 30 miles of a usable lake or saltwater coastline, or within 35 miles of a named mountain range/sustained mountain terrain. These are lifestyle discovery signals, not parcel-level distance guarantees. The reviewed source list and methodology live in `data/geography-proximity.json`; apply it with `scripts/import-geography-proximity.ts` after `scripts/migrate-geography-proximity.ts`.
 ### Other
 - **Gas**: Average gas price per gallon (formatted as currency)
 - **Description**: Marketing/descriptive text about the location

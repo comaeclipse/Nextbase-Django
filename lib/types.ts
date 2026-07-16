@@ -67,6 +67,11 @@ export interface LocationRow {
   avg_high_summer: number | null;
   humidity_summer: number | null;
 
+  // Curated geography proximity facets used by Explore.
+  near_lake?: boolean;
+  near_ocean?: boolean;
+  near_mountains?: boolean;
+
   // Other
   gas_price: string | null;
   description: string | null;
