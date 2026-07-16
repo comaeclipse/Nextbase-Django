@@ -3,8 +3,6 @@ import { getSql } from "./db";
 import type { EmployerIndex, EmployerPresence } from "./defense";
 import type {
   DefenseEmployerRow,
-  AirQualityAnnualRow,
-  HourlyWeatherNormalRow,
   LocationRow,
   StateInfoRow,
   WeatherMonthlyRow,
@@ -189,56 +187,6 @@ export const getAllMonthlyWeather = unstable_cache(
     }
   },
   ["locations:getAllMonthlyWeather"],
-  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
-);
-
-/**
- * Hour-by-hour normals for a city, ordered month then local standard hour.
- * Like monthly weather, this stays optional while older environments catch up
- * to the additive migration.
- */
-export const getHourlyWeatherNormals = unstable_cache(
-  async (locationId: number): Promise<HourlyWeatherNormalRow[]> => {
-    const sql = getSql();
-    try {
-      const rows = await sql`
-        SELECT * FROM location_hourly_normals
-        WHERE location_id = ${locationId}
-        ORDER BY month ASC, hour ASC`;
-      return (rows as Record<string, unknown>[]).map((row) => ({
-        ...row,
-        id: Number(row.id),
-        location_id: Number(row.location_id),
-      })) as HourlyWeatherNormalRow[];
-    } catch (err) {
-      if ((err as { code?: string })?.code === "42P01") return [];
-      throw err;
-    }
-  },
-  ["locations:getHourlyWeatherNormals"],
-  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
-);
-
-/** Latest annual AQI record for a city, when the additive EPA table is present. */
-export const getLatestAirQualityAnnual = unstable_cache(
-  async (locationId: number): Promise<AirQualityAnnualRow | null> => {
-    const sql = getSql();
-    try {
-      const rows = await sql`
-        SELECT * FROM location_air_quality_annual
-        WHERE location_id = ${locationId}
-        ORDER BY year DESC
-        LIMIT 1`;
-      const row = rows[0] as Record<string, unknown> | undefined;
-      return row
-        ? ({ ...row, id: Number(row.id), location_id: Number(row.location_id) } as AirQualityAnnualRow)
-        : null;
-    } catch (err) {
-      if ((err as { code?: string })?.code === "42P01") return null;
-      throw err;
-    }
-  },
-  ["locations:getLatestAirQualityAnnual"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );
 

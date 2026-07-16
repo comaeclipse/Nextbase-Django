@@ -154,33 +154,6 @@ export interface WeatherMonthlyRow {
 }
 
 /**
- * One hour of a calendar-month climate normal (`location_hourly_normals`).
- * These are station-backed moisture normals, intentionally separate from the
- * monthly temperature normals because the closest suitable NOAA station can
- * differ. Numeric columns are returned as strings by Neon.
- */
-export interface HourlyWeatherNormalRow {
-  id: number;
-  location_id: number;
-  month: number;
-  hour: number;
-
-  temp_f: string | null;
-  dew_point_f: string | null;
-  dew_point_p10_f: string | null;
-  dew_point_p90_f: string | null;
-  heat_index_f: string | null;
-
-  station_id: string;
-  station_name: string | null;
-  station_distance_mi: string;
-  data_vintage: string | null;
-  source_kind: string | null;
-  source_url: string | null;
-  source_retrieved_on: string | null;
-}
-
-/**
  * Annual AQI summary matched to a curated city. EPA AirData publishes these
  * annual summaries by county/CBSA rather than exact municipal boundary, so the
  * matched source geography is stored with every row.
