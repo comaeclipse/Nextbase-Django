@@ -75,6 +75,7 @@ State-level information that applies to all locations within a state (no need to
 
 ### Geography proximity
 - **NearLake**, **NearOcean**, **NearMountains**: Curated boolean facets for the Explore geography filter. A city qualifies when its center is roughly within 30 miles of a usable lake or saltwater coastline, or within 35 miles of a named mountain range/sustained mountain terrain. These are lifestyle discovery signals, not parcel-level distance guarantees. The reviewed source list and methodology live in `data/geography-proximity.json`; apply it with `scripts/import-geography-proximity.ts` after `scripts/migrate-geography-proximity.ts`.
+- **Vibes**: Curated text-array lifestyle tags used by the Explore vibe filter: quiet, remote, balanced, hustle and bustle, big city life, desert life, beach life, great outdoors, and farm town. The full-city review lives in `data/city-vibes.json`; apply it with `scripts/import-city-vibes.ts` after `scripts/migrate-city-vibes.ts`.
 ### Other
 - **Gas**: Average gas price per gallon (formatted as currency)
 - **Description**: Marketing/descriptive text about the location

@@ -26,6 +26,8 @@ export interface FilterParams {
   healthcare?: string | null;
   activities?: string | null;
   geography?: string | null;
+  income_tax?: string | null;
+  vibes?: string | null;
   /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
   employers?: string | null;
   sort?: string | null;
@@ -104,6 +106,17 @@ function matchesGeography(loc: LocationRow, geographyTypes: string): boolean {
     (type === "ocean" && loc.near_ocean === true) ||
     (type === "mountains" && loc.near_mountains === true)
   );
+}
+
+function matchesIncomeTax(loc: LocationRow, preference: string): boolean {
+  const rate = parseNumber(loc.income_tax);
+  if (rate === null) return false;
+  return preference === "none" ? rate === 0 : preference === "low" ? rate > 0 && rate <= 4 : true;
+}
+
+function matchesVibes(loc: LocationRow, selectedVibes: string): boolean {
+  const selected = splitTypes(selectedVibes);
+  return selected.length === 0 || selected.some((vibe) => loc.vibes?.includes(vibe));
 }
 
 function inPriceRange(
@@ -222,6 +235,8 @@ export function filterAndSort(
     list = list.filter((l) => matchesActivities(l, p.activities!));
   }
   if (p.geography) list = list.filter((l) => matchesGeography(l, p.geography!));
+  if (p.income_tax) list = list.filter((l) => matchesIncomeTax(l, p.income_tax!));
+  if (p.vibes) list = list.filter((l) => matchesVibes(l, p.vibes!));
   if (p.lgbtq_friendly === "true") {
     list = list.filter((l) => {
       const s = parseLgbtqScore(l);

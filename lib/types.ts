@@ -71,6 +71,7 @@ export interface LocationRow {
   near_lake?: boolean;
   near_ocean?: boolean;
   near_mountains?: boolean;
+  vibes?: string[];
 
   // Other
   gas_price: string | null;

@@ -21,6 +21,8 @@ export async function GET(req: NextRequest) {
     healthcare: sp.get("healthcare"),
     activities: sp.get("activities"),
     geography: sp.get("geography"),
+    income_tax: sp.get("income_tax"),
+    vibes: sp.get("vibes"),
     employers: sp.get("employers"),
     sort: sp.get("sort"),
   };

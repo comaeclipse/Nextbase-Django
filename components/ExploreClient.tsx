@@ -28,6 +28,7 @@ const LIFESTYLE_KEYS = ["urban", "suburban", "small_town", "rural"] as const;
 const HEALTHCARE_KEYS = ["va-hospital", "va-clinic"] as const;
 const ACTIVITY_KEYS = ["golf", "fishing", "hiking", "culture"] as const;
 const GEOGRAPHY_KEYS = ["lake", "ocean", "mountains"] as const;
+const VIBE_KEYS = ["quiet", "remote", "balanced", "hustle_and_bustle", "big_city_life", "desert_life", "beach_life", "great_outdoors", "farm_town"] as const;
 
 type BoolMap<K extends string> = Record<K, boolean>;
 const falses = <K extends string>(keys: readonly K[]): BoolMap<K> =>
@@ -43,6 +44,7 @@ const LIFESTYLE_OPTIONS = [
 const HEALTHCARE_OPTIONS = [["va-hospital", "VA hospital nearby"], ["va-clinic", "VA clinic access"]] as const;
 const ACTIVITY_OPTIONS = [["golf", "Golf"], ["fishing", "Fishing"], ["hiking", "Hiking"], ["culture", "Arts & culture"]] as const;
 const GEOGRAPHY_OPTIONS = [["lake", "Near a lake"], ["ocean", "Near the ocean"], ["mountains", "Near the mountains"]] as const;
+const VIBE_OPTIONS = [["quiet", "Quiet"], ["remote", "Remote"], ["balanced", "Balanced"], ["hustle_and_bustle", "Hustle & bustle"], ["big_city_life", "Big city life"], ["desert_life", "Desert life"], ["beach_life", "Beach life"], ["great_outdoors", "Great outdoors"], ["farm_town", "Farm town"]] as const;
 
 function selectedLabel<K extends string>(values: BoolMap<K>, options: readonly (readonly [K, string])[], fallback: string) {
   const labels = options.filter(([key]) => values[key]).map(([, label]) => label);
@@ -89,6 +91,8 @@ export default function ExploreClient({
   const [priceMax, setPriceMax] = useState("");
   const [lifestyle, setLifestyle] = useState(falses(LIFESTYLE_KEYS));
   const [geography, setGeography] = useState(falses(GEOGRAPHY_KEYS));
+  const [vibes, setVibes] = useState(falses(VIBE_KEYS));
+  const [incomeTax, setIncomeTax] = useState<"" | "none" | "low">("");
   const [healthcare, setHealthcare] = useState(falses(HEALTHCARE_KEYS));
   const [activities, setActivities] = useState(falses(ACTIVITY_KEYS));
   const [employerSel, setEmployerSel] = useState<Record<string, boolean>>({});
@@ -122,17 +126,18 @@ export default function ExploreClient({
       healthcare: HEALTHCARE_KEYS.filter((key) => healthcare[key]).map((key) => key === "va-hospital" ? "va_hospital" : "va_clinic").join(",") || null,
       activities: ACTIVITY_KEYS.filter((key) => activities[key]).join(",") || null,
       geography: GEOGRAPHY_KEYS.filter((key) => geography[key]).join(",") || null,
+      income_tax: incomeTax || null, vibes: VIBE_KEYS.filter((key) => vibes[key]).join(",") || null,
       employers: Object.keys(employerSel).filter((key) => employerSel[key]).join(",") || null, sort,
     };
-  }, [activities, climate, cost, employerSel, geography, healthcare, lgbtq, lifestyle, noAwb, noHcm, priceMax, priceMin, selectedMapState, snow, sort]);
+  }, [activities, climate, cost, employerSel, geography, healthcare, incomeTax, lgbtq, lifestyle, noAwb, noHcm, priceMax, priceMin, selectedMapState, snow, sort, vibes]);
 
   const results = useMemo(() => filterAndSort(initialLocations, stateInfos, filterParams, { employerIndex }), [employerIndex, filterParams, initialLocations, stateInfos]);
-  const activeCount = [climate, lifestyle, geography, employerSel, healthcare, activities].reduce((total, group) => total + Object.values(group).filter(Boolean).length, 0)
-    + [snow, lgbtq, noAwb, noHcm, cost, priceMin, priceMax].filter(Boolean).length;
-  const personalCount = [lgbtq, noAwb, noHcm].filter(Boolean).length;
+  const activeCount = [climate, lifestyle, geography, vibes, employerSel, healthcare, activities].reduce((total, group) => total + Object.values(group).filter(Boolean).length, 0)
+    + [snow, lgbtq, noAwb, noHcm, incomeTax, cost, priceMin, priceMax].filter(Boolean).length;
+  const personalCount = [lgbtq, noAwb, noHcm, incomeTax].filter(Boolean).length;
 
   function resetAll() {
-    setClimate(falses(CLIMATE_KEYS)); setGeography(falses(GEOGRAPHY_KEYS)); setSnow(null); setLgbtq(false); setNoAwb(false); setNoHcm(false);
+    setClimate(falses(CLIMATE_KEYS)); setGeography(falses(GEOGRAPHY_KEYS)); setVibes(falses(VIBE_KEYS)); setIncomeTax(""); setSnow(null); setLgbtq(false); setNoAwb(false); setNoHcm(false);
     setCost(""); setPriceMin(""); setPriceMax(""); setLifestyle(falses(LIFESTYLE_KEYS));
     setHealthcare(falses(HEALTHCARE_KEYS)); setActivities(falses(ACTIVITY_KEYS)); setEmployerSel({});
     setSelectedMapState(null); setSort("best");
@@ -157,6 +162,9 @@ export default function ExploreClient({
         <FilterPill label={selectedLabel(geography, GEOGRAPHY_OPTIONS, "Geography")} active={GEOGRAPHY_KEYS.some((key) => geography[key])} icon={Waves}>
           <h2>Geography</h2><p>Choose nearby natural features; selecting more than one broadens results.</p><OptionList options={GEOGRAPHY_OPTIONS} values={geography} onChange={(key, checked) => setGeography((current) => ({ ...current, [key]: checked }))} />
         </FilterPill>
+        <FilterPill label={selectedLabel(vibes, VIBE_OPTIONS, "Vibe")} active={VIBE_KEYS.some((key) => vibes[key])}>
+          <h2>Vibe</h2><p>Choose the kind of daily rhythm and setting that feels right.</p><OptionList options={VIBE_OPTIONS} values={vibes} onChange={(key, checked) => setVibes((current) => ({ ...current, [key]: checked }))} />
+        </FilterPill>
         <FilterPill label={Object.values(employerSel).filter(Boolean).length ? `${Object.values(employerSel).filter(Boolean).length} employers` : "Employers"} active={Object.values(employerSel).some(Boolean)} icon={Building2}>
           <h2>Defense employers</h2><p>Show cities with a physical facility from a selected employer.</p>
           <div className="employer-options">{employerGroups.map(([parent, entries]) => <div key={parent}><h3>{parent}</h3>{entries.map(({ employer, cities }) => <label className="filter-check" key={employer.slug}><Checkbox checked={Boolean(employerSel[employer.slug])} onCheckedChange={(checked) => setEmployerSel((current) => ({ ...current, [employer.slug]: checked === true }))} /><span>{employer.display_name} <small>{cities}</small></span></label>)}</div>)}</div>
@@ -166,6 +174,8 @@ export default function ExploreClient({
           <label className="toggle-row"><span><Heart aria-hidden="true" />LGBTQ friendly</span><Switch checked={lgbtq} onCheckedChange={setLgbtq} /></label>
           <label className="toggle-row"><span><ShieldCheck aria-hidden="true" />No assault-weapons ban</span><Switch checked={noAwb} onCheckedChange={setNoAwb} /></label>
           <label className="toggle-row"><span><ShieldCheck aria-hidden="true" />No high-capacity magazine restrictions</span><Switch checked={noHcm} onCheckedChange={setNoHcm} /></label>
+          <label className="toggle-row"><span><ShieldCheck aria-hidden="true" />No state income tax</span><Switch checked={incomeTax === "none"} onCheckedChange={(checked) => setIncomeTax(checked ? "none" : "")} /></label>
+          <label className="toggle-row"><span><ShieldCheck aria-hidden="true" />Low state income tax (4% or less)</span><Switch checked={incomeTax === "low"} onCheckedChange={(checked) => setIncomeTax(checked ? "low" : "")} /></label>
         </FilterPill>
       </div>
       <Accordion className="advanced-filters">
