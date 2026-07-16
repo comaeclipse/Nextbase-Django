@@ -570,6 +570,13 @@
       "longitude": -122.717048
     },
     {
+      "name": "Spokane",
+      "state": "WA",
+      "census_place_geoid": "5367000",
+      "latitude": 47.666935,
+      "longitude": -117.433322
+    },
+    {
       "name": "Milwaukee",
       "state": "WI",
       "census_place_geoid": "5553000",
