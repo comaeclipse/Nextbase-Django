@@ -3,6 +3,23 @@
  * locations in or out (via filterByQuizProfile). Soft Fit-score weighting is
  * intentionally not used here — the product pitch is decisive dealbreakers.
  *
+ * FLASH_QUESTIONS is ordered highest-signal first: identity/values cards with
+ * a sharp, evenly-split agree/disagree distribution (climate, gun laws,
+ * marriage equality) come before the audience-specific dealbreaker
+ * (VA/military access), which comes before softer lifestyle/preference cards
+ * that skew toward "doesn't matter" (income tax, lakes). Front-loading the
+ * biggest filters means an abandoned quiz still captured the most useful
+ * signal, and it reads as a funnel narrowing from big-rock questions to
+ * fine-tuning details.
+ *
+ * Some cards are dead ends given an earlier answer — e.g. once someone says
+ * they need all four seasons, "I cannot tolerate any snow" and "I prefer dry
+ * desert over humidity" can only ever produce zero matches, since our
+ * climate_category buckets (cold_snowy / hot_dry / hot_humid / mild_coastal)
+ * are mutually exclusive. Each FlashQuestion can declare `isRelevant` to skip
+ * itself when an earlier answer has already made it moot or contradictory.
+ * Dependencies only ever look at *earlier* questions in FLASH_QUESTIONS.
+ *
  * Profile is persisted in a cookie so a visitor can resume or retake without a
  * server session. Cookie name is versioned; older wizard-shaped cookies are
  * ignored rather than migrated.
@@ -20,32 +37,39 @@ export type FlashQuestionId =
   | "transit"
   | "four_seasons"
   | "no_snow"
+  | "dry_desert"
   | "nightlife"
   | "va_military"
   | "gun_control"
   | "same_sex_marriage"
   | "no_income_tax"
-  | "lakes"
-  | "dry_desert";
+  | "lakes";
+
+type AnswerMap = Record<FlashQuestionId, Stance | null>;
 
 export interface FlashQuestion {
   id: FlashQuestionId;
   statement: string;
   /** Short note shown under the statement (optional). */
   hint?: string;
+  /**
+   * Returns false when an earlier answer already makes this card a dead end
+   * (guaranteed contradiction) or redundant. Omit for cards with no
+   * dependencies. Only ever inspects earlier answers — never itself or a
+   * later question — since cards are walked in FLASH_QUESTIONS order.
+   */
+  isRelevant?: (answers: AnswerMap) => boolean;
 }
 
+const QUIZ_VERSION = 4;
+
 export interface QuizProfile {
-  version: 3;
-  answers: Record<FlashQuestionId, Stance | null>;
+  version: typeof QUIZ_VERSION;
+  answers: AnswerMap;
 }
 
 export const FLASH_QUESTIONS: FlashQuestion[] = [
-  {
-    id: "transit",
-    statement: "Access to public transportation is very important",
-    hint: "We treat walkable urban cores as the best transit proxy in our data.",
-  },
+  // -- Identity / values: sharpest agree-disagree splits, biggest filters --
   {
     id: "four_seasons",
     statement: "I need all four seasons",
@@ -55,26 +79,45 @@ export const FLASH_QUESTIONS: FlashQuestion[] = [
     id: "no_snow",
     statement: "I cannot tolerate any snow",
     hint: "Agree keeps only places with zero annual snowfall.",
+    // Wanting all four seasons already means wanting real winter snow, so
+    // asking this next would only ever produce a contradiction.
+    isRelevant: (answers) => answers.four_seasons !== "agree",
   },
   {
-    id: "nightlife",
-    statement: "I need an active nightlife scene",
-  },
-  {
-    id: "va_military",
-    statement: "I'd like to be near a VA or military base",
-    hint: "Local VA facility or a defense / military hub.",
-  },
-  {
-    id: "gun_control",
-    statement: "I support common sense gun control",
-    hint: "Agree keeps states with assault-weapon or high-capacity magazine bans.",
+    id: "dry_desert",
+    statement: "I prefer dry desert over humidity",
+    hint: "Agree keeps hot/dry climates; disagree keeps hot/humid ones.",
+    // Both dry-desert and humid climates are mutually exclusive with the
+    // cold/snowy climate a "four seasons" answer already locked in.
+    isRelevant: (answers) => answers.four_seasons !== "agree",
   },
   {
     id: "same_sex_marriage",
     statement: "Same-sex marriage rights are a must for me",
     hint: "Agree keeps places with strong LGBTQ friendliness scores.",
   },
+  {
+    id: "gun_control",
+    statement: "I support common sense gun control",
+    hint: "Agree keeps states with assault-weapon or high-capacity magazine bans.",
+  },
+  // -- Audience-specific dealbreaker --
+  {
+    id: "va_military",
+    statement: "I'd like to be near a VA or military base",
+    hint: "Local VA facility or a defense / military hub.",
+  },
+  // -- Lifestyle: real variance, less identity-charged --
+  {
+    id: "transit",
+    statement: "Access to public transportation is very important",
+    hint: "We treat walkable urban cores as the best transit proxy in our data.",
+  },
+  {
+    id: "nightlife",
+    statement: "I need an active nightlife scene",
+  },
+  // -- Softer preferences: skew toward "doesn't matter" --
   {
     id: "no_income_tax",
     statement: "No income tax is important to me",
@@ -83,26 +126,54 @@ export const FLASH_QUESTIONS: FlashQuestion[] = [
     id: "lakes",
     statement: "I want to be near lakes",
   },
-  {
-    id: "dry_desert",
-    statement: "I prefer dry desert over humidity",
-    hint: "Agree keeps hot/dry climates; disagree keeps hot/humid ones.",
-  },
 ];
 
 const QUESTION_IDS = FLASH_QUESTIONS.map((q) => q.id);
 
-function emptyAnswers(): Record<FlashQuestionId, Stance | null> {
-  return Object.fromEntries(QUESTION_IDS.map((id) => [id, null])) as Record<
-    FlashQuestionId,
-    Stance | null
-  >;
+function emptyAnswers(): AnswerMap {
+  return Object.fromEntries(QUESTION_IDS.map((id) => [id, null])) as AnswerMap;
 }
 
 export const DEFAULT_QUIZ_PROFILE: QuizProfile = {
-  version: 3,
+  version: QUIZ_VERSION,
   answers: emptyAnswers(),
 };
+
+/** Whether `q` is still askable given the answers gathered so far. */
+export function isQuestionRelevant(
+  q: FlashQuestion,
+  answers: AnswerMap
+): boolean {
+  return q.isRelevant ? q.isRelevant(answers) : true;
+}
+
+/** The subset of FLASH_QUESTIONS that aren't dead ends given `answers`. */
+export function getVisibleQuestions(answers: AnswerMap): FlashQuestion[] {
+  return FLASH_QUESTIONS.filter((q) => isQuestionRelevant(q, answers));
+}
+
+/**
+ * Null out any answer whose question is no longer relevant (e.g. the visitor
+ * went back and changed an earlier answer). Keeps filterByQuizProfile from
+ * ever combining two answers that are guaranteed to zero out the results.
+ */
+export function sanitizeQuizProfile(profile: QuizProfile): QuizProfile {
+  const visible = new Set(getVisibleQuestions(profile.answers).map((q) => q.id));
+  const answers = emptyAnswers();
+  for (const id of QUESTION_IDS) {
+    answers[id] = visible.has(id) ? profile.answers[id] : null;
+  }
+  return { version: QUIZ_VERSION, answers };
+}
+
+/** First still-relevant question with no answer yet, or null if complete. */
+export function firstUnansweredQuestionId(
+  profile: QuizProfile
+): FlashQuestionId | null {
+  const visible = getVisibleQuestions(profile.answers);
+  const next = visible.find((q) => profile.answers[q.id] == null);
+  return next ? next.id : null;
+}
 
 function nearVaOrMilitary(loc: LocationRow): boolean {
   return Boolean(loc.has_va) || Boolean(loc.defense_hub);
@@ -188,7 +259,13 @@ export function filterByQuizProfile(
   const stateByAbbr: Record<string, StateInfoRow> = {};
   for (const s of stateInfos) stateByAbbr[s.state] = s;
 
+  // Ignore any answer whose question isn't relevant given the rest of the
+  // profile — defends against stale answers (e.g. a visitor went back and
+  // changed an earlier answer) ever compounding into a guaranteed-empty
+  // combination of constraints.
+  const visible = new Set(getVisibleQuestions(profile.answers).map((q) => q.id));
   const constraints = QUESTION_IDS.filter((id) => {
+    if (!visible.has(id)) return false;
     const stance = profile.answers[id];
     return stance === "agree" || stance === "disagree";
   });
@@ -261,8 +338,10 @@ export function summarizeQuizConstraints(profile: QuizProfile): string[] {
     },
   };
 
+  const visible = new Set(getVisibleQuestions(profile.answers).map((q) => q.id));
   const out: string[] = [];
   for (const q of FLASH_QUESTIONS) {
+    if (!visible.has(q.id)) continue;
     const stance = profile.answers[q.id];
     if (stance !== "agree" && stance !== "disagree") continue;
     const pair = labels[q.id];
@@ -271,7 +350,7 @@ export function summarizeQuizConstraints(profile: QuizProfile): string[] {
   return out;
 }
 
-export const QUIZ_COOKIE_NAME = "vr_quiz_flash_v3";
+export const QUIZ_COOKIE_NAME = "vr_quiz_flash_v4";
 const QUIZ_COOKIE_MAX_AGE = 60 * 60 * 24 * 180; // 180 days
 
 export function encodeQuizProfile(profile: QuizProfile): string {
@@ -285,7 +364,9 @@ export function decodeQuizProfile(
   try {
     const parsed = JSON.parse(decodeURIComponent(raw));
     if (typeof parsed !== "object" || parsed === null) return null;
-    if (parsed.version !== 3 || typeof parsed.answers !== "object") return null;
+    if (parsed.version !== QUIZ_VERSION || typeof parsed.answers !== "object") {
+      return null;
+    }
 
     const answers = emptyAnswers();
     for (const id of QUESTION_IDS) {
@@ -294,7 +375,7 @@ export function decodeQuizProfile(
         answers[id] = value;
       }
     }
-    return { version: 3, answers };
+    return sanitizeQuizProfile({ version: QUIZ_VERSION, answers });
   } catch {
     return null;
   }
@@ -318,12 +399,7 @@ export function readQuizProfileCookieClient(): QuizProfile | null {
   return match ? decodeQuizProfile(match[1]) : null;
 }
 
-/** Resume mid-quiz when the cookie has answers but the visitor hasn't finished. */
-export function firstUnansweredStep(profile: QuizProfile): number {
-  const idx = QUESTION_IDS.findIndex((id) => profile.answers[id] == null);
-  return idx === -1 ? QUESTION_IDS.length : idx;
-}
-
+/** True once every still-relevant question (skipped ones don't count) has an answer. */
 export function isQuizComplete(profile: QuizProfile): boolean {
-  return QUESTION_IDS.every((id) => profile.answers[id] != null);
+  return firstUnansweredQuestionId(profile) === null;
 }

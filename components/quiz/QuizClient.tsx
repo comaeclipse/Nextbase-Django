@@ -7,10 +7,13 @@ import {
   DEFAULT_QUIZ_PROFILE,
   FLASH_QUESTIONS,
   filterByQuizProfile,
-  firstUnansweredStep,
+  firstUnansweredQuestionId,
+  getVisibleQuestions,
   isQuizComplete,
+  sanitizeQuizProfile,
   setQuizProfileCookie,
   clearQuizProfileCookie,
+  type FlashQuestionId,
   type QuizProfile,
   type Stance,
 } from "@/lib/quiz";
@@ -54,25 +57,39 @@ export default function QuizClient({
   stateInfos: StateInfoRow[];
   initialProfile: QuizProfile | null;
 }) {
-  const seed = initialProfile ?? DEFAULT_QUIZ_PROFILE;
+  const seed = useMemo(
+    () => sanitizeQuizProfile(initialProfile ?? DEFAULT_QUIZ_PROFILE),
+    [initialProfile]
+  );
   const [answers, setAnswers] = useState<QuizProfile>(seed);
-  const [step, setStep] = useState(() =>
-    isQuizComplete(seed) ? 0 : firstUnansweredStep(seed)
+  const [currentId, setCurrentId] = useState<FlashQuestionId | null>(() =>
+    firstUnansweredQuestionId(seed)
   );
   const [finished, setFinished] = useState(() => isQuizComplete(seed));
   const [cardKey, setCardKey] = useState(0);
   const [pendingStance, setPendingStance] = useState<Stance | null>(null);
   const advanceTimer = useRef<number | null>(null);
 
-  const total = FLASH_QUESTIONS.length;
-  const question = FLASH_QUESTIONS[step];
-  const answeredCount = FLASH_QUESTIONS.filter(
+  // Cards whose earlier answers already made them a dead end (contradiction
+  // or redundant) are filtered out of this list entirely, so the visible
+  // question count — and "Card X of Y" — shrinks as the visitor answers.
+  const visibleQuestions = useMemo(
+    () => getVisibleQuestions(answers.answers),
+    [answers]
+  );
+  const total = visibleQuestions.length;
+  const currentIndex = currentId
+    ? visibleQuestions.findIndex((q) => q.id === currentId)
+    : -1;
+  const question = currentIndex === -1 ? null : visibleQuestions[currentIndex];
+  const skippedCount = FLASH_QUESTIONS.length - total;
+  const answeredCount = visibleQuestions.filter(
     (q) => answers.answers[q.id] != null
   ).length;
   const progressPct = finished
     ? 100
     : Math.round(
-        ((answeredCount + (pendingStance ? 1 : 0)) / total) * 100
+        ((answeredCount + (pendingStance ? 1 : 0)) / Math.max(total, 1)) * 100
       );
 
   const matches = useMemo(() => {
@@ -90,18 +107,22 @@ export default function QuizClient({
     }
 
     setPendingStance(stance);
-    const nextProfile: QuizProfile = {
+    const nextProfile = sanitizeQuizProfile({
       ...answers,
       answers: { ...answers.answers, [question.id]: stance },
-    };
+    });
 
     advanceTimer.current = window.setTimeout(() => {
       setAnswers(nextProfile);
       setPendingStance(null);
       advanceTimer.current = null;
 
-      if (step < total - 1) {
-        setStep((s) => s + 1);
+      const nextVisible = getVisibleQuestions(nextProfile.answers);
+      const answeredIdx = nextVisible.findIndex((q) => q.id === question.id);
+      const next = nextVisible[answeredIdx + 1] ?? null;
+
+      if (next) {
+        setCurrentId(next.id);
         setCardKey((k) => k + 1);
       } else {
         setQuizProfileCookie(nextProfile);
@@ -111,13 +132,13 @@ export default function QuizClient({
   }
 
   function goBack() {
-    if (pendingStance || step === 0) return;
+    if (pendingStance || currentIndex <= 0) return;
     if (advanceTimer.current != null) {
       window.clearTimeout(advanceTimer.current);
       advanceTimer.current = null;
       setPendingStance(null);
     }
-    setStep((s) => s - 1);
+    setCurrentId(visibleQuestions[currentIndex - 1].id);
     setCardKey((k) => k + 1);
   }
 
@@ -129,7 +150,7 @@ export default function QuizClient({
     clearQuizProfileCookie();
     setAnswers(DEFAULT_QUIZ_PROFILE);
     setFinished(false);
-    setStep(0);
+    setCurrentId(FLASH_QUESTIONS[0].id);
     setCardKey((k) => k + 1);
     setPendingStance(null);
   }
@@ -149,11 +170,17 @@ export default function QuizClient({
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span>
-            Card {step + 1} of {total}
+            Card {currentIndex + 1} of {total}
           </span>
           <span>{progressPct}%</span>
         </div>
         <Progress value={progressPct} />
+        {skippedCount > 0 && (
+          <p className="text-xs text-muted-foreground">
+            Skipped {skippedCount} {skippedCount === 1 ? "card" : "cards"} —
+            your climate answer already settled {skippedCount === 1 ? "it" : "them"}.
+          </p>
+        )}
       </div>
 
       <div
@@ -194,7 +221,7 @@ export default function QuizClient({
         <Button
           variant="outline"
           onClick={goBack}
-          disabled={step === 0 || pendingStance != null}
+          disabled={currentIndex <= 0 || pendingStance != null}
         >
           Back
         </Button>

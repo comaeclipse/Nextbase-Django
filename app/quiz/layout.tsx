@@ -21,8 +21,9 @@ export default function QuizLayout({
           <span className="quiz-hero-badge">Dealbreaker Cards</span>
           <h1>Find Your Perfect Fit</h1>
           <p>
-            Ten quick flash cards. Agree, disagree, or say it doesn&apos;t
-            matter — each answer can rule places in or out.
+            A handful of quick flash cards, tailored as you go. Agree,
+            disagree, or say it doesn&apos;t matter — each answer can rule
+            places in or out.
           </p>
         </div>
       </header>
