@@ -1,9 +1,21 @@
 /*
- * Intentionally inert. The public pixel-parity pages (home, explore, city) use
- * only their own copied VetRetire CSS (app/styles/{home,explore,city}.css) and
- * rely on browser defaults — exactly like the original Django templates.
+ * The only stylesheet loaded on every route (via the root layout).
  *
- * Tailwind + shadcn/ui live in app/styles/shadcn.css and are imported ONLY by
- * the admin section layout, so Tailwind's Preflight base reset never leaks into
- * the public pages (it was stretching line-height from `normal` to 1.5).
+ * It carries the html/body half of the reset that the pixel-parity pages
+ * (home, city) used to get from their own `* { margin: 0; padding: 0 }` rule.
+ * That rule now lives scoped under :where(.home-page) / :where(.city-page),
+ * because Next's App Router keeps a visited route's stylesheet in the document
+ * across client-side navigations — an unlayered `*` reset would outlive its own
+ * page and flatten every Tailwind spacing utility on whatever you browsed to
+ * next. Scoping it by ancestor is what keeps it from escaping; :where() holds
+ * the specificity at zero so the cascade on those pages is unchanged.
+ *
+ * Element defaults beyond this stay untouched: the ported pages rely on browser
+ * defaults exactly like the original Django templates, and Tailwind's Preflight
+ * is still confined to the routes that import app/styles/shadcn.css.
  */
+html,
+body {
+    margin: 0;
+    padding: 0;
+}

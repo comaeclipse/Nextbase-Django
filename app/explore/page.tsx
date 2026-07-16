@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import {
   getActiveEmployers,
   getAllLocations,
@@ -9,12 +8,6 @@ import { calculateBaselineScore } from "@/lib/scoring";
 import { computeStateCounts } from "@/lib/filters";
 import type { Location } from "@/lib/types";
 import ExploreClient from "@/components/ExploreClient";
-import PublicNav from "@/components/PublicNav";
-import "../styles/explore.css";
-
-export const metadata: Metadata = {
-  title: "Explore Retirement Locations - VetRetire",
-};
 
 // Always read fresh from the database (parity with the Django view).
 export const dynamic = "force-dynamic";
@@ -46,9 +39,9 @@ export default async function ExplorePage({
 
   const stateCounts = computeStateCounts(rows);
 
-  // `?state_filter=PA` deep-links to the map with that state selected. Only
-  // states we actually have locations for are honored, so a junk value falls
-  // back to the unfiltered grid rather than rendering an empty page.
+  // `?state_filter=PA` deep-links with that state selected. Only states we
+  // actually have locations for are honored, so a junk value falls back to the
+  // unfiltered grid rather than rendering an empty page.
   const requested = Array.isArray(params.state_filter)
     ? params.state_filter[0]
     : params.state_filter;
@@ -57,17 +50,13 @@ export default async function ExplorePage({
     normalized && normalized in stateCounts ? normalized : null;
 
   return (
-    <>
-      <PublicNav active="explore" />
-
-      <ExploreClient
-        initialLocations={locations}
-        stateInfos={stateInfos}
-        stateCounts={stateCounts}
-        initialStateFilter={initialStateFilter}
-        employers={employers}
-        employerIndex={employerIndex}
-      />
-    </>
+    <ExploreClient
+      initialLocations={locations}
+      stateInfos={stateInfos}
+      stateCounts={stateCounts}
+      initialStateFilter={initialStateFilter}
+      employers={employers}
+      employerIndex={employerIndex}
+    />
   );
 }

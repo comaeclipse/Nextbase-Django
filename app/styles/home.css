@@ -2,14 +2,20 @@
  * Ported verbatim from locations/templates/locations/home.html <style>.
  * Unlayered on purpose so it always overrides Tailwind/shadcn base (pixel parity).
  * Only import this stylesheet into the home route.
+ *
+ * The document-wide rules are scoped to .home-page rather than `*`/`body`: Next
+ * keeps this stylesheet in the document after a client-side navigation away, and
+ * an unlayered `*` reset would then flatten the spacing on whatever Tailwind
+ * route you landed on. :where() contributes no specificity, so these match
+ * exactly as they did on this page.
  */
-* {
+:where(.home-page) * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
+:where(.home-page) {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: #333;
@@ -225,7 +231,7 @@ body {
     opacity: 0.9;
 }
 
-footer {
+:where(.home-page) footer {
     background: #1f2937;
     color: #9ca3af;
     padding: 2rem 5%;

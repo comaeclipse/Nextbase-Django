@@ -76,7 +76,8 @@ export default async function CityDetailPage({
     score >= 80 ? "good" : score >= 60 ? "ok" : score >= 40 ? "warn" : "bad";
 
   return (
-    <>
+    // .city-page scopes city.css's reset to this page; see app/globals.css.
+    <div className="city-page">
       <PublicNav active="explore" />
 
       {/* Breadcrumb */}
@@ -337,7 +338,16 @@ export default async function CityDetailPage({
                 <path d="m6.34 17.66-1.41 1.41" />
                 <path d="m19.07 4.93-1.41 1.41" />
               </svg>
-              <h2>Climate & Weather</h2>
+              <h2>
+                <Link
+                  href={`/city/${location.id}/climate`}
+                  className="section-link"
+                  aria-label={`Open the full climate and weather dashboard for ${location.name}`}
+                >
+                  Climate & Weather
+                  <span aria-hidden>↗</span>
+                </Link>
+              </h2>
             </div>
             <div className="card-body">
               <div className="spec-grid">
@@ -887,6 +897,6 @@ export default async function CityDetailPage({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

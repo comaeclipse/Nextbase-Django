@@ -3,6 +3,7 @@ import { getSql } from "./db";
 import type { EmployerIndex, EmployerPresence } from "./defense";
 import type {
   DefenseEmployerRow,
+  HourlyWeatherNormalRow,
   LocationRow,
   StateInfoRow,
   WeatherMonthlyRow,
@@ -187,6 +188,37 @@ export const getAllMonthlyWeather = unstable_cache(
     }
   },
   ["locations:getAllMonthlyWeather"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
+);
+
+/**
+ * Hourly climate normals for one city: 12 months x 24 hours, ordered
+ * month→hour. Backs the moisture charts; see `HourlyWeatherNormalRow` for why
+ * temperature still comes from `location_weather_monthly`.
+ *
+ * Returns `[]` if `location_hourly_normals` isn't migrated yet, matching
+ * `getMonthlyWeather`.
+ */
+export const getHourlyWeatherNormals = unstable_cache(
+  async (locationId: number): Promise<HourlyWeatherNormalRow[]> => {
+    const sql = getSql();
+    try {
+      const rows = await sql`
+        SELECT * FROM location_hourly_normals
+        WHERE location_id = ${locationId}
+        ORDER BY month ASC, hour ASC`;
+      return (rows as Record<string, unknown>[]).map((r) => ({
+        ...r,
+        id: Number(r.id),
+        location_id: Number(r.location_id),
+      })) as HourlyWeatherNormalRow[];
+    } catch (err) {
+      // 42P01 = undefined_table: table not migrated yet.
+      if ((err as { code?: string })?.code === "42P01") return [];
+      throw err;
+    }
+  },
+  ["locations:getHourlyWeatherNormals"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );
 

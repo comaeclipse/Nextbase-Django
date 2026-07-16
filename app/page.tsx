@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 // Ported 1:1 from locations/templates/locations/home.html
 export default function Home() {
   return (
-    <>
+    // .home-page scopes home.css's reset to this page; see app/globals.css.
+    <div className="home-page">
       <PublicNav active="home" />
 
       <section className="hero">
@@ -145,6 +146,6 @@ export default function Home() {
       <footer>
         <p>&copy; 2025 VetRetire. Serving those who served. All rights reserved.</p>
       </footer>
-    </>
+    </div>
   );
 }
