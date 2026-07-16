@@ -503,18 +503,23 @@ live from Neon. This keeps map loading small and makes the geographic source
 auditable without placing latitude/longitude fields onto the legacy location
 table.
 
-After adding, renaming, or removing a `locations_location` row, regenerate the
-crosswalk before shipping:
+**This is a required part of every city add, rename, or removal.** After the
+location import has changed `locations_location`, do whatever is necessary to
+make `/map` reflect that change: regenerate the crosswalk before shipping,
+resolve any exact Census-name mismatch, and verify the resulting JSON contains
+the city and its expected state.
 
 ```powershell
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/prepare-map-coordinates.ts
 ```
 
 The script fails if any live location cannot be matched to the Census place
-snapshot. Review and add a narrowly documented alias in the script only for an
-official Census naming difference (for example, `Boise` vs. `Boise City`);
-never use an approximate neighboring place as a silent fallback. Commit the
-updated JSON with the city CSV and source notes.
+snapshot. Treat that as an ingest blocker for a mapped city: review and add a
+narrowly documented alias in the script only for an official Census naming
+difference (for example, `Boise` vs. `Boise City`); never use an approximate
+neighboring place as a silent fallback. Confirm the city is present in
+`data/location-map-coordinates.json`, then spot-check `/map` so the new city is
+actually visible. Commit the updated JSON with the city CSV and source notes.
 
 ## Defense Employer Location Linking
 

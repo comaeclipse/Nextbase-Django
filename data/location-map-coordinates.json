@@ -157,6 +157,13 @@
       "longitude": -84.542463
     },
     {
+      "name": "Savannah",
+      "state": "GA",
+      "census_place_geoid": "1369000",
+      "latitude": 32.018043,
+      "longitude": -81.196492
+    },
+    {
       "name": "Honolulu",
       "state": "HI",
       "census_place_geoid": "1571550",
