@@ -75,7 +75,8 @@ State-level information that applies to all locations within a state (no need to
 
 ### Geography proximity
 - **NearLake**, **NearOcean**, **NearMountains**: Curated boolean facets for the Explore geography filter. A city qualifies when its center is roughly within 30 miles of a usable lake or saltwater coastline, or within 35 miles of a named mountain range/sustained mountain terrain. These are lifestyle discovery signals, not parcel-level distance guarantees. The reviewed source list and methodology live in `data/geography-proximity.json`; apply it with `scripts/import-geography-proximity.ts` after `scripts/migrate-geography-proximity.ts`.
-- **Vibes**: Curated text-array lifestyle tags used by the Explore vibe filter: quiet, remote, balanced, hustle and bustle, big city life, desert life, beach life, great outdoors, and farm town. The full-city review lives in `data/city-vibes.json`; apply it with `scripts/import-city-vibes.ts` after `scripts/migrate-city-vibes.ts`.
+- **Vibes**: Curated text-array lifestyle tags used by the Explore vibe filter: beach life, desert life, mountain living, southern living, lake living, great outdoors, nightlife, and quiet retreat. Settlement pace (urban/suburban/small town/rural) lives in the Lifestyle filter; weather patterns live in Climate (`cold_snowy` is labeled “Four seasons” in the UI). The full-city review lives in `data/city-vibes.json`; apply it with `scripts/import-city-vibes.ts` after `scripts/migrate-city-vibes.ts`.
+
 ### Other
 - **Gas**: Average gas price per gallon (formatted as currency)
 - **Description**: Marketing/descriptive text about the location
@@ -123,7 +124,7 @@ Table: `defense_employers`
 - **AtsKind** / **AtsConfig**: How to refresh this employer automatically (`phenom` + the careers-site facet values). Null for employers with no importer yet
 - **Active**: Soft-delete flag; inactive employers vanish from the filter
 
-Seeds live in `lib/defense.ts` (`DEFENSE_EMPLOYER_SEEDS`) and are applied by `scripts/migrate-defense-employers.ts`. Lockheed Martin, General Dynamics, Northrop Grumman, L3Harris and Boeing are seeded with zero locations; they appear in the filter only once an importer populates them. **System High** has no scrapable ATS either, but its footprint is hand-sourced in `data/system_high_job_locations.csv` (see `data/system_high_sources.md`) with attested onsite counts, so it behaves like any populated employer.
+Seeds live in `lib/defense.ts` (`DEFENSE_EMPLOYER_SEEDS`) and are applied by `scripts/migrate-defense-employers.ts`. Lockheed Martin, General Dynamics, Northrop Grumman, and Boeing are seeded with zero locations; they appear in the filter only once an importer populates them. **System High** and **L3Harris** have no scraper in this repo, so their footprints are hand-sourced in `data/system_high_job_locations.csv` and `data/l3harris_job_locations.csv`; each uses an attested onsite presence signal rather than inventing a work-arrangement breakdown. See the adjacent `*_sources.md` files for source and counting details.
 
 ---
 
@@ -176,6 +177,22 @@ defense_hub = defense_hub_manual === false ? false
 A `NULL` (never researched, no presence) stays `NULL` — "unknown" is not the same claim as "not a defense hub", matching the three-valued convention used by the veteran-benefits booleans.
 
 Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It is idempotent, prints every proposed flip with its evidence under `--dry-run`, and aborts on an *unexplained* demotion (a `true` with no `defense_hub_manual = false` veto behind it). A `true → false` transition is allowed only when you set the veto deliberately. The presence threshold is a named constant in `lib/defense.ts`.
+
+---
+
+## Military installations
+
+Military installations are stored separately from defense employers because a command is a public facility, not a contractor or job-posting footprint. This is the authoritative data layer for a future **near a base** radius filter.
+
+Table: `military_installations`
+
+- **ServiceBranch** / **CommandName**: The owning service and the official command name.
+- **InstallationType** / **OperationalStatus**: Controlled descriptive fields (the current Navy import uses `installation_command` and `active`).
+- **Country** / **City** / **State**: The source-defined principal municipality, retained even when it does not match a curated retirement location.
+- **Latitude** / **Longitude**: Reserved for authoritative installation-site coordinates. They remain null when the source only provides a municipality; city centroids must not be used to claim a precise radius match.
+- **SourceKind** / **SourceUrl** / **SourceRetrievedOn** / **Notes**: Ingest provenance and source scope.
+
+Rows are unique on `(service_branch, command_name, country, city, state)`. Service-specific seeds (currently `data/navy_installations.json` and `data/marine_corps_installations.json`) carry their own `service_branch` and load through `scripts/import-military-installations.ts` after `scripts/migrate-military-installations.ts`. Future services should follow the same format and add coordinate-enrichment from an authoritative site-level source before the UI exposes distance matching.
 
 ---
 
@@ -236,6 +253,27 @@ Every metric is **nullable** — a city may have temperature normals but no humi
 Rows are unique on `(location_id, month)`; importers upsert on that key. Climate *normals* are stable (NOAA revises once a decade), so a single-vintage upsert table with a `data_vintage` tag suffices — no append-only history / current-view layer like pace uses.
 
 Migrate with `scripts/migrate-weather-monthly.ts` (idempotent, `--dry-run`). Application reads via `getMonthlyWeather(locationId)` in `lib/locations.ts`, which returns `[]` if the table is not yet migrated.
+
+---
+
+## Hourly weather normals (moisture)
+
+Dew point and heat index live here, not on `location_weather_monthly`, because they come from a **different station**. GHCN *monthly* normals carry no humidity at all (which is why `location_weather_monthly.humidity_pct` / `sun_pct` are permanently NULL); dew point exists only in the NOAA *hourly* normals product, published for ASOS/airport (`USW`) stations. ~half the cities' nearest temperature station is a COOP (`USC`) site with no hourly data, so writing moisture into a monthly row would attribute one station's dew point to another station's temperature.
+
+Table: `location_hourly_normals`
+
+- **LocationId**: FK to `locations_location`, `ON DELETE CASCADE`
+- **Month** / **Hour**: `1`–`12` and `0`–`23` local standard time. Unique together with `LocationId` — 288 rows per city
+- **TempF** / **DewPointF** / **HeatIndexF**: Mean temperature, dew point and NOAA's own heat-index normal (°F). `HeatIndexF` is taken from `HLY-HIDX-NORMAL`, never recomputed; it equals `TempF` when air is too dry to amplify
+- **DewPointP10F** / **DewPointP90F**: 10th/90th percentile dew point — the dry and muggy extremes behind the mean
+- **StationId** / **StationName** / **StationDistanceMi**: Which station this city's moisture came from, and how far. Recorded because `location_weather_monthly` records neither, which is why its unrepresentative matches (Honolulu, Marietta) stayed invisible until audited
+- **DataVintage** / **SourceKind** / **SourceUrl** / **SourceRetrievedOn**: Provenance. `noaa_hourly_normals` for NOAA/NCEI Hourly Normals
+
+Grain is month × hour, not month: dew point has a strong diurnal cycle (Phoenix July: 57°F at 05h vs 52°F at 16h), so a daily mean conflates humid dawns with dry afternoons. Keeping the hour lets callers read moisture *at the hottest hour*. NCEI's 8760 day-hours are averaged down to 288 per city.
+
+> **Which table for which metric:** use this table for **moisture only**, and `location_weather_monthly` for **temperature**. Dew point is an air-mass property that varies smoothly, so a metro's airport is representative at 20–50 mi; temperature is not. Sierra Vista, AZ (4,600 ft) matches Tucson's airport at 54.3 mi — its dew point is fine, its `temp_f` is ~6°F too hot.
+
+Migrate with `scripts/migrate-hourly-normals.ts`, then import with `scripts/import-hourly-normals.ts --all` (idempotent, `--dry-run`, `--refresh`). Covers 86/86 cities from 78 stations, mean distance 11.3 mi; the importer prints any match beyond 50 mi for review. Station CSVs (~6MB each) cache to `data/sources/weather/hourly/` and are **gitignored**; the importer validates cached files are complete (8761 lines) and re-fetches truncated ones, so an interrupted run cannot poison the cache.
 
 ---
 

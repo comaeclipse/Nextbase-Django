@@ -28,14 +28,23 @@ const LIFESTYLE_KEYS = ["urban", "suburban", "small_town", "rural"] as const;
 const HEALTHCARE_KEYS = ["va-hospital", "va-clinic"] as const;
 const ACTIVITY_KEYS = ["golf", "fishing", "hiking", "culture"] as const;
 const GEOGRAPHY_KEYS = ["lake", "ocean", "mountains"] as const;
-const VIBE_KEYS = ["quiet", "remote", "balanced", "hustle_and_bustle", "big_city_life", "desert_life", "beach_life", "great_outdoors", "farm_town"] as const;
+const VIBE_KEYS = [
+  "beach_life",
+  "desert_life",
+  "mountain_living",
+  "southern_living",
+  "lake_living",
+  "great_outdoors",
+  "nightlife",
+  "quiet_retreat",
+] as const;
 
 type BoolMap<K extends string> = Record<K, boolean>;
 const falses = <K extends string>(keys: readonly K[]): BoolMap<K> =>
   Object.fromEntries(keys.map((key) => [key, false])) as BoolMap<K>;
 
 const CLIMATE_OPTIONS = [
-  ["cold_snowy", "Cold / Snowy"], ["hot_humid", "Hot / Humid"],
+  ["cold_snowy", "Four seasons"], ["hot_humid", "Hot / Humid"],
   ["hot_dry", "Hot / Dry"], ["mild_coastal", "Mild / Coastal"],
 ] as const;
 const LIFESTYLE_OPTIONS = [
@@ -44,7 +53,16 @@ const LIFESTYLE_OPTIONS = [
 const HEALTHCARE_OPTIONS = [["va-hospital", "VA hospital nearby"], ["va-clinic", "VA clinic access"]] as const;
 const ACTIVITY_OPTIONS = [["golf", "Golf"], ["fishing", "Fishing"], ["hiking", "Hiking"], ["culture", "Arts & culture"]] as const;
 const GEOGRAPHY_OPTIONS = [["lake", "Near a lake"], ["ocean", "Near the ocean"], ["mountains", "Near the mountains"]] as const;
-const VIBE_OPTIONS = [["quiet", "Quiet"], ["remote", "Remote"], ["balanced", "Balanced"], ["hustle_and_bustle", "Hustle & bustle"], ["big_city_life", "Big city life"], ["desert_life", "Desert life"], ["beach_life", "Beach life"], ["great_outdoors", "Great outdoors"], ["farm_town", "Farm town"]] as const;
+const VIBE_OPTIONS = [
+  ["beach_life", "Beach life"],
+  ["desert_life", "Desert life"],
+  ["mountain_living", "Mountain living"],
+  ["southern_living", "Southern living"],
+  ["lake_living", "Lake living"],
+  ["great_outdoors", "Great outdoors"],
+  ["nightlife", "Nightlife"],
+  ["quiet_retreat", "Quiet retreat"],
+] as const;
 
 function selectedLabel<K extends string>(values: BoolMap<K>, options: readonly (readonly [K, string])[], fallback: string) {
   const labels = options.filter(([key]) => values[key]).map(([, label]) => label);
@@ -154,16 +172,16 @@ export default function ExploreClient({
       </div>
       <div className="explore-filter-bar">
         <FilterPill label={selectedLabel(climate, CLIMATE_OPTIONS, "Climate")} active={CLIMATE_KEYS.some((key) => climate[key])}>
-          <h2>Climate</h2><p>Choose one or more year-round patterns.</p><OptionList options={CLIMATE_OPTIONS} values={climate} onChange={(key, checked) => setClimate((current) => ({ ...current, [key]: checked }))} />
+          <h2>Climate</h2><p>Choose one or more year-round patterns. Four seasons covers distinct winters with real cold or snow.</p><OptionList options={CLIMATE_OPTIONS} values={climate} onChange={(key, checked) => setClimate((current) => ({ ...current, [key]: checked }))} />
         </FilterPill>
         <FilterPill label={selectedLabel(lifestyle, LIFESTYLE_OPTIONS, "Lifestyle")} active={LIFESTYLE_KEYS.some((key) => lifestyle[key])}>
-          <h2>Lifestyle</h2><p>How would you like everyday life to feel?</p><OptionList options={LIFESTYLE_OPTIONS} values={lifestyle} onChange={(key, checked) => setLifestyle((current) => ({ ...current, [key]: checked }))} />
+          <h2>Lifestyle</h2><p>Urban, suburban, small town, or rural settlement type.</p><OptionList options={LIFESTYLE_OPTIONS} values={lifestyle} onChange={(key, checked) => setLifestyle((current) => ({ ...current, [key]: checked }))} />
         </FilterPill>
         <FilterPill label={selectedLabel(geography, GEOGRAPHY_OPTIONS, "Geography")} active={GEOGRAPHY_KEYS.some((key) => geography[key])} icon={Waves}>
           <h2>Geography</h2><p>Choose nearby natural features; selecting more than one broadens results.</p><OptionList options={GEOGRAPHY_OPTIONS} values={geography} onChange={(key, checked) => setGeography((current) => ({ ...current, [key]: checked }))} />
         </FilterPill>
         <FilterPill label={selectedLabel(vibes, VIBE_OPTIONS, "Vibe")} active={VIBE_KEYS.some((key) => vibes[key])}>
-          <h2>Vibe</h2><p>Choose the kind of daily rhythm and setting that feels right.</p><OptionList options={VIBE_OPTIONS} values={vibes} onChange={(key, checked) => setVibes((current) => ({ ...current, [key]: checked }))} />
+          <h2>Vibe</h2><p>Regional setting and lifestyle feel — beach, desert, mountains, Southern living, and more.</p><OptionList options={VIBE_OPTIONS} values={vibes} onChange={(key, checked) => setVibes((current) => ({ ...current, [key]: checked }))} />
         </FilterPill>
         <FilterPill label={Object.values(employerSel).filter(Boolean).length ? `${Object.values(employerSel).filter(Boolean).length} employers` : "Employers"} active={Object.values(employerSel).some(Boolean)} icon={Building2}>
           <h2>Defense employers</h2><p>Show cities with a physical facility from a selected employer.</p>

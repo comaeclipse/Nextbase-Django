@@ -604,7 +604,8 @@ function buildVibe(city: WeatherCity): {
   const byCategory: Record<string, { headline: string; emoji: string }> = {
     hot_dry: { headline: "Warm & dry — sunshine most of the year", emoji: "🏜️" },
     hot_humid: { headline: "Hot & sticky — lush, humid summers", emoji: "🌴" },
-    cold_snowy: { headline: "Four-season — real winters, real snow", emoji: "❄️" },
+    cold_snowy: { headline: "Four seasons — real winters, real snow", emoji: "❄️" },
+    mild_coastal: { headline: "Mild & coastal — even-keeled year-round", emoji: "🌊" },
     mild: { headline: "Mild & even-keeled year-round", emoji: "🌤️" },
     temperate: { headline: "Temperate — comfortable middle ground", emoji: "🍃" },
   };

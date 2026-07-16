@@ -3,7 +3,16 @@ import { getSql } from "../lib/db";
 
 const dryRun = process.argv.includes("--dry-run");
 const source = JSON.parse(readFileSync("data/city-vibes.json", "utf8")) as { vibes: Record<string, string[]> };
-const allowed = new Set(["quiet", "remote", "balanced", "hustle_and_bustle", "big_city_life", "desert_life", "beach_life", "great_outdoors", "farm_town"]);
+const allowed = new Set([
+  "beach_life",
+  "desert_life",
+  "mountain_living",
+  "southern_living",
+  "lake_living",
+  "great_outdoors",
+  "nightlife",
+  "quiet_retreat",
+]);
 
 async function main() {
   const sql = getSql();

@@ -11,10 +11,11 @@
 import { getSql } from "../lib/db";
 import type { LocationRow } from "../lib/types";
 
+/** Stored keys; Explore/quiz label `cold_snowy` as "Four seasons". */
 type Category = "cold_snowy" | "hot_humid" | "hot_dry" | "mild_coastal";
 
 function classify(loc: LocationRow): Category {
-  // Rule 1: Cold/Snowy
+  // Rule 1: Four seasons / cold winters (stored as cold_snowy)
   if (
     (loc.snow_annual && loc.snow_annual >= 30) ||
     (loc.alw != null &&
