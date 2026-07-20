@@ -16,6 +16,7 @@ type NavKey =
   | "quiz"
   | "weather"
   | "uv"
+  | "gas"
   | "critters"
   | "air-quality"
   | "insurance"
@@ -31,6 +32,7 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
 const DATA_LINKS: { key: NavKey; href: string; label: string; description: string }[] = [
   { key: "critters", href: "/critters", label: "Critters", description: "Local wildlife and pest activity" },
   { key: "uv", href: "/uv", label: "UV", description: "State-level UV exposure" },
+  { key: "gas", href: "/gas", label: "Gas Prices", description: "State-level gas price averages" },
   { key: "weather", href: "/weather", label: "Weather", description: "Climate and comfort data" },
   { key: "air-quality", href: "/air-quality", label: "Air Quality", description: "Annual air-quality comparisons" },
   { key: "politics", href: "/politics", label: "Politics", description: "State political landscape" },

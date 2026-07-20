@@ -33,6 +33,8 @@ Data scripts (run with tsx + the env file):
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts [--dry-run]
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/django_scores.json
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-state-weather-indices.ts [--dry-run]  # /uv -> state_weather_indices
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-gas-prices.ts [--dry-run]             # /gas -> state_gas_prices
 ```
 
 Pace classification (lifestyle / settlement type):

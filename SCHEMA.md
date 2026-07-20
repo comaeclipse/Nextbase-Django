@@ -295,6 +295,21 @@ Table: `state_weather_indices`
 
 The first dataset is the state UV exposure index, sourced from NASA Earth Observations UV climatology with EPA and NOAA comparison sources. Migrate and import with `scripts/migrate-state-weather-indices.ts` (idempotent, supports `--dry-run`). Application reads via `getStateWeatherIndex("uv")` in `lib/state-weather.ts`; if the table is absent in a local environment, the route falls back to the committed static dataset from `lib/state-weather-data.ts`.
 
+Table: `state_gas_prices`
+
+State-level average regular gas prices for the `/gas` page. Kept separate from `state_weather_indices` because the primary metric is a dollar price rather than a UV index.
+
+- **State** (PK) / **StateName**: USPS abbreviation and full state label.
+- **Price**: Average regular unleaded price in USD per gallon — the number the UI leads with.
+- **Value**: A 0-100 expensiveness index used for map color, `100` = most expensive state.
+- **Rank**: National rank, `1` = most expensive.
+- **Band**: `Very Low` / `Low` / `Moderate` / `High` / `Very High`.
+- **MetricLabel** / **Unit** / **PriceUnit** / **Blurb**: Display metadata for the page.
+- **DataVintage** / **Sources** / **Methodology** / **SourceFile**: Provenance for the dataset.
+- **UpdatedAt**: Last upsert timestamp.
+
+Migrate and import with `scripts/migrate-gas-prices.ts` (idempotent, supports `--dry-run`). Application reads via `getGasPrices()` in `lib/gas-prices.ts`; if the table is unreachable (missing table, or no `DATABASE_URL` locally), the route falls back to the committed static dataset from `lib/gas-prices-data.ts`.
+
 ---
 
 ## Annual air quality
