@@ -15,9 +15,30 @@ import {
 import { resolveStateAbbr } from "@/lib/states";
 import type { Location } from "@/lib/types";
 import PublicNav from "@/components/PublicNav";
+import { Check, X } from "lucide-react";
 import "../../styles/city.css";
 
 export const dynamic = "force-dynamic";
+
+/**
+ * Unified yes/no indicator for the firearm-law grid so every ban row reads the
+ * same way. `true` (ban in place) is the restrictive/warn state, `false` the
+ * permissive/good state; `null` renders an em dash. The lucide icon carries the
+ * yes/no answer, the badge color carries the restrictiveness — this replaces the
+ * old mix of Yes/No badges and a raw "Y"/"N" string.
+ */
+function BanBadge({ value }: { value: boolean | null }) {
+  if (value === null) return <>—</>;
+  return value ? (
+    <span className="badge warn">
+      <Check className="icon" /> Yes
+    </span>
+  ) : (
+    <span className="badge good">
+      <X className="icon" /> No
+    </span>
+  );
+}
 
 function parseId(id: string): number | null {
   // Django routes /city/<int:pk>/ — only integers reach the view.
@@ -703,27 +724,27 @@ export default async function CityDetailPage({
                   <div className="spec">
                     <span className="spec-key">Assault Weapons Ban</span>
                     <span className="spec-val">
-                      {stateInfo.assault_weapons_ban ? (
-                        <span className="badge warn">Yes</span>
-                      ) : (
-                        <span className="badge good">No</span>
-                      )}
+                      <BanBadge value={stateInfo.assault_weapons_ban} />
                     </span>
                   </div>
                   <div className="spec">
                     <span className="spec-key">High-Cap Mag Ban</span>
                     <span className="spec-val">
-                      {stateInfo.high_cap_mag_ban ? (
-                        <span className="badge warn">Yes</span>
-                      ) : (
-                        <span className="badge good">No</span>
-                      )}
+                      <BanBadge value={stateInfo.high_cap_mag_ban} />
                     </span>
                   </div>
                   <div className="spec">
                     <span className="spec-key">Ghost Gun Ban</span>
                     <span className="spec-val">
-                      {stateInfo.ghost_gun_ban || "—"}
+                      <BanBadge
+                        value={
+                          stateInfo.ghost_gun_ban === "Y"
+                            ? true
+                            : stateInfo.ghost_gun_ban === "N"
+                              ? false
+                              : null
+                        }
+                      />
                     </span>
                   </div>
                 </div>
