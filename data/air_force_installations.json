@@ -1,0 +1,306 @@
+{
+  "generated_date": "2026-07-16",
+  "scope": "Major active U.S. Air Force installation-level locations in the 50 states and Washington, D.C. Includes Air Force bases, the U.S. Air Force Academy, and joint bases containing a major Air Force base component. Excludes overseas and territorial installations, Space Force bases, Air National Guard-only installations, Air Force Reserve-only bases, ordinary Reserve centers, auxiliary fields, annexes other than Gunter Annex, and small tenant or operating locations.",
+  "city_method": "City is the principal nearby municipality or commonly used postal community for the installation. Joint bases are represented once under the current joint-base name rather than duplicating the former Air Force component name.",
+  "count": 57,
+  "installations": [
+    {
+      "name": "Altus Air Force Base",
+      "city": "Altus",
+      "state": "OK"
+    },
+    {
+      "name": "Arnold Air Force Base",
+      "city": "Tullahoma",
+      "state": "TN"
+    },
+    {
+      "name": "Barksdale Air Force Base",
+      "city": "Bossier City",
+      "state": "LA"
+    },
+    {
+      "name": "Beale Air Force Base",
+      "city": "Marysville",
+      "state": "CA"
+    },
+    {
+      "name": "Cannon Air Force Base",
+      "city": "Clovis",
+      "state": "NM"
+    },
+    {
+      "name": "Columbus Air Force Base",
+      "city": "Columbus",
+      "state": "MS"
+    },
+    {
+      "name": "Creech Air Force Base",
+      "city": "Indian Springs",
+      "state": "NV"
+    },
+    {
+      "name": "Davis-Monthan Air Force Base",
+      "city": "Tucson",
+      "state": "AZ"
+    },
+    {
+      "name": "Dover Air Force Base",
+      "city": "Dover",
+      "state": "DE"
+    },
+    {
+      "name": "Dyess Air Force Base",
+      "city": "Abilene",
+      "state": "TX"
+    },
+    {
+      "name": "Edwards Air Force Base",
+      "city": "Edwards",
+      "state": "CA"
+    },
+    {
+      "name": "Eglin Air Force Base",
+      "city": "Valparaiso",
+      "state": "FL"
+    },
+    {
+      "name": "Eielson Air Force Base",
+      "city": "Fairbanks",
+      "state": "AK"
+    },
+    {
+      "name": "Ellsworth Air Force Base",
+      "city": "Rapid City",
+      "state": "SD"
+    },
+    {
+      "name": "F.E. Warren Air Force Base",
+      "city": "Cheyenne",
+      "state": "WY"
+    },
+    {
+      "name": "Fairchild Air Force Base",
+      "city": "Spokane",
+      "state": "WA"
+    },
+    {
+      "name": "Goodfellow Air Force Base",
+      "city": "San Angelo",
+      "state": "TX"
+    },
+    {
+      "name": "Grand Forks Air Force Base",
+      "city": "Grand Forks",
+      "state": "ND"
+    },
+    {
+      "name": "Hanscom Air Force Base",
+      "city": "Bedford",
+      "state": "MA"
+    },
+    {
+      "name": "Hill Air Force Base",
+      "city": "Ogden",
+      "state": "UT"
+    },
+    {
+      "name": "Holloman Air Force Base",
+      "city": "Alamogordo",
+      "state": "NM"
+    },
+    {
+      "name": "Hurlburt Field",
+      "city": "Mary Esther",
+      "state": "FL"
+    },
+    {
+      "name": "Joint Base Anacostia-Bolling",
+      "city": "Washington",
+      "state": "DC"
+    },
+    {
+      "name": "Joint Base Andrews",
+      "city": "Camp Springs",
+      "state": "MD"
+    },
+    {
+      "name": "Joint Base Charleston",
+      "city": "North Charleston",
+      "state": "SC"
+    },
+    {
+      "name": "Joint Base Elmendorf-Richardson",
+      "city": "Anchorage",
+      "state": "AK"
+    },
+    {
+      "name": "Joint Base Langley-Eustis",
+      "city": "Hampton",
+      "state": "VA"
+    },
+    {
+      "name": "Joint Base Lewis-McChord",
+      "city": "Tacoma",
+      "state": "WA"
+    },
+    {
+      "name": "Joint Base McGuire-Dix-Lakehurst",
+      "city": "Wrightstown",
+      "state": "NJ"
+    },
+    {
+      "name": "Joint Base Pearl Harbor-Hickam",
+      "city": "Honolulu",
+      "state": "HI"
+    },
+    {
+      "name": "Joint Base San Antonio",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "name": "Keesler Air Force Base",
+      "city": "Biloxi",
+      "state": "MS"
+    },
+    {
+      "name": "Kirtland Air Force Base",
+      "city": "Albuquerque",
+      "state": "NM"
+    },
+    {
+      "name": "Laughlin Air Force Base",
+      "city": "Del Rio",
+      "state": "TX"
+    },
+    {
+      "name": "Little Rock Air Force Base",
+      "city": "Jacksonville",
+      "state": "AR"
+    },
+    {
+      "name": "Luke Air Force Base",
+      "city": "Glendale",
+      "state": "AZ"
+    },
+    {
+      "name": "MacDill Air Force Base",
+      "city": "Tampa",
+      "state": "FL"
+    },
+    {
+      "name": "Malmstrom Air Force Base",
+      "city": "Great Falls",
+      "state": "MT"
+    },
+    {
+      "name": "Maxwell Air Force Base and Gunter Annex",
+      "city": "Montgomery",
+      "state": "AL"
+    },
+    {
+      "name": "McConnell Air Force Base",
+      "city": "Wichita",
+      "state": "KS"
+    },
+    {
+      "name": "Minot Air Force Base",
+      "city": "Minot",
+      "state": "ND"
+    },
+    {
+      "name": "Moody Air Force Base",
+      "city": "Valdosta",
+      "state": "GA"
+    },
+    {
+      "name": "Mountain Home Air Force Base",
+      "city": "Mountain Home",
+      "state": "ID"
+    },
+    {
+      "name": "Nellis Air Force Base",
+      "city": "Las Vegas",
+      "state": "NV"
+    },
+    {
+      "name": "Offutt Air Force Base",
+      "city": "Bellevue",
+      "state": "NE"
+    },
+    {
+      "name": "Robins Air Force Base",
+      "city": "Warner Robins",
+      "state": "GA"
+    },
+    {
+      "name": "Scott Air Force Base",
+      "city": "Belleville",
+      "state": "IL"
+    },
+    {
+      "name": "Seymour Johnson Air Force Base",
+      "city": "Goldsboro",
+      "state": "NC"
+    },
+    {
+      "name": "Shaw Air Force Base",
+      "city": "Sumter",
+      "state": "SC"
+    },
+    {
+      "name": "Sheppard Air Force Base",
+      "city": "Wichita Falls",
+      "state": "TX"
+    },
+    {
+      "name": "Tinker Air Force Base",
+      "city": "Oklahoma City",
+      "state": "OK"
+    },
+    {
+      "name": "Travis Air Force Base",
+      "city": "Fairfield",
+      "state": "CA"
+    },
+    {
+      "name": "Tyndall Air Force Base",
+      "city": "Panama City",
+      "state": "FL"
+    },
+    {
+      "name": "United States Air Force Academy",
+      "city": "Colorado Springs",
+      "state": "CO"
+    },
+    {
+      "name": "Vance Air Force Base",
+      "city": "Enid",
+      "state": "OK"
+    },
+    {
+      "name": "Whiteman Air Force Base",
+      "city": "Knob Noster",
+      "state": "MO"
+    },
+    {
+      "name": "Wright-Patterson Air Force Base",
+      "city": "Dayton",
+      "state": "OH"
+    }
+  ],
+  "official_sources": [
+    "https://www.compliance.af.mil/Offices/By-Base/",
+    "https://www.afmc.af.mil/About-Us/Fact-Sheets/Display/Article/1563085/air-force-materiel-command/",
+    "https://www.aetc.af.mil/About-Us/Fact-Sheets/",
+    "https://www.amc.af.mil/Units/",
+    "https://www.afgsc.af.mil/Units/",
+    "https://www.pacaf.af.mil/Info/PACAF-Units/",
+    "https://www.creech.af.mil/",
+    "https://www.usafa.af.mil/",
+    "https://planmymove.militaryonesource.mil/all-installations"
+  ],
+  "service_branch": "Air Force"
+}
+

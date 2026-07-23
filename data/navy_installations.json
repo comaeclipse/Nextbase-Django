@@ -1,0 +1,288 @@
+{
+  "generated_date": "2026-07-16",
+  "service_branch": "Navy",
+  "scope": "Active U.S. Navy installation commands located in the 50 states and Washington, D.C., as listed by Commander, Navy Installations Command. Excludes overseas installations, U.S. territories, BRAC-closed facilities, Navy Reserve Centers, and subordinate annexes or operating sites.",
+  "city_method": "City is the primary municipality or commonly used postal community for the installation headquarters or principal site. Multi-site commands are represented once.",
+  "count": 54,
+  "installations": [
+    {
+      "name": "Naval Air Station Patuxent River",
+      "city": "Patuxent River",
+      "state": "MD"
+    },
+    {
+      "name": "Naval Support Activity Annapolis",
+      "city": "Annapolis",
+      "state": "MD"
+    },
+    {
+      "name": "Naval Support Activity Bethesda",
+      "city": "Bethesda",
+      "state": "MD"
+    },
+    {
+      "name": "Naval Support Activity South Potomac",
+      "city": "Dahlgren / Indian Head",
+      "state": "VA / MD"
+    },
+    {
+      "name": "Naval Support Activity Washington",
+      "city": "Washington",
+      "state": "DC"
+    },
+    {
+      "name": "Naval Support Facility Thurmont",
+      "city": "Thurmont",
+      "state": "MD"
+    },
+    {
+      "name": "Joint Expeditionary Base Little Creek-Fort Story",
+      "city": "Virginia Beach",
+      "state": "VA"
+    },
+    {
+      "name": "Naval Air Station Oceana",
+      "city": "Virginia Beach",
+      "state": "VA"
+    },
+    {
+      "name": "Naval Station Great Lakes",
+      "city": "North Chicago",
+      "state": "IL"
+    },
+    {
+      "name": "Naval Station Newport",
+      "city": "Newport",
+      "state": "RI"
+    },
+    {
+      "name": "Naval Station Norfolk",
+      "city": "Norfolk",
+      "state": "VA"
+    },
+    {
+      "name": "Naval Submarine Base New London",
+      "city": "Groton",
+      "state": "CT"
+    },
+    {
+      "name": "Naval Weapons Station Crane",
+      "city": "Crane",
+      "state": "IN"
+    },
+    {
+      "name": "Naval Support Activity Hampton Roads",
+      "city": "Norfolk",
+      "state": "VA"
+    },
+    {
+      "name": "Naval Support Activity Mechanicsburg",
+      "city": "Mechanicsburg",
+      "state": "PA"
+    },
+    {
+      "name": "Naval Support Activity Philadelphia",
+      "city": "Philadelphia",
+      "state": "PA"
+    },
+    {
+      "name": "Naval Weapons Station Earle",
+      "city": "Colts Neck",
+      "state": "NJ"
+    },
+    {
+      "name": "Naval Weapons Station Yorktown",
+      "city": "Yorktown",
+      "state": "VA"
+    },
+    {
+      "name": "Naval Support Activity Maine",
+      "city": "Kittery",
+      "state": "ME"
+    },
+    {
+      "name": "Naval Support Activity Portsmouth",
+      "city": "Portsmouth",
+      "state": "VA"
+    },
+    {
+      "name": "Naval Support Activity Lakehurst",
+      "city": "Lakehurst",
+      "state": "NJ"
+    },
+    {
+      "name": "Naval Air Station Whidbey Island",
+      "city": "Oak Harbor",
+      "state": "WA"
+    },
+    {
+      "name": "Naval Base Kitsap",
+      "city": "Bremerton",
+      "state": "WA"
+    },
+    {
+      "name": "Naval Magazine Indian Island",
+      "city": "Port Hadlock",
+      "state": "WA"
+    },
+    {
+      "name": "Naval Station Everett",
+      "city": "Everett",
+      "state": "WA"
+    },
+    {
+      "name": "Naval Support Facility Beaufort",
+      "city": "Beaufort",
+      "state": "SC"
+    },
+    {
+      "name": "Naval Support Activity Charleston",
+      "city": "Goose Creek",
+      "state": "SC"
+    },
+    {
+      "name": "Naval Air Station Corpus Christi",
+      "city": "Corpus Christi",
+      "state": "TX"
+    },
+    {
+      "name": "Naval Air Station Joint Reserve Base Fort Worth",
+      "city": "Fort Worth",
+      "state": "TX"
+    },
+    {
+      "name": "Naval Air Station Jacksonville",
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    {
+      "name": "Naval Air Station Joint Reserve Base New Orleans",
+      "city": "Belle Chasse",
+      "state": "LA"
+    },
+    {
+      "name": "Naval Air Station Key West",
+      "city": "Key West",
+      "state": "FL"
+    },
+    {
+      "name": "Naval Air Station Kingsville",
+      "city": "Kingsville",
+      "state": "TX"
+    },
+    {
+      "name": "Naval Air Station Meridian",
+      "city": "Meridian",
+      "state": "MS"
+    },
+    {
+      "name": "Naval Air Station Pensacola",
+      "city": "Pensacola",
+      "state": "FL"
+    },
+    {
+      "name": "Naval Air Station Whiting Field",
+      "city": "Milton",
+      "state": "FL"
+    },
+    {
+      "name": "Naval Construction Battalion Center Gulfport",
+      "city": "Gulfport",
+      "state": "MS"
+    },
+    {
+      "name": "Naval Station Mayport",
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    {
+      "name": "Naval Submarine Base Kings Bay",
+      "city": "Kings Bay",
+      "state": "GA"
+    },
+    {
+      "name": "Naval Support Activity Mid-South",
+      "city": "Millington",
+      "state": "TN"
+    },
+    {
+      "name": "Naval Support Activity Orlando",
+      "city": "Orlando",
+      "state": "FL"
+    },
+    {
+      "name": "Naval Support Activity Panama City",
+      "city": "Panama City",
+      "state": "FL"
+    },
+    {
+      "name": "Naval Air Facility El Centro",
+      "city": "El Centro",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Air Station Fallon",
+      "city": "Fallon",
+      "state": "NV"
+    },
+    {
+      "name": "Naval Air Station Lemoore",
+      "city": "Lemoore",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Weapons Station Seal Beach",
+      "city": "Seal Beach",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Air Weapons Station China Lake",
+      "city": "Ridgecrest",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Base Coronado",
+      "city": "Coronado",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Base Point Loma",
+      "city": "San Diego",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Base San Diego",
+      "city": "San Diego",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Support Activity Monterey",
+      "city": "Monterey",
+      "state": "CA"
+    },
+    {
+      "name": "Naval Base Ventura County",
+      "city": "Port Hueneme",
+      "state": "CA"
+    },
+    {
+      "name": "Joint Base Pearl Harbor-Hickam",
+      "city": "Honolulu",
+      "state": "HI"
+    },
+    {
+      "name": "Pacific Missile Range Facility Barking Sands",
+      "city": "Kekaha",
+      "state": "HI"
+    }
+  ],
+  "official_sources": [
+    "https://www.cnic.navy.mil/Map/",
+    "https://ndw.cnic.navy.mil/",
+    "https://cnrma.cnic.navy.mil/Installations/",
+    "https://cnrnw.cnic.navy.mil/",
+    "https://cnrse.cnic.navy.mil/",
+    "https://cnrsw.cnic.navy.mil/Installations/",
+    "https://cnrh.cnic.navy.mil/"
+  ]
+}

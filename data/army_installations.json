@@ -1,0 +1,274 @@
+{
+  "generated_date": "2026-07-16",
+  "scope": "Active U.S. Army garrison-level installations located in the 50 states and Washington, D.C., based on the U.S. Army Installation Management Command garrison directory. Includes major forts, joint-base Army support activities, proving grounds, arsenals, depots, and major Reserve Forces Training Areas listed as Army garrisons. Excludes overseas and territorial installations, National Guard armories, ordinary Army Reserve centers, subordinate ranges and annexes, and Army tenant communities on Air Force-led joint bases that are not listed as separate IMCOM garrisons.",
+  "city_method": "City is the installation's commonly used postal community or the nearest principal municipality. Multi-site commands are represented once; where a command has two major sites, both communities may be shown with a slash.",
+  "count": 51,
+  "installations": [
+    {
+      "name": "Aberdeen Proving Ground",
+      "city": "Aberdeen",
+      "state": "MD"
+    },
+    {
+      "name": "Carlisle Barracks",
+      "city": "Carlisle",
+      "state": "PA"
+    },
+    {
+      "name": "Devens Reserve Forces Training Area",
+      "city": "Devens",
+      "state": "MA"
+    },
+    {
+      "name": "Dugway Proving Ground",
+      "city": "Dugway",
+      "state": "UT"
+    },
+    {
+      "name": "Fort Anderson-Pinn-Hill (Fort A.P. Hill)",
+      "city": "Bowling Green",
+      "state": "VA"
+    },
+    {
+      "name": "Fort Belvoir",
+      "city": "Fort Belvoir",
+      "state": "VA"
+    },
+    {
+      "name": "Fort Benning",
+      "city": "Columbus",
+      "state": "GA"
+    },
+    {
+      "name": "Fort Bliss",
+      "city": "El Paso",
+      "state": "TX"
+    },
+    {
+      "name": "Fort Bragg",
+      "city": "Fayetteville",
+      "state": "NC"
+    },
+    {
+      "name": "Fort Campbell",
+      "city": "Fort Campbell",
+      "state": "KY / TN"
+    },
+    {
+      "name": "Fort Carson",
+      "city": "Colorado Springs",
+      "state": "CO"
+    },
+    {
+      "name": "Fort Detrick",
+      "city": "Frederick",
+      "state": "MD"
+    },
+    {
+      "name": "Fort Drum",
+      "city": "Watertown",
+      "state": "NY"
+    },
+    {
+      "name": "Fort Gordon",
+      "city": "Augusta",
+      "state": "GA"
+    },
+    {
+      "name": "Fort Greely",
+      "city": "Delta Junction",
+      "state": "AK"
+    },
+    {
+      "name": "Fort Hamilton",
+      "city": "Brooklyn",
+      "state": "NY"
+    },
+    {
+      "name": "Fort Hood",
+      "city": "Killeen",
+      "state": "TX"
+    },
+    {
+      "name": "Fort Huachuca",
+      "city": "Sierra Vista",
+      "state": "AZ"
+    },
+    {
+      "name": "Fort Hunter Liggett",
+      "city": "Jolon",
+      "state": "CA"
+    },
+    {
+      "name": "Fort Irwin",
+      "city": "Fort Irwin",
+      "state": "CA"
+    },
+    {
+      "name": "Fort Jackson",
+      "city": "Columbia",
+      "state": "SC"
+    },
+    {
+      "name": "Fort Knox",
+      "city": "Fort Knox",
+      "state": "KY"
+    },
+    {
+      "name": "Fort Leavenworth",
+      "city": "Leavenworth",
+      "state": "KS"
+    },
+    {
+      "name": "Fort Lee",
+      "city": "Petersburg",
+      "state": "VA"
+    },
+    {
+      "name": "Fort Leonard Wood",
+      "city": "Fort Leonard Wood",
+      "state": "MO"
+    },
+    {
+      "name": "Fort McCoy",
+      "city": "Sparta",
+      "state": "WI"
+    },
+    {
+      "name": "Fort Meade",
+      "city": "Fort Meade",
+      "state": "MD"
+    },
+    {
+      "name": "Fort Polk",
+      "city": "Leesville",
+      "state": "LA"
+    },
+    {
+      "name": "Fort Riley",
+      "city": "Junction City",
+      "state": "KS"
+    },
+    {
+      "name": "Fort Rucker",
+      "city": "Enterprise",
+      "state": "AL"
+    },
+    {
+      "name": "Fort Sill",
+      "city": "Lawton",
+      "state": "OK"
+    },
+    {
+      "name": "Fort Stewart / Hunter Army Airfield",
+      "city": "Hinesville / Savannah",
+      "state": "GA"
+    },
+    {
+      "name": "Fort Wainwright",
+      "city": "Fairbanks",
+      "state": "AK"
+    },
+    {
+      "name": "Joint Base Lewis-McChord",
+      "city": "Tacoma",
+      "state": "WA"
+    },
+    {
+      "name": "Joint Base Myer-Henderson Hall",
+      "city": "Arlington",
+      "state": "VA"
+    },
+    {
+      "name": "Parks Reserve Forces Training Area",
+      "city": "Dublin",
+      "state": "CA"
+    },
+    {
+      "name": "Picatinny Arsenal",
+      "city": "Picatinny Arsenal",
+      "state": "NJ"
+    },
+    {
+      "name": "Pohakuloa Training Area",
+      "city": "Waimea",
+      "state": "HI"
+    },
+    {
+      "name": "Presidio of Monterey",
+      "city": "Monterey",
+      "state": "CA"
+    },
+    {
+      "name": "Redstone Arsenal",
+      "city": "Huntsville",
+      "state": "AL"
+    },
+    {
+      "name": "Rock Island Arsenal",
+      "city": "Rock Island",
+      "state": "IL"
+    },
+    {
+      "name": "Tobyhanna Army Depot",
+      "city": "Tobyhanna",
+      "state": "PA"
+    },
+    {
+      "name": "U.S. Army Garrison Detroit Arsenal",
+      "city": "Warren",
+      "state": "MI"
+    },
+    {
+      "name": "U.S. Army Garrison Hawaii",
+      "city": "Schofield Barracks",
+      "state": "HI"
+    },
+    {
+      "name": "U.S. Army Garrison Natick",
+      "city": "Natick",
+      "state": "MA"
+    },
+    {
+      "name": "U.S. Army Garrison West Point",
+      "city": "West Point",
+      "state": "NY"
+    },
+    {
+      "name": "U.S. Army Support Activity Fort Dix",
+      "city": "Fort Dix",
+      "state": "NJ"
+    },
+    {
+      "name": "U.S. Army Support Activity Fort Sam Houston",
+      "city": "San Antonio",
+      "state": "TX"
+    },
+    {
+      "name": "White Sands Missile Range",
+      "city": "White Sands Missile Range",
+      "state": "NM"
+    },
+    {
+      "name": "Yakima Training Center",
+      "city": "Yakima",
+      "state": "WA"
+    },
+    {
+      "name": "Yuma Proving Ground",
+      "city": "Yuma",
+      "state": "AZ"
+    }
+  ],
+  "official_sources": [
+    "https://home.army.mil/imcom/garrisons",
+    "https://www.army.mil/IMCOM",
+    "https://home.army.mil/aphill/",
+    "https://home.army.mil/ria/",
+    "https://home.army.mil/campbell/",
+    "https://home.army.mil/stewart/",
+    "https://home.army.mil/pohakuloa/"
+  ],
+  "service_branch": "Army"
+}
+

@@ -50,6 +50,7 @@
     "Jackson, MS": ["southern_living"],
     "Billings, MT": ["mountain_living", "great_outdoors"],
     "Great Falls, MT": ["mountain_living", "quiet_retreat", "great_outdoors"],
+    "Missoula, MT": ["mountain_living", "great_outdoors"],
     "Fayetteville, NC": ["southern_living"],
     "Indian Trail, NC": ["southern_living", "quiet_retreat"],
     "Raleigh, NC": ["southern_living", "nightlife"],

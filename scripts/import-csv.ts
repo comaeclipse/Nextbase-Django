@@ -8,10 +8,53 @@
  * Upserts locations keyed on (name, state), matching Django's update_or_create.
  * --dry-run parses and reports without touching the database.
  */
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
 import { classifyAndPersist, classifyLocation } from "../lib/pace";
+import type { PaceDerivedBundle, PacePlaceCentroid } from "../lib/pace/types";
+
+let centroidsCache: Record<string, PacePlaceCentroid> | null = null;
+
+function getCentroids(): Record<string, PacePlaceCentroid> {
+  if (centroidsCache) return centroidsCache;
+  try {
+    const bundlePath = path.join(process.cwd(), "data", "sources", "pace", "derived", "pace_derived.json");
+    if (existsSync(bundlePath)) {
+      const bundle = JSON.parse(readFileSync(bundlePath, "utf8")) as PaceDerivedBundle;
+      centroidsCache = bundle.place_centroids ?? {};
+    }
+  } catch {
+    centroidsCache = {};
+  }
+  return centroidsCache ?? {};
+}
+
+const PLACE_ALIASES: Record<string, string> = {
+  "indianopolis|in": "indianapolis city (balance)|in",
+  "honolulu|hi": "urban honolulu|hi",
+  "boise|id": "boise city|id",
+  "nashville|tn": "nashville-davidson metropolitan government (balance)|tn",
+};
+
+function resolveCoordinates(name: string, state: string, rawLat?: string, rawLon?: string): { latitude: number | null; longitude: number | null } {
+  const csvLat = parseDecimalV(rawLat);
+  const csvLon = parseDecimalV(rawLon);
+  if (csvLat !== null && csvLon !== null) {
+    return { latitude: csvLat, longitude: csvLon };
+  }
+  const centroids = getCentroids();
+  const normName = name.trim().toLowerCase().replace(/\s+/g, " ");
+  const normState = state.trim().toUpperCase();
+  const rawKey = `${normName}|${normState}`;
+  const key = PLACE_ALIASES[rawKey] ?? rawKey;
+  const point = centroids[key];
+  if (point) {
+    return { latitude: point.lat, longitude: point.lon };
+  }
+  return { latitude: null, longitude: null };
+}
 
 type Row = Record<string, string>;
 
@@ -88,10 +131,16 @@ const deriveCostOfLiving = (colIndex: number | null): string => {
 function parseRow(row: Row): Record<string, unknown> {
   const rawHomeValue = row["AvgHomeValue"] ?? "";
   const colIndex = parseIntV(row["CostOfLiving"]);
+  const city = cleanEmpty(row["City"] ?? "") ?? "";
+  const state = cleanEmpty(row["State"] ?? "") ?? "";
+  const coords = resolveCoordinates(city, state, row["Latitude"], row["Longitude"]);
+
   return {
-    name: cleanEmpty(row["City"] ?? ""),
-    state: cleanEmpty(row["State"] ?? ""),
+    name: city,
+    state: state,
     county: cleanEmpty(row["County"]),
+    latitude: coords.latitude,
+    longitude: coords.longitude,
     climate: cleanEmpty(row["Climate"] ?? "") ?? "",
     cost_of_living: deriveCostOfLiving(colIndex),
     state_party: cleanEmpty(row["StateParty"]),

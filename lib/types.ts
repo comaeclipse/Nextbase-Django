@@ -12,6 +12,8 @@ export interface LocationRow {
   name: string;
   state: string;
   county: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
 
   // Metrics / display
   climate: string | null;

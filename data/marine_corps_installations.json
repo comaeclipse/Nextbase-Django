@@ -1,0 +1,123 @@
+{
+  "generated_date": "2026-07-16",
+  "service_branch": "Marine Corps",
+  "scope": "Major active U.S. Marine Corps bases, air stations, recruit depots, logistics bases, training centers, and standalone support facilities located in the 50 states and Washington, D.C. Includes the Marine Corps component at Joint Base Myer-Henderson Hall. Excludes overseas and territorial installations, Marine Corps Reserve centers, small tenant detachments, ranges, annexes, and subordinate landing fields.",
+  "city_method": "City is the primary municipality or commonly used postal community associated with the installation headquarters or principal site. Installations spanning multiple municipalities are represented once.",
+  "count": 20,
+  "installations": [
+    {
+      "name": "Marine Corps Air Station Yuma",
+      "city": "Yuma",
+      "state": "AZ"
+    },
+    {
+      "name": "Marine Corps Air Ground Combat Center Twentynine Palms",
+      "city": "Twentynine Palms",
+      "state": "CA"
+    },
+    {
+      "name": "Marine Corps Air Station Camp Pendleton",
+      "city": "Oceanside",
+      "state": "CA"
+    },
+    {
+      "name": "Marine Corps Air Station Miramar",
+      "city": "San Diego",
+      "state": "CA"
+    },
+    {
+      "name": "Marine Corps Base Camp Pendleton",
+      "city": "Oceanside",
+      "state": "CA"
+    },
+    {
+      "name": "Marine Corps Logistics Base Barstow",
+      "city": "Barstow",
+      "state": "CA"
+    },
+    {
+      "name": "Marine Corps Mountain Warfare Training Center",
+      "city": "Bridgeport",
+      "state": "CA"
+    },
+    {
+      "name": "Marine Corps Recruit Depot San Diego",
+      "city": "San Diego",
+      "state": "CA"
+    },
+    {
+      "name": "Marine Barracks Washington",
+      "city": "Washington",
+      "state": "DC"
+    },
+    {
+      "name": "Marine Corps Support Facility Blount Island",
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    {
+      "name": "Marine Corps Logistics Base Albany",
+      "city": "Albany",
+      "state": "GA"
+    },
+    {
+      "name": "Marine Corps Base Hawaii",
+      "city": "Kaneohe Bay",
+      "state": "HI"
+    },
+    {
+      "name": "Marine Corps Support Facility New Orleans",
+      "city": "New Orleans",
+      "state": "LA"
+    },
+    {
+      "name": "Marine Corps Air Station Cherry Point",
+      "city": "Havelock",
+      "state": "NC"
+    },
+    {
+      "name": "Marine Corps Air Station New River",
+      "city": "Jacksonville",
+      "state": "NC"
+    },
+    {
+      "name": "Marine Corps Base Camp Lejeune",
+      "city": "Jacksonville",
+      "state": "NC"
+    },
+    {
+      "name": "Marine Corps Air Station Beaufort",
+      "city": "Beaufort",
+      "state": "SC"
+    },
+    {
+      "name": "Marine Corps Recruit Depot Parris Island",
+      "city": "Beaufort",
+      "state": "SC"
+    },
+    {
+      "name": "Henderson Hall, Joint Base Myer-Henderson Hall",
+      "city": "Arlington",
+      "state": "VA"
+    },
+    {
+      "name": "Marine Corps Base Quantico",
+      "city": "Quantico",
+      "state": "VA"
+    }
+  ],
+  "official_sources": [
+    "https://www.mcicom.marines.mil/",
+    "https://www.mcieast.marines.mil/",
+    "https://www.mciwest.marines.mil/",
+    "https://www.mcipac.marines.mil/",
+    "https://www.quantico.marines.mil/",
+    "https://www.29palms.marines.mil/",
+    "https://www.mcmwtc.marines.mil/",
+    "https://www.mcrdpi.marines.mil/",
+    "https://www.mcrdsd.marines.mil/",
+    "https://www.mcsf-nola.marines.mil/",
+    "https://installations.militaryonesource.mil/view-all"
+  ]
+}
+

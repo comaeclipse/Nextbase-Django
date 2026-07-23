@@ -73,6 +73,13 @@
       "longitude": -124.154191
     },
     {
+      "name": "Fresno",
+      "state": "CA",
+      "census_place_geoid": "0627000",
+      "latitude": 36.782684,
+      "longitude": -119.793359
+    },
+    {
       "name": "Irvine",
       "state": "CA",
       "census_place_geoid": "0636770",
@@ -262,6 +269,13 @@
       "longitude": -89.934502
     },
     {
+      "name": "Shreveport",
+      "state": "LA",
+      "census_place_geoid": "2270000",
+      "latitude": 32.466879,
+      "longitude": -93.792193
+    },
+    {
       "name": "Boston",
       "state": "MA",
       "census_place_geoid": "2507000",
@@ -346,6 +360,13 @@
       "longitude": -111.29997
     },
     {
+      "name": "Missoula",
+      "state": "MT",
+      "census_place_geoid": "3050200",
+      "latitude": 46.874359,
+      "longitude": -114.026136
+    },
+    {
       "name": "Fayetteville",
       "state": "NC",
       "census_place_geoid": "3722920",
@@ -416,6 +437,27 @@
       "longitude": -115.264037
     },
     {
+      "name": "Reno",
+      "state": "NV",
+      "census_place_geoid": "3260600",
+      "latitude": 39.549097,
+      "longitude": -119.849907
+    },
+    {
+      "name": "Binghamton",
+      "state": "NY",
+      "census_place_geoid": "3606607",
+      "latitude": 42.101331,
+      "longitude": -75.909369
+    },
+    {
+      "name": "Ithaca",
+      "state": "NY",
+      "census_place_geoid": "3638077",
+      "latitude": 42.443937,
+      "longitude": -76.503055
+    },
+    {
       "name": "Rome",
       "state": "NY",
       "census_place_geoid": "3663418",
@@ -479,6 +521,13 @@
       "longitude": -75.133346
     },
     {
+      "name": "Pittsburgh",
+      "state": "PA",
+      "census_place_geoid": "4261000",
+      "latitude": 40.439936,
+      "longitude": -79.975676
+    },
+    {
       "name": "Providence",
       "state": "RI",
       "census_place_geoid": "4459000",
@@ -500,6 +549,20 @@
       "longitude": -81.195897
     },
     {
+      "name": "Pierre",
+      "state": "SD",
+      "census_place_geoid": "4649600",
+      "latitude": 44.375163,
+      "longitude": -100.319996
+    },
+    {
+      "name": "Rapid City",
+      "state": "SD",
+      "census_place_geoid": "4652980",
+      "latitude": 44.071071,
+      "longitude": -103.217924
+    },
+    {
       "name": "Sioux Falls",
       "state": "SD",
       "census_place_geoid": "4659020",
@@ -512,6 +575,20 @@
       "census_place_geoid": "4752006",
       "latitude": 36.1718,
       "longitude": -86.785002
+    },
+    {
+      "name": "Amarillo",
+      "state": "TX",
+      "census_place_geoid": "4803000",
+      "latitude": 35.198064,
+      "longitude": -101.833107
+    },
+    {
+      "name": "Dallas",
+      "state": "TX",
+      "census_place_geoid": "4819000",
+      "latitude": 32.793333,
+      "longitude": -96.766513
     },
     {
       "name": "El Paso",
