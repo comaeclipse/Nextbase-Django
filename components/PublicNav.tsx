@@ -19,6 +19,7 @@ type NavKey =
   | "gas"
   | "critters"
   | "air-quality"
+  | "gun-freedom"
   | "insurance"
   | "electricity"
   | "politics";
@@ -35,7 +36,8 @@ const DATA_LINKS: { key: NavKey; href: string; label: string; description: strin
   { key: "uv", href: "/uv", label: "UV", description: "State-level UV exposure" },
   { key: "gas", href: "/gas", label: "Gas Prices", description: "State-level gas price averages" },
   { key: "weather", href: "/weather", label: "Weather", description: "Climate and comfort data" },
-  { key: "air-quality", href: "/air-quality", label: "Air Quality", description: "Annual air-quality comparisons" },
+  { key: "air-quality", href: "/air-quality", label: "Air Quality", description: "Annual AQI and historical smoke" },
+  { key: "gun-freedom", href: "/gun-freedom", label: "Gun Freedom", description: "State firearm-policy index" },
   { key: "politics", href: "/politics", label: "Politics", description: "State political landscape" },
   { key: "insurance", href: "/insurance", label: "Insurance", description: "Home and auto cost benchmarks" },
   { key: "electricity", href: "/electricity", label: "Electricity", description: "Residential electricity prices" },

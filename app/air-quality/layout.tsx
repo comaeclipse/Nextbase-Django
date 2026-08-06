@@ -3,9 +3,9 @@ import PublicNav from "@/components/PublicNav";
 import "../styles/shadcn.css";
 
 export const metadata: Metadata = {
-  title: "Air Quality Map - VetRetire",
+  title: "Air Quality & Smoke Map - VetRetire",
   description:
-    "A state-level AQI burden map based on EPA AirData annual county AQI summaries.",
+    "State-level annual AQI burden and historical wildfire-smoke exposure summaries.",
 };
 
 export default function AirQualityLayout({
