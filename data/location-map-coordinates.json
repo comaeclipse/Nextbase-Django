@@ -38,6 +38,13 @@
       "longitude": -92.358556
     },
     {
+      "name": "Gilbert",
+      "state": "AZ",
+      "census_place_geoid": "0427400",
+      "latitude": 33.310345,
+      "longitude": -111.743121
+    },
+    {
       "name": "Phoenix",
       "state": "AZ",
       "census_place_geoid": "0455000",

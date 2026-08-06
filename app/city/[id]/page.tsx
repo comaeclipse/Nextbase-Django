@@ -16,6 +16,8 @@ import {
 import { resolveStateAbbr } from "@/lib/states";
 import type { Location } from "@/lib/types";
 import PublicNav from "@/components/PublicNav";
+import HousingMarketCard from "@/components/HousingMarketCard";
+import { getHousingMarket } from "@/lib/housing-market";
 import { Check, X } from "lucide-react";
 import "../../styles/city.css";
 
@@ -79,6 +81,7 @@ export default async function CityDetailPage({
   };
   const fitBreakdown = calculateFitBreakdown(row);
   const [crimeGrade] = crimeGradeMeta(row);
+  const housingMarket = getHousingMarket(location.name, location.state);
 
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
@@ -346,6 +349,10 @@ export default async function CityDetailPage({
               </div>
             </div>
           </div>
+
+          {housingMarket && (
+            <HousingMarketCard city={location.name} market={housingMarket} />
+          )}
 
           {/* Climate & Weather */}
           <div className="card">
