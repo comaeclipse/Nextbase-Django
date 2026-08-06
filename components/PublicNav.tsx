@@ -20,6 +20,7 @@ type NavKey =
   | "critters"
   | "air-quality"
   | "insurance"
+  | "electricity"
   | "politics";
 
 const LINKS: { key: NavKey; href: string; label: string }[] = [
@@ -37,6 +38,7 @@ const DATA_LINKS: { key: NavKey; href: string; label: string; description: strin
   { key: "air-quality", href: "/air-quality", label: "Air Quality", description: "Annual air-quality comparisons" },
   { key: "politics", href: "/politics", label: "Politics", description: "State political landscape" },
   { key: "insurance", href: "/insurance", label: "Insurance", description: "Home and auto cost benchmarks" },
+  { key: "electricity", href: "/electricity", label: "Electricity", description: "Residential electricity prices" },
 ];
 
 export default function PublicNav({ active }: { active?: NavKey }) {
