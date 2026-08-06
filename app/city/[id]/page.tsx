@@ -49,6 +49,11 @@ function parseId(id: string): number | null {
   return Number(id);
 }
 
+/** Stored home-price display values sometimes include an unnecessary `.00`. */
+function formatHomePrice(value: string | null): string | null {
+  return value?.trim().replace(/\.0+$/, "") || null;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -84,7 +89,7 @@ export default async function CityDetailPage({
   const housingMarket = getHousingMarket(location.name, location.state);
   const medianHomePriceDisplay = housingMarket
     ? `$${housingMarket.medianSalePrice.toLocaleString("en-US")}`
-    : location.avg_home_value_display || "Not available";
+    : formatHomePrice(location.avg_home_value_display) || "Not available";
   const medianHomePriceSubtitle = housingMarket
     ? "Median sale price"
     : "Typical home value";
@@ -944,7 +949,7 @@ export default async function CityDetailPage({
                 <div>
                   <div className="similar-name">{loc.name}</div>
                   <div className="similar-meta">
-                    {loc.avg_home_value_display || "—"} · {loc.cost_of_living}{" "}
+                    {formatHomePrice(loc.avg_home_value_display) || "—"} · {loc.cost_of_living}{" "}
                     cost
                   </div>
                 </div>
