@@ -21,6 +21,7 @@ type NavKey =
   | "air-quality"
   | "gun-freedom"
   | "insurance"
+  | "veteran-benefits"
   | "electricity"
   | "politics";
 
@@ -40,6 +41,7 @@ const DATA_LINKS: { key: NavKey; href: string; label: string; description: strin
   { key: "gun-freedom", href: "/gun-freedom", label: "Gun Freedom", description: "State firearm-policy index" },
   { key: "politics", href: "/politics", label: "Politics", description: "State political landscape" },
   { key: "insurance", href: "/insurance", label: "Insurance", description: "Home and auto cost benchmarks" },
+  { key: "veteran-benefits", href: "/veteran-benefits", label: "Veteran Benefits", description: "State-created veteran benefit rankings" },
   { key: "electricity", href: "/electricity", label: "Electricity", description: "Residential electricity prices" },
 ];
 
