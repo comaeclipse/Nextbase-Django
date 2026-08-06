@@ -27,14 +27,14 @@ export const VETERAN_BENEFITS_DATA: VeteranBenefitsState[] = ROWS.map(([name, st
 }));
 
 export const PROFILE_CONTEXT = [
-  { id: "overall", label: "Overall model", winner: "Texas", score: "97", note: "The supplied 2026 composite, weighted toward recurring tax and property savings." },
-  { id: "general", label: "General veteran", winner: "South Dakota", score: "93.3", note: "Broad education, recreation, employment, direct support, and no income tax." },
-  { id: "retiree", label: "Military retiree", winner: "South Dakota", score: "97.3", note: "No income tax plus unusually strong general-veteran programs." },
-  { id: "50-percent", label: "Rated 50%", winner: "Alaska", score: "85.1", note: "$150,000 assessed-value property exemption begins at 50%." },
-  { id: "pt", label: "100% P&T / TDIU", winner: "Texas", score: "97.5", note: "Full homestead relief, no pension tax, family tuition, and survivor continuation." },
-  { id: "survivor", label: "Survivor or dependent", winner: "Texas", score: "95.0", note: "Hazlewood, survivor property continuation, and tax treatment." },
-  { id: "college", label: "Dependent college", winner: "Indiana", score: "94.2", note: "Exceptionally broad tuition-remission categories for spouses and children." },
-  { id: "partial", label: "Below 100% homeowner", winner: "New Mexico / Utah", score: "83.2 / 82.3", note: "Proportional property relief at 50%, rather than waiting for 100%." },
+  { id: "overall", label: "Overall benefits", winner: "Texas", state: "TX", score: "97", note: "The strongest all-around package in the supplied 2026 ranking." },
+  { id: "general", label: "General veteran", winner: "South Dakota", state: "SD", score: "93.3", note: "Strong education, recreation, employment, direct support, and no income tax." },
+  { id: "retiree", label: "Military retiree", winner: "South Dakota", state: "SD", score: "97.3", note: "No income tax plus unusually strong general-veteran programs." },
+  { id: "50-percent", label: "Rated 50% disabled", winner: "Alaska", state: "AK", score: "85.1", note: "A $150,000 assessed-value property exemption starts at a 50% disability rating." },
+  { id: "pt", label: "100% P&T / TDIU", winner: "Texas", state: "TX", score: "97.5", note: "Full homestead relief, no pension tax, family tuition, and survivor continuation." },
+  { id: "survivor", label: "Survivor or dependent", winner: "Texas", state: "TX", score: "95.0", note: "Hazlewood education help, survivor property continuation, and tax treatment." },
+  { id: "college", label: "College for children", winner: "Indiana", state: "IN", score: "94.2", note: "Exceptionally broad tuition-remission categories for spouses and children." },
+  { id: "partial", label: "Homeowner below 100%", winner: "New Mexico / Utah", state: "NM", score: "83.2 / 82.3", note: "Both offer proportional property relief at 50%, rather than waiting for 100%." },
 ] as const;
 
 export const BENEFIT_CATEGORIES = [
