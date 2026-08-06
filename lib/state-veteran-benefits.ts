@@ -26,16 +26,111 @@ export const VETERAN_BENEFITS_DATA: VeteranBenefitsState[] = ROWS.map(([name, st
   displayBand: value >= 80 ? "Exceptional" : value >= 70 ? "Strong" : value >= 60 ? "Competitive" : "Limited",
 }));
 
-export const PROFILE_CONTEXT = [
-  { id: "overall", label: "Overall benefits", winner: "Texas", state: "TX", score: "97", note: "The strongest all-around package in the supplied 2026 ranking." },
-  { id: "general", label: "General veteran", winner: "South Dakota", state: "SD", score: "93.3", note: "Strong education, recreation, employment, direct support, and no income tax." },
-  { id: "retiree", label: "Military retiree", winner: "South Dakota", state: "SD", score: "97.3", note: "No income tax plus unusually strong general-veteran programs." },
-  { id: "50-percent", label: "Rated 50% disabled", winner: "Alaska", state: "AK", score: "85.1", note: "A $150,000 assessed-value property exemption starts at a 50% disability rating." },
-  { id: "pt", label: "100% P&T / TDIU", winner: "Texas", state: "TX", score: "97.5", note: "Full homestead relief, no pension tax, family tuition, and survivor continuation." },
-  { id: "survivor", label: "Survivor or dependent", winner: "Texas", state: "TX", score: "95.0", note: "Hazlewood education help, survivor property continuation, and tax treatment." },
-  { id: "college", label: "College for children", winner: "Indiana", state: "IN", score: "94.2", note: "Exceptionally broad tuition-remission categories for spouses and children." },
-  { id: "partial", label: "Homeowner below 100%", winner: "New Mexico / Utah", state: "NM", score: "83.2 / 82.3", note: "Both offer proportional property relief at 50%, rather than waiting for 100%." },
-] as const;
+/**
+ * State benefits key off *status*, not goals — so the selector is one axis of four
+ * mutually exclusive statuses. A status gets a second axis only where the answer
+ * actually changes (the 100% P&T property-tax cliff, and tuition vs. household for
+ * survivors). Everything else is a consequence of the status, not a question to ask.
+ */
+export type BenefitPick = {
+  id: string;
+  /** Sub-axis button label. Unused when a status has a single pick. */
+  label: string;
+  /** Abbrs ringed on the map for this pick. */
+  states: readonly string[];
+  winner: string;
+  score: string;
+  note: string;
+};
+
+export type BenefitStatus = {
+  id: string;
+  label: string;
+  /** Who this covers, in one line. */
+  who: string;
+  /** The lever this status adds on top of the previous ones. */
+  lever: string;
+  picks: readonly BenefitPick[];
+};
+
+export const BENEFIT_STATUSES: readonly BenefitStatus[] = [
+  {
+    id: "veteran",
+    label: "Veteran",
+    who: "Served and separated. No VA rating, no retirement pay.",
+    lever: "The broad, small-dollar programs: tuition, hiring preference, license and permit fees, vehicle registration, and state parks.",
+    picks: [{
+      id: "general",
+      label: "",
+      states: ["SD"],
+      winner: "South Dakota",
+      score: "93.3",
+      note: "Strong education, recreation, employment, and direct-support programs, with no state income tax underneath them.",
+    }],
+  },
+  {
+    id: "retiree",
+    label: "Military retiree",
+    who: "Drawing military retirement pay or SBP.",
+    lever: "How the state taxes retirement pay and SBP — the single largest recurring dollar difference between states.",
+    picks: [{
+      id: "retiree",
+      label: "",
+      states: ["SD"],
+      winner: "South Dakota",
+      score: "97.3",
+      note: "No income tax at all, layered on top of unusually strong general-veteran programs.",
+    }],
+  },
+  {
+    id: "disabled",
+    label: "Disabled veteran",
+    who: "Holds a VA disability rating.",
+    lever: "Property-tax relief on your home. Relief scales with your rating, and 100% P&T is a cliff rather than the next step up.",
+    picks: [
+      {
+        id: "partial",
+        label: "Rated under 100%",
+        states: ["AK", "NM", "UT"],
+        winner: "Alaska",
+        score: "85.1",
+        note: "A $150,000 assessed-value exemption that starts at a 50% rating. New Mexico (83.2) and Utah (82.3) are the closest alternatives — both scale property relief proportionally instead of making you wait for 100%.",
+      },
+      {
+        id: "pt",
+        label: "100% P&T or TDIU",
+        states: ["TX"],
+        winner: "Texas",
+        score: "97.5",
+        note: "Full homestead exemption, no tax on retirement pay, tuition for the family, and the exemption continues to a surviving spouse.",
+      },
+    ],
+  },
+  {
+    id: "survivor",
+    label: "Survivor or dependent",
+    who: "Surviving spouse or child of a veteran.",
+    lever: "Tuition remission, and whether the veteran's property exemption carries over to you rather than ending at death.",
+    picks: [
+      {
+        id: "household",
+        label: "Household benefits",
+        states: ["TX"],
+        winner: "Texas",
+        score: "95.0",
+        note: "Hazlewood education help, property-exemption continuation for the surviving spouse, and no income tax.",
+      },
+      {
+        id: "college",
+        label: "Tuition for children",
+        states: ["IN"],
+        winner: "Indiana",
+        score: "94.2",
+        note: "Exceptionally broad tuition-remission categories covering both spouses and children.",
+      },
+    ],
+  },
+];
 
 export const BENEFIT_CATEGORIES = [
   ["Military retirement and SBP tax", 20],

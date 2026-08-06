@@ -33,6 +33,7 @@ export default function CrittersMap({
   bandLabel,
   colorRamp = CRITTER_RAMP,
   colorForStat,
+  highlighted,
 }: {
   data: StateValue[];
   unit: string;
@@ -42,6 +43,8 @@ export default function CrittersMap({
   colorRamp?: readonly string[];
   /** Use discrete, domain-specific color bands when a linear scale hides variation. */
   colorForStat?: (stat: StateValue) => string;
+  /** Annotation ring drawn over the choropleth, in a color that is off the ramp. */
+  highlighted?: readonly string[];
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<Tooltip>(null);
@@ -94,6 +97,16 @@ export default function CrittersMap({
             );
           })}
         </g>
+        {highlighted && highlighted.length > 0 && (
+          <g pointerEvents="none" fill="none" strokeLinejoin="round">
+            {US_STATE_SHAPES.filter((shape) => highlighted.includes(shape.abbr)).map((shape) => (
+              <g key={shape.abbr}>
+                <path d={shape.d} stroke="#ffffff" strokeWidth={4.5} />
+                <path d={shape.d} stroke="#f59e0b" strokeWidth={2.5} />
+              </g>
+            ))}
+          </g>
+        )}
         <g pointerEvents="none">
           {US_STATE_SHAPES.map((shape) => (
             <text
