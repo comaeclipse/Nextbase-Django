@@ -10,6 +10,13 @@
       "longitude": -149.284329
     },
     {
+      "name": "Florence",
+      "state": "AL",
+      "census_place_geoid": "0126896",
+      "latitude": 34.82981,
+      "longitude": -87.662202
+    },
+    {
       "name": "Huntsville",
       "state": "AL",
       "census_place_geoid": "0137000",
@@ -113,6 +120,13 @@
       "census_place_geoid": "0816000",
       "latitude": 38.867255,
       "longitude": -104.760749
+    },
+    {
+      "name": "Grand Junction",
+      "state": "CO",
+      "census_place_geoid": "0831660",
+      "latitude": 39.089062,
+      "longitude": -108.567452
     },
     {
       "name": "Pueblo",
@@ -409,6 +423,13 @@
       "longitude": -98.693579
     },
     {
+      "name": "North Platte",
+      "state": "NE",
+      "census_place_geoid": "3135000",
+      "latitude": 41.12496,
+      "longitude": -100.750359
+    },
+    {
       "name": "Omaha",
       "state": "NE",
       "census_place_geoid": "3137000",
@@ -437,6 +458,13 @@
       "longitude": -106.646809
     },
     {
+      "name": "Elko",
+      "state": "NV",
+      "census_place_geoid": "3222500",
+      "latitude": 40.838111,
+      "longitude": -115.767809
+    },
+    {
       "name": "Las Vegas",
       "state": "NV",
       "census_place_geoid": "3240000",
@@ -449,6 +477,13 @@
       "census_place_geoid": "3260600",
       "latitude": 39.549097,
       "longitude": -119.849907
+    },
+    {
+      "name": "Albany",
+      "state": "NY",
+      "census_place_geoid": "3601000",
+      "latitude": 42.665745,
+      "longitude": -73.798353
     },
     {
       "name": "Binghamton",
@@ -507,6 +542,13 @@
       "longitude": -95.902316
     },
     {
+      "name": "Bend",
+      "state": "OR",
+      "census_place_geoid": "4105800",
+      "latitude": 44.056683,
+      "longitude": -121.307991
+    },
+    {
       "name": "Portland",
       "state": "OR",
       "census_place_geoid": "4159000",
@@ -533,6 +575,13 @@
       "census_place_geoid": "4261000",
       "latitude": 40.439936,
       "longitude": -79.975676
+    },
+    {
+      "name": "Scranton",
+      "state": "PA",
+      "census_place_geoid": "4269000",
+      "latitude": 41.404178,
+      "longitude": -75.665908
     },
     {
       "name": "Providence",
@@ -577,6 +626,13 @@
       "longitude": -96.731962
     },
     {
+      "name": "Memphis",
+      "state": "TN",
+      "census_place_geoid": "4748000",
+      "latitude": 35.109164,
+      "longitude": -89.968511
+    },
+    {
       "name": "Nashville",
       "state": "TN",
       "census_place_geoid": "4752006",
@@ -610,6 +666,13 @@
       "census_place_geoid": "4835000",
       "latitude": 29.785743,
       "longitude": -95.388806
+    },
+    {
+      "name": "Odessa",
+      "state": "TX",
+      "census_place_geoid": "4853388",
+      "latitude": 31.880461,
+      "longitude": -102.345314
     },
     {
       "name": "San Antonio",
