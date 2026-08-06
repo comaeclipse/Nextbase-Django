@@ -146,13 +146,13 @@ body:has(> .city-page) { background: var(--bg); }
 }
 .kpi {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1.1rem 1.09rem;
+    border-radius: var(--radius); padding: 1.1rem 1rem;
     box-shadow: var(--shadow);
 }
 .kpi-label {
     display: flex; align-items: center; gap: .4rem;
     font-size: .72rem; text-transform: uppercase; letter-spacing: .05em;
-    color: var(--fg-muted); font-weight: 600;
+    color: var(--fg-muted); font-weight: 600; white-space: nowrap;
 }
 .kpi-label .icon { width: .95rem; height: .95rem; color: var(--fg-subtle); }
 .kpi-value { font-size: 1.5rem; font-weight: 700; margin-top: .35rem; letter-spacing: -.01em; }
@@ -308,12 +308,20 @@ body:has(> .city-page) { background: var(--bg); }
 
 .empty { color: var(--fg-subtle); font-style: italic; font-size: .9rem; }
 
-@media (max-width: 900px) {
+/* Four KPI labels need more horizontal room than the main column has beside the rail. */
+@media (max-width: 1180px) {
     .layout { grid-template-columns: 1fr; }
     .rail { position: static; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
     .spec-grid { grid-template-columns: 1fr; }
     .similar-grid { grid-template-columns: 1fr; }
     .hero-title { font-size: 1.9rem; }
     .nav-links { display: none; }
+}
+
+@media (max-width: 680px) {
+    .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kpi { padding: .9rem; }
 }
