@@ -1,0 +1,49 @@
+state_fips,state,recurrence_pct,smoke_days_per_year,annual_smoke_burden,typical_worst_day,worst_year,typical_smoke_season
+10,Delaware,53.3,6.7,97.1,13.9,2011,June-July
+12,Florida,20.0,5.2,90.3,5.0,2007,May-June
+13,Georgia,53.3,9.9,137.0,8.6,2007,May-June
+16,Idaho,80.0,19.2,368.4,18.8,2020,August-September
+17,Illinois,93.3,12.1,177.1,10.7,2012,August-September
+18,Indiana,73.3,10.2,146.1,10.2,2007,August-September
+19,Iowa,93.3,13.8,196.8,10.8,2012,August-September
+20,Kansas,93.3,13.4,201.5,8.5,2011,September-October
+21,Kentucky,80.0,8.9,123.7,7.7,2007,August-September
+22,Louisiana,60.0,8.4,131.9,7.8,2011,May-June
+23,Maine,60.0,5.2,75.0,7.9,2015,July-August
+24,Maryland,46.7,6.5,95.4,12.0,2011,August-September
+25,Massachusetts,53.3,7.4,92.7,11.4,2015,August-September
+26,Michigan,73.3,9.6,140.1,10.9,2007,August-September
+27,Minnesota,100.0,12.8,195.9,12.4,2015,August-September
+28,Mississippi,53.3,8.1,123.3,6.3,2011,September-October
+29,Missouri,93.3,13.0,186.9,8.6,2011,September-October
+30,Montana,86.7,20.3,395.6,21.0,2017,August-September
+31,Nebraska,86.7,12.6,200.0,10.9,2012,August-September
+32,Nevada,46.7,8.2,143.8,10.5,2020,August-September
+33,New Hampshire,53.3,6.1,79.7,9.5,2015,July-August
+34,New Jersey,66.7,7.6,107.2,13.0,2007,June-July
+35,New Mexico,33.3,4.7,81.6,5.8,2020,June-July
+36,New York,60.0,7.9,106.3,13.3,2007,August-September
+37,North Carolina,46.7,6.7,100.6,9.3,2011,June-July
+38,North Dakota,100.0,14.2,242.6,12.2,2015,August-September
+39,Ohio,73.3,8.5,118.6,9.1,2007,August-September
+40,Oklahoma,80.0,10.8,170.8,8.7,2011,September-October
+41,Oregon,66.7,10.6,347.1,10.1,2020,September-October
+42,Pennsylvania,53.3,6.6,94.2,10.1,2007,June-July
+44,Rhode Island,53.3,7.5,95.5,13.1,2015,August-September
+45,South Carolina,53.3,8.3,119.0,7.8,2011,June-July
+46,South Dakota,80.0,13.0,209.4,10.8,2012,August-September
+47,Tennessee,53.3,7.7,111.3,7.6,2007,August-September
+48,Texas,66.7,8.8,135.8,8.1,2011,May-June
+49,Utah,53.3,9.3,139.8,7.3,2020,August-September
+50,Vermont,53.3,5.2,74.7,9.1,2015,July-August
+51,Virginia,53.3,6.4,94.6,7.1,2011,August-September
+53,Washington,66.7,9.2,256.8,8.8,2020,September-October
+54,West Virginia,33.3,5.1,80.3,7.2,2007,August-September
+55,Wisconsin,93.3,11.7,170.4,10.2,2012,August-September
+56,Wyoming,60.0,12.1,196.5,8.2,2020,August-September
+01,Alabama,46.7,8.7,128.0,6.9,2007,May-June
+04,Arizona,6.7,3.0,50.2,4.8,2020,June-July
+05,Arkansas,73.3,12.3,183.3,8.5,2011,September-October
+06,California,40.0,8.5,194.6,4.5,2020,September-October
+08,Colorado,40.0,9.1,147.7,9.0,2020,August-September
+09,Connecticut,0.0,0.0,0.0,0.0,2006,January-February
