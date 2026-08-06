@@ -32,6 +32,7 @@ export default function CrittersMap({
   onSelect,
   bandLabel,
   colorRamp = CRITTER_RAMP,
+  colorForStat,
 }: {
   data: StateValue[];
   unit: string;
@@ -39,6 +40,8 @@ export default function CrittersMap({
   onSelect: (abbr: string | null) => void;
   bandLabel?: (stat: StateValue) => string;
   colorRamp?: readonly string[];
+  /** Use discrete, domain-specific color bands when a linear scale hides variation. */
+  colorForStat?: (stat: StateValue) => string;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<Tooltip>(null);
@@ -62,7 +65,7 @@ export default function CrittersMap({
               <path
                 key={shape.abbr}
                 d={shape.d}
-                fill={stat ? interpolateRamp(stat.value, maxValue, colorRamp) : "var(--muted)"}
+                fill={stat ? colorForStat?.(stat) ?? interpolateRamp(stat.value, maxValue, colorRamp) : "var(--muted)"}
                 stroke={isSelected ? "var(--foreground)" : "var(--background)"}
                 strokeWidth={isSelected ? 2.5 : 0.75}
                 style={{ cursor: stat ? "pointer" : "default", transition: "fill 120ms ease" }}
