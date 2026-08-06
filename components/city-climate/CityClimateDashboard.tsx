@@ -21,6 +21,7 @@ import {
   Sun,
   Thermometer,
   Umbrella,
+  Wind,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -42,6 +43,7 @@ import {
 } from "@/components/ui/chart";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
+import type { CityClimateNote } from "@/lib/city-climate-notes";
 import {
   DEW_RAMP,
   MONTH_LABELS,
@@ -64,8 +66,21 @@ export interface ClimateCity {
   sunDays: number | null;
 }
 
+export interface ClimateAirQuality {
+  year: number;
+  sourceGeoName: string;
+  sourceGeoType: "county" | "cbsa" | "nearest_county";
+  goodDays: number;
+  moderateDays: number;
+  unhealthyDays: number;
+  medianAqi: number;
+  p90Aqi: number;
+}
+
 interface Props {
   city: ClimateCity;
+  airQuality: ClimateAirQuality | null;
+  climateNote: CityClimateNote | null;
   monthly: ClimateMonthPoint[];
   diurnal: Record<string, ClimateHourPoint[]>;
   dewPoints: ClimateDewPoint[];
@@ -134,6 +149,57 @@ function StatTile({
         )}
       </div>
     </div>
+  );
+}
+
+function AirQualitySummary({ airQuality }: { airQuality: ClimateAirQuality | null }) {
+  if (!airQuality) return null;
+  const sourceLabel =
+    airQuality.sourceGeoType === "county"
+      ? `${airQuality.sourceGeoName} County`
+      : airQuality.sourceGeoName;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Wind className="size-4" aria-hidden /> Air quality
+        </CardTitle>
+        <CardDescription>
+          {airQuality.year} EPA annual AQI summary for {sourceLabel}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="grid grid-cols-3 gap-3 text-center text-sm">
+          <div><strong className="block text-lg">{airQuality.goodDays}</strong>Good days</div>
+          <div><strong className="block text-lg">{airQuality.moderateDays}</strong>Moderate days</div>
+          <div><strong className="block text-lg">{airQuality.unhealthyDays}</strong>Unhealthy days</div>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Median AQI {airQuality.medianAqi}; 90th-percentile AQI {airQuality.p90Aqi}. Annual summaries describe typical conditions, not smoke or dust spikes on individual days.
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SunshineSummary({ climateNote }: { climateNote: CityClimateNote | null }) {
+  if (!climateNote) return null;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Sun className="size-4" aria-hidden /> Sunshine detail
+        </CardTitle>
+        <CardDescription>Days are categorized by sky condition, not cloudless-only days.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="grid grid-cols-3 gap-3 text-center text-sm">
+          <div><strong className="block text-lg">{climateNote.fullySunnyDays}</strong>Fully sunny</div>
+          <div><strong className="block text-lg">{climateNote.partlySunnyDays}</strong>Partly sunny</div>
+          <div><strong className="block text-lg">{climateNote.mostlyCloudyDays}</strong>Mostly cloudy</div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -607,6 +673,8 @@ function MonthlyPrecip({ monthly }: { monthly: ClimateMonthPoint[] }) {
 
 export default function CityClimateDashboard({
   city,
+  airQuality,
+  climateNote,
   monthly,
   diurnal,
   dewPoints,
@@ -675,8 +743,17 @@ export default function CityClimateDashboard({
           unit="in"
           icon={Snowflake}
         />
-        <StatTile label="Sunny days" value={city.sunDays} icon={Sun} />
+        <StatTile label="Days with sun" value={city.sunDays} icon={Sun} />
       </div>
+
+      <div className="grid gap-3 lg:grid-cols-2">
+        <SunshineSummary climateNote={climateNote} />
+        <AirQualitySummary airQuality={airQuality} />
+      </div>
+
+      {climateNote ? (
+        <p className="px-1 text-xs text-muted-foreground">{climateNote.airQualitySummary}</p>
+      ) : null}
 
       <TypicalDay diurnal={diurnal} station={station} />
 

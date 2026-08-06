@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   getEmployerIndex,
+  getLatestAirQuality,
   getLocationById,
   getSimilarLocations,
   getStateInfo,
@@ -82,10 +83,11 @@ export default async function CityDetailPage({
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
   // instead of two sequential Neon round trips.
-  const [stateInfo, similarRows, employerIndex] = await Promise.all([
+  const [stateInfo, similarRows, employerIndex, airQuality] = await Promise.all([
     stateAbbr ? getStateInfo(stateAbbr) : Promise.resolve(null),
     getSimilarLocations(location.state, location.id),
     getEmployerIndex(),
+    getLatestAirQuality(location.id),
   ]);
   const employersHere = employerIndex[location.id] ?? [];
   const similar: Location[] = similarRows.map((r) => ({
@@ -441,7 +443,7 @@ export default async function CityDetailPage({
                       <path d="m6.34 17.66-1.41 1.41" />
                       <path d="m19.07 4.93-1.41 1.41" />
                     </svg>{" "}
-                    Sunny Days
+                    Days with Sun
                   </span>
                   <span className="spec-val">
                     {location.sun_days != null ? `${location.sun_days}/yr` : "—"}
@@ -461,7 +463,28 @@ export default async function CityDetailPage({
                       : "—"}
                   </span>
                 </div>
+                <div className="spec">
+                  <span className="spec-key">
+                    <svg className="icon" viewBox="0 0 24 24">
+                      <path d="M12 2a10 10 0 1 0 10 10" />
+                      <path d="M12 6v6l4 2" />
+                    </svg>{" "}
+                    Air Quality ({airQuality?.year ?? "latest"})
+                  </span>
+                  <span className="spec-val">
+                    {airQuality ? `${airQuality.good_days} Good days` : "â€”"}
+                  </span>
+                </div>
               </div>
+              {airQuality ? (
+                <p className="lede" style={{ marginTop: "1rem" }}>
+                  {airQuality.moderate_days} Moderate days;{" "}
+                  {airQuality.unhealthy_sensitive_days + airQuality.unhealthy_days +
+                    airQuality.very_unhealthy_days + airQuality.hazardous_days}{" "}
+                  unhealthy days. EPA annual AQI summary for {airQuality.source_geo_name}{" "}
+                  {airQuality.source_geo_type === "county" ? "County" : airQuality.source_geo_type}.
+                </p>
+              ) : null}
             </div>
           </div>
 
