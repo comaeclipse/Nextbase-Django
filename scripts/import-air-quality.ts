@@ -9,7 +9,7 @@
  * cities stay visible.
  *
  * Usage:
- *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-air-quality.ts [--year 2025] [--dry-run]
+ *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-air-quality.ts [--year 2025] [--location-id 113] [--dry-run]
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -142,8 +142,13 @@ function argValue(name: string): string | null {
 
 const dryRun = process.argv.includes("--dry-run");
 const year = Number(argValue("--year") ?? new Date().getUTCFullYear() - 1);
+const locationIdArg = argValue("--location-id");
+const locationId = locationIdArg === null ? null : Number(locationIdArg);
 if (!Number.isInteger(year) || year < 1990 || year > 2100) {
   throw new Error(`Invalid --year value: ${argValue("--year")}`);
+}
+if (locationId !== null && (!Number.isInteger(locationId) || locationId < 1)) {
+  throw new Error(`Invalid --location-id value: ${locationIdArg}`);
 }
 
 const sourceFile = `annual_aqi_by_county_${year}.csv`;
@@ -553,11 +558,13 @@ async function main() {
   await ensureSources();
 
   const sql = getSql();
-  const locations = (await sql.query(
-    `SELECT id, name, state, county
-     FROM locations_location
-     ORDER BY state, name`
-  )) as LocationInput[];
+  const locations = (locationId === null
+    ? await sql`SELECT id, name, state, county FROM locations_location ORDER BY state, name`
+    : await sql`SELECT id, name, state, county FROM locations_location WHERE id = ${locationId}`
+  ) as LocationInput[];
+  if (locationId !== null && locations.length === 0) {
+    throw new Error(`Location ${locationId} was not found`);
+  }
 
   const annualCountyRows = readCsv<AnnualCountyAqi>(sourceCsv);
   const annualCbsaRows = readCsv<AnnualCbsaAqi>(cbsaSourceCsv);
@@ -565,12 +572,16 @@ async function main() {
   const matched = matches.filter((m) => m.source);
   const unmatched = matches.filter((m) => !m.source);
 
-  writeMatchReport(matches);
+  if (locationId === null) {
+    writeMatchReport(matches);
+  }
 
   console.log(
     `EPA annual AQI ${year}: ${matched.length}/${locations.length} locations matched`
   );
-  console.log(`Match report: ${matchReport}`);
+  if (locationId === null) {
+    console.log(`Match report: ${matchReport}`);
+  }
   if (unmatched.length) {
     console.log("Unmatched locations:");
     for (const item of unmatched) {

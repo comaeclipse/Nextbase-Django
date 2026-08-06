@@ -53,6 +53,11 @@ Retrieved: 2026-08-06
   - https://azcrimestatistics.azdps.gov/tops/report/crime-overview/gilbert-pd/2024
   - https://www.gilbertaz.gov/Home/Components/News/News/5781/1379
 
+## Air quality
+
+- EPA AirData's 2025 annual county summary is stored for Gilbert using Maricopa County, the matching source geography: 32 Good days, 295 Moderate days, and 38 days in worse AQI categories. This is a county monitor summary, not a measurement of every neighborhood in Gilbert.
+- Source: https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2025.zip
+
 ## Lifestyle, hubs, and unfilled fields
 
 - The description and tags are grounded in the town's parks/community resources and local VA access. The supplied Reddit synthesis and resident-perception graphic are preserved as qualitative context only: 93 votes is not a representative sample, and its safety, walkability, transit, parks, and family-friendliness percentages were not written as official metrics. The cited Reddit threads are similarly supplemental anecdotal evidence.

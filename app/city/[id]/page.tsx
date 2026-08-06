@@ -82,6 +82,12 @@ export default async function CityDetailPage({
   const fitBreakdown = calculateFitBreakdown(row);
   const [crimeGrade] = crimeGradeMeta(row);
   const housingMarket = getHousingMarket(location.name, location.state);
+  const medianHomePriceDisplay = housingMarket
+    ? `$${housingMarket.medianSalePrice.toLocaleString("en-US")}`
+    : location.avg_home_value_display || "Not available";
+  const medianHomePriceSubtitle = housingMarket
+    ? "Median sale price"
+    : "Typical home value";
 
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
@@ -203,9 +209,9 @@ export default async function CityDetailPage({
                 Median Home
               </div>
               <div className="kpi-value">
-                {location.avg_home_value_display || "—"}
+                {medianHomePriceDisplay}
               </div>
-              <div className="kpi-sub">Typical home value</div>
+              <div className="kpi-sub">{medianHomePriceSubtitle}</div>
             </div>
             <div className="kpi">
               <div className="kpi-label">
@@ -282,10 +288,10 @@ export default async function CityDetailPage({
                       <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
                       <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                     </svg>{" "}
-                    Median Home Value
+                    {housingMarket ? "Median Home Price" : "Median Home Value"}
                   </span>
                   <span className="spec-val">
-                    {location.avg_home_value_display || "—"}
+                    {medianHomePriceDisplay}
                   </span>
                 </div>
                 <div className="spec">
@@ -479,7 +485,7 @@ export default async function CityDetailPage({
                     Air Quality ({airQuality?.year ?? "latest"})
                   </span>
                   <span className="spec-val">
-                    {airQuality ? `${airQuality.good_days} Good days` : "â€”"}
+                    {airQuality ? `${airQuality.good_days} Good days` : "Not available"}
                   </span>
                 </div>
               </div>
