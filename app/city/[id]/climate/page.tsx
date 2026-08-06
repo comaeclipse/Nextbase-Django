@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   getHourlyWeatherNormals,
+  getLatestAirQuality,
   getLocationById,
   getMonthlyWeather,
 } from "@/lib/locations";
@@ -11,6 +12,7 @@ import {
   buildMonthly,
   buildStation,
 } from "@/lib/climate";
+import { getCityClimateNote } from "@/lib/city-climate-notes";
 import CityClimateDashboard from "@/components/city-climate/CityClimateDashboard";
 
 // Reads the live Neon schema, so it must render per-request.
@@ -49,9 +51,10 @@ export default async function CityClimatePage({
   const location = await getLocationById(pk);
   if (!location) notFound();
 
-  const [monthlyRows, hourlyRows] = await Promise.all([
+  const [monthlyRows, hourlyRows, airQuality] = await Promise.all([
     getMonthlyWeather(location.id),
     getHourlyWeatherNormals(location.id),
+    getLatestAirQuality(location.id),
   ]);
 
   const monthly = buildMonthly(monthlyRows);
@@ -71,6 +74,25 @@ export default async function CityClimatePage({
         snowAnnual: location.snow_annual,
         sunDays: location.sun_days,
       }}
+      airQuality={
+        airQuality
+          ? {
+              year: airQuality.year,
+              sourceGeoName: airQuality.source_geo_name,
+              sourceGeoType: airQuality.source_geo_type,
+              goodDays: airQuality.good_days,
+              moderateDays: airQuality.moderate_days,
+              unhealthyDays:
+                airQuality.unhealthy_sensitive_days +
+                airQuality.unhealthy_days +
+                airQuality.very_unhealthy_days +
+                airQuality.hazardous_days,
+              medianAqi: airQuality.median_aqi,
+              p90Aqi: airQuality.p90_aqi,
+            }
+          : null
+      }
+      climateNote={getCityClimateNote(location.name, location.state)}
       monthly={monthly}
       diurnal={diurnal}
       dewPoints={buildDewPointByMonth(hourlyRows)}

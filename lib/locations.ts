@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
 import type { EmployerIndex, EmployerPresence } from "./defense";
 import type {
+  AirQualityAnnualRow,
   DefenseEmployerRow,
   HourlyWeatherNormalRow,
   LocationRow,
@@ -93,6 +94,26 @@ export const getLocationById = unstable_cache(
       : null;
   },
   ["locations:getLocationById"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
+);
+
+/** Latest EPA annual AQI summary matched to a location's source geography. */
+export const getLatestAirQuality = unstable_cache(
+  async (locationId: number): Promise<AirQualityAnnualRow | null> => {
+    const sql = getSql();
+    try {
+      const rows = await sql`
+        SELECT * FROM location_air_quality_annual
+        WHERE location_id = ${locationId}
+        ORDER BY year DESC
+        LIMIT 1`;
+      return (rows[0] as AirQualityAnnualRow) ?? null;
+    } catch (err) {
+      if ((err as { code?: string })?.code === "42P01") return null;
+      throw err;
+    }
+  },
+  ["locations:getLatestAirQuality"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );
 
