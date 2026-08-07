@@ -37,6 +37,17 @@ All five former zero-feature cities now have structural rows including
 `va_outpatient_access` (Bellevue 0.833, Boulder 1.0, Broomfield 0.733,
 Lake Forest 0.750, Oklahoma City 1.0).
 
+### After milestone 4 VA sync + derive (same day)
+
+| Metric | Count |
+| --- | ---: |
+| Legacy outpatient fields populated | 119 |
+| Hospital fields populated | 119 |
+| Resolved `va_outpatient_access` | 119 |
+| Resolved `va_hospital_access` | 119 (structural; editorial rows remain where present) |
+
+Source note: `data/va_facilities_sync_2026-08-07.md` (VHA VAST ArcGIS layer).
+
 Tax columns exist on every location; the city-profile ontology has no tax
 trait, so chat ranking cannot honestly answer “low taxes” today.
 

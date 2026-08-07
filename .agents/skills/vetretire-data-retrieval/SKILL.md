@@ -258,33 +258,29 @@ Normalization:
 Fields:
 
 - `has_va`
-- `nearest_va`
-- `distance_to_va`
-- `va_distance`
+- `nearest_va` / `distance_to_va` — outpatient-capable VA site
+- `nearest_va_hospital` / `distance_to_va_hospital` — VA medical center
 - `veterans_benefits`
 
 Recommended sources:
 
-- VA Facilities API: https://developer.va.gov/explore/api/va-facilities
+- Bulk refresh: `scripts/sync-va-facilities.ts` (public VHA VAST ArcGIS layer; then re-run structural derive).
+- VA Facilities API (optional key): https://developer.va.gov/explore/api/va-facilities
 - VA Facilities data.gov catalog: https://catalog.data.gov/dataset/va-facilities-api
-- VA location search: https://www.va.gov/directory/guide/Findlocations.cfm
 - State veterans affairs agency pages for benefits.
 
 Retrieval notes:
 
-- For every location, geocode the city/metro centroid or representative city hall coordinate.
-- Query VA facilities by latitude/longitude and filter for medical facilities first.
-- Compute straight-line or driving distance consistently; label which method was used.
-- `has_va` should be `Yes` if a relevant VA health facility is in the same city/metro or within the chosen threshold.
-- If no local VA exists, store the nearest facility name and distance.
+- Use city centroid coordinates on `locations_location`.
+- Distinguish outpatient clinic/CBOC from VA medical center; never map clinic distance to hospital access.
+- After sync, run `city-profile-stack/scripts/tools/derive-structural-features.ts`.
 
 Normalization:
 
-- `has_va`: `Yes` or `No`.
-- `nearest_va`: facility name/city, not a prose sentence.
-- `distance_to_va`: text like `24 miles`.
-- `va_distance`: keep in sync with `distance_to_va` for UI compatibility.
-- `veterans_benefits`: short state-specific benefit summary; include tax breaks, retirement pay exemptions, property tax benefits, education, and state veteran homes when applicable.
+- `has_va`: boolean (`true` when outpatient site is local / `0 miles`).
+- `nearest_va` / `nearest_va_hospital`: facility name, not prose.
+- `distance_to_va` / `distance_to_va_hospital`: text like `24 miles`.
+- `veterans_benefits`: short state-specific benefit summary when applicable.
 
 ### Weather and Climate
 

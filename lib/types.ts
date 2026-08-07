@@ -44,6 +44,9 @@ export interface LocationRow {
   has_va: boolean | null;
   nearest_va: string | null;
   distance_to_va: string | null;
+  /** Nearest VA medical center (parent facility), distinct from CBOC/clinic. */
+  nearest_va_hospital: string | null;
+  distance_to_va_hospital: string | null;
   veterans_benefits: string | null;
 
   // Safety & social

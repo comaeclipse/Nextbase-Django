@@ -50,8 +50,8 @@ State-level information that applies to all locations within a state (no need to
 
 ### Veterans Affairs
 - **VA**: Whether location has a VA facility ("Yes"/"No" in CSV → Boolean `has_va`)
-- **NearestVA**: Name of nearest VA facility (if VA = "No")
-- **DistanceToVA**: Distance to nearest VA facility (e.g., "24 miles", "NA" if local)
+- **NearestVA** / **DistanceToVA**: Nearest *outpatient-capable* VA health site (clinic/CBOC or medical center). Used by structural `va_outpatient_access`. Refresh with `scripts/sync-va-facilities.ts`.
+- **NearestVAHospital** / **DistanceToVAHospital**: Nearest VA *medical center* (VAST parent / 3-character station). Used by structural `va_hospital_access`. Never treat clinic distance as hospital access.
 - **Veterans Benefits**: Additional veteran-specific benefits/tax breaks available
 
 ### Safety & Social

@@ -15,7 +15,7 @@
 
 import { heatIndex, relativeHumidity } from "../../lib/climate";
 
-export const METHOD_VERSION = "structural_v2_apparent_temp";
+export const METHOD_VERSION = "structural_v3_va_hospital";
 
 export interface MetroAnchor {
   name: string;
@@ -36,6 +36,8 @@ export interface LocationFacts {
   colIndex: number | null;
   avgHomeValue: number | null;
   distanceToVaMiles: number | null;
+  /** Miles to nearest VA medical center (parent facility), not a CBOC/clinic. */
+  distanceToVaHospitalMiles: number | null;
   hasVa: boolean | null;
   paceCategory: string | null;
   climateCategory: string | null;
@@ -456,6 +458,14 @@ export const DERIVERS: Record<string, Deriver> = {
     return value(1 - linScale(facts.distanceToVaMiles, 0, 60), 0.8, {
       distance_to_va_miles: facts.distanceToVaMiles,
       has_va: facts.hasVa,
+    });
+  },
+
+  va_hospital_access: (facts) => {
+    if (facts.distanceToVaHospitalMiles === null) return null;
+    // Medical centers are scarcer; score falls off over a wider drive (0–120 mi).
+    return value(1 - linScale(facts.distanceToVaHospitalMiles, 0, 120), 0.8, {
+      distance_to_va_hospital_miles: facts.distanceToVaHospitalMiles,
     });
   },
 
