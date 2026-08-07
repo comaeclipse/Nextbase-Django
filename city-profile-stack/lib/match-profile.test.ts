@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   scoreCitiesAgainstProfile,
+  validateProfile,
   type Profile,
 } from "./city-queries";
 
@@ -121,5 +122,29 @@ describe("scoreCitiesAgainstProfile strict missing data", () => {
     expect(result.citiesScored).toBe(1);
     expect(result.disqualifiedCount).toBe(1);
     expect(result.ranked[0].topProblem).toMatch(/no data for/);
+  });
+});
+
+describe("scoreCitiesAgainstProfile unsupported proxies", () => {
+  // Issue #18: "low taxes" must not be scored via a proxy. The ontology has no
+  // tax trait, so any tax-shaped preference key must be rejected at validation
+  // time rather than silently ranked. If someone later adds a real tax feature,
+  // this test forces a conscious update.
+  it("refuses to rank an unsupported tax trait", () => {
+    expect(() =>
+      validateProfile({
+        name: "Low taxes",
+        preferences: { tax_burden: { min: 0.6, importance: 0.9 } },
+      })
+    ).toThrow(/Unknown feature "tax_burden"/);
+  });
+
+  it("refuses a low_taxes key as well", () => {
+    expect(() =>
+      validateProfile({
+        name: "Low taxes",
+        preferences: { low_taxes: { min: 0.6, importance: 0.9 } },
+      })
+    ).toThrow(/Unknown feature "low_taxes"/);
   });
 });
