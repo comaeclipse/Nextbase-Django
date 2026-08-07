@@ -153,13 +153,17 @@ export interface Preference {
   target?: number;
   tolerance?: number;
   importance: number;
+  /** Fail the city when a known value misses the request by enough. */
   dealbreaker?: boolean;
+  /** Fail the city when this trait has no value at all (also implied by dealbreaker). */
+  requireKnown?: boolean;
 }
 export interface Profile {
   name: string;
   notes?: string;
   preferences: Record<string, Preference>;
 }
+export type MatchSource = "researched" | "computed";
 export interface MatchHit {
   feature: string;
   label: string;
@@ -168,7 +172,7 @@ export interface MatchHit {
   wanted: string;
   penalty: number;
   dealbroken: boolean;
-  source: "researched" | "computed";
+  source: MatchSource;
 }
 export interface MatchCity {
   city: string;
@@ -184,8 +188,15 @@ export interface MatchResult {
   preferenceCount: number;
   citiesScored: number;
   disqualifiedCount: number;
+  /** Reminds the model not to overclaim beyond the scored subset. */
+  scopeNote: string;
   ranked: MatchCity[];
 }
+
+export const MATCH_SCOPE_NOTE =
+  "Results are among cities with profile features in this database, not a claim about all U.S. cities.";
+
+type FeatureCell = { v: number; c: number; p: string };
 
 function computeMiss(kind: string, value: number, pref: Preference): number {
   if (kind === "capacity") {
@@ -213,6 +224,14 @@ function describeWant(kind: string, pref: Preference): string {
   return `about ${(pref.target ?? 0.5).toFixed(2)} (±${(pref.tolerance ?? 0.2).toFixed(2)})`;
 }
 
+function provenanceToSource(provenance: string): MatchSource {
+  return provenance === "editorial" ? "researched" : "computed";
+}
+
+function mustKnow(pref: Preference): boolean {
+  return Boolean(pref.dealbreaker) || Boolean(pref.requireKnown);
+}
+
 /** Validate a profile's feature keys/kinds. Throws a human-readable message. */
 export function validateProfile(profile: Profile): void {
   for (const [key, pref] of Object.entries(profile.preferences)) {
@@ -225,41 +244,30 @@ export function validateProfile(profile: Profile): void {
   }
 }
 
-/** "Best cities for this person?" — worst-driven so one dealbreaker can't be averaged away. */
-export async function matchProfileToCities(
+/**
+ * Pure ranking core (DB-free) so CLI, chat, and unit tests share one path.
+ * Missing dealbreaker / requireKnown traits disqualify; other missing traits
+ * stay in `unknown` without failing the city.
+ */
+export function scoreCitiesAgainstProfile(
   profile: Profile,
+  cities: { id: string; label: string; features: Map<string, FeatureCell> }[],
   opts: { limit?: number } = {}
-): Promise<MatchResult> {
+): MatchResult {
   const limit = opts.limit ?? 8;
   validateProfile(profile);
-  const sql = getSql();
-
-  const locations = (await sql.query(
-    "SELECT id, name, state FROM locations_location"
-  )) as { id: string; name: string; state: string }[];
-  const info = new Map(locations.map((l) => [l.id, `${l.name}, ${l.state}`]));
-
-  const rows = (await sql.query(
-    "SELECT location_id, feature_key, value, confidence, provenance FROM location_features_resolved"
-  )) as { location_id: string; feature_key: string; value: string; confidence: string; provenance: string }[];
-
-  const byCity = new Map<string, Map<string, { v: number; c: number; p: string }>>();
-  for (const r of rows) {
-    let m = byCity.get(r.location_id);
-    if (!m) byCity.set(r.location_id, (m = new Map()));
-    m.set(r.feature_key, { v: Number(r.value), c: Number(r.confidence), p: r.provenance });
-  }
 
   const scored: MatchCity[] = [];
-  for (const [id, features] of byCity) {
+  for (const city of cities) {
     const hits: MatchHit[] = [];
     const unknown: string[] = [];
     let disqualified = false;
 
     for (const [key, pref] of Object.entries(profile.preferences)) {
-      const f = features.get(key);
+      const f = city.features.get(key);
       if (!f) {
         unknown.push(key);
+        if (mustKnow(pref)) disqualified = true;
         continue;
       }
       const kind = getFeature(key).kind;
@@ -275,10 +283,22 @@ export async function matchProfileToCities(
         wanted: describeWant(kind, pref),
         penalty: round(penalty),
         dealbroken,
-        source: f.p === "editorial" ? "researched" : "computed",
+        source: provenanceToSource(f.p),
       });
     }
-    if (hits.length === 0) continue;
+
+    if (hits.length === 0) {
+      if (!disqualified) continue;
+      scored.push({
+        city: city.label,
+        score: 0,
+        disqualified: true,
+        topProblem: `no data for: ${unknown.join(", ")}`,
+        hits: [],
+        unknown,
+      });
+      continue;
+    }
 
     hits.sort((a, b) => b.penalty - a.penalty);
     const worst = hits.slice(0, 3).reduce((a, h) => a + h.penalty, 0) / 3;
@@ -287,9 +307,13 @@ export async function matchProfileToCities(
 
     const top = hits[0];
     const topProblem =
-      top && top.penalty > 0.01 ? `${top.label} is ${top.cityValue.toFixed(2)}, wanted ${top.wanted}` : "nothing significant";
+      top && top.penalty > 0.01
+        ? `${top.label} is ${top.cityValue.toFixed(2)}, wanted ${top.wanted}`
+        : unknown.length
+          ? `no data for: ${unknown.join(", ")}`
+          : "nothing significant";
 
-    scored.push({ city: info.get(id)!, score: round(score), disqualified, topProblem, hits, unknown });
+    scored.push({ city: city.label, score: round(score), disqualified, topProblem, hits, unknown });
   }
 
   scored.sort((a, b) => (a.disqualified !== b.disqualified ? (a.disqualified ? 1 : -1) : b.score - a.score));
@@ -300,8 +324,42 @@ export async function matchProfileToCities(
     preferenceCount: Object.keys(profile.preferences).length,
     citiesScored: scored.length,
     disqualifiedCount: scored.filter((s) => s.disqualified).length,
+    scopeNote: MATCH_SCOPE_NOTE,
     ranked: scored.slice(0, limit),
   };
+}
+
+/** "Best cities for this person?" — worst-driven so one dealbreaker can't be averaged away. */
+export async function matchProfileToCities(
+  profile: Profile,
+  opts: { limit?: number } = {}
+): Promise<MatchResult> {
+  validateProfile(profile);
+  const sql = getSql();
+
+  const locations = (await sql.query(
+    "SELECT id, name, state FROM locations_location"
+  )) as { id: string; name: string; state: string }[];
+  const info = new Map(locations.map((l) => [l.id, `${l.name}, ${l.state}`]));
+
+  const rows = (await sql.query(
+    "SELECT location_id, feature_key, value, confidence, provenance FROM location_features_resolved"
+  )) as { location_id: string; feature_key: string; value: string; confidence: string; provenance: string }[];
+
+  const byCity = new Map<string, Map<string, FeatureCell>>();
+  for (const r of rows) {
+    let m = byCity.get(r.location_id);
+    if (!m) byCity.set(r.location_id, (m = new Map()));
+    m.set(r.feature_key, { v: Number(r.value), c: Number(r.confidence), p: r.provenance });
+  }
+
+  const cities = [...byCity.entries()].map(([id, features]) => ({
+    id,
+    label: info.get(id) ?? id,
+    features,
+  }));
+
+  return scoreCitiesAgainstProfile(profile, cities, opts);
 }
 
 /** Compact catalog of every trait, for teaching an LLM to build a profile. */

@@ -67,8 +67,22 @@ Each preference targets one trait KEY below. A trait's kind decides its shape:
 - intensity → set "target" (0..1) and "tolerance" (default 0.2). Neither end is "good".
 - position  → set "target" (0..1); e.g. political_conservatism 0=progressive, 1=conservative.
 Always set "importance" (0..1). Set "dealbreaker": true only for true must-haves.
+When the user says "verified only", "refuse cities without data", or similar for a
+trait, set both "dealbreaker": true and "requireKnown": true so cities missing that
+trait are excluded by the matcher — do not rely on prose to filter them afterward.
 Example: "hates humidity" → {feature:"humidity_burden", target:0.15, tolerance:0.2, importance:0.8}.
 "needs VA care nearby" → {feature:"va_outpatient_access", min:0.6, importance:0.9, dealbreaker:true}.
+"refuse cities without verified VA data" → same feature with dealbreaker:true and requireKnown:true.
+
+Unsupported dimensions:
+- There is NO tax / low-taxes trait. If the user asks to rank by low taxes, decline that
+  dimension. You may offer housing or cost-of-living affordability only if you clearly
+  label it as affordability, not taxes.
+- Evidence language: use only "researched" or "computed" from tool hits. Never say
+  "reported", "modeled estimates", or invent provenance categories.
+- Honor scopeNote from tool results: do not claim a database-wide screen when you only
+  received a ranked subset. For sparse editorial traits (e.g. street life), say "not
+  assessed" when unknown — never invent "dead" or "probably fine".
 
 Trait catalog (key [kind, category] high | low):
 ${CATALOG}`;
@@ -101,6 +115,10 @@ const matchPersonTool = tool({
           feature: z.string().describe("A trait key from the catalog."),
           importance: z.number().min(0).max(1),
           dealbreaker: z.boolean().optional(),
+          requireKnown: z
+            .boolean()
+            .optional()
+            .describe("If true, cities with no value for this trait are disqualified."),
           min: z.number().min(0).max(1).optional(),
           max: z.number().min(0).max(1).optional(),
           target: z.number().min(0).max(1).optional(),
