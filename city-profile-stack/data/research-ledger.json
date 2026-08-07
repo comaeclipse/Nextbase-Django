@@ -74,6 +74,7 @@
       "topic": "political_geography",
       "claim": "Lincoln County voted 12,674 Trump/Vance to 3,586 Harris/Walz in the certified 2024 presidential result, supporting a strongly conservative county-level proxy.",
       "status": "source_linked",
+      "artifact": "data/research-ledger.json",
       "scope": "Lincoln County, not North Platte city-only",
       "source_urls": ["https://lincolncountyne.gov/wp-content/uploads/2024/11/GEN24-OFFICIAL-RESULTS-SUMMARY-PUBLIC.pdf"],
       "limitations": ["A city-specific descriptor requires aggregating the North Platte precincts; county totals include rural voters."],
