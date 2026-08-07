@@ -49,6 +49,18 @@
       "embedding_ready": false
     },
     {
+      "id": "elko_trans_teenager_adversarial_abstention_2026",
+      "city": "Elko",
+      "state": "NV",
+      "topic": "trans_youth_fit",
+      "claim": "The reviewed local corpus cannot support a conclusion about whether Elko is a good place to raise a trans teenager; adjacent claims about general politics, specialist care, and social integration are not valid substitutes for school climate, youth support, or trans-specific care evidence.",
+      "status": "locally_normalized",
+      "artifact": "data/gold-packs/elko-trans-teenager-insufficient-evidence.md",
+      "supporting_artifacts": ["data/gold-packs/elko-trans-teenager-insufficient-evidence.claims.json"],
+      "limitations": ["This abstention describes the reviewed corpus, not Elko itself.", "No new external evidence was collected because the purpose is to test an evidence-bound refusal."],
+      "embedding_ready": false
+    },
+    {
       "id": "odessa_elko_calibration_2026",
       "city": "Odessa",
       "state": "TX",

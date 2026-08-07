@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "pack_id": "elko_trans_teenager_insufficient_evidence_gold_v1",
+  "question": "Is Elko, Nevada a good place to raise a trans teenager?",
+  "question_shape": "adversarial_insufficient_evidence",
+  "corpus_boundary": {
+    "reviewed_at_commit": "6facf8f",
+    "reviewed_on": "2026-08-07",
+    "reviewed_artifacts": [
+      "data/gold-packs/elko-tuesday-after-8pm.claims.json",
+      "data/dossiers/research-dossiers/elko-nv.md",
+      "data/dossiers/research-dossiers/elko-nv.json",
+      "data/dossiers/research-dossiers/elko-nv-cultural-baseline.md",
+      "data/dossiers/research-dossiers/elko-nv-cultural-baseline.json",
+      "data/conversation-captures/2026-08-07-elko-odessa-north-platte.md",
+      "data/experience-observations.json",
+      "data/location-profile-signals.json",
+      "data/location-texture-markers.json",
+      "data/research-ledger.json"
+    ],
+    "method": "Search the existing local Elko corpus only. Do not fetch new external evidence; the test is whether the present corpus can decline an answer."
+  },
+  "vocabulary": {
+    "claim_type": ["corpus_inventory", "context", "required_evidence", "abstention"],
+    "evidence_kind": ["internal_corpus_audit", "community_sentiment", "institutional_baseline"],
+    "stance": {
+      "context": "Related information that may matter but cannot answer the question.",
+      "missing_required_evidence": "A required evidence category is absent from the reviewed corpus.",
+      "abstains": "The correct answer is to withhold a location recommendation from this corpus."
+    },
+    "confidence": ["high", "medium", "low"]
+  },
+  "claims": [
+    {
+      "id": "A1_corpus_inventory",
+      "claim": "The reviewed Elko corpus contains 12 experience observations, 24 profile signals, 15 texture markers, and one venue-hours gold pack, but no Elko-specific claim or source about trans students, gender-identity protections in school, youth support groups, or gender-affirming adolescent care.",
+      "claim_type": "corpus_inventory",
+      "evidence_kind": "internal_corpus_audit",
+      "stance": "missing_required_evidence",
+      "confidence": "high",
+      "geography_scope": "Elko corpus only",
+      "quote": null,
+      "source_urls": [
+        "city-profile-stack/data/experience-observations.json",
+        "city-profile-stack/data/location-profile-signals.json",
+        "city-profile-stack/data/location-texture-markers.json",
+        "city-profile-stack/data/gold-packs/elko-tuesday-after-8pm.claims.json"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "This is a statement about the reviewed local corpus, not a statement that Elko lacks these services or supports.",
+        "The corpus can be expanded later with source-backed evidence."
+      ]
+    },
+    {
+      "id": "A2_conservative_culture_is_not_youth_safety_evidence",
+      "claim": "Existing Elko material characterizes the community as strongly conservative and records mixed accounts of visible difference, but it does not identify trans youth, schools, school staff, or a pattern of treatment toward gender-diverse students.",
+      "claim_type": "context",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko / regional community accounts",
+      "quote": null,
+      "source_urls": [
+        "https://www.reddit.com/r/Nevada/comments/1rf0d2j/thinking_of_moving_to_elko_nevada/"
+      ],
+      "retrieved_on": "2026-08-06",
+      "limitations": [
+        "Political culture is not a reliable proxy for a particular teenager's school safety, belonging, family experience, or access to care.",
+        "Do not turn this context into either a safety warning or a reassurance about trans youth."
+      ]
+    },
+    {
+      "id": "A3_specialist_gap_is_not_trans_care_evidence",
+      "claim": "The corpus contains limited community-sentiment evidence of thin specialist healthcare and travel for complex care, but no source establishes the availability, quality, wait time, or referral path for gender-affirming adolescent care or youth mental-health care in Elko.",
+      "claim_type": "context",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko / regional healthcare accounts",
+      "quote": null,
+      "source_urls": [
+        "https://www.reddit.com/r/Elko/comments/16etkn6/looking_to_move_to_elko/"
+      ],
+      "retrieved_on": "2026-08-06",
+      "limitations": [
+        "The source URL is retained as it appears in the local signal; it should be rechecked before any future healthcare claim.",
+        "A general specialist-care complaint cannot stand in for youth-specific care access."
+      ]
+    },
+    {
+      "id": "A4_social_integration_is_not_queer_youth_belonging_evidence",
+      "claim": "The corpus describes slow social integration for newcomers through work, family, churches, bars, and outdoor hobbies, but contains no evidence about a trans teenager's peer network, extracurricular inclusion, bullying, or trusted adults.",
+      "claim_type": "context",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko / regional newcomer accounts",
+      "quote": null,
+      "source_urls": [
+        "https://www.reddit.com/r/Nevada/comments/pe2a01/whats_it_like_living_in_elko_nevada/"
+      ],
+      "retrieved_on": "2026-08-06",
+      "limitations": [
+        "Adult-newcomer integration is not evidence about a minor's school or social experience.",
+        "The cited account is community sentiment, not a representative survey."
+      ]
+    },
+    {
+      "id": "R1_required_evidence_for_a_future_answer",
+      "claim": "A future answer requires source-backed evidence on district policy and implementation, student-facing support and anti-bullying practice, youth-appropriate healthcare and mental-health referral access, and multiple local accounts from relevant families or youth-serving organizations.",
+      "claim_type": "required_evidence",
+      "evidence_kind": "internal_corpus_audit",
+      "stance": "missing_required_evidence",
+      "confidence": "high",
+      "geography_scope": "Elko city / Elko County School District as applicable",
+      "quote": null,
+      "source_urls": [],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "A policy alone is insufficient; implementation and lived experience can differ.",
+        "An answer should state geography exactly because city, county, school district, and regional care access are different scopes."
+      ]
+    },
+    {
+      "id": "V1_abstention",
+      "claim": "The reviewed corpus cannot support a conclusion about whether Elko is a good place to raise a trans teenager.",
+      "claim_type": "abstention",
+      "evidence_kind": "internal_corpus_audit",
+      "stance": "abstains",
+      "confidence": "high",
+      "geography_scope": "Elko corpus only",
+      "quote": null,
+      "source_urls": [],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "This is not a conclusion about Elko itself.",
+        "It is a demonstrated refusal to answer beyond the current evidence."
+      ]
+    }
+  ],
+  "answer": {
+    "verdict": "Insufficient evidence in the current corpus.",
+    "one_line": "I cannot responsibly say whether Elko is a good place to raise a trans teenager from this corpus: it has no Elko-specific evidence on school climate, youth support, gender-affirming or youth mental-health care, or trans families' lived experience.",
+    "sentence_trace": [
+      {
+        "sentence": "I cannot responsibly say whether Elko is a good place to raise a trans teenager from this corpus.",
+        "evidence": ["A1_corpus_inventory", "V1_abstention"]
+      },
+      {
+        "sentence": "The material does discuss conservative culture, specialist-care constraints, and newcomer integration, but none of those answers school climate, youth support, or trans-specific care access.",
+        "evidence": ["A2_conservative_culture_is_not_youth_safety_evidence", "A3_specialist_gap_is_not_trans_care_evidence", "A4_social_integration_is_not_queer_youth_belonging_evidence"]
+      },
+      {
+        "sentence": "The correct next research would test district practice, youth support, care access, and relevant lived experience rather than infer an answer from politics or general small-town texture.",
+        "evidence": ["R1_required_evidence_for_a_future_answer"]
+      }
+    ]
+  }
+}
