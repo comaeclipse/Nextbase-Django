@@ -1,4 +1,5 @@
 import { streamText, tool, stepCountIs, convertToModelMessages, type UIMessage } from "ai";
+import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 import {
   findSimilarCities,
@@ -12,9 +13,19 @@ import {
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-// Swap models by changing this env var, not the code. Defaults to the Sonnet 5
-// gateway id; override with CHAT_MODEL if the gateway exposes a different string.
-const MODEL = process.env.CHAT_MODEL ?? "anthropic/claude-sonnet-5";
+// Provider is swappable via env, no code change needed:
+//   CHAT_PROVIDER=gateway (default) → Vercel AI Gateway, needs AI_GATEWAY_API_KEY.
+//       CHAT_MODEL defaults to anthropic/claude-sonnet-5.
+//   CHAT_PROVIDER=openai            → your own OpenAI key (OPENAI_API_KEY), e.g. to
+//       use OpenAI's free daily token allowance. CHAT_MODEL defaults to gpt-5.1
+//       (set a *-mini / *-nano model to draw on the larger free tier instead).
+function resolveModel() {
+  if ((process.env.CHAT_PROVIDER ?? "gateway").toLowerCase() === "openai") {
+    const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    return openai(process.env.CHAT_MODEL ?? "gpt-5.1");
+  }
+  return process.env.CHAT_MODEL ?? "anthropic/claude-sonnet-5";
+}
 
 const CATALOG = traitCatalog()
   .map((t) => `- ${t.key} [${t.kind}, ${t.category}] high=${t.high} | low=${t.low}`)
@@ -113,7 +124,7 @@ export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
 
   const result = streamText({
-    model: MODEL,
+    model: resolveModel(),
     system: SYSTEM,
     messages: await convertToModelMessages(messages),
     tools: { find_similar_cities: findSimilarTool, match_person_to_cities: matchPersonTool },
