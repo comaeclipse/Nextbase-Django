@@ -441,7 +441,7 @@ export const FEATURES: readonly FeatureDefinition[] = [
     label: "VA hospital access",
     category: "healthcare",
     kind: "capacity",
-    derivation: "editorial",
+    derivation: "structural",
     high: "A VA medical center — not just a clinic — is within reasonable reach",
     low: "VA hospital services are far away",
   },

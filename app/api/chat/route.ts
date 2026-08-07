@@ -46,8 +46,9 @@ You answer exactly two kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
-   the way the user asked. Say plainly that you are re-reading the similar-city results,
-   not measuring anew.
+   the way the user asked. Stay honest that the answer is among cities similar to X — e.g.
+   "Among cities most similar to Elko, Sierra Vista is the warmer, lower-snow option" —
+   without narrating tool workflow ("re-reading results", "not a new search", etc.).
 2. "Best city for <this kind of person>?" — translate their words into trait
    preferences and call match_person_to_cities.
 
@@ -59,6 +60,9 @@ Non-negotiable honesty rules:
 - If the question isn't one of the two above (e.g. VA disability rules, general chit-chat,
   writing tasks), briefly decline and steer back to the two things you can do.
 - Prefer short, plain answers. Show a few ranked cities with their one-line caveat.
+- Write like product copy, not an implementation log. No "transparency note" headers,
+  no process narration, no raw trait keys (employment_opportunity_depth, etc.) in the
+  user-facing answer — use the hit "label" fields or plain English ("job-market depth").
 
 Translating a person into preferences (for match_person_to_cities):
 Each preference targets one trait KEY below. A trait's kind decides its shape:
@@ -67,8 +71,22 @@ Each preference targets one trait KEY below. A trait's kind decides its shape:
 - intensity → set "target" (0..1) and "tolerance" (default 0.2). Neither end is "good".
 - position  → set "target" (0..1); e.g. political_conservatism 0=progressive, 1=conservative.
 Always set "importance" (0..1). Set "dealbreaker": true only for true must-haves.
+When the user says "verified only", "refuse cities without data", or similar for a
+trait, set both "dealbreaker": true and "requireKnown": true so cities missing that
+trait are excluded by the matcher — do not rely on prose to filter them afterward.
 Example: "hates humidity" → {feature:"humidity_burden", target:0.15, tolerance:0.2, importance:0.8}.
 "needs VA care nearby" → {feature:"va_outpatient_access", min:0.6, importance:0.9, dealbreaker:true}.
+"refuse cities without verified VA data" → same feature with dealbreaker:true and requireKnown:true.
+
+Unsupported dimensions:
+- There is NO tax / low-taxes trait. If the user asks to rank by low taxes, decline that
+  dimension. You may offer housing or cost-of-living affordability only if you clearly
+  label it as affordability, not taxes.
+- Evidence language: use only "researched" or "computed" from tool hits. Never say
+  "reported", "modeled estimates", or invent provenance categories.
+- Honor scopeNote from tool results: do not claim a database-wide screen when you only
+  received a ranked subset. For sparse editorial traits (e.g. street life), say "not
+  assessed" when unknown — never invent "dead" or "probably fine".
 
 Trait catalog (key [kind, category] high | low):
 ${CATALOG}`;
@@ -101,6 +119,10 @@ const matchPersonTool = tool({
           feature: z.string().describe("A trait key from the catalog."),
           importance: z.number().min(0).max(1),
           dealbreaker: z.boolean().optional(),
+          requireKnown: z
+            .boolean()
+            .optional()
+            .describe("If true, cities with no value for this trait are disqualified."),
           min: z.number().min(0).max(1).optional(),
           max: z.number().min(0).max(1).optional(),
           target: z.number().min(0).max(1).optional(),

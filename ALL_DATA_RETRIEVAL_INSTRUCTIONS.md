@@ -246,33 +246,39 @@ Normalization:
 Fields:
 
 - `has_va`
-- `nearest_va`
-- `distance_to_va`
-- `va_distance`
+- `nearest_va` / `distance_to_va` — nearest outpatient-capable VA health site
+- `nearest_va_hospital` / `distance_to_va_hospital` — nearest VA medical center
 - `veterans_benefits`
 
 Recommended sources:
 
-- VA Facilities API: https://developer.va.gov/explore/api/va-facilities
+- Bulk refresh (preferred in-repo): `scripts/sync-va-facilities.ts` against the public VHA VAST ArcGIS layer (official facility inventory; updated monthly).
+- VA Facilities API (optional, needs `VA_FACILITIES_API_KEY`): https://developer.va.gov/explore/api/va-facilities
 - VA Facilities data.gov catalog: https://catalog.data.gov/dataset/va-facilities-api
 - VA location search: https://www.va.gov/directory/guide/Findlocations.cfm
 - State veterans affairs agency pages for benefits.
 
 Retrieval notes:
 
-- For every location, geocode the city/metro centroid or representative city hall coordinate.
-- Query VA facilities by latitude/longitude and filter for medical facilities first.
-- Compute straight-line or driving distance consistently; label which method was used.
-- `has_va` should be `Yes` if a relevant VA health facility is in the same city/metro or within the chosen threshold.
-- If no local VA exists, store the nearest facility name and distance.
+- For every location, use the city centroid coordinates already on `locations_location`.
+- Distinguish facility types: outpatient clinic / CBOC vs VA medical center (parent station). Do not map clinic distance to hospital access.
+- `scripts/sync-va-facilities.ts` writes both outpatient and hospital pairs using great-circle miles and a dated `data/va_facilities_sync_YYYY-MM-DD.md` note.
+- After sync, run `city-profile-stack/scripts/tools/derive-structural-features.ts` so `va_outpatient_access` and `va_hospital_access` refresh.
+- `has_va` is true when the nearest outpatient-capable site is essentially local (`0 miles`).
 
 Normalization:
 
-- `has_va`: `Yes` or `No`.
-- `nearest_va`: facility name/city, not a prose sentence.
-- `distance_to_va`: text like `24 miles`.
-- `va_distance`: keep in sync with `distance_to_va` for UI compatibility.
+- `has_va`: boolean.
+- `nearest_va` / `nearest_va_hospital`: facility name, not a prose sentence.
+- `distance_to_va` / `distance_to_va_hospital`: text like `24 miles` or `0 miles`.
 - `veterans_benefits`: short state-specific benefit summary; include tax breaks, retirement pay exemptions, property tax benefits, education, and state veteran homes when applicable.
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/migrate-va-hospital-fields.ts
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/sync-va-facilities.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/sync-va-facilities.ts
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
+```
 
 ### Weather and Climate
 
@@ -673,7 +679,7 @@ Use `--clear` only when intentionally replacing all locations:
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv --clear
 ```
 
-The importer writes the CSV `DefenseHub` column to `defense_hub_manual`, not `defense_hub`. A brand-new city's employer sites are auto-linked on insert by the `link_city_to_employer_locations` trigger, but `defense_hub` stays unresolved until you recompute. **After every import, run the two follow-ups** (order matters — link, then derive):
+The importer writes the CSV `DefenseHub` column to `defense_hub_manual`, not `defense_hub`. A brand-new city's employer sites are auto-linked on insert by the `link_city_to_employer_locations` trigger, but `defense_hub` stays unresolved until you recompute. **After every import, run the follow-ups** (order matters — link, then derive defense hub, then structural profile features):
 
 ```powershell
 # 1. Catch-all link (the trigger only fires on brand-new inserts, not upsert-updates)
@@ -681,6 +687,10 @@ node "--env-file=$envFile" -e $script   # link_employer_locations_to_cities(), s
 # 2. Derive defense_hub from the fresh links + manual curation
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts --dry-run
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
+# 3. Refresh chat/profile structural features (va_outpatient_access, housing, climate burdens, etc.)
+#    Without this, new cities stay invisible to /chat matching even when legacy columns are filled.
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
 ```
 
 If the importer creates a `needs_review` pace result, do not leave the new city
@@ -739,7 +749,16 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-clim
 
 4. If cities or `defense_employer_locations` rows changed, run the **Defense Employer Location Linking** backfill (confirm the verify query reports `unlinked_but_matchable: 0`), then run `scripts/recompute-defense-hub.ts --dry-run` and, if clean, without `--dry-run` to derive `defense_hub`.
 
-5. Verify all 50 states still have `StateInfo`.
+5. If location rows changed (add/update), run structural profile derivation so `/chat` and city-profile tools see the new cities:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
+```
+
+Confirm the imported cities appear in `location_features_resolved` (especially `va_outpatient_access` when `distance_to_va` is set).
+
+6. Verify all 50 states still have `StateInfo`.
 
 ```powershell
 $script = @'
@@ -755,9 +774,9 @@ const states = `AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA M
 node "--env-file=$envFile" -e $script
 ```
 
-6. Spot-check the explore UI and filters if user-facing fields changed.
+7. Spot-check the explore UI and filters if user-facing fields changed.
 
-7. Record source URLs, vintage dates, and retrieval date in the commit message or a companion note.
+8. Record source URLs, vintage dates, and retrieval date in the commit message or a companion note.
 
 ## Quality Rules
 

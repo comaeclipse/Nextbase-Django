@@ -177,8 +177,20 @@ both shared bones and material differences.
 - No embedding database or production chat UI before the gold pack and
 evaluation set pass review.
 
+## Chat integrity (#16–#18)
+
+The grounded `/chat` assistant exposed matcher and coverage gaps: missing
+dealbreaker traits were not enforced in ranking, five recently imported cities
+had no profile features, VA hospital coverage is nearly empty, and tax facts
+exist on `locations_location` but not in the profile ontology.
+
+**Plan:** [docs/CHAT_INTEGRITY_PLAN.md](docs/CHAT_INTEGRITY_PLAN.md) — strict
+`requireKnown` / dealbreaker matching, chat polish, post-import structural
+derive, and typed VA facilities backfill. Tax ontology and street-life editorial
+expansion are deferred there.
+
 ## Immediate next action
 
-Finish the **Elko normal-Tuesday gold pack** locally. It is the smallest test
-that can prove whether this project produces useful, inspectable answers rather
-than another never-ending research pipe.
+Execute [docs/CHAT_INTEGRITY_PLAN.md](docs/CHAT_INTEGRITY_PLAN.md) (matcher first,
+then derive + VA backfill). The Elko Tuesday gold pack remains the evidence-layer
+north star for lived-texture research.

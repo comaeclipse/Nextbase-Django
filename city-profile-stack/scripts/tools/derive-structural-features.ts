@@ -51,6 +51,7 @@ interface Row {
   col_index: number | null;
   avg_home_value: string | null;
   distance_to_va: string | null;
+  distance_to_va_hospital: string | null;
   has_va: boolean | null;
   pace_category: string | null;
   climate_category: string | null;
@@ -93,6 +94,7 @@ function toFacts(row: Row): LocationFacts {
     colIndex: row.col_index,
     avgHomeValue: num(row.avg_home_value),
     distanceToVaMiles: parseMiles(row.distance_to_va),
+    distanceToVaHospitalMiles: parseMiles(row.distance_to_va_hospital),
     hasVa: row.has_va,
     paceCategory: row.pace_category,
     climateCategory: row.climate_category,
@@ -124,7 +126,7 @@ async function main() {
   const rows = (await sql.query(`
     SELECT
       l.id, l.name, l.state, l.latitude, l.longitude, l.population, l.density,
-      l.col_index, l.avg_home_value, l.distance_to_va, l.has_va,
+      l.col_index, l.avg_home_value, l.distance_to_va, l.distance_to_va_hospital, l.has_va,
       l.climate_category, l.avg_low_winter, l.avg_high_summer, l.snow_annual,
       l.rain_annual, l.crime, l.election_2024, l.election_2024_percent, l.lgbtq_rating,
       l.lgbtq_mei_score, l.lgbtq_state_policy_score, l.near_lake, l.near_ocean,
