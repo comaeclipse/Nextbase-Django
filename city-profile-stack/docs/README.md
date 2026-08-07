@@ -13,6 +13,8 @@ report for current state.
   graded, and what a "pass" means.
 - **[rhythm-calibration.md](rhythm-calibration.md)** — the industrial-vs-social
   rhythm descriptor contract (a reusable research standard, kept current).
+- **[CHAT_INTEGRITY_PLAN.md](CHAT_INTEGRITY_PLAN.md)** — fix plan for chat
+  issues #16–#18 (strict dealbreakers, UI polish, VA derive/backfill).
 
 ## Point-in-time reports (dated — historical)
 
