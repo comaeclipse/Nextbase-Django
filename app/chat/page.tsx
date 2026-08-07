@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, isToolUIPart } from "ai";
+import Markdown, { type Components } from "react-markdown";
 
 const MODEL_OPTIONS = [
   { id: "gpt-5.1", label: "GPT-5.1" },
@@ -20,6 +21,25 @@ const SUGGESTIONS = [
 const TOOL_LABEL: Record<string, string> = {
   "tool-find_similar_cities": "Finding similar cities",
   "tool-match_person_to_cities": "Ranking cities for this person",
+};
+
+const markdownComponents: Components = {
+  p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+  strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+  em: ({ children }) => <em>{children}</em>,
+  ul: ({ children }) => <ul className="mb-2 list-disc space-y-1 pl-5 last:mb-0">{children}</ul>,
+  ol: ({ children }) => <ol className="mb-2 list-decimal space-y-1 pl-5 last:mb-0">{children}</ol>,
+  li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  a: ({ href, children }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline underline-offset-2"
+    >
+      {children}
+    </a>
+  ),
 };
 
 export default function ChatPage() {
@@ -101,6 +121,13 @@ export default function ChatPage() {
             >
               {m.parts.map((part, i) => {
                 if (part.type === "text") {
+                  if (m.role === "assistant") {
+                    return (
+                      <div key={i} className="text-sm [&_p]:whitespace-pre-wrap">
+                        <Markdown components={markdownComponents}>{part.text}</Markdown>
+                      </div>
+                    );
+                  }
                   return (
                     <p key={i} className="whitespace-pre-wrap leading-relaxed">
                       {part.text}
@@ -109,17 +136,13 @@ export default function ChatPage() {
                 }
                 if (isToolUIPart(part)) {
                   const label = TOOL_LABEL[part.type] ?? "Looking things up";
-                  const done = part.state === "output-available";
-                  const errored =
-                    part.state === "output-available" &&
-                    part.output != null &&
-                    typeof part.output === "object" &&
-                    "error" in (part.output as Record<string, unknown>);
+                  const running =
+                    part.state === "input-streaming" || part.state === "input-available";
+                  // Show status only while a tool is in flight; hide completed/error chrome.
+                  if (!running) return null;
                   return (
                     <p key={i} className="my-1 text-xs italic text-muted-foreground">
-                      {errored ? "Warning: " : done ? "Done: " : "... "}
-                      {label}
-                      {errored ? " - no match, retrying" : done ? "" : "..."}
+                      {label}…
                     </p>
                   );
                 }
