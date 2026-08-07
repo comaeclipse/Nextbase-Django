@@ -673,7 +673,7 @@ Use `--clear` only when intentionally replacing all locations:
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv --clear
 ```
 
-The importer writes the CSV `DefenseHub` column to `defense_hub_manual`, not `defense_hub`. A brand-new city's employer sites are auto-linked on insert by the `link_city_to_employer_locations` trigger, but `defense_hub` stays unresolved until you recompute. **After every import, run the two follow-ups** (order matters — link, then derive):
+The importer writes the CSV `DefenseHub` column to `defense_hub_manual`, not `defense_hub`. A brand-new city's employer sites are auto-linked on insert by the `link_city_to_employer_locations` trigger, but `defense_hub` stays unresolved until you recompute. **After every import, run the follow-ups** (order matters — link, then derive defense hub, then structural profile features):
 
 ```powershell
 # 1. Catch-all link (the trigger only fires on brand-new inserts, not upsert-updates)
@@ -681,6 +681,10 @@ node "--env-file=$envFile" -e $script   # link_employer_locations_to_cities(), s
 # 2. Derive defense_hub from the fresh links + manual curation
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts --dry-run
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
+# 3. Refresh chat/profile structural features (va_outpatient_access, housing, climate burdens, etc.)
+#    Without this, new cities stay invisible to /chat matching even when legacy columns are filled.
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
 ```
 
 If the importer creates a `needs_review` pace result, do not leave the new city
@@ -739,7 +743,16 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-clim
 
 4. If cities or `defense_employer_locations` rows changed, run the **Defense Employer Location Linking** backfill (confirm the verify query reports `unlinked_but_matchable: 0`), then run `scripts/recompute-defense-hub.ts --dry-run` and, if clean, without `--dry-run` to derive `defense_hub`.
 
-5. Verify all 50 states still have `StateInfo`.
+5. If location rows changed (add/update), run structural profile derivation so `/chat` and city-profile tools see the new cities:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
+```
+
+Confirm the imported cities appear in `location_features_resolved` (especially `va_outpatient_access` when `distance_to_va` is set).
+
+6. Verify all 50 states still have `StateInfo`.
 
 ```powershell
 $script = @'
@@ -755,9 +768,9 @@ const states = `AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA M
 node "--env-file=$envFile" -e $script
 ```
 
-6. Spot-check the explore UI and filters if user-facing fields changed.
+7. Spot-check the explore UI and filters if user-facing fields changed.
 
-7. Record source URLs, vintage dates, and retrieval date in the commit message or a companion note.
+8. Record source URLs, vintage dates, and retrieval date in the commit message or a companion note.
 
 ## Quality Rules
 

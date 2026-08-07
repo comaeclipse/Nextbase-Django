@@ -7,7 +7,9 @@ facilities backfill.
 Related: [PRODUCT.md](../PRODUCT.md), [ROADMAP.md](../ROADMAP.md),
 [ALL_DATA_RETRIEVAL_INSTRUCTIONS.md](../../ALL_DATA_RETRIEVAL_INSTRUCTIONS.md).
 
-## Coverage snapshot (Neon, 2026-08-07)
+## Coverage snapshot
+
+### Before structural re-derive (Neon, 2026-08-07)
 
 | Metric | Count |
 | --- | ---: |
@@ -20,8 +22,20 @@ Related: [PRODUCT.md](../PRODUCT.md), [ROADMAP.md](../ROADMAP.md),
 | `col_index` populated | 108 |
 | Cities with zero profile features | 5 |
 
-Zero-feature cities (legacy VA + tax present, no `location_features_resolved`
-rows): Bellevue WA, Boulder CO, Broomfield CO, Lake Forest CA, Oklahoma City OK.
+Zero-feature cities then: Bellevue WA, Boulder CO, Broomfield CO, Lake Forest CA,
+Oklahoma City OK.
+
+### After milestone 3 derive (same day)
+
+| Metric | Count |
+| --- | ---: |
+| Cities with any profile features | 119 |
+| Zero-feature cities | 0 |
+| Resolved `va_outpatient_access` | 67 |
+
+All five former zero-feature cities now have structural rows including
+`va_outpatient_access` (Bellevue 0.833, Boulder 1.0, Broomfield 0.733,
+Lake Forest 0.750, Oklahoma City 1.0).
 
 Tax columns exist on every location; the city-profile ontology has no tax
 trait, so chat ranking cannot honestly answer “low taxes” today.
