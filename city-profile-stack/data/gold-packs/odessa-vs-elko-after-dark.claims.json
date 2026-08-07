@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "pack_id": "odessa_vs_elko_after_dark_gold_v1",
+  "question": "How does an ordinary Tuesday night after 8 p.m. in Odessa, TX compare to Elko, NV?",
+  "question_shape": "cross_city_comparison",
+  "geography_scope": "Odessa city, TX and Elko city, NV (comparison; excludes Midland and Spring Creek respectively)",
+  "temporal_scope": "An ordinary Tuesday evening, outside festival weeks and outside Fri/Sat.",
+  "retrieved_on": "2026-08-07",
+  "ledger_entries": ["odessa_elko_calibration_2026", "elko_tuesday_evening_texture_2026"],
+  "method_note": "The Elko side reuses the verified Tuesday gold pack (elko-tuesday-after-8pm.claims.json). The Odessa side required a fresh venue-hours pass (this pack), because the Odessa calibration dossier explicitly held no current-hours inventory. Evidence is therefore asymmetric by construction and is labeled as such (see X5).",
+  "vocabulary": {
+    "claim_type": ["venue_schedule", "comparison", "lived_texture"],
+    "evidence_kind": ["venue_hours_primary", "venue_hours_aggregator", "community_sentiment"],
+    "stance": {
+      "shared_signal": "Both cities show the same pattern.",
+      "material_difference": "The cities differ in a way that matters to the answer.",
+      "asymmetric_evidence": "The two sides are not equally well evidenced; guards against false symmetry.",
+      "contradicts": "Weighs against a 'dead after 8 p.m.' reading for the named city.",
+      "context": "Frames the comparison without settling it."
+    },
+    "confidence": ["high", "medium", "low"]
+  },
+  "notes_on_sourcing": "Odessa venue hours verified 2026-08-07. Barn Door, The House, and Steins are primary (own sites); Basin Nights hours come from Yelp/social plus its own site. Small-business hours change without notice. The Elko side is the previously re-confirmed Tuesday pack.",
+  "claims": [
+    {
+      "id": "O1_barn_door_hours",
+      "claim": "The Legendary Barn Door Steakhouse (2140 Andrews Hwy) serves Mon-Thu 11:00-21:30, Fri 11:00-22:30, Sat 16:00-22:30, and is closed Sunday. A Tuesday close is 21:30.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "Odessa city",
+      "quote": null,
+      "source_urls": [
+        "https://odessabarndoor.com/",
+        "https://www.yelp.com/biz/the-legendary-barn-door-steakhouse-odessa-5"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "A 21:30 dining close is moderate; like Elko's Star, it neither proves nor refutes late nightlife on its own."
+      ]
+    },
+    {
+      "id": "O2_house_downtown_hours",
+      "claim": "The House Downtown Bar (513 N Grant Ave) is open every day 16:00-02:00, including Tuesday.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "Odessa city",
+      "quote": "Monday-Sunday 4PM - 2AM",
+      "source_urls": [
+        "https://thehousedowntownbar.com/",
+        "https://www.yelp.com/biz/the-house-downtown-bar-odessa"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Open to 2 a.m. is availability, not attendance; a downtown bar can be open and quiet on a Tuesday."
+      ]
+    },
+    {
+      "id": "O3_steins_hours",
+      "claim": "Steins Ultra Bar (4555 E University Blvd) is open Mon-Fri 16:00-02:00 (Sat-Sun from 12:00), with the kitchen open daily until 01:00 and dueling pianos as a featured attraction. A Tuesday close is 02:00.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "Odessa city",
+      "quote": "Kitchen Open Daily 'til 1 AM",
+      "source_urls": [
+        "https://steinsultrabar.com/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "The site lists karaoke on Fridays; the dueling-pianos schedule beyond Friday is not published, so no weeknight live-entertainment claim is made here.",
+        "A kitchen open to 1 a.m. is notably later than any verified Elko kitchen."
+      ]
+    },
+    {
+      "id": "O4_basin_nights_hours",
+      "claim": "Basin Nights (2113 Kermit Hwy) is open every day 18:00-02:00 and runs karaoke every night, with karaoke from about 21:00 to close.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_aggregator",
+      "stance": "contradicts",
+      "confidence": "medium",
+      "geography_scope": "Odessa city",
+      "quote": null,
+      "source_urls": [
+        "https://www.yelp.com/biz/basin-nights-odessa",
+        "https://basinnights.com/contact",
+        "https://www.facebook.com/BasinNightsOdessa/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Hours are aggregator/social; re-confirm before promotion.",
+        "This is Odessa's direct structural parallel to Elko's Charlee's: a nightly-karaoke bar open to 2 a.m."
+      ]
+    },
+    {
+      "id": "X1_shared_dining_winddown",
+      "claim": "Both cities' signature dining anchors wind down at roughly the same hour and are closed Sunday: Elko's Star (~21:30) and Odessa's Barn Door (21:30 Tue). In both, dinner-as-going-out has largely ended by ~9:30 on a weeknight.",
+      "claim_type": "comparison",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "shared_signal",
+      "confidence": "high",
+      "geography_scope": "Odessa vs Elko",
+      "quote": null,
+      "source_urls": [
+        "https://odessabarndoor.com/",
+        "https://www.yelp.com/biz/the-star-hotel-elko"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "One anchor venue per city is illustrative, not a full dinner-economy census."
+      ]
+    },
+    {
+      "id": "X2_shared_nightly_karaoke",
+      "claim": "Each city has at least one bar running karaoke every night and open to 2 a.m.: Elko's Charlee's (karaoke from 20:00) and Odessa's Basin Nights (karaoke from ~21:00). The core late-evening social form is the same - karaoke/bar, not a club district.",
+      "claim_type": "comparison",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "shared_signal",
+      "confidence": "high",
+      "geography_scope": "Odessa vs Elko",
+      "quote": null,
+      "source_urls": [
+        "https://www.charleesbarnevada.com/",
+        "https://www.yelp.com/biz/basin-nights-odessa"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Shared form is not equal scale; see X3."
+      ]
+    },
+    {
+      "id": "X3_difference_late_bar_depth",
+      "claim": "Odessa keeps several bars open to 2 a.m. on an ordinary Tuesday (The House, Steins, Basin Nights), whereas Elko's late-night bench is thinner: Charlee's is the main 2 a.m. option, while Rubies closes at 23:00 and the Underground at midnight. The difference tracks population (Odessa ~122,700 vs Elko ~21,000, roughly 6x), not a difference in nightlife 'type'.",
+      "claim_type": "comparison",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "material_difference",
+      "confidence": "medium",
+      "geography_scope": "Odessa vs Elko",
+      "quote": null,
+      "source_urls": [
+        "https://thehousedowntownbar.com/",
+        "https://steinsultrabar.com/",
+        "https://rubieselko.com/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Both venue sets are small samples; 'several vs one' is a directional depth difference, not a full late-venue count.",
+        "Population is the plausible driver but is an association, not a proven cause."
+      ]
+    },
+    {
+      "id": "X4_shared_narrow_car_dependent",
+      "claim": "Neither city reads as a broad, walkable nightlife district; residents of both describe a narrow, car-dependent, destination-bar scene rather than a distributed set of choices.",
+      "claim_type": "comparison",
+      "evidence_kind": "community_sentiment",
+      "stance": "shared_signal",
+      "confidence": "medium",
+      "geography_scope": "Odessa vs Elko",
+      "quote": null,
+      "source_urls": [
+        "https://www.reddit.com/r/Midessa/comments/1edt6tf/night_life/",
+        "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Both sentiment sources are community accounts, not measured samples.",
+        "The Odessa thread is r/Midessa, which blends Midland and Odessa; see X5."
+      ]
+    },
+    {
+      "id": "X5_asymmetric_evidence",
+      "claim": "The two sides are not equally evidenced. Elko has a re-confirmed six-venue gold pack plus a dedicated sentiment synthesis; Odessa's venue hours were captured only today (four venues) and its lived-texture rests on r/Midessa, which blurs Midland and Odessa. The comparison is directionally sound but should not be presented as symmetric proof.",
+      "claim_type": "comparison",
+      "evidence_kind": "community_sentiment",
+      "stance": "asymmetric_evidence",
+      "confidence": "high",
+      "geography_scope": "Odessa vs Elko",
+      "quote": null,
+      "source_urls": [
+        "city-profile-stack/data/gold-packs/elko-tuesday-after-8pm.claims.json",
+        "city-profile-stack/data/dossiers/research-dossiers/odessa-tx-elko-calibration.md"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "The honest failure mode this claim guards against is treating a fresh four-venue Odessa pass as equal to Elko's more developed corpus."
+      ]
+    }
+  ],
+  "answer": {
+    "verdict": "Same shape, deeper bench.",
+    "one_line": "A Tuesday night in Odessa runs on the same rhythm as Elko - dinner winds down by ~9:30, then the evening becomes a narrow, car-dependent, bar-and-karaoke scene rather than a nightlife district - but Odessa, roughly six times larger, keeps several bars open to 2 a.m. where Elko mainly has one. The oilfield-vs-mining subtype barely shows after dark; the size difference does.",
+    "sentence_trace": [
+      {"sentence": "On an ordinary Tuesday both cities follow the same after-dark rhythm: the signature dining rooms close around 9:30 and shut on Sundays, then the night narrows to bars and karaoke.", "evidence": ["X1_shared_dining_winddown", "X2_shared_nightly_karaoke"]},
+      {"sentence": "Each even has a direct structural twin - Elko's Charlee's and Odessa's Basin Nights both run karaoke every night to 2 a.m.", "evidence": ["X2_shared_nightly_karaoke", "O4_basin_nights_hours"]},
+      {"sentence": "The real difference is depth, not kind: Odessa keeps several bars open to 2 a.m. on a weeknight (The House, Steins, Basin Nights) while Elko's late bench is mostly Charlee's, with Rubies closing at 11 and the Underground at midnight.", "evidence": ["X3_difference_late_bar_depth", "O2_house_downtown_hours", "O3_steins_hours"]},
+      {"sentence": "Neither is a broad walkable nightlife district; both are narrow, car-dependent, destination-bar scenes, which is how residents of each describe them.", "evidence": ["X4_shared_narrow_car_dependent"]},
+      {"sentence": "This comparison is directionally sound but not symmetric: Elko rests on a re-confirmed six-venue pack while Odessa's four-venue hours were gathered today, so treat the Odessa side as newer and thinner.", "evidence": ["X5_asymmetric_evidence"]}
+    ]
+  }
+}

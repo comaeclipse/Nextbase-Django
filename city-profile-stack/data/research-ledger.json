@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
   "updated_on": "2026-08-07",
-  "recent_change": "Phase 1: elko_tuesday_evening_texture_2026 promoted from conversation_captured to locally_normalized. Six venue schedules verified with source URLs and folded into data/gold-packs/elko-tuesday-after-8pm.md; 'Garage Bar' lead dropped as unverifiable.",
+  "recent_change": "Added odessa_vs_elko_after_dark_2026 (cross-city comparison gold pack, four Odessa venues verified 2026-08-07) and elko_trans_teenager_adversarial_abstention_2026 (insufficient-evidence pack). Phase 1 (elko_tuesday_evening_texture_2026) promoted to locally_normalized with six verified venues.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -68,8 +68,27 @@
       "claim": "Odessa shares industrial-work and constrained broad-nightlife signals with Elko, but is a larger Permian Basin oilfield regional-city subtype rather than an Elko equivalent.",
       "status": "locally_normalized",
       "artifact": "data/dossiers/research-dossiers/odessa-tx-elko-calibration.md",
-      "limitations": ["Midessa accounts can mix Midland and Odessa.", "No representative citywide venue-hours inventory."],
+      "limitations": ["Midessa accounts can mix Midland and Odessa.", "A first four-venue Tuesday-hours pass now exists in data/gold-packs/odessa-vs-elko-after-dark.claims.json; a fuller Odessa-only venue inventory is still missing."],
       "embedding_ready": true
+    },
+    {
+      "id": "odessa_vs_elko_after_dark_2026",
+      "city": "Odessa",
+      "state": "TX",
+      "topic": "cross_city_comparison",
+      "claim": "On an ordinary Tuesday, Odessa and Elko share the same after-dark rhythm - dining winds down ~9:30, then a narrow, car-dependent bar-and-karaoke scene, each with a nightly-karaoke bar open to 2 a.m. - but Odessa (~6x larger) sustains several 2 a.m. bars where Elko sustains about one. The difference is depth by population, not nightlife type; oilfield-vs-mining barely shows after dark.",
+      "status": "locally_normalized",
+      "artifact": "data/gold-packs/odessa-vs-elko-after-dark.md",
+      "supporting_artifacts": ["data/gold-packs/odessa-vs-elko-after-dark.claims.json", "data/gold-packs/elko-tuesday-after-8pm.claims.json"],
+      "source_urls": [
+        "https://odessabarndoor.com/",
+        "https://thehousedowntownbar.com/",
+        "https://steinsultrabar.com/",
+        "https://www.yelp.com/biz/basin-nights-odessa"
+      ],
+      "retrieval_date": "2026-08-07",
+      "limitations": ["Evidence is asymmetric by design: the Elko side is a re-confirmed six-venue pack, the Odessa side a same-day four-venue pass, and Odessa lived-texture rests on r/Midessa (Midland+Odessa blur).", "'Several vs one' 2 a.m. bars is a directional depth difference from small samples, not a full late-venue census."],
+      "embedding_ready": false
     },
     {
       "id": "north_platte_industrial_social_rhythm_2026",
