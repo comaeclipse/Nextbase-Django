@@ -1,0 +1,46 @@
+{
+  "name": "Remote worker, 30s, wants culture and does not want to drive everywhere",
+  "notes": "Salary is portable so the local job market does not matter. Wants walkability, nightlife, a real dating pool, and somewhere that is not a cultural desert.",
+  "preferences": {
+    "remote_work_viability": {
+      "min": 0.7,
+      "importance": 0.95
+    },
+    "car_dependence": {
+      "target": 0.45,
+      "tolerance": 0.2,
+      "importance": 0.9
+    },
+    "nightlife_depth": {
+      "min": 0.65,
+      "importance": 0.85
+    },
+    "urban_amenity_depth": {
+      "min": 0.65,
+      "importance": 0.85
+    },
+    "dating_pool_depth": {
+      "min": 0.6,
+      "importance": 0.75
+    },
+    "cultural_distinctiveness": {
+      "target": 0.8,
+      "tolerance": 0.25,
+      "importance": 0.6
+    },
+    "housing_affordability": {
+      "min": 0.4,
+      "importance": 0.7
+    },
+    "geographic_isolation": {
+      "target": 0.15,
+      "tolerance": 0.2,
+      "importance": 0.7
+    },
+    "summer_heat_severity": {
+      "target": 0.45,
+      "tolerance": 0.25,
+      "importance": 0.4
+    }
+  }
+}

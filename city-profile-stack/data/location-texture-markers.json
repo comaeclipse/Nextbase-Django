@@ -1,0 +1,3155 @@
+{
+  "methodology": "Concrete, observable resident-reported details that characterize a place, plus the character-feature scores derived from them. Verbatim text is quoted as retrieved and deliberately not cleaned up — the phrasing is the data. Community-sentiment labels require recurrence across comments or threads; vivid single accounts stay labeled as single_resident_account. Scores derive only from the markers in this file, not from general knowledge of the city.",
+  "source_retrieved_on": "2026-08-06",
+  "cities": [
+    {
+      "city": "Elko",
+      "state": "NV",
+      "markers": [
+        {
+          "marker_key": "mine_shift_calendar",
+          "domain": "pace",
+          "observation": "A large share of social time is bent around mine rotations rather than a Monday-through-Friday week; residents describe alternating blocks of days and nights with a seven-day break built into the cycle.",
+          "verbatim": "super seven schedule. 4 on days, 3 off, 3 nights, 1 off, 3 days, 3 off, 4 nights, 7 off.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "population_rootedness",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/mining/comments/41r6fh/whats_a_typical_schedule_at_barricks_nv_projects/",
+            "https://www.reddit.com/r/mining/comments/wojg4a/elko_fatties/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mine_bus_commute",
+          "domain": "transport_habit",
+          "observation": "Mine workers can spend roughly two extra hours each workday on employer buses to remote sites. At shift change, buses and work trucks are part of the town's visible pulse.",
+          "verbatim": "two hour+ daily round trip bus ride.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/mining/comments/wojg4a/elko_fatties/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "railroad_as_one_word_answer",
+          "domain": "sound",
+          "observation": "The railroad is so conspicuous that one resident answered a broad 'what is Elko like?' question with a single word. Train noise and the I-80 rail-corridor setting are background texture, not a tourist attraction.",
+          "verbatim": "Railroad",
+          "salience": 4,
+          "valence": "neutral",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "walmart_but_not_costco",
+          "domain": "commerce",
+          "observation": "The amenity ceiling is summarized as Walmart-sized: ordinary necessities are present, but a Costco run becomes a three- or four-hour trip.",
+          "verbatim": "It's big enough to support a Walmart but not a Costco, that's 3h or 4h if you want one that sells booze.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "late_night_availability",
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "specialists_mean_state_lines",
+          "domain": "transport_habit",
+          "observation": "Specialist care routinely means planning a highway trip to Salt Lake City or Reno, with winter road conditions becoming part of the appointment logistics.",
+          "verbatim": "If healthcare is important to you, or you need a specialist for any reason — also be prepared to travel out of state.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/",
+            "https://www.reddit.com/r/Nevada/comments/1bdvcfo/whats_the_vibe_of_ne_nevada_like/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "apartment_hunt_at_super_8",
+          "domain": "commerce",
+          "observation": "New arrivals sometimes live in a budget motel while working through a thin housing market; one couple reported a month at the Super 8 before finding a place.",
+          "verbatim": "It took us a month to find a place to live.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mormon_cricket_bloom",
+          "domain": "aesthetics",
+          "observation": "In bad spring years, bands of Mormon crickets become a visible, crunchy layer on roads, yards and buildings. Residents treat their arrival as a recurring local season, though not every year is severe.",
+          "verbatim": "They bloom in spring, it's not bad every year but they are indeed gross.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/",
+            "https://www.reddit.com/r/WTF/comments/143jnje/mormon_crickets_at_my_local_hospital/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "crickets_become_chicken_feed",
+          "domain": "local_lore",
+          "observation": "Some households do not merely tolerate the cricket passage; residents joke about letting them move through and feeding them to chickens.",
+          "verbatim": "Some even use it for chicken feed as an added nutritional value lol.",
+          "salience": 2,
+          "valence": "charming",
+          "evidences": [
+            "quirk_embrace"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "basque_festival_calendar",
+          "domain": "ritual",
+          "observation": "The annual Basque festival is a genuine town ritual, not a decorative heritage weekend: residents repeatedly name it when explaining what Elko does together.",
+          "verbatim": "There's a big basque population there and they hold an annual basque festival which is always a good time.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity",
+            "creative_participation",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/",
+            "https://www.reddit.com/r/Nevada/comments/tacypb/basqueamerican_the_authentic_cuisine_of_the/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "star_martin_basque_faction",
+          "domain": "food_culture",
+          "observation": "Elko residents have strong restaurant loyalties around communal Basque meals; choosing The Star or The Martin functions like taking a local side.",
+          "verbatim": "100% choose The Martin over The Star",
+          "salience": 3,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/tacypb/basqueamerican_the_authentic_cuisine_of_the/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "one_option_per_need",
+          "domain": "commerce",
+          "observation": "Elko can usually supply what a resident needs, but often through one viable store, contractor or venue rather than a field of choices.",
+          "verbatim": "Basically any amenity you could look for is available in the town although there's usually just one option for what you need.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character",
+            "subculture_depth"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "cowboy_poetry_is_normal",
+          "domain": "ritual",
+          "observation": "Cowboy poetry appears in residents' ordinary inventory of annual arts events, placing ranch and mining-region storytelling inside the town's active cultural calendar.",
+          "verbatim": "The art community is pretty active have a few events through out the year that can be a lot of fun including cowboy poetry.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "creative_participation",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "everyone_knows_everyone",
+          "domain": "social_norms",
+          "observation": "Anonymity is thin. Longtime residents describe the bargain plainly: you get a close town, but other people know your business and notice your movements.",
+          "verbatim": "don't mind knowing everyone and everyone knowing you.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "neighborliness",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/",
+            "https://www.reddit.com/r/Nevada/comments/1bdvcfo/whats_the_vibe_of_ne_nevada_like/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "odds_good_goods_odd",
+          "domain": "local_lore",
+          "observation": "The male-heavy mining economy has produced a durable dating joke that residents repeat to newcomers, especially women.",
+          "verbatim": "The odds are good, but the goods are odd.",
+          "salience": 3,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/1bdvcfo/whats_the_vibe_of_ne_nevada_like/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "ruby_mountains_from_the_yard",
+          "domain": "aesthetics",
+          "observation": "At the edge of town and in Spring Creek, ordinary yardwork can happen with the Ruby Mountains filling the back view; this is the everyday visual payoff residents use to justify the isolation.",
+          "verbatim": "Walmart delivers while I'm doing some yard work in the back where my lot faces the beautiful Ruby Mountains.",
+          "salience": 5,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity",
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "quirk_embrace": {
+          "value": 0.58,
+          "confidence": 0.58,
+          "evidence": "Mormon crickets become both civic ordeal and chicken feed; cowboy poetry and the local dating aphorism are treated as normal Elko references.",
+          "markers": [
+            "mormon_cricket_bloom",
+            "crickets_become_chicken_feed",
+            "cowboy_poetry_is_normal",
+            "odds_good_goods_odd"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.28,
+          "confidence": 0.42,
+          "evidence": "The researched public rituals cluster around periodic festivals rather than spontaneous daily sidewalk use.",
+          "markers": [
+            "basque_festival_calendar",
+            "cowboy_poetry_is_normal"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.68,
+          "confidence": 0.62,
+          "evidence": "Residents name rival one-off Basque institutions and describe a commercial ecology with one local option per need rather than deep category choice.",
+          "markers": [
+            "star_martin_basque_faction",
+            "one_option_per_need",
+            "walmart_but_not_costco"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.72,
+          "confidence": 0.58,
+          "evidence": "Repeated small-town accounts describe everyone knowing everyone; this can feel watchful or supportive.",
+          "markers": [
+            "everyone_knows_everyone"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.24,
+          "confidence": 0.42,
+          "evidence": "Amenity comments emphasize Walmart-scale basics and limited choice; no strong evidence of a broad after-midnight ecosystem appeared.",
+          "markers": [
+            "walmart_but_not_costco",
+            "one_option_per_need"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.58,
+          "confidence": 0.56,
+          "evidence": "Cowboy Poetry and the Basque festival are participatory identity rituals, but the evidence does not show a wide year-round scene.",
+          "markers": [
+            "cowboy_poetry_is_normal",
+            "basque_festival_calendar"
+          ]
+        },
+        "civic_identity_intensity": {
+          "value": 0.86,
+          "confidence": 0.76,
+          "evidence": "Mining shifts, railroad shorthand, Basque loyalties, cowboy poetry and cricket lore form a dense local vocabulary.",
+          "markers": [
+            "mine_shift_calendar",
+            "railroad_as_one_word_answer",
+            "basque_festival_calendar",
+            "star_martin_basque_faction",
+            "cowboy_poetry_is_normal",
+            "mormon_cricket_bloom"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.76,
+          "confidence": 0.68,
+          "evidence": "Everyone-knows-everyone accounts, inherited cultural festivals and industries that organize household schedules indicate deep local continuity despite boom-bust turnover.",
+          "markers": [
+            "mine_shift_calendar",
+            "basque_festival_calendar",
+            "everyone_knows_everyone",
+            "ruby_mountains_from_the_yard"
+          ]
+        },
+        "subculture_depth": {
+          "value": 0.3,
+          "confidence": 0.48,
+          "evidence": "Strong mining, Basque and outdoor microcultures exist, but residents repeatedly describe only one option for many other interests.",
+          "markers": [
+            "one_option_per_need",
+            "basque_festival_calendar",
+            "mine_shift_calendar"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: reliable evidence for status_performance; it is intentionally unscored",
+        "discussed_but_unscoreable: after-midnight life was mentioned indirectly through casinos/bars but not sampled deeply enough for a high-confidence score",
+        "not_researched: fine-grained neighborhood street-life differences within Elko proper versus Spring Creek and Carlin"
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "markers": [
+        {
+          "marker_key": "trees_and_traffic_first_impression",
+          "domain": "aesthetics",
+          "observation": "The first visual contradiction is dense canopy wrapped around constant road congestion: leafy neighborhoods, shaded streets and traffic at the same time.",
+          "verbatim": "Trees and traffic. Everyone is busy, selfish, friendly, funny, and interesting.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1ubelkv/so_what_is_atlanta_really_like/",
+            "https://www.reddit.com/r/Atlanta/comments/zmtsq7/what_are_some_things_that_are_truly_unique_to_the/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "unmapped_goats_and_chickens",
+          "domain": "aesthetics",
+          "observation": "Some of the city's green pockets are so informal they barely register on mapping apps; one resident describes discovering a public community garden with goats and chickens behind a fire station.",
+          "verbatim": "It's a huge community garden with goats and chickens that's open to the public.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "quirk_embrace",
+            "neighborliness",
+            "creative_participation"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/zmtsq7/what_are_some_things_that_are_truly_unique_to_the/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "spring_pollen_as_surface_coating",
+          "domain": "aesthetics",
+          "observation": "Spring is noticed not only as allergy season but as a visible yellow-green coating on cars, porches and streets; locals warn visitors to arrive medicated.",
+          "verbatim": "Pollen is the worst I have ever witnessed, and I am old",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1ubelkv/so_what_is_atlanta_really_like/",
+            "https://www.reddit.com/r/Atlanta/comments/zmtsq7/what_are_some_things_that_are_truly_unique_to_the/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "beltline_has_people_not_benches",
+          "domain": "street_life",
+          "observation": "The BeltLine is packed with walkers, runners, bikes and people-watchers, yet long stretches offer essentially no public place to sit unless you enter a business.",
+          "verbatim": "there are basically zero benches along the beltline.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "street_life_vibrancy",
+            "status_performance"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1tlnf4e/why_arent_there_benches_on_the_beltline/",
+            "https://www.reddit.com/r/Atlanta/comments/10nw2t9/activities_to_do_on_the_beltline_that_dont/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "beltline_two_hour_people_watch",
+          "domain": "street_life",
+          "observation": "Residents use the BeltLine itself as an activity: walk for hours, watch the stream of people, then continue past Krog Street Tunnel to inspect new murals.",
+          "verbatim": "I like just walking and people watching.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "street_life_vibrancy",
+            "creative_participation"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/10nw2t9/activities_to_do_on_the_beltline_that_dont/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "krog_to_milltown_mural_check",
+          "domain": "aesthetics",
+          "observation": "Checking what has been repainted between Krog and Milltown is a repeat local walk, making changing walls rather than fixed monuments part of the city's visual calendar.",
+          "verbatim": "I love walking from Krog to Milltown to see what new murals are up along the way.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "creative_participation",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1rjerww/hidden_gems_nontouristy_things_to_do/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "oakland_cemetery_picnic",
+          "domain": "ritual",
+          "observation": "Locals recommend Oakland Cemetery as a place to spread out a picnic, walk gardens and spend an afternoon—not merely as a historic site to tour.",
+          "verbatim": "Other locals type stuff we do would be picnicking at Oakland Cemetery",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "quirk_embrace",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1rjerww/hidden_gems_nontouristy_things_to_do/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "little_five_points_daily_errands",
+          "domain": "commerce",
+          "observation": "Little Five Points still compresses a post office, dry cleaner, cafes, co-op, music venues and locally owned clothing shops into a small area residents can actually use on foot.",
+          "verbatim": "it's done really well at being its own little walkable part of the city.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character",
+            "street_life_vibrancy",
+            "subculture_depth"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1rb5ve1/i_am_currently_looking_at_cities_to_relocate_and/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "little_five_points_rebel_center",
+          "domain": "local_lore",
+          "observation": "Residents describe Little Five Points not as an arts district but as the city's rebel/punk node: record stores, skate and vintage shops, music rooms and conspicuous subcultural dress.",
+          "verbatim": "the rebel/punk rock center of Atlanta",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "subculture_depth",
+            "quirk_embrace",
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1rb5ve1/i_am_currently_looking_at_cities_to_relocate_and/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "late_night_wings_and_waho",
+          "domain": "food_culture",
+          "observation": "When a late flight eliminates normal kitchens, locals reduce the dependable fallback to two Atlanta staples: wings and Waffle House.",
+          "verbatim": "Better off with wings and waho",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "late_night_availability",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1e15t1k/best_late_night_food_spots/",
+            "https://www.reddit.com/r/Atlanta/comments/2y8y18/whenever_my_itp_friends_come_visit_me_in_woodstock/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "sus_for_location_not_quality",
+          "domain": "food_culture",
+          "observation": "A mediocre late-night restaurant can become beloved infrastructure because it sits between several bars and near gay nightlife; usefulness outranks culinary prestige after midnight.",
+          "verbatim": "Su's is not good food. I go there all the time, but not because of the quality of the food.",
+          "salience": 3,
+          "valence": "contested",
+          "evidences": [
+            "late_night_availability",
+            "subculture_depth"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1e15t1k/best_late_night_food_spots/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "sunday_midnight_dropoff",
+          "domain": "pace",
+          "observation": "Atlanta nightlife has a weekly hard edge: city bars close at midnight Sunday even though pockets run until 2-4 a.m. on other nights.",
+          "verbatim": "All bars in Atlanta close at midnight on Sunday",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "late_night_availability"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1rik1ye/atlanta_why_are_all_your_bars_closed_at_midnight/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "itp_otp_border_lore",
+          "domain": "local_lore",
+          "observation": "The interstate perimeter is treated as a social border. Residents joke that visiting friends outside it requires a passport, vaccinations, provisions and a full tank.",
+          "verbatim": "Passport? Check. Vaccinations? Check. Translation phrase book? Check.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "status_performance"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/2y8y18/whenever_my_itp_friends_come_visit_me_in_woodstock/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "waffle_house_by_grade_level",
+          "domain": "local_lore",
+          "observation": "Waffle House density is remembered at school-neighborhood scale; one resident joked that each grade at their high school had its own location.",
+          "verbatim": "Each grade at my high school had its own Waffle House.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/2y8y18/whenever_my_itp_friends_come_visit_me_in_woodstock/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "airport_train_for_two_fifty",
+          "domain": "transport_habit",
+          "observation": "Living near MARTA changes airport travel into a routine $2.50 train ride that bypasses Atlanta traffic; residents describe this as an unexpected daily privilege.",
+          "verbatim": "you can always skip traffic and only spend 2.50 to get to and from the airport.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Atlanta/comments/1rb5ve1/i_am_currently_looking_at_cities_to_relocate_and/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "quirk_embrace": {
+          "value": 0.86,
+          "confidence": 0.78,
+          "evidence": "Backyard goats, cemetery picnics, Little Five Points and Waffle House lore make visible eccentricity part of belonging.",
+          "markers": [
+            "unmapped_goats_and_chickens",
+            "oakland_cemetery_picnic",
+            "little_five_points_rebel_center",
+            "waffle_house_by_grade_level"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.84,
+          "confidence": 0.82,
+          "evidence": "The BeltLine supports long people-watching walks, murals and neighborhood errands even while its lack of benches reveals contested public-space design.",
+          "markers": [
+            "beltline_has_people_not_benches",
+            "beltline_two_hour_people_watch",
+            "krog_to_milltown_mural_check",
+            "little_five_points_daily_errands",
+            "airport_train_for_two_fifty"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.84,
+          "confidence": 0.74,
+          "evidence": "Residents identify neighborhoods by one-off shops, bars, venues and food habits rather than generic retail alone.",
+          "markers": [
+            "little_five_points_daily_errands",
+            "little_five_points_rebel_center",
+            "sus_for_location_not_quality",
+            "late_night_wings_and_waho"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.55,
+          "confidence": 0.45,
+          "evidence": "The hidden-garden account shows unusual neighbor-scale life, but evidence was too localized to infer uniformly close neighbor relations.",
+          "markers": [
+            "unmapped_goats_and_chickens"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.72,
+          "confidence": 0.76,
+          "evidence": "Wings, Waffle House, gay bars and select venues remain active late, but Sunday midnight closures and kitchen scarcity create sharp limits.",
+          "markers": [
+            "late_night_wings_and_waho",
+            "sus_for_location_not_quality",
+            "sunday_midnight_dropoff"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.88,
+          "confidence": 0.82,
+          "evidence": "Changing murals, neighborhood performance scenes and everyday resident-made spaces support a high participatory culture score.",
+          "markers": [
+            "krog_to_milltown_mural_check",
+            "beltline_two_hour_people_watch",
+            "little_five_points_rebel_center",
+            "unmapped_goats_and_chickens"
+          ]
+        },
+        "status_performance": {
+          "value": 0.7,
+          "confidence": 0.64,
+          "evidence": "ITP/OTP identity, neighborhood knowledge and hostile/amenitized public-space debates make location and insider fluency socially legible.",
+          "markers": [
+            "itp_otp_border_lore",
+            "beltline_has_people_not_benches"
+          ]
+        },
+        "civic_identity_intensity": {
+          "value": 0.9,
+          "confidence": 0.82,
+          "evidence": "Trees, traffic, pollen, Waffle House grading and ITP/OTP jokes produce a thick shared shorthand residents immediately recognize.",
+          "markers": [
+            "trees_and_traffic_first_impression",
+            "spring_pollen_as_surface_coating",
+            "itp_otp_border_lore",
+            "waffle_house_by_grade_level"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.48,
+          "confidence": 0.44,
+          "evidence": "The evidence shows strong neighborhood identity but also sharp newcomer/inside-perimeter distinctions rather than uniformly multigenerational continuity.",
+          "markers": [
+            "itp_otp_border_lore",
+            "little_five_points_rebel_center"
+          ]
+        },
+        "subculture_depth": {
+          "value": 0.94,
+          "confidence": 0.86,
+          "evidence": "The evidence spans punk, goth, dance, geek, queer and late-night food micro-scenes with enough density to support real communities.",
+          "markers": [
+            "little_five_points_rebel_center",
+            "sus_for_location_not_quality",
+            "little_five_points_daily_errands",
+            "late_night_wings_and_waho"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: neighborliness varies sharply by neighborhood; the score rests on a small number of concrete accounts",
+        "not_researched: texture differences across the full metro beyond the ITP/OTP shorthand",
+        "searched_not_found: a stable citywide sound marker beyond traffic, nightlife and seasonal cicadas"
+      ]
+    },
+    {
+      "city": "Casper",
+      "state": "WY",
+      "markers": [
+        {
+          "marker_key": "wind_is_the_background_system",
+          "domain": "sound",
+          "observation": "Winter wind is not treated as weather that comes and goes; residents describe it as the city's operating condition, loud enough and persistent enough to shape errands, driving and mood.",
+          "verbatim": "wind is insane.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/lg9nf7/things_i_would_want_to_know_before_moving_here/",
+            "https://www.reddit.com/r/casper/comments/tqdj09/debating_a_move_to_casper/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "hoodie_lives_in_the_car",
+          "domain": "social_norms",
+          "observation": "A year-round hoodie in the vehicle is ordinary local equipment, even when the calendar says summer.",
+          "verbatim": "You'll probably want to keep at least a hoodie on in your car year round.",
+          "salience": 4,
+          "valence": "neutral",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/lg9nf7/things_i_would_want_to_know_before_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mountain_in_ten_minutes",
+          "domain": "transport_habit",
+          "observation": "The mountain is close enough that residents measure access in minutes from town rather than as a weekend trip; skiing and hiking sit just beyond the street grid.",
+          "verbatim": "It's 10 minutes to the mountain where you'll find downhill and cross country skiing and hiking trails in the summer.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/lg9nf7/things_i_would_want_to_know_before_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "alcova_is_the_default_lake_run",
+          "domain": "transport_habit",
+          "observation": "A roughly 30-mile westbound drive to Alcova Lake or the North Platte is spoken of as the normal nearby water outing.",
+          "verbatim": "Alcova lake is 30 miles to the west as well as good fishing on the North Platte.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/lg9nf7/things_i_would_want_to_know_before_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "eastridge_as_ghost_mall",
+          "domain": "commerce",
+          "observation": "The local mall functions as a visual record of contraction: empty storefronts, few shoppers and residents asking whether it has become a 'ghost mall.'",
+          "verbatim": "is Eastridge a ghost mall now? That's sad to think about. So many memories of that mall.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "independent_business_character",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/tqdj09/debating_a_move_to_casper/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "restaurants_have_short_half_lives",
+          "domain": "commerce",
+          "observation": "Residents warn that shops and restaurants struggle to survive, so a favorite place can disappear before it becomes an institution.",
+          "verbatim": "shops and restaurants can have a hard time surviving.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "independent_business_character",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/tqdj09/debating_a_move_to_casper/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "felony_flats_is_a_real_direction",
+          "domain": "local_lore",
+          "observation": "A rental warning may be given by nickname rather than map coordinates: the area around McKinley and Jefferson is called 'Felony Flats.'",
+          "verbatim": "it's known to locals as Felony Flats.",
+          "salience": 3,
+          "valence": "neutral",
+          "evidences": [
+            "civic_identity_intensity",
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/lg9nf7/things_i_would_want_to_know_before_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "private_until_someone_needs_help",
+          "domain": "social_norms",
+          "observation": "The local social bargain is distance first, assistance second: people do not necessarily socialize with neighbors, but they step in when there is a concrete need.",
+          "verbatim": "People pretty much keep to themselves, but will lend a hand if you need it.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "neighborliness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/lg9nf7/things_i_would_want_to_know_before_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "bentonite_shows_up_in_foundations",
+          "domain": "aesthetics",
+          "observation": "The ground itself becomes part of house talk. Residents tell newcomers to look for foundation movement in newer developments built over bentonite fields.",
+          "verbatim": "a lot of the newer housing developments are having foundation issues because of it.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/wtqwx9/thinking_about_moving_to_casper_anything_i_should/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "meth_lab_history_may_be_invisible",
+          "domain": "local_lore",
+          "observation": "House-shopping advice includes asking whether a property was a former 'cook house,' because residents say that history may not be disclosed.",
+          "verbatim": "the sellers doesn't have to disclose stuff like the property was a cook house.",
+          "salience": 3,
+          "valence": "grating",
+          "evidences": [
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/wtqwx9/thinking_about_moving_to_casper_anything_i_should/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "frontier_republican_is_a_local_category",
+          "domain": "local_lore",
+          "observation": "Political identity has a Wyoming-specific category: people may register Republican to influence the only primary that matters while distinguishing themselves from 'Wyoming Republicans.'",
+          "verbatim": "there are Republicans and \"Wyoming Republicans\"",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/wtqwx9/thinking_about_moving_to_casper_anything_i_should/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "outsider_politics_is_bad_small_talk",
+          "domain": "social_norms",
+          "observation": "Newcomers are advised not to lead with politics; the trigger is less party label than the suspicion that outsiders arrived to instruct locals.",
+          "verbatim": "Don't talk politics of you can help it, there's always some paranoia about outsiders moving in and telling the locals how to live their lives",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/wtqwx9/thinking_about_moving_to_casper_anything_i_should/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "best_bite_is_in_a_sketchy_basement",
+          "domain": "food_culture",
+          "observation": "One of the most affectionately described meals in town is Himalayan food in a basement that first looks questionable; the owner's name, Sapna, is part of the recommendation.",
+          "verbatim": "It's in a basement, so it looks sketchy at first, but Sapna the owner makes incredible food.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "independent_business_character",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/1f8408d/favorite_restaurants_in_casper/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "peaches_ranch_by_the_bucket",
+          "domain": "food_culture",
+          "observation": "A drive-through burger recommendation immediately turns into a recommendation to buy the house ranch in bulk.",
+          "verbatim": "their house made ranch is worth buying by the bucket.",
+          "salience": 2,
+          "valence": "charming",
+          "evidences": [
+            "independent_business_character"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/1f8408d/favorite_restaurants_in_casper/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "prime_rib_requires_arriving_early",
+          "domain": "ritual",
+          "observation": "At HQ BBQ in nearby Evansville, prime-rib night has a practical local rule: arrive early or it will be gone.",
+          "verbatim": "you need to arrive early for dinner or they sell out",
+          "salience": 2,
+          "valence": "charming",
+          "evidences": [
+            "independent_business_character"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/casper/comments/1f8408d/favorite_restaurants_in_casper/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "quirk_embrace": {
+          "value": 0.46,
+          "confidence": 0.48,
+          "evidence": "Local nicknames, a basement restaurant and Wyoming-specific political categories show some accepted idiosyncrasy, but visible deviation is not broadly celebrated.",
+          "markers": [
+            "felony_flats_is_a_real_direction",
+            "best_bite_is_in_a_sketchy_basement",
+            "frontier_republican_is_a_local_category"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.24,
+          "confidence": 0.42,
+          "evidence": "The researched texture centers on cars, outdoor departures and private life rather than occupied sidewalks or spontaneous public gathering.",
+          "markers": [
+            "mountain_in_ten_minutes",
+            "alcova_is_the_default_lake_run",
+            "private_until_someone_needs_help"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.58,
+          "confidence": 0.57,
+          "evidence": "Specific owner-linked restaurants and food rituals matter, but residents also describe fragile storefronts and a hollowed mall.",
+          "markers": [
+            "best_bite_is_in_a_sketchy_basement",
+            "peaches_ranch_by_the_bucket",
+            "prime_rib_requires_arriving_early",
+            "restaurants_have_short_half_lives",
+            "eastridge_as_ghost_mall"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.64,
+          "confidence": 0.55,
+          "evidence": "The clearest norm is privacy combined with practical aid when needed.",
+          "markers": [
+            "private_until_someone_needs_help"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.22,
+          "confidence": 0.38,
+          "evidence": "Commercial fragility and the broader Wyoming early-closing pattern support a low score, though Casper has more exceptions than small towns.",
+          "markers": [
+            "restaurants_have_short_half_lives",
+            "eastridge_as_ghost_mall"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.34,
+          "confidence": 0.34,
+          "evidence": "No strong repeated evidence of broad resident-made arts or performance appeared in the sampled threads.",
+          "markers": [
+            "best_bite_is_in_a_sketchy_basement"
+          ]
+        },
+        "status_performance": {
+          "value": 0.22,
+          "confidence": 0.34,
+          "evidence": "The observed norms emphasize practical gear, old vehicles and privacy rather than conspicuous taste or wealth signaling.",
+          "markers": [
+            "hoodie_lives_in_the_car",
+            "private_until_someone_needs_help"
+          ]
+        },
+        "civic_identity_intensity": {
+          "value": 0.76,
+          "confidence": 0.68,
+          "evidence": "Wind, Felony Flats, frontier-Republican language and ten-minute mountain access create strong place-specific shorthand.",
+          "markers": [
+            "wind_is_the_background_system",
+            "felony_flats_is_a_real_direction",
+            "frontier_republican_is_a_local_category",
+            "mountain_in_ten_minutes"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.72,
+          "confidence": 0.62,
+          "evidence": "Long memories around Eastridge, named neighborhoods and outsider sensitivity point to rooted local knowledge.",
+          "markers": [
+            "eastridge_as_ghost_mall",
+            "felony_flats_is_a_real_direction",
+            "outsider_politics_is_bad_small_talk"
+          ]
+        },
+        "subculture_depth": {
+          "value": 0.32,
+          "confidence": 0.38,
+          "evidence": "A few distinctive food and outdoor niches appear, but repeated comments describe limited breadth and short-lived venues.",
+          "markers": [
+            "restaurants_have_short_half_lives",
+            "best_bite_is_in_a_sketchy_basement",
+            "mountain_in_ten_minutes"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: late-night availability was inferred from commercial contraction and statewide Wyoming comments; Casper-specific hour-by-hour evidence was thin",
+        "searched_not_found: broad resident-made arts participation outside a few venues and food institutions",
+        "not_researched: shift-change sound and traffic around energy-sector employers"
+      ]
+    },
+    {
+      "city": "Nashville",
+      "state": "TN",
+      "markers": [
+        {
+          "marker_key": "music_even_at_bowling_on_tuesday",
+          "domain": "sound",
+          "observation": "Live music is not confined to marquee venues or weekend nights; residents use a Tuesday-night bowling alley as the throwaway example of how routinely it appears.",
+          "verbatim": "Incredible music everywhere, even a bowling alley on a Tuesday night.",
+          "salience": 5,
+          "valence": "charming",
+          "evidences": [
+            "creative_participation",
+            "subculture_depth",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/vubucy/nashville_denizens_what_is_your_honest_review_of/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "three_shirts_a_day_summer",
+          "domain": "ritual",
+          "observation": "Summer changes the daily clothing cycle: residents describe carrying or burning through multiple shirts because the humid heat lasts for months.",
+          "verbatim": "don't mind sweating through 3 shirts a day for 5 months of the year.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/vubucy/nashville_denizens_what_is_your_honest_review_of/",
+            "https://www.reddit.com/r/nashville/comments/16lxbts/whats_it_like_living_in_nashville/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "broadway_only_when_paid",
+          "domain": "social_norms",
+          "observation": "For many locals, Lower Broadway is a workplace or a visitor obligation, not their ordinary night out.",
+          "verbatim": "I only go down there if I'm getting paid.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "status_performance",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/f3zyo2/do_nashville_locals_hang_out_on_broadway_is/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "working_musicians_melt_tourist_faces",
+          "domain": "sound",
+          "observation": "Broadway's bands are often seasoned wage-earning musicians between tours, not hopefuls waiting to be discovered; the polished performance is part of the tourist machinery.",
+          "verbatim": "I tour about eight months a year and spend four months a year melting tourist's faces off on Broadway.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "creative_participation",
+            "subculture_depth",
+            "independent_business_character"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/f3zyo2/do_nashville_locals_hang_out_on_broadway_is/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "woo_girls_pedal_taverns_and_penis_straws",
+          "domain": "street_life",
+          "observation": "The downtown sound-and-sight package residents invoke is bachelorette yelling, pedal taverns and novelty drinking props—an image locals use almost as shorthand for the district.",
+          "verbatim": "It's a tourist trap with woo girls on pedal taverns with penis straws.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "street_life_vibrancy",
+            "status_performance",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/f3zyo2/do_nashville_locals_hang_out_on_broadway_is/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "broadway_for_friends_in_town",
+          "domain": "ritual",
+          "observation": "A common local ritual is to enter Broadway only when entertaining visitors, then return to Midtown, East Nashville or a neighborhood dive.",
+          "verbatim": "I only go to broadway if i want to people watch or a friend is in town.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/f3zyo2/do_nashville_locals_hang_out_on_broadway_is/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "green_light_requires_a_pause",
+          "domain": "transport_habit",
+          "observation": "Drivers advise treating a new green light as provisional: pause and check both directions for cars continuing through the red.",
+          "verbatim": "Take a solid pause and look both ways after the light goes green",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/1cb62wz/whats_a_nashville_life_hack_everyone_living_here/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "library_lends_a_household",
+          "domain": "commerce",
+          "observation": "The public library is described less like a book repository than a shared household inventory: musical instruments, art, museum passes, seeds, cake pans, power tools and even an ice-cream maker.",
+          "verbatim": "There's also a power tool collection—drills, baby!",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "neighborliness",
+            "creative_participation",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/1cb62wz/whats_a_nashville_life_hack_everyone_living_here/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "favorite_shops_close_at_six",
+          "domain": "commerce",
+          "observation": "Independent errands can require leaving work early because beloved specialty stores are cited by name as closing at 6 p.m.",
+          "verbatim": "so many businesses close at 6pm",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "late_night_availability",
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/vubucy/nashville_denizens_what_is_your_honest_review_of/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "winter_ice_stops_the_city",
+          "domain": "transport_habit",
+          "observation": "A modest snowfall can become a mobility event because residents say salt is scarce, ice is common and blackouts can trap people inside.",
+          "verbatim": "We don't have much salt so when it snows you can't drive.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/16lxbts/whats_it_like_living_in_nashville/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "cold_seeps_under_the_jacket",
+          "domain": "ritual",
+          "observation": "Winter is described not by impressive snowfall but by wet cold, 35-degree rain, early darkness and humidity that gets under clothing.",
+          "verbatim": "It's humid in the winter so the cold seeps under your jacket.",
+          "salience": 3,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/16lxbts/whats_it_like_living_in_nashville/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "car_dependency_outside_select_neighborhoods",
+          "domain": "transport_habit",
+          "observation": "Unless someone deliberately lives in one of a few connected neighborhoods, ordinary life is organized around the car; even drivers complain that the same infrastructure is hostile to them.",
+          "verbatim": "the city infrastructure is hostile to anyone not in a car.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/vubucy/nashville_denizens_what_is_your_honest_review_of/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "disco_and_funk_under_the_country_brand",
+          "domain": "ritual",
+          "observation": "Residents who do not dance to country find recurring disco and funk parties beneath the city's dominant branding, but they must know where to look.",
+          "verbatim": "there are lots of great disco and funk parties with more and more popping up as the city grows.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "subculture_depth",
+            "creative_participation",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/16lxbts/whats_it_like_living_in_nashville/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "three_am_means_waffle_house_or_dinos",
+          "domain": "food_culture",
+          "observation": "The city sells an all-night image, yet residents describe late food as a narrow survival map: Waffle House, Cook Out and a few kitchens such as Dino's, with entire neighborhoods effectively done before midnight.",
+          "verbatim": "if you're drunk & hungry at 3 am, you are only allowed to go to Waffle House. I don't make the rules, I just live by them.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "late_night_availability",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/14cwdj0/drunk_late_night_eateries/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "artists_replaced_by_rich_professionals",
+          "domain": "social_norms",
+          "observation": "Longtime residents describe a visible demographic shift in everyday encounters: fewer working artists and more affluent professionals, which turns old creative identity into a contested memory.",
+          "verbatim": "I feel like many of the people I meet these days are rich professionals. I meet very few artists anymore.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "status_performance",
+            "creative_participation",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/nashville/comments/1sn6f4a/anyone_thinking_of_leaving_nashville/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "quirk_embrace": {
+          "value": 0.74,
+          "confidence": 0.66,
+          "evidence": "Disco/funk parties, an unusually expansive lending library and theatrical Broadway language show room for unconventional participation beneath the country brand.",
+          "markers": [
+            "disco_and_funk_under_the_country_brand",
+            "library_lends_a_household",
+            "woo_girls_pedal_taverns_and_penis_straws"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.72,
+          "confidence": 0.74,
+          "evidence": "Broadway is intensely occupied but tourist-dominated, while most residents require cars and use neighborhood scenes instead.",
+          "markers": [
+            "woo_girls_pedal_taverns_and_penis_straws",
+            "broadway_for_friends_in_town",
+            "car_dependency_outside_select_neighborhoods"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.76,
+          "confidence": 0.7,
+          "evidence": "Named music rooms, specialist shops and working-musician venues remain defining, even as residents criticize Instagram-oriented commercial shells.",
+          "markers": [
+            "working_musicians_melt_tourist_faces",
+            "favorite_shops_close_at_six",
+            "three_am_means_waffle_house_or_dinos"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.66,
+          "confidence": 0.5,
+          "evidence": "Residents describe people looking out for one another, and the library functions as shared civic infrastructure, though evidence is not neighborhood-wide.",
+          "markers": [
+            "library_lends_a_household"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.62,
+          "confidence": 0.72,
+          "evidence": "Broadway and select kitchens run late, but large residential areas and ordinary retail shut down surprisingly early.",
+          "markers": [
+            "three_am_means_waffle_house_or_dinos",
+            "favorite_shops_close_at_six",
+            "broadway_only_when_paid"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.94,
+          "confidence": 0.86,
+          "evidence": "Working musicians perform throughout the week, residents form genre-specific dance parties and public tools support making rather than only consuming.",
+          "markers": [
+            "music_even_at_bowling_on_tuesday",
+            "working_musicians_melt_tourist_faces",
+            "disco_and_funk_under_the_country_brand",
+            "library_lends_a_household"
+          ]
+        },
+        "status_performance": {
+          "value": 0.8,
+          "confidence": 0.67,
+          "evidence": "Tourist-facing spectacle, affluent-professional replacement and insider distancing from Broadway make taste, income and local authenticity visibly consequential.",
+          "markers": [
+            "woo_girls_pedal_taverns_and_penis_straws",
+            "artists_replaced_by_rich_professionals",
+            "broadway_only_when_paid"
+          ]
+        },
+        "civic_identity_intensity": {
+          "value": 0.88,
+          "confidence": 0.8,
+          "evidence": "Residents strongly police the line between Nashville as workplace/home and Nashville as tourist product.",
+          "markers": [
+            "broadway_only_when_paid",
+            "broadway_for_friends_in_town",
+            "working_musicians_melt_tourist_faces",
+            "three_am_means_waffle_house_or_dinos"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.4,
+          "confidence": 0.56,
+          "evidence": "Longtime residents repeatedly frame current life against an older artist-heavy city, indicating rapid turnover and displacement.",
+          "markers": [
+            "artists_replaced_by_rich_professionals",
+            "broadway_for_friends_in_town"
+          ]
+        },
+        "subculture_depth": {
+          "value": 0.88,
+          "confidence": 0.8,
+          "evidence": "Country dominates the visible brand, but working-musician, disco, funk and neighborhood scenes are deep enough to sustain regular participation.",
+          "markers": [
+            "music_even_at_bowling_on_tuesday",
+            "working_musicians_melt_tourist_faces",
+            "disco_and_funk_under_the_country_brand"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: Broadway street vibrancy is intense but cannot be treated as representative of ordinary residential Nashville",
+        "not_researched: neighborhood-by-neighborhood differences in porch, sidewalk and block-level social life",
+        "searched_not_found: a stable estimate of how much the artist-to-professional shift varies outside the central neighborhoods"
+      ]
+    },
+    {
+      "city": "Sierra Vista",
+      "state": "AZ",
+      "markers": [
+        {
+          "marker_key": "bypass_wind_howls_at_night",
+          "domain": "sound",
+          "observation": "Near the bypass, wind is loud enough to be a sleep complaint rather than scenery; where someone lives within town changes whether it is background or a nightly howl.",
+          "verbatim": "that shit will keep me awake at night when it's howling.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/qbqc5l/best_and_worst_things_about_living_in_sierra_vista/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "missing_costco_chickfila_innout",
+          "domain": "commerce",
+          "observation": "Residents list the absence of Costco, Chick-fil-A and In-N-Out in one breath, making missing chains a practical shorthand for the city's scale.",
+          "verbatim": "it doesn't have chic fil a or In N Out, a Costco",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/qbqc5l/best_and_worst_things_about_living_in_sierra_vista/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "old_retirement_town_quiet",
+          "domain": "pace",
+          "observation": "The visible tempo is retirement-town quiet: little traffic, few spontaneous after-work destinations and no expectation that the town itself will entertain you.",
+          "verbatim": "It's an old retirement town, pretty quiet. Hardly any traffic.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "street_life_vibrancy",
+            "population_rootedness",
+            "late_night_availability"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/qbqc5l/best_and_worst_things_about_living_in_sierra_vista/",
+            "https://www.reddit.com/r/sierravista/comments/1d62ykj/where_are_the_best_places_to_pass_the_time/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "food_is_called_doable",
+          "domain": "food_culture",
+          "observation": "Local restaurant debate uses an unusually low bar—food described as 'doable'—while defenders name a small stable of exceptions.",
+          "verbatim": "Most of the food here is just \"doable\" but I wouldn't say it's good",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/qbqc5l/best_and_worst_things_about_living_in_sierra_vista/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "vegetarian_concepts_pivot_fast",
+          "domain": "commerce",
+          "observation": "Dedicated vegetarian or vegan concepts are remembered for failing or pivoting quickly; one vegan Mexican place is recalled as lasting about a month.",
+          "verbatim": "Vegetarian options have been tried a few times here and each have failed.",
+          "salience": 3,
+          "valence": "grating",
+          "evidences": [
+            "subculture_depth",
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/qbqc5l/best_and_worst_things_about_living_in_sierra_vista/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "throw_a_rock_for_korean_food",
+          "domain": "food_culture",
+          "observation": "Korean food is the conspicuous exception to the town's limited dining reputation, abundant enough to inspire a joke that any randomly chosen landing spot will work.",
+          "verbatim": "Throw a rock and eat where it lands for good Korean food.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "independent_business_character",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/1mc44n9/newcomer_tips/",
+            "https://www.reddit.com/r/sierravista/comments/1lagxdy/visiting_sv_for_work_whats_worth_doing_after_hours/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "indian_food_is_a_known_blank",
+          "domain": "food_culture",
+          "observation": "The Asian-food map is lopsided: Korean and Vietnamese choices are plentiful, while Indian food is absent enough to be mourned explicitly.",
+          "verbatim": "Big sad there isn't any Indian food local to Sierra Vista.",
+          "salience": 3,
+          "valence": "grating",
+          "evidences": [
+            "subculture_depth"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/1mc44n9/newcomer_tips/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "after_work_means_home",
+          "domain": "pace",
+          "observation": "Residents distinguish sharply between weekend access to canyons and towns and weekday life; after a shift, many simply stay home, game or gather privately.",
+          "verbatim": "Sounds like there's a lot of great ways to spend a weekend off, but not a whole lot for after work.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "late_night_availability",
+            "street_life_vibrancy",
+            "neighborliness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/1d62ykj/where_are_the_best_places_to_pass_the_time/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "make_your_own_fun_date_rule",
+          "domain": "social_norms",
+          "observation": "A date can mean geocaching, buying paint supplies, touring ruins or going to the shooting range; residents explicitly say fun requires creativity rather than selecting from a dense venue list.",
+          "verbatim": "Sometimes fun dates take a lot of creativity here in SV",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "quirk_embrace",
+            "creative_participation",
+            "subculture_depth"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/nki4ky/fun_date_ideas/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "offroad_to_ghost_towns",
+          "domain": "ritual",
+          "observation": "Going off-road to abandoned settlements and camping above Carr Canyon appears as an ordinary household leisure pattern, not a specialized tourist itinerary.",
+          "verbatim": "We like to do off-road trails to ghost towns and such and camp up at the top of Carr Canyon.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity",
+            "subculture_depth"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/1d62ykj/where_are_the_best_places_to_pass_the_time/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "estate_sale_weekend_mornings",
+          "domain": "ritual",
+          "observation": "Saturday or Sunday morning entertainment includes estate-sale rounds, alongside a knife shop and a rock-and-gem shop on Fry.",
+          "verbatim": "estate sales are pretty popular too. Those can be fun on a Saturday or Sunday morning.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "population_rootedness",
+            "quirk_embrace",
+            "independent_business_character"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/1d62ykj/where_are_the_best_places_to_pass_the_time/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "range_is_a_date_idea",
+          "domain": "ritual",
+          "observation": "A straightforward answer to 'fun date ideas' is to go shoot together; range knowledge circulates socially and is offered directly to newcomers.",
+          "verbatim": "Go out to the range and shoot together.",
+          "salience": 3,
+          "valence": "neutral",
+          "evidences": [
+            "civic_identity_intensity",
+            "subculture_depth"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/nki4ky/fun_date_ideas/",
+            "https://www.reddit.com/r/sierravista/comments/1lagxdy/visiting_sv_for_work_whats_worth_doing_after_hours/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "clovis_site_picnic",
+          "domain": "ritual",
+          "observation": "A picnic can be built around the Murray Springs Clovis site, mixing packed food with archaeology and geology rather than a conventional park date.",
+          "verbatim": "Picnic at the Murray Springs Clovis site",
+          "salience": 2,
+          "valence": "charming",
+          "evidences": [
+            "quirk_embrace",
+            "creative_participation"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/nki4ky/fun_date_ideas/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "bridge_love_locks_are_local_directions",
+          "domain": "local_lore",
+          "observation": "A romantic landmark is explained by driving directions past the high school to an unglamorous dirt lot, then bringing a lock for the bridge over the river.",
+          "verbatim": "The bridge is filled with locks, so bring one and write your initials on it!",
+          "salience": 2,
+          "valence": "charming",
+          "evidences": [
+            "quirk_embrace",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/nki4ky/fun_date_ideas/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "house_country_band_every_other_friday",
+          "domain": "sound",
+          "observation": "One recurring night-out anchor is Doc's house country band for dancing every other Friday—a small, scheduled pulse rather than a nightly scene.",
+          "verbatim": "Doc's has a house country band for dancing every other Friday.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "creative_participation",
+            "late_night_availability",
+            "subculture_depth"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/sierravista/comments/1lagxdy/visiting_sv_for_work_whats_worth_doing_after_hours/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "quirk_embrace": {
+          "value": 0.58,
+          "confidence": 0.55,
+          "evidence": "Creative dates, bridge locks, ghost-town drives and archaeology picnics show a do-it-yourself tolerance for odd leisure.",
+          "markers": [
+            "make_your_own_fun_date_rule",
+            "bridge_love_locks_are_local_directions",
+            "offroad_to_ghost_towns",
+            "clovis_site_picnic"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.22,
+          "confidence": 0.58,
+          "evidence": "Residents repeatedly contrast weekend excursions with little after-work public life; recurring events are scheduled rather than spontaneous.",
+          "markers": [
+            "old_retirement_town_quiet",
+            "after_work_means_home",
+            "house_country_band_every_other_friday"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.55,
+          "confidence": 0.6,
+          "evidence": "Korean restaurants, small specialty shops and named local venues matter, but failed concepts and missing categories limit depth.",
+          "markers": [
+            "throw_a_rock_for_korean_food",
+            "vegetarian_concepts_pivot_fast",
+            "estate_sale_weekend_mornings",
+            "food_is_called_doable"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.46,
+          "confidence": 0.38,
+          "evidence": "Home gatherings appear as a substitute for public life, but the sampled comments do not establish strong unprompted neighbor support.",
+          "markers": [
+            "after_work_means_home"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.18,
+          "confidence": 0.58,
+          "evidence": "The town is repeatedly described as quiet after work, with only a few scheduled music/bar anchors.",
+          "markers": [
+            "old_retirement_town_quiet",
+            "after_work_means_home",
+            "house_country_band_every_other_friday"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.5,
+          "confidence": 0.54,
+          "evidence": "Residents paint, geocache, attend community theater and build unconventional dates, but the scene depends on self-initiation.",
+          "markers": [
+            "make_your_own_fun_date_rule",
+            "clovis_site_picnic",
+            "house_country_band_every_other_friday"
+          ]
+        },
+        "status_performance": {
+          "value": 0.18,
+          "confidence": 0.32,
+          "evidence": "The sampled norms emphasize practicality and homemade entertainment rather than visible class or taste competition.",
+          "markers": [
+            "make_your_own_fun_date_rule",
+            "estate_sale_weekend_mornings"
+          ]
+        },
+        "civic_identity_intensity": {
+          "value": 0.62,
+          "confidence": 0.64,
+          "evidence": "The bypass wind, Fort-area food pattern, range culture and specific regional excursions form recognizable local shorthand.",
+          "markers": [
+            "bypass_wind_howls_at_night",
+            "throw_a_rock_for_korean_food",
+            "range_is_a_date_idea",
+            "offroad_to_ghost_towns"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.48,
+          "confidence": 0.48,
+          "evidence": "Retiree rootedness coexists with military/work turnover; estate-sale habits and local lore support only a middle score.",
+          "markers": [
+            "old_retirement_town_quiet",
+            "estate_sale_weekend_mornings",
+            "bridge_love_locks_are_local_directions"
+          ]
+        },
+        "subculture_depth": {
+          "value": 0.34,
+          "confidence": 0.52,
+          "evidence": "Korean food, shooting, geocaching and community theater exist, while Indian/vegetarian gaps illustrate how quickly niche capacity runs out.",
+          "markers": [
+            "throw_a_rock_for_korean_food",
+            "indian_food_is_a_known_blank",
+            "vegetarian_concepts_pivot_fast",
+            "range_is_a_date_idea"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: neighborliness appeared mainly as private gatherings rather than direct evidence of neighbors lending or showing up",
+        "not_researched: Fort Huachuca shift-change rhythms and how military turnover changes specific neighborhoods",
+        "searched_not_found: dependable evidence of any after-midnight ecosystem"
+      ]
+    },
+    {
+      "city": "Billings",
+      "state": "MT",
+      "markers": [
+        {
+          "marker_key": "refinery_month_old_ashtray_smell",
+          "domain": "aesthetics",
+          "observation": "Industrial Billings is first registered by smell as much as sight; residents compare refinery odor to a month-old ashtray, with other threads adding beet-processing odors.",
+          "verbatim": "it's like a weird month old ashtray smell.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/ajx2md/moving_to_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "rims_planespotting_above_town",
+          "domain": "ritual",
+          "observation": "The Rimrocks are not just a skyline: residents park or linger above town to watch aircraft, with the Beartooths standing far beyond on clear days.",
+          "verbatim": "The Rims are gorgeous and make a great park to spend some time planespotting if that's your jam.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/13dd01w/living_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "beartooths_on_the_horizon_not_at_the_door",
+          "domain": "aesthetics",
+          "observation": "The mountain view is a distant wall rather than an alpine-city embrace; on clear days the Beartooths appear 40-50 miles away beyond an industrial foreground.",
+          "verbatim": "On a clear day, the Beartooths (about 40-50 miles away) stand high on the horizon.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/13dd01w/living_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "loud_fast_trucks_in_neighborhoods",
+          "domain": "sound",
+          "observation": "A recurring neighborhood sound is deliberately loud trucks accelerating through residential streets, folded into residents' description of extraction-town culture.",
+          "verbatim": "driving their trucks real loud and fast through neighborhoods.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity",
+            "status_performance"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/13dd01w/living_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "sleepy_after_nine_thirty",
+          "domain": "pace",
+          "observation": "The town's social clock drops sharply around 9 or 9:30; residents describe quiet as either the point or the central disappointment.",
+          "verbatim": "not much going on anywhere after 9/9:30",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "late_night_availability",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1in3bgj/whats_your_favorite_thing_to_do_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "every_menu_has_a_burger",
+          "domain": "food_culture",
+          "observation": "Restaurant variety is filtered through one near-universal object: residents joke that every place, regardless of concept, will put a burger on the menu.",
+          "verbatim": "Every place you walk into will have a burger on the menu.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1ocx04e/obligatory_moving_to_billings_post/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "weirdos_migrated_in_from_missoula",
+          "domain": "local_lore",
+          "observation": "Some residents explain Billings' improving underground scene as the result of artists and 'weirdos' being priced out of Missoula and regrouping here.",
+          "verbatim": "I think the weirdos have been priced out of Missoula and a lot of us have made our way to Billings.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "quirk_embrace",
+            "creative_participation",
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1ocx04e/obligatory_moving_to_billings_post/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "cowgirl_theremin_at_kirks",
+          "domain": "sound",
+          "observation": "Kirks' Grocery is described through a lineup that jumps from doom metal and goth rock to burlesque and 'cowgirl theramin,' making one room carry disproportionate subcultural weight.",
+          "verbatim": "everything from doom metal to goth rock to burlesque to cowgirl theramin.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "creative_participation",
+            "subculture_depth",
+            "quirk_embrace",
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1in3bgj/whats_your_favorite_thing_to_do_in_billings/",
+            "https://www.reddit.com/r/Billings/comments/1ocx04e/obligatory_moving_to_billings_post/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mustangs_as_summer_clock",
+          "domain": "ritual",
+          "observation": "Minor-league Mustangs games are a standard way to spend a summer afternoon or evening, one of the city's reliable public gathering rhythms.",
+          "verbatim": "Billings Mustangs baseball games are a fun way to while away an afternoon or evening.",
+          "salience": 3,
+          "valence": "charming",
+          "evidences": [
+            "street_life_vibrancy",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/13dd01w/living_in_billings/",
+            "https://www.reddit.com/r/Billings/comments/1in3bgj/whats_your_favorite_thing_to_do_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "moss_mansion_clue_nights",
+          "domain": "ritual",
+          "observation": "The historic mansion is used for live 'Clue' games and group events, turning preserved local architecture into participatory entertainment.",
+          "verbatim": "playing their \"Clue\" games",
+          "salience": 2,
+          "valence": "charming",
+          "evidences": [
+            "creative_participation",
+            "quirk_embrace",
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1in3bgj/whats_your_favorite_thing_to_do_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "good_parks_even_in_crappy_parts",
+          "domain": "street_life",
+          "observation": "Residents defend the municipal park system with a concrete class-and-geography claim: even neighborhoods they call rough still have usable parks.",
+          "verbatim": "Even the crappy parts of town have good parks.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "street_life_vibrancy",
+            "neighborliness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/13dd01w/living_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mind_your_own_business_privacy",
+          "domain": "social_norms",
+          "observation": "Billings friendliness is often described as nonintrusion rather than warmth: people shop, eat and drink while leaving one another alone.",
+          "verbatim": "For the most part Blgs people mind their own business",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "neighborliness",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1m1rqpl/how_bad_is_living_in_downtown_really/",
+            "https://www.reddit.com/r/Billings/comments/13dd01w/living_in_billings/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "sand_over_ice_and_wish_you_luck",
+          "domain": "transport_habit",
+          "observation": "Winter road treatment is remembered as sand spread over ice, followed by the implicit expectation that drivers manage the rest themselves.",
+          "verbatim": "they just spread sand over the ice and wish you luck.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1cb0o7a/moving_from_los_angeles/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "casinos_churches_and_prolife_billboards",
+          "domain": "aesthetics",
+          "observation": "A newcomer describes the repeated roadside visual grammar as casinos on corners, small churches and anti-abortion billboards, with few walkable grocery stores between them.",
+          "verbatim": "the casinos on every corner. And the \"pro-life\" billboards everywhere. And hole-in-the-wall churches.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "status_performance"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1cb0o7a/moving_from_los_angeles/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "magic_city_is_a_defensive_exclamation",
+          "domain": "local_lore",
+          "observation": "Residents answer Montana's dismissive reputation for Billings by invoking its booster nickname in all caps; loving the city often sounds like rebuttal.",
+          "verbatim": "IT IS IN FACT THE MAGIC CITY!!",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Billings/comments/1m1rqpl/how_bad_is_living_in_downtown_really/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "quirk_embrace": {
+          "value": 0.66,
+          "confidence": 0.64,
+          "evidence": "Cowgirl theremin, mansion Clue nights and the claimed migration of Missoula weirdos show a real but concentrated eccentric scene.",
+          "markers": [
+            "cowgirl_theremin_at_kirks",
+            "moss_mansion_clue_nights",
+            "weirdos_migrated_in_from_missoula"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.44,
+          "confidence": 0.58,
+          "evidence": "Parks, baseball and occasional downtown events create public gathering, but the city becomes quiet early.",
+          "markers": [
+            "good_parks_even_in_crappy_parts",
+            "mustangs_as_summer_clock",
+            "sleepy_after_nine_thirty"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.72,
+          "confidence": 0.7,
+          "evidence": "Kirks, Moss Mansion events, local theaters, breweries and burger loyalties produce a strong one-off commercial texture.",
+          "markers": [
+            "cowgirl_theremin_at_kirks",
+            "moss_mansion_clue_nights",
+            "every_menu_has_a_burger",
+            "mustangs_as_summer_clock"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.44,
+          "confidence": 0.46,
+          "evidence": "Residents describe privacy and minding one's own business more consistently than active neighbor involvement.",
+          "markers": [
+            "mind_your_own_business_privacy",
+            "good_parks_even_in_crappy_parts"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.2,
+          "confidence": 0.72,
+          "evidence": "Multiple residents explicitly describe Billings as sleepy with little activity after 9 or 9:30.",
+          "markers": [
+            "sleepy_after_nine_thirty"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.64,
+          "confidence": 0.66,
+          "evidence": "Underground music, burlesque, participatory mansion games and independent cinema support a meaningful maker/performer layer.",
+          "markers": [
+            "cowgirl_theremin_at_kirks",
+            "moss_mansion_clue_nights",
+            "weirdos_migrated_in_from_missoula"
+          ]
+        },
+        "status_performance": {
+          "value": 0.34,
+          "confidence": 0.42,
+          "evidence": "Truck display and roadside political/religious signaling are visible, but everyday social descriptions remain relatively unpretentious.",
+          "markers": [
+            "loud_fast_trucks_in_neighborhoods",
+            "casinos_churches_and_prolife_billboards",
+            "mind_your_own_business_privacy"
+          ]
+        },
+        "civic_identity_intensity": {
+          "value": 0.8,
+          "confidence": 0.74,
+          "evidence": "Refinery smell, the Rims, burger ubiquity and defensive use of 'Magic City' create a dense local self-image.",
+          "markers": [
+            "refinery_month_old_ashtray_smell",
+            "rims_planespotting_above_town",
+            "every_menu_has_a_burger",
+            "magic_city_is_a_defensive_exclamation"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.7,
+          "confidence": 0.62,
+          "evidence": "Lifelong-resident accounts, long mall/city memories and defensive local identity suggest deep tenure despite recent cultural migration.",
+          "markers": [
+            "magic_city_is_a_defensive_exclamation",
+            "weirdos_migrated_in_from_missoula",
+            "mind_your_own_business_privacy"
+          ]
+        },
+        "subculture_depth": {
+          "value": 0.52,
+          "confidence": 0.6,
+          "evidence": "A genuine underground arts node exists, but residents still describe limited late-night and category depth.",
+          "markers": [
+            "cowgirl_theremin_at_kirks",
+            "sleepy_after_nine_thirty",
+            "weirdos_migrated_in_from_missoula"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: neighborliness is better evidenced as privacy and noninterference than active mutual aid",
+        "not_researched: day-to-day casino rituals despite their high visual prevalence",
+        "searched_not_found: a broad late-night scene beyond isolated bars or events"
+      ]
+    },
+    {
+      "city": "Rapid City",
+      "state": "SD",
+      "markers": [
+        {
+          "marker_key": "rally_roar_reaches_the_peaks",
+          "domain": "sound",
+          "observation": "In early August the motorcycle sound is region-wide, audible in west Rapid and even from Black Elk Peak; residents call it an all-day 'Harley hum' and say it enters their dreams.",
+          "verbatim": "I've literally heard bikes while on top of Black Elk Peak during early August. They're inescapable.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/vjp50k/how_bad_is_rapid_cityblack_hills_area_during/",
+            "https://www.reddit.com/r/RapidCity/comments/1mbgvpc/your_motorcycle_is_not_cool/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "rally_is_a_seasonal_universe",
+          "domain": "local_lore",
+          "observation": "Residents treat Sturgis Rally week as a separate operating season, when the normal city is replaced by hundreds of thousands of riders, classic-rock spectacle and constant movement.",
+          "verbatim": "Sturgis, which is essentially its own seasonal universe",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1u7uups/why_does_rapid_city_feel_so_stuck/",
+            "https://www.reddit.com/r/RapidCity/comments/vjp50k/how_bad_is_rapid_cityblack_hills_area_during/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "restaurants_become_nearly_impossible",
+          "domain": "commerce",
+          "observation": "During Rally week, ordinary errands and meals stop being ordinary; residents advise that going places or eating out can become nearly impossible from sheer volume.",
+          "verbatim": "the sheer amount of people makes doing things/going places/eating out nearly impossible.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "late_night_availability",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/vjp50k/how_bad_is_rapid_cityblack_hills_area_during/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "motel_prices_flip_for_rally",
+          "domain": "commerce",
+          "observation": "The same budget room can jump from double-digit off-season prices to $250-$300 or more during Rally, making the event visible on every vacancy sign.",
+          "verbatim": "Motel prices are high all summer, but Rally Time is crazy.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "status_performance",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/vjp50k/how_bad_is_rapid_cityblack_hills_area_during/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "walmart_last_single_pepper",
+          "domain": "commerce",
+          "observation": "Rally overflow reaches grocery shelves in the surrounding Hills; one resident described a Walmart picked clean down to the last single pepper.",
+          "verbatim": "We literally got the last single pepper from Walmart!",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1mbgvpc/your_motorcycle_is_not_cool/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "summer_nights_makes_people_linger",
+          "domain": "street_life",
+          "observation": "The summer street event changes downtown behavior from passing through to wandering; residents say they discover businesses simply because the street closure makes them linger.",
+          "verbatim": "Summer nights have led to me lingering and wanding around downtown",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "street_life_vibrancy",
+            "independent_business_character",
+            "creative_participation"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1h7e03w/rapid_city_summer_nights_could_be_terminated/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "same_food_trucks_cover_bands_lawn_chairs",
+          "domain": "ritual",
+          "observation": "Civic events are criticized for repeating a recognizable kit: the same food trucks, cover bands, family setup, predictable crowd and lawn chairs.",
+          "verbatim": "the same few food trucks, the same cover bands, the same family-friendly setup, and the same predictable crowd.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "creative_participation",
+            "subculture_depth",
+            "population_rootedness"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1u7uups/why_does_rapid_city_feel_so_stuck/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "same_handful_of_nightlife",
+          "domain": "pace",
+          "observation": "Outside event nights, longtime residents describe downtown as the same handful of restaurants and bars recycling the same atmosphere year after year.",
+          "verbatim": "the same handful of restaurants, the same limited nightlife, and the same recycled atmosphere year after year.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "late_night_availability",
+            "independent_business_character",
+            "subculture_depth"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1u7uups/why_does_rapid_city_feel_so_stuck/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "biggest_city_small_town_vibe",
+          "domain": "social_norms",
+          "observation": "Rapid is the regional center but still feels socially and behaviorally like a small town, a scale mismatch residents describe as both comforting and limiting.",
+          "verbatim": "Rapid City always gave me \"small town\" vibes, which was both good and bad.",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "population_rootedness",
+            "neighborliness",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1kb2f1x/looking_to_move_to_sd_from_wi/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "dry_air_nosebleeds",
+          "domain": "ritual",
+          "observation": "The dry elevation announces itself physically; newcomers and lifelong residents trade stories of repeated nosebleeds, sometimes several in a day.",
+          "verbatim": "Like 3 times a day at some point.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1kb2f1x/looking_to_move_to_sd_from_wi/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "north_of_omaha_is_the_warning_line",
+          "domain": "local_lore",
+          "observation": "Neighborhood advice is often compressed to one directional rule: avoid North Rapid, generally north of Omaha Street.",
+          "verbatim": "Avoid North Rapid (generally, north of Omaha Street)",
+          "salience": 4,
+          "valence": "neutral",
+          "evidences": [
+            "civic_identity_intensity",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/medil8/moving_to_rapid_city/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "hills_in_no_time",
+          "domain": "transport_habit",
+          "observation": "The Black Hills are close enough that residents describe reaching many towns and trailheads 'in no time,' making the city a launch point more than the destination.",
+          "verbatim": "You can get to a lot of places in the Black from Rapid City in no time.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1kb2f1x/looking_to_move_to_sd_from_wi/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "arts_scene_requires_the_whole_hills",
+          "domain": "social_norms",
+          "observation": "The arts and music scene becomes substantial only when residents mentally aggregate Rapid City with the entire Black Hills region; the city alone is described as small.",
+          "verbatim": "There is a relatively small arts/music community, but it's larger when you take the Black Hills area as a whole.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "creative_participation",
+            "subculture_depth"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/medil8/moving_to_rapid_city/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mall_is_nothing_special",
+          "domain": "commerce",
+          "observation": "The mall is described with faint practicality—it is easy to reach, but not a destination or social center.",
+          "verbatim": "The mall is easy to get to, but it's nothing special.",
+          "salience": 2,
+          "valence": "neutral",
+          "evidences": [
+            "independent_business_character",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1kb2f1x/looking_to_move_to_sd_from_wi/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "nearest_metros_are_half_a_day",
+          "domain": "transport_habit",
+          "observation": "Regional isolation is measured in half-day drives: roughly five to six hours to Sioux Falls, Billings or Denver-area connections.",
+          "verbatim": "Rapid has many good qualities but it is very isolated",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "subculture_depth",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/RapidCity/comments/1kb2f1x/looking_to_move_to_sd_from_wi/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "quirk_embrace": {
+          "value": 0.5,
+          "confidence": 0.48,
+          "evidence": "The city tolerates distinctive regional rituals, but civic events are often described as standardized and sanitized rather than eccentric.",
+          "markers": [
+            "same_food_trucks_cover_bands_lawn_chairs",
+            "rally_is_a_seasonal_universe"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.58,
+          "confidence": 0.64,
+          "evidence": "Summer Nights and Rally produce intense street occupation, but the effect is episodic and often unwanted rather than everyday sidewalk life.",
+          "markers": [
+            "summer_nights_makes_people_linger",
+            "rally_roar_reaches_the_peaks",
+            "restaurants_become_nearly_impossible"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.48,
+          "confidence": 0.52,
+          "evidence": "Summer events can reveal local businesses, yet residents complain about the same restaurants and a mall with little destination value.",
+          "markers": [
+            "summer_nights_makes_people_linger",
+            "same_handful_of_nightlife",
+            "mall_is_nothing_special"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.5,
+          "confidence": 0.42,
+          "evidence": "Small-town social scale is repeatedly noted, but the sampled texture does not establish consistently active neighbor support.",
+          "markers": [
+            "biggest_city_small_town_vibe"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.28,
+          "confidence": 0.62,
+          "evidence": "Residents explicitly describe limited, tired nightlife outside seasonal events.",
+          "markers": [
+            "same_handful_of_nightlife",
+            "same_food_trucks_cover_bands_lawn_chairs"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.48,
+          "confidence": 0.56,
+          "evidence": "A regional arts/music community and civic concert culture exist, but residents describe repetition and limited city-only depth.",
+          "markers": [
+            "arts_scene_requires_the_whole_hills",
+            "same_food_trucks_cover_bands_lawn_chairs",
+            "summer_nights_makes_people_linger"
+          ]
+        },
+        "status_performance": {
+          "value": 0.42,
+          "confidence": 0.46,
+          "evidence": "Rally pricing and tourist spectacle create temporary status display, but it does not define ordinary year-round social life.",
+          "markers": [
+            "motel_prices_flip_for_rally",
+            "rally_is_a_seasonal_universe"
+          ]
+        },
+        "civic_identity_intensity": {
+          "value": 0.84,
+          "confidence": 0.78,
+          "evidence": "Rally season, the north-of-Omaha rule, Black Hills access and small-town/biggest-city tension form strong shared shorthand.",
+          "markers": [
+            "rally_is_a_seasonal_universe",
+            "north_of_omaha_is_the_warning_line",
+            "hills_in_no_time",
+            "biggest_city_small_town_vibe"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.62,
+          "confidence": 0.56,
+          "evidence": "Longtime accounts and recurring civic-event arguments show local memory, alongside military and tourist turnover.",
+          "markers": [
+            "biggest_city_small_town_vibe",
+            "same_food_trucks_cover_bands_lawn_chairs",
+            "rally_is_a_seasonal_universe"
+          ]
+        },
+        "subculture_depth": {
+          "value": 0.4,
+          "confidence": 0.56,
+          "evidence": "The arts scene becomes viable only when the whole Black Hills is counted, while nightlife repeats the same small set.",
+          "markers": [
+            "arts_scene_requires_the_whole_hills",
+            "same_handful_of_nightlife",
+            "nearest_metros_are_half_a_day"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: Rally-week street life is an extreme seasonal condition and not evidence of year-round vibrancy",
+        "not_researched: detailed Indigenous community texture; sampling here was insufficient and risked outsider distortion",
+        "searched_not_found: strong evidence that small-town familiarity consistently becomes practical neighbor support"
+      ]
+    },
+    {
+      "city": "Bangor",
+      "state": "ME",
+      "markers": [
+        {
+          "marker_key": "f16_alarm_clock",
+          "domain": "sound",
+          "observation": "Bangor International is normally quiet, but military aircraft can abruptly become neighborhood-scale events.",
+          "verbatim": "It was so loud that it activated a couple car alarms near me, while also shaking my apartment",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1s37die/plane_taking_off_at_5_am_today/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "airport_normal_is_empty",
+          "domain": "pace",
+          "observation": "The airport behaves like a major piece of infrastructure without the crowding normally associated with one.",
+          "verbatim": "Flew out Tuesday, line was three folks long and security took five minutes.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1s3mr6t/bangor_airport/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "waterfront_concert_bleed",
+          "domain": "sound",
+          "observation": "On concert nights, nationally touring music can become part of the downtown soundscape beyond the venue itself.",
+          "verbatim": "Bangor's Waterfront Pavilion drew LOTS of noise complaints when they first got started",
+          "salience": 3,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "creative_participation"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Maine/comments/btqkfn/new_westbrook_concert_venue_draws_noise_complaints/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "one_street_downtown",
+          "domain": "street_life",
+          "observation": "Residents describe downtown as a real but extremely compressed urban core.",
+          "verbatim": "The \"downtown\" is like one street with a loop.",
+          "salience": 5,
+          "valence": "neutral",
+          "evidences": [
+            "street_life_vibrancy",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1u6uprd/moving_to_bangor/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "downtown_stranger_conversations",
+          "domain": "social_norms",
+          "observation": "At least some downtown regulars experience Bangor as unusually open to prolonged spontaneous conversation.",
+          "verbatim": "in Bangor I've struck up 30 minute long conversations with strangers with a simple hi!",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "neighborliness",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1tvpdlk/i_run_i_hate_bangor_ama_about_bangor/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "outsiders_fear_downtown_more",
+          "domain": "social_norms",
+          "observation": "The people most frightened of downtown may be residents who rarely use it, while regular users describe a different reality.",
+          "verbatim": "I hear from mostly people who don't travel downtown how dangerous it is",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "civic_identity_intensity",
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1tvpdlk/i_run_i_hate_bangor_ama_about_bangor/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "queer_person_feels_safe_downtown",
+          "domain": "street_life",
+          "observation": "A queer downtown regular explicitly contrasts Bangor's reputation with their lived sense of safety.",
+          "verbatim": "personally as a 5'4 queer person I have never felt unsafe",
+          "salience": 5,
+          "valence": "charming",
+          "evidences": [
+            "street_life_vibrancy",
+            "quirk_embrace"
+          ],
+          "evidence_kind": "single_resident_account",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1tvpdlk/i_run_i_hate_bangor_ama_about_bangor/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "car_required_for_groceries",
+          "domain": "transport_habit",
+          "observation": "Living near downtown can support recreational walking, but ordinary provisioning generally pulls residents back into cars.",
+          "verbatim": "Grocery stores and such are not walkable. You really need a car.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1u6uprd/moving_to_bangor/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "bus_that_sort_of_runs",
+          "domain": "transport_habit",
+          "observation": "Transit exists but is described as a fallback rather than a reliable organizing structure for daily life.",
+          "verbatim": "There's a bus service that sort of runs to places you need to go.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "street_life_vibrancy"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1u6uprd/moving_to_bangor/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "uber_daylight_service",
+          "domain": "transport_habit",
+          "observation": "Even app-based transportation becomes less dependable outside ordinary daytime demand.",
+          "verbatim": "Uber is usually available during the day but not guaranteed.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "late_night_availability"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1u6uprd/moving_to_bangor/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mall_as_shell",
+          "domain": "commerce",
+          "observation": "The mall district carries visible remnants of Bangor's older regional-retail importance.",
+          "verbatim": "For now, it is just a shell of a building.",
+          "salience": 4,
+          "valence": "grating",
+          "evidences": [
+            "independent_business_character",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1n99t67/borders/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "not_a_functioning_mall_city",
+          "domain": "commerce",
+          "observation": "Residents do not merely lament individual closures; some see the conventional-mall model as no longer viable locally.",
+          "verbatim": "Bangor just isn't the place for a functioning mall.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1pnorax/bangor_mall/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "restaurant_fine_dining_in_quotes",
+          "domain": "food_culture",
+          "observation": "Bangor's upscale dining is judged through an intense local-versus-outside-frame comparison.",
+          "verbatim": "its \"fine dining\" for people who have never left the area. I truly don't get it.",
+          "salience": 4,
+          "valence": "contested",
+          "evidences": [
+            "status_performance",
+            "independent_business_character"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/1mr90ak/dinner_recommendations/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "governors_as_local_food_shorthand",
+          "domain": "food_culture",
+          "observation": "Critics use Governor's — the familiar Maine family-restaurant chain — as shorthand for a limited local palate.",
+          "verbatim": "unless you are a local for life and then there are a few favorites... like governors.",
+          "salience": 3,
+          "valence": "contested",
+          "evidences": [
+            "independent_business_character",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/bangorme/comments/13ls452/any_good_restaurants_in_the_bangor_area/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "stephen_king_nonreaction_ritual",
+          "domain": "local_lore",
+          "observation": "The local Stephen King etiquette is to recognize him while theatrically refusing to treat him as a celebrity.",
+          "verbatim": "we've all agreed not to make a big deal about it.",
+          "salience": 5,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity",
+            "quirk_embrace",
+            "status_performance"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Maine/comments/7313fm/help_me_not_be_an_asshole/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "last_stop_before_badlands",
+          "domain": "local_lore",
+          "observation": "Residents themselves joke that the city is the final concentration of civilization before northern Maine opens up.",
+          "verbatim": "Bangor was the last stop of civilization before you hit the badlands",
+          "salience": 5,
+          "valence": "charming",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1n57w7a/how_is_life_in_bangor_maine/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "from_away_permanent_category",
+          "domain": "social_norms",
+          "observation": "'From away' can operate less like temporary newcomer status and more like a permanent biographical category.",
+          "verbatim": "You will always be \"from away\".",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "population_rootedness",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1n57w7a/how_is_life_in_bangor_maine/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "from_away_in_practice",
+          "domain": "social_norms",
+          "observation": "A more sympathetic account says acceptance is possible, but newcomers must invest time rather than expect immediate inclusion.",
+          "verbatim": "you have to take the time to get to know them. And if you do, you'll find that Mainers are very welcoming",
+          "salience": 5,
+          "valence": "contested",
+          "evidences": [
+            "neighborliness",
+            "population_rootedness"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Maine/comments/d7y3xk/i_know_there_is_a_megathread_about_moving_to/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "spring_is_not_spring",
+          "domain": "ritual",
+          "observation": "Residents narrate spring as a demoralizing sequence of thaw, relapse and insects rather than a clean season.",
+          "verbatim": "Mud season. Then, second winter. Then, more mud and some black flies. Summer's after that. Sorry, no spring here.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Maine/comments/qbgpld/it_cant_be_that_badright/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "mud_hides_bug_dread",
+          "domain": "ritual",
+          "observation": "The joke is that 'mud season' is almost a euphemism used to avoid discussing the insects arriving with it.",
+          "verbatim": "That's why we call it mud season instead, so we don't think about the bugs.",
+          "salience": 4,
+          "valence": "charming",
+          "evidences": [
+            "quirk_embrace",
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Maine/comments/qt2xsm/just_moved_here_about_a_two_weeks_ago_from/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        },
+        {
+          "marker_key": "cold_mud_and_black_flies_test",
+          "domain": "ritual",
+          "observation": "The standard newcomer warning is not simply surviving winter; it is tolerating the ugly interval afterward.",
+          "verbatim": "You need to also make sure you can survive the cold mud and black flies.",
+          "salience": 5,
+          "valence": "grating",
+          "evidences": [
+            "civic_identity_intensity"
+          ],
+          "evidence_kind": "community_sentiment",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Maine/comments/1f9mk5w/maine_winter_question/"
+          ],
+          "source_retrieved_on": "2026-08-06"
+        }
+      ],
+      "features": {
+        "civic_identity_intensity": {
+          "value": 0.82,
+          "confidence": 0.74,
+          "evidence": "Last-stop-before-the-badlands self-description, the Stephen King non-reaction pact, 'from away' as a lasting category and the mud-season liturgy form dense local shorthand.",
+          "markers": [
+            "last_stop_before_badlands",
+            "stephen_king_nonreaction_ritual",
+            "from_away_permanent_category",
+            "spring_is_not_spring"
+          ]
+        },
+        "population_rootedness": {
+          "value": 0.78,
+          "confidence": 0.72,
+          "evidence": "'You will always be from away' is stated flatly; long local memory attaches to the mall and to family-restaurant loyalties.",
+          "markers": [
+            "from_away_permanent_category",
+            "mall_as_shell",
+            "governors_as_local_food_shorthand"
+          ]
+        },
+        "street_life_vibrancy": {
+          "value": 0.38,
+          "confidence": 0.7,
+          "evidence": "The core is one street with a loop, but it is dense enough that strangers hold thirty-minute conversations. Outside it, groceries are not walkable and the bus only sort of runs.",
+          "markers": [
+            "one_street_downtown",
+            "downtown_stranger_conversations",
+            "car_required_for_groceries",
+            "bus_that_sort_of_runs"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.7,
+          "confidence": 0.65,
+          "evidence": "Reserved but engaged — spontaneous long conversations downtown, and an account that Mainers are genuinely welcoming to those who invest the time.",
+          "markers": [
+            "downtown_stranger_conversations",
+            "from_away_in_practice"
+          ]
+        },
+        "late_night_availability": {
+          "value": 0.25,
+          "confidence": 0.6,
+          "evidence": "Rideshare is not guaranteed outside daytime, and the commerce pattern is thin redundancy rather than a hard closing hour.",
+          "markers": [
+            "uber_daylight_service",
+            "not_a_functioning_mall_city"
+          ]
+        },
+        "independent_business_character": {
+          "value": 0.55,
+          "confidence": 0.6,
+          "evidence": "Named local institutions carry real loyalty, but the mall is a shell and residents debate whether conventional retail is viable at all here.",
+          "markers": [
+            "governors_as_local_food_shorthand",
+            "mall_as_shell",
+            "not_a_functioning_mall_city",
+            "restaurant_fine_dining_in_quotes"
+          ]
+        },
+        "status_performance": {
+          "value": 0.3,
+          "confidence": 0.55,
+          "evidence": "The dominant status move is refusing to perform status — agreeing collectively not to make a fuss over the world-famous novelist. Countered slightly by sniping about what counts as fine dining.",
+          "markers": [
+            "stephen_king_nonreaction_ritual",
+            "restaurant_fine_dining_in_quotes"
+          ]
+        },
+        "quirk_embrace": {
+          "value": 0.62,
+          "confidence": 0.58,
+          "evidence": "The King etiquette, the mud-season euphemism and a queer resident's ease downtown suggest tolerance expressed as understatement rather than celebration.",
+          "markers": [
+            "stephen_king_nonreaction_ritual",
+            "mud_hides_bug_dread",
+            "queer_person_feels_safe_downtown"
+          ]
+        },
+        "creative_participation": {
+          "value": 0.45,
+          "confidence": 0.45,
+          "evidence": "The amphitheater projects touring music across downtown, but the sampled texture shows consumption of culture more than production of it.",
+          "markers": [
+            "waterfront_concert_bleed"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: a hard citywide closing hour; the pattern is thin redundancy rather than everything shutting at nine",
+        "not_researched: subculture depth beyond the university corridor",
+        "discussed_but_unscoreable: whether downtown fear tracks actual risk or non-use"
+      ]
+    }
+  ]
+}

@@ -77,6 +77,63 @@ State-level information that applies to all locations within a state (no need to
 - **NearLake**, **NearOcean**, **NearMountains**: Curated boolean facets for the Explore geography filter. A city qualifies when its center is roughly within 30 miles of a usable lake or saltwater coastline, or within 35 miles of a named mountain range/sustained mountain terrain. These are lifestyle discovery signals, not parcel-level distance guarantees. The reviewed source list and methodology live in `data/geography-proximity.json`; apply it with `scripts/import-geography-proximity.ts` after `scripts/migrate-geography-proximity.ts`.
 - **Vibes**: Curated text-array lifestyle tags used by the Explore vibe filter: beach life, desert life, mountain living, southern living, lake living, great outdoors, nightlife, and quiet retreat. Settlement pace (urban/suburban/small town/rural) lives in the Lifestyle filter; weather patterns live in Climate (`cold_snowy` is labeled “Four seasons” in the UI). The full-city review lives in `data/city-vibes.json`; apply it with `scripts/import-city-vibes.ts` after `scripts/migrate-city-vibes.ts`.
 
+## Location profile signals
+
+`location_profile_signals` is an additive, explainable layer for city-profile observations that do not belong in a universal score or a narrow Explore filter. It is deliberately separate from `locations_location` so one city can have several sourced strengths, cautions, and neutral context notes without creating a wide, sparsely populated city table.
+
+- **LocationId** / **SignalKey**: unique city-to-signal key. Keys are stable lowercase snake case, for example `us23_commute_friction`.
+- **Dimension**: broad domain such as `community`, `commute`, `mobility`, `amenities`, `growth`, or `healthcare`.
+- **Polarity** / **Strength**: `positive`, `caution`, or `neutral`, with an editorial magnitude from 1 through 5. These are profile-explanation inputs, not Fit-score weights or hard filters.
+- **Label** / **Detail** / **Audience** / **GeographyScope**: concise user-facing wording, an optional affected audience, and whether evidence applies to the city or a wider corridor/region.
+- **EvidenceKind** / **Confidence** / **SourceUrls** / **SourceRetrievedOn**: provenance. Community or Reddit sentiment must be marked as such and normally uses `limited` confidence; it cannot be presented as an objective city statistic.
+
+The source file is `city-profile-stack/data/location-profile-signals.json`. Migrate with `city-profile-stack/scripts/migrations/migrate-location-profile-signals.ts`, then import with `city-profile-stack/scripts/import/import-location-profile-signals.ts`; imports upsert only the provided signals and do not delete unrelated city data.
+
+## City profile stack (dossiers → signals → features)
+
+Qualitative city research lives in four layers. Each is a different kind of claim, and the separation is the point — the raw reading, the human-readable observation, the quantified estimate, and the derived persona are not interchangeable.
+
+**L0 `location_research_dossiers`** — the archive of record. The full narrative verbatim plus the structured JSON as delivered, with `analyst`, `source_urls`, `coverage` (strengths, limitations, gaps) and a sha256 `content_hash`. Nothing at request time reads this table; its job is to be what you re-derive from when the feature ontology changes, so a methodology revision never means re-doing the research. Append-only: an edited narrative lands as a new `revision` rather than overwriting. Source files are `city-profile-stack/data/dossiers/research-dossiers/<city>.{md,json}`.
+
+**L1 `location_profile_signals`** — see above. Concise, sourced, user-facing observations.
+
+**L2 `location_features`** — the quantified layer. One row per `(location_id, feature_key, provenance)`, `value` and `confidence` both 0..1.
+
+- **Features describe the place, never the person.** `specialist_healthcare_access = 0.15` is a claim about Elko; `bad_for_people_with_complex_healthcare_needs` would be a claim about people and does not go in the database. The `best_for` / `less_suitable_for` lists from source research are archived in L0 as source material only.
+- **`kind`** (in `city-profile-stack/lib/ontology.ts`, not the DB) determines what the number means: `capacity` (more is better — healthcare, job depth), `intensity` (a magnitude someone may seek or avoid — winter severity, isolation, wind), `position` (a spectrum with a neutral middle — political lean). Preference matching must branch on this; collapsing the three into one signed score is incoherent, because nobody "prefers more complex healthcare needs."
+- **`provenance`** is `editorial` (extracted from a dossier), `derived_structural` (computed from columns we already store, available for every city), or `propagated` (inherited from similar cities — not yet implemented). Confidence ceilings are enforced on write: 0.9 / 0.85 / 0.4. A `propagated` value must never drive a hard filter.
+- **Editorial and derived rows coexist deliberately.** The primary key includes `provenance` so both survive, which is what lets `city-profile-stack/scripts/tools/derive-structural-features.ts` print a calibration table of formula vs. researched ground truth. That table is how the extrapolation improves as dossiers accumulate.
+- **`location_features_resolved`** (view) picks the winner per city and feature: editorial > derived_structural > propagated, then by confidence.
+
+**L3 vectors** — built at query time from the resolved view, not stored. At ~110 cities a materialized vector table buys nothing. `city-profile-stack/scripts/tools/find-similar-locations.ts` compares only structurally derivable features, so a researched city is not judged unlike every unresearched one merely for having more data.
+
+**Similarity is a profile, not a scalar, and ranking is conjunctive.** The first version averaged absolute differences across all features and ranked Sierra Vista AZ as the 3rd most similar city to Billings MT (0.854) — two places differing by ~56 inches of annual snow. One categorical mismatch was averaged against twenty near-matches and disappeared. Raising the norm did not help (Sierra Vista rose to 2nd at p=3): the aggregator's shape was never the problem. Compatibility between places is **conjunctive** — a city is "like" another only if nothing about it would blindside you — whereas a mean models the opposite, that abundance on one axis compensates for absence on another. Ranking therefore uses the **weakest category**, with overall as a tiebreak, and any feature diverging by ≥0.30 is reported outright. Sierra Vista now ranks 11th with `climate 0.71` and `snow_burden 0.61` named explicitly. Use `--explain "Other City, ST"` for a full pairwise profile.
+
+Order of operations:
+
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-research-dossiers.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-profile-signals.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-features.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-texture-markers.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-research-dossiers.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-location-profile-signals.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-location-features.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-texture-markers.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/find-similar-locations.ts "Elko, NV"
+```
+
+Known limits of the structural layer, in descending size (all visible in the calibration table):
+
+- **No wind, tourism, local-wage, growth, or hail column exists anywhere in the schema.** These five are the distinguishing features of the researched cities and none of them can be derived for the other 106. Each new dossier has added editorial-only dimensions faster than structural ones — 19 structural against 23 editorial as of the third city. Extrapolation covers the measurable half of a place, not the half that decides whether someone stays.
+- **No river data**, so `water_recreation_access` under-reads any river city (Casper −0.35, Rapid City −0.36).
+- **Climate features come from `location_weather_monthly`, not the coarse columns.** `avg_low_winter` is null for a third of the dataset and precipitation seasonality does not exist as a column at all. `winter_cold_severity` and `snow_burden` are deliberately separate — blending them into one `winter_severity` destroyed the distinction between a northern winter and a high-desert one, which is what let Billings and Sierra Vista look alike. `precipitation_seasonality` is a `position`: 1.0 is a summer monsoon, 0.0 is a cool-season peak, and two cities can match on annual total while feeling nothing alike.
+- **`housing_value_for_size` is a residual against this curated dataset**, whose baseline is already expensive, so sitting on the trend line still means expensive nationally. All three dossiers call their city expensive for its size while the regression reads them as average.
+- **The `crime` column disagrees with lived accounts** and mixes two grading vocabularies. Rapid City is graded `High` while its dossier reports residents who would drive anywhere at night. `perceived_everyday_safety` is capped at 0.5 confidence for this reason and any dossier overrides it.
+
+Dossiers also catch curated-data errors: Rapid City was stored `near_mountains = false` despite being the Black Hills gateway, which suppressed its derived outdoor score by 0.30 until `data/geography-proximity.json` was corrected.
+
 ### Other
 - **Gas**: Average gas price per gallon (formatted as currency)
 - **Description**: Marketing/descriptive text about the location

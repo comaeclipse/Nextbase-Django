@@ -1,0 +1,139 @@
+{
+  "city": "Billings",
+  "state": "MT",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Billings, Montana — community sentiment synthesis",
+  "summary": "Montana's working regional capital: a genuinely diversified economy, the state's strongest healthcare, full retail and airport service, and good outdoor access by car — set against sprawl, industrial appearance, elevated property crime, thin cultural novelty, and social circles that open only to deliberate effort.",
+  "narrative_file": "billings-mt.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-06",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "active_local_subreddit_with_many_relocation_threads",
+      "repeated_billings_vs_bozeman_and_missoula_comparisons",
+      "comments_from_locals_transplants_families_singles_and_healthcare_workers",
+      "neighborhood_specific_discussion",
+      "official_sources_used_for_airport_service_va_facilities_and_municipal_policy"
+    ],
+    "limitations": [
+      "expectation_mismatch_dominates_sentiment_and_may_distort_ratings",
+      "crime_discussion_is_polarized_and_hard_to_scale",
+      "some_neighborhood_characterizations_are_broad_and_stereotyped",
+      "young_adult_dissatisfaction_may_be_overrepresented",
+      "comparisons_are_usually_against_montana_peers_not_national_peer_cities",
+      "housing_and_wage_conditions_changing_quickly"
+    ],
+    "gaps": [
+      "neighborhood_level_safety_conditions_conflict_and_change_quickly",
+      "school_quality_special_education_and_individual_school_fit",
+      "current_home_prices_rents_vacancy_and_income_to_housing_ratios",
+      "whether_formal_rental_waiting_lists_are_common",
+      "public_transit_condition_frequency_and_usefulness",
+      "broadband_quality_and_remote_work_reliability",
+      "childcare_supply_and_affordability",
+      "daily_experiences_of_residents_of_color_were_under_sampled",
+      "religious_culture_insufficiently_sampled_across_denominations_and_secular_residents",
+      "lgbtq_social_experience_based_on_few_self_selected_accounts",
+      "yellowstone_river_water_quality_and_urban_water_recreation_practicality",
+      "hail_wind_and_wildfire_smoke_burdens_require_meteorological_and_insurance_data",
+      "local_wage_adequacy_varies_sharply_by_profession",
+      "specialized_pediatric_psychiatric_reproductive_and_gender_affirming_care_availability",
+      "current_crime_rates_require_independent_police_or_federal_data"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/howislivingthere/comments/1qtivek/how_is_it_living_in_billings_montana/",
+    "https://www.reddit.com/r/howislivingthere/comments/1nh7tgw/how_is_living_in_billings_montana/",
+    "https://www.reddit.com/r/Billings/comments/1hi3dry/what_can_billings_do_to_attract_and_retain/",
+    "https://www.reddit.com/r/Billings/comments/ajx2md/moving_to_billings/",
+    "https://www.reddit.com/r/Billings/comments/1mw0eg3/areas_to_live_in_billings/",
+    "https://www.reddit.com/r/Billings/comments/s9jlup/is_billings_a_good_place_for_a_family_to_live/",
+    "https://www.reddit.com/r/Billings/comments/1eh0r8y/is_billings_a_safe_place/",
+    "https://www.reddit.com/r/Billings/comments/xjypvn/moving_to_montana/",
+    "https://www.reddit.com/r/Billings/comments/1cb0o7a/moving_from_los_angeles/",
+    "https://www.reddit.com/r/Billings/comments/1gw7ss2/i_need_opinions_about_billings/",
+    "https://www.reddit.com/r/Billings/comments/wh9tr6/hows_living_in_billings/",
+    "https://www.reddit.com/r/Billings/comments/1b9eb6i/meeting_other_young_adults/",
+    "https://www.reddit.com/r/Billings/comments/10vhgqq/places_to_meet_new_people/",
+    "https://www.reddit.com/r/Billings/comments/m6itza/single_young_professional/",
+    "https://www.reddit.com/r/Billings/comments/t8fg4s/any_cool_places_to_go_around_billings/",
+    "https://www.reddit.com/r/Billings/comments/1my5gpp/looking_into_moving_to_billings_whats_the_dating/",
+    "https://www.reddit.com/r/Billings/comments/1u59zuk/singles/",
+    "https://www.reddit.com/r/Billings/comments/vqkflm/potentially_moving_to_billings_for_work_assignment/",
+    "https://www.reddit.com/r/Billings/comments/ne5s8z/moving_ny_to_billings/",
+    "https://www.reddit.com/r/Billings/comments/1vfbnrx/moving_to_billings/",
+    "https://www.reddit.com/r/Billings/comments/1phqwy4/new_grad_rn_moving_to_billings/",
+    "https://www.reddit.com/r/Montana/comments/nq72nq/what_are_some_biggest_differences_between_living/",
+    "https://www.flybillings.com/1897/Where-We-Fly"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions, so it functions as an independent test of them.",
+    "location_context": {
+      "county": "Yellowstone County",
+      "region": "south-central Montana",
+      "setting": "working regional hub on the Yellowstone River below the Rimrocks, at the edge of the high plains",
+      "nearby_geographic_feature": "the Rimrocks; Beartooth Mountains roughly an hour to ninety minutes southwest",
+      "important_distinction": "Billings is routinely compared against Bozeman and Missoula rather than against national peer cities of similar size, which distorts sentiment in both directions."
+    },
+    "reddit_sentiment": "mixed_but_pragmatically_positive",
+    "city_archetype": "working_regional_hub_with_outdoor_access",
+    "strongest_positive_signals": [
+      "real_diversified_local_economy",
+      "regional_healthcare_and_retail_center",
+      "manageable_daily_life",
+      "family_compatible_suburbs",
+      "good_outdoor_access_by_car",
+      "less_tourism_distortion_than_bozeman_or_missoula"
+    ],
+    "strongest_negative_signals": [
+      "not_postcard_montana",
+      "elevated_property_crime_and_visible_disorder",
+      "car_dependent_sprawl",
+      "limited_cultural_novelty",
+      "social_effort_required_for_newcomers",
+      "continental_weather_extremes"
+    ],
+    "best_for": [
+      "practical_outdoors_oriented_families",
+      "healthcare_workers",
+      "trades_and_energy_workers",
+      "people_wanting_montana_with_full_services",
+      "homebodies",
+      "moderate_or_conservative_leaning_households",
+      "people_with_a_job_or_family_reason_to_move"
+    ],
+    "poor_fit_for": [
+      "mountain_town_romantics",
+      "car_free_households",
+      "big_city_culture_seekers",
+      "nightlife_centered_young_professionals",
+      "people_needing_a_large_dating_pool",
+      "people_sensitive_to_dry_industrial_landscapes",
+      "people_expecting_small_town_levels_of_crime"
+    ],
+    "neighborhood_shorthand": {
+      "west_end": "newer, more suburban, expanding, convenient for shopping, more expensive; critics find it generic and traffic-heavy",
+      "the_heights": "family-oriented, more affordable than the newest West End, somewhat self-contained, inconvenient for cross-town commuting",
+      "midtown_and_older_central": "mature trees, older homes, central, more character; quality varies significantly by block",
+      "downtown": "restaurants, breweries, historic buildings alongside visible homelessness and property-crime concern; not a large or continuously active downtown",
+      "south_side_and_north_park": "the most warnings regarding concentrated poverty, property crime and drugs, but residents who live there push back against sweeping characterizations; block-level investigation is essential"
+    },
+    "reddit_fit_scores_as_delivered": {
+      "note": "Author's own 0-10 impressions, preserved as source material. Not used directly as feature values.",
+      "practical_family_life": 8,
+      "local_employment_base": 8,
+      "outdoor_access": 7,
+      "immediate_mountain_scenery": 4,
+      "culture_and_nightlife": 5,
+      "walkability": 3,
+      "young_single_social_life": 4.5,
+      "everyday_convenience": 8,
+      "polished_or_upscale_atmosphere": 4,
+      "working_class_authenticity": 9
+    },
+    "bottom_line": "Billings is more useful than beautiful, more economically grounded than fashionable, and more satisfying for people building a stable everyday life than for people chasing an exciting Montana identity.",
+    "best_one_line_description": "Montana's utilitarian capital: a gritty, capable, big-small city that makes more sense to live in than to vacation in."
+  }
+}

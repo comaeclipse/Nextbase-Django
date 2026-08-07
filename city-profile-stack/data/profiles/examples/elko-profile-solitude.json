@@ -1,0 +1,42 @@
+{
+  "name": "The Elko profile: solitude, public land, cheap, does not need people",
+  "notes": "Built deliberately to describe what Elko is, to check whether the matcher finds Elko and its neighbours rather than something random.",
+  "preferences": {
+    "geographic_isolation": {
+      "target": 0.9,
+      "tolerance": 0.2,
+      "importance": 0.9
+    },
+    "outdoor_recreation_access": {
+      "min": 0.8,
+      "importance": 0.95
+    },
+    "public_land_access": {
+      "min": 0.75,
+      "importance": 0.85
+    },
+    "humidity_burden": {
+      "target": 0.1,
+      "tolerance": 0.2,
+      "importance": 0.7
+    },
+    "car_dependence": {
+      "target": 0.9,
+      "tolerance": 0.25,
+      "importance": 0.3
+    },
+    "nightlife_depth": {
+      "max": 0.35,
+      "importance": 0.3
+    },
+    "social_anonymity": {
+      "target": 0.35,
+      "tolerance": 0.3,
+      "importance": 0.4
+    },
+    "urban_amenity_depth": {
+      "max": 0.45,
+      "importance": 0.5
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Wants a rooted, quiet town where people know each other",
+  "notes": "The inverse vibe profile. Explicitly wants LOW nightlife and LOW street life, high neighborliness and rootedness. Nothing here is measurable from a statistical database.",
+  "preferences": {
+    "neighborliness": {
+      "min": 0.65,
+      "importance": 1.0
+    },
+    "population_rootedness": {
+      "target": 0.8,
+      "tolerance": 0.15,
+      "importance": 0.95
+    },
+    "late_night_availability": {
+      "max": 0.35,
+      "importance": 0.7
+    },
+    "street_life_vibrancy": {
+      "max": 0.45,
+      "importance": 0.6
+    },
+    "status_performance": {
+      "target": 0.2,
+      "tolerance": 0.2,
+      "importance": 0.85
+    },
+    "civic_identity_intensity": {
+      "target": 0.8,
+      "tolerance": 0.2,
+      "importance": 0.7
+    },
+    "quirk_embrace": {
+      "target": 0.5,
+      "tolerance": 0.3,
+      "importance": 0.3
+    }
+  }
+}

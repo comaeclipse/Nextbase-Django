@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
+  "updated_on": "2026-08-07",
+  "storage_policy": {
+    "canonical_location": "city-profile-stack/data",
+    "neon_policy": "No ledger entry is imported to Neon by default.",
+    "embedding_policy": "Only entries marked embedding_ready may be chunked and embedded; raw numbers are retained as structured evidence, not treated as embeddings."
+  },
+  "status_definitions": {
+    "conversation_captured": "Preserved from this research conversation; may lack complete source URLs or independent verification.",
+    "source_linked": "A source URL is recorded, but scope, vintage, or interpretation still needs review.",
+    "locally_normalized": "Claim, source, scope, counterevidence, and limitations are represented in a checked-in local artifact.",
+    "embedding_ready": "A bounded evidence passage has source URL, retrieval date, city scope, stance, and no unresolved attribution gap.",
+    "promotion_review": "Candidate for an explicitly approved R&D database import; never implies production approval."
+  },
+  "entries": [
+    {
+      "id": "elko_cultural_baseline_2026",
+      "city": "Elko",
+      "state": "NV",
+      "topic": "cultural_baseline",
+      "claim": "Elko is a small mining-centered regional city with visible Western, Basque, and outdoor civic institutions.",
+      "status": "locally_normalized",
+      "artifact": "data/dossiers/research-dossiers/elko-nv-cultural-baseline.md",
+      "limitations": ["Does not establish a representative after-hours pattern.", "Does not establish newcomer integration or school/hunting behavior."],
+      "embedding_ready": true
+    },
+    {
+      "id": "elko_tuesday_evening_texture_2026",
+      "city": "Elko",
+      "state": "NV",
+      "topic": "social_evening_ecosystem",
+      "claim": "User research characterizes an ordinary Tuesday as early and local: a Basque dinner anchor, early kitchen closures, karaoke or quiet pints, and sparse club-style nightlife despite tourism marketing.",
+      "status": "conversation_captured",
+      "artifact": "data/conversation-captures/2026-08-07-elko-odessa-north-platte.md",
+      "artifact_section": "elko-tuesday-evening-texture",
+      "source_gap": "The conversation supplied source reference numbers but not the full URLs for the named venue, tourism, and review sources.",
+      "limitations": ["One weekday pattern cannot establish citywide or weekend nightlife.", "Venue marketing and an open door do not prove actual crowd intensity."],
+      "embedding_ready": false
+    },
+    {
+      "id": "odessa_elko_calibration_2026",
+      "city": "Odessa",
+      "state": "TX",
+      "topic": "comparison_subtype",
+      "claim": "Odessa shares industrial-work and constrained broad-nightlife signals with Elko, but is a larger Permian Basin oilfield regional-city subtype rather than an Elko equivalent.",
+      "status": "locally_normalized",
+      "artifact": "data/dossiers/research-dossiers/odessa-tx-elko-calibration.md",
+      "limitations": ["Midessa accounts can mix Midland and Odessa.", "No representative citywide venue-hours inventory."],
+      "embedding_ready": true
+    },
+    {
+      "id": "north_platte_industrial_social_rhythm_2026",
+      "city": "North Platte",
+      "state": "NE",
+      "topic": "rhythm_mismatch",
+      "claim": "North Platte has continuous industrial activity centered on Bailey Yard but a socially event-led or venue-led evening pattern; industrial wakefulness must not be mistaken for broad nightlife.",
+      "status": "locally_normalized",
+      "artifact": "docs/rhythm-calibration.md",
+      "artifact_section": "north-platte-calibration-record",
+      "source_urls": [
+        "https://www.up.com/news/safety/Senior-Leads-Reinforce-Safety-250707",
+        "https://www.visitnorthplatte.com/things-to-do/arts-entertainment/live-music/",
+        "https://www.knopnews2.com/2026/05/16/music-bricks-kicks-off-summer-season-north-platte/"
+      ],
+      "limitations": ["Social-rhythm conclusion still lacks a representative ordinary-week venue-hours sample."],
+      "embedding_ready": true
+    },
+    {
+      "id": "north_platte_county_politics_2024",
+      "city": "North Platte",
+      "state": "NE",
+      "topic": "political_geography",
+      "claim": "Lincoln County voted 12,674 Trump/Vance to 3,586 Harris/Walz in the certified 2024 presidential result, supporting a strongly conservative county-level proxy.",
+      "status": "source_linked",
+      "scope": "Lincoln County, not North Platte city-only",
+      "source_urls": ["https://lincolncountyne.gov/wp-content/uploads/2024/11/GEN24-OFFICIAL-RESULTS-SUMMARY-PUBLIC.pdf"],
+      "limitations": ["A city-specific descriptor requires aggregating the North Platte precincts; county totals include rural voters."],
+      "embedding_ready": false
+    },
+    {
+      "id": "north_platte_mobility_family_hypotheses_2026",
+      "city": "North Platte",
+      "state": "NE",
+      "topic": "household_and_mobility",
+      "claim": "Conversation research treats family compatibility as moderately supported but corrects both hyper-rootedness and boomtown transience: the available residence-mobility evidence suggests a middle position pending full benchmark capture.",
+      "status": "conversation_captured",
+      "artifact": "data/conversation-captures/2026-08-07-elko-odessa-north-platte.md",
+      "artifact_section": "north-platte-mobility-and-household-corrections",
+      "source_urls": ["https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/POP715223"],
+      "limitations": ["Demographics and mobility do not directly prove family norms, newcomer welcome, or multigenerational rootedness."],
+      "embedding_ready": false
+    },
+    {
+      "id": "three_city_broad_family_hypothesis_2026",
+      "city": null,
+      "state": null,
+      "topic": "cohort_hypothesis",
+      "claim": "Elko, Odessa, and North Platte may belong to a broad blue-collar regional-hub family, but each is a distinct subtype: mining/outdoors, oilfield/industrial, and railroad/agriculture/service respectively.",
+      "status": "conversation_captured",
+      "artifact": "data/conversation-captures/2026-08-07-elko-odessa-north-platte.md",
+      "artifact_section": "three-city-comparison",
+      "limitations": ["This is a research hypothesis, not a similarity score or recommendation."],
+      "embedding_ready": false
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "city": "Odessa",
+  "state": "TX",
+  "dossier_key": "elko_comparison_calibration_2026",
+  "source_kind": "source_backed_comparison_calibration",
+  "title": "Odessa, Texas - Elko comparison calibration",
+  "summary": "Odessa shares Elko's industry-centered opportunity structure, potential work-family tradeoffs, and limited broad nightlife ecosystem, but it is a different subtype: a larger Permian Basin oilfield regional city rather than a small mining, cowboy, and public-lands town. This dossier keeps the shared structure separate from cultural claims that still need direct evidence.",
+  "narrative_file": "odessa-tx-elko-calibration.md",
+  "analyst": "source_backed_research",
+  "retrieved_on": "2026-08-07",
+  "coverage": {
+    "level": "first_comparison_calibration",
+    "strengths": [
+      "current_official_employment_and_major_employer_data",
+      "current_federal_labor_market_summary",
+      "recent_resident_accounts_with_counterexamples_for_evening_life",
+      "named_local_rodeo_and_livestock_institution"
+    ],
+    "limitations": [
+      "Midessa resident accounts sometimes describe the combined Midland-Odessa area rather than Odessa alone",
+      "resident accounts are lived experience rather than a representative survey",
+      "this pass does not systematically sample current venue_hours_or_neighborhood_activity",
+      "employment_industry_counts_are_regional_and_do_not_measure_individual_hiring_outcomes"
+    ],
+    "gaps": [
+      "comparable_citywide_after_8_rhythm_measure",
+      "current_representative_nightlife_and_venue_inventory",
+      "representative_measure_of_social_integration_and_family_orientation",
+      "comparable_outdoor_access_and_everyday_participation_measure",
+      "direct_measure_of_tech_startup_or_creative_employment_base"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/odessacitytexas/DIS010223",
+    "https://www.odessatex.com/workforce/employment-by-industry/",
+    "https://www.odessatex.com/workforce/major-employers/",
+    "https://www.bls.gov/regions/southwest/summary/blssummary_odessa.pdf",
+    "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+    "https://www.reddit.com/r/Midessa/comments/1edt6tf/night_life/",
+    "https://www.reddit.com/r/Midessa/comments/1rw5zq2/do_you_like_working_in_midland_odessa_in_the_oil/",
+    "https://www.reddit.com/r/Midessa/comments/vt5y5t/late_night_date_ideas/",
+    "https://pbfair.com/"
+  ],
+  "structured": {
+    "scope": "Odessa city unless a claim explicitly says Midland-Odessa, Ector County, or the Odessa metropolitan area.",
+    "comparison_anchor": "Elko, NV",
+    "proposed_subtype": "industrial_oilfield_regional_city",
+    "established": [
+      "Odessa's May 2026 official economic-development profile reports about 84,000 nonfarm jobs, with services, mining and construction, and trade and transportation among the largest broad sectors. Its November 2025 major-employer list includes oilfield service firms alongside schools, hospitals, higher education, government, logistics, and retail distribution.",
+      "The BLS Odessa area summary for June 2026 reports 19,300 mining, logging, and construction jobs, 20,400 trade, transportation, and utilities jobs, 6,300 education and health services jobs, and 4,900 professional and business services jobs. This supports industrial and trade-centered work as a major local anchor, not an oil-only labor-market claim.",
+      "Recent Midessa resident accounts consistently describe a limited broad bar-or-clubbing scene while also identifying community theater, symphony, games, bands, planetarium shows, family activities, and occasional nearby outings. That supports a constrained nightlife ecosystem, not a claim that the area is literally inactive after 8 p.m.",
+      "The Permian Basin Fair and Expo makes livestock, rodeo, and Western event culture publicly visible in Odessa's civic calendar. It does not, by itself, establish hunting or public-lands recreation as an everyday identity on the scale evidenced in Elko."
+    ],
+    "counterevidence_or_limits": [
+      "A 2022 Midessa discussion listed date-night options after 8 p.m., including karaoke, dancing, and late dining. It is retained as historical counterevidence to a hard shutdown claim, not evidence of current venue hours.",
+      "A recent Midessa resident says there is plenty to do for a family and another lists recurring non-bar activities. Those accounts prevent this dossier from turning limited nightlife into a claim that no social life exists.",
+      "Oilfield work and commuting can create work-family strain for some workers, but the available accounts do not justify treating that as every household's rhythm or job outcome."
+    ],
+    "not_established": [
+      "No source in this pass establishes an exact citywide after-8 activity score, a literal citywide shutdown, or present-day closing times for a representative set of venues.",
+      "No source establishes that Odessa is culturally identical to Elko, broadly family-oriented, socially insular, politically conservative in lived experience, or a place where people universally make money and leave.",
+      "No source establishes that technology, startups, or creative work are absent. The available employment evidence only does not show them as a major local employment base.",
+      "No source establishes that Odessa has Elko-comparable public-land access, hunting participation, or small-town familiarity. Those are explicit comparison gaps, not negative scores."
+    ],
+    "comparison_contract": "Treat Odessa as a candidate in the shared isolated-resource-extraction and working-class opportunity cluster, then test each cultural dimension separately. A future comparison may state the shared industrial-work structure and constrained broad nightlife, but must show the subtype difference and preserve unresolved outdoor, social, and political-culture dimensions rather than collapse them into one similarity number."
+  }
+}

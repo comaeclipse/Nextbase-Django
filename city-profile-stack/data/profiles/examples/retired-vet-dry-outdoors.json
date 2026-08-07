@@ -1,0 +1,42 @@
+{
+  "name": "Retired veteran, chronic condition, hates humidity, lives outdoors",
+  "notes": "Fixed income. Needs real VA and specialist care nearby. Wants dry air and mountains. Drives fine. Does not care about nightlife.",
+  "preferences": {
+    "va_outpatient_access": {
+      "min": 0.7,
+      "importance": 1.0,
+      "dealbreaker": true
+    },
+    "specialist_healthcare_access": {
+      "min": 0.55,
+      "importance": 0.95,
+      "dealbreaker": true
+    },
+    "humidity_burden": {
+      "target": 0.15,
+      "tolerance": 0.2,
+      "importance": 0.9
+    },
+    "outdoor_recreation_access": {
+      "min": 0.7,
+      "importance": 0.85
+    },
+    "housing_affordability": {
+      "min": 0.5,
+      "importance": 0.8
+    },
+    "winter_cold_severity": {
+      "target": 0.4,
+      "tolerance": 0.25,
+      "importance": 0.5
+    },
+    "perceived_everyday_safety": {
+      "min": 0.55,
+      "importance": 0.6
+    },
+    "nightlife_depth": {
+      "max": 0.6,
+      "importance": 0.1
+    }
+  }
+}

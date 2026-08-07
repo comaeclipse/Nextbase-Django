@@ -562,16 +562,24 @@ export default async function CityDetailPage({
                 </div>
               </div>
               {location.veterans_benefits && (
-                <p
-                  className="lede"
+                <div
+                  className="veteran-benefits-summary"
                   style={{
                     marginTop: "1rem",
                     paddingTop: "1rem",
                     borderTop: "1px solid var(--border)",
                   }}
                 >
-                  {location.veterans_benefits}
-                </p>
+                  <p className="lede">{location.veterans_benefits}</p>
+                  {stateAbbr === "CA" && (
+                    <Link
+                      href="/benefits/california"
+                      className="section-link veteran-benefits-link"
+                    >
+                      California benefit details <span aria-hidden>↗</span>
+                    </Link>
+                  )}
+                </div>
               )}
             </div>
           </div>

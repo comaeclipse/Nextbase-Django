@@ -1,0 +1,88 @@
+{
+  "city": "Nashville",
+  "state": "TN",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Nashville, Tennessee — community sentiment synthesis",
+  "summary": "An opportunity-rich Southern metro with exceptional music, healthcare and professional depth — set against housing costs that have outrun local wages, structural car dependence, heavy tourism pressure, and a growth story longtime residents experience as loss.",
+  "narrative_file": "nashville-tn.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-06",
+  "coverage": {
+    "level": "strong",
+    "strengths": [
+      "large_active_local_subreddit",
+      "abundant_relocation_threads",
+      "longtime_residents_transplants_and_former_residents_all_participate",
+      "themes_recur_across_years",
+      "dedicated_movetonashville_subreddit"
+    ],
+    "limitations": [
+      "overrepresents_dissatisfied_residents_renters_and_people_contemplating_departure",
+      "nashville_means_davidson_county_urban_core_or_the_whole_metro_depending_on_speaker",
+      "housing_traffic_and_neighborhood_character_change_rapidly",
+      "broadway_tourism_dominates_outside_perceptions",
+      "crime_homelessness_race_and_politics_discourse_is_inflammatory",
+      "happy_residents_are_under_sampled",
+      "climate_is_almost_entirely_absent_from_the_discourse"
+    ],
+    "gaps": [
+      "neighborhood_level_school_quality",
+      "current_prices_rents_and_vacancy_rates",
+      "va_outpatient_and_va_hospital_access",
+      "lgbtq_municipal_protections",
+      "direct_lgbtq_resident_testimony",
+      "racial_inclusion_climate",
+      "substance_and_homelessness_discourse_too_inflammatory_to_score",
+      "winter_cold_snow_and_precipitation_seasonality",
+      "summer_heat_humidity_and_severe_weather_not_discussed",
+      "citywide_safety_perception_varies_too_much_by_neighborhood",
+      "rental_availability_vs_affordability",
+      "whether_trade_wages_exceed_the_local_cost_base",
+      "dating_experiences_across_age_groups",
+      "transit_quality_by_neighborhood",
+      "feature_level_scoring_for_individual_suburbs"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/nashville/comments/1sn6f4a/anyone_thinking_of_leaving_nashville/",
+    "https://www.reddit.com/r/nashville/comments/1syo7du/any_natives_feel_hopeless/",
+    "https://www.reddit.com/r/nashville/comments/1ksro5c/is_anyone_happy/",
+    "https://www.reddit.com/r/nashville/comments/1hxvoxd/how_well_do_you_like_living_in_nashville/",
+    "https://www.reddit.com/r/nashville/comments/rhs4tl/is_it_possible_to_live_in_nashville_without_a_car/",
+    "https://www.reddit.com/r/nashville/comments/jx5ard/nashville_walkable_neighborhoods/",
+    "https://www.reddit.com/r/nashville/comments/f3zyo2/do_nashville_locals_hang_out_on_broadway_is/",
+    "https://www.reddit.com/r/nashville/comments/1t4haga/an_existential_crisis_residents_pay_for_nashville/",
+    "https://www.reddit.com/r/movetonashville/comments/1nhwj98/relocating_to_nashville_due_to_job_looking_for/",
+    "https://www.reddit.com/r/nashville/comments/uyhra8/musician_moving_to_nashville_need_advice/"
+  ],
+  "structured": {
+    "note": "Persona lists are archived as source material only. NOTE ON PROCESS: the delivered Block 3 scored summer_heat_severity, humidity_burden, climate_control_dependence and severe_storm_risk while its own evidence strings stated the topics were 'not directly discussed' or 'not a developed community theme', each citing an unrelated satisfaction signal. Those four were dropped at ingestion rather than stored, and the prompt generator was amended so the signal-citation rule pushes toward omission instead of loose citation.",
+    "location_context": {
+      "county": "Davidson County",
+      "region": "Middle Tennessee",
+      "setting": "Cumberland River basin, green and rolling, no immediate mountain access",
+      "important_distinction": "'Nashville' variously means Davidson County, the urban core, or the whole Middle Tennessee commuting region."
+    },
+    "reddit_sentiment": "lively_and_opportunity_rich_but_increasingly_unaffordable",
+    "comparison_to_memphis": "Nashville is seen as the growth market with broader white-collar employment and tourism investment; Memphis is credited with deeper historical character and lower housing costs.",
+    "best_for": [
+      "musicians_and_creative_industry_workers",
+      "healthcare_workers",
+      "corporate_professionals",
+      "socially_active_young_adults",
+      "concertgoers",
+      "families_with_income_to_choose_neighborhood_and_commute"
+    ],
+    "less_suitable_for": [
+      "people_arriving_without_a_well_paid_job",
+      "people_expecting_a_cheap_southern_city",
+      "people_who_dislike_driving",
+      "people_needing_reliable_transit",
+      "people_wanting_mountains_or_public_wilderness_nearby",
+      "artists_and_service_workers_on_local_wages",
+      "trailing_spouses_without_an_existing_network"
+    ],
+    "overall_take": "Nashville remains unusually lively and opportunity-rich, but many residents believe escalating costs, car dependence and tourism-driven growth are steadily consuming the accessibility and local character that once made it easy to love."
+  }
+}

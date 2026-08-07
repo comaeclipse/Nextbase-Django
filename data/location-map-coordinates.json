@@ -108,6 +108,13 @@
       "longitude": -117.135562
     },
     {
+      "name": "Victorville",
+      "state": "CA",
+      "census_place_geoid": "0682590",
+      "latitude": 34.527735,
+      "longitude": -117.353579
+    },
+    {
       "name": "Yuba City",
       "state": "CA",
       "census_place_geoid": "0686972",
@@ -311,6 +318,13 @@
       "longitude": -76.610476
     },
     {
+      "name": "Bangor",
+      "state": "ME",
+      "census_place_geoid": "2302795",
+      "latitude": 44.829625,
+      "longitude": -68.788767
+    },
+    {
       "name": "Bath",
       "state": "ME",
       "census_place_geoid": "2303355",
@@ -437,6 +451,13 @@
       "longitude": -96.053475
     },
     {
+      "name": "Hudson",
+      "state": "NH",
+      "census_place_geoid": "3337860",
+      "latitude": 42.763811,
+      "longitude": -71.43201
+    },
+    {
       "name": "Manchester",
       "state": "NH",
       "census_place_geoid": "3345140",
@@ -514,11 +535,25 @@
       "longitude": -76.143554
     },
     {
+      "name": "Watertown",
+      "state": "NY",
+      "census_place_geoid": "3678608",
+      "latitude": 43.973292,
+      "longitude": -75.910039
+    },
+    {
       "name": "Akron",
       "state": "OH",
       "census_place_geoid": "3901000",
       "latitude": 41.080456,
       "longitude": -81.521429
+    },
+    {
+      "name": "Ashville",
+      "state": "OH",
+      "census_place_geoid": "3902680",
+      "latitude": 39.72434,
+      "longitude": -82.957472
     },
     {
       "name": "Cincinnati",
@@ -533,6 +568,13 @@
       "census_place_geoid": "3918000",
       "latitude": 39.983938,
       "longitude": -82.984882
+    },
+    {
+      "name": "Oklahoma City",
+      "state": "OK",
+      "census_place_geoid": "4055000",
+      "latitude": 35.467079,
+      "longitude": -97.513657
     },
     {
       "name": "Tulsa",
@@ -582,6 +624,13 @@
       "census_place_geoid": "4269000",
       "latitude": 41.404178,
       "longitude": -75.665908
+    },
+    {
+      "name": "Warren",
+      "state": "PA",
+      "census_place_geoid": "4281000",
+      "latitude": 41.842916,
+      "longitude": -79.143865
     },
     {
       "name": "Providence",

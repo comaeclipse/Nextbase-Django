@@ -1,0 +1,81 @@
+{
+  "city": "Bangor",
+  "state": "ME",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Bangor, Maine — community sentiment synthesis",
+  "summary": "A small regional city that often feels like a large town, looks suburban at its edges and is surrounded by rural Maine. Punches above its weight on amenities, outdoor access, concerts and healthcare employment; below it on dating, nightlife, career variety, transit and urban energy.",
+  "narrative_file": "bangor-me.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-06",
+  "coverage": {
+    "level": "high",
+    "strengths": [
+      "dedicated_local_subreddit_plus_active_state_subreddit",
+      "two_pass_research_general_then_targeted_splits",
+      "first_person_queer_resident_accounts",
+      "municipal_planning_and_news_sources_for_the_four_splits",
+      "strong_verbatim_capture"
+    ],
+    "limitations": [
+      "negative_medical_experiences_are_overrepresented_online",
+      "crime_and_homelessness_discussion_is_the_most_polarized_topic",
+      "mud_season_and_black_fly_markers_are_maine_wide_not_bangor_specific",
+      "closing_hour_evidence_was_less_consistent_than_the_general_thinness_refrain",
+      "metro_statistics_span_a_3400_square_mile_mostly_rural_county"
+    ],
+    "gaps": [
+      "not_researched: neighborhood_by_neighborhood_school_quality",
+      "not_researched: current_rents_by_unit_type",
+      "discussed_but_unscoreable: whether_homelessness_is_primarily_public_order_or_housing_failure"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/bangorme/comments/1u6uprd/moving_to_bangor/",
+    "https://www.reddit.com/r/bangorme/comments/1tvpdlk/i_run_i_hate_bangor_ama_about_bangor/",
+    "https://www.reddit.com/r/bangorme/comments/1s37die/plane_taking_off_at_5_am_today/",
+    "https://www.reddit.com/r/bangorme/comments/1s3mr6t/bangor_airport/",
+    "https://www.reddit.com/r/bangorme/comments/1n99t67/borders/",
+    "https://www.reddit.com/r/bangorme/comments/1pnorax/bangor_mall/",
+    "https://www.reddit.com/r/bangorme/comments/1mr90ak/dinner_recommendations/",
+    "https://www.reddit.com/r/Maine/comments/1eozj3i/bangor_what_do_you_like_or_not_about_it/",
+    "https://www.reddit.com/r/Maine/comments/1flflfx/cost_of_rent_in_and_around_bangor_vs_quality_of/",
+    "https://www.reddit.com/r/Maine/comments/1h1mznb/northern_maine_healthcare/",
+    "https://www.reddit.com/r/Maine/comments/1iyxex0/the_reality_of_bangor/",
+    "https://www.reddit.com/r/Maine/comments/jbqber/lgbt_in_bangor/",
+    "https://www.reddit.com/r/Maine/comments/vqq94r/in_search_of_places_to_meet_friends_near_bangor/",
+    "https://www.reddit.com/r/Maine/comments/1f9mk5w/maine_winter_question/",
+    "https://www.reddit.com/r/Maine/comments/qbgpld/it_cant_be_that_badright/",
+    "https://www.reddit.com/r/Maine/comments/7313fm/help_me_not_be_an_asshole/",
+    "https://www.reddit.com/r/howislivingthere/comments/1n57w7a/how_is_life_in_bangor_maine/",
+    "https://www.bangordailynews.com/2026/01/19/bangor/bangor-health/waitlists-bangor-primary-care-providers-exceed-national-average-joam40zk0w/"
+  ],
+  "structured": {
+    "note": "First dossier produced in two passes: a general read, then a targeted follow-up probing four suspected ontology gaps. All four splits held up with separating evidence and were promoted to features. Persona lists are archived as source material only.",
+    "classification": {
+      "primary": "small_city",
+      "secondary": "low_density_regional_city",
+      "urban_core": "small_but_genuine",
+      "outer_form": "partly_suburban_and_car_oriented",
+      "surrounding_context": "strongly_rural",
+      "social_feel": "large_town_to_small_city",
+      "regional_role": "major_service_center_for_eastern_and_northern_maine",
+      "not_best_classified_as": [
+        "suburb",
+        "small_town",
+        "rural"
+      ],
+      "note": "Does not fit the four-way pace taxonomy (urban/suburban/small_town/rural) cleanly; 'small city' is a missing category."
+    },
+    "four_splits_as_delivered": {
+      "healthcare_infrastructure": 0.82,
+      "healthcare_navigability": 0.28,
+      "downtown_walkability": 0.79,
+      "citywide_walkability": 0.34,
+      "lgbtq_safety_acceptance": 0.82,
+      "lgbtq_scene_size": 0.43,
+      "political_heterogeneity": 0.77
+    },
+    "overall_take": "Bangor can be a genuinely good place to build a quiet life, but it is a disappointing place to expect a big life."
+  }
+}

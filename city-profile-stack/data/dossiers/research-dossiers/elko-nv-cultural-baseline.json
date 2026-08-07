@@ -1,0 +1,54 @@
+{
+  "city": "Elko",
+  "state": "NV",
+  "dossier_key": "cultural_baseline_2026",
+  "source_kind": "source_backed_cultural_baseline",
+  "title": "Elko, Nevada — cultural baseline",
+  "summary": "Elko is a small northeastern Nevada regional center with a demonstrably mining-centered labor market and a conspicuous Western, Basque, and outdoor civic identity. It is not evidence-based to reduce the city to a hunting stereotype or to claim a venture-capital social scene is absent; the available sources establish neither claim directly.",
+  "narrative_file": "elko-nv-cultural-baseline.md",
+  "analyst": "source_backed_research",
+  "retrieved_on": "2026-08-07",
+  "coverage": {
+    "level": "baseline",
+    "strengths": [
+      "current_state_workforce_profile",
+      "official_federal_and_state_sources",
+      "named_local_cultural_institutions_and_events"
+    ],
+    "limitations": [
+      "county_labor_data_is_not_a_citywide_social_survey",
+      "tourism_and_event_sources_show_visible_institutions_not_everyday_participation",
+      "business-hours_and_after_midnight_activity_were_not_systematically_sampled"
+    ],
+    "gaps": [
+      "verified_citywide_after_hours_rhythm",
+      "school_attendance_or_turkey_season_behavior",
+      "representative_measure_of_newcomer_social_integration",
+      "comparable_startup_or_venture_capital_ecosystem_measure"
+    ]
+  },
+  "source_urls": [
+    "https://nevadaworkforce.com/_docs/Dashboards/County-Summaries/Elko-County-Economic-Summary",
+    "https://detr.nv.gov/Page/Mining_and_Materials_Industry_Sector",
+    "https://www.census.gov/quickfacts/fact/table/elkocitynevada/PST045225",
+    "https://www.ndow.org/events/2026-elko-sportmans-expo/",
+    "https://travelnevada.com/event/national-cowboy-poetry-gathering/",
+    "https://travelnevada.com/museums/western-folklife-center/"
+  ],
+  "structured": {
+    "scope": "Elko city unless a claim explicitly says Elko County or region.",
+    "established": [
+      "Elko County's current workforce profile and state workforce material support treating mining and mining-adjacent skilled work as a major regional economic anchor.",
+      "Elko has enduring, organized Western arts and heritage infrastructure rather than only a generic small-town arts claim: the Western Folklife Center and its National Cowboy Poetry Gathering operate in downtown Elko.",
+      "Outdoor and hunting culture is publicly visible in the city through a recurring NDOW-supported Sportsman's Expo with wildlife education, outdoor vendors, and youth activities.",
+      "Census data describes a city of about 21,000 people, with 82.8 percent of residents age one or older living in the same house one year earlier. This is a residential-stability signal, not proof that every newcomer will find a close-knit community."
+    ],
+    "not_established": [
+      "No source in this baseline establishes that Elko is generally asleep after 8 p.m.; event calendars and a historic saloon are not a representative nightlife census.",
+      "No source establishes that children skip school on the first day of turkey season. The local presence of hunting education and an outdoor expo does not support that inference.",
+      "No source establishes a citywide rule that people without trade skills are unhireable. Mining is an important anchor, but county data also records retail, health care, government, transportation, and other work.",
+      "No source establishes either the presence or absence of a meaningful venture-capital social scene. Absence of evidence is retained as a research gap rather than scored as a negative fact."
+    ],
+    "comparison_contract": "Use the established claims as evidence-backed cultural and economic signals. Treat the not-established claims as unknown. A future city-comparison result must show the distinction."
+  }
+}

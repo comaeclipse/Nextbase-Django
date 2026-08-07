@@ -1,0 +1,37 @@
+{
+  "name": "Wants somewhere weird, alive, and still awake at midnight",
+  "notes": "Vibe-only profile. No healthcare, no housing, no jobs — purely the character features that can only come from residents talking. Built to test whether texture data actually discriminates.",
+  "preferences": {
+    "quirk_embrace": {
+      "target": 0.85,
+      "tolerance": 0.15,
+      "importance": 1.0
+    },
+    "late_night_availability": {
+      "min": 0.6,
+      "importance": 0.95
+    },
+    "street_life_vibrancy": {
+      "min": 0.7,
+      "importance": 0.9
+    },
+    "creative_participation": {
+      "min": 0.75,
+      "importance": 0.9
+    },
+    "subculture_depth": {
+      "min": 0.7,
+      "importance": 0.85
+    },
+    "independent_business_character": {
+      "target": 0.85,
+      "tolerance": 0.2,
+      "importance": 0.7
+    },
+    "status_performance": {
+      "target": 0.35,
+      "tolerance": 0.25,
+      "importance": 0.5
+    }
+  }
+}

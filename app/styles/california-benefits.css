@@ -1,0 +1,19 @@
+.california-benefits-page { min-height: 100vh; background: #f9fafb; color: #1f2937; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+.california-benefits-content { box-sizing: border-box; max-width: 900px; margin: 0 auto; padding: 2.5rem 5% 4rem; }
+.california-benefits-back, .california-benefits-sources a { color: #2563eb; text-decoration: none; }
+.california-benefits-back:hover, .california-benefits-sources a:hover { text-decoration: underline; text-underline-offset: .2rem; }
+.california-benefits-hero { margin: 1.25rem 0 1.5rem; padding: 2rem; border-radius: 12px; background: linear-gradient(135deg, #1d4ed8, #0f766e); color: #fff; }
+.california-benefits-hero p { margin: 0 0 .35rem; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.california-benefits-hero h1 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; }
+.california-benefits-hero span { display: block; margin-top: .75rem; line-height: 1.55; }
+.california-benefits-page section { margin-top: 1rem; padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgb(0 0 0 / 5%); }
+.california-benefits-page h2 { margin: 0 0 .8rem; font-size: 1.2rem; }
+.california-benefits-page h3 { margin: 0 0 .45rem; font-size: 1rem; }
+.california-benefits-page p { margin: .75rem 0 0; color: #374151; line-height: 1.65; }
+.california-benefits-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+.california-benefits-grid article { padding: 1rem; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb; }
+.california-benefits-grid p { margin: 0; font-size: .92rem; }
+.california-benefits-sources ul { margin: 0; padding-left: 1.2rem; }
+.california-benefits-sources li + li { margin-top: .55rem; }
+.california-benefits-note { padding-top: 1rem; border-top: 1px solid #e5e7eb; font-size: .88rem; }
+@media (max-width: 700px) { .california-benefits-content { padding-top: 1.5rem; } .california-benefits-hero, .california-benefits-page section { padding: 1.25rem; } .california-benefits-grid { grid-template-columns: 1fr; } }

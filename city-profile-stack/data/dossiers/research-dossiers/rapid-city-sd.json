@@ -1,0 +1,275 @@
+{
+  "city": "Rapid City",
+  "state": "SD",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Rapid City, South Dakota — community sentiment synthesis",
+  "summary": "A scenic Black Hills gateway with exceptional trail, rock and family recreation, minimal traffic and no state income tax — set against housing costs that outrun local wages, substantial isolation, thin specialist healthcare, tourism and growth pressure, and visible social tensions.",
+  "narrative_file": "rapid-city-sd.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-06",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "multiple_rapid_city_relocation_threads",
+      "active_local_subreddit",
+      "substantial_rapid_city_vs_sioux_falls_discussion",
+      "comments_from_locals_transplants_military_families_parents_and_former_residents",
+      "recent_family_cost_of_living_and_quality_of_life_threads"
+    ],
+    "limitations": [
+      "unhappy_renters_and_younger_residents_may_be_overrepresented",
+      "military_households_are_overrepresented_in_some_threads",
+      "some_comments_blur_rapid_city_with_the_wider_black_hills_region",
+      "crime_school_and_healthcare_perceptions_are_subjective",
+      "race_and_homelessness_discussions_can_be_inflammatory_or_prejudiced",
+      "limited_detailed_comparison_of_individual_neighborhoods",
+      "housing_military_growth_and_construction_conditions_can_change_quickly",
+      "tourism_season_frustration_may_overstate_year_round_conditions"
+    ],
+    "gaps": [
+      "ranking_of_box_elder_black_hawk_piedmont_summerset_and_rapid_valley",
+      "school_by_school_quality",
+      "hail_and_severe_storm_frequency_under_sampled_in_reviewed_threads",
+      "homeschool_network_detail",
+      "race_relations_require_independent_research_beyond_reddit"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/SouthDakota/comments/1dopoye/what_is_living_in_rapid_city_south_dakota_like/",
+    "https://www.reddit.com/r/SouthDakota/comments/1qbgjgd/rapid_city_vs_sioux_falls/",
+    "https://www.reddit.com/r/SouthDakota/comments/17v7ct9/seriously_considering_moving_from_msp_to_rapid/",
+    "https://www.reddit.com/r/SouthDakota/comments/1in1opb/where_to_live/",
+    "https://www.reddit.com/r/RapidCity/comments/18jfwfo/thinking_about_moving_to_rapid_city/",
+    "https://www.reddit.com/r/RapidCity/comments/1rs7xcj/young_family_considering_rapid_city/",
+    "https://www.reddit.com/r/RapidCity/comments/1diout7/what_are_the_positives_of_rapid_city/",
+    "https://www.reddit.com/r/RapidCity/comments/1dfj824/moving_to_rapid_cityneed_advice/",
+    "https://www.reddit.com/r/RapidCity/comments/1diha6y/whats_life_like_in_rapid_city_and_the_black_hills/",
+    "https://www.reddit.com/r/RapidCity/comments/1h720ln/researching_places_to_move_south_dakota_or_idaho/"
+  ],
+  "structured": {
+    "note": "The original relocation-project JSON, preserved as delivered, with one correction applied at the author's instruction: the less_suitable_for value 'people_expectating_fast_social_integration' was normalized to 'people_expecting_fast_social_integration'. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people.",
+    "location_context": {
+      "county": "Pennington County",
+      "region": "western South Dakota",
+      "setting": "Black Hills gateway and regional center at the boundary between forested hills and high plains",
+      "nearby_geographic_feature": "Black Hills",
+      "important_distinction": "Reddit discussions sometimes combine Rapid City proper with Box Elder, Rapid Valley, Black Hawk, Piedmont, Summerset and the wider Black Hills region."
+    },
+    "reddit_sentiment": "mixed_to_positive_and_lifestyle_dependent",
+    "sentiment_summary": "People who value Black Hills access, family recreation, low traffic and Western culture may love Rapid City. People dependent on local wages, advanced healthcare, urban variety or frequent travel often find the city expensive and isolating.",
+    "comparison_to_casper": "Casper is the more practical energy-and-services city. Rapid City is the more scenic, tourism-driven outdoor gateway.",
+    "best_for": [
+      "outdoor_oriented_families_with_secure_income",
+      "remote_workers_with_stable_income",
+      "military_families",
+      "healthcare_workers",
+      "skilled_tradespeople",
+      "construction_and_maintenance_workers",
+      "hikers_and_mountain_bikers",
+      "rock_climbers",
+      "hunters_and_anglers",
+      "campers_and_off_road_recreation_users",
+      "self_contained_couples",
+      "politically_conservative_households",
+      "politically_private_moderates",
+      "christian_and_church_oriented_households",
+      "people_seeking_low_traffic",
+      "people_who_prefer_dry_weather",
+      "people_wanting_western_culture",
+      "people_wanting_black_hills_access_without_living_in_a_tourist_town"
+    ],
+    "less_suitable_for": [
+      "households_dependent_on_low_local_wages",
+      "people_with_highly_specialized_healthcare_needs",
+      "car_free_households",
+      "people_seeking_big_city_amenities",
+      "people_who_dislike_outdoor_recreation",
+      "people_moving_without_employment",
+      "single_adults_seeking_a_large_dating_pool",
+      "people_seeking_extensive_nightlife",
+      "people_seeking_progressive_social_culture",
+      "specialized_white_collar_workers_without_remote_jobs",
+      "frequent_air_travelers",
+      "people_who_dislike_geographic_isolation",
+      "people_who_dislike_tourism",
+      "people_expecting_cheap_housing",
+      "people_uncomfortable_with_visible_homelessness_and_addiction",
+      "people_seeking_predictable_weather",
+      "people_expecting_fast_social_integration"
+    ],
+    "strengths": [
+      "immediate_black_hills_access",
+      "excellent_hiking_and_mountain_biking",
+      "rock_climbing",
+      "hunting_fishing_and_camping",
+      "lakes_caves_and_scenic_drives",
+      "large_inventory_of_family_tourism_attractions",
+      "short_in_town_drives",
+      "low_traffic_outside_major_tourism_events",
+      "regional_shopping_and_service_hub",
+      "family_friendly_scale",
+      "distinctive_downtown",
+      "restaurants_breweries_and_small_markets",
+      "military_community_presence",
+      "dry_climate",
+      "lower_humidity",
+      "four_seasons",
+      "milder_winter_periods_than_some_northern_plains_locations",
+      "no_state_individual_income_tax",
+      "strong_western_and_black_hills_identity"
+    ],
+    "weaknesses": [
+      "housing_costs_high_relative_to_local_wages",
+      "low_pay_and_limited_benefits_in_many_local_jobs",
+      "limited_specialized_white_collar_job_market",
+      "tourism_dependent_low_wage_sectors",
+      "vacation_rental_pressure",
+      "geographic_isolation",
+      "limited_and_expensive_air_service",
+      "weak_advanced_specialty_healthcare",
+      "limited_grocery_competition",
+      "infrastructure_strain_from_growth",
+      "visible_homelessness_and_addiction",
+      "property_crime_concerns",
+      "uneven_neighborhood_reputation",
+      "mixed_school_perceptions",
+      "limited_major_entertainment",
+      "small_dating_pool",
+      "strong_political_conservatism",
+      "documented_reddit_concerns_about_racism",
+      "newcomer_resentment",
+      "tourism_and_sturgis_rally_crowding",
+      "wind_hail_and_abrupt_weather_changes"
+    ],
+    "economic_notes": {
+      "dominant_industry": "tourism_military_healthcare_and_regional_services",
+      "supporting_sectors": [
+        "tourism_and_hospitality",
+        "ellsworth_air_force_base_and_defense_support",
+        "healthcare",
+        "construction",
+        "skilled_trades",
+        "retail",
+        "government",
+        "education",
+        "transportation",
+        "professional_services"
+      ],
+      "income_pattern": "Strong or comfortable incomes are more likely in healthcare, military, defense support, skilled trades and remote work. Tourism, retail and ordinary service wages frequently lag housing and living costs.",
+      "main_risk": "Population and military growth can expand the economy while simultaneously worsening housing affordability and infrastructure pressure.",
+      "relocation_advice": "Secure employment and housing before moving, and compare salary against current local rent or mortgage costs rather than statewide averages."
+    },
+    "commute_notes": {
+      "in_town_driving": "generally_short_and_easy",
+      "regional_commute": "rapid_city_is_a_self_contained_employment_center_but_many_recreation_and_residential_areas_require_regional_driving",
+      "regional_travel": "long_distance_and_weather_sensitive",
+      "vehicle_need": "a_reliable_vehicle_is_effectively_mandatory",
+      "winter_note": "subzero_spells_snow_wind_and_abrupt_temperature_changes_require_preparation",
+      "tourism_note": "summer_tourism_and_the_sturgis_motorcycle_rally_can_temporarily_increase_traffic",
+      "airport_note": "local_flights_can_be_expensive_and_some_residents_drive_to_denver_for_broader_options"
+    },
+    "healthcare_notes": {
+      "reddit_consensus": "mixed_to_negative_for_complex_care",
+      "reported_strengths": [
+        "regional_hospital_and_basic_medical_services",
+        "more_healthcare_access_than_surrounding_rural_black_hills_communities",
+        "healthcare_employment_opportunities"
+      ],
+      "reported_issues": [
+        "negative_perceptions_of_monument_health",
+        "limited_specialist_depth",
+        "travel_to_sioux_falls_minneapolis_or_other_metros_for_complex_care",
+        "fewer_choices_than_a_major_metropolitan_area"
+      ],
+      "confidence": "moderate",
+      "limitation": "These are recurring Reddit reports rather than a comprehensive medical-system evaluation."
+    },
+    "housing_notes": {
+      "reddit_consensus": "expensive_relative_to_local_wages",
+      "reported_issues": [
+        "rapid_price_appreciation",
+        "limited_affordable_inventory",
+        "vacation_rental_pressure",
+        "demand_from_new_residents_and_military_growth",
+        "high_construction_labor_and_material_costs",
+        "local_wages_not_matching_housing_costs"
+      ],
+      "move_risk": "moderate_to_high_without_prearranged_housing",
+      "property_due_diligence": [
+        "roof_and_hail_history",
+        "insurance_cost_and_exclusions",
+        "drainage",
+        "wildfire_exposure_near_the_hills",
+        "winter_access",
+        "immediate_block_conditions",
+        "school_assignment"
+      ]
+    },
+    "cultural_notes": {
+      "overall_vibe": "conservative_western_tourism_military_and_outdoor_oriented_regional_city",
+      "political_feel": "strongly_conservative",
+      "religious_feel": "noticeably_christian_and_family_centered",
+      "social_style": "networks_built_around_family_work_church_military_connections_bars_and_outdoor_hobbies",
+      "positive_interpretation": "friendly_in_person_unpretentious_family_oriented_and_live_and_let_live",
+      "negative_interpretation": "politically_narrow_resistant_to_newcomers_and_affected_by_racial_tension",
+      "distinctive_elements": [
+        "black_hills_recreation",
+        "mount_rushmore_and_tourism_gateway_identity",
+        "ellsworth_air_force_base",
+        "western_and_native_regional_history",
+        "downtown_president_statues_and_public_art",
+        "sturgis_rally_spillover"
+      ]
+    },
+    "weather_notes": {
+      "climate_type": "semi_arid_black_hills_foothills",
+      "winter": "variable_with_subzero_spells_wind_snow_and_periodic_warm_chinook_conditions",
+      "summer": "warm_dry_and_generally_well_liked_but_busy_with_tourism",
+      "primary_weather_signal": "rapid_temperature_changes_and_severe_storm_risk",
+      "wind_burden": "moderate_to_high",
+      "hail_risk": "meaningful_but_under_sampled_in_the_reviewed_reddit_threads",
+      "common_outsider_misconception": "rapid_city_winters_are_not_continuously_snowbound_but_can_still_produce_extreme_cold_and_sudden_dangerous_conditions"
+    },
+    "education_notes": {
+      "reddit_consensus": "mixed",
+      "reported_strengths": [
+        "family_oriented_community",
+        "outdoor_and_tourism_based_learning_opportunities",
+        "school_and_activity_options_of_a_regional_city"
+      ],
+      "reported_issues": [
+        "quality_varies_by_school",
+        "some_parent_dissatisfaction",
+        "limited_consensus_on_best_attendance_areas",
+        "need_to_verify_specialized_programs"
+      ],
+      "relocation_advice": "research_the_exact_school_attendance_area_and_program_before_selecting_housing"
+    },
+    "tourism_notes": {
+      "reddit_consensus": "major_benefit_and_major_burden",
+      "benefits": [
+        "family_attractions",
+        "restaurants_and_breweries",
+        "events",
+        "employment",
+        "regional_visibility"
+      ],
+      "costs": [
+        "seasonal_traffic",
+        "crowded_trails_and_attractions",
+        "low_wage_service_jobs",
+        "vacation_rental_pressure",
+        "resident_frustration",
+        "sturgis_rally_disruption"
+      ]
+    },
+    "neighborhood_guidance": {
+      "neighborhood_variation": "meaningful",
+      "broad_north_vs_south_rules": "low_confidence",
+      "exact_property_due_diligence": "high_priority"
+    },
+    "social_fit_warning": "Rapid City is much easier to enjoy when Black Hills recreation and a self-contained family or couple lifestyle are desired outcomes rather than compensation for weak wages, geographic isolation or limited urban opportunity.",
+    "overall_take": "Rapid City may be an excellent match for a remote-work, military, healthcare or skilled-trade household that loves hiking, climbing, dry weather, conservative Western culture and family road-trip recreation. It is a high-risk move for anyone dependent on low local wages, needing advanced specialist care, expecting inexpensive housing, requiring frequent air travel, or looking for metropolitan career, cultural and social depth."
+  }
+}

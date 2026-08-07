@@ -176,6 +176,7 @@ body:has(> .city-page) { background: var(--bg); }
 .section-link span { margin-left: .35rem; font-size: .9em; }
 .card-body { padding: 1.25rem 1.4rem; }
 .card-body p.lede { color: #374151; font-size: .98rem; }
+.veteran-benefits-link { display: inline-block; margin-top: .65rem; font-size: .9rem; font-weight: 600; }
 
 /* ── Housing market snapshot ── */
 .housing-market-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: .8rem; }

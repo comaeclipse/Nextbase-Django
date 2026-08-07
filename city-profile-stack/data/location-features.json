@@ -1,0 +1,2728 @@
+{
+  "schema_version": "city_fit_v1",
+  "method_version": "editorial_v1",
+  "methodology": "Editorial city-capability features extracted from research dossiers. Every value describes what the PLACE provides or imposes — never who should live there. Values are 0..1 and their meaning depends on the feature's kind in city-profile-stack/lib/ontology.ts (capacity / intensity / position). Confidence is capped at 0.9 and reflects how well the underlying evidence supports a number, not how strongly the narrative was worded. Only include a feature when the dossier actually speaks to it; a missing feature falls back to structural derivation, which is the honest outcome, whereas a guessed one is not.",
+  "cities": [
+    {
+      "city": "Elko",
+      "state": "NV",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "geographic_isolation": {
+          "value": 0.95,
+          "confidence": 0.85,
+          "evidence": "Isolation is the single most repeated structural drawback: Salt Lake City and Reno are both multi-hour interstate drives with winter pass exposure.",
+          "signals": [
+            "extreme_isolation"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.97,
+          "confidence": 0.8,
+          "evidence": "Locals describe most land beyond town as federally managed and open to dispersed recreation.",
+          "signals": [
+            "public_land_recreation"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.96,
+          "confidence": 0.85,
+          "evidence": "Ruby Mountains, Lamoille Canyon, hunting, fishing, off-roading, backcountry skiing and snowmobiling are acknowledged even by critics.",
+          "signals": [
+            "public_land_recreation"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.92,
+          "confidence": 0.8,
+          "evidence": "The surrounding landscape is the most consistently praised non-economic feature; dark skies and open sagebrush country recur.",
+          "signals": [
+            "public_land_recreation"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.3,
+          "confidence": 0.7,
+          "evidence": "Commenters place Elko above Battle Mountain or Wells — real groceries, home improvement, theaters, restaurants — but far below Reno or Salt Lake City, with choices that repeat quickly.",
+          "signals": [
+            "regional_service_hub",
+            "narrow_entertainment"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.25,
+          "confidence": 0.7,
+          "evidence": "Ordinary necessities are local; vehicles, specialty goods and major shopping trips mean leaving town.",
+          "signals": [
+            "limited_specialty_shopping"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.15,
+          "confidence": 0.7,
+          "evidence": "The most consistent practical warning across threads: limited specialists, long waits, and travel to Salt Lake City or Reno for care.",
+          "signals": [
+            "specialist_healthcare_gap"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.15,
+          "confidence": 0.7,
+          "evidence": "Repeated warnings against treating Elko as a cheap small town; mining wages and contractor demand hold prices above what the population would suggest.",
+          "signals": [
+            "housing_cost_and_scarcity"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.2,
+          "confidence": 0.7,
+          "evidence": "High rents, apartment waiting lists, hotels full of contractors, and repeated advice to secure housing before accepting a job.",
+          "signals": [
+            "housing_cost_and_scarcity"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.18,
+          "confidence": 0.8,
+          "evidence": "Most local economic activity runs through gold mining or the contracting, equipment, transport and construction ecosystem supporting it.",
+          "signals": [
+            "mining_dependent_economy"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.93,
+          "confidence": 0.85,
+          "evidence": "Mining, geology, heavy-equipment maintenance and industrial trades are described as paying well beyond what a town this size normally offers.",
+          "signals": [
+            "high_wage_mining_work"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.55,
+          "confidence": 0.45,
+          "evidence": "Remote work is raised as a viable path that avoids the mining economy, but connectivity is discussed only in passing.",
+          "signals": []
+        },
+        "commute_burden": {
+          "value": 0.85,
+          "confidence": 0.7,
+          "evidence": "Mine workers report two to three unpaid hours of daily travel on top of twelve-hour shifts. In-town driving is short — this burden lands on mine employment specifically.",
+          "signals": [
+            "mine_commute_burden"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.95,
+          "confidence": 0.8,
+          "evidence": "A reliable vehicle is treated as mandatory, with winter tires and cold-weather preparation assumed.",
+          "signals": [
+            "car_dependence"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.1,
+          "confidence": 0.8,
+          "evidence": "High-desert dry air is described as a defining contrast with Southern humidity; the discomfort reported is sun, dust and dryness.",
+          "signals": [
+            "cold_high_desert_winter"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.25,
+          "confidence": 0.7,
+          "evidence": "Bars, casinos, theaters and annual events exist, but commenters emphasize how quickly the options repeat.",
+          "signals": [
+            "narrow_entertainment"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.85,
+          "confidence": 0.75,
+          "evidence": "Bars and casinos dominate descriptions of socializing; supporters call it nightlife, critics call it the main available activity.",
+          "signals": [
+            "alcohol_centered_socializing"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.3,
+          "confidence": 0.6,
+          "evidence": "Networks form through work, family, churches, bars and outdoor hobbies; newcomers are advised to expect a slow build.",
+          "signals": [
+            "slow_social_integration"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.2,
+          "confidence": 0.65,
+          "evidence": "Reputations travel quickly and there are few alternative social circles after a conflict.",
+          "signals": [
+            "slow_social_integration"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.2,
+          "confidence": 0.6,
+          "evidence": "A small, socially interconnected pool with a male-heavy skew among younger mining workers.",
+          "signals": [
+            "small_dating_pool"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.85,
+          "confidence": 0.75,
+          "evidence": "Basque heritage and dining, cowboy and ranching tradition, mining identity, railroad history and Great Basin character are repeatedly cited as making Elko unlike a generic town.",
+          "signals": [
+            "western_basque_identity"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.85,
+          "confidence": 0.65,
+          "evidence": "A recurring warning: a partner without their own job or network faces long stretches alone in an isolated town while the other works and commutes.",
+          "signals": [
+            "trailing_spouse_isolation"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.55,
+          "confidence": 0.4,
+          "evidence": "Methamphetamine and alcoholism are raised by negative commenters in exaggerated terms; the material supports treating this as a real but contested and neighborhood-variable concern, not a citywide condition.",
+          "signals": [
+            "contested_substance_concerns"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.55,
+          "confidence": 0.4,
+          "evidence": "The material does not support treating Elko as uniformly dangerous or dysfunctional, but neither does it contain the positive safety accounts Casper's does. Held near neutral at low confidence rather than inferred either way.",
+          "signals": [
+            "contested_substance_concerns"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.85,
+          "confidence": 0.7,
+          "evidence": "Nearly all local activity traces to a single extraction industry, so a downturn in gold mining reaches contractors, equipment, transport, construction and retail together.",
+          "signals": [
+            "mining_dependent_economy"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.55,
+          "confidence": 0.35,
+          "evidence": "Wind appears only as 'cold, windy winters' in the source material — noted but never elaborated. Recorded at low confidence to keep it comparable with Casper without implying the dossier said more than it did.",
+          "signals": [
+            "cold_high_desert_winter"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.5,
+          "confidence": 0.45,
+          "evidence": "Fishing appears in recreation lists but without the river or reservoir emphasis that dominates comparable dossiers; the outdoor draw here is land, not water.",
+          "signals": [
+            "public_land_recreation"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.6,
+          "confidence": 0.6,
+          "evidence": "The inverse of the Rapid City pattern for one group and a match for another: mining and skilled-trade pay is high enough to absorb an expensive housing market, while anyone outside those sectors faces the same costs without the wages.",
+          "signals": [
+            "high_wage_mining_work",
+            "housing_cost_and_scarcity"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.15,
+          "confidence": 0.55,
+          "evidence": "Tourism is essentially absent from the dossier. Housing and hotel pressure trace to mining contractors, not visitors.",
+          "signals": [
+            "housing_cost_and_scarcity"
+          ]
+        }
+      },
+      "gaps": [
+        "va_hospital_access — the dossier does not discuss VA facilities; left to structural derivation and future verification",
+        "public transit — not discussed beyond general car dependence",
+        "school quality and family infrastructure — no reliable material",
+        "religious_culture_prominence — churches appear only as a social venue, not enough to score"
+      ]
+    },
+    {
+      "city": "Casper",
+      "state": "WY",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "wind_exposure": {
+          "value": 0.98,
+          "confidence": 0.85,
+          "evidence": "The clearest consensus in the dossier and the highest-confidence value in it. Wind reaches driving, heating, building upkeep, recreation, gardening, road visibility and climate tolerance; even residents who love Casper do not dispute the severity.",
+          "signals": [
+            "relentless_wind"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.95,
+          "confidence": 0.85,
+          "evidence": "The North Platte runs through the city with fly fishing described as among the best in the country, plus floating, kayaking, a river-trail system, and Alcova and Pathfinder reservoirs close enough for regular day trips.",
+          "signals": [
+            "north_platte_river_access",
+            "casper_mountain_access"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.94,
+          "confidence": 0.85,
+          "evidence": "Casper Mountain delivers hiking, Nordic and downhill skiing and trails minutes from town, on top of the river, reservoirs, hunting and open country.",
+          "signals": [
+            "casper_mountain_access",
+            "north_platte_river_access"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.85,
+          "confidence": 0.6,
+          "evidence": "Vast open terrain and reservoir recreation are repeatedly cited, though the dossier does not discuss federal land tenure as explicitly as comparable western dossiers.",
+          "signals": [
+            "casper_mountain_access"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.5,
+          "confidence": 0.6,
+          "evidence": "Deliberately mid-scale: commenters call Casper visually plain next to Jackson, Cody, Sheridan or the Wind River region. The appeal is practical access to recreation, not scenery in every direction.",
+          "signals": [
+            "plain_high_plains_scenery"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.8,
+          "confidence": 0.8,
+          "evidence": "A genuine regional center, but with no metro to fall back on — Denver is too far to use casually for entertainment, healthcare or shopping. This is the specific advantage commenters give Cheyenne.",
+          "signals": [
+            "geographic_isolation"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.25,
+          "confidence": 0.7,
+          "evidence": "Regional service exists but with limited routing and fares that draw complaints; Denver is the principal connection and the alternative is a long drive.",
+          "signals": [
+            "limited_expensive_air_service"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.55,
+          "confidence": 0.75,
+          "evidence": "Major retailers, groceries, healthcare, restaurants, breweries, gyms, schools and professional services are all present — described as a sweet spot with amenities but no congestion. Short of metropolitan depth.",
+          "signals": [
+            "complete_regional_city",
+            "enough_not_abundant_culture"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.35,
+          "confidence": 0.6,
+          "evidence": "Ordinary retail is covered, but with less competition and specialty selection than a metro; one resident reports inconsistent produce and sparse shelves before deliveries.",
+          "signals": [
+            "enough_not_abundant_culture"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.4,
+          "confidence": 0.7,
+          "evidence": "Multiple breweries, live music, restaurants, David Street Station events and farmers' markets — defenders push back on 'nothing to do', but people used to a large city will exhaust it. 'Enough' rather than abundance.",
+          "signals": [
+            "enough_not_abundant_culture"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.75,
+          "confidence": 0.7,
+          "evidence": "A regional hospital and medical center for a wide area, with healthcare among the strongest local employment sectors.",
+          "signals": [
+            "regional_healthcare_center"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.4,
+          "confidence": 0.65,
+          "evidence": "A qualified positive, and the clearest contrast with Elko: more specialists than most of Wyoming, but unusual or highly specialized cases still travel. Not a comprehensive metropolitan medical center.",
+          "signals": [
+            "regional_healthcare_center"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.15,
+          "confidence": 0.75,
+          "evidence": "Consistently praised even by critics: short drives, minimal traffic, one commenter routinely walking or biking. Casper is a self-contained employment center, so the long-commute pattern seen in mining towns does not apply.",
+          "signals": [
+            "short_commutes_low_traffic"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.85,
+          "confidence": 0.7,
+          "evidence": "A reliable vehicle is effectively mandatory and regional travel means long distances, but in-town trips are short and at least some residents walk or bike — lower than a town where every errand requires driving.",
+          "signals": [
+            "short_commutes_low_traffic",
+            "winter_travel_disruption"
+          ]
+        },
+        "winter_cold_severity": {
+          "value": 0.78,
+          "confidence": 0.7,
+          "evidence": "Genuinely cold winters, though residents consistently say the wind rather than the temperature is what makes them hard.",
+          "signals": [
+            "winter_travel_disruption",
+            "relentless_wind"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "Repeated snowfalls, drifting, ice and highway closures, with advice to carry survival supplies for travel outside town. Snow accumulates and shapes winter planning.",
+          "signals": [
+            "winter_travel_disruption"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.1,
+          "confidence": 0.8,
+          "evidence": "Dry high-plains air is repeatedly named as an advantage for people leaving the Southeast or Midwest; summers are praised specifically for being dry with cool evenings.",
+          "signals": [
+            "relentless_wind"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.3,
+          "confidence": 0.6,
+          "evidence": "Prices rose sharply and feel high relative to local wages, home age and construction quality. Older dollar figures in the source threads are not treated as current market data; the durable signal is the cost-to-wage mismatch.",
+          "signals": [
+            "housing_costlier_than_expected"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.45,
+          "confidence": 0.35,
+          "evidence": "Move risk is described as moderate without prearranged housing, but the dossier discusses purchase prices far more than the rental market. Held near neutral at low confidence.",
+          "signals": [
+            "housing_costlier_than_expected"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.4,
+          "confidence": 0.65,
+          "evidence": "Broader than most Wyoming towns across energy, healthcare, education, government, construction, trades, transport and retail, but with fewer career paths than a comparable metro.",
+          "signals": [
+            "narrow_white_collar_market",
+            "complete_regional_city"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.45,
+          "confidence": 0.7,
+          "evidence": "Markedly more diversified than a one-mine town — Casper is simultaneously a healthcare, retail, education, government and service center — while energy still shapes the whole.",
+          "signals": [
+            "energy_cycle_economy",
+            "complete_regional_city"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.75,
+          "confidence": 0.75,
+          "evidence": "Oil and gas contractions ripple through housing, retail and local government. Lower than a single-industry town, but explicitly named as a genuine structural risk.",
+          "signals": [
+            "energy_cycle_economy"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "Energy, engineering, mechanics, industrial maintenance, construction, electrical work and transportation are described as supporting strong earnings.",
+          "signals": [
+            "energy_cycle_economy"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.7,
+          "confidence": 0.6,
+          "evidence": "Remote work is presented as the standard route for specialized white-collar workers, paired with a city complete enough to supply shopping, healthcare, gyms and airport service.",
+          "signals": [
+            "narrow_white_collar_market",
+            "complete_regional_city"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.75,
+          "confidence": 0.7,
+          "evidence": "Youth sports, extracurriculars, school choice, outdoor access, community events and a local college, plus parents reporting comfort letting older children move around independently.",
+          "signals": [
+            "family_friendly_scale",
+            "school_quality_varies"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.7,
+          "confidence": 0.6,
+          "evidence": "Many residents say daily life does not feel dangerous and shootings become major news precisely because they are unusual. Held below high because property crime and substance disorder draw recurring concern and North Casper is repeatedly named.",
+          "signals": [
+            "feels_safe_despite_property_crime"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.65,
+          "confidence": 0.6,
+          "evidence": "Methamphetamine, alcohol abuse and property crime recur across relocation threads, surfacing through theft and specific social circles rather than random violence.",
+          "signals": [
+            "visible_substance_problems"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.2,
+          "confidence": 0.75,
+          "evidence": "One of the strongest warnings in the dossier: locals are polite but self-contained, groups formed through family and school over decades, and one resident reports several years before the city felt socially comfortable.",
+          "signals": [
+            "slow_social_integration"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.55,
+          "confidence": 0.5,
+          "evidence": "Unusual among small cities: the same self-containment that slows friendship also produces strong leave-people-alone norms, so privacy is high even though the population is small.",
+          "signals": [
+            "privacy_norms",
+            "slow_social_integration"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.25,
+          "confidence": 0.6,
+          "evidence": "Described as small, repetitive and interconnected, with younger adults encountering the same circles repeatedly.",
+          "signals": [
+            "small_dating_pool"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.55,
+          "confidence": 0.5,
+          "evidence": "Breweries and bars are prominent and alcohol problems are visible, but socializing also runs through family, church, school, outdoor recreation and community events — not the casino-and-bar monoculture of a comparable mining town.",
+          "signals": [
+            "visible_substance_problems",
+            "enough_not_abundant_culture"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.6,
+          "confidence": 0.6,
+          "evidence": "North Platte fishing culture, Casper Mountain, energy-industry identity, Western and cowboy tradition, and strong privacy norms give a recognizable character, though less singular than a heritage-defined town.",
+          "signals": [
+            "privacy_norms",
+            "north_platte_river_access"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "Multiple commenters report Casper feeling more openly religious than expected, with churches, family life and traditional norms visibly present. Nonreligious residents live there but describe seeking out compatible groups deliberately.",
+          "signals": [
+            "conservative_and_religious_culture"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.3,
+          "confidence": 0.5,
+          "evidence": "The dossier reports that people wanting an openly progressive or highly secular social environment find limited circles. Recorded at moderate confidence because this is inferred from general social climate rather than direct accounts. Note: this contradicts the structural derivation from the stored lgbtq_rating of 92 — see the calibration table.",
+          "signals": [
+            "conservative_and_religious_culture"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.6,
+          "confidence": 0.5,
+          "evidence": "Years-long social integration creates real isolation risk for a partner arriving without their own network, but a complete city with community events, gyms, a college and outdoor access offers more independent footing than a smaller town would.",
+          "signals": [
+            "slow_social_integration",
+            "complete_regional_city"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.4,
+          "confidence": 0.6,
+          "evidence": "Commenters comparing Wyoming with Colorado report pay lagging while housing and everyday costs rise, especially outside energy, healthcare and specialized trades. Less acute than Rapid City's mismatch but the same direction.",
+          "signals": [
+            "narrow_white_collar_market",
+            "housing_costlier_than_expected"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.2,
+          "confidence": 0.5,
+          "evidence": "Tourism does not appear as a factor in daily life; Casper is described as a working city rather than a gateway, and its housing pressure is attributed to wages and supply rather than visitors.",
+          "signals": [
+            "housing_costlier_than_expected"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.45,
+          "confidence": 0.35,
+          "evidence": "The dossier emphasizes wind and winter road closures rather than convective storms or hail. Recorded low-confidence and mid-range for comparability rather than because the source addressed it directly.",
+          "signals": [
+            "relentless_wind",
+            "winter_travel_disruption"
+          ]
+        }
+      },
+      "gaps": [
+        "no wind data column exists anywhere in the schema — the single most important Casper variable cannot be derived for any other city",
+        "ranking of Mills, Evansville and Bar Nunn",
+        "school-by-school quality",
+        "current housing price levels; source figures are several years stale"
+      ]
+    },
+    {
+      "city": "Rapid City",
+      "state": "SD",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "outdoor_recreation_access": {
+          "value": 0.97,
+          "confidence": 0.85,
+          "evidence": "The strongest outdoor signal across the researched cities: hiking, mountain biking, rock climbing, hunting, fishing, camping, trail riding and snowmobiling all start close to town, with lakes, caves and monuments beyond. Even critics separate the city from the landscape and praise the landscape.",
+          "signals": [
+            "black_hills_access",
+            "varied_mountain_terrain"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.9,
+          "confidence": 0.7,
+          "evidence": "Black Hills National Forest and regional public land are the recreational base, though the dossier discusses access and crowding more than land tenure.",
+          "signals": [
+            "black_hills_access"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.88,
+          "confidence": 0.75,
+          "evidence": "Sitting where prairie meets forested ridges, scenery is treated as the single main reason to choose west-river South Dakota over Sioux Falls. Held below the maximum because the city itself sits on semiarid prairie and can look brown outside wetter periods.",
+          "signals": [
+            "black_hills_access"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.6,
+          "confidence": 0.6,
+          "evidence": "Lakes and fishing appear consistently in the recreation inventory, but as one item among many rather than the defining draw a river-centered city has.",
+          "signals": [
+            "black_hills_access"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.9,
+          "confidence": 0.8,
+          "evidence": "Tourism is not incidental — it drives the amenity base and simultaneously produces seasonal traffic, crowded trails, vacation-rental pressure, low-wage service work and visitor-oriented public investment. The Sturgis Rally adds an annual regional disruption.",
+          "signals": [
+            "tourism_shapes_daily_life"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.25,
+          "confidence": 0.75,
+          "evidence": "The dossier's central economic finding. Pay is low relative to housing rather than housing simply being high: tourism, retail and service wages cannot absorb the cost base. The city reads affordable on remote, military, healthcare or trade income and expensive on ordinary local wages.",
+          "signals": [
+            "wage_to_cost_mismatch",
+            "housing_cost_escalation"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "In-migration, tourism demand and anticipated Ellsworth expansion are outrunning roads, grocery capacity and housing supply, which commenters describe as already strained beforehand.",
+          "signals": [
+            "growth_outpacing_infrastructure",
+            "housing_cost_escalation"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.2,
+          "confidence": 0.7,
+          "evidence": "Prices rose sharply on migration, vacation rentals, limited construction capacity and military growth. Still cheap to someone selling into a coastal market; expensive for a city of this size to anyone earning here.",
+          "signals": [
+            "housing_cost_escalation"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.3,
+          "confidence": 0.6,
+          "evidence": "Limited affordable inventory and vacation-rental competition; move risk is described as moderate-to-high without prearranged housing.",
+          "signals": [
+            "housing_cost_escalation"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.85,
+          "confidence": 0.8,
+          "evidence": "Sioux Falls is effectively a half-day drive and Denver a significant trip; five-hour drives are treated as ordinary. No metro is reachable for a concert, a specialist, or an airport without planning around it.",
+          "signals": [
+            "geographic_isolation"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.2,
+          "confidence": 0.75,
+          "evidence": "The local airport is useful but fares draw persistent complaints, and some families drive to Denver for better options — a substantial time and fuel commitment.",
+          "signals": [
+            "expensive_air_service"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.5,
+          "confidence": 0.7,
+          "evidence": "A functional regional hub with a downtown carrying more character than its size implies, plus tourism-supported restaurants and breweries. Offset by recurring criticism of grocery competition and specialty selection.",
+          "signals": [
+            "distinctive_downtown",
+            "thin_indoor_entertainment"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.3,
+          "confidence": 0.6,
+          "evidence": "Limited competition, higher food prices and a shortage of specialty, organic or health-focused options; growth has outpaced store count.",
+          "signals": [
+            "thin_indoor_entertainment"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.35,
+          "confidence": 0.65,
+          "evidence": "Downtown bars, breweries and occasional events exist, but clubs, national touring acts and late-night options are thin. Better for couples and families than for a dense young-adult scene.",
+          "signals": [
+            "thin_indoor_entertainment",
+            "distinctive_downtown"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.7,
+          "confidence": 0.65,
+          "evidence": "The primary medical center for western South Dakota, so ordinary care is far more available than in surrounding rural communities.",
+          "signals": [
+            "regional_medical_hub_thin_specialists"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.3,
+          "confidence": 0.65,
+          "evidence": "Better than a remote mining town, weaker than Casper in some accounts, clearly weaker than Sioux Falls for advanced care. Recurring criticism of Monument Health and travel to Sioux Falls or Minneapolis for complex procedures.",
+          "signals": [
+            "regional_medical_hub_thin_specialists"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.2,
+          "confidence": 0.7,
+          "evidence": "Short normal commutes with congestion appearing mainly during tourism peaks, construction or the Sturgis Rally. Held slightly above the minimum because recreation and outlying residential areas involve real regional driving.",
+          "signals": [
+            "low_traffic_burden"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.88,
+          "confidence": 0.7,
+          "evidence": "Downtown has walkable pockets, but the broader city and every major attraction require a vehicle.",
+          "signals": [
+            "low_traffic_burden"
+          ]
+        },
+        "winter_cold_severity": {
+          "value": 0.65,
+          "confidence": 0.6,
+          "evidence": "Subzero spells and sudden storms are normal, but Chinook warming and Black Hills geography interrupt them often enough that many commenters prefer the winter to Sioux Falls.",
+          "signals": [
+            "unpredictable_winter"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.45,
+          "confidence": 0.6,
+          "evidence": "Explicitly described as not continuously snowbound — snow often melts between storms rather than accumulating all season. Lower than the cold reading, which is the distinction the dossier draws.",
+          "signals": [
+            "unpredictable_winter"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.65,
+          "confidence": 0.6,
+          "evidence": "The dossier explicitly ranks this moderate-to-high — real enough for wind chill and property damage warnings, but not the defining variable it is in Casper.",
+          "signals": [
+            "unpredictable_winter"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.7,
+          "confidence": 0.4,
+          "evidence": "Intense thunderstorms and damaging hail are a known regional risk affecting roofs, siding and insurance terms. Confidence is deliberately low: the dossier flags this as a probable but under-sampled signal in the threads reviewed.",
+          "signals": [
+            "hail_and_severe_storms"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.15,
+          "confidence": 0.75,
+          "evidence": "Low humidity and few bugs are cited as a major improvement for people leaving humid Southern or Midwestern climates.",
+          "signals": [
+            "unpredictable_winter"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.4,
+          "confidence": 0.65,
+          "evidence": "Healthcare, tourism, military and defense support, construction, government, retail, education and trades give real breadth, but fewer high-paying professional pathways than Sioux Falls or Denver.",
+          "signals": [
+            "narrow_professional_market"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.55,
+          "confidence": 0.65,
+          "evidence": "The most diversified of the researched western cities — tourism, military, healthcare and regional services are genuinely separate bases rather than one industry with suppliers attached.",
+          "signals": [
+            "narrow_professional_market",
+            "military_community_presence"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.45,
+          "confidence": 0.55,
+          "evidence": "Less exposed than an extraction economy: military and healthcare are stabilizers. Tourism is seasonal and discretionary, which introduces a different cyclicality rather than removing it.",
+          "signals": [
+            "tourism_shapes_daily_life",
+            "military_community_presence"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.7,
+          "confidence": 0.65,
+          "evidence": "Electricians, HVAC, mechanics, equipment operators and construction trades benefit from growth, military investment and limited labor supply. Blue-collar openings are described as more available than niche professional work.",
+          "signals": [
+            "narrow_professional_market",
+            "growth_outpacing_infrastructure"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "Remote income bypasses the city's central weakness. Combined with no state individual income tax, this is the profile the dossier treats as the cleanest fit — with the caveat that remote earners are locally perceived as contributing to housing inflation.",
+          "signals": [
+            "wage_to_cost_mismatch",
+            "no_state_income_tax"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.75,
+          "confidence": 0.65,
+          "evidence": "An unusually large family recreation inventory inherited from tourism, plus manageable scale and short drives. Held below higher because school reviews are mixed and location-specific with no citywide consensus.",
+          "signals": [
+            "family_attraction_inventory"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.5,
+          "confidence": 0.45,
+          "evidence": "Accounts conflict sharply — some call the city rough for its size, others who have lived in larger cities say there is nowhere they would fear at night. Held at neutral with low confidence because that disagreement is the finding.",
+          "signals": [
+            "contradictory_crime_perceptions"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.75,
+          "confidence": 0.6,
+          "evidence": "Alcohol, methamphetamine and homelessness including temporary hotel housing recur across threads, concentrated in specific corridors. Higher than the other researched cities.",
+          "signals": [
+            "visible_homelessness_and_addiction"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.35,
+          "confidence": 0.6,
+          "evidence": "Less closed than comparable dossiers — the military turnover means part of the population is used to newcomers — but churches, schools, work and outdoor hobbies remain the gateways, and there is reported resentment toward arrivals blamed for housing costs.",
+          "signals": [
+            "deliberate_social_integration",
+            "newcomer_resentment",
+            "military_community_presence"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.5,
+          "confidence": 0.45,
+          "evidence": "Larger and more transient than the other researched cities thanks to military rotation and tourism, which cuts against small-town visibility without producing metropolitan anonymity.",
+          "signals": [
+            "military_community_presence"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.3,
+          "confidence": 0.55,
+          "evidence": "Size, family orientation and interconnected circles limit options relative to a metro, though the base is larger than in the smaller researched cities.",
+          "signals": [
+            "thin_indoor_entertainment"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.75,
+          "confidence": 0.65,
+          "evidence": "Churches and faith communities are described as meaningful social infrastructure including young-adult and family networks, in a culture characterized as noticeably Christian and family-centered.",
+          "signals": [
+            "conservative_and_christian_culture"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.3,
+          "confidence": 0.45,
+          "evidence": "Progressive spaces and a few visible alternative establishments exist, but the dominant regional culture is described as heavily conservative and traditional. Inferred from general social climate rather than direct accounts.",
+          "signals": [
+            "conservative_and_christian_culture"
+          ]
+        },
+        "racial_inclusion_climate": {
+          "value": 0.35,
+          "confidence": 0.35,
+          "evidence": "Multiple threads report open racism toward Native people and deep distrust between Indigenous communities and local institutions, appearing too often to omit. Scored mid-low at deliberately low confidence: the dossier itself warns this discourse is frequently prejudiced or historically incomplete, and it states experiences vary strongly by workplace, neighborhood and social circle. This is reported experience requiring independent verification, not a measurement of the city.",
+          "signals": [
+            "reported_racial_tension"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.75,
+          "confidence": 0.65,
+          "evidence": "Black Hills gateway identity, Mount Rushmore, Ellsworth, Western and Native regional history, downtown public art and Sturgis spillover give a strong and specific sense of place.",
+          "signals": [
+            "distinctive_downtown",
+            "black_hills_access"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.45,
+          "confidence": 0.5,
+          "evidence": "Lower than the other researched cities: military turnover, family attractions, churches and outdoor clubs give an arriving partner more independent footing, though someone without one of those anchors still reports loneliness.",
+          "signals": [
+            "deliberate_social_integration",
+            "military_community_presence"
+          ]
+        }
+      },
+      "gaps": [
+        "near_mountains is stored as false for Rapid City despite it being the Black Hills gateway — a curation error in data/geography-proximity.json that suppresses its derived outdoor score",
+        "no tourism, wage, growth, or hail data exists as a column anywhere in the schema; all four of this dossier's distinguishing features are editorial-only",
+        "ranking of Box Elder, Black Hawk, Piedmont, Summerset and Rapid Valley",
+        "school-by-school quality",
+        "race relations require independent research beyond the source material"
+      ]
+    },
+    {
+      "city": "Billings",
+      "state": "MT",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "outdoor_recreation_access": {
+          "value": 0.72,
+          "confidence": 0.8,
+          "evidence": "Strong local mountain biking, climbing, fishing and trail access, with Red Lodge and the Beartooths roughly an hour to ninety minutes away. The best alpine recreation is a day trip, not on the city's edge.",
+          "signals": [
+            "outdoor_recreation_is_accessible_but_not_alpine_urban",
+            "local_rimrocks_river_and_trail_access"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.6,
+          "confidence": 0.6,
+          "evidence": "Extensive regional recreation including mountain, hunting and off-road destinations, but the source material does not establish that large dispersed-use tracts begin immediately outside the city.",
+          "signals": [
+            "outdoor_recreation_is_accessible_but_not_alpine_urban",
+            "daily_life_is_strongly_car_dependent"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.58,
+          "confidence": 0.72,
+          "evidence": "The Rimrocks, Yellowstone River corridor and nearby Beartooths are recurring positives, but residents also describe Billings itself as dry, brown, industrial and less immediately scenic than western Montana cities.",
+          "signals": [
+            "local_rimrocks_river_and_trail_access",
+            "not_the_postcard_montana_experience",
+            "industrial_appearance_hurts_city_reputation"
+          ]
+        },
+        "winter_cold_severity": {
+          "value": 0.68,
+          "confidence": 0.67,
+          "evidence": "Genuine cold snaps below zero and abrupt winter weather, though Chinook-like warm periods make Billings less continuously severe than colder parts of Montana. Accounts emphasize year-to-year variability.",
+          "signals": [
+            "weather_is_dry_windy_and_highly_variable"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.62,
+          "confidence": 0.6,
+          "evidence": "Snow and ice are ordinary parts of the year and winter driving is assumed, but warm interruptions clear it periodically rather than leaving continuous cover.",
+          "signals": [
+            "weather_is_dry_windy_and_highly_variable"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.54,
+          "confidence": 0.48,
+          "evidence": "Hot and dry summer periods, but heat is not portrayed as making outdoor activity impossible for a whole season. Discussed less consistently than winter, wind and hail.",
+          "signals": [
+            "weather_is_dry_windy_and_highly_variable"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.1,
+          "confidence": 0.62,
+          "evidence": "Consistently characterized as dry rather than muggy; humidity is not raised as a meaningful warm-season burden in relocation discussions.",
+          "signals": [
+            "weather_is_dry_windy_and_highly_variable"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.72,
+          "confidence": 0.68,
+          "evidence": "A recurring weather complaint, described as particularly noticeable in exposed portions of the Heights, affecting comfort, driving and the general experience of winter.",
+          "signals": [
+            "hail_and_wind_are_property_considerations",
+            "weather_is_dry_windy_and_highly_variable"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.64,
+          "confidence": 0.6,
+          "evidence": "Damaging hail and localized severe storms recur, with some areas perceived as more exposed. Supports treating hail as a property and insurance consideration, though neighborhood differences remain uncertain.",
+          "signals": [
+            "hail_and_wind_are_property_considerations"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.59,
+          "confidence": 0.62,
+          "evidence": "The Yellowstone River and regional fishing are common positives and fishing access is repeatedly described as good. Accounts are less consistent about casual urban floating, paddling or swimming within Billings.",
+          "signals": [
+            "local_rimrocks_river_and_trail_access",
+            "outdoor_recreation_is_accessible_but_not_alpine_urban"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.68,
+          "confidence": 0.78,
+          "evidence": "Billings is the service center rather than a satellite of a larger metro, and reaching a substantially larger city requires a significant trip or flight. Its regional completeness reduces the daily effects of isolation, but major-metro amenities are not within errand distance.",
+          "signals": [
+            "full_set_of_everyday_city_services",
+            "regional_retail_and_service_center",
+            "local_airport_with_hub_connections"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.62,
+          "confidence": 0.77,
+          "evidence": "Residents repeatedly say Billings has the stores, restaurants, breweries, healthcare and ordinary services expected of a real city, while also reporting that entertainment and cultural choices repeat quickly.",
+          "signals": [
+            "full_set_of_everyday_city_services",
+            "restaurant_brewery_and_event_scene_exists",
+            "cultural_options_repeat_quickly"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.68,
+          "confidence": 0.66,
+          "evidence": "As the principal commercial center for a large surrounding region, Billings offers more specialized retail and services than most Montana communities. Uncommon needs may still require online ordering or travel.",
+          "signals": [
+            "regional_retail_and_service_center",
+            "full_set_of_everyday_city_services"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.63,
+          "confidence": 0.88,
+          "evidence": "Billings Logan International has year-round nonstop service to several major connecting hubs including Denver, Dallas, Minneapolis, Salt Lake City and Seattle. Useful regional air access, though most long-distance itineraries still require a connection.",
+          "signals": [
+            "local_airport_with_hub_connections"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.88,
+          "confidence": 0.8,
+          "evidence": "A spread-out city whose employment, shopping, healthcare and recreation are easiest by car. Walkable pockets exist downtown and in older neighborhoods but do not replace a vehicle for most households.",
+          "signals": [
+            "daily_life_is_strongly_car_dependent",
+            "westward_growth_changes_city_layout"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.78,
+          "confidence": 0.76,
+          "evidence": "Repeatedly described as Montana's strongest regional healthcare center, with two major hospital systems, clinics and pharmacies locally. Residents nevertheless report staffing pressure, scheduling difficulty and delayed callbacks.",
+          "signals": [
+            "healthcare_access_strong_by_montana_standards",
+            "strong_healthcare_employment_presence"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.74,
+          "confidence": 0.75,
+          "evidence": "Residents comparing Billings with Bozeman and other Montana communities consistently report a broader specialist base and higher-capability care. Waits can remain lengthy and the most complex cases may still require Denver or Salt Lake City.",
+          "signals": [
+            "healthcare_access_strong_by_montana_standards",
+            "strong_healthcare_employment_presence"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.9,
+          "confidence": 0.9,
+          "evidence": "VA Montana lists both the Benjamin Charles Steele VA Clinic and the Dr. Joseph Medicine Crow VA Clinic in Billings, providing local outpatient access rather than routine travel to Fort Harrison.",
+          "signals": [
+            "two_local_va_outpatient_clinics"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 0.23,
+          "confidence": 0.88,
+          "evidence": "Billings has substantial VA outpatient infrastructure but not the Montana VA system's acute-care medical center, which is at Fort Harrison near Helena. Inpatient VA care is a significant regional trip.",
+          "signals": [
+            "two_local_va_outpatient_clinics"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.68,
+          "confidence": 0.72,
+          "evidence": "Residents distinguish Billings from tourism-led Montana cities by describing a functional base in healthcare, energy, agriculture, transportation, construction, retail and government. Broader than smaller regional towns, not comparable to a large metropolitan labor market.",
+          "signals": [
+            "functional_regional_economy",
+            "employment_base_spans_multiple_sectors"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.72,
+          "confidence": 0.71,
+          "evidence": "No single industry is portrayed as controlling the local economy. Healthcare, energy, agriculture, logistics, retail, education, government and construction all appear, creating more resilience than a resort or single-industry town.",
+          "signals": [
+            "employment_base_spans_multiple_sectors",
+            "functional_regional_economy",
+            "less_tourism_distortion_than_western_montana"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.66,
+          "confidence": 0.58,
+          "evidence": "Energy, refining, construction, transportation and industrial activity create credible skilled-trade opportunities. The material supports above-average demand but does not establish that trade wages consistently outpace the current housing and cost base.",
+          "signals": [
+            "employment_base_spans_multiple_sectors",
+            "functional_regional_economy"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.21,
+          "confidence": 0.76,
+          "evidence": "Short, manageable commutes and traffic mild by larger-city standards. Cross-town trips between the Heights, West End and other outer areas can be inconvenient, but commuting rarely dominates the day.",
+          "signals": [
+            "short_and_manageable_commutes"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.49,
+          "confidence": 0.48,
+          "evidence": "More economically grounded than Bozeman or Missoula, but newer discussions increasingly complain that housing costs have risen faster than ordinary local wages. Supports a mixed rather than clearly favorable position.",
+          "signals": [
+            "housing_cheaper_than_western_montana_but_not_cheap",
+            "less_tourism_distortion_than_western_montana"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.17,
+          "confidence": 0.79,
+          "evidence": "Residents repeatedly praise Billings for a real year-round economy not dominated by tourism. Visitors and events matter, but seasonal tourism does not govern housing, employment or the rhythm of daily life.",
+          "signals": [
+            "less_tourism_distortion_than_western_montana",
+            "functional_regional_economy"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.55,
+          "confidence": 0.59,
+          "evidence": "Westward development, rising housing frustration and infrastructure complaints indicate meaningful growth pressure, without the extreme in-migration shock associated with Bozeman.",
+          "signals": [
+            "westward_growth_changes_city_layout",
+            "housing_cheaper_than_western_montana_but_not_cheap"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.38,
+          "confidence": 0.53,
+          "evidence": "Energy, refining and agriculture expose part of the regional economy to commodity cycles, but healthcare, government, retail and logistics provide substantial counterweights. Not portrayed as a one-cycle economy.",
+          "signals": [
+            "employment_base_spans_multiple_sectors",
+            "functional_regional_economy"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.5,
+          "confidence": 0.61,
+          "evidence": "Still commonly described as less expensive than Bozeman, Missoula and many larger western cities, but recent residents increasingly reject the idea that it is cheap. Affordability depends heavily on income source.",
+          "signals": [
+            "housing_cheaper_than_western_montana_but_not_cheap"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.62,
+          "confidence": 0.59,
+          "evidence": "Compared with similarly serviced western cities and Montana's more fashionable markets, Billings provides more space and infrastructure for the price. That advantage has narrowed as prices and rents increased.",
+          "signals": [
+            "housing_cheaper_than_western_montana_but_not_cheap",
+            "full_set_of_everyday_city_services"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.43,
+          "confidence": 0.47,
+          "evidence": "Recurring frustration about rental cost, quality and finding acceptable housing, especially for newcomers arriving quickly. The source base does not establish universal waiting lists.",
+          "signals": [
+            "acceptable_rentals_can_be_difficult_to_secure"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.73,
+          "confidence": 0.67,
+          "evidence": "Consistently characterized as more conservative than Missoula and more culturally traditional than Montana's prominent university towns, while liberal, moderate and libertarian circles remain visible — a conservative baseline rather than a uniform population.",
+          "signals": [
+            "conservative_working_western_baseline"
+          ]
+        },
+        "lgbtq_municipal_policy": {
+          "value": 0.2,
+          "confidence": 0.87,
+          "evidence": "City records state comprehensive local nondiscrimination ordinances were proposed and voted down in 2014 and again in 2020. Some city programs and contracts carry narrower provisions, but Billings lacks the broad municipal protection found in several other Montana cities. NOTE: this directly contradicts the stored lgbtq_mei_score of 100 — see the calibration table and SCHEMA.md.",
+          "signals": [
+            "no_comprehensive_nondiscrimination_ordinance"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.51,
+          "confidence": 0.43,
+          "evidence": "LGBTQ residents describe a small but active community, visible queer residents, Pride activities and supportive pockets. Other accounts report difficulty finding the community and a more conservative ambient culture, producing a genuinely mixed and under-sampled picture.",
+          "signals": [
+            "lgbtq_community_present_but_requires_seeking_out"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.68,
+          "confidence": 0.59,
+          "evidence": "Youth sports, suburban neighborhoods, healthcare, shopping and ordinary extracurricular options are cited as strengths. School quality and children's independent mobility vary too much by neighborhood to justify a higher score.",
+          "signals": [
+            "family_oriented_daily_life"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.62,
+          "confidence": 0.38,
+          "evidence": "Churches and religiously influenced social networks appear regularly in discussions of community and social life, consistent with a traditional regional culture. Not sampled deeply enough to establish how strongly religious norms shape ordinary interactions outside those circles.",
+          "signals": [
+            "conservative_working_western_baseline",
+            "newcomer_friendships_require_deliberate_effort"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.36,
+          "confidence": 0.72,
+          "evidence": "Newcomers repeatedly report that making friends requires deliberate participation through work, sports, outdoor groups, hobbies, churches, volunteering or regular events. Established local circles are described as reserved, though successful integration is clearly possible.",
+          "signals": [
+            "newcomer_friendships_require_deliberate_effort",
+            "organized_activities_are_main_social_entry_point"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.61,
+          "confidence": 0.48,
+          "evidence": "Large enough to offer more privacy and separation than a small Montana town, with no universal everyone-knows-everyone environment. Professional and social networks remain interconnected enough that reputations can travel within particular scenes.",
+          "signals": [
+            "newcomer_friendships_require_deliberate_effort",
+            "dating_pool_feels_small_and_interconnected"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.7,
+          "confidence": 0.68,
+          "evidence": "Bars, breweries, taprooms, casinos and drinking-oriented events are among the most frequent recommendations for meeting people. Non-alcohol activities exist, but residents seeking social life without bars repeatedly describe a thinner set of obvious options.",
+          "signals": [
+            "bars_and_breweries_dominate_social_recommendations",
+            "restaurant_brewery_and_event_scene_exists"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.43,
+          "confidence": 0.68,
+          "evidence": "Breweries, bars, live music, downtown events and several established venues mean nightlife is not absent. Residents accustomed to larger cities or college towns say the options are limited, repetitive and relatively quiet.",
+          "signals": [
+            "restaurant_brewery_and_event_scene_exists",
+            "cultural_options_repeat_quickly"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.34,
+          "confidence": 0.69,
+          "evidence": "Recent single residents across multiple age groups describe a small, difficult and socially interconnected dating pool. Organized mixers and activity-based opportunities exist but do not overcome the perception of limited variety.",
+          "signals": [
+            "dating_pool_feels_small_and_interconnected"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.64,
+          "confidence": 0.6,
+          "evidence": "A recognizable working regional identity built around the Rimrocks, healthcare, agriculture, energy, rail and road commerce, rodeo culture and nearby outdoor recreation. Critics view it as industrial or narrow, but it is not interchangeable with a generic suburb.",
+          "signals": [
+            "conservative_working_western_baseline",
+            "not_the_postcard_montana_experience",
+            "industrial_appearance_hurts_city_reputation"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.44,
+          "confidence": 0.7,
+          "evidence": "Residents repeatedly discuss theft, vehicle break-ins, addiction-related disorder and neighborhood-specific caution. Many simultaneously say ordinary life feels manageable and that Billings is not unusually dangerous by national urban standards.",
+          "signals": [
+            "property_crime_requires_routine_precautions",
+            "danger_reputation_exceeds_many_daily_experiences"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.63,
+          "confidence": 0.58,
+          "evidence": "Because newcomers often build their first durable connections through employment, a partner arriving without a job, family or established hobby network may struggle socially. Outdoor, volunteer, church and hobby communities reduce the risk but require active participation.",
+          "signals": [
+            "newcomer_friendships_require_deliberate_effort",
+            "organized_activities_are_main_social_entry_point"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.68,
+          "confidence": 0.55,
+          "evidence": "Addiction, methamphetamine, alcohol misuse, homelessness and related disorder appear frequently in negative accounts. The discourse is sometimes inflammatory and often blurs visible downtown problems with the entire city, so magnitude is scored substantial but confidence restrained.",
+          "signals": [
+            "addiction_and_disorder_are_visible_topics",
+            "property_crime_requires_routine_precautions"
+          ]
+        }
+      },
+      "gaps": [
+        "racial_inclusion_climate deliberately omitted — daily experiences of residents of color were under-sampled and broader race-related discussion was inflammatory or anecdotal",
+        "remote_work_viability omitted — broadband quality and remote-work reliability were not discussed consistently enough to score",
+        "neighborhood-by-neighborhood safety conditions conflict sharply and change quickly",
+        "school quality, special-education capacity and individual school fit",
+        "current home prices, rents, vacancy rates and income-to-housing ratios require independent market data",
+        "whether formal rental waiting lists are common",
+        "public transit condition, frequency and practical usefulness",
+        "childcare supply and affordability",
+        "religious culture insufficiently sampled across denominations, secular residents and different parts of the city",
+        "LGBTQ social experience based on a small number of self-selected accounts",
+        "whether Yellowstone River water quality or access materially restricts urban swimming, paddling or floating",
+        "precise hail, wind and wildfire-smoke burdens require meteorological and insurance data",
+        "availability of highly specialized pediatric, psychiatric, reproductive and gender-affirming healthcare",
+        "current crime rates require independent police or federal data; perceived_everyday_safety reflects resident perception only"
+      ]
+    },
+    {
+      "city": "Sierra Vista",
+      "state": "AZ",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "outdoor_recreation_access": {
+          "value": 0.86,
+          "confidence": 0.82,
+          "evidence": "The Huachuca Mountains, nearby canyons, hiking, cycling, birding and camping are accessible enough to shape ordinary life. Major outdoor recreation begins close to town rather than requiring a long regional trip.",
+          "signals": [
+            "huachuca_mountains_provide_immediate_access",
+            "birding_and_wildlife_are_distinctive_strengths"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.78,
+          "confidence": 0.68,
+          "evidence": "The surrounding mountain, canyon and Sky Islands landscape provides substantial access to public recreation. The discussion supports regional access without precisely distinguishing federal, state, military and privately controlled land.",
+          "signals": [
+            "huachuca_mountains_provide_immediate_access",
+            "regional_weekend_destinations_add_variety"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.84,
+          "confidence": 0.8,
+          "evidence": "Mountain views, canyons, monsoon skies, wildlife and Sky Islands ecological variety are repeatedly named as primary reasons people value Sierra Vista. The built environment is far less visually distinctive than the surrounding landscape.",
+          "signals": [
+            "huachuca_mountains_provide_immediate_access",
+            "birding_and_wildlife_are_distinctive_strengths",
+            "built_environment_is_practical_not_charming"
+          ]
+        },
+        "winter_cold_severity": {
+          "value": 0.24,
+          "confidence": 0.76,
+          "evidence": "Winters are mild with occasional freezes and short cold periods — the coldest month's afternoons are commonly comfortable in a light jacket. Cold adds seasonal variation without defining or restricting the year. Split from the original single winter_severity reading of 0.20 in the source, which blended cold and snow.",
+          "signals": [
+            "winters_are_generally_mild"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.07,
+          "confidence": 0.76,
+          "evidence": "Snow occurs occasionally and is generally short-lived in town, with lasting accumulation confined to the Huachuca Mountains above the city. It is treated as novelty rather than a driving or planning constraint.",
+          "signals": [
+            "winters_are_generally_mild"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.57,
+          "confidence": 0.77,
+          "evidence": "Summers are still hot, but elevation moderates the heat compared with Tucson and especially Phoenix. Heat affects comfort without being the overwhelming seasonal constraint of lower-desert Arizona.",
+          "signals": [
+            "elevation_moderates_southern_arizona_heat"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.15,
+          "confidence": 0.75,
+          "evidence": "Consistently characterized as dry. Monsoon periods temporarily raise humidity, but persistent muggy conditions are not described as a meaningful warm-season burden.",
+          "signals": [
+            "dry_air_limits_humidity_burden",
+            "monsoon_adds_rain_and_storm_variability"
+          ]
+        },
+        "precipitation_seasonality": {
+          "value": 0.9,
+          "confidence": 0.7,
+          "evidence": "A pronounced summer monsoon regime: dry spring giving way to dramatic July-September thunderstorms, lightning, localized flooding and a temporarily greener landscape. Precipitation concentrates in late summer rather than spreading through the year.",
+          "signals": [
+            "monsoon_adds_rain_and_storm_variability"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.65,
+          "confidence": 0.67,
+          "evidence": "Wind is repeatedly raised as a noticeable quality-of-life issue affecting dust, outdoor comfort and exposed properties. Accounts vary by location, with rural and open areas more affected than sheltered parts of the city.",
+          "signals": [
+            "wind_is_a_recurring_quality_of_life_issue"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.44,
+          "confidence": 0.49,
+          "evidence": "Monsoon lightning, abrupt storms, localized flooding and difficult road conditions. The discourse establishes seasonal storm disruption but not enough detail to characterize severe-property-loss risk precisely.",
+          "signals": [
+            "monsoon_adds_rain_and_storm_variability"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.7,
+          "confidence": 0.78,
+          "evidence": "Tucson supplies the nearest concentration of advanced healthcare, specialty shopping, employment and entertainment, and is not regarded as an easy daily extension. The city covers routine needs locally but remains meaningfully separated from major-metro services.",
+          "signals": [
+            "specialty_shopping_requires_tucson_trips",
+            "tucson_is_not_a_practical_daily_extension",
+            "routine_errands_are_easy"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.43,
+          "confidence": 0.78,
+          "evidence": "Core shopping, restaurants and practical services are present, but nightlife, entertainment variety and specialized amenities are repeatedly described as shallow. Nearby towns add variety without creating depth inside Sierra Vista itself.",
+          "signals": [
+            "routine_errands_are_easy",
+            "nightlife_and_evening_options_are_shallow",
+            "regional_weekend_destinations_add_variety"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.36,
+          "confidence": 0.73,
+          "evidence": "Routine retail is local, but residents regularly travel to Tucson for warehouse clubs, specialty goods and broader selection. The regional service role does not eliminate dependence on a larger metro for uncommon purchases.",
+          "signals": [
+            "routine_errands_are_easy",
+            "specialty_shopping_requires_tucson_trips"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.92,
+          "confidence": 0.82,
+          "evidence": "A low-density city organized around arterial roads, shopping centers and dispersed neighborhoods. Regional recreation, nearby communities and Tucson access also require driving, making a private vehicle functionally necessary.",
+          "signals": [
+            "daily_life_requires_a_vehicle",
+            "regional_weekend_destinations_add_variety",
+            "built_environment_is_practical_not_charming"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.6,
+          "confidence": 0.51,
+          "evidence": "Routine providers, procedures and hospital services exist locally and exceed what smaller Cochise County communities offer. Community confidence is uneven, so availability appears stronger than perceived quality or consistency.",
+          "signals": [
+            "routine_healthcare_exists_locally",
+            "local_hospital_confidence_is_low"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.31,
+          "confidence": 0.7,
+          "evidence": "Residents repeatedly describe traveling to Tucson for specialists, complex care and second opinions. The specific unavailable specialties are not consistently identified, but limited local depth is one of the strongest healthcare themes.",
+          "signals": [
+            "specialist_care_often_requires_tucson",
+            "local_hospital_confidence_is_low"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.46,
+          "confidence": 0.76,
+          "evidence": "Fort Huachuca, federal contracting, healthcare and education provide meaningful professional employment, but the broader civilian market is narrow. Opportunity depends heavily on whether a worker fits the installation-centered economy.",
+          "signals": [
+            "fort_huachuca_anchors_local_economy",
+            "civilian_job_market_is_narrow"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.32,
+          "confidence": 0.76,
+          "evidence": "Strongly concentrated around Fort Huachuca, military activity, federal employment and contracting. Healthcare, education and retail add secondary sectors but do not offset the installation's dominance.",
+          "signals": [
+            "fort_huachuca_anchors_local_economy",
+            "civilian_job_market_is_narrow"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.4,
+          "confidence": 0.35,
+          "evidence": "The discussion does not establish a broad, consistently high-paying skilled-trades market. Some technical and installation-support work likely exists, but accounts focus far more on cleared, federal and contracting employment than on trades.",
+          "signals": [
+            "fort_huachuca_anchors_local_economy",
+            "civilian_job_market_is_narrow"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.68,
+          "confidence": 0.45,
+          "evidence": "Remote income is portrayed as a strong way to access the lifestyle without relying on the limited civilian labor market. Broadband reliability across all neighborhoods and rural outskirts is not independently established.",
+          "signals": [
+            "remote_income_improves_local_fit"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.17,
+          "confidence": 0.82,
+          "evidence": "Local trips are consistently short, light and predictable. Commute burden rises sharply only when a household tries to connect daily with Tucson or more distant regional destinations.",
+          "signals": [
+            "traffic_and_commutes_within_city_are_light",
+            "tucson_is_not_a_practical_daily_extension"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.42,
+          "confidence": 0.58,
+          "evidence": "Good value for households with military, federal, retirement or remote income, but greater strain for workers dependent on ordinary local wages. Housing and household costs are unevenly aligned with earnings.",
+          "signals": [
+            "housing_value_depends_on_income_source",
+            "civilian_job_market_is_narrow",
+            "remote_income_improves_local_fit"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.18,
+          "confidence": 0.59,
+          "evidence": "Tourism influences nearby Bisbee, Tombstone, wineries and regional destinations more than Sierra Vista's daily economy. The city is portrayed primarily as a military and service center rather than a visitor-driven town.",
+          "signals": [
+            "fort_huachuca_anchors_local_economy",
+            "regional_weekend_destinations_add_variety",
+            "bisbee_offers_character_sierra_vista_lacks"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.32,
+          "confidence": 0.34,
+          "evidence": "Housing frustration and changing costs come up, but rapid in-migration or development overwhelming local infrastructure does not. Growth pressure is present only weakly in the available discourse.",
+          "signals": [
+            "housing_value_depends_on_income_source",
+            "rental_supply_and_quality_raise_concerns"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.72,
+          "confidence": 0.71,
+          "evidence": "Fort Huachuca and federal contracting anchor a large share of professional employment, making mission changes, federal budgets and contract cycles unusually important to local stability. Secondary sectors reduce but do not remove this exposure.",
+          "signals": [
+            "fort_huachuca_anchors_local_economy",
+            "civilian_job_market_is_narrow"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.57,
+          "confidence": 0.57,
+          "evidence": "Still cheaper than major Arizona metros and many western communities, but no longer regarded as universally inexpensive. Affordability changes substantially with income source and whether the household rents or owns.",
+          "signals": [
+            "housing_value_depends_on_income_source",
+            "rental_supply_and_quality_raise_concerns"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.63,
+          "confidence": 0.54,
+          "evidence": "Households with stable federal, military, remote or retirement income obtain a quiet small-city setting with mountain access and practical services at lower cost than many Arizona metros. The advantage is weaker for locally paid workers.",
+          "signals": [
+            "housing_value_depends_on_income_source",
+            "remote_income_improves_local_fit",
+            "routine_errands_are_easy"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.39,
+          "confidence": 0.38,
+          "evidence": "Limited selection, disappointing quality and higher-than-expected rents, but the source base does not establish a universal shortage or consistent waiting-list conditions.",
+          "signals": [
+            "rental_supply_and_quality_raise_concerns"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.75,
+          "confidence": 0.67,
+          "evidence": "A visible military, veteran, church and firearm-oriented conservative baseline. The city contains moderate and progressive pockets, but the ambient culture is not portrayed as politically neutral.",
+          "signals": [
+            "military_conservative_culture_is_visible",
+            "fort_huachuca_anchors_local_economy"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.62,
+          "confidence": 0.55,
+          "evidence": "Families benefit from short drives, routine services, outdoor access, youth activities and a slower pace. Recurring school concerns and limited specialist healthcare prevent a stronger score.",
+          "signals": [
+            "family_life_is_quiet_and_manageable",
+            "school_reputation_is_a_recurring_concern",
+            "routine_healthcare_exists_locally"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.62,
+          "confidence": 0.39,
+          "evidence": "Church participation appears repeatedly as part of the community's social and conservative landscape. The available discussion is too thin to establish how strongly religious norms shape everyday life outside those networks.",
+          "signals": [
+            "military_conservative_culture_is_visible",
+            "newcomer_friendships_require_intentional_effort"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.36,
+          "confidence": 0.72,
+          "evidence": "Newcomers without military, church, school or workplace connections repeatedly report needing structured activities and repeated participation to form friendships. Accessible but compartmentalized rather than naturally socially porous.",
+          "signals": [
+            "newcomer_friendships_require_intentional_effort",
+            "organized_activities_counter_boredom"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.38,
+          "confidence": 0.51,
+          "evidence": "Large and transient enough to provide more anonymity than a rural town, but military, contracting and hobby networks remain interconnected. Social and professional circles overlap repeatedly.",
+          "signals": [
+            "fort_huachuca_anchors_local_economy",
+            "newcomer_friendships_require_intentional_effort",
+            "dating_pool_is_small_and_transient"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.48,
+          "confidence": 0.47,
+          "evidence": "Bars appear in dating and social discussions, but residents also emphasize hiking, gaming, theater, gyms and community events. The discourse supports limited social variety more strongly than a heavily alcohol-dominated culture.",
+          "signals": [
+            "nightlife_and_evening_options_are_shallow",
+            "organized_activities_counter_boredom",
+            "dating_pool_is_small_and_transient"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.24,
+          "confidence": 0.82,
+          "evidence": "Few late-opening venues, limited evening variety and a city that becomes quiet early. Organized activities exist but do not produce a deep or spontaneous nightlife environment.",
+          "signals": [
+            "nightlife_and_evening_options_are_shallow",
+            "organized_activities_counter_boredom"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.23,
+          "confidence": 0.82,
+          "evidence": "Multiple dating discussions describe a small, transient and socially repetitive pool shaped by military turnover, established couples and young adults leaving for larger cities. Individual experiences vary, but the recurring pattern is unusually consistent.",
+          "signals": [
+            "dating_pool_is_small_and_transient"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.61,
+          "confidence": 0.62,
+          "evidence": "A clear identity rooted in Fort Huachuca, the Huachuca Mountains, birding, high-desert weather and its role as Cochise County's practical service center. The suburban built environment is less distinctive than its military and natural context.",
+          "signals": [
+            "fort_huachuca_anchors_local_economy",
+            "birding_and_wildlife_are_distinctive_strengths",
+            "built_environment_is_practical_not_charming"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.7,
+          "confidence": 0.42,
+          "evidence": "Generally portrayed as quiet, manageable and relatively safe-feeling, but safety was not discussed with enough depth or consistency to support a high-confidence score. Neighborhood-level conditions remain unclear.",
+          "signals": [
+            "family_life_is_quiet_and_manageable",
+            "traffic_and_commutes_within_city_are_light"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.72,
+          "confidence": 0.72,
+          "evidence": "A spouse arriving without their own workplace, children, church, military connection or established hobby network may have few automatic social entry points. Friendship formation usually requires deliberate group participation.",
+          "signals": [
+            "newcomer_friendships_require_intentional_effort",
+            "organized_activities_counter_boredom",
+            "civilian_job_market_is_narrow"
+          ]
+        }
+      },
+      "gaps": [
+        "va_outpatient_access and va_hospital_access omitted — not established from the source base despite the city adjoining a major Army installation",
+        "lgbtq_municipal_policy omitted — not researched with policy sources",
+        "lgbtq_social_acceptance omitted — too sparsely sampled to score responsibly",
+        "racial_inclusion_climate omitted — experiences of residents of color too under-sampled",
+        "water_recreation_access omitted — not discussed consistently enough",
+        "neighborhood-level crime, theft and violent-crime patterns",
+        "school quality by campus, program, special-education service or student need",
+        "current home prices, rents, vacancy rates and income-to-housing ratios",
+        "whether rental waiting lists are common",
+        "public-transit coverage and usefulness",
+        "broadband reliability across neighborhoods and rural outskirts",
+        "current Fort Huachuca staffing, mission changes and contract conditions",
+        "availability of specific medical specialties, behavioral healthcare and pediatric care",
+        "objective clinical quality of the local hospital, as distinct from community distrust",
+        "wildfire exposure, smoke burden, flood risk and monsoon property damage",
+        "childcare availability and affordability",
+        "differences among Sierra Vista proper, Hereford, Huachuca City and unincorporated areas"
+      ]
+    },
+    {
+      "city": "Ashville",
+      "state": "OH",
+      "features": {
+        "car_dependence": {
+          "value": 0.93,
+          "confidence": 0.75,
+          "evidence": "Shopping, specialized care and most regional employment require driving; not presented as a practical car-free location.",
+          "signals": [
+            "car_dependence"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.6,
+          "confidence": 0.6,
+          "evidence": "The U.S. 23 corridor through South Bloomfield is repeatedly identified as a bottleneck, especially for peak trips toward northern Columbus.",
+          "signals": [
+            "us23_commute_friction",
+            "southern_columbus_access"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.4,
+          "confidence": 0.6,
+          "evidence": "Basic local services only; broader shopping, restaurants and entertainment are reached by car in Circleville or Columbus.",
+          "signals": [
+            "limited_local_amenities"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.2,
+          "confidence": 0.6,
+          "evidence": "Local nightlife is described as limited; evening options are a drive away.",
+          "signals": [
+            "limited_local_amenities"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.35,
+          "confidence": 0.45,
+          "evidence": "Consistently framed as quiet, family-focused small-town living, which implies a visible rather than anonymous social setting.",
+          "signals": [
+            "quiet_family_oriented"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.7,
+          "confidence": 0.75,
+          "evidence": "Grove City VA Clinic is 18 miles away — routine outpatient care without a major trip.",
+          "signals": [
+            "va_outpatient_access"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 0.45,
+          "confidence": 0.75,
+          "evidence": "Chillicothe VA Medical Center is 31 miles away — reachable, but a deliberate trip rather than a local resource.",
+          "signals": [
+            "va_hospital_access"
+          ]
+        }
+      },
+      "gaps": [
+        "no archived dossier — these features were extracted from the existing profile signals, so they carry no dossier_id and cannot be re-derived from a stored narrative",
+        "healthcare depth beyond VA facilities",
+        "rental availability",
+        "economic diversity"
+      ]
+    },
+    {
+      "city": "Nashville",
+      "state": "TN",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "outdoor_comfort_season": {
+          "value": 0.5,
+          "confidence": 0.68,
+          "evidence": "Revised down from 0.61 in revision 1, which was inferred from park usage alone. The direct climate discussion says the pleasant windows are real but short: spring is unstable and brief, fall is excellent but delayed and narrow, and summer plus damp winter consume much of the year.",
+          "signals": [
+            "short_unstable_shoulder_seasons",
+            "fall_is_best_season_but_brief",
+            "summer_heat_and_humidity_oppressive"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.62,
+          "confidence": 0.62,
+          "evidence": "Warner Parks, Shelby Bottoms, greenways and regional lakes are cited as useful routine recreation, while residents explicitly distinguish Nashville from places with immediate mountain or wilderness access.",
+          "signals": [
+            "urban_parks_and_greenways_access"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.24,
+          "confidence": 0.46,
+          "evidence": "The evidence supports urban parks and regional recreation but describes no large nearby tracts of open federal or state land for dispersed daily use.",
+          "signals": [
+            "urban_parks_and_greenways_access"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.58,
+          "confidence": 0.48,
+          "evidence": "Nashville and Middle Tennessee are described as green and rolling, but scenery is not presented as one of the metro's strongest or most distinctive relocation advantages.",
+          "signals": [
+            "urban_parks_and_greenways_access"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.58,
+          "confidence": 0.45,
+          "evidence": "Regional lakes support boating, fishing and paddling, though the discussion treats them as supplementary amenities rather than a defining part of daily city life.",
+          "signals": [
+            "urban_parks_and_greenways_access"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.16,
+          "confidence": 0.69,
+          "evidence": "Nashville functions as a major regional center with healthcare, employment, universities, sports, entertainment and air service available locally rather than requiring routine travel to another metro.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale",
+            "professional_job_market_attraction"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.86,
+          "confidence": 0.82,
+          "evidence": "Residents consistently describe a deep combination of music, restaurants, professional sports, events, healthcare, universities and neighborhood entertainment.",
+          "signals": [
+            "deep_live_music_ecosystem",
+            "strong_concert_sports_activity_mix",
+            "neighborhood_entertainment_variety",
+            "large_city_opportunity_without_megacity_scale"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.82,
+          "confidence": 0.56,
+          "evidence": "The metro's size and broad amenity base imply strong access to specialized goods and services, inferred from the general metropolitan-depth theme rather than discussed directly.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.84,
+          "confidence": 0.6,
+          "evidence": "A busy airport is named as part of the metropolitan convenience residents associate with Nashville's regional scale.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.9,
+          "confidence": 0.84,
+          "evidence": "Residents describe car-free living as possible only in narrow circumstances because jobs, healthcare, shopping and social destinations are dispersed and transit coverage is limited.",
+          "signals": [
+            "car_free_life_impractical",
+            "walkability_limited_to_pockets",
+            "traffic_depends_on_home_work_pairing"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.86,
+          "confidence": 0.61,
+          "evidence": "Major hospitals and healthcare institutions are named among Nashville's core metropolitan advantages, supporting strong routine-care capacity.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale",
+            "professional_job_market_attraction"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.9,
+          "confidence": 0.63,
+          "evidence": "The healthcare sector is repeatedly treated as a major regional employment and amenity base, indicating substantial specialist and complex-care availability.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale",
+            "professional_job_market_attraction"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.82,
+          "confidence": 0.7,
+          "evidence": "Relocation discussions frequently involve healthcare, construction, corporate and professional employment, indicating a comparatively broad regional hiring base.",
+          "signals": [
+            "professional_job_market_attraction",
+            "large_city_opportunity_without_megacity_scale"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.8,
+          "confidence": 0.62,
+          "evidence": "The evidence points to healthcare, corporate work, construction, tourism, entertainment and creative industries rather than dependence on one dominant employer or commodity.",
+          "signals": [
+            "professional_job_market_attraction",
+            "creative_access_without_income_security",
+            "strong_concert_sports_activity_mix"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.61,
+          "confidence": 0.38,
+          "evidence": "Construction and skilled work appear in relocation discussions, but the evidence does not establish whether trade wages consistently outperform Nashville's rising cost base.",
+          "signals": [
+            "professional_job_market_attraction",
+            "housing_cost_wage_mismatch"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.85,
+          "confidence": 0.48,
+          "evidence": "The large metro service base supports full-time remote work, though residents warn that remote workers without an existing network may struggle socially.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale",
+            "social_options_do_not_guarantee_connection"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.79,
+          "confidence": 0.82,
+          "evidence": "Residents repeatedly describe commute length and predictability as highly dependent on direction, with cross-metro travel at peak becoming a major daily burden.",
+          "signals": [
+            "traffic_depends_on_home_work_pairing",
+            "suburban_affordability_commute_tradeoff",
+            "car_free_life_impractical"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.34,
+          "confidence": 0.78,
+          "evidence": "Residents consistently argue that ordinary local wages no longer comfortably cover housing costs, especially for teachers, artists, service workers and younger households.",
+          "signals": [
+            "housing_cost_wage_mismatch",
+            "younger_locals_homeownership_barrier",
+            "creative_access_without_income_security"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.82,
+          "confidence": 0.75,
+          "evidence": "Lower Broadway tourism strongly shapes Nashville's public image, downtown activity and local complaints, even though many residents rarely use the district in everyday life.",
+          "signals": [
+            "broadway_not_local_default",
+            "city_reputation_exceeds_daily_reality",
+            "local_identity_loss_narrative"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.91,
+          "confidence": 0.84,
+          "evidence": "Residents consistently connect rapid development and in-migration with congestion, construction, housing pressure and infrastructure that feels undersized.",
+          "signals": [
+            "rapid_growth_infrastructure_strain",
+            "housing_cost_wage_mismatch",
+            "local_identity_loss_narrative"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.18,
+          "confidence": 0.47,
+          "evidence": "A diverse base of healthcare, professional services, tourism and entertainment reduces dependence on any single commodity cycle, though tourism and development remain meaningful exposures.",
+          "signals": [
+            "professional_job_market_attraction",
+            "strong_concert_sports_activity_mix",
+            "creative_access_without_income_security"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.3,
+          "confidence": 0.82,
+          "evidence": "Housing affordability is the most consistent negative theme, with residents saying costs have risen beyond what ordinary Nashville-area wages comfortably support.",
+          "signals": [
+            "housing_cost_wage_mismatch",
+            "younger_locals_homeownership_barrier",
+            "suburban_affordability_commute_tradeoff"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.25,
+          "confidence": 0.77,
+          "evidence": "Residents argue Nashville no longer provides the expected affordability advantage of a midsized Southern city relative to its congestion, infrastructure and local wage levels.",
+          "signals": [
+            "housing_cost_wage_mismatch",
+            "rapid_growth_infrastructure_strain",
+            "younger_locals_homeownership_barrier"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.48,
+          "confidence": 0.35,
+          "evidence": "The discussion clearly establishes high rental cost pressure but does not reliably establish whether units are broadly unavailable, merely expensive, or highly neighborhood-dependent.",
+          "signals": [
+            "housing_cost_wage_mismatch",
+            "suburban_affordability_commute_tradeoff"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.38,
+          "confidence": 0.55,
+          "evidence": "Residents describe Nashville as politically more moderate-to-progressive than much of Tennessee, while emphasizing recurring conflict with a more conservative state government.",
+          "signals": [
+            "state_city_political_friction"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.65,
+          "confidence": 0.34,
+          "evidence": "The large urban social and cultural ecosystem suggests accessible compatible communities, but there was not enough direct LGBTQ resident testimony to score the day-to-day climate confidently.",
+          "signals": [
+            "neighborhood_entertainment_variety",
+            "large_city_opportunity_without_megacity_scale"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.76,
+          "confidence": 0.5,
+          "evidence": "The region offers professional sports, parks, healthcare, universities and numerous suburban family environments, but school quality and youth infrastructure were not independently examined.",
+          "signals": [
+            "strong_concert_sports_activity_mix",
+            "urban_parks_and_greenways_access",
+            "premium_family_suburbs"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.72,
+          "confidence": 0.38,
+          "evidence": "Church-based social integration appears as one pathway newcomers use to build community, but the prominence of religion in ordinary civic life was not deeply sampled.",
+          "signals": [
+            "social_options_do_not_guarantee_connection"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.57,
+          "confidence": 0.52,
+          "evidence": "Nashville provides many activity-based entry points, but residents indicate close friendships usually require recurring participation through work, music, churches, sports or neighborhoods.",
+          "signals": [
+            "social_options_do_not_guarantee_connection",
+            "neighborhood_entertainment_variety",
+            "resident_satisfaction_is_genuinely_mixed"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.76,
+          "confidence": 0.5,
+          "evidence": "Nashville is large and socially varied enough for residents to maintain privacy, although individual creative, professional and neighborhood circles can remain tightly interconnected.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale",
+            "neighborhood_entertainment_variety"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.75,
+          "confidence": 0.65,
+          "evidence": "Drinking and bar tourism are highly visible, especially on Lower Broadway, but residents emphasize that parks, concerts, sports and neighborhood venues also anchor social life.",
+          "signals": [
+            "broadway_not_local_default",
+            "city_reputation_exceeds_daily_reality",
+            "strong_concert_sports_activity_mix"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.9,
+          "confidence": 0.83,
+          "evidence": "Extensive nightlife through Broadway, neighborhood bars, independent music venues, songwriter rounds, clubs and frequent events.",
+          "signals": [
+            "deep_live_music_ecosystem",
+            "neighborhood_entertainment_variety",
+            "strong_concert_sports_activity_mix"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.8,
+          "confidence": 0.45,
+          "evidence": "Nashville's size, young-adult population and active social environment imply a large dating pool, though dating experiences were not directly sampled.",
+          "signals": [
+            "large_city_opportunity_without_megacity_scale",
+            "neighborhood_entertainment_variety"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.9,
+          "confidence": 0.82,
+          "evidence": "Nashville retains a globally recognizable music identity and a dense creative ecosystem, even as longtime residents argue tourism and redevelopment are diluting its older local character.",
+          "signals": [
+            "deep_live_music_ecosystem",
+            "local_identity_loss_narrative",
+            "city_reputation_exceeds_daily_reality"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.62,
+          "confidence": 0.3,
+          "evidence": "No stable citywide safety consensus emerged, and neighborhood differences make broad resident impressions especially unreliable.",
+          "signals": [
+            "neighborhood_choice_materially_changes_experience"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.5,
+          "confidence": 0.48,
+          "evidence": "A non-working newcomer has many activities available but may still struggle to form close relationships without recurring institutional or neighborhood ties.",
+          "signals": [
+            "social_options_do_not_guarantee_connection",
+            "resident_satisfaction_is_genuinely_mixed"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.8,
+          "confidence": 0.78,
+          "evidence": "Upper 80s to 90s afternoon highs with heat-index readings near or over 100F, warm nights offering limited relief, and sweating during minor outdoor activity. Residents compare the sensation to Florida and the Gulf Coast while stopping short of full equivalence.",
+          "signals": [
+            "summer_heat_and_humidity_oppressive"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.85,
+          "confidence": 0.8,
+          "evidence": "Dew points commonly in the 70s and air repeatedly described as thick, sticky and heavy. Thunderstorms briefly cool things but leave the air steamier. The strongest single climate consensus in the source base.",
+          "signals": [
+            "summer_heat_and_humidity_oppressive"
+          ]
+        },
+        "winter_cold_severity": {
+          "value": 0.35,
+          "confidence": 0.7,
+          "evidence": "Moderate by Northern standards — temperatures bounce between mild and genuinely cold — but the cold feels raw because of moisture and wind, and February brings long overcast spells.",
+          "signals": [
+            "damp_gray_variable_winter"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.15,
+          "confidence": 0.72,
+          "evidence": "Very little reliable snow most years; rain and dampness dominate winter. Deliberately scored separately from ice risk, which residents treat as the real winter hazard.",
+          "signals": [
+            "damp_gray_variable_winter",
+            "ice_storms_cause_outsized_disruption"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.78,
+          "confidence": 0.72,
+          "evidence": "Flash flooding, fast-developing thunderstorms, tornado watches and warnings, plus freezing-rain events that take down power for days. The 2026 ice storm produced sustained discussion of prolonged outages.",
+          "signals": [
+            "active_severe_weather_and_flooding",
+            "ice_storms_cause_outsized_disruption"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "Heavy air-conditioning use is treated as a precondition for tolerating summer, and ice-storm outage discussion shows how quickly the city becomes uncomfortable when conditioning fails.",
+          "signals": [
+            "summer_heat_and_humidity_oppressive",
+            "ice_storms_cause_outsized_disruption"
+          ]
+        }
+      },
+      "gaps": [
+        "REVISION 2 CORRECTION: revision 1 claimed 'climate is almost entirely absent from the discourse'. That was false — it reflected the research pass not asking about climate, not the source base. Targeted searching found dedicated threads on summer heat vs Tampa/Miami, whether the heat is overexaggerated, snow, and the 2026 ice storm. Seven climate signals and seven climate features were added in revision 2.",
+        "not_researched: neighborhood-level school quality and comparisons among individual school zones",
+        "not_researched: current purchase prices, rents, vacancy rates and neighborhood-specific affordability",
+        "not_researched: VA outpatient and VA hospital access",
+        "not_researched: lgbtq_municipal_policy — municipal protections not independently verified",
+        "not_researched: precipitation_seasonality — rainfall volume is discussed but not its seasonal distribution",
+        "discussed_but_unscoreable: racial_inclusion_climate — race not discussed with enough careful first-hand evidence",
+        "discussed_but_unscoreable: substance_problem_visibility — discourse too inflammatory and inconsistent to score responsibly",
+        "discussed_but_unscoreable: citywide safety perception varies too much by neighborhood for a high-confidence score",
+        "discussed_but_unscoreable: rental availability could not be separated cleanly from rental affordability",
+        "not_researched: whether skilled-trade wages consistently exceed the local cost base",
+        "not_researched: dating experiences across age groups or communities",
+        "not_researched: public transit quality and reliability by neighborhood",
+        "not_researched: feature-level scoring for individual suburbs"
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.22,
+          "confidence": 0.55,
+          "evidence": "Winters are consistently described as mild relative to the Northeast and Midwest, although residents still mention occasional chilly or gray periods.",
+          "signals": [
+            "mild_winters_are_a_climate_advantage"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.76,
+          "confidence": 0.72,
+          "evidence": "Summer heat is described as strong enough to reduce midday walking and outdoor activity, particularly when combined with humidity.",
+          "signals": [
+            "summer_heat_and_humidity_limit_comfort"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.8,
+          "confidence": 0.74,
+          "evidence": "Warm-season humidity is repeatedly described as a meaningful daily comfort issue and a major reason some residents dislike Atlanta summers.",
+          "signals": [
+            "summer_heat_and_humidity_limit_comfort"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.6,
+          "confidence": 0.57,
+          "evidence": "Mild winters support outdoor activity for much of the year, but summer heat, humidity and pollen materially reduce comfort during part of the warm season.",
+          "signals": [
+            "summer_heat_and_humidity_limit_comfort",
+            "mild_winters_are_a_climate_advantage",
+            "pollen_is_a_recurring_quality_of_life_complaint"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.73,
+          "confidence": 0.59,
+          "evidence": "Air conditioning is important for comfortable summer life, while winter heating demands are comparatively modest.",
+          "signals": [
+            "summer_heat_and_humidity_limit_comfort",
+            "mild_winters_are_a_climate_advantage"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.68,
+          "confidence": 0.68,
+          "evidence": "The BeltLine, neighborhood parks, running and cycling routes, and weekend access to North Georgia hiking are cited as meaningful recreation options.",
+          "signals": [
+            "beltline_combines_recreation_and_amenities",
+            "north_georgia_outdoors_are_weekend_accessible",
+            "tree_canopy_and_parks_surprise_newcomers"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.61,
+          "confidence": 0.61,
+          "evidence": "Atlanta's tree canopy, leafy neighborhoods and rolling landscape are frequently praised, although the surrounding scenery is not usually presented as the city's defining attraction.",
+          "signals": [
+            "tree_canopy_and_parks_surprise_newcomers",
+            "north_georgia_outdoors_are_weekend_accessible"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.14,
+          "confidence": 0.64,
+          "evidence": "A large regional center with extensive employment, amenities and transportation connections rather than a city dependent on another metro for basic services.",
+          "signals": [
+            "job_market_is_a_primary_reason_people_stay",
+            "entertainment_depth_requires_discovery",
+            "food_scene_has_broad_variety"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.86,
+          "confidence": 0.8,
+          "evidence": "Residents consistently identify deep restaurant, nightlife, sports, music, festival and cultural offerings spread across many districts.",
+          "signals": [
+            "food_scene_has_broad_variety",
+            "entertainment_depth_requires_discovery",
+            "nightlife_is_deeper_than_regional_peers",
+            "atlanta_offers_more_depth_than_charlotte"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.88,
+          "confidence": 0.58,
+          "evidence": "MARTA is repeatedly described as especially useful for airport trips, indicating that major-airport access is a practical metropolitan strength.",
+          "signals": [
+            "marta_rail_useful_when_aligned"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.83,
+          "confidence": 0.82,
+          "evidence": "Most residents describe a reliable car as necessary for reaching the wider metro, even though some households live car-light in selected rail-connected or walkable neighborhoods.",
+          "signals": [
+            "car_dependence_varies_by_endpoints",
+            "transit_coverage_is_geographically_limited",
+            "walkability_exists_in_concentrated_corridors"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.81,
+          "confidence": 0.57,
+          "evidence": "Residents frequently cite Atlanta's large and varied employer base as a central reason to move to or remain in the metro, although current openings were not independently measured.",
+          "signals": [
+            "job_market_is_a_primary_reason_people_stay"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.77,
+          "confidence": 0.52,
+          "evidence": "Opportunities span corporate work, technology, logistics, healthcare, education, media, film and professional services rather than dependence on one dominant industry.",
+          "signals": [
+            "job_market_is_a_primary_reason_people_stay"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.84,
+          "confidence": 0.55,
+          "evidence": "Remote workers can avoid Atlanta's largest daily penalty — cross-metro commuting — and choose housing more freely around lifestyle.",
+          "signals": [
+            "remote_work_reduces_the_core_atlanta_penalty"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.9,
+          "confidence": 0.86,
+          "evidence": "Traffic and commute geography are the loudest and most consistent themes, with residents warning that relatively short distances can consume substantial time.",
+          "signals": [
+            "commute_geography_shapes_daily_life",
+            "traffic_is_the_dominant_complaint"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.71,
+          "confidence": 0.48,
+          "evidence": "Rising housing costs, development around desirable corridors and increasing pressure on transportation, although growth itself was not directly quantified.",
+          "signals": [
+            "affordability_advantage_has_eroded",
+            "walkable_rail_neighborhoods_cost_more",
+            "traffic_is_the_dominant_complaint"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.43,
+          "confidence": 0.53,
+          "evidence": "Still sometimes framed as more attainable than the most expensive coastal metros, but current discussion says the former affordability advantage has weakened substantially.",
+          "signals": [
+            "affordability_advantage_has_eroded",
+            "walkable_rail_neighborhoods_cost_more"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.49,
+          "confidence": 0.55,
+          "evidence": "Outer communities may offer more space for the money, but the resulting commute and car-dependence costs frequently offset the expected value advantage of living farther out.",
+          "signals": [
+            "housing_value_depends_on_distance_tradeoff",
+            "affordability_advantage_has_eroded"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.3,
+          "confidence": 0.38,
+          "evidence": "The urban cultural climate is presented as more diverse and socially liberal than much of the surrounding region, but direct political discussion was not developed enough for a high-confidence score.",
+          "signals": [
+            "large_diverse_communities_are_a_core_strength"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.82,
+          "confidence": 0.66,
+          "evidence": "Residents repeatedly identify Atlanta as having a large, established and visible LGBTQ community, while cautioning that experiences can vary by neighborhood and social setting.",
+          "signals": [
+            "large_diverse_communities_are_a_core_strength"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.51,
+          "confidence": 0.69,
+          "evidence": "A large pool of clubs, activities and potential friendships, but newcomers frequently say close relationships require repeated participation and deliberate effort.",
+          "signals": [
+            "friendship_building_requires_intentional_routines",
+            "distance_can_weaken_social_connections"
+          ]
+        },
+        "social_anonymity": {
+          "value": 0.78,
+          "confidence": 0.54,
+          "evidence": "The size and fragmentation of the metro allow residents to maintain private, separate social lives, although individual neighborhood and professional networks may still feel interconnected.",
+          "signals": [
+            "neighborhood_choice_changes_the_city_experience",
+            "city_and_metro_are_often_blurred"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.84,
+          "confidence": 0.76,
+          "evidence": "Comparison and local threads consistently describe Atlanta as having substantial nightlife, live music and multiple distinct evening scenes.",
+          "signals": [
+            "nightlife_is_deeper_than_regional_peers",
+            "entertainment_depth_requires_discovery",
+            "atlanta_offers_more_depth_than_charlotte"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.76,
+          "confidence": 0.42,
+          "evidence": "Atlanta's large population, nightlife depth and varied communities imply a broad dating pool, but dating itself was not a well-developed theme in the sampled discussions.",
+          "signals": [
+            "nightlife_is_deeper_than_regional_peers",
+            "large_diverse_communities_are_a_core_strength"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.9,
+          "confidence": 0.82,
+          "evidence": "Repeatedly described as having a strong identity built around Black cultural influence, music, film, food, LGBTQ life and distinct neighborhood scenes.",
+          "signals": [
+            "large_diverse_communities_are_a_core_strength",
+            "food_scene_has_broad_variety",
+            "atlanta_offers_more_depth_than_charlotte"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.57,
+          "confidence": 0.43,
+          "evidence": "Many residents describe ordinary life as comfortable with standard urban precautions, while others report property crime and highly localized safety concerns; disagreement and neighborhood variation are the central findings.",
+          "signals": [
+            "property_crime_precautions_are_normalized",
+            "safety_perceptions_are_highly_localized",
+            "southern_suburbs_are_often_stereotyped"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.61,
+          "confidence": 0.59,
+          "evidence": "A newcomer without work or an established network may struggle because friendships require deliberate routines and friends across the metro can be difficult to see regularly.",
+          "signals": [
+            "friendship_building_requires_intentional_routines",
+            "distance_can_weaken_social_connections"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: snow burden was not established with enough detail to score",
+        "not_researched: precipitation seasonality",
+        "not_researched: winter daylight effects",
+        "not_researched: wind exposure",
+        "not_researched: severe storm and hail risk",
+        "not_researched: public-land access",
+        "not_researched: water-recreation access",
+        "not_researched: specialty retail access as a separate feature",
+        "not_researched: routine healthcare access — a significant omission for a metro this size",
+        "not_researched: specialist healthcare access — a significant omission for a metro this size",
+        "not_researched: VA outpatient and VA hospital access",
+        "not_researched: high-wage trade opportunity",
+        "not_researched: local wage adequacy, discussed only indirectly through affordability",
+        "searched_not_found: tourism pressure is not an important daily-life theme despite Atlanta's visitor volume",
+        "not_researched: economic-cycle exposure",
+        "not_researched: current rental availability and vacancy conditions",
+        "not_researched: lgbtq_municipal_policy — ordinances and formal city protections",
+        "not_researched: family infrastructure and school quality",
+        "not_researched: religious culture prominence",
+        "discussed_but_unscoreable: racial_inclusion_climate — discussed unevenly and sensitively; not scoreable from this sample despite being central to Atlanta's identity",
+        "discussed_but_unscoreable: alcohol-centered social life not separated clearly from general nightlife",
+        "discussed_but_unscoreable: substance-problem visibility",
+        "discussed_but_unscoreable: neighborhood-level safety, affordability and school differences",
+        "not_researched: current housing prices, rents and commute times"
+      ]
+    },
+    {
+      "city": "Bangor",
+      "state": "ME",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "healthcare_navigability": {
+          "value": 0.28,
+          "confidence": 0.82,
+          "evidence": "The split that prompted this feature. Months-long primary-care waits exceeding national averages, slow referrals, provider shortages and a resident summary that 'it is genuinely impossible to get a doctor around here'. Bangor can possess the building, department, scanner and specialist category without offering a newcomer a straightforward entry into longitudinal care.",
+          "signals": [
+            "healthcare_hub_you_cannot_get_into"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.82,
+          "confidence": 0.78,
+          "evidence": "Two major hospitals, emergency and inpatient care, 1,100+ affiliated clinicians and a regional referral role across eastern and northern Maine — unusually strong infrastructure for a city of 32,000. Scored as availability; reachability is healthcare_navigability.",
+          "signals": [
+            "healthcare_hub_you_cannot_get_into",
+            "regional_hub_for_a_rural_state"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.62,
+          "confidence": 0.7,
+          "evidence": "Cancer, cardiac and surgical specialties are present regionally, but without the specialist redundancy, academic depth or competing systems of a major metro; highly specialised cases still route to Portland or Boston.",
+          "signals": [
+            "healthcare_hub_you_cannot_get_into"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.79,
+          "confidence": 0.78,
+          "evidence": "A compact, internally connected core with enough restaurants, bars, offices, cultural venues, the library and waterfront to produce real pedestrian circulation — not an ornamental Main Street. Held below higher because the core is geographically small and winter ice and snowbanks reduce accessibility.",
+          "signals": [
+            "regional_hub_for_a_rural_state",
+            "city_word_creates_wrong_expectation"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.86,
+          "confidence": 0.8,
+          "evidence": "Outside the core the city is markedly car-dependent. Groceries and ordinary provisioning are explicitly described as not walkable; the comprehensive plan recommends extending sidewalks along six major roads, which itself shows the network is incomplete. Most commuters drive alone and typical households own two vehicles.",
+          "signals": [
+            "airport_is_real_but_not_boston"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.43,
+          "confidence": 0.62,
+          "evidence": "Pride events, university-adjacent networks, informal groups and some welcoming downtown establishments — but no dedicated gay-bar district, small dating pools, periodic rather than nightly events, and heavy dependence on general-purpose spaces and online networking. The subreddit repeatedly carries young LGBTQ newcomers asking how to meet anyone.",
+          "signals": [
+            "lgbtq_safe_but_small"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.82,
+          "confidence": 0.7,
+          "evidence": "Consistently more reassuring than outsiders expect from Maine's 2nd district. The sharpest evidence is first-person: a queer downtown regular reporting they have never felt unsafe. Measures whether open LGBTQ life is broadly viable, not universal enthusiasm.",
+          "signals": [
+            "lgbtq_safe_but_small"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.77,
+          "confidence": 0.7,
+          "evidence": "Roughly 41/28/29 Democratic/Republican/unenrolled — a genuine three-way distribution rather than one dominant registration. Progressives, union Democrats, moderates, independents, traditional Republicans, libertarian gun owners, university and healthcare professionals, rural commuters and religious communities all interact in one small civic arena. Held below 0.8 because the city is predominantly white and still leans left.",
+          "signals": [
+            "politically_mixed_not_monocultural"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.36,
+          "confidence": 0.65,
+          "evidence": "Leans center-left within city limits relative to a more conservative surrounding county. Deliberately scored separately from political_heterogeneity — lean and mix are different questions.",
+          "signals": [
+            "politically_mixed_not_monocultural"
+          ]
+        },
+        "winter_cold_severity": {
+          "value": 0.72,
+          "confidence": 0.75,
+          "evidence": "Genuine subzero outbreaks are part of the climate, though not the daily norm; ordinary winter clothing works for stretches, interrupted by bitter spells, storms and thaw-freeze cycles.",
+          "signals": [
+            "winter_is_dark_before_it_is_cold"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.75,
+          "confidence": 0.75,
+          "evidence": "Roughly 65-75 inches in a normal year, with snow removal, ice, refreezing, salt and grime forming a routine part of the season. Modern variability adds rain, slush and bare ground.",
+          "signals": [
+            "winter_is_dark_before_it_is_cold"
+          ]
+        },
+        "winter_daylight_deficit": {
+          "value": 0.8,
+          "confidence": 0.8,
+          "evidence": "Sunsets around 4 p.m. at the deepest point and long gray stretches. Residents identify darkness rather than temperature as the harder half, and specifically warn that cold can be mitigated with clothing while light loss cannot.",
+          "signals": [
+            "winter_is_dark_before_it_is_cold"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.35,
+          "confidence": 0.7,
+          "evidence": "Warm rather than relentlessly hot; inland days into the 80s and occasionally 90s. Dramatically cooler than the Gulf Coast, especially at night.",
+          "signals": [
+            "summer_is_relief_not_dryness"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.55,
+          "confidence": 0.65,
+          "evidence": "Real humidity in warm spells — clammy rather than dry, older homes retaining moisture, mosquitoes limiting evening sitting near woods or standing water. Not Albuquerque-style dry heat.",
+          "signals": [
+            "summer_is_relief_not_dryness"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.42,
+          "confidence": 0.7,
+          "evidence": "Fall is excellent and brief, summer is comfortable, but mud season, black flies and a long dark winter consume much of the year. The sequence late winter to mud to black flies to mosquitoes leaves a narrow genuinely pleasant window.",
+          "signals": [
+            "spring_is_mud_then_black_flies",
+            "fall_is_the_payoff_and_brief"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.9,
+          "confidence": 0.82,
+          "evidence": "680+ acres and nine-plus miles of trails inside the city, the Orono Bog Boardwalk, and beyond it lakes, paddling, snowmobiling, hunting, skiing, Acadia, Baxter State Park, Katahdin and Moosehead. An excellent launchpad rather than a mountain town itself.",
+          "signals": [
+            "outdoors_is_the_strongest_asset"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.62,
+          "confidence": 0.72,
+          "evidence": "Portland is roughly two hours, Boston considerably farther, so specialised appointments and big-city trips are planned journeys. Bangor International genuinely reduces isolation relative to northern New England, without matching Boston's selection.",
+          "signals": [
+            "airport_is_real_but_not_boston",
+            "regional_hub_for_a_rural_state"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.5,
+          "confidence": 0.75,
+          "evidence": "Regional-centre completeness — hospitals, courts, colleges, shopping districts, a real downtown — combined with a compact and quickly repetitive entertainment cluster.",
+          "signals": [
+            "regional_hub_for_a_rural_state",
+            "nightlife_enough_then_repetitive"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.35,
+          "confidence": 0.72,
+          "evidence": "Enough for occasional drinks, trivia, live music and dates; not enough for club variety, and repetitive after a while. The amphitheater is a disproportionate exception.",
+          "signals": [
+            "nightlife_enough_then_repetitive",
+            "amphitheater_punches_above_weight"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.25,
+          "confidence": 0.7,
+          "evidence": "Small and repetitive; residents encounter the same profiles, many adults are coupled or working multiple jobs, and winter suppresses spontaneous activity.",
+          "signals": [
+            "small_repetitive_dating_pool"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.3,
+          "confidence": 0.78,
+          "evidence": "Difficult without an existing network. Hobby-based participation works; passive waiting does not. Established locals have long-standing family networks and 'from away' can persist as a category.",
+          "signals": [
+            "rewards_joiners_punishes_passive",
+            "from_away_is_a_lasting_category"
+          ]
+        },
+        "neighborliness": {
+          "value": 0.68,
+          "confidence": 0.65,
+          "evidence": "Reserved but materially helpful — the pattern is no small talk and a hand with your car in a snowbank. Privacy-respecting rather than warm.",
+          "signals": [
+            "reserved_but_will_pull_your_car_out"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.55,
+          "confidence": 0.7,
+          "evidence": "Substantially cheaper than Portland or Boston, and Bangor's own home values sit below the Maine coastal market.",
+          "signals": [
+            "housing_outran_local_wages"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.3,
+          "confidence": 0.78,
+          "evidence": "The core economic complaint. Housing costs outran local wages; $1,500 apartments of poor quality against service-sector pay, compounded by heating oil, electricity, snow tires, vehicle wear and older-housing repairs.",
+          "signals": [
+            "housing_outran_local_wages",
+            "narrow_but_real_job_market"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.4,
+          "confidence": 0.7,
+          "evidence": "Real but narrow — healthcare, university and government, skilled trades and regional services. Specialised corporate, technology, media and creative careers generally require remote work.",
+          "signals": [
+            "narrow_but_real_job_market"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.42,
+          "confidence": 0.65,
+          "evidence": "Anchored by healthcare and education rather than a single employer, but without the sectoral breadth of a diverse corporate economy.",
+          "signals": [
+            "narrow_but_real_job_market",
+            "regional_hub_for_a_rural_state"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.75,
+          "confidence": 0.6,
+          "evidence": "Remote income bypasses the narrow local market and is repeatedly named as the profile Bangor suits best — with the caveat that remote workers risk isolation and attract some local resentment over housing.",
+          "signals": [
+            "narrow_but_real_job_market",
+            "from_away_is_a_lasting_category"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.55,
+          "confidence": 0.6,
+          "evidence": "Gritty, not dangerous. Property crime and visible disorder are plausible daily concerns; random violent victimisation is not the dominant risk. People from affluent suburbs perceive it as rough; people from genuinely high-crime cities find the alarmism excessive.",
+          "signals": [
+            "gritty_not_dangerous"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.72,
+          "confidence": 0.68,
+          "evidence": "Opioid and methamphetamine addiction, encampments and public mental-health crises are visible and concentrate in certain downtown and service-centre locations — highly visible relative to the city's small size.",
+          "signals": [
+            "gritty_not_dangerous"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.7,
+          "confidence": 0.7,
+          "evidence": "A partner arriving without work, children or an existing network faces slow integration, a 'from away' category that may not wear off, and winters that suppress spontaneous socialising.",
+          "signals": [
+            "rewards_joiners_punishes_passive",
+            "from_away_is_a_lasting_category"
+          ]
+        }
+      },
+      "gaps": [
+        "not_researched: neighborhood-by-neighborhood school quality",
+        "not_researched: current rents by unit type and vacancy rates",
+        "discussed_but_unscoreable: whether homelessness is primarily a public-order problem or a housing-and-healthcare failure — residents disagree fundamentally",
+        "searched_not_found: consistent closing-hour evidence; the refrain is thin redundancy rather than a hard citywide closing time",
+        "not_researched: whether the 'small city' classification should become a fifth pace category alongside urban/suburban/small_town/rural"
+      ]
+    }
+  ]
+}

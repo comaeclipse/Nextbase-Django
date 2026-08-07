@@ -1,0 +1,88 @@
+{
+  "city": "Atlanta",
+  "state": "GA",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Atlanta, Georgia — community sentiment synthesis",
+  "summary": "A culturally layered major metro — Black professional and cultural center, established LGBTQ community, film and music hub, strong food city, surprisingly green — whose rewards are gated behind three intertwined problems: neighborhood choice, transportation and distance.",
+  "narrative_file": "atlanta-ga.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-06",
+  "coverage": {
+    "level": "strong_but_uneven",
+    "strengths": [
+      "active_local_subreddit_plus_dedicated_housing_subreddit",
+      "large_transplant_population_generating_constant_relocation_threads",
+      "strongest_themes_recur_across_many_independent_discussions_over_years",
+      "recent_2026_threads_reinforce_rather_than_overturn_older_consensus",
+      "neighborhood_specific_and_suburb_specific_discussion"
+    ],
+    "limitations": [
+      "overrepresents_younger_professionals_renters_tech_workers_and_the_strongly_opinionated",
+      "atlanta_blurs_the_city_proper_with_communities_thirty_or_forty_miles_away",
+      "housing_costs_development_and_commute_times_change_quickly",
+      "school_discussion_shaped_by_property_values_hearsay_and_parental_sorting",
+      "crime_conversation_alternates_between_dismissiveness_and_alarmism",
+      "race_homelessness_and_addiction_discussion_becomes_inflammatory",
+      "elderly_low_income_disabled_and_car_free_residents_are_covered_far_less_than_young_professional_relocation"
+    ],
+    "gaps": [
+      "healthcare_was_not_covered_at_all_a_significant_omission_for_a_metro_this_size",
+      "racial_inclusion_climate_central_to_atlantas_identity_but_discussed_too_unevenly_to_score",
+      "school_quality_by_district_and_campus",
+      "current_housing_prices_rents_and_commute_times",
+      "lgbtq_municipal_policy_and_formal_protections",
+      "religious_culture_prominence",
+      "most_climate_dimensions_beyond_summer_heat_humidity_and_pollen"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/Atlanta/comments/1qtnbab/what_are_the_major_downsides_of_life_in_atlanta/",
+    "https://www.reddit.com/r/Atlanta/comments/7s1n64/what_do_you_like_and_dislike_about_living_in/",
+    "https://www.reddit.com/r/howislivingthere/comments/1l3enww/how_is_living_in_atlanta/",
+    "https://www.reddit.com/r/Atlanta/comments/1r1zqyy/good_neighborhoods_to_consider_that_have_walkable/",
+    "https://www.reddit.com/r/Atlanta/comments/1s5hxhv/walkable_atlanta/",
+    "https://www.reddit.com/r/Atlanta/comments/1rk77py/what_is_the_best_way_to_make_friendsmeet_people/",
+    "https://www.reddit.com/r/Atlanta/comments/1tpnltv/why_does_atl_hate_public_transit/",
+    "https://www.reddit.com/r/Atlanta/comments/1r4skh9/do_you_need_a_car_to_live_here/",
+    "https://www.reddit.com/r/Atlanta/comments/1s9ypje/atlanta_traffic_how_could_this_even_be_fixed/",
+    "https://www.reddit.com/r/Atlanta/comments/1qkrpqy/advice_needed_where_to_move_near_atlanta/",
+    "https://www.reddit.com/r/alpharetta/comments/1ky06ty/best_atlanta_area_to_live/",
+    "https://www.reddit.com/r/RedditForGrownups/comments/1imehdq/from_new_england_to_charlotte_or_atlanta/",
+    "https://www.reddit.com/r/Charlotte/comments/qwcy1d/deciding_between_charlotte_and_atlanta/",
+    "https://www.reddit.com/r/Atlanta/comments/f2kic6/who_moved_here_from_northern_california/",
+    "https://www.reddit.com/r/Atlanta/comments/lez8eq/best_walkable_neighborhood_in_atl/",
+    "https://www.reddit.com/r/Atlanta/comments/1r5p9g9/in_defense_of_east_point/"
+  ],
+  "structured": {
+    "note": "Persona lists are archived as source material only. This was the first dossier requested after the required-coverage rules were added to the prompt generator, and it did discuss climate — confirming that Nashville's apparent climate silence was an artifact of how that dossier was requested, not a property of Southern city discourse.",
+    "location_context": {
+      "county": "Fulton and DeKalb Counties",
+      "region": "north-central Georgia, Piedmont",
+      "setting": "rolling wooded terrain with a heavy tree canopy; no coherent single center, life distributed across neighborhoods and suburban nodes",
+      "important_distinction": "'Atlanta' routinely means anything from the incorporated city to Alpharetta, Marietta or Sandy Springs thirty to forty miles out, despite major differences in governance, schools, density and culture."
+    },
+    "reddit_sentiment": "culturally_rich_and_opportunity_heavy_but_gated_behind_geography",
+    "comparison_to_charlotte": "Charlotte is easier; Atlanta is deeper. Charlotte reads cleaner, calmer, newer and more navigable with a banking-centred economy; Atlanta reads larger, more chaotic and harder to navigate but more culturally substantial, diverse and creative.",
+    "best_for": [
+      "people_wanting_a_diverse_major_metro",
+      "those_who_value_black_cultural_and_professional_life",
+      "people_seeking_an_established_lgbtq_community",
+      "restaurant_and_live_event_enthusiasts",
+      "people_needing_a_broad_regional_job_market",
+      "those_who_can_pick_housing_around_their_workplace",
+      "remote_workers",
+      "people_who_will_deliberately_join_activity_based_communities"
+    ],
+    "less_suitable_for": [
+      "people_expecting_comprehensive_public_transportation",
+      "those_wanting_to_walk_everywhere_on_a_moderate_housing_budget",
+      "anyone_who_must_commute_across_the_metro",
+      "people_who_hate_humid_summers",
+      "those_exhausted_by_logistical_planning",
+      "trailing_spouses_and_remote_workers_without_a_network",
+      "people_seeking_a_compact_visually_coherent_downtown_centred_city"
+    ],
+    "overall_take": "A culturally rich, opportunity-heavy and surprisingly green major city whose rewards are substantial — but only after you solve the intertwined problems of neighborhood choice, transportation and distance."
+  }
+}

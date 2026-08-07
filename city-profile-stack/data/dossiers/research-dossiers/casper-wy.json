@@ -1,0 +1,237 @@
+{
+  "city": "Casper",
+  "state": "WY",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Casper, Wyoming — community sentiment synthesis",
+  "summary": "A self-contained high-plains regional city: strong river and mountain recreation, short commutes, low taxes, and the best healthcare in Wyoming outside a metro — set against relentless wind, geographic isolation, an energy-cycle economy, and social networks that open slowly.",
+  "narrative_file": "casper-wy.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-06",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "multiple_casper_relocation_threads",
+      "active_local_subreddit",
+      "substantial_statewide_comparison_discussion",
+      "comments_from_locals_transplants_parents_and_former_residents",
+      "recent_family_and_quality_of_life_threads"
+    ],
+    "limitations": [
+      "energy_workers_and_remote_workers_are_overrepresented",
+      "younger_dissatisfied_residents_may_be_overrepresented",
+      "some_comments_blur_casper_with_nearby_municipalities",
+      "crime_school_and_healthcare_perceptions_are_subjective",
+      "limited_detailed_comparison_of_individual_neighborhoods",
+      "housing_and_energy_employment_conditions_can_change_quickly",
+      "wyoming_specific_comparisons_may_make_casper_look_more_urban_than_it_would_nationally"
+    ],
+    "gaps": [
+      "ranking_of_mills_evansville_and_bar_nunn",
+      "school_by_school_quality",
+      "current_housing_price_levels"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/wyoming/comments/1h95gk1/casper_a_small_city/",
+    "https://www.reddit.com/r/wyoming/comments/19em5ce/casper/",
+    "https://www.reddit.com/r/wyoming/comments/1ama2rp/i_wanna_leave_casper/",
+    "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/",
+    "https://www.reddit.com/r/howislivingthere/comments/1ntcfym/hows_living_in_casper_wy/",
+    "https://www.reddit.com/r/casper/comments/1fvzzjr/living_in_casper/",
+    "https://www.reddit.com/r/casper/comments/1j1s5ri/is_this_city_great_for_families/",
+    "https://www.reddit.com/r/casper/comments/wtqwx9/thinking_about_moving_to_casper_anything_i_should/",
+    "https://www.reddit.com/r/casper/comments/8xr0ao/possibly_moving_to_casperneed_pros_and_cons/",
+    "https://www.reddit.com/r/casper/comments/1gwxa5y/moving_to_casper_wy/",
+    "https://www.reddit.com/r/casper/comments/lg9nf7/things_i_would_want_to_know_before_moving_here/"
+  ],
+  "structured": {
+    "note": "The original relocation-project JSON, preserved as delivered. Persona lists ('best_for' / 'less_suitable_for') are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people.",
+    "location_context": {
+      "county": "Natrona County",
+      "region": "central Wyoming",
+      "setting": "high-plains regional center along the North Platte River",
+      "nearby_geographic_feature": "Casper Mountain",
+      "important_distinction": "Reddit discussions sometimes combine Casper proper with Mills, Evansville, Bar Nunn and rural Natrona County."
+    },
+    "reddit_sentiment": "mixed_to_positive_and_lifestyle_dependent",
+    "sentiment_summary": "People who value outdoor access, low traffic, privacy and a complete small-city environment may love Casper. People who cannot tolerate wind, isolation or limited social and professional variety often want to leave.",
+    "comparison_to_elko": "Elko feels like a remote mining town that grew into a regional center. Casper feels like a regional center whose economy and culture are still heavily shaped by energy and extraction.",
+    "best_for": [
+      "families_with_secure_employment",
+      "healthcare_workers",
+      "energy_professionals",
+      "heavy_equipment_and_industrial_trades",
+      "remote_workers_with_stable_income",
+      "fly_fishing_enthusiasts",
+      "hunters_and_anglers",
+      "boaters_and_campers",
+      "nordic_skiers",
+      "outdoor_recreation_enthusiasts",
+      "self_contained_couples",
+      "politically_conservative_households",
+      "politically_private_moderates",
+      "people_seeking_low_traffic",
+      "people_who_value_privacy",
+      "people_comfortable_with_cold_dry_weather",
+      "people_wanting_wyoming_living_without_a_tiny_town"
+    ],
+    "less_suitable_for": [
+      "people_who_cannot_tolerate_wind",
+      "people_with_highly_specialized_healthcare_needs",
+      "car_free_households",
+      "people_seeking_big_city_amenities",
+      "people_who_dislike_outdoor_recreation",
+      "people_moving_without_employment",
+      "single_adults_seeking_a_large_dating_pool",
+      "people_seeking_progressive_social_culture",
+      "highly_secular_people_uncomfortable_with_visible_religious_culture",
+      "people_expecting_fast_social_integration",
+      "specialized_white_collar_workers_without_remote_jobs",
+      "frequent_air_travelers",
+      "people_who_dislike_geographic_isolation",
+      "people_vulnerable_to_winter_isolation",
+      "people_expecting_cheap_housing"
+    ],
+    "strengths": [
+      "north_platte_river_access",
+      "high_quality_fly_fishing",
+      "casper_mountain_access",
+      "nordic_skiing",
+      "hiking_biking_hunting_and_fishing",
+      "nearby_reservoir_recreation",
+      "short_in_town_drives",
+      "low_traffic",
+      "regional_shopping_and_service_hub",
+      "better_healthcare_access_than_most_of_wyoming",
+      "family_friendly_scale",
+      "school_choice_and_extracurricular_options",
+      "local_college",
+      "community_events",
+      "modest_arts_music_and_brewery_scene",
+      "no_state_individual_income_tax",
+      "dry_climate",
+      "four_seasons",
+      "more_economic_diversity_than_many_wyoming_towns"
+    ],
+    "weaknesses": [
+      "extreme_and_persistent_wind",
+      "winter_driving_and_road_closures",
+      "geographic_isolation",
+      "limited_direct_air_service",
+      "expensive_airfare",
+      "housing_costs_higher_than_expected",
+      "possible_foundation_risk_in_some_bentonite_soil_areas",
+      "energy_dependent_economy",
+      "narrow_specialized_white_collar_job_market",
+      "local_wages_may_lag_housing_costs",
+      "drug_and_alcohol_problems",
+      "property_crime_concerns",
+      "slow_social_integration",
+      "small_dating_pool",
+      "limited_nightlife_and_cultural_variety",
+      "limited_specialty_retail",
+      "strong_political_and_religious_conformity",
+      "less_dramatic_scenery_than_western_wyoming"
+    ],
+    "economic_notes": {
+      "dominant_industry": "energy_and_regional_services",
+      "supporting_sectors": [
+        "oil_and_gas",
+        "energy_services",
+        "healthcare",
+        "construction",
+        "heavy_equipment",
+        "transportation",
+        "education",
+        "government",
+        "retail",
+        "hospitality",
+        "professional_services"
+      ],
+      "income_pattern": "Strong earnings are possible in energy, healthcare and skilled trades, while specialized white-collar and creative workers may face a much narrower opportunity set.",
+      "main_risk": "The economy is more diversified than many Wyoming towns but remains exposed to oil and gas cycles.",
+      "relocation_advice": "Secure employment and investigate current housing costs before moving."
+    },
+    "commute_notes": {
+      "in_town_driving": "generally_short_and_easy",
+      "regional_commute": "limited_because_casper_is_a_self_contained_employment_center",
+      "regional_travel": "long_distance_and_weather_sensitive",
+      "vehicle_need": "a_reliable_vehicle_is_effectively_mandatory",
+      "winter_note": "winter_tires_emergency_supplies_and_road_closure_awareness_are_important",
+      "wind_note": "high_winds_can_make_highway_travel_dangerous_even_without_heavy_snow"
+    },
+    "healthcare_notes": {
+      "reddit_consensus": "qualified_positive_by_wyoming_standards",
+      "reported_strengths": [
+        "regional_hospital_and_medical_services",
+        "more_specialist_access_than_most_wyoming_towns",
+        "healthcare_employment_opportunities"
+      ],
+      "reported_issues": [
+        "limited_highly_specialized_care",
+        "possible_need_to_travel_for_complex_cases",
+        "fewer_choices_than_a_major_metropolitan_area"
+      ],
+      "confidence": "moderate",
+      "limitation": "These are recurring Reddit reports rather than a comprehensive medical-system evaluation."
+    },
+    "housing_notes": {
+      "reddit_consensus": "more_expensive_than_outsiders_expect",
+      "reported_issues": [
+        "rapid_price_appreciation",
+        "costs_that_may_outpace_local_wages",
+        "limited_value_relative_to_home_age_or_condition",
+        "possible_bentonite_soil_and_foundation_concerns_in_some_developments"
+      ],
+      "move_risk": "moderate_without_prearranged_housing",
+      "property_due_diligence": [
+        "foundation_history",
+        "soil_conditions",
+        "drainage",
+        "roof_and_wind_damage",
+        "heating_efficiency"
+      ]
+    },
+    "cultural_notes": {
+      "overall_vibe": "practical_conservative_energy_and_outdoor_oriented_regional_city",
+      "political_feel": "strongly_conservative",
+      "religious_feel": "noticeably_religious_and_family_centered",
+      "social_style": "private_self_contained_networks_built_around_family_work_church_school_and_outdoor_hobbies",
+      "positive_interpretation": "independent_unpretentious_safe_feeling_and_live_and_let_live",
+      "negative_interpretation": "cliquish_politically_narrow_religiously_conforming_and_resistant_to_outsiders",
+      "distinctive_elements": [
+        "north_platte_fishing",
+        "casper_mountain",
+        "energy_industry_identity",
+        "western_and_cowboy_culture",
+        "breweries_and_local_events",
+        "strong_privacy_norms"
+      ]
+    },
+    "weather_notes": {
+      "climate_type": "cold_windy_high_plains_semi_arid",
+      "winter": "cold_snowy_and_extremely_windy_with_periodic_road_closures",
+      "summer": "dry_warm_and_generally_well_liked_with_cooler_evenings",
+      "primary_weather_signal": "wind_is_the_most_important_quality_of_life_variable",
+      "common_outsider_misconception": "the_cold_is_often_less_difficult_than_the_wind_and_winter_travel"
+    },
+    "education_notes": {
+      "reddit_consensus": "mixed_to_qualified_positive",
+      "reported_strengths": [
+        "school_choice",
+        "sports_and_extracurriculars",
+        "family_resources",
+        "casper_college"
+      ],
+      "reported_issues": [
+        "funding_concerns",
+        "quality_varies_by_school",
+        "not_a_full_university_town"
+      ],
+      "relocation_advice": "research_the_exact_school_and_program_before_selecting_housing"
+    },
+    "social_fit_warning": "Casper is much easier to enjoy when privacy, outdoor recreation and small-city repetition are desired outcomes rather than sacrifices made for lower taxes or a job.",
+    "overall_take": "Casper may be an excellent match for a family, healthcare worker, skilled tradesperson or remote-work household that loves fishing, dry weather, conservative culture and a practical low-traffic city. It is a high-risk move for anyone who cannot tolerate persistent wind, needs metropolitan career or cultural variety, expects quick social integration, or requires frequent access to specialized services and major airports."
+  }
+}

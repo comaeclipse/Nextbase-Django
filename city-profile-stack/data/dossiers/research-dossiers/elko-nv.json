@@ -1,0 +1,188 @@
+{
+  "city": "Elko",
+  "state": "NV",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Elko, Nevada — community sentiment synthesis",
+  "summary": "A remote, conservative, mining-dominated high-desert regional center: strong wages, exceptional public-land access and real solitude, set against thin specialist healthcare, tight and expensive housing, long mine commutes and profound isolation.",
+  "narrative_file": "elko-nv.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-06",
+  "coverage": {
+    "level": "moderate",
+    "strengths": [
+      "multiple_elko_relocation_threads",
+      "active_small_local_subreddit",
+      "substantial_mining_worker_commentary",
+      "comments_from_locals_contractors_and_former_residents"
+    ],
+    "limitations": [
+      "mining_workers_are_overrepresented",
+      "some_comments_blur_elko_with_the_wider_region",
+      "negative_experiences_may_be_overrepresented",
+      "limited_detailed_discussion_of_individual_neighborhoods",
+      "limited_reliable_discussion_of_specialized_education_and_family_services",
+      "housing_and_employment_conditions_can_change_quickly"
+    ],
+    "gaps": [
+      "spring_creek_subdivision_detail",
+      "school_quality_beyond_impressions",
+      "special_needs_and_pediatric_specialty_availability"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/Nevada/comments/1rf0d2j/thinking_of_moving_to_elko_nevada/",
+    "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/",
+    "https://www.reddit.com/r/Nevada/comments/pe2a01/whats_it_like_living_in_elko_nevada/",
+    "https://www.reddit.com/r/Nevada/comments/1tlmmgl/hows_rural_nevada_like_i_removed_the_2_biggest/",
+    "https://www.reddit.com/r/Elko/comments/1rf0edm/thinking_of_moving_to_elko_neveda/",
+    "https://www.reddit.com/r/Elko/comments/16etkn6/looking_to_move_to_elko/",
+    "https://www.reddit.com/r/Elko/comments/1nrlvh6/working_for_nevada_gold_mines/",
+    "https://www.reddit.com/r/mining/comments/xwt4ir/opinions_on_living_in_elko_nevada_working_for/"
+  ],
+  "structured": {
+    "note": "The original relocation-project JSON, preserved as delivered. Persona lists ('best_for' / 'less_suitable_for') are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people.",
+    "location_context": {
+      "county": "Elko County",
+      "region": "northeastern Nevada",
+      "setting": "high-desert regional center along Interstate 80",
+      "nearby_geographic_feature": "Ruby Mountains",
+      "important_distinction": "Reddit discussions sometimes combine Elko proper, Spring Creek, Carlin and the surrounding mining region."
+    },
+    "reddit_sentiment": "highly_mixed_and_lifestyle_dependent",
+    "best_for": [
+      "mining_professionals",
+      "geologists_and_engineers",
+      "heavy_equipment_and_industrial_trades",
+      "outdoor_recreation_enthusiasts",
+      "hunters_and_anglers",
+      "off_road_and_backcountry_users",
+      "self_contained_couples",
+      "families_with_secure_high_income_employment",
+      "politically_conservative_households",
+      "politically_private_moderates",
+      "people_seeking_real_solitude",
+      "remote_workers_with_stable_income",
+      "people_comfortable_with_cold_dry_weather",
+      "people_seeking_a_short_term_career_building_move"
+    ],
+    "less_suitable_for": [
+      "people_with_complex_healthcare_needs",
+      "people_requiring_frequent_specialists",
+      "car_free_households",
+      "people_seeking_big_city_amenities",
+      "people_who_dislike_outdoor_recreation",
+      "people_moving_without_employment",
+      "single_adults_seeking_a_large_dating_pool",
+      "people_seeking_progressive_social_culture",
+      "people_who_dislike_social_conformity",
+      "nonworking_spouses_vulnerable_to_isolation",
+      "people_in_recovery_avoiding_bar_and_casino_culture",
+      "families_needing_unverified_specialized_services"
+    ],
+    "strengths": [
+      "exceptional_access_to_public_land",
+      "ruby_mountains_and_lamoille_canyon",
+      "hiking_camping_hunting_and_fishing",
+      "off_roading_and_backcountry_recreation",
+      "dark_skies_and_open_landscapes",
+      "strong_mining_and_skilled_trade_wages",
+      "short_in_town_drives",
+      "low_density_and_quiet",
+      "regional_shopping_and_service_hub",
+      "distinct_western_basque_and_ranching_identity",
+      "dry_climate",
+      "four_seasons",
+      "potential_for_career_advancement_in_mining"
+    ],
+    "weaknesses": [
+      "extreme_geographic_isolation",
+      "limited_specialist_healthcare",
+      "negative_perceptions_of_local_hospital_access",
+      "expensive_and_limited_rental_housing",
+      "apartment_waiting_lists",
+      "mining_dependent_economy",
+      "narrow_nonmining_job_market",
+      "long_unpaid_mine_commutes",
+      "demanding_shift_work",
+      "limited_nightlife",
+      "alcohol_and_casino_centered_social_scene",
+      "limited_specialty_shopping",
+      "small_dating_pool",
+      "cold_windy_winters",
+      "hot_dry_summer_periods",
+      "episodic_mormon_cricket_outbreaks",
+      "strong_political_and_cultural_conformity",
+      "risk_of_spousal_and_social_isolation"
+    ],
+    "economic_notes": {
+      "dominant_industry": "gold_mining",
+      "supporting_sectors": [
+        "mine_contracting",
+        "heavy_equipment",
+        "industrial_maintenance",
+        "construction",
+        "transportation",
+        "healthcare",
+        "education",
+        "government",
+        "ranching",
+        "retail"
+      ],
+      "income_pattern": "High earnings are possible in mining and skilled support roles, while workers outside those sectors may face a much narrower opportunity set.",
+      "main_risk": "A large portion of the local economy depends directly or indirectly on mining activity.",
+      "relocation_advice": "Secure both employment and housing before moving."
+    },
+    "commute_notes": {
+      "in_town_driving": "generally_short_and_easy",
+      "mine_commute": "potentially_two_to_three_hours_per_day_in_addition_to_long_shifts",
+      "regional_travel": "long_distance_and_weather_sensitive",
+      "vehicle_need": "a_reliable_vehicle_is_effectively_mandatory",
+      "winter_note": "appropriate_winter_tires_and_cold_weather_preparation_are_important"
+    },
+    "healthcare_notes": {
+      "reddit_consensus": "major_concern",
+      "reported_issues": [
+        "limited_specialists",
+        "long_appointment_waits",
+        "dissatisfaction_with_local_hospital",
+        "travel_to_salt_lake_city_or_reno_for_care"
+      ],
+      "confidence": "moderate",
+      "limitation": "These are recurring Reddit reports rather than a comprehensive medical-system evaluation."
+    },
+    "housing_notes": {
+      "reddit_consensus": "more_expensive_and_constrained_than_expected",
+      "reported_issues": [
+        "high_rents",
+        "limited_apartment_supply",
+        "waiting_lists",
+        "competition_from_mining_workers_and_contractors",
+        "limited_hotel_availability_during_busy_periods"
+      ],
+      "move_risk": "high_without_prearranged_housing"
+    },
+    "cultural_notes": {
+      "overall_vibe": "rugged_work_oriented_western_mining_town",
+      "political_feel": "strongly_conservative",
+      "social_style": "small_interconnected_networks_built_around_work_family_bars_churches_and_outdoor_hobbies",
+      "positive_interpretation": "self_reliant_unpretentious_and_live_and_let_live",
+      "negative_interpretation": "politically_narrow_judgmental_and_resistant_to_change",
+      "distinctive_elements": [
+        "basque_food_and_heritage",
+        "cowboy_and_ranching_culture",
+        "mining_identity",
+        "casinos_and_bars",
+        "public_land_recreation"
+      ]
+    },
+    "weather_notes": {
+      "climate_type": "cold_high_desert",
+      "winter": "cold_windy_and_snowy_with_below_zero_temperatures_possible",
+      "summer": "dry_with_hot_days_and_cooler_nights",
+      "common_outsider_misconception": "Elko does not have a Las Vegas style winter climate"
+    },
+    "social_fit_warning": "Elko is much easier to enjoy when solitude and outdoor recreation are desired outcomes rather than sacrifices made for a paycheck.",
+    "overall_take": "Elko may be an outstanding match for a mining or remote-work household that loves cold high-desert wilderness, political conservatism and a self-contained lifestyle. It is a high-risk move for anyone with complex healthcare needs, no secured job or housing, a strong need for urban variety, or a spouse likely to become socially isolated."
+  }
+}

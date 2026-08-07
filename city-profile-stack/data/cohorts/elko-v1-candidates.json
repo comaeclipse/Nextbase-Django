@@ -1,0 +1,61 @@
+{
+  "cohort_key": "elko_v1_candidates",
+  "anchor_city": "Elko, NV",
+  "created_on": "2026-08-07",
+  "purpose": "A bounded research queue for the question 'how many Elkos are in the database?' These are hypotheses to investigate, not city matches, scores, or recommendations. Inclusion requires a plausible relationship to at least one anchor facet; a city must be researched against every facet before it can be called Elko-like.",
+  "anchor_facets": [
+    "industrial or extractive work visibly shapes local opportunity and household time",
+    "limited broad nightlife rather than no evening venues",
+    "outdoor, hunting, ranching, or Western heritage is visible in civic life",
+    "small or regional-center scale with meaningful local identity"
+  ],
+  "screening_rule": "Official economic or civic sources provide only a lead. Resident accounts and local institutional evidence are required before a cultural conclusion. Missing evidence is unknown, never a negative score.",
+  "candidates": [
+    {
+      "city": "Odessa", "state": "TX", "research_priority": 1,
+      "hypothesis": "The strongest non-model candidate: an oil-and-gas city where industrial work may shape household schedules and local norms, but with a larger, hotter, faster boom-bust environment than Elko.",
+      "why_included": ["The Odessa Development Corporation calls Odessa the heart of the Permian Basin oil-and-gas region.", "The City of Odessa's 2025 planning material reports agriculture, mining, and oil-and-gas extraction as 17% of local workers, while noting boom-bust exposure."],
+      "source_urls": ["https://www.odessatex.com/", "https://odessa-tx.gov/DocumentCenter/View/17389/2025-2029-ODESSA-CON-PLAN--7-7-2025-Final-Draft-for-Comment"],
+      "first_questions": ["Do oilfield rotations visibly shape ordinary household and social time?", "Is the social fabric locally rooted, transient, or both?", "Does the city feel quiet outside work and service corridors?"]
+    },
+    {
+      "city": "North Platte", "state": "NE", "research_priority": 2,
+      "hypothesis": "A rail-and-agri-industrial regional center that may share Elko's work-centered, practical, smaller-city feel without the extraction economy.",
+      "why_included": ["Nebraska reports major cattle-processing expansion and an industrial rail park in the North Platte area.", "This tests whether an Elko-like rhythm can arise from rail, cattle, and regional-service work rather than mining."],
+      "source_urls": ["https://opportunity.nebraska.gov/north-platte-attracts-2-billion-in-development-since-2020-sees-growth-in-agri-business-housing-and-retail-sectors/"],
+      "first_questions": ["Do rail, cattle, and shift work shape family schedules?", "What does ordinary nightlife look like outside event weekends?", "Which local institutions organize social life?"]
+    },
+    {
+      "city": "Great Falls", "state": "MT", "research_priority": 3,
+      "hypothesis": "A larger Upper-Plains regional center with agriculture, manufacturing, and military influence; it may be Elko-adjacent in practical culture but is likely less extraction-defined.",
+      "why_included": ["The City's growth-policy material identifies agriculture, manufacturing, health care, education, and military impact in the local economy.", "This is a useful contrast case for separating regional-Western identity from mining dependence."],
+      "source_urls": ["https://greatfallsmt.gov/DocumentCenter/View/15198/Future-Great-Falls-Growth-Policy---V1-Draft"],
+      "first_questions": ["Does a multi-sector regional center still have an Elko-like evening rhythm?", "How visible are hunting, ranching, and practical work identities in civic life?", "How do newcomers enter the community?"]
+    },
+    {
+      "city": "Amarillo", "state": "TX", "research_priority": 4,
+      "hypothesis": "A much larger cattle-and-energy regional hub that may share trade and Western work culture while diverging sharply in scale and nightlife.",
+      "why_included": ["Amarillo Economic Development Corporation identifies traditional and renewable energy resources and a diversified regional economy.", "Its cattle and Panhandle context make it a deliberate scale-stretch comparison, not a presumed match."],
+      "source_urls": ["https://amarilloedc.com/"],
+      "first_questions": ["Is ordinary social life trade/ranch/energy-centered or metropolitan-regional?", "Does its size create a reliably broader nightlife scene than Elko?", "Which parts of the city, if any, share a small-town social rhythm?"]
+    },
+    {
+      "city": "Grand Junction", "state": "CO", "research_priority": 5,
+      "hypothesis": "A structural-model lead with energy and outdoor proximity, but likely a false positive culturally because of its broader regional economy and recreational identity.",
+      "why_included": ["It was third in the existing structural likeness ranking for Elko.", "The ranking uses non-editorial features only, so this city is included specifically to test and potentially falsify the numeric model."],
+      "source_urls": ["https://www.gjcity.org/382/Economic-Development"],
+      "first_questions": ["Does the structural resemblance survive lived-experience evidence?", "Is the economy and social life energy/trade-centered, outdoor-amenity-centered, or mixed?", "Does ordinary evening life resemble Elko, Casper, or neither?"]
+    },
+    {
+      "city": "Jamestown", "state": "ND", "research_priority": 6,
+      "hypothesis": "A small agriculture/manufacturing town that ranks structurally near Elko but may demonstrate that small size alone is insufficient for cultural similarity.",
+      "why_included": ["Jamestown's development organization emphasizes primary-sector jobs, workforce solutions, local connections, and agriculture.", "This is a falsification case: it may share scale and practical work while lacking Elko's extractive and Western-heritage combination."],
+      "source_urls": ["https://www.growingjamestown.com/"],
+      "first_questions": ["How much do agriculture and manufacturing shape daily social rhythm?", "Is outdoor culture civic-wide or a subcommunity?", "What distinguishes its newcomer and evening experience from Elko?"]
+    }
+  ],
+  "excluded_from_v1": [
+    {"city": "Pierre", "state": "SD", "reason": "It ranked structurally near Elko, but its state-capital role requires a separate public-sector culture hypothesis; it is not a clean first-pass Elko candidate."},
+    {"city": "Casper", "state": "WY", "reason": "Already serves as the first researched energy/extraction comparison, not an unresearched candidate."}
+  ]
+}

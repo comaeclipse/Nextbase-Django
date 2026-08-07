@@ -113,6 +113,19 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     legacy_aliases: [],
   },
 
+  {
+    // Defense-technology manufacturer. Its public Greenhouse board is used for
+    // hand-sourced, dated facility snapshots until an ATS sync is added.
+    slug: "anduril",
+    display_name: "Anduril Industries",
+    parent_company: "Anduril Industries",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "andurilindustries" },
+    legacy_aliases: [],
+  },
+
   // Seeded with zero locations. Each uses a different ATS; importers land later.
   {
     slug: "lockheed-martin",
