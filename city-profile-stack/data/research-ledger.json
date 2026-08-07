@@ -44,7 +44,7 @@
         "https://restaurantguru.com/The-Underground-bar-and-dance-club-Elko"
       ],
       "retrieval_date": "2026-08-07",
-      "source_gap": "Resolved for the six named venues (hours verified 2026-08-07). Two residual gaps: (1) the 'Garage Bar' lead could not be tied to a real Elko venue and is dropped pending identification; (2) Star/Rubies/Underground hours are aggregator-sourced and should be re-confirmed against the venue before promotion beyond the local pack.",
+      "source_gap": "Resolved for the six named venues (hours verified and re-confirmed 2026-08-07). Charlee's, Mattie's, and Rubies are primary (own sites); Star and Underground are corroborated-aggregator (3-4 agreeing listings, no first-party hours page). One residual gap: the 'Garage Bar' lead could not be tied to a real Elko venue and is dropped pending identification.",
       "limitations": ["One weekday pattern cannot establish citywide or weekend nightlife.", "Venue marketing and an open door do not prove actual crowd intensity; a representative weekday foot-traffic sample is still missing."],
       "embedding_ready": false
     },

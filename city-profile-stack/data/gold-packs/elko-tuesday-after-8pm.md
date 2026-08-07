@@ -37,11 +37,15 @@ alcohol-centered set of options, not an absence of them. [S1, C3, C6]
 | Venue | Tuesday hours | After 8 p.m.? | Source kind | Claim |
 | --- | --- | --- | --- | --- |
 | Charlee's Bar (542 River St) | 10:00-02:00; karaoke nightly from 20:00 | Yes, to 2 a.m. | primary (venue site) | C3 |
-| The Underground Speakeasy (548 Commercial St) | 16:30-00:00 | Yes, to midnight | aggregator/social | C5 |
-| Rubies Sports Bar & Nightclub (442 Idaho St) | 16:00-23:00 | Yes, to 11 p.m. | aggregator | C4 |
+| The Underground Speakeasy (548 Commercial St) | 16:30-00:00 | Yes, to midnight | corroborated (3 listings + own FB) | C5 |
+| Rubies Sports Bar & Nightclub (442 Idaho St) | 16:00-23:00 (closed Sun-Mon) | Yes, to 11 p.m. | primary (venue site) | C4 |
 | Mattie's Tap House & Grill (2535 Mountain City Hwy) | kitchen 11:00-20:00; bar to ~22:00 | Bar yes; kitchen no | primary (venue site) | C2 |
-| The Star Hotel - Basque (246 W Silver St) | dining ~11:00-21:30 | Dining yes, to ~9:30 | aggregator | C1 |
+| The Star Hotel - Basque (246 W Silver St) | dining ~11:00-21:30 (closed Sun) | Dining yes, to ~9:30 | corroborated (4 listings) | C1 |
 | "Garage Bar" | **unresolved - no Elko venue found** | unknown | correction | C6 |
+
+_Hours verified and re-confirmed 2026-08-07. Three venues are primary-sourced
+(their own sites); the Star and the Underground have no first-party hours page
+and are corroborated across multiple independent listings._
 
 Full source URLs, direct quotes, stances, and per-claim limitations are in
 `elko-tuesday-after-8pm.claims.json`.
@@ -96,10 +100,13 @@ The claim "dead after 8 p.m." is contradicted by concrete, dated evidence:
   closest match, "The Garage," is a Clark County (Las Vegas area) bar. The
   nightly-karaoke role it was credited with actually belongs to Charlee's. Do
   not cite "Garage Bar" as Elko evidence until it is identified. [C6]
-- **Aggregator vs primary hours.** Charlee's and Mattie's hours come from the
-  venues' own sites; the Star, Rubies, and the Underground come from third-party
-  aggregators or social pages and should be re-confirmed against the venue
-  before any promotion beyond this local pack.
+- **Aggregator vs primary hours (re-confirmed 2026-08-07).** Charlee's,
+  Mattie's, and Rubies come from the venues' own sites (Rubies was upgraded from
+  aggregator to primary on re-check, which also surfaced that it is closed
+  Sun-Mon). The Star and the Underground have no first-party hours page; each was
+  re-confirmed across multiple independent listings that agree (and the
+  Underground against its own Facebook). These two are the ones to re-check first
+  if the pack is refreshed.
 - **Availability is not attendance.** Every hours claim proves a door is open,
   not that a crowd is present. A representative weekday foot-traffic sample is
   still missing; it is the natural next refinement, not a blocker for this

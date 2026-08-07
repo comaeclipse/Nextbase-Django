@@ -87,10 +87,10 @@ than "Elko has nightlife" or "Elko is dead."
 **Delivered:** `data/gold-packs/elko-tuesday-after-8pm.md` (answer + venue
 schedule + divergence + counterevidence) and `elko-tuesday-after-8pm.claims.json`
 (atomic claims with source URLs, direct quotes, stances, and per-claim
-limitations). Six venue schedules verified 2026-08-07. One residual item before
-this can be called airtight: re-confirm the three aggregator-sourced venue hours
-(Star, Rubies, Underground) against the venues, and capture a weekday
-foot-traffic sample to move from "open" to "lively."
+limitations). Six venue schedules verified and re-confirmed 2026-08-07 (three
+primary-sourced, two corroborated across multiple listings). One optional
+refinement remains before the answer moves from "open" to "lively": a
+representative weekday foot-traffic sample.
 
 ### Phase 2 - Design the isolated knowledge model
 

@@ -16,24 +16,26 @@
     },
     "confidence": ["high", "medium", "low"]
   },
-  "notes_on_sourcing": "Venue hours were verified 2026-08-07. Small-business hours change without notice; each hours claim records whether it came from the venue's own site (primary) or a third-party aggregator, and none is treated as permanent. Aggregator hours should be re-confirmed against the venue before any promotion beyond this local pack.",
+  "notes_on_sourcing": "Venue hours were verified 2026-08-07 and re-confirmed the same day. Charlee's, Mattie's, and Rubies are primary (the venues' own sites). The Star and the Underground have no first-party hours page and are corroborated-aggregator: each matches across 3-4 independent listings (the Underground also matches its own Facebook). Small-business hours change without notice; none is treated as permanent, and the two corroborated-aggregator venues are the ones to re-check first if this pack is ever refreshed.",
   "claims": [
     {
       "id": "C1_star_hotel_hours",
-      "claim": "The Star Hotel (Basque dining, 246 W Silver St) serves on a Tuesday from roughly 11:00 to 21:30.",
+      "claim": "The Star Hotel (Basque dining, 246 W Silver St) serves Monday-Saturday 11:00-21:30 and is closed Sunday; a Tuesday close is ~21:30.",
       "claim_type": "venue_schedule",
       "evidence_kind": "venue_hours_aggregator",
       "stance": "context",
-      "confidence": "medium",
+      "confidence": "high",
       "geography_scope": "Elko city",
       "quote": null,
       "source_urls": [
         "https://www.yelp.com/biz/the-star-hotel-elko",
-        "https://travelnevada.com/basque/the-star-hotel/"
+        "https://travelnevada.com/basque/the-star-hotel/",
+        "https://evendo.com/locations/nevada/elko/restaurant/the-star-hotel-basque-dining",
+        "https://the-star-hotel-basque-dining.wheree.com/"
       ],
       "retrieved_on": "2026-08-07",
       "limitations": [
-        "Sourced from aggregators, not the venue's own hours page; confirm before promotion.",
+        "Re-confirmed 2026-08-07 across four independent listings that agree (Mon-Sat 11:00-21:30, closed Sun); the Star has no first-party hours page, so this is corroborated-aggregator, not primary.",
         "A 21:30 dining close is moderate, not 'early'; it neither proves nor refutes late nightlife on its own."
       ]
     },
@@ -76,20 +78,23 @@
     },
     {
       "id": "C4_rubies_hours",
-      "claim": "Rubies Sports Bar & Nightclub (442 Idaho St) is open Tuesday 16:00-23:00.",
+      "claim": "Rubies Sports Bar & Nightclub (442 Idaho St) is open Tue-Thu 16:00-23:00 and Fri-Sat 16:00-04:00, and is closed Sunday and Monday. A Tuesday close is 23:00.",
       "claim_type": "venue_schedule",
-      "evidence_kind": "venue_hours_aggregator",
+      "evidence_kind": "venue_hours_primary",
       "stance": "contradicts",
-      "confidence": "medium",
+      "confidence": "high",
       "geography_scope": "Elko city",
       "quote": null,
       "source_urls": [
+        "https://rubieselko.com/",
         "https://www.fanzo.com/en-us/bar/225304/rubies-sports-bar-nightclub",
         "https://www.yelp.com/biz/rubies-sports-bar-and-nightclub-elko"
       ],
       "retrieved_on": "2026-08-07",
       "limitations": [
-        "As a nightclub, its energy is weekend-weighted; a Tuesday 23:00 close is 'open', not necessarily 'busy'."
+        "Re-confirmed 2026-08-07 against the venue's own site (rubieselko.com); now primary-sourced.",
+        "As a nightclub, its energy is weekend-weighted (4 a.m. Fri/Sat vs 11 p.m. Tue); a Tuesday 23:00 close is 'open', not necessarily 'busy'.",
+        "Closed Sun-Mon: the after-8 evidence applies to Tue-Sat only."
       ]
     },
     {
@@ -103,11 +108,14 @@
       "quote": null,
       "source_urls": [
         "https://restaurantguru.com/The-Underground-bar-and-dance-club-Elko",
-        "https://www.facebook.com/p/The-Underground-Speakeasy-Lounge-61558139657410/"
+        "https://sg.trip.com/restaurant/united-states/elko-county/detail/the-underground-bar-and-dance-club-142534382/",
+        "https://evendo.com/locations/nevada/elko/nightclub/the-underground-bar-and-dance-club",
+        "https://www.facebook.com/theundergroundelko/"
       ],
       "retrieved_on": "2026-08-07",
       "limitations": [
-        "Aggregator/social hours; confirm before promotion. Being open to midnight is availability, not attendance."
+        "Re-confirmed 2026-08-07 across three listings plus the venue's own Facebook, all agreeing on Tue-Sat 16:30-00:00; corroborated-aggregator, not a first-party hours page.",
+        "Being open to midnight is availability, not attendance."
       ]
     },
     {
