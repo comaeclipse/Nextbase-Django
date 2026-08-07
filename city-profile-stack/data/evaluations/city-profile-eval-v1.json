@@ -3,6 +3,8 @@
   "suite_id": "city_profile_eval_v1",
   "purpose": "Pre-schema evaluation fixture for evidence-grounded city-culture retrieval. It evaluates the current local corpus; it is not a benchmark of the real cities beyond that corpus.",
   "created_on": "2026-08-07",
+  "revised_on": "2026-08-07",
+  "revision_note": "Added E09 (conflicting_evidence shape) so the suite exercises the marketing-vs-lived divergence before Phase 2 designs divergence tables. Protocol updated so over-abstention (refusing/over-qualifying when the fixture supports a qualified answer) is an answer_mode failure, symmetric with over-answering. Now 29 questions.",
   "scoring_dimensions": [
     "answer_mode_correctness",
     "citation_traceability",
@@ -99,6 +101,17 @@
       "fixtures": ["data/gold-packs/elko-tuesday-after-8pm.claims.json"],
       "must_include": ["citywide scope gap", "open versus lively distinction"],
       "must_not_infer": ["street activity from venue hours"]
+    },
+    {
+      "id": "E09",
+      "cities": ["Elko, NV"],
+      "shape": "conflicting_evidence",
+      "question": "Tourism markets Elko as a nightlife destination, but residents call the scene narrow. Which is right?",
+      "expected_mode": "qualified_answer",
+      "expected_conclusion": "Both, and they do not actually conflict: the venue hours confirm doors are genuinely open late (the marketing's literal core), while resident accounts describe the variety as narrow and drinking-centered. The tension resolves by separating availability from variety, not by picking a side.",
+      "fixtures": ["data/gold-packs/elko-tuesday-after-8pm.claims.json"],
+      "must_include": ["holds both sides of the divergence", "availability versus variety distinction", "does not discard either source"],
+      "must_not_infer": ["that the marketing is simply false", "that 'narrow' means closed or dead", "that one source overrides the other"]
     },
     {
       "id": "O01",
