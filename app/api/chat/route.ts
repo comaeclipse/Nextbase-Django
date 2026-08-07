@@ -13,16 +13,23 @@ import {
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
+const OPENAI_CHAT_MODELS = new Set(["gpt-5.1", "gpt-5.1-mini", "gpt-5.1-nano"]);
+
 // Provider is swappable via env, no code change needed:
-//   CHAT_PROVIDER=gateway (default) → Vercel AI Gateway, needs AI_GATEWAY_API_KEY.
+//   CHAT_PROVIDER=gateway (default) -> Vercel AI Gateway, needs AI_GATEWAY_API_KEY.
 //       CHAT_MODEL defaults to anthropic/claude-sonnet-5.
-//   CHAT_PROVIDER=openai            → your own OpenAI key (OPENAI_API_KEY), e.g. to
+//   CHAT_PROVIDER=openai            -> your own OpenAI key (OPENAI_API_KEY), e.g. to
 //       use OpenAI's free daily token allowance. CHAT_MODEL defaults to gpt-5.1
 //       (set a *-mini / *-nano model to draw on the larger free tier instead).
-function resolveModel() {
+function requestedOpenAIModel(model: unknown) {
+  if (typeof model !== "string") return null;
+  return OPENAI_CHAT_MODELS.has(model) ? model : null;
+}
+
+function resolveModel(model: unknown) {
   if ((process.env.CHAT_PROVIDER ?? "gateway").toLowerCase() === "openai") {
     const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    return openai(process.env.CHAT_MODEL ?? "gpt-5.1");
+    return openai(requestedOpenAIModel(model) ?? process.env.CHAT_MODEL ?? "gpt-5.1");
   }
   return process.env.CHAT_MODEL ?? "anthropic/claude-sonnet-5";
 }
@@ -121,10 +128,13 @@ const matchPersonTool = tool({
 });
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
+  if (model != null && requestedOpenAIModel(model) == null) {
+    return Response.json({ error: "Unsupported chat model." }, { status: 400 });
+  }
 
   const result = streamText({
-    model: resolveModel(),
+    model: resolveModel(model),
     system: SYSTEM,
     messages: await convertToModelMessages(messages),
     tools: { find_similar_cities: findSimilarTool, match_person_to_cities: matchPersonTool },

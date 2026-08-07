@@ -1,8 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, isToolUIPart } from "ai";
+
+const MODEL_OPTIONS = [
+  { id: "gpt-5.1", label: "GPT-5.1" },
+  { id: "gpt-5.1-mini", label: "GPT-5.1 mini" },
+  { id: "gpt-5.1-nano", label: "GPT-5.1 nano" },
+];
 
 const SUGGESTIONS = [
   "What cities are like Elko, NV?",
@@ -18,8 +24,15 @@ const TOOL_LABEL: Record<string, string> = {
 
 export default function ChatPage() {
   const [input, setInput] = useState("");
+  const [selectedModel, setSelectedModel] = useState(MODEL_OPTIONS[0].id);
+  const selectedModelRef = useRef(selectedModel);
+  selectedModelRef.current = selectedModel;
+
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+      body: () => ({ model: selectedModelRef.current }),
+    }),
   });
   const busy = status === "submitted" || status === "streaming";
   const endRef = useRef<HTMLDivElement>(null);
@@ -37,12 +50,29 @@ export default function ChatPage() {
 
   return (
     <main className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-3xl flex-col px-4 py-6">
-      <header className="mb-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Ask about cities</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Grounded in VetRetire&apos;s data. I answer two things: <em>what&apos;s like a city you
-          name</em>, and <em>the best towns for a person you describe</em> — with honest caveats.
-        </p>
+      <header className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Ask about cities</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Grounded in VetRetire&apos;s data. I answer two things: <em>what&apos;s like a city you
+            name</em>, and <em>the best towns for a person you describe</em> - with honest caveats.
+          </p>
+        </div>
+        <label className="flex shrink-0 items-center gap-2 text-sm text-muted-foreground">
+          Model
+          <select
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+            disabled={busy}
+            className="h-9 rounded-md border border-input bg-background px-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
+          >
+            {MODEL_OPTIONS.map((model) => (
+              <option key={model.id} value={model.id}>
+                {model.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </header>
 
       {messages.length === 0 && (
@@ -87,9 +117,9 @@ export default function ChatPage() {
                     "error" in (part.output as Record<string, unknown>);
                   return (
                     <p key={i} className="my-1 text-xs italic text-muted-foreground">
-                      {errored ? "⚠ " : done ? "✓ " : "… "}
+                      {errored ? "Warning: " : done ? "Done: " : "... "}
                       {label}
-                      {errored ? " — no match, retrying" : done ? "" : "…"}
+                      {errored ? " - no match, retrying" : done ? "" : "..."}
                     </p>
                   );
                 }
@@ -100,7 +130,7 @@ export default function ChatPage() {
         ))}
         {busy && messages[messages.length - 1]?.role === "user" && (
           <div className="flex justify-start">
-            <div className="rounded-2xl bg-muted px-4 py-2 text-sm text-muted-foreground">Thinking…</div>
+            <div className="rounded-2xl bg-muted px-4 py-2 text-sm text-muted-foreground">Thinking...</div>
           </div>
         )}
         <div ref={endRef} />
@@ -116,7 +146,7 @@ export default function ChatPage() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask: what's like Elko, NV? — or describe a person…"
+          placeholder="Ask: what's like Elko, NV? - or describe a person..."
           className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
         />
         <button
