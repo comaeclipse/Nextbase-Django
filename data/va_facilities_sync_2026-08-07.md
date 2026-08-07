@@ -38,6 +38,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Chicago, IL | Chicago VA Clinic | 2 | Jesse Brown Department of Veterans Affairs Medical Center | 2 |
 | Cincinnati, OH | Cincinnati 1 VA Mobile Clinic | 0 | Cincinnati VA Medical Center | 0 |
 | Colorado Springs, CO | Union Boulevard VA Clinic | 2 | Rocky Mountain Regional VA Medical Center | 61 |
+| Columbus, GA | Columbus Downtown VA Clinic | 6 | Central Alabama VA Medical Center-Montgomery | 80 |
 | Columbus, OH | Columbus VA Clinic | 3 | Chillicothe VA Medical Center | 41 |
 | Costa Mesa, CA | Santa Ana VA Clinic | 5 | Tibor Rubin VA Medical Center | 14 |
 | Dallas, TX | Dallas VA Medical Center | 7 | Dallas VA Medical Center | 7 |

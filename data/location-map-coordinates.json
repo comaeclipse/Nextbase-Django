@@ -101,6 +101,13 @@
       "longitude": -117.771254
     },
     {
+      "name": "Lake Forest",
+      "state": "CA",
+      "census_place_geoid": "0639496",
+      "latitude": 33.654946,
+      "longitude": -117.675848
+    },
+    {
       "name": "San Diego",
       "state": "CA",
       "census_place_geoid": "0666000",
@@ -120,6 +127,20 @@
       "census_place_geoid": "0686972",
       "latitude": 39.129842,
       "longitude": -121.641549
+    },
+    {
+      "name": "Boulder",
+      "state": "CO",
+      "census_place_geoid": "0807850",
+      "latitude": 40.024431,
+      "longitude": -105.251251
+    },
+    {
+      "name": "Broomfield",
+      "state": "CO",
+      "census_place_geoid": "0809280",
+      "latitude": 39.953593,
+      "longitude": -105.050787
     },
     {
       "name": "Colorado Springs",
@@ -183,6 +204,13 @@
       "census_place_geoid": "1304000",
       "latitude": 33.762909,
       "longitude": -84.422675
+    },
+    {
+      "name": "Columbus",
+      "state": "GA",
+      "census_place_geoid": "1319000",
+      "latitude": 32.510191,
+      "longitude": -84.874946
     },
     {
       "name": "Marietta",
@@ -764,6 +792,13 @@
       "census_place_geoid": "5010675",
       "latitude": 44.491927,
       "longitude": -73.238882
+    },
+    {
+      "name": "Bellevue",
+      "state": "WA",
+      "census_place_geoid": "5305210",
+      "latitude": 47.597837,
+      "longitude": -122.15648
     },
     {
       "name": "Bremerton",
