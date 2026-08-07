@@ -1,12 +1,19 @@
 # City Profile Stack Roadmap
 
-**Status:** local-first research and development. This module is not a
-production RAG feature and no database write should occur by default.
+**North star:** [PRODUCT.md](PRODUCT.md) — the goal in plain words.
+
+**Status:** the two products (**"what's like Elko?"** and **"best city for this
+person?"**) already run against all ~114 cities via `scripts/tools/`. What is
+still R&D is the *evidence layer* underneath and the go/no-go on putting the
+answers in front of users. This module is not yet a production feature and no
+database write happens by default. The phases below harden the evidence; they do
+not rebuild the engine.
 
 ## Product decision
 
-We are building a way to answer nuanced questions such as "How many Elkos are
-in the database?" with evidence, caveats, and meaningful counterexamples.
+We are building a way to answer nuanced questions such as "what cities are like
+Elko?" and "what's the best city for this kind of person?" with evidence,
+caveats, and meaningful counterexamples.
 
 The system must combine three things:
 
