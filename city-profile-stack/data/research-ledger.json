@@ -2,6 +2,7 @@
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
   "updated_on": "2026-08-07",
+  "recent_change": "Phase 1: elko_tuesday_evening_texture_2026 promoted from conversation_captured to locally_normalized. Six venue schedules verified with source URLs and folded into data/gold-packs/elko-tuesday-after-8pm.md; 'Garage Bar' lead dropped as unverifiable.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -31,12 +32,20 @@
       "city": "Elko",
       "state": "NV",
       "topic": "social_evening_ecosystem",
-      "claim": "User research characterizes an ordinary Tuesday as early and local: a Basque dinner anchor, early kitchen closures, karaoke or quiet pints, and sparse club-style nightlife despite tourism marketing.",
-      "status": "conversation_captured",
-      "artifact": "data/conversation-captures/2026-08-07-elko-odessa-north-platte.md",
-      "artifact_section": "elko-tuesday-evening-texture",
-      "source_gap": "The conversation supplied source reference numbers but not the full URLs for the named venue, tourism, and review sources.",
-      "limitations": ["One weekday pattern cannot establish citywide or weekend nightlife.", "Venue marketing and an open door do not prove actual crowd intensity."],
+      "claim": "On an ordinary Tuesday, Elko is not dead after 8 p.m. but its after-dark menu is narrow: several bars stay open late (Charlee's karaoke to 2 a.m., the Underground to midnight, Rubies to 11), while dinner service closes by roughly 8:00-9:30. The scene is bar-, casino-, and karaoke-centered rather than a broad nightlife district.",
+      "status": "locally_normalized",
+      "artifact": "data/gold-packs/elko-tuesday-after-8pm.md",
+      "supporting_artifacts": ["data/gold-packs/elko-tuesday-after-8pm.claims.json", "data/conversation-captures/2026-08-07-elko-odessa-north-platte.md"],
+      "source_urls": [
+        "https://www.charleesbarnevada.com/",
+        "https://www.mattiestaphouseandgrill.com/bar",
+        "https://www.yelp.com/biz/the-star-hotel-elko",
+        "https://www.fanzo.com/en-us/bar/225304/rubies-sports-bar-nightclub",
+        "https://restaurantguru.com/The-Underground-bar-and-dance-club-Elko"
+      ],
+      "retrieval_date": "2026-08-07",
+      "source_gap": "Resolved for the six named venues (hours verified 2026-08-07). Two residual gaps: (1) the 'Garage Bar' lead could not be tied to a real Elko venue and is dropped pending identification; (2) Star/Rubies/Underground hours are aggregator-sourced and should be re-confirmed against the venue before promotion beyond the local pack.",
+      "limitations": ["One weekday pattern cannot establish citywide or weekend nightlife.", "Venue marketing and an open door do not prove actual crowd intensity; a representative weekday foot-traffic sample is still missing."],
       "embedding_ready": false
     },
     {

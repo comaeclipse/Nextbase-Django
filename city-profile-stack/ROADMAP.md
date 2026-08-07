@@ -71,18 +71,26 @@ in a checked-in local artifact, even if it is still unverified.
 
 **Goal:** prove the method before designing a system for every city.
 
-- [ ] Extract atomic claims from the Elko Tuesday research.
-- [ ] Add the actual source links and distinguish direct quotes from summaries.
-- [ ] Model the relevant venues, Tuesday schedules, and dated observations.
-- [ ] Capture the marketing-versus-lived-experience divergence explicitly.
-- [ ] Write a short, source-cited answer to: "Is Elko dead after 8 p.m. on a
+- [x] Extract atomic claims from the Elko Tuesday research.
+- [x] Add the actual source links and distinguish direct quotes from summaries.
+- [x] Model the relevant venues, Tuesday schedules, and dated observations.
+- [x] Capture the marketing-versus-lived-experience divergence explicitly.
+- [x] Write a short, source-cited answer to: "Is Elko dead after 8 p.m. on a
       normal Tuesday?"
-- [ ] Add counterevidence: late venues, karaoke, casinos, special events, and
+- [x] Add counterevidence: late venues, karaoke, casinos, special events, and
       seasonal exceptions.
 
 **Exit condition:** a reviewer can trace every sentence of the answer to a
 source, see its limitations, and understand why the conclusion is narrower
 than "Elko has nightlife" or "Elko is dead."
+
+**Delivered:** `data/gold-packs/elko-tuesday-after-8pm.md` (answer + venue
+schedule + divergence + counterevidence) and `elko-tuesday-after-8pm.claims.json`
+(atomic claims with source URLs, direct quotes, stances, and per-claim
+limitations). Six venue schedules verified 2026-08-07. One residual item before
+this can be called airtight: re-confirm the three aggregator-sourced venue hours
+(Star, Rubies, Underground) against the venues, and capture a weekday
+foot-traffic sample to move from "open" to "lively."
 
 ### Phase 2 - Design the isolated knowledge model
 

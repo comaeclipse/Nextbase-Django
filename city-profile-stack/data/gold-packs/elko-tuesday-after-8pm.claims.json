@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "pack_id": "elko_tuesday_after_8pm_gold_v1",
+  "question": "Is Elko dead after 8 p.m. on a normal (non-event, non-weekend) Tuesday?",
+  "geography_scope": "Elko city proper, NV (not Spring Creek, not Elko County at large)",
+  "temporal_scope": "An ordinary Tuesday evening, outside Cowboy Poetry Gathering / festival weeks and outside Fri/Sat.",
+  "retrieved_on": "2026-08-07",
+  "ledger_entry": "elko_tuesday_evening_texture_2026",
+  "vocabulary": {
+    "evidence_kind": ["venue_hours_primary", "venue_hours_aggregator", "community_sentiment", "institutional_baseline"],
+    "stance": {
+      "contradicts": "Evidence weighs against the 'dead after 8 p.m.' claim.",
+      "supports": "Evidence weighs toward a narrow / quiet after-hours reading.",
+      "context": "Relevant but not directly for or against; frames the answer.",
+      "attribution_gap": "A source lead could not be tied to a real, identified Elko venue."
+    },
+    "confidence": ["high", "medium", "low"]
+  },
+  "notes_on_sourcing": "Venue hours were verified 2026-08-07. Small-business hours change without notice; each hours claim records whether it came from the venue's own site (primary) or a third-party aggregator, and none is treated as permanent. Aggregator hours should be re-confirmed against the venue before any promotion beyond this local pack.",
+  "claims": [
+    {
+      "id": "C1_star_hotel_hours",
+      "claim": "The Star Hotel (Basque dining, 246 W Silver St) serves on a Tuesday from roughly 11:00 to 21:30.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_aggregator",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko city",
+      "quote": null,
+      "source_urls": [
+        "https://www.yelp.com/biz/the-star-hotel-elko",
+        "https://travelnevada.com/basque/the-star-hotel/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Sourced from aggregators, not the venue's own hours page; confirm before promotion.",
+        "A 21:30 dining close is moderate, not 'early'; it neither proves nor refutes late nightlife on its own."
+      ]
+    },
+    {
+      "id": "C2_matties_hours",
+      "claim": "Mattie's Tap House & Grill (2535 Mountain City Hwy) runs its kitchen Mon-Tue 11:00-20:00, while the bar stays open until about 22:00.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko city",
+      "quote": "The bar opens daily at 11:00 a.m. and stays open until 10:00 p.m., or longer if the fun keeps going.",
+      "source_urls": [
+        "https://www.mattiestaphouseandgrill.com/bar",
+        "https://www.yelp.com/biz/matties-taphouse-and-grill-elko"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Kitchen (20:00) and bar (~22:00) close at different times; the early number is the kitchen, not the venue.",
+        "'or longer if the fun keeps going' is marketing language, not a fixed close time."
+      ]
+    },
+    {
+      "id": "C3_charlees_karaoke",
+      "claim": "Charlee's Bar (542 River St) is open Tuesday 10:00-02:00 and runs karaoke every night starting at 20:00; it bills itself as Elko's only bar with karaoke seven nights a week.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "Elko city",
+      "quote": "Every Single Night at 8 PM",
+      "source_urls": [
+        "https://www.charleesbarnevada.com/",
+        "https://www.yelp.com/biz/charlee-s-bar-elko"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "A scheduled karaoke start and a 02:00 close prove the door is open and programmed after 8 p.m.; they do not measure how many people actually attend on an ordinary Tuesday."
+      ]
+    },
+    {
+      "id": "C4_rubies_hours",
+      "claim": "Rubies Sports Bar & Nightclub (442 Idaho St) is open Tuesday 16:00-23:00.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_aggregator",
+      "stance": "contradicts",
+      "confidence": "medium",
+      "geography_scope": "Elko city",
+      "quote": null,
+      "source_urls": [
+        "https://www.fanzo.com/en-us/bar/225304/rubies-sports-bar-nightclub",
+        "https://www.yelp.com/biz/rubies-sports-bar-and-nightclub-elko"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "As a nightclub, its energy is weekend-weighted; a Tuesday 23:00 close is 'open', not necessarily 'busy'."
+      ]
+    },
+    {
+      "id": "C5_underground_hours",
+      "claim": "The Underground Speakeasy Lounge (548 Commercial St) is open Tuesday-Saturday 16:30-00:00.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_aggregator",
+      "stance": "contradicts",
+      "confidence": "medium",
+      "geography_scope": "Elko city",
+      "quote": null,
+      "source_urls": [
+        "https://restaurantguru.com/The-Underground-bar-and-dance-club-Elko",
+        "https://www.facebook.com/p/The-Underground-Speakeasy-Lounge-61558139657410/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Aggregator/social hours; confirm before promotion. Being open to midnight is availability, not attendance."
+      ]
+    },
+    {
+      "id": "C6_garage_bar_unresolved",
+      "claim": "The research lead 'Garage Bar, Elko, Tuesday karaoke' could not be tied to a real Elko venue. The nearest name match, 'The Garage', is a Clark County (Las Vegas area) bar, not an Elko one. The nightly-karaoke attribution belongs to Charlee's (C3).",
+      "claim_type": "correction",
+      "evidence_kind": "venue_hours_aggregator",
+      "stance": "attribution_gap",
+      "confidence": "high",
+      "geography_scope": "Elko city",
+      "quote": null,
+      "source_urls": [
+        "https://the-garage-4.wheree.com/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Absence of a web match is not proof the venue never existed; it may have closed, rebranded, or be a resident's informal name for another bar. Until identified, do not cite 'Garage Bar' as Elko evidence."
+      ]
+    },
+    {
+      "id": "S1_reddit_narrow_nightlife",
+      "claim": "Residents and visitors on Reddit consistently describe Elko's nightlife and entertainment as narrow and repetitive rather than absent.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "supports",
+      "confidence": "medium",
+      "geography_scope": "Elko area (commenters sometimes blur Elko / Spring Creek / county)",
+      "quote": "People who do not enjoy outdoor recreation may quickly feel that there is little to do besides work, eat, drink, gamble or stay home.",
+      "source_urls": [
+        "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/",
+        "https://www.reddit.com/r/Elko/comments/16etkn6/looking_to_move_to_elko/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Community sentiment, not a measured sample; disappointed temporary workers may be over-represented.",
+        "'Narrow' is a judgment about variety, not a measurement of whether venues are open."
+      ]
+    },
+    {
+      "id": "S2_reddit_drinking_centered",
+      "claim": "The after-dark social menu that does exist in Elko is described as heavily bar-, casino-, and alcohol-centered.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "supports",
+      "confidence": "medium",
+      "geography_scope": "Elko area",
+      "quote": "Bars, casinos and alcohol appear constantly in Reddit descriptions of Elko.",
+      "source_urls": [
+        "https://www.reddit.com/r/Nevada/comments/pe2a01/whats_it_like_living_in_elko_nevada/",
+        "https://www.reddit.com/r/mining/comments/xwt4ir/opinions_on_living_in_elko_nevada_working_for/"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "Explains the character of the open venues; does not quantify crowd size on a weekday.",
+        "A family seeking alcohol-free evening activity would read this scene as thin even though venues are open."
+      ]
+    },
+    {
+      "id": "B1_baseline_declined_claim",
+      "claim": "The Elko cultural baseline deliberately refused to assert 'asleep after 8 p.m.' without a documented, comparable sample of venue hours. This pack is that sample.",
+      "claim_type": "method",
+      "evidence_kind": "institutional_baseline",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "Elko city",
+      "quote": "This pass deliberately does not claim that Elko is \"asleep after 8pm.\"",
+      "source_urls": [
+        "city-profile-stack/data/dossiers/research-dossiers/elko-nv-cultural-baseline.md"
+      ],
+      "retrieved_on": "2026-08-07",
+      "limitations": [
+        "The baseline is an internal artifact, not an external source; it sets the standard this pack must meet."
+      ]
+    }
+  ],
+  "answer": {
+    "verdict": "No, but narrow.",
+    "one_line": "Elko is not dead after 8 p.m. on a normal Tuesday - at least four venues are open past 8, one with karaoke starting at 8 - but the after-dark menu is thin, bar- and casino-centered, and dinner service winds down by roughly 8:00-9:30.",
+    "sentence_trace": [
+      {"sentence": "Elko is not dead after 8 p.m. on an ordinary Tuesday.", "evidence": ["C3_charlees_karaoke", "C5_underground_hours", "C4_rubies_hours"]},
+      {"sentence": "Charlee's Bar is open until 2 a.m. and starts karaoke at 8 p.m. every night, the Underground Speakeasy runs to midnight, and Rubies is open until 11.", "evidence": ["C3_charlees_karaoke", "C5_underground_hours", "C4_rubies_hours"]},
+      {"sentence": "What closes early is the kitchen, not the town: Mattie's stops serving food at 8 while its bar runs to about 10, and even the marquee Basque dining room at the Star winds down around 9:30.", "evidence": ["C2_matties_hours", "C1_star_hotel_hours"]},
+      {"sentence": "But 'open' is not 'lively': residents describe the choices as narrow, repetitive, and centered on drinking, gambling, and karaoke rather than a broad nightlife district.", "evidence": ["S1_reddit_narrow_nightlife", "S2_reddit_drinking_centered"]},
+      {"sentence": "So the honest answer is narrower than either 'Elko has nightlife' or 'Elko is dead': a handful of bars keep the lights on late, but a Tuesday night out is a small, alcohol-centered set of options, not an absence of them.", "evidence": ["S1_reddit_narrow_nightlife", "C3_charlees_karaoke", "C6_garage_bar_unresolved"]}
+    ]
+  }
+}
