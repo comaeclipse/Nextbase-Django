@@ -65,9 +65,11 @@ Thumbs.db
 next-env.d.ts
 npm-debug.log*
 
-# Re-include the TypeScript lib/ dir (the Python `lib/` rule above would ignore it)
+# Re-include the TypeScript lib/ dirs (the Python `lib/` rule above would ignore them)
 !/lib/
 !/lib/**
+!/city-profile-stack/lib/
+!/city-profile-stack/lib/**
 
 # Playwright MCP scratch snapshots
 /.playwright-mcp/*.yml
