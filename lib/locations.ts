@@ -12,17 +12,14 @@ import type {
 
 /*
  * Read-only data access against the existing Neon schema.
- * `SELECT *` returns rows keyed by the original snake_case column names, which
- * match LocationRow / StateInfoRow exactly.
  *
  * `id` is a Postgres bigint, which the driver returns as a string; we coerce it
  * back to a number so it matches LocationRow and is safe for URLs/keys/equality.
  *
  * All reads are wrapped in `unstable_cache`: this data only changes via the
- * data-maintenance scripts (import-csv, categorize-climate), never per-request,
- * so paying a fresh Neon round trip on every page view / filter click is pure
- * waste. A short revalidate window keeps pages fast while still picking up
- * script-driven updates within a few minutes.
+ * data-maintenance scripts, never per-request, so paying a fresh Neon round trip
+ * on every page view / filter click is pure waste. A short revalidate window
+ * keeps pages fast while still picking up script-driven updates quickly.
  */
 const CACHE_REVALIDATE_SECONDS = 300;
 const LOCATIONS_TAG = "locations";
@@ -44,14 +41,27 @@ function normalizeLocation(row: Record<string, unknown>): LocationRow {
   } as LocationRow;
 }
 
+/*
+ * veterans_benefits is now a derived compatibility alias for the city page.
+ * The physical locations_location.veterans_benefits column is removed by
+ * scripts/migrate-veteran-benefits.ts. State benefit copy is exposed only when
+ * the state row has both verification metadata fields populated.
+ */
 const LOCATION_SELECT = `
   l.*,
-  p.category AS pace_category
+  p.category AS pace_category,
+  CASE
+    WHEN si.vet_benefits_verified_on IS NOT NULL
+     AND si.source_url IS NOT NULL
+    THEN si.vet_benefits_summary
+    ELSE NULL
+  END AS veterans_benefits
 `;
 
 const LOCATION_FROM = `
   FROM locations_location l
   LEFT JOIN location_pace_current p ON p.location_id = l.id
+  LEFT JOIN locations_stateinfo si ON si.state = l.state
 `;
 
 /*
@@ -62,10 +72,6 @@ const LOCATION_FROM = `
  */
 export async function fetchAllLocations(): Promise<LocationRow[]> {
   const sql = getSql();
-  // Match Django's Location.Meta.ordering = ['-featured', 'name'] so that the
-  // base order is identical. This matters as the stable-sort tie-break when
-  // two rows share a sort key (e.g. same-named cities), keeping filter/sort
-  // results byte-for-byte with the Django views.
   const rows = await sql.query(
     `SELECT ${LOCATION_SELECT}
      ${LOCATION_FROM}
@@ -176,7 +182,6 @@ export const getMonthlyWeather = unstable_cache(
         location_id: Number(r.location_id),
       })) as WeatherMonthlyRow[];
     } catch (err) {
-      // 42P01 = undefined_table: table not migrated yet.
       if ((err as { code?: string })?.code === "42P01") return [];
       throw err;
     }
@@ -216,9 +221,6 @@ export const getAllMonthlyWeather = unstable_cache(
  * Hourly climate normals for one city: 12 months x 24 hours, ordered
  * month→hour. Backs the moisture charts; see `HourlyWeatherNormalRow` for why
  * temperature still comes from `location_weather_monthly`.
- *
- * Returns `[]` if `location_hourly_normals` isn't migrated yet, matching
- * `getMonthlyWeather`.
  */
 export const getHourlyWeatherNormals = unstable_cache(
   async (locationId: number): Promise<HourlyWeatherNormalRow[]> => {
@@ -234,7 +236,6 @@ export const getHourlyWeatherNormals = unstable_cache(
         location_id: Number(r.location_id),
       })) as HourlyWeatherNormalRow[];
     } catch (err) {
-      // 42P01 = undefined_table: table not migrated yet.
       if ((err as { code?: string })?.code === "42P01") return [];
       throw err;
     }
@@ -265,8 +266,8 @@ export const getActiveEmployers = unstable_cache(
  * location_id -> employers present in that city.
  *
  * Only rows already linked to a curated retirement location are returned; the
- * ~150 other employer cities are irrelevant to filtering. Shipped to the client
- * as a plain object so ExploreClient can filter without a round trip, mirroring
+ * other employer cities are irrelevant to filtering. Shipped to the client as
+ * a plain object so ExploreClient can filter without a round trip, mirroring
  * how `stateInfos` is passed down.
  */
 export const getEmployerIndex = unstable_cache(
