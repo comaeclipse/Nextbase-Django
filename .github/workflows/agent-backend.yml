@@ -1,0 +1,78 @@
+name: Agent - Backend
+
+on:
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: agent-backend-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    # See agent-data.yml for why both the issues/labeled and pull_request/labeled
+    # paths are needed (initial handoff vs. the changes-requested round-trip).
+    if: >
+      !contains(github.event.issue.labels.*.name, 'status:blocked') &&
+      !contains(github.event.pull_request.labels.*.name, 'status:blocked') && (
+        (github.event_name == 'issues' && github.event.label.name == 'agent:backend') ||
+        (github.event_name == 'pull_request' && github.event.label.name == 'agent:backend') ||
+        (github.event_name == 'issue_comment' &&
+         startsWith(github.event.comment.body, '/agent-backend') &&
+         contains(fromJSON('["OWNER","COLLABORATOR","MEMBER"]'), github.event.comment.author_association))
+      )
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ secrets.BACKEND_APP_ID }}
+          private-key: ${{ secrets.BACKEND_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          token: ${{ steps.app-token.outputs.token }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build prompt
+        id: prompt
+        shell: bash
+        run: |
+          {
+            echo 'text<<PROMPT_EOF'
+            cat .github/agents/_shared-guardrails.md
+            echo ""
+            cat .github/agents/backend.md
+            echo ""
+            echo "## Triggering context"
+            echo "Repo: ${{ github.repository }}"
+            echo "Issue: #${{ github.event.issue.number }}"
+            echo "PR: #${{ github.event.pull_request.number }}"
+            echo 'PROMPT_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      # allowed_bots: "*" — see agent-research.yml for the reasoning.
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
+          allowed_bots: "*"
+          branch_prefix: "agent/backend/"
+          base_branch: master
+          prompt: ${{ steps.prompt.outputs.text }}
+          claude_args: "--max-turns 60"

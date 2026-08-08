@@ -1,0 +1,64 @@
+name: Agent - Research
+
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: agent-research-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    if: >
+      !contains(github.event.issue.labels.*.name, 'status:blocked') && (
+        (github.event_name == 'issues' && github.event.label.name == 'agent:research') ||
+        (github.event_name == 'issue_comment' &&
+         startsWith(github.event.comment.body, '/agent-research') &&
+         contains(fromJSON('["OWNER","COLLABORATOR","MEMBER"]'), github.event.comment.author_association))
+      )
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ secrets.RESEARCH_APP_ID }}
+          private-key: ${{ secrets.RESEARCH_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Build prompt
+        id: prompt
+        shell: bash
+        run: |
+          {
+            echo 'text<<PROMPT_EOF'
+            cat .github/agents/_shared-guardrails.md
+            echo ""
+            cat .github/agents/research.md
+            echo ""
+            echo "## Triggering issue"
+            echo "Repo: ${{ github.repository }}"
+            echo "Issue: #${{ github.event.issue.number }}"
+            echo 'PROMPT_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      # allowed_bots: "*" is safe here specifically because none of the 5 role
+      # apps hold the Workflows permission (see .github/agents/_shared-guardrails.md),
+      # the label/branch conditions above already scope who can trigger this job,
+      # and a public commenter cannot forge a bot actor without repo-admin access.
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
+          allowed_bots: "*"
+          prompt: ${{ steps.prompt.outputs.text }}
+          claude_args: "--max-turns 30"

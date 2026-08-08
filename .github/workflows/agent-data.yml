@@ -1,0 +1,84 @@
+name: Agent - Data
+
+on:
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: agent-data-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  data:
+    runs-on: ubuntu-latest
+    # Two label paths, matching the handoff mechanics in
+    # .github/agents/_shared-guardrails.md:
+    #   1. issues/labeled "agent:data" — initial handoff from research (or a human).
+    #   2. pull_request/labeled "agent:data" — the "changes requested" round-trip
+    #      from review.md, which relabels the PR (not the issue) back to this role.
+    #      GitHub treats issue-label and PR-label events as distinct types even
+    #      though PRs/issues share label state, so both triggers are required.
+    if: >
+      !contains(github.event.issue.labels.*.name, 'status:blocked') &&
+      !contains(github.event.pull_request.labels.*.name, 'status:blocked') && (
+        (github.event_name == 'issues' && github.event.label.name == 'agent:data') ||
+        (github.event_name == 'pull_request' && github.event.label.name == 'agent:data') ||
+        (github.event_name == 'issue_comment' &&
+         startsWith(github.event.comment.body, '/agent-data') &&
+         contains(fromJSON('["OWNER","COLLABORATOR","MEMBER"]'), github.event.comment.author_association))
+      )
+    environment: data-agent
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ secrets.DATA_APP_ID }}
+          private-key: ${{ secrets.DATA_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          token: ${{ steps.app-token.outputs.token }}
+
+      # The repo's data scripts are invoked as `node --env-file=.env ...` (see
+      # CLAUDE.md) — they read a physical .env file, not just process env vars.
+      # Write one here so the documented script invocations work unmodified.
+      - name: Write .env
+        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
+
+      - name: Build prompt
+        id: prompt
+        shell: bash
+        run: |
+          {
+            echo 'text<<PROMPT_EOF'
+            cat .github/agents/_shared-guardrails.md
+            echo ""
+            cat .github/agents/data.md
+            echo ""
+            echo "## Triggering context"
+            echo "Repo: ${{ github.repository }}"
+            echo "Issue: #${{ github.event.issue.number }}"
+            echo "PR: #${{ github.event.pull_request.number }}"
+            echo 'PROMPT_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      # allowed_bots: "*" — see agent-research.yml for the reasoning; the review
+      # bot is the other identity expected to trigger this job via the PR-labeled path.
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
+          allowed_bots: "*"
+          branch_prefix: "agent/data/"
+          base_branch: master
+          prompt: ${{ steps.prompt.outputs.text }}
+          claude_args: "--max-turns 60"

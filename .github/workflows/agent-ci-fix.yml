@@ -1,0 +1,72 @@
+name: Agent - CI Fix
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+concurrency:
+  group: agent-ci-fix-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+jobs:
+  ci-fix:
+    runs-on: ubuntu-latest
+    # Only reacts to failed CI runs on agent-owned branches. The one-attempt
+    # limit (status:ci-fix-attempted) is enforced inside ci-fix.md by the
+    # agent itself, since PR labels aren't available on the workflow_run
+    # payload without an extra API call the agent can make directly.
+    if: >
+      github.event.workflow_run.conclusion == 'failure' &&
+      startsWith(github.event.workflow_run.head_branch, 'agent/')
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+      checks: read
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ secrets.CIFIX_APP_ID }}
+          private-key: ${{ secrets.CIFIX_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 1
+          token: ${{ steps.app-token.outputs.token }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build prompt
+        id: prompt
+        shell: bash
+        run: |
+          {
+            echo 'text<<PROMPT_EOF'
+            cat .github/agents/_shared-guardrails.md
+            echo ""
+            cat .github/agents/ci-fix.md
+            echo ""
+            echo "## Triggering context"
+            echo "Repo: ${{ github.repository }}"
+            echo "Failing branch: ${{ github.event.workflow_run.head_branch }}"
+            echo "Failing run: ${{ github.event.workflow_run.id }}"
+            echo 'PROMPT_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      # allowed_bots: "*" — the triggering actor here is whichever bot pushed
+      # the commit that failed CI (data or backend).
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
+          allowed_bots: "*"
+          prompt: ${{ steps.prompt.outputs.text }}
+          claude_args: "--max-turns 30"

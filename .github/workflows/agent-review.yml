@@ -1,0 +1,63 @@
+name: Agent - Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+concurrency:
+  group: agent-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    # Only ever reviews PRs the agent pipeline itself opened — never a PR the
+    # human opens for their own reasons. Both conditions must hold: the
+    # agent-pr label AND the agent/** branch prefix, so this can't be spoofed
+    # by a human applying the label to their own PR out of curiosity.
+    if: >
+      !contains(github.event.pull_request.labels.*.name, 'status:blocked') &&
+      contains(github.event.pull_request.labels.*.name, 'agent-pr') &&
+      startsWith(github.event.pull_request.head.ref, 'agent/')
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      checks: read
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ secrets.REVIEW_APP_ID }}
+          private-key: ${{ secrets.REVIEW_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Build prompt
+        id: prompt
+        shell: bash
+        run: |
+          {
+            echo 'text<<PROMPT_EOF'
+            cat .github/agents/_shared-guardrails.md
+            echo ""
+            cat .github/agents/review.md
+            echo ""
+            echo "## Triggering context"
+            echo "Repo: ${{ github.repository }}"
+            echo "PR: #${{ github.event.pull_request.number }}"
+            echo 'PROMPT_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      # allowed_bots: "*" — the data/backend bots open these PRs, so the
+      # triggering actor on "opened"/"synchronize" is always one of them.
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
+          allowed_bots: "*"
+          prompt: ${{ steps.prompt.outputs.text }}
+          claude_args: "--max-turns 30"
