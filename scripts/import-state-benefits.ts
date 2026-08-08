@@ -7,10 +7,9 @@
  * Defaults to data/state_vet_benefits.csv. Adds the vet-benefit columns if they
  * don't exist yet (idempotent), then upserts one row per state keyed on `state`.
  *
- * Boolean columns are THREE-VALUED on purpose: an empty cell means "the source
- * summary didn't mention it", which is not the same as "the state doesn't offer
- * it". Filter with `IS TRUE`, never `= false`, or you'll silently exclude states
- * whose summary was just terser.
+ * Boolean columns are THREE-VALUED on purpose: an empty cell means "not
+ * established by the verification source", which is not the same as "the state
+ * does not offer it". Filter with `IS TRUE` / `=== true`, never `= false`.
  */
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
@@ -27,7 +26,7 @@ const RETIRED_PAY_TAX = new Set([
   "partial", // a capped/percentage exclusion
   "conditional", // gated on age, income, disability, or service dates
   "taxed", // no exclusion
-  "unknown", // source summary was silent — needs verification
+  "unknown", // allowed for future research, but not present in verified seed data
 ]);
 
 const cleanEmpty = (v: string | undefined): string | null => {
@@ -36,11 +35,14 @@ const cleanEmpty = (v: string | undefined): string | null => {
   return t === "" || t === "?" || t === "NA" ? null : t;
 };
 
-/** null when the cell is blank — "not mentioned", not "absent". */
+/** null when the cell is blank — "not established", not "absent". */
 const parseBoolV = (v: string | undefined): boolean | null => {
   const c = cleanEmpty(v);
   if (c === null) return null;
-  return ["y", "yes", "true", "t", "1"].includes(c.toLowerCase());
+  const normalized = c.toLowerCase();
+  if (["y", "yes", "true", "t", "1"].includes(normalized)) return true;
+  if (["n", "no", "false", "f", "0"].includes(normalized)) return false;
+  throw new Error(`bad boolean value: ${c}`);
 };
 
 const COLUMNS = [
@@ -53,6 +55,7 @@ const COLUMNS = [
   ["hunt_fish_benefit", "boolean"],
   ["vet_benefits_summary", "text"],
   ["vet_benefits_verified_on", "date"],
+  ["source_url", "text"],
 ] as const;
 
 async function ensureColumns(dryRun: boolean) {
@@ -80,6 +83,21 @@ function parseRow(row: Row): Record<string, unknown> {
     throw new Error(`bad RetiredPayTax for ${state}: ${retiredPayTax}`);
   }
 
+  const verifiedOn = cleanEmpty(row["VerifiedOn"]);
+  const sourceUrl = cleanEmpty(row["SourceURL"]);
+  if ((verifiedOn === null) !== (sourceUrl === null)) {
+    throw new Error(`${state}: VerifiedOn and SourceURL must either both be set or both be blank`);
+  }
+  if (verifiedOn && !/^\d{4}-\d{2}-\d{2}$/.test(verifiedOn)) {
+    throw new Error(`${state}: bad VerifiedOn date: ${verifiedOn}`);
+  }
+  if (sourceUrl && !/^https:\/\//.test(sourceUrl)) {
+    throw new Error(`${state}: SourceURL must be an https URL`);
+  }
+  if (verifiedOn && retiredPayTax === "unknown") {
+    throw new Error(`${state}: verified rows may not keep retired_pay_tax=unknown`);
+  }
+
   return {
     state,
     no_income_tax: parseBoolV(row["NoIncomeTax"]),
@@ -90,9 +108,8 @@ function parseRow(row: Row): Record<string, unknown> {
     parks_benefit: parseBoolV(row["ParksBenefit"]),
     hunt_fish_benefit: parseBoolV(row["HuntFishBenefit"]),
     vet_benefits_summary: cleanEmpty(row["Summary"]),
-    // Deliberately null: nothing in this dataset has been checked against a
-    // primary source. Render benefit copy only once this is populated.
-    vet_benefits_verified_on: null,
+    vet_benefits_verified_on: verifiedOn,
+    source_url: sourceUrl,
   };
 }
 
@@ -100,8 +117,6 @@ async function upsert(data: Record<string, unknown>): Promise<"created" | "updat
   const sql = getSql();
   const cols = Object.keys(data);
   const placeholders = cols.map((_, i) => `$${i + 1}`).join(", ");
-  // `state` is the primary key, so ON CONFLICT gives us a clean upsert and
-  // xmax tells us whether this row was inserted or updated.
   const updates = cols
     .filter((c) => c !== "state")
     .map((c) => `${c} = EXCLUDED.${c}`)
@@ -161,6 +176,8 @@ async function main() {
       ? `\nDry run complete. ${rows.length} row(s) parsed, ${errors} error(s).`
       : `\nImport complete! Created: ${created}, Updated: ${updated}, Errors: ${errors}`
   );
+
+  if (errors) process.exitCode = 1;
 }
 
 main();
