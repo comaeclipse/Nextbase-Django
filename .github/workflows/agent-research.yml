@@ -66,4 +66,4 @@ jobs:
           github_token: ${{ steps.app-token.outputs.token }}
           allowed_bots: "*"
           prompt: ${{ steps.prompt.outputs.text }}
-          claude_args: "--max-turns 30 --permission-mode bypassPermissions --disallowedTools Edit,Write"
+          claude_args: "--max-turns 50 --permission-mode bypassPermissions --disallowedTools Edit,Write"
