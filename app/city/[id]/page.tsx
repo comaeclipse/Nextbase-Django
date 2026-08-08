@@ -49,9 +49,15 @@ function parseId(id: string): number | null {
   return Number(id);
 }
 
-/** Stored home-price display values sometimes include an unnecessary `.00`. */
+/** Stored home-price display values sometimes include an unnecessary `.00` and might be missing commas/$. */
 function formatHomePrice(value: string | null): string | null {
-  return value?.trim().replace(/\.0+$/, "") || null;
+  if (!value) return null;
+  const cleaned = value.trim().replace(/\.0+$/, "");
+  const numericOnly = cleaned.replace(/[$,]/g, "");
+  if (/^\d+(\.\d+)?$/.test(numericOnly)) {
+    return `$${Number(numericOnly).toLocaleString("en-US")}`;
+  }
+  return cleaned;
 }
 
 export async function generateMetadata({
