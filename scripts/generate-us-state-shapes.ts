@@ -9,8 +9,6 @@ type Atlas = {
   objects: { states: unknown };
 };
 
-const width = 960;
-const height = 560;
 const projection = geoAlbersUsa().scale(1280).translate([480, 290]);
 const path = geoPath(projection);
 const us = atlas as unknown as Atlas;
