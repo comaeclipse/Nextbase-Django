@@ -9,6 +9,10 @@ import ExploreFilterBar, {
   type ChipKey,
   type ExploreFilters,
 } from "@/components/explore/ExploreFilterBar";
+import VeteranBenefitFilters, {
+  DEFAULT_VETERAN_BENEFIT_FILTERS,
+  type VeteranBenefitFilterState,
+} from "@/components/explore/VeteranBenefitFilters";
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
 
@@ -31,6 +35,9 @@ export default function ExploreClient({
     ...DEFAULT_FILTERS,
     state: initialStateFilter ?? "",
   });
+  const [veteranFilters, setVeteranFilters] = useState<VeteranBenefitFilterState>(
+    DEFAULT_VETERAN_BENEFIT_FILTERS
+  );
 
   function update<K extends keyof ExploreFilters>(
     key: K,
@@ -41,6 +48,7 @@ export default function ExploreClient({
 
   function resetAll() {
     setFilters(DEFAULT_FILTERS);
+    setVeteranFilters(DEFAULT_VETERAN_BENEFIT_FILTERS);
   }
 
   /** Chips are grouped, so clearing one clears every field behind it. */
@@ -99,7 +107,6 @@ export default function ExploreClient({
   }, [employers, employerIndex]);
 
   const filterParams = useMemo<FilterParams>(() => {
-    // Price inputs are free text elsewhere in the app, so scrape digits.
     const pmin = filters.priceMin.match(/\d+/);
     const pmax = filters.priceMax.match(/\d+/);
     return {
@@ -121,10 +128,17 @@ export default function ExploreClient({
       geography: filters.geography.join(",") || null,
       income_tax: filters.incomeTax || null,
       vibes: filters.vibes.join(",") || null,
+      no_income_tax: veteranFilters.noIncomeTax ? "true" : null,
+      retired_pay_tax: veteranFilters.retiredPayTax || null,
+      disabled_vet_property_tax: veteranFilters.disabledPropertyTax ? "true" : null,
+      employment_preference: veteranFilters.employmentPreference ? "true" : null,
+      education_benefit: veteranFilters.educationBenefit ? "true" : null,
+      parks_benefit: veteranFilters.parksBenefit ? "true" : null,
+      hunt_fish_benefit: veteranFilters.huntFishBenefit ? "true" : null,
       employers: filters.employers.join(",") || null,
       sort: filters.sort,
     };
-  }, [filters]);
+  }, [filters, veteranFilters]);
 
   const results = useMemo(
     () =>
@@ -136,8 +150,6 @@ export default function ExploreClient({
 
   return (
     <>
-      {/* PublicNav is itself sticky at z-100 and 68px tall, so the bar parks
-          under it rather than at the viewport top. */}
       <div className="sticky top-[68px] z-40">
         <ExploreFilterBar
           filters={filters}
@@ -147,6 +159,10 @@ export default function ExploreClient({
           stateCounts={stateCounts}
           employerGroups={employerGroups}
           resultCount={results.length}
+        />
+        <VeteranBenefitFilters
+          value={veteranFilters}
+          onChange={setVeteranFilters}
         />
       </div>
 
@@ -178,8 +194,7 @@ export default function ExploreClient({
         </section>
 
         <aside className="hidden min-h-[720px] lg:block">
-          {/* Clears the stacked nav (68) + filter bar (~117) above it. */}
-          <div className="sticky top-[200px] rounded-2xl border bg-background p-4">
+          <div className="sticky top-[240px] rounded-2xl border bg-background p-4">
             <StateMap
               stateCounts={stateCounts}
               selected={filters.state || null}
