@@ -68,7 +68,7 @@ const parseIntV = (v: string | undefined): number | null => {
   const c = cleanEmpty(v);
   if (c === null) return null;
   const s = c.replace(/,/g, "");
-  return /^[+-]?\d+$/.test(s) ? parseInt(s, 10) : null; // strict int, like Python int()
+  return /^[+-]?\d+$/.test(s) ? parseInt(s, 10) : null;
 };
 
 const parseDecimalV = (v: string | undefined): number | null => {
@@ -161,7 +161,8 @@ function parseRow(row: Row): Record<string, unknown> {
     has_va: parseBoolV(row["VA"]),
     nearest_va: cleanEmpty(row["NearestVA"]),
     distance_to_va: cleanEmpty(row["DistanceToVA"]),
-    veterans_benefits: cleanEmpty(row["Veterans Benefits"]),
+    // Veteran benefits are state-level. The legacy per-city CSV column is
+    // intentionally ignored; locations_stateinfo is the single source of truth.
     tci: parseIntV(row["TCI"]),
     crime: cleanEmpty(row["CrimeRating"]),
     marijuana_status: cleanEmpty(row["Marijuana"]),
@@ -170,10 +171,6 @@ function parseRow(row: Row): Record<string, unknown> {
     lgbtq_state_policy_score: parseDecimalV(row["LGBTQStatePolicyScore"]),
     lgbtq_score_source: cleanEmpty(row["LGBTQSource"]),
     tech_hub: parseBoolV(row["TechHub"]),
-    // The CSV's DefenseHub is a human judgment, so it feeds the curated input
-    // `defense_hub_manual` (in particular, DefenseHub=N becomes a `false` veto).
-    // The derived `defense_hub` column is left for scripts/recompute-defense-hub.ts
-    // (manual===false ? false : presence ? true : manual). See lib/defense.ts.
     defense_hub_manual: parseBoolV(row["DefenseHub"]),
     snow_annual: parseIntV(row["Snow"]),
     rain_annual: parseIntV(row["Rain"]),
@@ -197,7 +194,6 @@ async function upsert(
 ): Promise<{ status: "created" | "updated"; id: number }> {
   const sql = getSql();
   const cols = Object.keys(data);
-  // jsonb column needs a text param cast; everything else coerces fine.
   const value = (c: string) => (c === "tags" ? JSON.stringify(data[c]) : data[c]);
   const placeholder = (c: string, i: number) =>
     c === "tags" ? `$${i + 1}::jsonb` : `$${i + 1}`;
@@ -244,7 +240,6 @@ async function classifyImportedLocation(
         ")"
     );
   } catch (err) {
-    // Keep the city; queue a review row when possible.
     console.error(
       `    pace classify failed (city kept): ${(err as Error).message}`
     );
