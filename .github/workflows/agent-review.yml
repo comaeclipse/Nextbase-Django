@@ -54,10 +54,19 @@ jobs:
 
       # allowed_bots: "*" — the data/backend bots open these PRs, so the
       # triggering actor on "opened"/"synchronize" is always one of them.
+      # permission-mode bypassPermissions: required for any headless CI run —
+      # with no human to answer Claude Code's own tool-approval prompts, every
+      # Bash/tool call would otherwise hang as a denial and burn turns for
+      # nothing (this is exactly what happened in the first smoke test run).
+      # The real safety boundary here is the REVIEW_APP's own GitHub
+      # permissions (Contents: read-only), which makes a push structurally
+      # impossible regardless of local permission mode. disallowedTools
+      # additionally blocks file edits outright, since this role should only
+      # ever comment/review, never modify files.
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
           allowed_bots: "*"
           prompt: ${{ steps.prompt.outputs.text }}
-          claude_args: "--max-turns 30"
+          claude_args: "--max-turns 30 --permission-mode bypassPermissions --disallowedTools Edit,Write"

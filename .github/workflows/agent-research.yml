@@ -55,10 +55,15 @@ jobs:
       # apps hold the Workflows permission (see .github/agents/_shared-guardrails.md),
       # the label/branch conditions above already scope who can trigger this job,
       # and a public commenter cannot forge a bot actor without repo-admin access.
+      # permission-mode bypassPermissions: required for headless CI (see
+      # agent-review.yml for why). RESEARCH_APP's Contents: read-only
+      # permission is the real backstop against a push; disallowedTools
+      # additionally blocks file edits, since research only ever reports
+      # findings via gh issue comment/label, never touches files.
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
           allowed_bots: "*"
           prompt: ${{ steps.prompt.outputs.text }}
-          claude_args: "--max-turns 30"
+          claude_args: "--max-turns 30 --permission-mode bypassPermissions --disallowedTools Edit,Write"
