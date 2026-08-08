@@ -23,6 +23,13 @@ export async function GET(req: NextRequest) {
     geography: sp.get("geography"),
     income_tax: sp.get("income_tax"),
     vibes: sp.get("vibes"),
+    no_income_tax: sp.get("no_income_tax"),
+    retired_pay_tax: sp.get("retired_pay_tax"),
+    disabled_vet_property_tax: sp.get("disabled_vet_property_tax"),
+    employment_preference: sp.get("employment_preference"),
+    education_benefit: sp.get("education_benefit"),
+    parks_benefit: sp.get("parks_benefit"),
+    hunt_fish_benefit: sp.get("hunt_fish_benefit"),
     employers: sp.get("employers"),
     sort: sp.get("sort"),
   };
