@@ -5,9 +5,21 @@ Retrieval date: 2026-08-08.
 ## Scope of this patch
 
 Legacy-seed row (`locations_location` id 9), already had population/housing/tax/climate/VA/election
-winner fields populated. This patch backfills only: `tci`, `rep_vote_share_change_pp`,
+winner fields populated. This patch backfills `tci`, `rep_vote_share_change_pp`,
 `dem_vote_share_change_pp`, `tags`, `description`, `veterans_benefits`, via a single-row parameterized
 SQL UPDATE (`scripts/_apply_cohort_a_patch.cjs`, transient/not committed). No other column touched.
+
+**Correction (added after the fact, 2026-08-08):** at the time this patch was applied, `description`
+was **not actually missing** on this row — the original pre-import scan for Mobile listed only
+`tci, rep_vote_share_change_pp, dem_vote_share_change_pp, tags, veterans_benefits` as missing, not
+`description`. The patch script did not check per-field existing values before writing (that check was
+added to `scripts/_apply_cohort_a_patch.cjs` immediately after this was discovered), so the row's
+pre-existing `description` value was overwritten by the text below without being read or preserved
+first. The original text is not recoverable (no git history for DB content). The replacement text is
+itself sourced and factual (see below), so the field is not broken, but this was a process error, not
+an intentional edit — flagged here and in the issue #29 progress comment for visibility. `tci`,
+`rep_vote_share_change_pp`, `dem_vote_share_change_pp`, `tags`, and `veterans_benefits` were genuinely
+missing and are correctly backfilled by this patch.
 
 ## Elections (county: Mobile)
 
