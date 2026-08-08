@@ -339,6 +339,27 @@
       "longitude": -71.018253
     },
     {
+      "name": "Lexington",
+      "state": "MA",
+      "census_place_geoid": "2535250",
+      "latitude": 42.445222,
+      "longitude": -71.230015
+    },
+    {
+      "name": "Quincy",
+      "state": "MA",
+      "census_place_geoid": "2555745",
+      "latitude": 42.261006,
+      "longitude": -71.008988
+    },
+    {
+      "name": "Waltham",
+      "state": "MA",
+      "census_place_geoid": "2572600",
+      "latitude": 42.388921,
+      "longitude": -71.242268
+    },
+    {
       "name": "Baltimore",
       "state": "MD",
       "census_place_geoid": "2404000",
@@ -442,6 +463,13 @@
       "census_place_geoid": "3733560",
       "latitude": 35.068638,
       "longitude": -80.651152
+    },
+    {
+      "name": "Morrisville",
+      "state": "NC",
+      "census_place_geoid": "3744520",
+      "latitude": 35.836356,
+      "longitude": -78.839001
     },
     {
       "name": "Raleigh",
@@ -661,6 +689,13 @@
       "longitude": -79.143865
     },
     {
+      "name": "North Kingstown",
+      "state": "RI",
+      "census_place_geoid": "4400951580",
+      "latitude": 41.571527,
+      "longitude": -71.449907
+    },
+    {
       "name": "Providence",
       "state": "RI",
       "census_place_geoid": "4459000",
@@ -841,6 +876,13 @@
       "census_place_geoid": "5613900",
       "latitude": 41.128702,
       "longitude": -104.790778
+    },
+    {
+      "name": "Cody",
+      "state": "WY",
+      "census_place_geoid": "5615760",
+      "latitude": 44.521242,
+      "longitude": -109.057469
     }
   ]
 }
