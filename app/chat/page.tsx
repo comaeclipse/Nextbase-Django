@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, isToolUIPart } from "ai";
 import Markdown, { type Components } from "react-markdown";
@@ -45,15 +45,16 @@ const markdownComponents: Components = {
 export default function ChatPage() {
   const [input, setInput] = useState("");
   const [selectedModel, setSelectedModel] = useState(MODEL_OPTIONS[0].id);
-  const selectedModelRef = useRef(selectedModel);
-  selectedModelRef.current = selectedModel;
 
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-      body: () => ({ model: selectedModelRef.current }),
-    }),
-  });
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/chat",
+        body: () => ({ model: selectedModel }),
+      }),
+    [selectedModel],
+  );
+  const { messages, sendMessage, status } = useChat({ transport });
   const busy = status === "submitted" || status === "streaming";
   const endRef = useRef<HTMLDivElement>(null);
 
