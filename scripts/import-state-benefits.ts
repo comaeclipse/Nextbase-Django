@@ -4,8 +4,10 @@
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-state-benefits.ts [csv] [--dry-run]
  *
- * Defaults to data/state_vet_benefits.csv. Adds the vet-benefit columns if they
- * don't exist yet (idempotent), then upserts one row per state keyed on `state`.
+ * Defaults to data/state_vet_benefits.csv. Verification metadata and audited
+ * retired-pay classifications live separately in
+ * data/state_vet_benefits_verification.csv so the editorial seed remains easy
+ * to review. Adds missing state-info columns idempotently and upserts by state.
  *
  * Boolean columns are THREE-VALUED on purpose: an empty cell means "not
  * established by the verification source", which is not the same as "the state
@@ -16,17 +18,19 @@ import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
 
 type Row = Record<string, string>;
+type VerificationRow = Record<string, string>;
 
 const DEFAULT_CSV = "data/state_vet_benefits.csv";
+const VERIFICATION_CSV = "data/state_vet_benefits_verification.csv";
 
 /** Allowed values for the retired_pay_tax enum; anything else is a hard error. */
 const RETIRED_PAY_TAX = new Set([
-  "no_income_tax", // state levies no broad individual income tax
-  "exempt", // retired pay fully excluded
-  "partial", // a capped/percentage exclusion
-  "conditional", // gated on age, income, disability, or service dates
-  "taxed", // no exclusion
-  "unknown", // allowed for future research, but not present in verified seed data
+  "no_income_tax",
+  "exempt",
+  "partial",
+  "conditional",
+  "taxed",
+  "unknown",
 ]);
 
 const cleanEmpty = (v: string | undefined): string | null => {
@@ -72,29 +76,48 @@ async function ensureColumns(dryRun: boolean) {
   }
 }
 
-function parseRow(row: Row): Record<string, unknown> {
+function loadVerification(): Map<string, VerificationRow> {
+  const text = readFileSync(VERIFICATION_CSV, "utf-8");
+  const rows: VerificationRow[] = parse(text, {
+    columns: true,
+    skip_empty_lines: true,
+  });
+  const byState = new Map<string, VerificationRow>();
+  for (const row of rows) {
+    const state = cleanEmpty(row.state)?.toUpperCase();
+    if (!state || state.length !== 2) throw new Error(`bad verification state: ${row.state}`);
+    if (byState.has(state)) throw new Error(`duplicate verification state: ${state}`);
+    byState.set(state, row);
+  }
+  if (byState.size !== 50) {
+    throw new Error(`verification ledger must contain 50 states; found ${byState.size}`);
+  }
+  return byState;
+}
+
+function parseRow(row: Row, verification: VerificationRow): Record<string, unknown> {
   const state = cleanEmpty(row["state"])?.toUpperCase();
   if (!state || state.length !== 2) {
     throw new Error(`bad state code: ${JSON.stringify(row["state"])}`);
   }
 
-  const retiredPayTax = cleanEmpty(row["RetiredPayTax"])?.toLowerCase() ?? "unknown";
+  const retiredPayTax = cleanEmpty(verification["RetiredPayTax"])?.toLowerCase() ?? "unknown";
   if (!RETIRED_PAY_TAX.has(retiredPayTax)) {
     throw new Error(`bad RetiredPayTax for ${state}: ${retiredPayTax}`);
   }
 
-  const verifiedOn = cleanEmpty(row["VerifiedOn"]);
-  const sourceUrl = cleanEmpty(row["SourceURL"]);
-  if ((verifiedOn === null) !== (sourceUrl === null)) {
-    throw new Error(`${state}: VerifiedOn and SourceURL must either both be set or both be blank`);
+  const verifiedOn = cleanEmpty(verification["VerifiedOn"]);
+  const sourceUrl = cleanEmpty(verification["SourceURL"]);
+  if (!verifiedOn || !sourceUrl) {
+    throw new Error(`${state}: every verification row requires VerifiedOn and SourceURL`);
   }
-  if (verifiedOn && !/^\d{4}-\d{2}-\d{2}$/.test(verifiedOn)) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(verifiedOn)) {
     throw new Error(`${state}: bad VerifiedOn date: ${verifiedOn}`);
   }
-  if (sourceUrl && !/^https:\/\//.test(sourceUrl)) {
+  if (!/^https:\/\//.test(sourceUrl)) {
     throw new Error(`${state}: SourceURL must be an https URL`);
   }
-  if (verifiedOn && retiredPayTax === "unknown") {
+  if (retiredPayTax === "unknown") {
     throw new Error(`${state}: verified rows may not keep retired_pay_tax=unknown`);
   }
 
@@ -122,9 +145,6 @@ async function upsert(data: Record<string, unknown>): Promise<"created" | "updat
     .map((c) => `${c} = EXCLUDED.${c}`)
     .join(", ");
 
-  // created_at/updated_at are NOT NULL with no database default, and NOT NULL is
-  // enforced while building the candidate row — i.e. before ON CONFLICT can fire.
-  // So they must be supplied even on the update path, which never uses them.
   const rows = (await sql.query(
     `INSERT INTO locations_stateinfo (${cols.join(", ")}, created_at, updated_at)
      VALUES (${placeholders}, now(), now())
@@ -143,6 +163,7 @@ async function main() {
 
   const text = readFileSync(csvPath, "utf-8");
   const rows: Row[] = parse(text, { columns: true, skip_empty_lines: true });
+  const verification = loadVerification();
   console.log(`Importing state vet benefits from: ${csvPath}${dryRun ? " (dry run)" : ""}`);
 
   await ensureColumns(dryRun);
@@ -152,7 +173,10 @@ async function main() {
     errors = 0;
   for (let i = 0; i < rows.length; i++) {
     try {
-      const data = parseRow(rows[i]);
+      const state = cleanEmpty(rows[i].state)?.toUpperCase() ?? "";
+      const verified = verification.get(state);
+      if (!verified) throw new Error(`${state || `row ${i + 2}`}: missing verification ledger entry`);
+      const data = parseRow(rows[i], verified);
       if (dryRun) {
         console.log(`  = Would upsert: ${data.state} (${data.retired_pay_tax})`);
         continue;
