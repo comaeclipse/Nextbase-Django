@@ -1,7 +1,6 @@
 /*
- * Filtering + sorting, ported 1:1 from locations/views.py (filter_locations and
- * the location_matches_* helpers). Shared by /api/locations and tests so the
- * results match the current Django behavior exactly.
+ * Filtering + sorting, ported from locations/views.py and extended with the
+ * verified state-level veteran-benefit facets used by the Next.js explore UI.
  */
 import type { LocationRow, StateInfoRow, Location } from "./types";
 import { matchesEmployers, type EmployerIndex } from "./defense";
@@ -28,6 +27,14 @@ export interface FilterParams {
   geography?: string | null;
   income_tax?: string | null;
   vibes?: string | null;
+  /** Verified veteran-benefit state facets. Boolean facets match `=== true`. */
+  no_income_tax?: string | null;
+  retired_pay_tax?: string | null;
+  disabled_vet_property_tax?: string | null;
+  employment_preference?: string | null;
+  education_benefit?: string | null;
+  parks_benefit?: string | null;
+  hunt_fish_benefit?: string | null;
   /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
   employers?: string | null;
   sort?: string | null;
@@ -69,8 +76,6 @@ function matchesHealthcare(loc: LocationRow, healthcareTypes: string): boolean {
   const types = splitTypes(healthcareTypes);
   if (types.length === 0) return true;
   for (const hc of types) {
-    // Only a single "has a local VA facility" signal is tracked, so both the
-    // hospital and clinic options resolve to it.
     if ((hc === "va_hospital" || hc === "va_clinic") && loc.has_va) return true;
   }
   return false;
@@ -125,7 +130,7 @@ function inPriceRange(
   priceMax: number | null
 ): boolean {
   const price = locationHomeValue(loc);
-  if (price === null) return true; // include locations without price data
+  if (price === null) return true;
   if (priceMin && price < priceMin * 1000) return false;
   if (priceMax && price > priceMax * 1000) return false;
   return true;
@@ -139,10 +144,6 @@ function sortList(list: Location[], sort: string): void {
         strCmp(a.name, b.name)
     );
   } else if (sort === "cost_asc" || sort === "cost_desc") {
-    // Python's sort(key=(cost_order, name), reverse=...). For reverse=True we
-    // negate the comparison rather than reverse() the list, so fully-equal keys
-    // (same-named, same-cost cities) keep their original order — exactly as
-    // Python's stable reverse sort does.
     const costOrder: Record<string, number> = { Low: 0, Moderate: 1, High: 2 };
     const co = (l: Location) => costOrder[l.cost_of_living] ?? 1;
     const dir = sort === "cost_desc" ? -1 : 1;
@@ -165,7 +166,7 @@ function sortList(list: Location[], sort: string): void {
     const gas = (l: Location) => parseNumber(l.gas_price) || Infinity;
     const dir = sort === "gas_desc" ? -1 : 1;
     list.sort((a, b) => {
-      const g = gas(a) - gas(b); // Infinity - Infinity === NaN -> fall through
+      const g = gas(a) - gas(b);
       return (Number.isNaN(g) ? 0 : dir * g) || dir * strCmp(a.name, b.name);
     });
   }
@@ -184,10 +185,23 @@ export function filterAndSort(
   const hcmStates = new Set(
     stateInfos.filter((s) => s.high_cap_mag_ban).map((s) => s.state)
   );
+  // Benefit filters never consume an unverified row. The importer guarantees a
+  // verified row also has source_url; vet_benefits_verified_on is the runtime gate.
+  const verifiedBenefits = new Map(
+    stateInfos
+      .filter((s) => s.vet_benefits_verified_on != null)
+      .map((s) => [s.state, s] as const)
+  );
+  const withVerifiedBenefit = (
+    loc: LocationRow,
+    predicate: (state: StateInfoRow) => boolean
+  ) => {
+    const state = verifiedBenefits.get(loc.state);
+    return state != null && predicate(state);
+  };
 
   let list = all.slice();
 
-  // Snow (DB-level in Django)
   if (p.snow === "zero") {
     list = list.filter((l) => l.snow_annual === 0 || l.snow_annual == null);
   } else if (p.snow === "some") {
@@ -198,14 +212,11 @@ export function filterAndSort(
     list = list.filter((l) => l.snow_annual != null && l.snow_annual > 20);
   }
 
-  // AWB / High-Cap Mag exclusions
   if (p.no_awb === "true") list = list.filter((l) => !awbStates.has(l.state));
   if (p.no_hcm === "true") list = list.filter((l) => !hcmStates.has(l.state));
 
-  // Map state filter
   if (p.state_filter) list = list.filter((l) => l.state === p.state_filter);
 
-  // Cost of living
   if (p.cost_of_living) {
     const colMap: Record<string, string> = {
       low: "Low",
@@ -216,7 +227,6 @@ export function filterAndSort(
     if (target) list = list.filter((l) => l.cost_of_living === target);
   }
 
-  // Python-side filters
   if (p.climate) list = list.filter((l) => matchesClimate(l, p.climate!));
 
   const priceMin =
@@ -228,12 +238,8 @@ export function filterAndSort(
   }
 
   if (p.lifestyle) list = list.filter((l) => matchesLifestyle(l, p.lifestyle!));
-  if (p.healthcare) {
-    list = list.filter((l) => matchesHealthcare(l, p.healthcare!));
-  }
-  if (p.activities) {
-    list = list.filter((l) => matchesActivities(l, p.activities!));
-  }
+  if (p.healthcare) list = list.filter((l) => matchesHealthcare(l, p.healthcare!));
+  if (p.activities) list = list.filter((l) => matchesActivities(l, p.activities!));
   if (p.geography) list = list.filter((l) => matchesGeography(l, p.geography!));
   if (p.income_tax) list = list.filter((l) => matchesIncomeTax(l, p.income_tax!));
   if (p.vibes) list = list.filter((l) => matchesVibes(l, p.vibes!));
@@ -244,8 +250,53 @@ export function filterAndSort(
     });
   }
 
-  // Defense-employer presence. Any nonzero posting count (incl. remote) matches
-  // this facet; the onsite+hybrid presence rule gates only the defense_hub column.
+  // Verified state veteran-benefit filters. These intentionally use positive
+  // equality for nullable booleans; NULL is never treated as false.
+  if (p.no_income_tax === "true") {
+    list = list.filter((l) =>
+      withVerifiedBenefit(l, (s) => s.no_income_tax === true)
+    );
+  }
+  if (p.retired_pay_tax) {
+    const selected = splitTypes(p.retired_pay_tax);
+    if (selected.length) {
+      list = list.filter((l) =>
+        withVerifiedBenefit(l, (s) =>
+          selected.some((value) =>
+            value === "untaxed"
+              ? s.retired_pay_tax === "exempt" || s.retired_pay_tax === "no_income_tax"
+              : s.retired_pay_tax === value
+          )
+        )
+      );
+    }
+  }
+  if (p.disabled_vet_property_tax === "true") {
+    list = list.filter((l) =>
+      withVerifiedBenefit(l, (s) => s.disabled_vet_property_tax === true)
+    );
+  }
+  if (p.employment_preference === "true") {
+    list = list.filter((l) =>
+      withVerifiedBenefit(l, (s) => s.employment_preference === true)
+    );
+  }
+  if (p.education_benefit === "true") {
+    list = list.filter((l) =>
+      withVerifiedBenefit(l, (s) => s.education_benefit === true)
+    );
+  }
+  if (p.parks_benefit === "true") {
+    list = list.filter((l) =>
+      withVerifiedBenefit(l, (s) => s.parks_benefit === true)
+    );
+  }
+  if (p.hunt_fish_benefit === "true") {
+    list = list.filter((l) =>
+      withVerifiedBenefit(l, (s) => s.hunt_fish_benefit === true)
+    );
+  }
+
   if (p.employers) {
     const slugs = splitTypes(p.employers);
     if (slugs.length > 0) {
@@ -254,7 +305,6 @@ export function filterAndSort(
     }
   }
 
-  // Scores + sorting
   const scored: Location[] = list.map((l) => ({
     ...l,
     calculated_match_score: scoreFn(l),
