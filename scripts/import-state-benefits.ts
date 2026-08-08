@@ -4,14 +4,14 @@
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-state-benefits.ts [csv] [--dry-run]
  *
- * Defaults to data/state_vet_benefits.csv. Verification metadata and audited
- * retired-pay classifications live separately in
- * data/state_vet_benefits_verification.csv so the editorial seed remains easy
- * to review. Adds missing state-info columns idempotently and upserts by state.
+ * Defaults to data/state_vet_benefits.csv. Verification metadata, audited
+ * retired-pay classifications, and primary-source corrections to stale blank
+ * booleans live in data/state_vet_benefits_verification.csv.
  *
- * Boolean columns are THREE-VALUED on purpose: an empty cell means "not
- * established by the verification source", which is not the same as "the state
- * does not offer it". Filter with `IS TRUE` / `=== true`, never `= false`.
+ * Boolean columns are THREE-VALUED on purpose: an empty source value means
+ * "not established", not "false". The audit ledger may explicitly override a
+ * stale blank/incorrect boolean when a primary source establishes the answer.
+ * Filters must match `IS TRUE` / `=== true`, never infer false from NULL.
  */
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
@@ -23,7 +23,6 @@ type VerificationRow = Record<string, string>;
 const DEFAULT_CSV = "data/state_vet_benefits.csv";
 const VERIFICATION_CSV = "data/state_vet_benefits_verification.csv";
 
-/** Allowed values for the retired_pay_tax enum; anything else is a hard error. */
 const RETIRED_PAY_TAX = new Set([
   "no_income_tax",
   "exempt",
@@ -39,7 +38,6 @@ const cleanEmpty = (v: string | undefined): string | null => {
   return t === "" || t === "?" || t === "NA" ? null : t;
 };
 
-/** null when the cell is blank — "not established", not "absent". */
 const parseBoolV = (v: string | undefined): boolean | null => {
   const c = cleanEmpty(v);
   if (c === null) return null;
@@ -47,6 +45,16 @@ const parseBoolV = (v: string | undefined): boolean | null => {
   if (["y", "yes", "true", "t", "1"].includes(normalized)) return true;
   if (["n", "no", "false", "f", "0"].includes(normalized)) return false;
   throw new Error(`bad boolean value: ${c}`);
+};
+
+/** Use an explicit audit override when present; otherwise preserve seed tri-state. */
+const auditedBool = (
+  seedValue: string | undefined,
+  overrideValue: string | undefined
+): boolean | null => {
+  return cleanEmpty(overrideValue) === null
+    ? parseBoolV(seedValue)
+    : parseBoolV(overrideValue);
 };
 
 const COLUMNS = [
@@ -85,7 +93,9 @@ function loadVerification(): Map<string, VerificationRow> {
   const byState = new Map<string, VerificationRow>();
   for (const row of rows) {
     const state = cleanEmpty(row.state)?.toUpperCase();
-    if (!state || state.length !== 2) throw new Error(`bad verification state: ${row.state}`);
+    if (!state || state.length !== 2) {
+      throw new Error(`bad verification state: ${row.state}`);
+    }
     if (byState.has(state)) throw new Error(`duplicate verification state: ${state}`);
     byState.set(state, row);
   }
@@ -101,7 +111,8 @@ function parseRow(row: Row, verification: VerificationRow): Record<string, unkno
     throw new Error(`bad state code: ${JSON.stringify(row["state"])}`);
   }
 
-  const retiredPayTax = cleanEmpty(verification["RetiredPayTax"])?.toLowerCase() ?? "unknown";
+  const retiredPayTax =
+    cleanEmpty(verification["RetiredPayTax"])?.toLowerCase() ?? "unknown";
   if (!RETIRED_PAY_TAX.has(retiredPayTax)) {
     throw new Error(`bad RetiredPayTax for ${state}: ${retiredPayTax}`);
   }
@@ -125,8 +136,14 @@ function parseRow(row: Row, verification: VerificationRow): Record<string, unkno
     state,
     no_income_tax: parseBoolV(row["NoIncomeTax"]),
     retired_pay_tax: retiredPayTax,
-    disabled_vet_property_tax: parseBoolV(row["DisabledVetPropertyTax"]),
-    employment_preference: parseBoolV(row["EmploymentPreference"]),
+    disabled_vet_property_tax: auditedBool(
+      row["DisabledVetPropertyTax"],
+      verification["DisabledVetPropertyTaxOverride"]
+    ),
+    employment_preference: auditedBool(
+      row["EmploymentPreference"],
+      verification["EmploymentPreferenceOverride"]
+    ),
     education_benefit: parseBoolV(row["EducationBenefit"]),
     parks_benefit: parseBoolV(row["ParksBenefit"]),
     hunt_fish_benefit: parseBoolV(row["HuntFishBenefit"]),
@@ -175,7 +192,9 @@ async function main() {
     try {
       const state = cleanEmpty(rows[i].state)?.toUpperCase() ?? "";
       const verified = verification.get(state);
-      if (!verified) throw new Error(`${state || `row ${i + 2}`}: missing verification ledger entry`);
+      if (!verified) {
+        throw new Error(`${state || `row ${i + 2}`}: missing verification ledger entry`);
+      }
       const data = parseRow(rows[i], verified);
       if (dryRun) {
         console.log(`  = Would upsert: ${data.state} (${data.retired_pay_tax})`);
