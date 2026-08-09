@@ -43,6 +43,27 @@ const PLACE_ALIASES: Record<LocationKey, LocationKey> = {
   "Nashville|TN": "nashville-davidson metropolitan government (balance)|TN",
 };
 
+const LEGACY_NON_PLACE_COORDINATES: Record<LocationKey, MapCoordinate> = {
+  // McHenry is an unincorporated Stone County community, not a Census place.
+  // Coordinates use the GNIS/USPS locality point rather than a neighboring CDP.
+  "mchenry|MS": {
+    name: "McHenry",
+    state: "MS",
+    census_place_geoid: "GNIS:693920",
+    latitude: 30.70767,
+    longitude: -89.154823,
+  },
+  // Rhode Island towns are county subdivisions in Census geography; this keeps
+  // the official town GEOID already used by the live row.
+  "north kingstown|RI": {
+    name: "North Kingstown",
+    state: "RI",
+    census_place_geoid: "4400951580",
+    latitude: 41.571527,
+    longitude: -71.449907,
+  },
+};
+
 function key(name: string, state: string): LocationKey {
   return `${name.trim().toLowerCase().replace(/\s+/g, " ")}|${state.trim().toUpperCase()}`;
 }
@@ -75,6 +96,11 @@ async function main() {
   for (const location of locations) {
     const point = findPoint(bundle.place_centroids, location.name, location.state);
     if (!point) {
+      const fallback = LEGACY_NON_PLACE_COORDINATES[key(location.name, location.state)];
+      if (fallback) {
+        coordinates.push(fallback);
+        continue;
+      }
       missing.push(`${location.name}, ${location.state}`);
       continue;
     }

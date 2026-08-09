@@ -430,6 +430,13 @@
       "longitude": -90.21285
     },
     {
+      "name": "McHenry",
+      "state": "MS",
+      "census_place_geoid": "GNIS:693920",
+      "latitude": 30.70767,
+      "longitude": -89.154823
+    },
+    {
       "name": "Billings",
       "state": "MT",
       "census_place_geoid": "3006550",
@@ -484,6 +491,13 @@
       "census_place_geoid": "3825700",
       "latitude": 46.8647,
       "longitude": -96.82908
+    },
+    {
+      "name": "Grand Forks",
+      "state": "ND",
+      "census_place_geoid": "3832060",
+      "latitude": 47.919595,
+      "longitude": -97.087328
     },
     {
       "name": "Jamestown",
