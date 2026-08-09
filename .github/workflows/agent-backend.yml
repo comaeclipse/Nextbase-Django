@@ -74,6 +74,8 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
           allowed_bots: "*"
+          bot_name: "vetretire-backend[bot]"
+          bot_id: "314730571"
           branch_prefix: "agent/backend/"
           base_branch: master
           prompt: ${{ steps.prompt.outputs.text }}
