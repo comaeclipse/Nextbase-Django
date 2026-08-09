@@ -1,29 +1,33 @@
 # Orlando, FL Source Notes
 
-Retrieval date: 2026-07-07.
+Retrieval date: 2026-08-09.
 
 ## Geography
 
 - Primary geography: Orlando city limits, Orange County, FL.
-- Population and density: city limits, using Census Reporter ACS 2024 1-year profile for Orlando, FL. Stored population is 334,871. Stored density is 3,014 people per square mile, rounded from the source's 3,013.8 value.
+- Population and density: city limits. Stored population is the Census QuickFacts July 1, 2025 Vintage 2025 estimate of 333,888. Stored density is calculated from the 2025 estimate divided by QuickFacts 2020 land area of 110.62 square miles, rounded to 3,018 people per square mile. Census Reporter ACS 2024 1-year remains a cross-check at 334,871 people and 3,013.8 people per square mile.
 - Climate: NOAA 1991-2020 monthly normals for Orlando International Airport station `USW00012815`, used as the representative city station. Annual rain is the rounded sum of monthly precipitation normals. Snow is 0. Winter low uses January normal low; summer high uses July normal high. Summer humidity uses Timeanddate's July Orlando climate average because the NOAA monthly normals access file does not include relative humidity.
 - Sunshine: BestPlaces Orlando climate page, used only for annual sunny days because NOAA normals do not expose a simple sunny-days field in the monthly station file.
-- VA access: straight-line distance from Orlando City Hall, 400 South Orange Avenue, to Orlando VA Medical Center, 13800 Veterans Way. Coordinates were geocoded with OpenStreetMap/Nominatim and distance was calculated with the haversine formula.
+- VA access: Orlando VA Medical Center is at 13800 Veterans Way. The CSV records a rounded 3-mile outpatient/hospital access distance so a row import aligns with the current app centroid method; the authoritative post-import VA sync may store the nearest outpatient-capable site separately from the nearest VA medical center.
 - Elections: Orange County presidential returns, not city-boundary precinct results. Florida publishes precinct files, but this repo does not currently have a GIS crosswalk to map precincts to Orlando city limits. Percent fields are two-party winner share, rounded to whole percent.
 - Crime: `TCI` is a violent-crime-rate proxy indexed to the national violent crime rate, not a total-crime FBI index. OpenCrime reports Orlando's 2022 violent crime rate as 835.8 per 100,000 and national average as 388.7; 835.8 / 388.7 * 100 = 215.0, rounded to 215. Orlando Police reported 2024 overall crime down 18% and violent crime down 10%, but did not publish a normalized rate in the source reviewed, so the normalized TCI remains the older FBI/OpenCrime value.
-- Cost of living: ERI city cost-of-living estimate says Orlando is 13 percent above the national average; stored as index 113.
+- Cost of living: ERI city cost-of-living estimate says Orlando is 14 percent above the national average; stored as index 114.
 - LGBTQ state policy score: stored as `-5.50` to match the existing Florida rows' MAP overall policy score convention in the live database.
+- Housing: Zillow's Orlando city ZHVI page reports a $375,175 typical home value updated June 30, 2026.
+- Gas: AAA metro average via WFTV/Stacker reports Orlando regular gas at $3.79 as of August 3, 2026. AAA's statewide page reports the Florida regular average as $3.8776 as of August 9, 2026; the stored value keeps the latest sourced Orlando metro value rather than substituting a statewide average.
+- Defense/tech: `TechHub=Y` and `DefenseHub=Y` are based on Orlando's nationally significant modeling, simulation, and training cluster, including Navy, Marine, and Army simulation commands and regional simulation-related contracts.
 
 ## Source URLs
 
 - Census QuickFacts Orlando land area and FIPS: https://www.census.gov/quickfacts/fact/table/orlandocityflorida/PST045225
 - Census Reporter Orlando ACS 2024 1-year profile: https://censusreporter.org/profiles/16000US1253000-orlando-fl/
-- Zillow Orlando ZHVI, updated 2026-05-31: https://www.zillow.com/home-values/13121/orlando-fl/
+- Zillow Orlando ZHVI, updated 2026-06-30: https://www.zillow.com/home-values/13121/orlando-fl/
 - Florida Department of Revenue discretionary sales surtax information: https://floridarevenue.com/taxes/taxesfees/Pages/discretionary.aspx
 - Florida Department of Revenue 2026 discretionary surtax PDF: https://floridarevenue.com/Forms_library/current/dr15dss_26.pdf
 - Tax Foundation Florida tax profile / no individual income tax: https://taxfoundation.org/statetaxindex/states/florida/
 - ERI Orlando cost of living: https://www.erieri.com/cost-of-living/united-states/florida/orlando
-- AAA Florida gas prices, Orlando regular average on 2026-07-07: https://gasprices.aaa.com/?state=FL
+- WFTV/Stacker Orlando gas prices using AAA data, current as of 2026-08-03: https://www.wftv.com/news/how-gas-prices-have/T6KXXNIXVA2T5JQAFU77QEJTIU/
+- AAA Florida gas prices, statewide regular average on 2026-08-09: https://gasprices.aaa.com/?state=FL
 - VA Orlando VA Medical Center: https://www.va.gov/orlando-health-care/locations/orlando-va-medical-center/
 - Florida Department of Veterans' Affairs housing/property tax exemptions: https://floridavets.org/benefits-services/housing/
 - Florida Veterans' Benefits Guide: https://floridavets.org/wp-content/uploads/2012/08/FDVA-Benefits-Guide.pdf
