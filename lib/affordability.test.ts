@@ -29,6 +29,9 @@ const C: ResolvedConstants = {
   annualMaintenanceRate: 0.01,
   mortgageRate30yr: 0.06,
   defaultDownPaymentFraction: 0.2,
+  insuranceBenchmarkDwelling: 300_000,
+  structureShareOfValue: 0.7,
+  nationalUtilitiesMonthly: 400,
 };
 
 /**
@@ -123,6 +126,28 @@ describe("estimateMonthlyCost", () => {
     expect(buying - outright).toBeCloseTo(599.55 * 3.2, 0);
   });
 
+  it("scales homeowners insurance with the home's insured value", () => {
+    // The published premium is benchmarked at a fixed dwelling amount, so
+    // applying it flat would charge an $80k home and a $1.6M home the same.
+    // Zero out every other housing component so `housing` IS the premium and
+    // the scaling can be asserted exactly rather than approximately.
+    const insuranceOnly = {
+      ...C,
+      fallbackPropertyTaxRate: 0,
+      annualMaintenanceRate: 0,
+      nationalUtilitiesMonthly: 0,
+    };
+    const cheap = estimateMonthlyCost(loc(), "own_outright", insuranceOnly, {
+      homePriceOverride: 200_000,
+    }).housing!;
+    const dear = estimateMonthlyCost(loc(), "own_outright", insuranceOnly, {
+      homePriceOverride: 800_000,
+    }).housing!;
+
+    expect(cheap).toBeGreaterThan(0);
+    expect(dear / cheap).toBeCloseTo(4, 6);
+  });
+
   it("honors a home price override for people not buying the city average", () => {
     const avg = estimateMonthlyCost(loc(), "own_outright", C).monthlyCost!;
     const downsized = estimateMonthlyCost(loc(), "own_outright", C, {
@@ -142,6 +167,22 @@ describe("estimateMonthlyCost", () => {
     expect(e.housing).toBe(1500);
     expect(e.monthlyCost).toBeCloseTo(1500 + 2000 + 400, 6);
     expect(e.missing).toHaveLength(0);
+  });
+
+  it("REGRESSION: charges utilities to owners but not renters", () => {
+    // Median GROSS rent bundles utilities; the owner path has no such bundle,
+    // and the non-housing baseline excludes utilities for both. Without an
+    // explicit owner-side term, owning looked several hundred a month cheaper
+    // than it is.
+    const rent = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C).housing!;
+    expect(rent).toBe(1500); // exactly the rent, no utilities added on top
+
+    const owned = estimateMonthlyCost(loc(), "own_outright", C).housing!;
+    const withoutUtilities = estimateMonthlyCost(loc(), "own_outright", {
+      ...C,
+      nationalUtilitiesMonthly: 0,
+    }).housing!;
+    expect(owned - withoutUtilities).toBeCloseTo(C.nationalUtilitiesMonthly, 6);
   });
 
   it("labels the national property tax fallback as an approximation", () => {

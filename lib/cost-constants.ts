@@ -210,6 +210,79 @@ export const COST_CONSTANTS = {
       "worth revisiting if the ground-truth check shows systematic bias.",
   }),
 
+  /**
+   * Monthly utilities, fuels, and public services for a 65+ household —
+   * electricity, gas, water, sewer, trash.
+   *
+   * ADDED FOR OWNERS ONLY, and the asymmetry is the whole point. A renter's
+   * median GROSS rent (ACS B25064) already bundles utilities, and the
+   * non-housing baseline excludes them because BLS files utilities under
+   * housing. So without this term owners were charged utilities zero times
+   * while renters were charged once, making owning look several hundred dollars
+   * a month cheaper than it is.
+   */
+  nationalUtilitiesMonthly: constant({
+    value: null,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS Consumer Expenditure Survey, housing -> utilities, fuels and public " +
+      "services line for the 65+ age group, / 12",
+    sourceUrl: null,
+    sourcedOn: null,
+    refresh: "annual",
+    note:
+      "Take this from the SAME BLS table as nonHousingBaseline65Plus, so the " +
+      "two are consistent and utilities are neither dropped nor double-counted.\n" +
+      "This is a national figure, but utility costs vary a lot by climate and " +
+      "state. lib/electricity.ts already holds state-level cents/kWh and is " +
+      "wired to nothing — scaling this by that index is the obvious follow-up.",
+  }),
+
+  /**
+   * The dwelling coverage amount the homeowners premiums in lib/insurance.ts
+   * are quoted at. Read it off that dataset's documented `profile` string —
+   * do not guess. Every city's insurance figure is scaled relative to this, so
+   * a wrong value shifts all of them in the same direction.
+   */
+  insuranceBenchmarkDwelling: constant({
+    value: null,
+    unit: "USD of dwelling coverage",
+    kind: "measured",
+    source:
+      "lib/insurance.ts -> HOME_INSURANCE_DATASET.profile (the benchmark the " +
+      "published premiums assume)",
+    sourceUrl: null,
+    sourcedOn: null,
+    refresh: "rare",
+    note:
+      "This is the one constant you can source without leaving the repo: it is " +
+      "already written down in the insurance dataset's own profile field.",
+  }),
+
+  /**
+   * Share of a home's market value that is the insurable STRUCTURE rather than
+   * the land. Insurance is priced on replacement cost, so market value has to
+   * be discounted before scaling a premium by it.
+   */
+  structureShareOfValue: constant({
+    value: null,
+    unit: "fraction 0..1",
+    kind: "convention",
+    source:
+      "Planning convention; varies widely by market. Pick a value and cite " +
+      "where you took it from.",
+    sourceUrl: null,
+    sourcedOn: null,
+    refresh: "rare",
+    note:
+      "Genuinely market-specific: land is a small share of value in Forest, MS " +
+      "and a large share in Boulder, CO, so a single national number " +
+      "systematically overcharges insurance in expensive metros. Acceptable as " +
+      "a v1 stand-in; revisit if the ground-truth check shows expensive cities " +
+      "reading high.",
+  }),
+
   /** 30-year fixed mortgage rate, for the `buying` tenure only. */
   mortgageRate30yr: constant({
     value: null,

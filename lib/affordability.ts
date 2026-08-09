@@ -118,12 +118,32 @@ function homeValue(loc: CostInputs): number | null {
   return null;
 }
 
-/** Annual homeowners insurance premium for the location's state, if known. */
-function annualHomeInsurance(loc: CostInputs): number | null {
+/**
+ * Annual homeowners insurance for this specific home, or null if the state is
+ * unknown.
+ *
+ * The published premium in lib/insurance.ts is a STANDARDIZED benchmark quoted
+ * at a fixed dwelling coverage amount (see that dataset's `profile`). Applying
+ * it flat would charge a $1.6M home and an $80k home the same premium, which is
+ * badly wrong at both ends and matters most to the ownership tenures.
+ *
+ * So it is scaled to this home's insured value. Insurance covers the STRUCTURE
+ * (replacement cost), not the land — land does not burn down — so market value
+ * is discounted by `structureShareOfValue` first. Skipping that step would
+ * overcharge exactly the high-land-cost markets where the gap is widest.
+ */
+function annualHomeInsurance(
+  loc: CostInputs,
+  price: number,
+  c: ResolvedConstants
+): number | null {
   const abbr = resolveStateAbbr(loc.state);
   if (!abbr) return null;
   const row = HOME_INSURANCE_DATASET.data.find((d) => d.state === abbr);
-  return row ? row.annualPremium : null;
+  if (!row) return null;
+
+  const insuredValue = price * c.structureShareOfValue;
+  return row.annualPremium * (insuredValue / c.insuranceBenchmarkDwelling);
 }
 
 /**
@@ -200,6 +220,8 @@ function housingCost(
       missing.push("median rent");
       return null;
     }
+    // Median GROSS rent already includes utilities, so no utilities term is
+    // added here — see nationalUtilitiesMonthly in lib/cost-constants.ts.
     return loc.median_rent;
   }
 
@@ -215,7 +237,7 @@ function housingCost(
     approximations.push("national average property tax rate");
   }
 
-  let insuranceAnnual = annualHomeInsurance(loc);
+  const insuranceAnnual = annualHomeInsurance(loc, price, c);
   if (insuranceAnnual === null) {
     missing.push("homeowners insurance for this state");
     return null;
@@ -224,7 +246,10 @@ function housingCost(
   const monthlyTax = (price * taxRate) / 12;
   const monthlyInsurance = insuranceAnnual / 12;
   const monthlyMaintenance = (price * c.annualMaintenanceRate) / 12;
-  const carrying = monthlyTax + monthlyInsurance + monthlyMaintenance;
+  // Utilities are added for owners only: a renter's gross rent already has
+  // them, and the non-housing baseline excludes them either way.
+  const carrying =
+    monthlyTax + monthlyInsurance + monthlyMaintenance + c.nationalUtilitiesMonthly;
 
   if (tenure === "own_outright") return carrying;
 
