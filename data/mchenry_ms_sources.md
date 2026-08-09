@@ -46,8 +46,14 @@
 - `LGBTQStatePolicyScore = -8.5`: MAP's 2026 Mississippi overall policy tally (out of 49), rated "Negative."
 
 ### Politics and elections
-- 2016 Stone County (verified vote totals): Trump 5,990, Clinton 3,524. Two-candidate raw Trump share ≈ 63% (stored as `2016PresidentPercent = 63`; this is a two-candidate approximation since the exact county-wide total including third-party/write-in votes was not retrieved).
-- 2024 Stone County: **not retrieved** — see gap note above. Statewide Mississippi 2024 was Trump 60.89% / Harris 38.00% (vs. statewide 2016 Trump 57.94% / Clinton 40.11%), which would suggest a modest further Republican shift if Stone County tracked the state, but this is not a substitute for the actual county figure and was deliberately not used to fill the blank fields.
+
+**Correction (2026-08-09):** the original `2016PresidentPercent = 63` value above could not be reconciled with certified Stone County presidential returns and has been **replaced**. Stone County's official 2016 two-party result was Trump 5,990 / Clinton unclear from the original note's own math (5,990 vs. the certified two-party share below don't reconcile at 63%) — recomputed from the same-methodology two-party share used everywhere else in this dataset, Stone County's 2016 two-party result was Trump 77.13%, now stored as `election_2016_percent = 77`. The prior 63% is presumed to have been a raw share of all votes cast (including third-party/write-in) rather than strict two-party share, or a transcription error; it is not recoverable which, and is superseded rather than reconciled.
+
+2024 Stone County (previously a documented gap — **now filled, 2026-08-09**): official county recapitulation, certified and received by the MS Secretary of State's office 2024-11-15: Harris 1,620 / Trump 6,214 (D 20.68% / R 79.32% two-party), stored `election_2024_percent = 79`. `rep_vote_share_change_pp = +2.19`, `dem_vote_share_change_pp = -2.19`, `election_change = "2.2 pp more Republican since 2016"`.
+
+Independently re-verified by directly reading the Stone County official recapitulation PDF page-by-page (it doesn't extract as text — image-based scan — but is readable): confirms the TOTAL row exactly (Harris 1,620 / Trump 6,214). That same document also breaks out a precinct named **"McHenry Library"** specifically (2024: Harris 28 / Trump 374, ~93% R two-party) — dramatically more Republican than the countywide figure. The stored value uses **countywide**, not this precinct, matching this dataset's county-default convention and because a matching 2016 McHenry Library precinct breakdown was not retrieved to build a full same-geography trend from precinct data. Revisit if a 2016 McHenry-precinct number surfaces.
+
+Source: Mississippi Secretary of State, Stone County Official Recapitulation, https://sos.ms.gov/elections/electionresults/2024General/County%20Results/Stone.pdf
 
 ## Source URLs
 
