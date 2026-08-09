@@ -68,5 +68,7 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
           allowed_bots: "*"
+          bot_name: "vetretire-reviewer[bot]"
+          bot_id: "314730973"
           prompt: ${{ steps.prompt.outputs.text }}
           claude_args: "--max-turns 30 --permission-mode bypassPermissions --disallowedTools Edit,Write"
