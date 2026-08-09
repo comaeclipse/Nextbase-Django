@@ -81,11 +81,17 @@ export const COST_CONSTANTS = {
     sourcedOn: null,
     refresh: "annual",
     note:
-      "Use the MEDIAN-like published average for the age group, not an " +
-      "all-household figure. Averages for 65+ are pulled upward by wealthy " +
-      "households, so this will slightly overstate cost for a fixed-income " +
-      "retiree. That bias is conservative (it under-promises headroom), which " +
-      "is the right direction to err for this audience.",
+      "WHICH FIGURE YOU PICK LARGELY DECIDES THE FEATURE. A smoke test with a " +
+      "$2,500/mo placeholder put all 132 cities 'over budget' for someone on " +
+      "$2,400/mo — the anchor alone exceeded their income before any housing " +
+      "was added. That is arithmetic, not a bug, but it means a mean-based " +
+      "anchor can make the tool answer 'nowhere' to everyone it is built for.\n" +
+      "The published 65+ AVERAGE is pulled upward by wealthy households and is " +
+      "probably too high. Prefer a median or lower-quintile figure for the age " +
+      "group if the source offers one. Consider sourcing two (a low and a mid " +
+      "figure) so the model can express a range rather than a false point " +
+      "estimate. Whichever you choose, the ground-truth check in " +
+      "scripts/verify-affordability.ts is what tells you if it is right.",
   }),
 
   /**

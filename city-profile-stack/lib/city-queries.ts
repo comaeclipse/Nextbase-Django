@@ -10,6 +10,13 @@
 import { getSql } from "../../lib/db";
 import { FEATURES, getFeature, isFeatureKey } from "./ontology";
 import { parsePopulation } from "./derive";
+import { resolveCostConstants } from "../../lib/cost-constants";
+import {
+  rankByHeadroom,
+  type Band,
+  type CostInputs,
+  type Tenure,
+} from "../../lib/affordability";
 
 /** Only features that can exist for an unresearched city are comparable. */
 const COMPARABLE = new Set(
@@ -360,6 +367,152 @@ export async function matchProfileToCities(
   }));
 
   return scoreCitiesAgainstProfile(profile, cities, opts);
+}
+
+/* ------------------------------------------------------------------ *
+ * Fixed-income cost estimates
+ *
+ * Distinct from the trait/feature machinery above: features are 0..1
+ * abstractions for "is this place like that place", whereas this returns
+ * dollars for "what would it cost me to live here". It reads plain columns off
+ * locations_location and defers all arithmetic to lib/affordability.ts.
+ * ------------------------------------------------------------------ */
+
+/** One city's cost breakdown. Every field is a component, never a verdict. */
+export interface CityCostBreakdown {
+  city: string;
+  /** Null means we could not price it — see `missing`. Never treat as 0. */
+  monthlyCost: number | null;
+  housing: number | null;
+  nonHousing: number | null;
+  nationalFixed: number;
+  headroom: number | null;
+  band: Band;
+  /** Inputs absent entirely. Non-empty ⇒ monthlyCost is null. */
+  missing: string[];
+  /** Inputs filled with a national stand-in instead of local data. */
+  approximations: string[];
+}
+
+export type CostEstimateResult =
+  | {
+      ready: false;
+      /** Plain-English reason the model should relay verbatim-ish to the user. */
+      reason: string;
+    }
+  | {
+      ready: true;
+      tenure: Tenure;
+      monthlyIncome: number;
+      scopeNote: string;
+      /** What the estimate structurally cannot account for. */
+      caveats: string[];
+      cities: CityCostBreakdown[];
+      /** How many cities in scope could not be priced at all. */
+      notPricedCount: number;
+    };
+
+export const COST_SCOPE_NOTE =
+  "Estimates cover cities in this database only, and are modeled from cost " +
+  "indexes and home values — not quotes or observed household budgets.";
+
+const COST_CAVEATS = [
+  "individual health status and VA enrollment",
+  "existing home equity",
+  "car ownership and count",
+  "dependents",
+  "state tax treatment of this person's specific income mix",
+];
+
+/**
+ * Price a retiree household's monthly cost across cities and rank by headroom.
+ *
+ * Returns `{ ready: false }` when the national constants in lib/cost-constants.ts
+ * have not been sourced yet. That is a real state today (Phase 0 is outstanding),
+ * and returning it explicitly is the point: a tool that quietly returned an
+ * empty list would invite the model to fill the silence from general knowledge,
+ * which is exactly what the system prompt forbids.
+ */
+export async function estimateCostForCities(opts: {
+  monthlyIncome: number;
+  tenure: Tenure;
+  cities?: string[];
+  limit?: number;
+  homePriceOverride?: number;
+}): Promise<CostEstimateResult> {
+  const resolution = resolveCostConstants();
+  if (!resolution.ok) {
+    return {
+      ready: false,
+      reason:
+        "Cost estimates are not available yet: the national baseline figures " +
+        "this depends on have not been sourced (" +
+        resolution.missing.join(", ") +
+        "). Say the feature isn't ready rather than estimating.",
+    };
+  }
+
+  const limit = opts.limit ?? 8;
+  const sql = getSql();
+  const rows = (await sql.query(
+    `SELECT id, name, state, col_index, avg_home_value, avg_home_value_display
+     FROM locations_location`
+  )) as Record<string, unknown>[];
+
+  const locations = rows.map(
+    (r) =>
+      ({
+        id: Number(r.id),
+        name: String(r.name),
+        state: String(r.state),
+        col_index: r.col_index === null ? null : Number(r.col_index),
+        avg_home_value: r.avg_home_value === null ? null : String(r.avg_home_value),
+        avg_home_value_display: r.avg_home_value_display ?? null,
+      }) as CostInputs
+  );
+
+  // A named-city request is answered for exactly those cities, in the order
+  // asked, so the model can compare the places the user actually raised.
+  const wanted = opts.cities?.map((c) => c.trim().toLowerCase());
+  const scoped = wanted
+    ? wanted
+        .map((label) =>
+          locations.find((l) => `${l.name}, ${l.state}`.toLowerCase() === label)
+        )
+        .filter((l): l is CostInputs => l !== undefined)
+    : locations;
+
+  const ranked = rankByHeadroom(scoped, opts.monthlyIncome, opts.tenure, resolution.constants, {
+    homePriceOverride: opts.homePriceOverride,
+  });
+
+  // Named cities keep the caller's order; an open-ended ask is ranked by
+  // headroom and truncated.
+  const selected = wanted ? ranked : ranked.slice(0, limit);
+
+  return {
+    ready: true,
+    tenure: opts.tenure,
+    monthlyIncome: opts.monthlyIncome,
+    scopeNote: COST_SCOPE_NOTE,
+    caveats: COST_CAVEATS,
+    notPricedCount: ranked.filter((r) => r.monthlyCost === null).length,
+    cities: selected.map((r) => ({
+      city: `${r.location.name}, ${r.location.state}`,
+      monthlyCost: roundMoney(r.monthlyCost),
+      housing: roundMoney(r.housing),
+      nonHousing: roundMoney(r.nonHousing),
+      nationalFixed: roundMoney(r.nationalFixed)!,
+      headroom: roundMoney(r.headroom),
+      band: r.band,
+      missing: r.missing,
+      approximations: r.approximations,
+    })),
+  };
+}
+
+function roundMoney(n: number | null): number | null {
+  return n === null ? null : Math.round(n);
 }
 
 /** Compact catalog of every trait, for teaching an LLM to build a profile. */
