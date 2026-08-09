@@ -1,0 +1,28 @@
+{
+  "_readme": [
+    "Hand-researched actual monthly costs for a retiree household, used by",
+    "scripts/verify-affordability.ts to calibrate the model.",
+    "",
+    "This is the ONLY check that can catch a constant that is sourced but wrong.",
+    "Plausibility bounds and coverage reports verify internal consistency; only",
+    "real observed costs verify that the model is pointed at reality.",
+    "",
+    "Aim for 8-10 cities spread across the price range - a couple cheap, a",
+    "couple expensive, several mid. Clustering them all in one band hides",
+    "systematic bias.",
+    "",
+    "Fill `entries` with objects shaped like:",
+    "  {",
+    "    \"id\": 42,",
+    "    \"city\": \"Pueblo, Colorado\",",
+    "    \"tenure\": \"own_outright\",",
+    "    \"actualMonthlyCost\": 2850,",
+    "    \"source\": \"how you arrived at this - listings, a local budget, ACS\",",
+    "    \"sourcedOn\": \"2026-08-09\"",
+    "  }",
+    "",
+    "`id` must match locations_location.id. `tenure` is one of own_outright,",
+    "buying, or rent. The harness fails above 20% error on any entry."
+  ],
+  "entries": []
+}
