@@ -38,3 +38,13 @@
 - **Sales Tax**: 8.00%. [SalesTaxHandbook Binghamton](https://www.salestaxhandbook.com/new-york/rates/binghamton) (Retrieved 2026-07-23)
 - **Income Tax**: 10.90% (Top NY state marginal rate for highest earners). [SmartAsset NY Taxes](https://smartasset.com/taxes/new-york-tax-calculator) (Retrieved 2026-07-23)
 - **Gas Price**: $4.20. [AAA New York gas prices](https://gasprices.aaa.com/?state=NY) (Retrieved 2026-07-23)
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+Genuine mixed evidence, left NULL. The Collins Aerospace site in Binghamton has a roughly 90-year defense-industry pedigree (birthplace of the Link Trainer flight simulator), but no confirmed current headcount was found, and the tracked presence itself is modest (8 onsite postings). Not enough to confidently call TRUE or FALSE — do not force a determination.
+
+Sources:
+- Wikipedia, "Link Trainer" / Binghamton aviation history — https://en.wikipedia.org/wiki/Link_Trainer
+- Collins Aerospace / RTX careers site (site listing only, no headcount disclosed) — https://careers.rtx.com/
