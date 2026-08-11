@@ -52,3 +52,12 @@ Retrieval date: 2026-07-28.
 - Visit Bend: https://visitbend.com/
 - Travel Oregon, Bend: https://traveloregon.com/places-to-go/cities/bend/
 - City of Bend winter tips: https://bendoregon.gov/resources/guides/winter-tips/
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+A small defense-adjacent firm (Cv International) was found to have relocated to Prineville, OR (not Bend) in late 2025. No other qualifying installation or contractor presence found in Bend. Left NULL.
+
+Sources:
+- Local business/relocation coverage of Cv International's move to Prineville, OR, late 2025 (secondary source, not defense-specific to Bend).
