@@ -59,3 +59,14 @@ other column touched.
 None of the five fields this patch targeted were left blank. `description` was intentionally left
 untouched (already populated pre-patch). `scripts/verify-location-completeness.ts` flags this row as
 missing `defense_hub_manual`/`defense_hub`, out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **FALSE (hard veto)**
+
+Vetoed. Only a single small L3Harris office (1 onsite posting) is tracked in Raleigh, with no military installation within 60+ miles. The Research Triangle's defense-adjacent activity is diffuse (RTP-area contractor offices, university research) rather than concentrated in Raleigh itself, and doesn't rise to the level of a retiree-relevant defense hub for the city.
+
+Sources:
+- Raleigh Today (raltoday.6amcity.com), largest-employers roundup — https://raltoday.6amcity.com/
+- Raleigh Chamber, major employers page — https://www.raleighchamber.org/
+- Economic Development Partnership of NC (edpnc.com), defense sector page — https://www.edpnc.com/
