@@ -522,7 +522,8 @@ export async function estimateCostForCities(opts: {
   const rows = (await sql.query(
     `SELECT l.id, l.name, l.state, l.col_index, l.avg_home_value,
             l.avg_home_value_display, l.median_rent, l.property_tax_rate,
-            l.income_tax, s.retired_pay_tax
+            l.income_tax, s.retired_pay_tax, s.ss_tax_treatment,
+            s.ss_tax_threshold_single, s.ss_tax_threshold_married
      FROM locations_location l
      LEFT JOIN locations_stateinfo s ON s.state = l.state`
   )) as Record<string, unknown>[];
@@ -541,6 +542,11 @@ export async function estimateCostForCities(opts: {
           r.property_tax_rate === null ? null : Number(r.property_tax_rate),
         income_tax: r.income_tax ?? null,
         retired_pay_tax: r.retired_pay_tax ?? null,
+        ss_tax_treatment: r.ss_tax_treatment ?? null,
+        ss_tax_threshold_single:
+          r.ss_tax_threshold_single === null ? null : Number(r.ss_tax_threshold_single),
+        ss_tax_threshold_married:
+          r.ss_tax_threshold_married === null ? null : Number(r.ss_tax_threshold_married),
       }) as CostInputs
   );
 

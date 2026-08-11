@@ -48,7 +48,10 @@ const LOCATION_SELECT = `
   l.*,
   p.category AS pace_category,
   s.retired_pay_tax,
-  s.no_income_tax
+  s.no_income_tax,
+  s.ss_tax_treatment,
+  s.ss_tax_threshold_single,
+  s.ss_tax_threshold_married
 `;
 
 /*

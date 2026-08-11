@@ -226,6 +226,62 @@ describe("estimateNetMonthlyIncome", () => {
     }
   });
 
+  it("exempts Social Security below a partial state's income threshold", () => {
+    // A partial state taxes benefits only above a line. Under it, nothing.
+    const under = estimateNetMonthlyIncome(
+      [src("social_security", 1_800), src("pension_or_ira", 500)],
+      {
+        stateIncomeTaxRatePct: 5,
+        retiredPayTax: "exempt",
+        ssTaxTreatment: "partial",
+        ssTaxThresholdSingle: 50_000,
+      },
+      OPTS,
+      C
+    );
+    expect(under.stateMonthly).toBeCloseTo(500 * 12 * 0.05 / 12, 6); // pension only
+    expect(under.notes.some((n) => /below the state/i.test(n))).toBe(true);
+    expect(under.approximations).toHaveLength(0);
+  });
+
+  it("taxes Social Security above a partial state's threshold", () => {
+    const over = estimateNetMonthlyIncome(
+      [src("social_security", 2_500), src("pension_or_ira", 5_000)],
+      {
+        stateIncomeTaxRatePct: 5,
+        retiredPayTax: "exempt",
+        ssTaxTreatment: "partial",
+        ssTaxThresholdSingle: 50_000,
+      },
+      OPTS,
+      C
+    );
+    expect(over.taxableSocialSecurityAnnual).toBeGreaterThan(0);
+    // State base includes the taxable SS on top of the pension.
+    expect(over.stateMonthly).toBeGreaterThan(5_000 * 0.05);
+  });
+
+  it("falls back to assuming taxed when a partial state has no threshold", () => {
+    const e = estimateNetMonthlyIncome(
+      [src("social_security", 2_000), src("pension_or_ira", 3_000)],
+      { stateIncomeTaxRatePct: 5, retiredPayTax: "exempt", ssTaxTreatment: "partial" },
+      OPTS,
+      C
+    );
+    expect(e.approximations.some((a) => /threshold is not on file/i.test(a))).toBe(true);
+  });
+
+  it("says so when a state does not tax benefits at all", () => {
+    const e = estimateNetMonthlyIncome(
+      [src("social_security", 2_000)],
+      { stateIncomeTaxRatePct: 5, retiredPayTax: "exempt", ssTaxTreatment: "not_taxed" },
+      OPTS,
+      C
+    );
+    expect(e.stateMonthly).toBe(0);
+    expect(e.notes.some((n) => /does not tax Social Security/i.test(n))).toBe(true);
+  });
+
   it("reports the missing Social Security state treatment instead of guessing", () => {
     const e = estimateNetMonthlyIncome(
       [src("social_security", 2_500), src("pension_or_ira", 2_000)],

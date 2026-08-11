@@ -103,6 +103,10 @@ export interface LocationRow {
    */
   retired_pay_tax?: RetiredPayTax | null;
   no_income_tax?: boolean | null;
+  ss_tax_treatment?: "not_taxed" | "partial" | "taxed" | "unknown" | null;
+  /** AGI at or below which the state exempts Social Security benefits. */
+  ss_tax_threshold_single?: number | null;
+  ss_tax_threshold_married?: number | null;
 
   /** Monthly median gross rent, dollars. Nullable until ingested. */
   median_rent?: number | null;

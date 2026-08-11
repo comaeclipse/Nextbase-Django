@@ -393,7 +393,9 @@ export function stateTaxProfileFor(loc: CostInputs): StateTaxProfile {
   return {
     stateIncomeTaxRatePct: Number.isFinite(rate as number) ? (rate as number) : null,
     retiredPayTax: loc.retired_pay_tax ?? null,
-    ssTaxTreatment: null,
+    ssTaxTreatment: loc.ss_tax_treatment ?? null,
+    ssTaxThresholdSingle: loc.ss_tax_threshold_single ?? null,
+    ssTaxThresholdMarried: loc.ss_tax_threshold_married ?? null,
   };
 }
 

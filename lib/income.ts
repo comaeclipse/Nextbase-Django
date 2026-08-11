@@ -65,8 +65,16 @@ export interface StateTaxProfile {
   stateIncomeTaxRatePct: number | null;
   /** From locations_stateinfo.retired_pay_tax. */
   retiredPayTax: RetiredPayTax | null;
-  /** Not yet ingested; pass null. */
+  /** From locations_stateinfo.ss_tax_treatment. */
   ssTaxTreatment: SsTaxTreatment | null;
+  /**
+   * AGI at or below which the state exempts benefits entirely. Most states
+   * that tax Social Security do so only above a threshold, and a fixed-income
+   * retiree is usually under it — so having this turns a blanket "assume
+   * taxed" into an actual answer.
+   */
+  ssTaxThresholdSingle?: number | null;
+  ssTaxThresholdMarried?: number | null;
 }
 
 export interface NetIncomeEstimate {
@@ -311,6 +319,11 @@ export function estimateNetMonthlyIncome(
   /* ---- State ---- */
   let stateAnnual = 0;
   const rate = state.stateIncomeTaxRatePct;
+  // States phrase their Social Security exemption against an income measure
+  // close to federal AGI. Reusing the federal figure is an approximation --
+  // state AGI starts from it but each state adjusts -- and it is far closer
+  // than ignoring the threshold entirely.
+  const magiForStateTest = magi;
 
   if (rate === null) {
     missing.push("state income tax rate");
@@ -324,22 +337,39 @@ export function estimateNetMonthlyIncome(
     }
 
     if (ss > 0) {
+      const threshold =
+        opts.filing === "married"
+          ? state.ssTaxThresholdMarried
+          : state.ssTaxThresholdSingle;
+
       switch (state.ssTaxTreatment) {
         case "not_taxed":
+          notes.push("This state does not tax Social Security benefits.");
           break;
         case "taxed":
           stateBase += taxableSS;
           break;
         case "partial":
-          approximations.push(
-            "state partially taxes Social Security; assumed fully taxed"
-          );
-          stateBase += taxableSS;
+          // A `partial` state exempts benefits below an income line. With the
+          // line on file this is a calculation; without it, fall back to
+          // assuming taxed and say so.
+          if (threshold === null || threshold === undefined) {
+            approximations.push(
+              "state partially taxes Social Security but the income threshold is not on file; assumed fully taxed"
+            );
+            stateBase += taxableSS;
+          } else if (magiForStateTest <= threshold) {
+            notes.push(
+              "This household's income is below the state's Social Security exemption threshold, so benefits are not taxed here."
+            );
+          } else {
+            stateBase += taxableSS;
+          }
           break;
         default:
-          // No column for this yet. Most states do not tax benefits, so
-          // assuming taxed would overstate the burden for most of them --
-          // but guessing either way is worse than saying we do not know.
+          // Most states do not tax benefits, so assuming taxed would overstate
+          // the burden for most of them -- but guessing either way is worse
+          // than saying we do not know.
           missing.push("state treatment of Social Security");
           break;
       }
