@@ -55,3 +55,14 @@ Retrieved: 2026-08-06.
 - Anduril Greenhouse board API: https://boards-api.greenhouse.io/v1/boards/andurilindustries/jobs
 - Anduril Ashville job example: https://job-boards.greenhouse.io/andurilindustries/jobs/5116808007
 - JobsOhio Arsenal-1 production announcement: https://www.jobsohio.com/newsroom/news-press/first-ohio-built-fury-rolls-off-andurils-arsenal-1-production-line
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Anduril Industries' "Arsenal-1" mega-factory near Ashville is reported as the largest single job-creation investment in Ohio history, with Fury drone production live since March 2026 and a target of 4,000 jobs — an unambiguous, large-scale defense-manufacturing hub, well beyond the tracked 100 onsite Anduril postings alone.
+
+Sources:
+- Ohio Tech News, Arsenal-1 coverage — https://ohiotechnews.com/
+- NBC4 Columbus (nbc4i.com), construction-start coverage — https://www.nbc4i.com/
+- ABC6 Columbus (abc6onyourside.com), Fury production coverage — https://abc6onyourside.com/
