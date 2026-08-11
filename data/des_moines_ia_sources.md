@@ -63,3 +63,14 @@ parameterized SQL UPDATE (transient helper, not committed). No other column touc
 None of the five fields this patch targeted were left blank. `description` was intentionally left
 untouched (already populated pre-patch). `scripts/verify-location-completeness.ts` flags this row as
 missing `defense_hub_manual`/`defense_hub`, out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Des Moines Air National Guard Base, home of the full flying/mission 132nd Wing, is located at Des Moines International Airport, with Camp Dodge nearby in Johnston — a genuine military-installation presence. (Note: Collins Aerospace's 7 tracked postings in Des Moines are remote-only and do not themselves count as physical presence under the hub formula; this TRUE rests on the ANG base, not the Collins postings.)
+
+Sources:
+- Wikipedia, "Des Moines Air National Guard Base" — https://en.wikipedia.org/wiki/Des_Moines_Air_National_Guard_Base
+- 132nd Wing official site — https://www.132dwing.ang.af.mil/
+- Wikipedia, "Camp Dodge" — https://en.wikipedia.org/wiki/Camp_Dodge
