@@ -60,3 +60,13 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Lockheed Martin operates an F-16 production line at SCTAC (the former Donaldson Air Force Base) in Greenville, under a $900M USAF depot contract, with a documented $1.3B+/year state economic impact — a major, well-documented defense-manufacturing hub.
+
+Sources:
+- Lockheed Martin, "Greenville Story" — https://www.lockheedmartin.com/en-us/news/features/2022/the-greenville-story.html
+- Sen. Tim Scott, press release, November 2025 — https://www.scott.senate.gov/
