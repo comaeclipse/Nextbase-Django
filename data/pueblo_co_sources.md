@@ -63,3 +63,15 @@ Retrieval date: 2026-07-10.
 - Historic Arkansas Riverwalk: https://www.puebloriverwalk.org/
 - Colorado State Fair: https://coloradostatefair.com/
 - Pueblo Economic Development Corporation: https://www.pedco.org/
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Collins Aerospace announced a $225M multi-site expansion including Pueblo, and Voyager Technologies is building a new "American Defense Complex" at PuebloPlex (the former Pueblo Chemical Depot), ~120 jobs, under construction as of early 2026 — a second, independent defense-manufacturing signal beyond the tracked Collins Aerospace (4 onsite) presence.
+
+Sources:
+- PR Newswire, Collins Aerospace $225M expansion release — https://www.prnewswire.com/
+- Colorado Springs Gazette, 2026-01-29 — https://gazette.com/
+- Colorado Public Radio (CPR.org), 2026-01-29 — https://www.cpr.org/
+- Wikipedia, "Pueblo Chemical Depot" — https://en.wikipedia.org/wiki/Pueblo_Chemical_Depot
