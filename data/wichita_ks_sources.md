@@ -61,3 +61,14 @@ overwrite an already-populated column). No other column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `tech_hub`/`defense_hub_manual`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+McConnell Air Force Base (22nd Air Refueling Wing, 931st Air Refueling Wing, Kansas ANG 184th Wing) is located in Wichita, plus Spirit AeroSystems' long-standing DoD legacy work (KC-46A structures) — a real military/defense-manufacturing presence beyond the single tracked L3Harris posting.
+
+Sources:
+- Wikipedia, "McConnell Air Force Base" — https://en.wikipedia.org/wiki/McConnell_Air_Force_Base
+- KSN.com, KC-46A milestone coverage — https://www.ksn.com/
+- Spirit AeroSystems, defense legacy page — https://www.spiritaero.com/
