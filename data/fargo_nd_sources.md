@@ -62,3 +62,13 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+The 119th Wing ("Happy Hooligans"), North Dakota Air National Guard, flies MQ-9 Reaper drones from Fargo Air National Guard Base at Hector International Airport — a genuine, well-documented military installation within Fargo.
+
+Sources:
+- 119th Wing official site, fact sheet — https://www.119wg.ang.af.mil/
+- Wikipedia, "119th Wing" — https://en.wikipedia.org/wiki/119th_Wing
