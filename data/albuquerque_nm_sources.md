@@ -66,3 +66,14 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Kirtland Air Force Base (6th-largest USAF base) and Sandia National Laboratories (the state's single largest employer) are both located in Albuquerque — a major, well-documented defense/national-security presence independent of the tracked System High and L3Harris postings.
+
+Sources:
+- NationalToday.com, Kirtland AFB feature, 2026-04-15 — https://nationaltoday.com/
+- Wikipedia, "Sandia National Laboratories" — https://en.wikipedia.org/wiki/Sandia_National_Laboratories
+- NukeWatch.org, Kirtland AFB dossier — https://nukewatch.org/
