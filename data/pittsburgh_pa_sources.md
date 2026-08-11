@@ -16,3 +16,13 @@ Researched and ingested 2026-07-16. Values below are the source basis for the cu
 | Climate | [Visit Pittsburgh climate guide](https://www.visitpittsburgh.com/plan-your-trip/weather/): January 39/23 F, July high 85 F, snowfall 44 in. [Timeanddate Pittsburgh climate averages](https://www.timeanddate.com/weather/%40z-us-15232/climate): annual precipitation 42.33 in and July humidity 69%. |
 
 No local gas-price snapshot, sunny-day count, federal Tech Hub status, or defense-hub manual designation was stored without a directly suitable source. `DefenseHub` is blank (neutral); post-import derived defense status comes from the standard employer-location recomputation.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+The 911th Airlift Wing, flying C-17 Globemaster IIIs, is based at Pittsburgh Air Reserve Station, co-located with Pittsburgh International Airport — a substantial, active military flying unit within the city's metro.
+
+Sources:
+- 911th Airlift Wing official site — https://www.pittsburgh.afrc.af.mil/
+- Wikipedia, "Pittsburgh International Airport Air Reserve Station" — https://en.wikipedia.org/wiki/Pittsburgh_International_Airport_Air_Reserve_Station
