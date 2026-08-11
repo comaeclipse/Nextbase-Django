@@ -66,3 +66,14 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **FALSE (hard veto)**
+
+Vetoed. Grenier Air Force Base in Manchester closed in 1966 and is now the civilian Manchester-Boston Regional Airport. New Hampshire's active ANG wing (157th Air Refueling Wing) is based at Pease, in Portsmouth — a separate city — and the state's real defense-contractor cluster (BAE Systems) is concentrated in Nashua/Merrimack, not Manchester. The single tracked Raytheon posting (3 onsite) does not reflect a genuine Manchester-based defense hub.
+
+Sources:
+- Wikipedia, "157th Air Refueling Wing" — https://en.wikipedia.org/wiki/157th_Air_Refueling_Wing
+- Military Wiki, "Grenier Air Force Base" — https://military-history.fandom.com/wiki/Grenier_Air_Force_Base
+- New Hampshire Business Review (nhbr.com), "Driven by defense" — https://www.nhbr.com/
