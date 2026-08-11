@@ -62,3 +62,14 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Berry Field Air National Guard Base, headquarters of the entire Tennessee Air National Guard and home to the 118th Wing (1,200+ personnel), is located at Nashville International Airport — a substantial, genuinely Nashville-based military presence beyond the tracked Collins Aerospace (1 onsite) and L3Harris (1 onsite) postings.
+
+Sources:
+- Wikipedia, "118th Wing" — https://en.wikipedia.org/wiki/118th_Wing
+- Air National Guard, unit locations page — https://www.ang.af.mil/
+- Tennessee.gov, Tennessee Military Department — https://www.tn.gov/military.html
