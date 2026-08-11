@@ -8,3 +8,14 @@ Retrieval date: 2026-08-07.
 - Municipal LGBTQ score, crime index, cost-of-living index, and local-VA distance require further primary-source validation and are intentionally blank rather than guessed. The VA field reflects nearby regional VA access, not an in-city VA clinic.
 
 Sources: https://www.census.gov/quickfacts/fact/table/broomfieldcitycolorado/POP060220 ; https://www.zillow.com/home-values/10574/broomfield-co/ ; https://www.coloradosos.gov/pubs/elections/Results/2024/2024BiennialAbstract.pdf
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Ball Aerospace's former headquarters campus (10 Longs Peak Dr) is in Broomfield; the company/successor was ranked among the top 60 largest defense contractors globally as of 2023 by contract value — a substantial, headquarters-level defense-aerospace presence.
+
+Sources:
+- Choose Colorado (choosecolorado.com), Ball Aerospace profile — https://choosecolorado.com/
+- Patch.com, Broomfield business coverage — https://patch.com/colorado/broomfield
+- GovernmentContractsWon.com, Broomfield contractor totals ($3.47B+) — https://www.governmentcontractswon.com/
