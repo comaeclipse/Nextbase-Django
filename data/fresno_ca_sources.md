@@ -37,3 +37,14 @@
 ## Taxes & Utilities
 - **Sales Tax**: 8.35%. [Avalara Fresno](https://www.avalara.com/us/en/taxrates/state-rates/california/cities/fresno.html) (Retrieved 2026-07-23)
 - **Gas Price**: $5.489. [AAA California gas prices](https://gasprices.aaa.com/?state=CA) (Retrieved 2026-07-23)
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Fresno Air National Guard Base, home to the 144th Fighter Wing (F-15 fighters) with roughly 325 full-time personnel, is located at Fresno Yosemite International Airport — a genuine military installation within city limits.
+
+Sources:
+- GlobalSecurity.org, "Fresno Air National Guard Base" — https://www.globalsecurity.org/military/facility/fresno.htm
+- Air National Guard, unit locations page — https://www.ang.af.mil/
+- Wikipedia, "144th Fighter Wing" — https://en.wikipedia.org/wiki/144th_Fighter_Wing
