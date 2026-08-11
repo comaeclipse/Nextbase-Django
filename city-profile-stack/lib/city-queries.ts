@@ -517,12 +517,14 @@ export async function estimateCostForCities(opts: {
 
   const limit = opts.limit ?? 8;
   const sql = getSql();
-  // income_tax and retired_pay_tax drive take-home; the latter is joined from
-  // locations_stateinfo, keyed on the two-letter state both tables share.
+  // State-owned income_tax and retired_pay_tax drive take-home. Prefer
+  // normalized locations_stateinfo values after issue #5 adjudication, while
+  // falling back to the legacy duplicated location value during migration.
   const rows = (await sql.query(
     `SELECT l.id, l.name, l.state, l.col_index, l.avg_home_value,
             l.avg_home_value_display, l.median_rent, l.property_tax_rate,
-            l.income_tax, s.retired_pay_tax, s.ss_tax_treatment,
+            COALESCE(s.income_tax, l.income_tax) AS income_tax,
+            s.retired_pay_tax, s.ss_tax_treatment,
             s.ss_tax_threshold_single, s.ss_tax_threshold_married
      FROM locations_location l
      LEFT JOIN locations_stateinfo s ON s.state = l.state`
@@ -673,9 +675,9 @@ function roundMoney(n: number | null): number | null {
 export interface StateTaxGasEntry {
   state: string;
   stateName: string | null;
-  /** Statewide sales tax percentage, averaged across this state's cities (should be constant). */
+  /** Sales tax percentage averaged across this state's curated cities. */
   salesTaxPct: number | null;
-  /** Statewide income tax percentage. 0 means no income tax, not "unknown" -- see incomeTaxPct === null for that. */
+  /** Statewide income tax percentage only when the current rows agree. 0 means no income tax; null means unknown or conflicting. */
   incomeTaxPct: number | null;
   gasPricePerGallon: number | null;
   /** Cities in this database, for this state. */
@@ -695,7 +697,7 @@ export const STATE_TAX_GAS_SCOPE_NOTE =
   "Covers only states with at least one city in this database, not all 50 states.";
 
 const STATE_TAX_GAS_CAVEATS = [
-  "sales_tax and income_tax are statewide rates; they do not capture local/county add-ons or how a state taxes a specific income type (military retirement pay, Social Security, a pension)",
+  "sales_tax is averaged across the curated cities in each state; income_tax is shown only when the state's current city rows agree, and should be replaced by sourced locations_stateinfo values after state-tax normalization",
   "gas price is a statewide average, not a price for any particular city",
   '"combined" ranking min-max normalizes income tax, sales tax, and gas price and weights them equally -- it is a neutral ranking, not a cost-of-living verdict',
 ];
@@ -767,21 +769,20 @@ export async function compareStateTaxesAndGas(
 
   const byState = new Map<
     string,
-    { salesTaxSum: number; salesTaxN: number; incomeTaxSum: number; incomeTaxN: number; cities: string[] }
+    { salesTaxSum: number; salesTaxN: number; incomeTaxValues: Set<number>; cities: string[] }
   >();
   for (const r of rows) {
     const abbr = resolveStateAbbr(r.state) ?? r.state.trim().toUpperCase();
     let bucket = byState.get(abbr);
     if (!bucket)
-      byState.set(abbr, (bucket = { salesTaxSum: 0, salesTaxN: 0, incomeTaxSum: 0, incomeTaxN: 0, cities: [] }));
+      byState.set(abbr, (bucket = { salesTaxSum: 0, salesTaxN: 0, incomeTaxValues: new Set(), cities: [] }));
     bucket.cities.push(`${r.name}, ${abbr}`);
     if (r.sales_tax !== null) {
       bucket.salesTaxSum += Number(r.sales_tax);
       bucket.salesTaxN += 1;
     }
     if (r.income_tax !== null) {
-      bucket.incomeTaxSum += Number(r.income_tax);
-      bucket.incomeTaxN += 1;
+      bucket.incomeTaxValues.add(Number(r.income_tax));
     }
   }
 
@@ -790,14 +791,17 @@ export async function compareStateTaxesAndGas(
   const gasByState = new Map<string, number>();
   for (const g of (await getGasPrices()).data) gasByState.set(g.state, g.price);
 
-  let entries: StateTaxGasEntry[] = [...byState.entries()].map(([abbr, b]) => ({
-    state: abbr,
-    stateName: ABBR_TO_STATE_NAME[abbr] ?? null,
-    salesTaxPct: b.salesTaxN ? round2(b.salesTaxSum / b.salesTaxN) : null,
-    incomeTaxPct: b.incomeTaxN ? round2(b.incomeTaxSum / b.incomeTaxN) : null,
-    gasPricePerGallon: gasByState.get(abbr) ?? null,
-    cities: b.cities.sort(),
-  }));
+  let entries: StateTaxGasEntry[] = [...byState.entries()].map(([abbr, b]) => {
+    const incomeTaxValues = [...b.incomeTaxValues];
+    return {
+      state: abbr,
+      stateName: ABBR_TO_STATE_NAME[abbr] ?? null,
+      salesTaxPct: b.salesTaxN ? round2(b.salesTaxSum / b.salesTaxN) : null,
+      incomeTaxPct: incomeTaxValues.length === 1 ? round2(incomeTaxValues[0]) : null,
+      gasPricePerGallon: gasByState.get(abbr) ?? null,
+      cities: b.cities.sort(),
+    };
+  });
 
   if (opts.states?.length) {
     const wanted = new Set(opts.states.map((s) => resolveStateAbbr(s) ?? s.trim().toUpperCase()));

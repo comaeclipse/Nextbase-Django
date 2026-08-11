@@ -47,6 +47,15 @@ function normalizeLocation(row: Record<string, unknown>): LocationRow {
 const LOCATION_SELECT = `
   l.*,
   p.category AS pace_category,
+  COALESCE(s.state_party, l.state_party) AS state_party,
+  COALESCE(s.governor, l.governor) AS governor,
+  COALESCE(s.income_tax, l.income_tax) AS income_tax,
+  COALESCE(
+    CASE WHEN s.vet_benefits_verified_on IS NOT NULL THEN s.vet_benefits_summary END,
+    l.veterans_benefits
+  ) AS veterans_benefits,
+  COALESCE(s.marijuana_status, l.marijuana_status) AS marijuana_status,
+  COALESCE(s.lgbtq_state_policy_score, l.lgbtq_state_policy_score) AS lgbtq_state_policy_score,
   s.retired_pay_tax,
   s.no_income_tax,
   s.ss_tax_treatment,
