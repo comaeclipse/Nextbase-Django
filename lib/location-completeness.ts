@@ -19,11 +19,11 @@ function value(row: LocationCsvRow, column: string): string | null {
 
 /** CSV columns that must be sourced before a city can be called complete. */
 export const REQUIRED_LOCATION_CSV_COLUMNS = [
-  "City", "State", "County", "StateParty", "Governor", "CityPolitics",
+  "City", "State", "County", "CityPolitics",
   "2016Election", "2016PresidentPercent", "2024 Election", "2024PresidentPercent",
-  "ElectionChange", "Population", "Density", "SalesTax", "Income", "CostOfLiving",
-  "AvgHomeValue", "VA", "NearestVA", "DistanceToVA", "Veterans Benefits", "TCI",
-  "CrimeRating", "Marijuana", "LGBTQ", "LGBTQ_MEI", "LGBTQStatePolicyScore",
+  "ElectionChange", "Population", "Density", "SalesTax", "CostOfLiving",
+  "AvgHomeValue", "VA", "NearestVA", "DistanceToVA", "TCI",
+  "CrimeRating", "LGBTQ", "LGBTQ_MEI",
   "LGBTQSource", "TechHub", "DefenseHub", "Snow", "Rain", "SunnyDays",
   "AverageLowWinter", "AverageHighSummer", "HumiditySummer", "Climate", "Gas",
   "Description", "Tags", "rep_vote_share_change_pp", "dem_vote_share_change_pp",

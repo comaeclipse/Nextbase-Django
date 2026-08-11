@@ -17,14 +17,26 @@ State-level information that applies to all locations within a state (no need to
 **Note**: This table contains state-specific regulatory information. Empty fields indicate no restriction or grade available. `AssaultWeaponBan` reflects the current general-ban state list used by the app's "No Assault Weapons Ban" filter, not narrower assault-weapon regulations. `MagazineLimit`, `GhostGunBan`, and `HighCapMagBan` can be refreshed with `python manage.py update_state_law_data`.
 
 ### Veteran Benefits Tax Detail
-- **retired_pay_tax**: `no_income_tax` | `exempt` | `partial` | `conditional` | `taxed` | `unknown` — how the state taxes military retired pay. Read by `lib/income.ts`; `partial`/`conditional` are currently modeled as fully taxed (a documented conservative approximation), flagged to the reader.
-- **retired_pay_exclusion_amount**: flat/capped dollar amount excluded per year, when the state's rule reduces to a single figure. Null when it doesn't (e.g. an age-tiered cap) — the real structure lives in `retired_pay_condition` instead.
+- **retired_pay_tax**: `no_income_tax` | `exempt` | `partial` | `conditional` | `taxed` | `unknown` - how the state taxes military retired pay. Read by `lib/income.ts`; `partial`/`conditional` are currently modeled as fully taxed (a documented conservative approximation), flagged to the reader.
+- **retired_pay_exclusion_amount**: flat/capped dollar amount excluded per year, when the state's rule reduces to a single figure. Null when it doesn't (e.g. an age-tiered cap) - the real structure lives in `retired_pay_condition` instead.
 - **retired_pay_exclusion_pct**: percentage of retired pay excluded, when the exclusion is stated as a percentage rather than a dollar cap.
-- **retired_pay_condition**: free text — the age/income/service gate or multi-tier structure a scalar can't carry.
+- **retired_pay_condition**: free text - the age/income/service gate or multi-tier structure a scalar can't carry.
 - **vet_benefits_source_url**: where the `retired_pay_tax` classification was verified.
 - **vet_benefits_verified_on**: date a human last checked `retired_pay_tax` against `vet_benefits_source_url`. Null means unverified.
 
 All five columns are maintained by `scripts/migrate-vet-benefits-tax-columns.ts` + `scripts/import-retired-pay-tax.ts` from `data/state_retired_pay_tax.csv`, verified per-state against primary sources 2026-08-11 (issue #42). `scripts/import-state-benefits.ts` (the broader, still-unverified `data/state_vet_benefits.csv` draft) never touches `retired_pay_tax`, `vet_benefits_source_url`, or `vet_benefits_verified_on` so it can't silently regress this verification.
+
+### Normalized state-owned facts
+
+These fields are the normalized destination for facts that legacy city CSVs duplicated onto every `locations_location` row. Do not backfill them by picking an arbitrary city value; adjudicate conflicts from sources, store the source URL and verification date, and keep application reads compatible through the `lib/locations.ts` join.
+
+- **StateParty** / **StatePartySourceUrl** / **StatePartyVerifiedOn**: Legacy compact governor-party shorthand (`R`/`D`) kept for `LocationRow` compatibility. Full state-government configuration and political-lean scoring live in `lib/state-politics-data.ts`.
+- **Governor** / **GovernorSourceUrl** / **GovernorVerifiedOn**: Current governor party (`R`/`D`) and provenance.
+- **IncomeTax** / **IncomeTaxSemantics** / **IncomeTaxSourceUrl** / **IncomeTaxVerifiedOn**: State individual income-tax value with explicit semantics, e.g. `top_marginal_individual_income_tax`.
+- **MarijuanaStatus** / **MarijuanaStatusSourceUrl** / **MarijuanaStatusVerifiedOn**: State cannabis legal status and provenance.
+- **LGBTQStatePolicyScore** / **LGBTQStatePolicySourceUrl** / **LGBTQStatePolicyVerifiedOn**: State policy score, separate from municipal HRC MEI/local friendliness.
+
+Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudications with `scripts/import-state-owned-fields.ts`. Audit remaining duplicated-location drift with `scripts/verify-state-field-divergence.ts`.
 
 ---
 

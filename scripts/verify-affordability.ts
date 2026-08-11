@@ -147,6 +147,16 @@ function reportPlausibility(rows: CostInputs[], c: ReturnType<typeof resolveCost
     `  A city outside ${min}-${max} has a col_index and avg_home_value that\n` +
       `  disagree with each other. These are data bugs to fix, not cheap cities.\n`
   );
+  console.log(
+    "  !! col_index IS MIXED-PROVENANCE. Source notes identify at least five\n" +
+      "     different providers across the table -- BestPlaces (28 cities),\n" +
+      "     C2ER/ACCRA (12), ERI/SalaryExpert (11), CostOfLivingData (5),\n" +
+      "     PayScale (3) -- each with a different basket. housingWeight is a\n" +
+      "     C2ER figure, so the back-out below is only valid for the C2ER rows.\n" +
+      "     PASSING THIS BAND IS NOT EVIDENCE OF CORRECTNESS: an in-band city\n" +
+      "     can still be derived from an index this weight does not describe.\n" +
+      "     See issue #40 (BEA RPP migration) and #49.\n"
+  );
 
   const outliers: CostInputs[] = [];
   const values: number[] = [];

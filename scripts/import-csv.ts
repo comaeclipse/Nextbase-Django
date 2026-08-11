@@ -3,7 +3,7 @@
  * (locations/management/commands/import_csv.py).
  *
  * Usage:
- *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
+ *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run] [--allow-incomplete]
  *
  * Upserts locations keyed on (name, state), matching Django's update_or_create.
  * --dry-run parses and reports without touching the database.
@@ -12,6 +12,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
+import { locationCsvCompletionProblems } from "../lib/location-completeness";
 import { classifyAndPersist, classifyLocation } from "../lib/pace";
 import type { PaceDerivedBundle, PacePlaceCentroid } from "../lib/pace/types";
 
@@ -143,8 +144,8 @@ function parseRow(row: Row): Record<string, unknown> {
     longitude: coords.longitude,
     climate: cleanEmpty(row["Climate"] ?? "") ?? "",
     cost_of_living: deriveCostOfLiving(colIndex),
-    state_party: cleanEmpty(row["StateParty"]),
-    governor: cleanEmpty(row["Governor"]),
+    // State-owned CSV fields are intentionally ignored here. They belong in
+    // locations_stateinfo after sourced adjudication, not on every city row.
     city_politics: cleanEmpty(row["CityPolitics"]),
     election_2016: cleanEmpty(row["2016Election"]),
     election_2016_percent: parseIntV(row["2016PresidentPercent"]),
@@ -154,20 +155,16 @@ function parseRow(row: Row): Record<string, unknown> {
     population: cleanEmpty(row["Population"]),
     density: parseIntV(row["Density"]),
     sales_tax: parseDecimalV(row["SalesTax"]),
-    income_tax: parseDecimalV(row["Income"]),
     col_index: colIndex,
     avg_home_value: parseHomeValue(rawHomeValue),
     avg_home_value_display: cleanEmpty(rawHomeValue),
     has_va: parseBoolV(row["VA"]),
     nearest_va: cleanEmpty(row["NearestVA"]),
     distance_to_va: cleanEmpty(row["DistanceToVA"]),
-    veterans_benefits: cleanEmpty(row["Veterans Benefits"]),
     tci: parseIntV(row["TCI"]),
     crime: cleanEmpty(row["CrimeRating"]),
-    marijuana_status: cleanEmpty(row["Marijuana"]),
     lgbtq_rating: cleanEmpty(row["LGBTQ"]),
     lgbtq_mei_score: parseIntV(row["LGBTQ_MEI"]),
-    lgbtq_state_policy_score: parseDecimalV(row["LGBTQStatePolicyScore"]),
     lgbtq_score_source: cleanEmpty(row["LGBTQSource"]),
     tech_hub: parseBoolV(row["TechHub"]),
     // The CSV's DefenseHub is a human judgment, so it feeds the curated input
@@ -273,15 +270,30 @@ async function main() {
   const args = process.argv.slice(2);
   const clear = args.includes("--clear");
   const dryRun = args.includes("--dry-run");
+  const allowIncomplete = args.includes("--allow-incomplete");
   const csvPath = args.find((a) => !a.startsWith("--"));
   if (!csvPath) {
-    console.error("Usage: import-csv <csv> [--clear] [--dry-run]");
+    console.error("Usage: import-csv <csv> [--clear] [--dry-run] [--allow-incomplete]");
     process.exit(1);
   }
 
   const text = readFileSync(csvPath, "utf-8");
   const rows: Row[] = parse(text, { columns: true, skip_empty_lines: true });
   console.log(`Importing locations from: ${csvPath}${dryRun ? " (dry run)" : ""}`);
+
+  const completionProblems = rows.flatMap((row, index) =>
+    locationCsvCompletionProblems(row).map((problem) => `row ${index + 2}: ${problem}`)
+  );
+  if (completionProblems.length && !allowIncomplete) {
+    console.error("Import blocked: a curated city cannot be incomplete.");
+    for (const problem of completionProblems) console.error(`  - ${problem}`);
+    console.error("Research and source every required field, or use --allow-incomplete only for a legacy repair that will not be reported as complete.");
+    process.exit(1);
+  }
+  if (completionProblems.length) {
+    console.warn("WARNING: --allow-incomplete bypassed the city-completion gate. This import must not be reported as complete.");
+    for (const problem of completionProblems) console.warn(`  - ${problem}`);
+  }
 
   const sql = getSql();
   if (clear) {

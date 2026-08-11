@@ -168,9 +168,24 @@ function annualHomeInsurance(
 export function nonHousingIndex(
   loc: CostInputs,
   c: ResolvedConstants,
-  approximations: string[] = []
+  approximations: string[] = [],
+  /**
+   * Receives WHY the index could not be derived, when it could not be.
+   *
+   * The two failure modes are not the same problem and must not be reported
+   * as one. A city with no `col_index` is simply un-researched. A city whose
+   * `col_index` and `avg_home_value` contradict each other has data that is
+   * present and wrong — usually because the index came from a provider whose
+   * basket this model's housing weight does not describe. Collapsing both into
+   * "local cost index" hid that distinction and made an incompatible-source
+   * problem look like a coverage gap.
+   */
+  reasons: string[] = []
 ): number | null {
-  if (loc.col_index === null || loc.col_index === undefined) return null;
+  if (loc.col_index === null || loc.col_index === undefined) {
+    reasons.push("local cost index");
+    return null;
+  }
 
   const value = homeValue(loc);
   if (value === null) {
@@ -179,17 +194,19 @@ export function nonHousingIndex(
     // nonHousingIndex = col_index. Defensible as a stand-in, but it is an
     // assumption rather than a measurement, so it gets labeled.
     approximations.push("no home value on file; assumed typical local housing");
-    return withinBounds(loc.col_index);
+    return withinBounds(loc.col_index, reasons);
   }
 
   const housingIdx = (100 * value) / c.nationalMedianHomeValue;
   const w = c.housingWeight;
-  return withinBounds((loc.col_index - w * housingIdx) / (1 - w));
+  return withinBounds((loc.col_index - w * housingIdx) / (1 - w), reasons);
 }
 
-function withinBounds(n: number): number | null {
+function withinBounds(n: number, reasons: string[] = []): number | null {
   const { min, max } = NON_HOUSING_INDEX_BOUNDS;
-  return n >= min && n <= max ? n : null;
+  if (n >= min && n <= max) return n;
+  reasons.push("incompatible cost index (disagrees with home value)");
+  return null;
 }
 
 /** Monthly principal + interest on an amortizing fixed-rate loan. */
@@ -284,8 +301,10 @@ export function estimateMonthlyCost(
   const missing: string[] = [];
   const approximations: string[] = [];
 
-  const nhi = nonHousingIndex(loc, c, approximations);
-  if (nhi === null) missing.push("local cost index");
+  // Pushes its own failure reason onto `missing` — "local cost index" when
+  // absent, "incompatible cost index" when present but contradicting the home
+  // value. Those need different fixes, so they are reported differently.
+  const nhi = nonHousingIndex(loc, c, approximations, missing);
   const nonHousing =
     nhi === null ? null : (c.nonHousingBaseline65Plus * nhi) / 100;
 
