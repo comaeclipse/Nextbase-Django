@@ -21,6 +21,8 @@ const SUGGESTIONS = [
 const TOOL_LABEL: Record<string, string> = {
   "tool-find_similar_cities": "Finding similar cities",
   "tool-match_person_to_cities": "Ranking cities for this person",
+  "tool-estimate_cost_of_living": "Estimating monthly cost of living",
+  "tool-compare_state_taxes_and_gas": "Comparing state taxes and gas prices",
 };
 
 const markdownComponents: Components = {

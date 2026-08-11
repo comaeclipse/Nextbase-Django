@@ -2,6 +2,7 @@ import { streamText, tool, stepCountIs, convertToModelMessages, type UIMessage }
 import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 import {
+  compareStateTaxesAndGas,
   estimateCostForCities,
   findSimilarCities,
   matchProfileToCities,
@@ -40,10 +41,10 @@ const CATALOG = traitCatalog()
   .join("\n");
 
 const SYSTEM = `You are the VetRetire city assistant. You help people explore which U.S. towns in
-OUR database fit them, using only three tools that read our real, cited data. You are
+OUR database fit them, using only four tools that read our real, cited data. You are
 NOT a general chatbot.
 
-You answer exactly three kinds of question:
+You answer exactly four kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
@@ -58,6 +59,11 @@ You answer exactly three kinds of question:
    Ask for their housing situation if they haven't said it — renting, owning
    outright, and buying with a mortgage produce very different answers, and
    guessing wrong is the difference between a city working and not working.
+4. "Which states have low taxes / cheap gas?" or "what's a state with X tax and Y gas
+   prices?" — call compare_state_taxes_and_gas. This is STATE-level (sales tax, income
+   tax, gas price), not a city trait, and is scoped to states that have a city in this
+   database. Default sortBy "combined" is a neutral ranking (lowest first), not a
+   recommendation — still name the actual numbers, not just a state name.
 
 Non-negotiable honesty rules:
 - Never invent city facts. Every claim about a place must come from a tool result.
@@ -102,14 +108,26 @@ Reporting cost estimates (estimate_cost_of_living):
 - Relay "caveats": the estimate does not know their health, home equity, cars,
   dependents, or how their state taxes their particular income.
 - If the tool returns ready:false, tell them the cost feature isn't available yet and
-  offer the other two things you can do. Do NOT estimate costs yourself.
+  offer the other things you can do. Do NOT estimate costs yourself.
+
+Reporting state tax/gas comparisons (compare_state_taxes_and_gas):
+- These are STATE rates and a statewide average gas price, not city numbers — say
+  "state" explicitly, don't imply every city in it costs exactly that.
+- incomeTaxPct of 0 means no state income tax — a real, notable fact, not a missing
+  value. incomeTaxPct/salesTaxPct/gasPricePerGallon of null means we don't have that
+  figure for that state; say so rather than guessing or omitting the state silently.
+- Relay the tool's "caveats" verbatim in substance: statewide rates don't capture local
+  add-ons, and the tool has no idea how a state taxes THIS person's specific income
+  (military retirement pay, Social Security, a pension) — that's a materially different
+  question from the state's headline rate.
+- If the user is choosing between our cities, name which of that state's "cities" are
+  in our database so the answer stays actionable, not just a state name.
 
 Unsupported dimensions:
-- There is NO tax / low-taxes trait, and estimate_cost_of_living does NOT model state
-  taxes on someone's income. If the user asks to rank by low taxes, or asks whether a
-  state will tax their pension or Social Security, decline that dimension and say it
-  isn't something this database covers yet. You may offer housing or cost-of-living
-  affordability only if you clearly label it as affordability, not taxes.
+- estimate_cost_of_living does NOT model state taxes on someone's income — that's a
+  distinct question from compare_state_taxes_and_gas's headline rates. If the user
+  wants to know how their specific pension/SS/retirement pay would be taxed, say this
+  database has the state's general rates but not that level of personal tax detail.
 - Evidence language: use only "researched" or "computed" from tool hits. Never say
   "reported", "modeled estimates", or invent provenance categories.
 - Honor scopeNote from tool results: do not claim a database-wide screen when you only
@@ -216,6 +234,41 @@ const estimateCostTool = tool({
   },
 });
 
+const compareStateTaxesTool = tool({
+  description:
+    "Compare state-level sales tax, income tax, and gas prices across states that have " +
+    "a city in this database. Use for questions about which state has low taxes, cheap " +
+    "gas, or a specific tax/gas figure — NOT for city-level cost of living (use " +
+    "estimate_cost_of_living for that) and NOT for how a state taxes a specific income " +
+    "type like military retirement pay (this database doesn't have that level of detail).",
+  inputSchema: z.object({
+    states: z
+      .array(z.string())
+      .optional()
+      .describe('Specific states to compare, as USPS codes or full names (e.g. "TX" or "Texas"). Omit to rank all states in the database.'),
+    sortBy: z
+      .enum(["combined", "income_tax", "sales_tax", "gas_price"])
+      .optional()
+      .describe(
+        'What to rank by, lowest first. "combined" (default) equally weights income tax, sales tax, and gas price after normalizing each — a neutral ranking, not a verdict.'
+      ),
+    limit: z
+      .number()
+      .int()
+      .min(1)
+      .max(50)
+      .optional()
+      .describe("How many states to return (default 15, or all of `states` when given)."),
+  }),
+  execute: async (args) => {
+    try {
+      return await compareStateTaxesAndGas(args);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -230,6 +283,7 @@ export async function POST(req: Request) {
       find_similar_cities: findSimilarTool,
       match_person_to_cities: matchPersonTool,
       estimate_cost_of_living: estimateCostTool,
+      compare_state_taxes_and_gas: compareStateTaxesTool,
     },
     stopWhen: stepCountIs(6),
   });

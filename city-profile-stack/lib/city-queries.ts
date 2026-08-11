@@ -17,6 +17,8 @@ import {
   type CostInputs,
   type Tenure,
 } from "../../lib/affordability";
+import { getGasPrices } from "../../lib/gas-prices";
+import { STATE_NAME_TO_ABBR, resolveStateAbbr } from "../../lib/states";
 
 /** Only features that can exist for an unresearched city are comparable. */
 const COMPARABLE = new Set(
@@ -513,6 +515,163 @@ export async function estimateCostForCities(opts: {
 
 function roundMoney(n: number | null): number | null {
   return n === null ? null : Math.round(n);
+}
+
+/* ------------------------------------------------------------------ *
+ * State-level tax + gas price comparison
+ *
+ * Distinct from both the feature machinery and the cost-of-living
+ * estimator above: this reads two plain, state-scoped datasets --
+ * sales_tax/income_tax off locations_location (a statewide rate stored on
+ * every row of that state) and the separate state_gas_prices table -- and
+ * never touches location_features. Scoped to states that have at least one
+ * city in this database, same as every other tool here.
+ * ------------------------------------------------------------------ */
+
+export interface StateTaxGasEntry {
+  state: string;
+  stateName: string | null;
+  /** Statewide sales tax percentage, averaged across this state's cities (should be constant). */
+  salesTaxPct: number | null;
+  /** Statewide income tax percentage. 0 means no income tax, not "unknown" -- see incomeTaxPct === null for that. */
+  incomeTaxPct: number | null;
+  gasPricePerGallon: number | null;
+  /** Cities in this database, for this state. */
+  cities: string[];
+}
+
+export type StateTaxGasSort = "combined" | "income_tax" | "sales_tax" | "gas_price";
+
+export interface StateTaxGasResult {
+  scopeNote: string;
+  caveats: string[];
+  sortedBy: StateTaxGasSort;
+  states: StateTaxGasEntry[];
+}
+
+export const STATE_TAX_GAS_SCOPE_NOTE =
+  "Covers only states with at least one city in this database, not all 50 states.";
+
+const STATE_TAX_GAS_CAVEATS = [
+  "sales_tax and income_tax are statewide rates; they do not capture local/county add-ons or how a state taxes a specific income type (military retirement pay, Social Security, a pension)",
+  "gas price is a statewide average, not a price for any particular city",
+  '"combined" ranking min-max normalizes income tax, sales tax, and gas price and weights them equally -- it is a neutral ranking, not a cost-of-living verdict',
+];
+
+const ABBR_TO_STATE_NAME: Record<string, string> = Object.fromEntries(
+  Object.entries(STATE_NAME_TO_ABBR).map(([name, abbr]) => [abbr, name])
+);
+
+function cmpNullableAsc(a: number | null, b: number | null): number {
+  if (a === null && b === null) return 0;
+  if (a === null) return 1;
+  if (b === null) return -1;
+  return a - b;
+}
+
+function round2(n: number): number {
+  return Math.round(n * 100) / 100;
+}
+
+function sortStateEntries(entries: StateTaxGasEntry[], sortBy: StateTaxGasSort): StateTaxGasEntry[] {
+  if (sortBy === "income_tax") return [...entries].sort((a, b) => cmpNullableAsc(a.incomeTaxPct, b.incomeTaxPct));
+  if (sortBy === "sales_tax") return [...entries].sort((a, b) => cmpNullableAsc(a.salesTaxPct, b.salesTaxPct));
+  if (sortBy === "gas_price")
+    return [...entries].sort((a, b) => cmpNullableAsc(a.gasPricePerGallon, b.gasPricePerGallon));
+
+  // combined: min-max normalize each metric across entries that have all three, sum, ascending.
+  const complete = entries.filter(
+    (e) => e.salesTaxPct !== null && e.incomeTaxPct !== null && e.gasPricePerGallon !== null
+  );
+  const normalizer = (values: number[]) => {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    return (v: number) => (max === min ? 0 : (v - min) / (max - min));
+  };
+  const normIncome = normalizer(complete.map((e) => e.incomeTaxPct!));
+  const normSales = normalizer(complete.map((e) => e.salesTaxPct!));
+  const normGas = normalizer(complete.map((e) => e.gasPricePerGallon!));
+  const score = new Map(
+    complete.map((e) => [
+      e.state,
+      normIncome(e.incomeTaxPct!) + normSales(e.salesTaxPct!) + normGas(e.gasPricePerGallon!),
+    ])
+  );
+  return [...entries].sort((a, b) => {
+    const sa = score.get(a.state);
+    const sb = score.get(b.state);
+    if (sa === undefined && sb === undefined) return 0;
+    if (sa === undefined) return 1;
+    if (sb === undefined) return -1;
+    return sa - sb;
+  });
+}
+
+/** "Which states have low taxes / cheap gas?" -- scoped to states we have cities in. */
+export async function compareStateTaxesAndGas(
+  opts: {
+    states?: string[];
+    sortBy?: StateTaxGasSort;
+    limit?: number;
+  } = {}
+): Promise<StateTaxGasResult> {
+  const sql = getSql();
+  const rows = (await sql.query(`SELECT state, name, sales_tax, income_tax FROM locations_location`)) as {
+    state: string;
+    name: string;
+    sales_tax: string | null;
+    income_tax: string | null;
+  }[];
+
+  const byState = new Map<
+    string,
+    { salesTaxSum: number; salesTaxN: number; incomeTaxSum: number; incomeTaxN: number; cities: string[] }
+  >();
+  for (const r of rows) {
+    const abbr = resolveStateAbbr(r.state) ?? r.state.trim().toUpperCase();
+    let bucket = byState.get(abbr);
+    if (!bucket)
+      byState.set(abbr, (bucket = { salesTaxSum: 0, salesTaxN: 0, incomeTaxSum: 0, incomeTaxN: 0, cities: [] }));
+    bucket.cities.push(`${r.name}, ${abbr}`);
+    if (r.sales_tax !== null) {
+      bucket.salesTaxSum += Number(r.sales_tax);
+      bucket.salesTaxN += 1;
+    }
+    if (r.income_tax !== null) {
+      bucket.incomeTaxSum += Number(r.income_tax);
+      bucket.incomeTaxN += 1;
+    }
+  }
+
+  // Gas prices already fall back to a committed static dataset when the DB
+  // table is unreachable (see lib/gas-prices.ts), so this never throws.
+  const gasByState = new Map<string, number>();
+  for (const g of (await getGasPrices()).data) gasByState.set(g.state, g.price);
+
+  let entries: StateTaxGasEntry[] = [...byState.entries()].map(([abbr, b]) => ({
+    state: abbr,
+    stateName: ABBR_TO_STATE_NAME[abbr] ?? null,
+    salesTaxPct: b.salesTaxN ? round2(b.salesTaxSum / b.salesTaxN) : null,
+    incomeTaxPct: b.incomeTaxN ? round2(b.incomeTaxSum / b.incomeTaxN) : null,
+    gasPricePerGallon: gasByState.get(abbr) ?? null,
+    cities: b.cities.sort(),
+  }));
+
+  if (opts.states?.length) {
+    const wanted = new Set(opts.states.map((s) => resolveStateAbbr(s) ?? s.trim().toUpperCase()));
+    entries = entries.filter((e) => wanted.has(e.state));
+  }
+
+  const sortBy = opts.sortBy ?? "combined";
+  entries = sortStateEntries(entries, sortBy);
+
+  const limit = opts.limit ?? (opts.states?.length ? entries.length : 15);
+  return {
+    scopeNote: STATE_TAX_GAS_SCOPE_NOTE,
+    caveats: STATE_TAX_GAS_CAVEATS,
+    sortedBy: sortBy,
+    states: entries.slice(0, limit),
+  };
 }
 
 /** Compact catalog of every trait, for teaching an LLM to build a profile. */
