@@ -11,3 +11,13 @@ Retrieval date: 2026-08-07.
 - Defense: no manual defense conclusion; derived hub stays null pending employer evidence.
 
 Sources: Census QuickFacts https://www.census.gov/quickfacts/geo/chart/bouldercitycolorado/IPE120223 ; Zillow https://www.zillow.com/home-values/119158/boulder-co/ ; AreaVibes https://www.areavibes.com/boulder-co/cost-of-living/ ; Boulder County 2024 https://electionresults.bouldercounty.gov/ElectionResults2024G/ ; HRC https://hrc-prod-requests.s3-us-west-2.amazonaws.com/files/documents/MEI-Scorecard-Assets/MEI-25-Scorecards/MEI-2025-Boulder-Colorado.pdf
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Ball Aerospace (now BAE Systems Space & Mission Systems) operates its Fisher Integration Facility in Boulder, with a documented $75M expansion, performing national-security space missions — a substantial defense/aerospace employer headquartered in the city.
+
+Sources:
+- Wikipedia, "Ball Aerospace" — https://en.wikipedia.org/wiki/Ball_Aerospace
+- Ball.com newswire, $75M expansion release — https://www.ball.com/aerospace/newsroom
