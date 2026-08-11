@@ -13,10 +13,11 @@
  * whose summary was just terser.
  *
  * This CSV is an unverified draft (see issue #42) and never touches
- * vet_benefits_verified_on / vet_benefits_source_url -- those are owned by
- * scripts/import-retired-pay-tax.ts, which checks retired_pay_tax against a
- * primary source per state. Re-running this importer must not silently erase
- * that verification, so those columns are left out of the upsert entirely.
+ * retired_pay_tax / vet_benefits_verified_on / vet_benefits_source_url --
+ * those are owned by scripts/import-retired-pay-tax.ts, which checks
+ * retired_pay_tax against a primary source per state. Re-running this
+ * importer must not silently regress that verification, so all three
+ * columns are left out of the upsert entirely.
  */
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
@@ -25,16 +26,6 @@ import { getSql } from "../lib/db";
 type Row = Record<string, string>;
 
 const DEFAULT_CSV = "data/state_vet_benefits.csv";
-
-/** Allowed values for the retired_pay_tax enum; anything else is a hard error. */
-const RETIRED_PAY_TAX = new Set([
-  "no_income_tax", // state levies no broad individual income tax
-  "exempt", // retired pay fully excluded
-  "partial", // a capped/percentage exclusion
-  "conditional", // gated on age, income, disability, or service dates
-  "taxed", // no exclusion
-  "unknown", // source summary was silent — needs verification
-]);
 
 const cleanEmpty = (v: string | undefined): string | null => {
   if (v == null) return null;
@@ -51,7 +42,6 @@ const parseBoolV = (v: string | undefined): boolean | null => {
 
 const COLUMNS = [
   ["no_income_tax", "boolean"],
-  ["retired_pay_tax", "text"],
   ["disabled_vet_property_tax", "boolean"],
   ["employment_preference", "boolean"],
   ["education_benefit", "boolean"],
@@ -81,15 +71,9 @@ function parseRow(row: Row): Record<string, unknown> {
     throw new Error(`bad state code: ${JSON.stringify(row["state"])}`);
   }
 
-  const retiredPayTax = cleanEmpty(row["RetiredPayTax"])?.toLowerCase() ?? "unknown";
-  if (!RETIRED_PAY_TAX.has(retiredPayTax)) {
-    throw new Error(`bad RetiredPayTax for ${state}: ${retiredPayTax}`);
-  }
-
   return {
     state,
     no_income_tax: parseBoolV(row["NoIncomeTax"]),
-    retired_pay_tax: retiredPayTax,
     disabled_vet_property_tax: parseBoolV(row["DisabledVetPropertyTax"]),
     employment_preference: parseBoolV(row["EmploymentPreference"]),
     education_benefit: parseBoolV(row["EducationBenefit"]),
@@ -142,7 +126,7 @@ async function main() {
     try {
       const data = parseRow(rows[i]);
       if (dryRun) {
-        console.log(`  = Would upsert: ${data.state} (${data.retired_pay_tax})`);
+        console.log(`  = Would upsert: ${data.state}`);
         continue;
       }
       const result = await upsert(data);

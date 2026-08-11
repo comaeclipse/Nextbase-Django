@@ -24,7 +24,7 @@ State-level information that applies to all locations within a state (no need to
 - **vet_benefits_source_url**: where the `retired_pay_tax` classification was verified.
 - **vet_benefits_verified_on**: date a human last checked `retired_pay_tax` against `vet_benefits_source_url`. Null means unverified.
 
-All five columns are maintained by `scripts/migrate-vet-benefits-tax-columns.ts` + `scripts/import-retired-pay-tax.ts` from `data/state_retired_pay_tax.csv`, verified per-state against primary sources 2026-08-11 (issue #42). `scripts/import-state-benefits.ts` (the broader, still-unverified `data/state_vet_benefits.csv` draft) never touches `vet_benefits_source_url` or `vet_benefits_verified_on` so it can't silently erase this verification.
+All five columns are maintained by `scripts/migrate-vet-benefits-tax-columns.ts` + `scripts/import-retired-pay-tax.ts` from `data/state_retired_pay_tax.csv`, verified per-state against primary sources 2026-08-11 (issue #42). `scripts/import-state-benefits.ts` (the broader, still-unverified `data/state_vet_benefits.csv` draft) never touches `retired_pay_tax`, `vet_benefits_source_url`, or `vet_benefits_verified_on` so it can't silently regress this verification.
 
 ---
 
