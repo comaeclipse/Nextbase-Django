@@ -68,3 +68,14 @@ Retrieved: 2026-08-06
   - https://www.gilbertaz.gov/residents/parks-and-recreation
   - https://www.gilbertaz.gov/residents/hospitals-community-facilities
   - User-provided Gilbert Reddit synthesis, local-perception graphic, and linked threads, accessed 2026-08-06.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Northrop Grumman operates a satellite-manufacturing facility in Gilbert described as one of the largest of its kind in the U.S., and Phoenix Defense is headquartered in Gilbert with roughly 128,000 sq ft across three facilities — a real, substantial defense-manufacturing presence with no tracked RTX presence needed to justify it.
+
+Sources:
+- Northrop Grumman, Arizona careers/site page — https://www.northropgrumman.com/careers/locations/arizona
+- Gilbert Economic Development (gilbertedi.com), aerospace-aviation sector page — https://www.gilbertedi.com/
+- Phoenix Defense (phx-defense.com), locations page — https://www.phx-defense.com/
