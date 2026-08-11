@@ -123,31 +123,48 @@ export const COST_CONSTANTS = {
    * 100. A city at exactly this value gets housingIndex = 100.
    */
   nationalMedianHomeValue: constant({
-    value: null,
+    value: 372995,
     unit: "USD",
     kind: "measured",
-    source: "Zillow ZHVI national, or FHFA House Price Index",
-    sourceUrl: null,
-    sourcedOn: null,
+    source:
+      "Zillow Home Value Index (ZHVI), all homes incl. single-family, condo " +
+      "and co-op, United States — observation for June 2026",
+    sourceUrl: "https://fred.stlouisfed.org/series/USAUCSFRCONDOSMSAMID",
+    sourcedOn: "2026-08-11",
     refresh: "monthly",
     note:
-      "Must be the same *kind* of figure as avg_home_value in the DB " +
-      "(typical/average home value, not median SALE price). Mismatching these " +
-      "shifts every city's housing index in the same direction.",
+      "Observation month is June 2026 (ZHVI publishes with a lag); sourcedOn " +
+      "is merely when it was looked up. Refresh the observation, not just the " +
+      "date.\n" +
+      "ZHVI is the TYPICAL home value (35th-65th percentile), which is the " +
+      "right counterpart to avg_home_value — lib/housing-market.ts shows this " +
+      "project's home values are Zillow-derived, so the two are like-for-like. " +
+      "Do not substitute a median SALE price: it is a different population " +
+      "(homes that transacted) and would shift every city's housing index in " +
+      "the same direction.",
   }),
 
   /** Standard Medicare Part B monthly premium. Does not vary by location. */
   medicarePartBMonthly: constant({
-    value: null,
+    value: 202.9,
     unit: "USD per month",
     kind: "measured",
-    source: "CMS published Part B premium schedule for the current year",
-    sourceUrl: null,
-    sourcedOn: null,
+    source:
+      "CMS standard Medicare Part B premium for calendar year 2026 " +
+      "(up 9.7% from $185.00 in 2025)",
+    sourceUrl:
+      "https://www.federalregister.gov/documents/2025/11/19/2025-20251/medicare-program-medicare-part-b-monthly-actuarial-rates-premium-rates-and-annual-deductible",
+    sourcedOn: "2026-08-11",
     refresh: "annual",
     note:
-      "The standard premium only. IRMAA surcharges apply above an income " +
-      "threshold that fixed-income retirees are generally below.",
+      "The STANDARD premium only. Two ways a real person pays something else, " +
+      "both of which this model ignores:\n" +
+      "- IRMAA surcharges apply above an income threshold that fixed-income " +
+      "retirees are generally below, so omitting them is safe here.\n" +
+      "- The hold-harmless rule caps the premium increase at a beneficiary's " +
+      "Social Security COLA, so some retirees pay LESS than the standard " +
+      "figure. That makes this constant mildly conservative.\n" +
+      "Excludes the $283 annual Part B deductible, which is not a monthly cost.",
   }),
 
   /**
@@ -246,18 +263,23 @@ export const COST_CONSTANTS = {
    * a wrong value shifts all of them in the same direction.
    */
   insuranceBenchmarkDwelling: constant({
-    value: null,
+    value: 300000,
     unit: "USD of dwelling coverage",
     kind: "measured",
     source:
-      "lib/insurance.ts -> HOME_INSURANCE_DATASET.profile (the benchmark the " +
-      "published premiums assume)",
+      'lib/insurance.ts -> HOME_INSURANCE_DATASET.profile: "$300K dwelling, ' +
+      '$300K liability, $1K deductible, good credit; 2% hurricane deductible ' +
+      'where applicable." (dataVintage: 2026 standardized benchmark)',
     sourceUrl: null,
-    sourcedOn: null,
+    sourcedOn: "2026-08-11",
     refresh: "rare",
     note:
-      "This is the one constant you can source without leaving the repo: it is " +
-      "already written down in the insurance dataset's own profile field.",
+      "Sourced from inside the repo — no external lookup. sourceUrl is null " +
+      "because the source is a file, not a URL.\n" +
+      "If HOME_INSURANCE_DATASET is ever re-benchmarked at a different dwelling " +
+      "amount, this MUST change with it: every city's insurance figure is " +
+      "scaled relative to this number, so a stale value biases them all the " +
+      "same way.",
   }),
 
   /**
@@ -285,13 +307,22 @@ export const COST_CONSTANTS = {
 
   /** 30-year fixed mortgage rate, for the `buying` tenure only. */
   mortgageRate30yr: constant({
-    value: null,
+    value: 0.0669,
     unit: "annual fraction, e.g. 0.065 for 6.5%",
     kind: "measured",
-    source: "Freddie Mac Primary Mortgage Market Survey",
-    sourceUrl: null,
-    sourcedOn: null,
+    source:
+      "Freddie Mac Primary Mortgage Market Survey, 30-year FRM average — " +
+      "week of 2026-08-06",
+    sourceUrl: "https://www.freddiemac.com/pmms",
+    sourcedOn: "2026-08-11",
     refresh: "monthly",
+    note:
+      "A WEEKLY series, so this goes stale faster than anything else here. " +
+      "PMMS assumes 20% down and excellent credit, which matches " +
+      "defaultDownPaymentFraction but flatters a borrower who does not.\n" +
+      "Only the `buying` tenure reads this. Retirees buying after a home sale " +
+      "often pay cash, in which case own_outright is the right tenure and this " +
+      "constant is irrelevant to them.",
   }),
 
   /** Default down payment fraction for the `buying` tenure. */
