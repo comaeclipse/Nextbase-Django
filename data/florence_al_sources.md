@@ -75,3 +75,12 @@ Retrieved: 2026-08-06
   - https://www.una.edu/about/
   - https://www.nps.gov/mush/planyourvisit/hours.htm
   - https://www.visitflorenceal.com/about/local-links/
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+No evidence found of a military installation or defense-contractor facility in or near Florence. Alabama's major defense cluster (Redstone Arsenal) is roughly 70 miles away in Huntsville — too distant to be relevant to a Florence retiree. Left NULL as genuinely unknown/no evidence, not vetoed.
+
+Sources:
+- No qualifying source found; absence of evidence documented after searching DoD installation lists and Florence/Shoals-area economic development pages.
