@@ -24,3 +24,13 @@ Researched 2026-08-06. The location represents Oklahoma City proper except where
 - No comparable, source-verified Total Crime Index/rating was identified; `TCI` and `CrimeRating` are blank. Oklahoma SIBRS and the OKCPD annual report provide raw data but not the product's normalized cross-city index.
 - No defensible annual sunny-day or July relative-humidity value was located; base-row `SunnyDays` and `HumiditySummer` are blank. NOAA detail-table imports preserve station-based normal data separately.
 - `TechHub` is left unknown rather than asserting a broad hub classification without a dedicated source.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Tinker Air Force Base employs 26,000+ personnel and is Oklahoma's largest single-site employer of any kind — an overwhelming, well-documented defense presence beyond the tracked Pratt & Whitney (7 onsite) and L3Harris (1 onsite) postings.
+
+Sources:
+- Wikipedia, "Tinker Air Force Base" — https://en.wikipedia.org/wiki/Tinker_Air_Force_Base
+- Oklahoma Historical Society (okhistory.org), Tinker AFB entry — https://www.okhistory.org/
