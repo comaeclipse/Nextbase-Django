@@ -48,3 +48,12 @@ Retrieval date: 2026-08-06.
 - NOAA 1991-2020 monthly normals, USW00023066: https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&stations=USW00023066&format=json&units=standard&includeAttributes=false
 - Visit Grand Junction: https://www.visitgrandjunction.com/
 - National Park Service, Colorado National Monument: https://www.nps.gov/colm/index.htm
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+Only a modest Colorado Army National Guard armory was found — below the bar for a retiree-relevant defense hub. Left NULL, not vetoed, since a small armory is a real but minor presence rather than affirmative evidence of "no defense character."
+
+Sources:
+- Colorado National Guard, armory locations page — https://www.co.ng.mil/
