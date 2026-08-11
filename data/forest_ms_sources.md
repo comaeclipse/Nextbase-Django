@@ -44,3 +44,14 @@
 - WeatherSpark Forest climate: https://weatherspark.com/y/12483/Average-Weather-in-Forest-Mississippi-United-States-Year-Round
 - Timeanddate central Mississippi humidity proxy: https://www.timeanddate.com/weather/%404443468/climate
 - AAA Mississippi gas prices: https://gasprices.aaa.com/?state=MS
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Raytheon's Consolidated Manufacturing Center in Forest employs 700+ people in a town of roughly 5,700-6,000 residents, with three documented expansions since 2013 — this is a dominant local employer, not a token site, and matches the tracked Raytheon presence (9 onsite, 2 hybrid).
+
+Sources:
+- PR Newswire, Raytheon Forest MS expansion release — https://www.prnewswire.com/
+- Mississippi Development Authority (Mississippi.org), RTX profile — https://mississippi.org/
+- Area Development, 2023-09-18 — https://www.areadevelopment.com/
