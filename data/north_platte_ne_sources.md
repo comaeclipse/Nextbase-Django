@@ -44,3 +44,12 @@ The provided Reddit synthesis is useful qualitative relocation context, but it i
 - Nebraska Arts Council, North Platte Canteen District: https://www.artscouncil.nebraska.gov/explore/certified-creative-districts/the-north-platte-canteen-district/
 - Nebraska Game and Parks, Buffalo Bill State Recreation Area: https://outdoornebraska.gov/location/buffalo-bill/
 - User-provided Reddit synthesis attachment, accessed 2026-08-06: `C:\Users\skarz\.codex\attachments\c5de53a3-fcf3-4db4-b0c4-7f1c26851eef\pasted-text.txt`
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+Only a small National Guard armory was found. Nebraska's real ANG wing is in Lincoln and Offutt AFB is near Omaha — neither near North Platte. Left NULL, not vetoed, since the armory is a minor but real presence.
+
+Sources:
+- Nebraska National Guard, armory locations — https://www.nebraska.ng.mil/
