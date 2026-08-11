@@ -20,3 +20,12 @@ Researched 2026-07-28. This row represents the incorporated city of Odessa in Ec
 - No documented annual sunny-day or summer-humidity value was retained, so those CSV fields are blank.
 - No current city gas-price snapshot, cost-of-living index, federal Tech Hub designation, or local defense-employer location link was found in the reviewed sources. `DefenseHub` is blank (unknown), not `No`; the derived field must be recomputed after any future employer linkage.
 - Tags are modest, source-compatible product descriptors: local VA access, Texas tax policy, and local cultural amenities. They do not assert an unsourced defense, safety, or LGBTQ conclusion.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+Odessa's economy is dominated by oil and gas. Only a small National Guard armory was found, and the area's WWII-era airfields (e.g. Midland Army Air Field) closed decades ago. Left NULL.
+
+Sources:
+- Texas Military Department, armory/facility locations — https://tmd.texas.gov/
