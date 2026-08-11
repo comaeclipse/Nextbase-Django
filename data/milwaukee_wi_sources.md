@@ -63,3 +63,13 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+The 128th Air Refueling Wing (Wisconsin Air National Guard, KC-135R tankers) is based at General Mitchell Air National Guard Base, within Milwaukee city limits — a genuine, active military installation.
+
+Sources:
+- Wikipedia, "128th Air Refueling Wing" — https://en.wikipedia.org/wiki/128th_Air_Refueling_Wing
+- Air National Guard, unit locations page — https://www.ang.af.mil/
