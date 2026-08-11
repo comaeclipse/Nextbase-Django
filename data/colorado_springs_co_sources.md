@@ -66,3 +66,14 @@ None of the six issue #29 target fields for this row were left blank — all wer
 defense-hub judgment call per `CLAUDE.md`'s rules, not a sourced narrative fact — left untouched.
 Given the extensive military presence documented above (Peterson SFB, Fort Carson, USAFA), Colorado
 Springs looks like a strong `defense_hub_manual = true` candidate for that separate pass.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Home to Peterson Space Force Base (NORAD/USNORTHCOM HQ), Schriever Space Force Base, Fort Carson, the Cheyenne Mountain Complex, and the U.S. Air Force Academy — one of the most concentrated multi-installation defense presences of any curated city, independent of the tracked RTX/Collins/System High/L3Harris postings.
+
+Sources:
+- Homefront Military Network, Colorado Springs installation guide — https://www.homefrontmilitarynetwork.org/
+- MilitaryHomeSearch, Colorado Springs base guide — https://www.militaryhomesearch.com/
+- PCS Pay It Forward, Peterson SFB guide — https://pcspayitforward.com/
