@@ -199,7 +199,18 @@ async function main() {
       unmatched.push({ label, county: "(no county on file)" });
       continue;
     }
-    const rate = byCounty.get(geoKey(loc.state, normalizeCounty(loc.county)));
+    const base = normalizeCounty(loc.county);
+    let rate = byCounty.get(geoKey(loc.state, base));
+    if (rate === undefined) {
+      // Independent cities (VA/MD/MO/NV) are their own county-equivalent and the
+      // source spells them "<name> city". "city" isn't a stripped suffix in
+      // normalizeCounty because several states also have a same-named County
+      // (Fairfax, Franklin, Richmond, Roanoke, Baltimore, St. Louis) whose
+      // "<name> County" row already normalizes to the bare `base` above and
+      // wins the primary lookup — so this fallback only ever fires for names
+      // with no colliding county, i.e. the unambiguous independent cities.
+      rate = byCounty.get(geoKey(loc.state, `${base} city`));
+    }
     if (rate === undefined) unmatched.push({ label, county: loc.county });
     else matched.push({ id: loc.id, label, county: loc.county, rate });
   }
