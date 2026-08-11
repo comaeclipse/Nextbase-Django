@@ -24,7 +24,10 @@
  *   ... --year 2023         ACS 5-year vintage (default 2023)
  *   ... --no-county-fallback   place-level matches only
  *
- * A Census API key is optional but avoids rate limits: set CENSUS_API_KEY.
+ * A Census API key is REQUIRED. The API answers keyless requests with a 302 to
+ * an HTML "Missing Key" page rather than an error status, so a naive check of
+ * response.ok passes and the JSON parse is what fails. Get a free key at
+ * https://api.census.gov/data/key_signup.html and set CENSUS_API_KEY in .env.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -77,7 +80,14 @@ function cachePath(geo: Geography, fips: string): string {
   return path.join(SOURCE_DIR, `${year}-${geo}-${fips}.json`);
 }
 
-/** Fetch one state's rows for a geography level, caching the raw response. */
+/**
+ * Fetch one state's rows for a geography level, caching the raw response.
+ *
+ * Validates the body rather than trusting the status. A keyless or malformed
+ * request is answered with a 302 to an HTML page, so `res.ok` is true and the
+ * failure only shows up as a JSON parse error several frames away from the
+ * cause.
+ */
 async function fetchGeo(geo: Geography, fips: string): Promise<string[][]> {
   const cached = cachePath(geo, fips);
   if (skipDownload || fs.existsSync(cached)) {
@@ -85,18 +95,39 @@ async function fetchGeo(geo: Geography, fips: string): Promise<string[][]> {
     return JSON.parse(fs.readFileSync(cached, "utf8"));
   }
 
-  const key = process.env.CENSUS_API_KEY;
   const url =
     `https://api.census.gov/data/${year}/acs/acs5?get=NAME,${VARIABLE}` +
-    `&for=${geo}:*&in=state:${fips}` +
-    (key ? `&key=${key}` : "");
+    `&for=${geo}:*&in=state:${fips}&key=${process.env.CENSUS_API_KEY}`;
 
   const res = await fetch(url);
+  const body = await res.text();
+
   if (!res.ok) {
     console.log(`    ! ${geo} ${fips}: HTTP ${res.status}`);
     return [];
   }
-  const data = (await res.json()) as string[][];
+  if (res.redirected && res.url.includes("missing_key")) {
+    throw new Error(
+      "Census rejected the API key. Check CENSUS_API_KEY in .env — a new key " +
+        "can take a few minutes to activate after signup."
+    );
+  }
+  if (!body.trimStart().startsWith("[")) {
+    // Census signals several failure modes with an HTML page and a 200.
+    console.log(
+      `    ! ${geo} ${fips}: expected JSON, got ${body.trimStart().slice(0, 60)}...`
+    );
+    return [];
+  }
+
+  let data: string[][];
+  try {
+    data = JSON.parse(body) as string[][];
+  } catch {
+    console.log(`    ! ${geo} ${fips}: unparseable JSON`);
+    return [];
+  }
+
   fs.mkdirSync(SOURCE_DIR, { recursive: true });
   fs.writeFileSync(cached, JSON.stringify(data));
   return data;
@@ -128,6 +159,20 @@ function toLookup(
 
 async function main() {
   console.log(`Median rent import${dryRun ? " (dry run)" : ""} — ACS ${year} 5-year, ${VARIABLE}`);
+
+  if (!skipDownload && !process.env.CENSUS_API_KEY) {
+    console.error(
+      "\nCENSUS_API_KEY is not set.\n\n" +
+        "The Census API requires a key. Without one it answers with a redirect\n" +
+        "to an HTML page instead of an error status, so this fails in a way that\n" +
+        "looks like a bug in this script rather than a missing credential.\n\n" +
+        "  1. Request a free key: https://api.census.gov/data/key_signup.html\n" +
+        "  2. Add it to .env:     CENSUS_API_KEY=...\n" +
+        "  3. Re-run. (A new key can take a few minutes to activate.)\n\n" +
+        "Already have cached responses? Re-run with --skip-download.\n"
+    );
+    process.exit(1);
+  }
 
   const sql = getSql();
   const locations = (await sql.query(
