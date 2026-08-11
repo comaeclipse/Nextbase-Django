@@ -65,3 +65,12 @@ column touched.
 - `description` was already populated pre-patch and correctly left untouched.
 - `scripts/verify-location-completeness.ts` also flags this row as missing `lgbtq_mei_score` and
   `defense_hub_manual`/`defense_hub`, out of scope for issue #29 (belong to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+No installation or defense-contractor facility found in or near this Charlotte suburb. Left NULL as no evidence either way.
+
+Sources:
+- No qualifying source found; absence of evidence documented after searching DoD installation lists and Union County/Charlotte-region economic development pages.
