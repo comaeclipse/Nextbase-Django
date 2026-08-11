@@ -33,3 +33,15 @@ Research date: 2026-07-23
 - Direct official FBI/Dallas normalized violent-crime export was not retrieved; TCI uses OpenCrime's FBI-based per-100k rate and keeps Dallas Police official crime resources as corroborating context.
 - Dallas-specific AAA metro gas pricing was not found; the stored gas price is the Texas statewide AAA average as of the research date.
 - Climate inputs come from multiple sources because no single official source returned every field required by the existing CSV schema.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **FALSE (hard veto)**
+
+Vetoed. Raytheon's Lemmon Ave plant in Dallas closed at the end of 2024 and is being demolished for a Porsche dealership. The region's real defense presence — Lockheed Martin's F-35 plant and Naval Air Station JRB Fort Worth — is in Fort Worth, a separate city, and Raytheon's large campus is in McKinney, also separate from Dallas proper. Nothing substantial remains in Dallas itself beyond a single onsite Raytheon posting.
+
+Sources:
+- CoStar, Raytheon Lemmon Ave / Porsche dealership coverage — https://www.costar.com/
+- WFAA, coverage of the plant closure — https://www.wfaa.com/
+- Texas State Historical Association (tshaonline.org), "Naval Air Station Dallas" — https://www.tshaonline.org/
+- Wikipedia, "Grand Prairie Armed Forces Reserve Complex" — https://en.wikipedia.org/wiki/Grand_Prairie_Armed_Forces_Reserve_Complex
