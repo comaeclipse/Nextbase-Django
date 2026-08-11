@@ -151,6 +151,34 @@ export function taxableSocialSecurity(
 }
 
 /**
+ * The OBBBA senior bonus deduction after its MAGI phase-out.
+ *
+ * TEMPORARY: tax years 2025-2028. When TAX_YEAR passes 2028 this must return 0
+ * and the constants should be deleted rather than left to quietly keep
+ * applying a deduction that no longer exists.
+ *
+ * Rarely reduced for this audience — a fixed-income veteran is well under the
+ * threshold — but a retiree working full time can cross it.
+ */
+export function seniorBonusDeduction(
+  magi: number,
+  qualifying65Count: number,
+  filing: FilingStatus,
+  c: ResolvedTaxConstants
+): number {
+  if (qualifying65Count <= 0) return 0;
+
+  const full = c.seniorBonusDeduction * qualifying65Count;
+  const threshold =
+    filing === "married"
+      ? c.seniorBonusPhaseOutStartMarried
+      : c.seniorBonusPhaseOutStartSingle;
+
+  const excess = Math.max(0, magi - threshold);
+  return Math.max(0, full - excess * c.seniorBonusPhaseOutRate);
+}
+
+/**
  * Whether a state taxes military retired pay, given its classification.
  *
  * `partial` and `conditional` are treated as FULLY taxable and flagged. Both
@@ -198,7 +226,12 @@ function retiredPayStateTaxable(
 export function estimateNetMonthlyIncome(
   sources: IncomeSource[],
   state: StateTaxProfile,
-  opts: { filing: FilingStatus; age65Plus: boolean },
+  opts: {
+    filing: FilingStatus;
+    age65Plus: boolean;
+    /** Married only: whether the spouse also qualifies for age-65 amounts. */
+    spouse65Plus?: boolean;
+  },
   c: ResolvedTaxConstants
 ): NetIncomeEstimate {
   const missing: string[] = [];
@@ -243,15 +276,33 @@ export function estimateNetMonthlyIncome(
     opts.filing === "married"
       ? c.standardDeductionMarried
       : c.standardDeductionSingle;
-  const ageDeduction = !opts.age65Plus
-    ? 0
-    : opts.filing === "married"
+
+  // Both age-65 deductions are per qualifying INDIVIDUAL, so a couple where
+  // both are 65+ claims each amount twice.
+  const qualifying65 =
+    (opts.age65Plus ? 1 : 0) +
+    (opts.filing === "married" && opts.spouse65Plus ? 1 : 0);
+
+  const ageDeduction =
+    qualifying65 *
+    (opts.filing === "married"
       ? c.additionalDeduction65Married
-      : c.additionalDeduction65Single;
+      : c.additionalDeduction65Single);
+
+  // The OBBBA senior bonus stacks on top of the standard and 63(f) amounts,
+  // and phases out on MAGI. AGI stands in for MAGI here; the model has none of
+  // the add-backs that separate them.
+  const magi = otherTaxable + taxableSS;
+  const seniorBonus = seniorBonusDeduction(magi, qualifying65, opts.filing, c);
+  if (seniorBonus > 0) {
+    notes.push(
+      "Includes the temporary senior deduction for filers 65 and older, which expires after tax year 2028."
+    );
+  }
 
   const federalTaxableIncome = Math.max(
     0,
-    otherTaxable + taxableSS - (baseDeduction + ageDeduction)
+    otherTaxable + taxableSS - (baseDeduction + ageDeduction + seniorBonus)
   );
   const brackets =
     opts.filing === "married" ? c.brackets.married : c.brackets.single;

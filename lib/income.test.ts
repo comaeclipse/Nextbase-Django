@@ -12,6 +12,7 @@ import {
   taxableSocialSecurity,
   applyBrackets,
   isStateTaxIrrelevant,
+  seniorBonusDeduction,
   type IncomeSource,
   type StateTaxProfile,
 } from "./income";
@@ -22,6 +23,10 @@ const C: ResolvedTaxConstants = {
   standardDeductionMarried: 30_000,
   additionalDeduction65Single: 2_000,
   additionalDeduction65Married: 1_600,
+  seniorBonusDeduction: 6_000,
+  seniorBonusPhaseOutStartSingle: 75_000,
+  seniorBonusPhaseOutStartMarried: 150_000,
+  seniorBonusPhaseOutRate: 0.06,
   ficaRate: 0.0765,
   ficaSocialSecurityWageBase: 170_000,
   ssProvisionalThreshold1Single: 25_000,
@@ -173,6 +178,32 @@ describe("estimateNetMonthlyIncome", () => {
     const aboveCap = estimateNetMonthlyIncome([src("wages", 20_000)], NO_TAX_STATE, OPTS, C);
     // Doubling wages past the cap must less than double FICA.
     expect(aboveCap.ficaMonthly).toBeLessThan(belowCap.ficaMonthly * 2);
+  });
+
+  it("applies the senior bonus in full below the phase-out", () => {
+    expect(seniorBonusDeduction(40_000, 1, "single", C)).toBe(6_000);
+    // Per qualifying individual: a couple both 65+ claims twice.
+    expect(seniorBonusDeduction(40_000, 2, "married", C)).toBe(12_000);
+    expect(seniorBonusDeduction(40_000, 0, "single", C)).toBe(0);
+  });
+
+  it("phases the senior bonus out at 6 cents per dollar over the threshold", () => {
+    // $10k over the single threshold => 6,000 - 600 = 5,400
+    expect(seniorBonusDeduction(85_000, 1, "single", C)).toBeCloseTo(5_400, 6);
+    // Fully eliminated at $175k single, per the statute.
+    expect(seniorBonusDeduction(175_000, 1, "single", C)).toBeCloseTo(0, 6);
+    expect(seniorBonusDeduction(200_000, 1, "single", C)).toBe(0);
+  });
+
+  it("counts a 65+ spouse for both age deductions", () => {
+    const sources = [src("military_retirement", 4_000)];
+    const one = estimateNetMonthlyIncome(
+      sources, NO_TAX_STATE, { filing: "married", age65Plus: true }, C
+    );
+    const both = estimateNetMonthlyIncome(
+      sources, NO_TAX_STATE, { filing: "married", age65Plus: true, spouse65Plus: true }, C
+    );
+    expect(both.federalMonthly).toBeLessThan(one.federalMonthly);
   });
 
   it("gives a 65+ filer the larger standard deduction", () => {
