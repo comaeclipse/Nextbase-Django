@@ -815,6 +815,13 @@
       "longitude": -111.930991
     },
     {
+      "name": "St. George",
+      "state": "UT",
+      "census_place_geoid": "4965330",
+      "latitude": 37.077006,
+      "longitude": -113.576534
+    },
+    {
       "name": "Chantilly",
       "state": "VA",
       "census_place_geoid": "5114744",

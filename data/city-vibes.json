@@ -10,6 +10,7 @@
     "Phoenix, AZ": ["desert_life", "nightlife"],
     "Sierra Vista, AZ": ["desert_life", "mountain_living", "quiet_retreat", "great_outdoors"],
     "Tucson, AZ": ["desert_life", "mountain_living", "great_outdoors"],
+    "St. George, UT": ["desert_life", "mountain_living", "great_outdoors", "quiet_retreat"],
     "Costa Mesa, CA": ["beach_life"],
     "Eureka, CA": ["beach_life", "mountain_living", "quiet_retreat", "great_outdoors"],
     "Irvine, CA": ["beach_life"],

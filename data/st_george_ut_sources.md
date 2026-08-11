@@ -1,0 +1,33 @@
+# St. George, UT Sources
+
+Retrieved: 2026-08-11.
+
+| Field | Source and note |
+| --- | --- |
+| Identity, population, density | St. George city is in Washington County. Census Reporter's ACS 2024 1-year profile reports 106,289 residents, 77.4 square miles, and 1,373.2 people per square mile. U.S. Census QuickFacts separately reports a July 1, 2025 estimate of 108,713; the CSV uses the ACS 2024 population/density pair to avoid mixing denominators. Sources: https://censusreporter.org/profiles/16000US4965330-st-george-ut/ and https://www.census.gov/quickfacts/fact/table/stgeorgecityutah/PST045225 |
+| Coordinates | Census 2024 Gazetteer place internal point from the repo pace bundle: GEOID 4965330, lat 37.077006, lon -113.576534. |
+| Taxes | Utah State Tax Commission combined sales/use tax chart describes combined local rates; current St. George combined sales tax is 6.75%. Tax Foundation 2026 Utah page reports Utah's flat individual income tax rate as 4.45%. Sources: https://tax.utah.gov/business/sales-tax/sales/rates/ and https://taxfoundation.org/location/utah/ |
+| Cost of living | BestPlaces reports a St. George cost-of-living score of 109.9. CSV rounds to 110. Source: https://www.bestplaces.net/cost_of_living/city/utah/st._george |
+| Housing | Zillow's Saint George, UT home-values page reports a typical home value of $521,140, data through 2026-06-30. Source: https://www.zillow.com/home-values/33801/saint-george-ut/ |
+| VA access | VA's St. George VA Clinic page lists the clinic at 585 East Riverside Drive with primary care and other health services. A scoped VHA ArcGIS nearest-facility calculation stored St. George VA Clinic as the nearest outpatient-capable site at 1 mile and North Las Vegas VA Medical Center as the nearest VA medical center at 100 miles. Source: https://www.va.gov/salt-lake-city-health-care/locations/st-george-va-clinic/ and https://vha.maps.arcgis.com/home/item.html?id=c6821e66523a46f5b32893641b9bd0dd |
+| Veterans benefits | Current state benefits summary reused from `data/state_vet_benefits.csv` for Utah: disabled-veteran property-tax exemption, hiring preference, education/tuition assistance, disabled-veteran Honor Pass, plates, and hunting/fishing privileges. |
+| Crime | NeighborhoodScout reports St. George total Crime Index 32, with violent crime at 2.13 per 1,000 and property crime at 10.26 per 1,000. Niche's crime/safety profile shows most listed violent and property crime rates below national benchmarks except rape. CSV stores `Moderate` because the normalized index is not low enough to call "Low" without overstatement. Sources: https://www.neighborhoodscout.com/ut/st-george/crime and https://www.niche.com/places-to-live/st-george-washington-ut/crime-safety/ |
+| Cannabis | Utah's official medical cannabis site describes the legal medical cannabis program; recreational cannabis remains illegal. CSV stores `Medical`. Source: https://medicalcannabis.utah.gov/ |
+| LGBTQ | HRC's 2025 Utah MEI page lists Logan, Ogden City, Orem, Park City, Provo, Salt Lake City, West Jordan, and West Valley City scorecards, but no St. George scorecard. MAP's Utah Equality Profile reports an overall state LGBTQ policy score of 9/49, Low. CSV stores `Not Rated` for municipal MEI and `9` for the state policy score. Sources: https://www.hrc.org/resources/mei-state/utah and https://mapresearch.org/equality-profiles/ut/ |
+| Politics and elections | Washington County 2016 presidential result: Trump 42,650 / 68.38%, Clinton 10,288 / 16.49%, McMullin 6,565 / 10.53%. Washington County 2024 presidential result: Trump 73,165 / 75.23%, Harris 22,327 / 22.96%. CSV winner percentages use total-vote winner share rounded to integers. Trend uses two-party share: Republican share moved from 80.56% in 2016 to 76.62% in 2024, or 3.9 pp more Democratic. Sources: Utah Lieutenant Governor results as summarized at https://en.wikipedia.org/wiki/2016_United_States_presidential_election_in_Utah and https://en.wikipedia.org/wiki/2024_United_States_presidential_election_in_Utah |
+| Climate | NOAA/NCEI 1991-2020 monthly normals for station USC00427516 (ST GEORGE, UT US) report annual precipitation 9.31 inches, annual snow 1.2 inches, January normal low 28.4 F, and July normal high 101.9 F. CSV rounds to 9, 1, 28, and 102. The post-import monthly normals table uses the same local station, 3.3 miles from the Census city point. Hourly moisture normals matched USW00093129 at 51.0 miles, slightly beyond the repo review threshold, so moisture values should be treated as regional-air-mass context. Timeanddate reports July humidity 24%. St. George climate summaries report roughly 300 sunny days/year; NOAA monthly normals do not publish a simple sunny-days field. Sources: https://noaa-normals-pds.s3.amazonaws.com/normals-monthly/1991-2020/access/USC00427516.csv and https://www.timeanddate.com/weather/usa/st-george/climate |
+| Gas | AAA's St. George metro regular gas price page reported $4.398 current average on 2026-08-11. CSV rounds to $4.40. Source: https://gasprices.aaa.com/?state=UT |
+| Amenities for future backfill | `has_walmart=Y`: official Walmart page for Supercenter #3220 at 2610 Pioneer Rd, St George, UT. `has_costco=Y`: official Costco warehouse page for 835 N 3050 E, Saint George, UT; Salt Lake Tribune reported a second St. George Costco opened on 2026-03-13. Sources: https://www.walmart.com/store/3220-st-george-ut and https://www.costco.com/w/-/ut/saint-george/672 |
+| Tech and defense hubs | No source-backed evidence found that St. George is a major tech hub or defense hub under current VetRetire definitions. DefenseHub is stored as a reviewed `N` manual value and remains subject to the derived recompute workflow if future employer/location data adds a qualifying physical defense-employer presence. |
+
+Post-import follow-up notes:
+
+- Run VA facility sync after import so `nearest_va_hospital` and `distance_to_va_hospital` are filled from the VHA ArcGIS layer.
+- Run `prepare-map-coordinates.ts`; the pace bundle already contains the official St. George Census place centroid.
+- Run monthly and hourly weather imports after the row exists. Monthly weather should match local station `USC00427516`; hourly moisture may need a farther airport station and should retain the station-distance caveat.
+
+Completed post-import:
+
+- `verify-location-completeness.ts --name "St. George, UT"` passed on 2026-08-11.
+- Map coordinate crosswalk contains St. George from Census place GEOID 4965330.
+- Pace candidate `suburban` was reviewed and approved because St. George is the principal city of the St. George metro and functions as a regional suburban-service center.
