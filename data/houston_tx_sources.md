@@ -58,3 +58,13 @@ field.
 None of the five fields this patch targeted were left blank. `scripts/verify-location-completeness.ts`
 flags this row as missing `defense_hub_manual`/`defense_hub`, out of scope for issue #29 (belongs to
 issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Ellington Field Joint Reserve Base, with 5,000+ personnel, is headquarters of the 147th Reconnaissance Wing and the Army Reserve's 75th Training Command — a genuine, sizable military installation within Houston, beyond the tracked Collins Aerospace (1 onsite) posting.
+
+Sources:
+- Wikipedia, "Ellington Field Joint Reserve Base" — https://en.wikipedia.org/wiki/Ellington_Field_Joint_Reserve_Base
+- DVIDS Hub, Ellington Field feature coverage — https://www.dvidshub.net/
