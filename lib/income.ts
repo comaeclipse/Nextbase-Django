@@ -1,0 +1,339 @@
+/*
+ * Take-home income model for veteran households.
+ *
+ * WHY INCOME IS NOT A SINGLE NUMBER
+ *
+ * The cost model asks what a place costs. This asks what the household
+ * actually has, and for this audience that cannot be answered from a gross
+ * figure alone. The same $4,000/month behaves very differently depending on
+ * where it comes from:
+ *
+ *   VA disability        federally tax-free, and no state taxes it
+ *   Military retired pay federally taxable; state treatment varies widely
+ *   Social Security      federally taxable only above a provisional-income
+ *                        test, capped at 85%; state treatment varies
+ *   Pension / IRA        federally taxable; state per its ordinary rate
+ *   Wages                federally taxable, plus FICA, plus state
+ *
+ * A veteran living on disability alone is unaffected by state income tax, so
+ * "move somewhere with no income tax" is noise for them. The same advice is
+ * worth real money to someone drawing retired pay and working part time. A
+ * scalar income input cannot tell those two people apart, and would rank
+ * cities identically for both.
+ *
+ * The consequence worth noting: because state treatment varies, NET INCOME
+ * VARIES BY LOCATION. Pairing this with lib/affordability.ts means both sides
+ * of the comparison move per city, which is what makes the answer real.
+ *
+ * SCOPE — READ THIS BEFORE BUILDING ON IT
+ *
+ * This estimates take-home so places can be compared. It is not tax advice and
+ * must never be presented as a tax liability or a filing aid. Known omissions,
+ * all deliberate: itemized deductions, credits, dependents, self-employment
+ * tax, capital gains, tax-exempt interest in the provisional-income test,
+ * local/city income taxes, and state-specific deductions and exemptions.
+ */
+import type { RetiredPayTax } from "./types";
+import type { ResolvedTaxConstants, TaxBracket } from "./tax-constants";
+
+export type IncomeKind =
+  | "va_disability"
+  | "military_retirement"
+  | "social_security"
+  | "pension_or_ira"
+  | "wages";
+
+export interface IncomeSource {
+  kind: IncomeKind;
+  /** Gross dollars per month from this source. */
+  monthlyAmount: number;
+}
+
+export type FilingStatus = "single" | "married";
+
+/**
+ * How a state treats Social Security benefits.
+ *
+ * There is no column for this yet — it is a P0 ingestion task. Until it lands,
+ * callers pass null and the model flags the gap rather than guessing.
+ */
+export type SsTaxTreatment = "not_taxed" | "partial" | "taxed" | "unknown";
+
+/** The state-level tax inputs the model needs for one location. */
+export interface StateTaxProfile {
+  /** Ordinary state income tax rate as a PERCENT (e.g. 4.4), or null. */
+  stateIncomeTaxRatePct: number | null;
+  /** From locations_stateinfo.retired_pay_tax. */
+  retiredPayTax: RetiredPayTax | null;
+  /** Not yet ingested; pass null. */
+  ssTaxTreatment: SsTaxTreatment | null;
+}
+
+export interface NetIncomeEstimate {
+  grossMonthly: number;
+  netMonthly: number;
+  federalMonthly: number;
+  ficaMonthly: number;
+  stateMonthly: number;
+  /** Portion of Social Security that ended up federally taxable, annualized. */
+  taxableSocialSecurityAnnual: number;
+  /** Total tax as a share of gross. Useful for showing why two places differ. */
+  effectiveRate: number;
+  /** Inputs absent entirely — the estimate is incomplete in a named way. */
+  missing: string[];
+  /** Inputs where a conservative assumption stood in for real data. */
+  approximations: string[];
+  /** Reader-facing facts worth surfacing, e.g. why state tax is irrelevant. */
+  notes: string[];
+}
+
+/** Sum the monthly amounts for one kind. */
+function monthlyFor(sources: IncomeSource[], kind: IncomeKind): number {
+  return sources
+    .filter((s) => s.kind === kind)
+    .reduce((sum, s) => sum + Math.max(0, s.monthlyAmount), 0);
+}
+
+/** Progressive tax over ascending brackets. */
+export function applyBrackets(taxable: number, brackets: TaxBracket[]): number {
+  if (taxable <= 0 || brackets.length === 0) return 0;
+  let tax = 0;
+  let floor = 0;
+  for (const bracket of brackets) {
+    const ceiling = bracket.upTo ?? Infinity;
+    if (taxable <= floor) break;
+    const slice = Math.min(taxable, ceiling) - floor;
+    if (slice > 0) tax += slice * bracket.rate;
+    floor = ceiling;
+    if (!Number.isFinite(ceiling)) break;
+  }
+  return tax;
+}
+
+/**
+ * Federally taxable portion of Social Security benefits (IRS Pub. 915 logic).
+ *
+ * Benefits are never fully taxable — 85% is the ceiling — and are entirely
+ * untaxed below the first threshold. Treating them as ordinary income would
+ * badly overstate tax for exactly the low-income retirees this tool serves.
+ *
+ * Tax-exempt interest belongs in provisional income and is not modeled here;
+ * omitting it understates tax slightly for households that hold munis.
+ */
+export function taxableSocialSecurity(
+  annualSocialSecurity: number,
+  otherTaxableAnnual: number,
+  filing: FilingStatus,
+  c: ResolvedTaxConstants
+): number {
+  if (annualSocialSecurity <= 0) return 0;
+
+  const t1 =
+    filing === "married"
+      ? c.ssProvisionalThreshold1Married
+      : c.ssProvisionalThreshold1Single;
+  const t2 =
+    filing === "married"
+      ? c.ssProvisionalThreshold2Married
+      : c.ssProvisionalThreshold2Single;
+
+  const provisional = otherTaxableAnnual + 0.5 * annualSocialSecurity;
+  if (provisional <= t1) return 0;
+
+  if (provisional <= t2) {
+    return Math.min(0.5 * (provisional - t1), 0.5 * annualSocialSecurity);
+  }
+  const middleBand = Math.min(0.5 * (t2 - t1), 0.5 * annualSocialSecurity);
+  return Math.min(
+    0.85 * (provisional - t2) + middleBand,
+    0.85 * annualSocialSecurity
+  );
+}
+
+/**
+ * Whether a state taxes military retired pay, given its classification.
+ *
+ * `partial` and `conditional` are treated as FULLY taxable and flagged. Both
+ * mean the real burden is somewhere between zero and full — partial exempts
+ * some fixed amount, conditional depends on age or income we do not model.
+ * Assuming the worst understates take-home, which is the safe direction to err
+ * for someone deciding where to live; the flag tells the reader the true
+ * figure is likely better.
+ */
+function retiredPayStateTaxable(
+  classification: RetiredPayTax | null,
+  approximations: string[],
+  missing: string[]
+): boolean {
+  switch (classification) {
+    case "no_income_tax":
+    case "exempt":
+      return false;
+    case "taxed":
+      return true;
+    case "partial":
+      approximations.push(
+        "state partially exempts military retired pay; assumed fully taxed, so actual take-home is likely higher"
+      );
+      return true;
+    case "conditional":
+      approximations.push(
+        "state exempts military retired pay under conditions (typically age or income); assumed fully taxed, so actual take-home may be higher"
+      );
+      return true;
+    case "unknown":
+    case null:
+    default:
+      missing.push("state treatment of military retired pay");
+      return true;
+  }
+}
+
+/**
+ * Estimate monthly take-home for one household in one state.
+ *
+ * Returns a breakdown rather than a single number so a caller can explain the
+ * difference between two places instead of asserting it.
+ */
+export function estimateNetMonthlyIncome(
+  sources: IncomeSource[],
+  state: StateTaxProfile,
+  opts: { filing: FilingStatus; age65Plus: boolean },
+  c: ResolvedTaxConstants
+): NetIncomeEstimate {
+  const missing: string[] = [];
+  const approximations: string[] = [];
+  const notes: string[] = [];
+
+  const vaMonthly = monthlyFor(sources, "va_disability");
+  const retiredMonthly = monthlyFor(sources, "military_retirement");
+  const ssMonthly = monthlyFor(sources, "social_security");
+  const pensionMonthly = monthlyFor(sources, "pension_or_ira");
+  const wagesMonthly = monthlyFor(sources, "wages");
+
+  const grossMonthly =
+    vaMonthly + retiredMonthly + ssMonthly + pensionMonthly + wagesMonthly;
+
+  const va = vaMonthly * 12;
+  const retired = retiredMonthly * 12;
+  const ss = ssMonthly * 12;
+  const pension = pensionMonthly * 12;
+  const wages = wagesMonthly * 12;
+
+  if (va > 0) {
+    notes.push(
+      "VA disability compensation is not taxed federally or by any state."
+    );
+  }
+
+  /* ---- FICA: wages only ---- */
+  const socialSecurityTaxedWages = Math.min(wages, c.ficaSocialSecurityWageBase);
+  // 6.2% capped at the wage base, 1.45% uncapped. Derived from the combined
+  // rate so there is a single sourced constant rather than two.
+  const medicareRate = 0.0145;
+  const socialSecurityRate = c.ficaRate - medicareRate;
+  const ficaAnnual =
+    socialSecurityTaxedWages * socialSecurityRate + wages * medicareRate;
+
+  /* ---- Federal ---- */
+  const otherTaxable = retired + pension + wages;
+  const taxableSS = taxableSocialSecurity(ss, otherTaxable, opts.filing, c);
+
+  const baseDeduction =
+    opts.filing === "married"
+      ? c.standardDeductionMarried
+      : c.standardDeductionSingle;
+  const ageDeduction = !opts.age65Plus
+    ? 0
+    : opts.filing === "married"
+      ? c.additionalDeduction65Married
+      : c.additionalDeduction65Single;
+
+  const federalTaxableIncome = Math.max(
+    0,
+    otherTaxable + taxableSS - (baseDeduction + ageDeduction)
+  );
+  const brackets =
+    opts.filing === "married" ? c.brackets.married : c.brackets.single;
+  const federalAnnual = applyBrackets(federalTaxableIncome, brackets);
+
+  /* ---- State ---- */
+  let stateAnnual = 0;
+  const rate = state.stateIncomeTaxRatePct;
+
+  if (rate === null) {
+    missing.push("state income tax rate");
+  } else if (rate === 0) {
+    notes.push("This state has no income tax.");
+  } else {
+    let stateBase = pension + wages;
+
+    if (retired > 0 && retiredPayStateTaxable(state.retiredPayTax, approximations, missing)) {
+      stateBase += retired;
+    }
+
+    if (ss > 0) {
+      switch (state.ssTaxTreatment) {
+        case "not_taxed":
+          break;
+        case "taxed":
+          stateBase += taxableSS;
+          break;
+        case "partial":
+          approximations.push(
+            "state partially taxes Social Security; assumed fully taxed"
+          );
+          stateBase += taxableSS;
+          break;
+        default:
+          // No column for this yet. Most states do not tax benefits, so
+          // assuming taxed would overstate the burden for most of them --
+          // but guessing either way is worse than saying we do not know.
+          missing.push("state treatment of Social Security");
+          break;
+      }
+    }
+
+    stateAnnual = stateBase * (rate / 100);
+
+    if (stateBase === 0 && grossMonthly > 0) {
+      notes.push(
+        "None of this household's income is taxable by this state, so its income tax rate does not affect them."
+      );
+    }
+  }
+
+  const totalTaxAnnual = federalAnnual + ficaAnnual + stateAnnual;
+  const netMonthly = grossMonthly - totalTaxAnnual / 12;
+
+  return {
+    grossMonthly,
+    netMonthly,
+    federalMonthly: federalAnnual / 12,
+    ficaMonthly: ficaAnnual / 12,
+    stateMonthly: stateAnnual / 12,
+    taxableSocialSecurityAnnual: taxableSS,
+    effectiveRate: grossMonthly > 0 ? totalTaxAnnual / (grossMonthly * 12) : 0,
+    missing,
+    approximations,
+    notes,
+  };
+}
+
+/**
+ * True when no source in the mix can be touched by a state income tax.
+ *
+ * Lets a caller correctly tell a disability-only household that state tax is
+ * irrelevant to them, instead of showing a comparison that implies otherwise.
+ */
+export function isStateTaxIrrelevant(sources: IncomeSource[]): boolean {
+  const exposed: IncomeKind[] = [
+    "military_retirement",
+    "social_security",
+    "pension_or_ira",
+    "wages",
+  ];
+  return !sources.some(
+    (s) => s.monthlyAmount > 0 && exposed.includes(s.kind)
+  );
+}
