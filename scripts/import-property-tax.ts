@@ -200,17 +200,22 @@ async function main() {
       continue;
     }
     const base = normalizeCounty(loc.county);
-    let rate = byCounty.get(geoKey(loc.state, base));
-    if (rate === undefined) {
-      // Independent cities (VA/MD/MO/NV) are their own county-equivalent and the
-      // source spells them "<name> city". "city" isn't a stripped suffix in
-      // normalizeCounty because several states also have a same-named County
-      // (Fairfax, Franklin, Richmond, Roanoke, Baltimore, St. Louis) whose
-      // "<name> County" row already normalizes to the bare `base` above and
-      // wins the primary lookup — so this fallback only ever fires for names
-      // with no colliding county, i.e. the unambiguous independent cities.
-      rate = byCounty.get(geoKey(loc.state, `${base} city`));
-    }
+    // Independent cities (VA/MD/MO) are their own county-equivalent, recorded
+    // in locations_location.county as their own name (e.g. Baltimore, MD has
+    // county="Baltimore") and spelled "<name> city" in the source. "city"
+    // isn't a stripped suffix in normalizeCounty because several states also
+    // have a same-named County (Fairfax, Franklin, Richmond, Roanoke,
+    // Baltimore, St. Louis) whose "<name> County" row would otherwise
+    // normalize to the same `base` and shadow the city's own rate on the
+    // primary lookup. Detect the independent-city case from the location's
+    // own name equaling its county field, and try the "city" row first so a
+    // same-named county can't win by collision.
+    const isLikelyIndependentCity = normalizeCounty(loc.name) === base;
+    let rate = isLikelyIndependentCity
+      ? byCounty.get(geoKey(loc.state, `${base} city`))
+      : undefined;
+    if (rate === undefined) rate = byCounty.get(geoKey(loc.state, base));
+    if (rate === undefined) rate = byCounty.get(geoKey(loc.state, `${base} city`));
     if (rate === undefined) unmatched.push({ label, county: loc.county });
     else matched.push({ id: loc.id, label, county: loc.county, rate });
   }
