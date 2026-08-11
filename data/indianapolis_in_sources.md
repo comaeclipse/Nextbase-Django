@@ -66,3 +66,14 @@ genuinely NULL/empty. Applied via a single-row parameterized SQL UPDATE
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `tech_hub`, `defense_hub_manual`,
 and `defense_hub`, out of scope for issue #29 (belong to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Rolls-Royce's Indianapolis site is the company's largest global defense-manufacturing operation, with $400-600M invested and engines produced for the C-130J, V-22, F-35B, and MV-75 programs — a major defense-industrial employer. Note: the live DB row for this city is misspelled "Indianopolis" (id 25); this determination is about Indianapolis, Indiana, the actual city referenced by the issue.
+
+Sources:
+- AviationPros.com, Rolls-Royce Indianapolis coverage — https://www.aviationpros.com/
+- Rolls-Royce, $400M investment press release — https://www.rolls-royce.com/media/press-releases.aspx
+- Aviation Today, MV-75 program coverage — https://www.aviationtoday.com/
