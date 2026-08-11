@@ -64,3 +64,13 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+The 114th Fighter Wing (South Dakota Air National Guard, F-16 fighters) is based at Joe Foss Field / Joint Base Sioux Falls — a genuine, well-documented military installation within the city.
+
+Sources:
+- 114th Fighter Wing official site — https://www.114fw.ang.af.mil/
+- Air National Guard, unit locations page — https://www.ang.af.mil/
