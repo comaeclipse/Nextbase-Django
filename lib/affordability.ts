@@ -45,6 +45,14 @@ import {
   NON_HOUSING_INDEX_BOUNDS,
   type ResolvedConstants,
 } from "./cost-constants";
+import { estimateNetMonthlyIncome } from "./income";
+import type {
+  FilingStatus,
+  IncomeSource,
+  NetIncomeEstimate,
+  StateTaxProfile,
+} from "./income";
+import type { ResolvedTaxConstants } from "./tax-constants";
 
 /** How the household occupies its home. Drives which housing branch runs. */
 export type Tenure = "rent" | "own_outright" | "buying";
@@ -337,6 +345,116 @@ export function assessLocation(
   opts: EstimateOptions = {}
 ): Affordability {
   return assessAffordability(estimateMonthlyCost(loc, tenure, c, opts), monthlyIncome);
+}
+
+/* ------------------------------------------------------------------ *
+ * Budget assessment: cost AND take-home income, both per city.
+ *
+ * The functions above take income as a scalar, which is still the right call
+ * when someone tells you what they actually receive after tax ("I get $3,000 a
+ * month"). The ones below take an income COMPOSITION and compute take-home per
+ * location, because state treatment of military retired pay differs — so the
+ * same household nets different amounts in different states.
+ *
+ * That is the point of pairing them: both sides of the comparison move by city
+ * instead of only cost.
+ * ------------------------------------------------------------------ */
+
+/** A household's income mix and the filing facts needed to tax it. */
+export interface Budget {
+  sources: IncomeSource[];
+  filing: FilingStatus;
+  age65Plus: boolean;
+  spouse65Plus?: boolean;
+}
+
+export interface LocationBudget {
+  location: CostInputs;
+  cost: CostEstimate;
+  income: NetIncomeEstimate;
+  /** Take-home minus cost, both for THIS city. Null if cost is unknown. */
+  headroom: number | null;
+  band: Band;
+}
+
+/**
+ * Build the state tax inputs from a location row.
+ *
+ * `retired_pay_tax` arrives denormalized from locations_stateinfo on the
+ * location query (see lib/locations.ts). `ssTaxTreatment` has no column yet, so
+ * null is passed deliberately and the income model reports it as missing rather
+ * than assuming a state does or does not tax benefits.
+ */
+export function stateTaxProfileFor(loc: CostInputs): StateTaxProfile {
+  const rate =
+    loc.income_tax === null || loc.income_tax === undefined
+      ? null
+      : Number(loc.income_tax);
+  return {
+    stateIncomeTaxRatePct: Number.isFinite(rate as number) ? (rate as number) : null,
+    retiredPayTax: loc.retired_pay_tax ?? null,
+    ssTaxTreatment: null,
+  };
+}
+
+/** Cost, take-home, and headroom for one household in one city. */
+export function assessBudget(
+  loc: CostInputs,
+  budget: Budget,
+  tenure: Tenure,
+  costConstants: ResolvedConstants,
+  taxConstants: ResolvedTaxConstants,
+  opts: EstimateOptions = {}
+): LocationBudget {
+  const cost = estimateMonthlyCost(loc, tenure, costConstants, opts);
+  const income = estimateNetMonthlyIncome(
+    budget.sources,
+    stateTaxProfileFor(loc),
+    {
+      filing: budget.filing,
+      age65Plus: budget.age65Plus,
+      spouse65Plus: budget.spouse65Plus,
+    },
+    taxConstants
+  );
+
+  if (cost.monthlyCost === null) {
+    return { location: loc, cost, income, headroom: null, band: "unknown" };
+  }
+
+  const headroom = income.netMonthly - cost.monthlyCost;
+  const band: Band =
+    cost.monthlyCost <= income.netMonthly * 0.8
+      ? "comfortable"
+      : cost.monthlyCost <= income.netMonthly
+        ? "tight"
+        : "over";
+
+  return { location: loc, cost, income, headroom, band };
+}
+
+/**
+ * Rank locations by money left over after tax and cost, best first.
+ *
+ * Same null convention as rankByHeadroom: cities that cannot be priced sort
+ * last and are never dropped.
+ */
+export function rankByBudget(
+  locations: CostInputs[],
+  budget: Budget,
+  tenure: Tenure,
+  costConstants: ResolvedConstants,
+  taxConstants: ResolvedTaxConstants,
+  opts: EstimateOptions = {}
+): LocationBudget[] {
+  return locations
+    .map((loc) => assessBudget(loc, budget, tenure, costConstants, taxConstants, opts))
+    .sort((a, b) => {
+      if (a.headroom === null && b.headroom === null) return 0;
+      if (a.headroom === null) return 1;
+      if (b.headroom === null) return -1;
+      return b.headroom - a.headroom;
+    });
 }
 
 /**

@@ -11,12 +11,21 @@ import { getSql } from "../../lib/db";
 import { FEATURES, getFeature, isFeatureKey } from "./ontology";
 import { parsePopulation } from "./derive";
 import { resolveCostConstants } from "../../lib/cost-constants";
+import { resolveTaxConstants, type ResolvedTaxConstants } from "../../lib/tax-constants";
 import {
   rankByHeadroom,
+  rankByBudget,
   type Band,
+  type CostEstimate,
   type CostInputs,
   type Tenure,
 } from "../../lib/affordability";
+import {
+  isStateTaxIrrelevant,
+  type FilingStatus,
+  type IncomeSource,
+  type NetIncomeEstimate,
+} from "../../lib/income";
 import { getGasPrices } from "../../lib/gas-prices";
 import { STATE_NAME_TO_ABBR, resolveStateAbbr } from "../../lib/states";
 
@@ -394,6 +403,19 @@ export interface CityCostBreakdown {
   missing: string[];
   /** Inputs filled with a national stand-in instead of local data. */
   approximations: string[];
+  /**
+   * Take-home breakdown for THIS state, when an income composition was given.
+   * Null when the caller supplied a flat after-tax figure instead.
+   */
+  takeHome: {
+    grossMonthly: number;
+    netMonthly: number;
+    federalMonthly: number;
+    stateMonthly: number;
+    ficaMonthly: number;
+    effectiveRatePct: number;
+    notes: string[];
+  } | null;
 }
 
 export type CostEstimateResult =
@@ -405,10 +427,21 @@ export type CostEstimateResult =
   | {
       ready: true;
       tenure: Tenure;
-      monthlyIncome: number;
       scopeNote: string;
       /** What the estimate structurally cannot account for. */
       caveats: string[];
+      /**
+       * "composition" means take-home was computed per state from the income
+       * mix; "flat_after_tax" means the caller gave a net figure and income is
+       * the same everywhere.
+       */
+      incomeBasis: "composition" | "flat_after_tax";
+      /**
+       * True when nothing in the income mix is exposed to state income tax —
+       * e.g. a household living on VA disability alone. Say so plainly rather
+       * than showing a state comparison that implies otherwise.
+       */
+      stateTaxIrrelevant: boolean;
       cities: CityCostBreakdown[];
       /** How many cities in scope could not be priced at all. */
       notPricedCount: number;
@@ -436,7 +469,12 @@ const COST_CAVEATS = [
  * which is exactly what the system prompt forbids.
  */
 export async function estimateCostForCities(opts: {
-  monthlyIncome: number;
+  /** Either a flat after-tax figure, or a composition to be taxed per state. */
+  monthlyIncome?: number;
+  incomeSources?: IncomeSource[];
+  filing?: FilingStatus;
+  age65Plus?: boolean;
+  spouse65Plus?: boolean;
   tenure: Tenure;
   cities?: string[];
   limit?: number;
@@ -454,11 +492,39 @@ export async function estimateCostForCities(opts: {
     };
   }
 
+  const useComposition = (opts.incomeSources?.length ?? 0) > 0;
+  const taxResolution = resolveTaxConstants();
+  if (useComposition && !taxResolution.ok) {
+    return {
+      ready: false,
+      reason:
+        "Take-home estimates are not available yet: federal tax figures have " +
+        "not been sourced (" +
+        taxResolution.missing.join(", ") +
+        "). Ask for their after-tax monthly income instead of estimating it.",
+    };
+  }
+  if (!useComposition && opts.monthlyIncome === undefined) {
+    return {
+      ready: false,
+      reason:
+        "No income given. Ask either for their after-tax monthly income, or " +
+        "for how their income breaks down (VA disability, military retirement, " +
+        "Social Security, pension, wages) — the breakdown gives a better answer " +
+        "because states tax those differently.",
+    };
+  }
+
   const limit = opts.limit ?? 8;
   const sql = getSql();
+  // income_tax and retired_pay_tax drive take-home; the latter is joined from
+  // locations_stateinfo, keyed on the two-letter state both tables share.
   const rows = (await sql.query(
-    `SELECT id, name, state, col_index, avg_home_value, avg_home_value_display
-     FROM locations_location`
+    `SELECT l.id, l.name, l.state, l.col_index, l.avg_home_value,
+            l.avg_home_value_display, l.median_rent, l.property_tax_rate,
+            l.income_tax, s.retired_pay_tax
+     FROM locations_location l
+     LEFT JOIN locations_stateinfo s ON s.state = l.state`
   )) as Record<string, unknown>[];
 
   const locations = rows.map(
@@ -470,6 +536,11 @@ export async function estimateCostForCities(opts: {
         col_index: r.col_index === null ? null : Number(r.col_index),
         avg_home_value: r.avg_home_value === null ? null : String(r.avg_home_value),
         avg_home_value_display: r.avg_home_value_display ?? null,
+        median_rent: r.median_rent === null ? null : Number(r.median_rent),
+        property_tax_rate:
+          r.property_tax_rate === null ? null : Number(r.property_tax_rate),
+        income_tax: r.income_tax ?? null,
+        retired_pay_tax: r.retired_pay_tax ?? null,
       }) as CostInputs
   );
 
@@ -484,33 +555,98 @@ export async function estimateCostForCities(opts: {
         .filter((l): l is CostInputs => l !== undefined)
     : locations;
 
-  const ranked = rankByHeadroom(scoped, opts.monthlyIncome, opts.tenure, resolution.constants, {
-    homePriceOverride: opts.homePriceOverride,
-  });
+  const estimateOpts = { homePriceOverride: opts.homePriceOverride };
+
+  /*
+   * Two paths. With a composition, take-home is computed per city because
+   * states treat military retired pay differently, so BOTH sides of the
+   * comparison vary by location. With a flat after-tax figure, income is the
+   * same everywhere and only cost moves.
+   */
+  const ranked: RankedRow[] = useComposition
+    ? rankByBudget(
+        scoped,
+        {
+          sources: opts.incomeSources!,
+          filing: opts.filing ?? "single",
+          age65Plus: opts.age65Plus ?? true,
+          spouse65Plus: opts.spouse65Plus,
+        },
+        opts.tenure,
+        resolution.constants,
+        (taxResolution as { ok: true; constants: ResolvedTaxConstants }).constants,
+        estimateOpts
+      ).map((r) => ({
+        location: r.location,
+        cost: r.cost,
+        headroom: r.headroom,
+        band: r.band,
+        income: r.income,
+      }))
+    : rankByHeadroom(
+        scoped,
+        opts.monthlyIncome!,
+        opts.tenure,
+        resolution.constants,
+        estimateOpts
+      ).map((r) => ({
+        location: r.location,
+        cost: r,
+        headroom: r.headroom,
+        band: r.band,
+        income: null,
+      }));
 
   // Named cities keep the caller's order; an open-ended ask is ranked by
   // headroom and truncated.
   const selected = wanted ? ranked : ranked.slice(0, limit);
 
+  const stateTaxIrrelevant =
+    useComposition && isStateTaxIrrelevant(opts.incomeSources!);
+
   return {
     ready: true,
     tenure: opts.tenure,
-    monthlyIncome: opts.monthlyIncome,
     scopeNote: COST_SCOPE_NOTE,
     caveats: COST_CAVEATS,
-    notPricedCount: ranked.filter((r) => r.monthlyCost === null).length,
+    incomeBasis: useComposition ? "composition" : "flat_after_tax",
+    stateTaxIrrelevant,
+    notPricedCount: ranked.filter((r) => r.cost.monthlyCost === null).length,
     cities: selected.map((r) => ({
       city: `${r.location.name}, ${r.location.state}`,
-      monthlyCost: roundMoney(r.monthlyCost),
-      housing: roundMoney(r.housing),
-      nonHousing: roundMoney(r.nonHousing),
-      nationalFixed: roundMoney(r.nationalFixed)!,
+      monthlyCost: roundMoney(r.cost.monthlyCost),
+      housing: roundMoney(r.cost.housing),
+      nonHousing: roundMoney(r.cost.nonHousing),
+      nationalFixed: roundMoney(r.cost.nationalFixed)!,
       headroom: roundMoney(r.headroom),
       band: r.band,
-      missing: r.missing,
-      approximations: r.approximations,
+      missing: [...r.cost.missing, ...(r.income?.missing ?? [])],
+      approximations: [
+        ...r.cost.approximations,
+        ...(r.income?.approximations ?? []),
+      ],
+      takeHome: r.income
+        ? {
+            grossMonthly: roundMoney(r.income.grossMonthly)!,
+            netMonthly: roundMoney(r.income.netMonthly)!,
+            federalMonthly: roundMoney(r.income.federalMonthly)!,
+            stateMonthly: roundMoney(r.income.stateMonthly)!,
+            ficaMonthly: roundMoney(r.income.ficaMonthly)!,
+            effectiveRatePct: Math.round(r.income.effectiveRate * 1000) / 10,
+            notes: r.income.notes,
+          }
+        : null,
     })),
   };
+}
+
+/** Internal shape unifying the flat-income and composition ranking paths. */
+interface RankedRow {
+  location: CostInputs;
+  cost: CostEstimate;
+  headroom: number | null;
+  band: Band;
+  income: NetIncomeEstimate | null;
 }
 
 function roundMoney(n: number | null): number | null {

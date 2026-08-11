@@ -92,6 +92,23 @@ export interface LocationRow {
    */
   pace_category: "urban" | "suburban" | "small_town" | "rural" | null;
 
+  /**
+   * Denormalized from `locations_stateinfo` on the location query, same as
+   * pace_category above — not columns on locations_location.
+   *
+   * Carried on the row because take-home income depends on them (see
+   * lib/income.ts) and the explore page filters client-side over locations
+   * alone; threading a second table through filterAndSort would be a much
+   * larger change for the same result.
+   */
+  retired_pay_tax?: RetiredPayTax | null;
+  no_income_tax?: boolean | null;
+
+  /** Monthly median gross rent, dollars. Nullable until ingested. */
+  median_rent?: number | null;
+  /** Effective annual property tax as a fraction of home value. Nullable until ingested. */
+  property_tax_rate?: number | null;
+
   // Election trend
   rep_vote_share_change_pp: number | null;
   dem_vote_share_change_pp: number | null;

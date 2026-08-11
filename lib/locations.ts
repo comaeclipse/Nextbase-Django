@@ -46,12 +46,25 @@ function normalizeLocation(row: Record<string, unknown>): LocationRow {
 
 const LOCATION_SELECT = `
   l.*,
-  p.category AS pace_category
+  p.category AS pace_category,
+  s.retired_pay_tax,
+  s.no_income_tax
 `;
 
+/*
+ * The locations_stateinfo join denormalizes the two state tax fields onto each
+ * location row. Take-home income depends on them (lib/income.ts), and both the
+ * explore page and filterAndSort work over LocationRow[] alone — carrying the
+ * fields here is far less churn than threading a second table through every
+ * filter and scorer for the same result.
+ *
+ * Both tables key state as the two-letter USPS abbreviation, so this joins
+ * directly with no name resolution.
+ */
 const LOCATION_FROM = `
   FROM locations_location l
   LEFT JOIN location_pace_current p ON p.location_id = l.id
+  LEFT JOIN locations_stateinfo s ON s.state = l.state
 `;
 
 /*

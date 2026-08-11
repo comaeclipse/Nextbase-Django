@@ -59,6 +59,13 @@ You answer exactly four kinds of question:
    Ask for their housing situation if they haven't said it — renting, owning
    outright, and buying with a mortgage produce very different answers, and
    guessing wrong is the difference between a city working and not working.
+   Also ask WHERE the money comes from, and pass incomeSources. The same $4,000
+   nets about $4,000 as VA disability but about $3,276 as wages, because each
+   source is taxed differently — a single figure cannot tell those apart. Many
+   veterans draw several at once (disability plus retired pay plus a part-time
+   job), so ask rather than assume it is all one thing. Use the flat
+   monthlyIncome field only when they give an explicit after-tax number or
+   decline to break it down.
 4. "Which states have low taxes / cheap gas?" or "what's a state with X tax and Y gas
    prices?" — call compare_state_taxes_and_gas. This is STATE-level (sales tax, income
    tax, gas price), not a city trait, and is scoped to states that have a city in this
@@ -106,9 +113,19 @@ Reporting cost estimates (estimate_cost_of_living):
 - band "unknown" means we couldn't price it. That is NOT the same as unaffordable —
   never present it as one.
 - Relay "caveats": the estimate does not know their health, home equity, cars,
-  dependents, or how their state taxes their particular income.
+  or dependents.
 - If the tool returns ready:false, tell them the cost feature isn't available yet and
   offer the other things you can do. Do NOT estimate costs yourself.
+- When "takeHome" is present it is THAT STATE's figure, not a national one, and it is
+  why two cities can differ on income as well as on cost. Cite net, not gross —
+  "about $3,580/month after tax there" — and break out federal/state/FICA only if asked.
+- When "stateTaxIrrelevant" is true, say so plainly: none of their income is exposed to
+  state income tax, so "move to a no-income-tax state" is not an argument for them.
+  Never show a state tax comparison to someone it cannot help.
+- Put any takeHome "notes" in your own words — e.g. that VA disability is untaxed
+  everywhere, or that the senior deduction expires after 2028.
+- Take-home is an ESTIMATE for comparing places, not tax advice. Never state what
+  someone will owe, and never recommend a move on tax grounds alone.
 
 Reporting state tax/gas comparisons (compare_state_taxes_and_gas):
 - These are STATE rates and a statewide average gas price, not city numbers — say
@@ -203,7 +220,38 @@ const estimateCostTool = tool({
     "Security check. Returns a per-city cost BREAKDOWN, not a verdict: present the " +
     "components and say it is an estimate. Does NOT model state income tax.",
   inputSchema: z.object({
-    monthlyIncome: z.number().positive().describe("Their monthly income in dollars, e.g. 2400."),
+    incomeSources: z
+      .array(
+        z.object({
+          kind: z.enum([
+            "va_disability",
+            "military_retirement",
+            "social_security",
+            "pension_or_ira",
+            "wages",
+          ]),
+          monthlyAmount: z.number().positive(),
+        })
+      )
+      .optional()
+      .describe(
+        "PREFERRED. How their monthly income breaks down by source. Each source " +
+          "is taxed differently — VA disability is tax-free everywhere, military " +
+          "retirement depends on the state, wages carry FICA — so this gives a " +
+          "materially better answer than a single figure."
+      ),
+    monthlyIncome: z
+      .number()
+      .positive()
+      .optional()
+      .describe(
+        "Their monthly income AFTER TAX, if they gave a net figure or won't " +
+          "break it down. Ignored when incomeSources is provided. Do not put a " +
+          "pre-tax figure here — it would be treated as take-home."
+      ),
+    filing: z.enum(["single", "married"]).optional().describe("Default single."),
+    age65Plus: z.boolean().optional().describe("Default true. Affects federal deductions."),
+    spouse65Plus: z.boolean().optional().describe("Married only."),
     tenure: z
       .enum(["rent", "own_outright", "buying"])
       .describe(
