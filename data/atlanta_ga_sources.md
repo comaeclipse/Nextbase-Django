@@ -69,3 +69,15 @@ in `data/mobile_al_sources.md` and the issue #29 comment thread). No other colum
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Largest tracked RTX presence in this batch (Raytheon, Collins Aerospace, and Pratt & Whitney onsite postings, ~9 physical postings combined), plus the Lockheed Martin/Dobbins Air Reserve Base aerospace complex in Marietta within the same metro (Lockheed ~5,700 jobs, Dobbins ~2,500 personnel) — a substantial, retiree-visible defense cluster.
+
+Sources:
+- Metro Atlanta Chamber, aerospace industry page — https://www.metroatlantachamber.com/
+- Georgia.org, aerospace-defense sector page — https://www.georgia.org/
+- smacna (SMACNTX), Dobbins ARB profile — https://www.smacntx.org/
+- GlobalSecurity.org, Dobbins Air Reserve Base — https://www.globalsecurity.org/military/facility/dobbins.htm
