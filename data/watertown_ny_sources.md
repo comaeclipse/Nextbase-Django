@@ -49,3 +49,13 @@ Retrieval date: 2026-08-06. The row represents Watertown city, Jefferson County,
 - AAA's Watertown-Fort Drum regular-gas average was **$4.2319** on 2026-08-06, stored rounded as `$4.23`. Gas is volatile and this field should be refreshed rather than treated as a stable city fact.
   - https://gasprices.aaa.com/?state=NY
 - The supplied 80.8 cost-of-living index and 64 city LGBTQ score are analytical estimates without a reproducible compatible methodology or official city score. They were not written over the established rows. `CostOfLiving`, `TCI`, `CrimeRating`, city MEI, and a defense-hub manual decision therefore remain blank/unknown where applicable. The importer’s legacy cost display fallback is `Moderate` when its numeric index is null; this is not a sourced Watertown cost-of-living claim.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Watertown is the principal gateway and support city for Fort Drum, roughly 13 miles away — close enough, and civically/economically entangled enough with the post, to count as a genuine defense-community hub for a retiree.
+
+Sources:
+- Visit Watertown NY, Fort Drum visitor/relocation guide — https://www.visitwatertown.com/fortdrum
+- Distance calculation (Watertown NY to Fort Drum, ~13 mi) — https://www.distance-cities.com/
