@@ -55,3 +55,15 @@ Retrieval date: 2026-07-15.
 - Arkansas Department of Health medical-marijuana program: https://healthy.arkansas.gov/programs-services/data-statistics-registries/medical-marijuana/qualified-patient-requirements/
 - RTX/Rafael East Camden facility announcement: https://apnews.com/article/8bbc9786b3cf5517234f7f2e1a9f91ee
 - City of Camden visitor page: https://www.explorecamden.com/o/camdencity/page/open-visitor-page
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Highland Industrial Park is a documented defense-manufacturing cluster on the site of the former Shumaker Naval Ammunition Depot: L3Harris/Aerojet Rocketdyne (~1,300 employees) and Lockheed Martin (~1,100 employees) both operate munitions/rocket-propulsion plants there, with a $215.6M DoD-funded expansion. This is well beyond the tracked Raytheon (6 onsite) + L3Harris (1 onsite) postings alone.
+
+Sources:
+- GlobalSecurity.org, "Highland Industrial Park" facility profile — https://www.globalsecurity.org/military/facility/highland.htm
+- Arkansas Business, "Democracy's Arsenal" — https://www.arkansasbusiness.com/
+- L3Harris newsroom, November 2025 release — https://www.l3harris.com/newsroom
+- Talk Business & Politics, May 2023 — https://talkbusiness.net/2023/05/
