@@ -80,3 +80,12 @@ Retrieval date: 2026-07-23.
   - https://www.sdmissouririver.com/directory/category/golfing-waterparks/
   - https://www.eda.gov/funding/programs/regional-technology-and-innovation-hubs
   - https://installations.militaryonesource.mil/state/SD/state-installations
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+Only a legacy armory/museum was found. South Dakota National Guard's real headquarters (Camp Rapid) is in Rapid City, not Pierre. Left NULL.
+
+Sources:
+- South Dakota National Guard, unit/facility locations — https://sd.ng.mil/
