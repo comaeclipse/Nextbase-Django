@@ -30,3 +30,14 @@ Retrieval date: 2026-07-28.
 - NOAA monthly normals, USW00013893: https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&stations=USW00013893&format=json&units=standard&includeAttributes=false
 - Current Results, Memphis July humidity: https://www.currentresults.com/Weather/Tennessee/humidity-july.php
 - City of Memphis, 2024 crime report and public-safety update: https://www.memphistn.gov/2024-crime-report-and-public-safety-update/
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **FALSE (hard veto)**
+
+Vetoed. The old Naval Air Station Memphis / Defense Depot Memphis closed in 1997 and is now an EPA Superfund site inside city limits. The region's actual active installation, Naval Support Activity Mid-South, is in Millington, TN — a separate city roughly 21 miles away, not Memphis proper. The single tracked L3Harris posting (1 onsite) is a token presence with no supporting military/defense character in Memphis itself.
+
+Sources:
+- Wikipedia, "Memphis Defense Depot" — https://en.wikipedia.org/wiki/Memphis_Defense_Depot
+- EPA Superfund site profile, Defense Depot Memphis — https://cumulis.epa.gov/supercpad/
+- Military.com, Naval Support Activity Mid-South (Millington) base guide — https://www.military.com/
