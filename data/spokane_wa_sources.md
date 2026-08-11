@@ -48,3 +48,14 @@ Retrieval date: 2026-07-16.
 - Manito Park, City of Spokane: https://my.spokanecity.org/parks/major/manito/
 - Riverside State Park, Washington State Parks: https://parks.wa.gov/find-parks/state-parks/riverside-state-park
 - Providence Sacred Heart Medical Center: https://www.providence.org/locations/wa/sacred-heart-medical-center
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Fairchild Air Force Base is roughly 12 miles from downtown Spokane (technically sited in Airway Heights, close enough to be part of the Spokane metro's defense character), and Collins Aerospace committed to a $200M expansion doubling its Spokane footprint to roughly 230 employees with 80 more planned — two independent, substantial signals beyond the tracked 9 onsite Collins postings.
+
+Sources:
+- Wikipedia, "Fairchild Air Force Base" — https://en.wikipedia.org/wiki/Fairchild_Air_Force_Base
+- RTX.com, $200M Spokane groundbreaking press release — https://www.rtx.com/news
+- The Spokesman-Review, 2024-05-20 — https://www.spokesman.com/
