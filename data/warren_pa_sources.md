@@ -23,3 +23,12 @@ Researched 2026-08-06. The row is city-specific unless marked as a state or coun
 - No current, source-comparable Warren city crime index/rating was located; `TCI` and `CrimeRating` are blank.
 - No defensible annual sunny-day or summer-relative-humidity figure was located; those base-row fields are blank. NOAA monthly/hourly normal imports may enrich the related detail tables without inventing those values.
 - No verified active defense-employer/base presence sufficient for a curated `DefenseHub` assertion was found; it remains unset for derived-field processing.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **NULL (left unset — insufficient evidence either way)**
+
+No installation or defense-contractor facility found. Specifically ruled out confusion with Francis E. Warren Air Force Base, which is in Cheyenne, Wyoming and unrelated to Warren, Pennsylvania. Left NULL.
+
+Sources:
+- No qualifying source found for Warren, PA specifically; Francis E. Warren AFB (Cheyenne, WY) confirmed as an unrelated, differently-located installation via Wikipedia.
