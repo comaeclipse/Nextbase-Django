@@ -60,3 +60,13 @@ column touched.
 None of the six issue #29 target fields for this row were left blank — all were sourced and populated.
 `scripts/verify-location-completeness.ts` flags this row as missing `defense_hub_manual`/`defense_hub`,
 out of scope for issue #29 (belongs to issue #26).
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Fort Bliss, the U.S. Army's 2nd-largest post by land area with roughly 90,000 soldiers and family members and home to the 1st Armored Division, sits directly in El Paso — an overwhelming defense presence beyond the tracked Raytheon (7 onsite) posting.
+
+Sources:
+- Wikipedia, "Fort Bliss" — https://en.wikipedia.org/wiki/Fort_Bliss
+- U.S. Army, Fort Bliss official site — https://home.army.mil/bliss/
