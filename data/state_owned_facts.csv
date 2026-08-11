@@ -1,0 +1,25 @@
+state,StateParty,StatePartySourceUrl,StatePartyVerifiedOn,Governor,GovernorSourceUrl,GovernorVerifiedOn,IncomeTax,IncomeTaxSemantics,IncomeTaxSourceUrl,IncomeTaxVerifiedOn,MarijuanaStatus,MarijuanaStatusSourceUrl,MarijuanaStatusVerifiedOn,LGBTQStatePolicyScore,LGBTQStatePolicySourceUrl,LGBTQStatePolicyVerifiedOn
+AL,,,,,,,,,,,Medical,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+AR,,,,,,,3.9,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,Medical,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+CA,,,,,,,13.3,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+GA,,,,,,,5.19,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,CBD Oil Only,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+IA,,,,,,,3.8,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+IN,,,,,,,2.95,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,CBD Oil Only,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+LA,,,,,,,,,,,Medical and Decriminalized,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+MA,,,,,,,9,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+MN,,,,,,,9.85,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+MS,,,,,,,4,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+MT,,,,,,,5.65,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,-1.75,https://mapresearch.org/equality-profiles/mt/,2026-08-11
+NC,D,https://www.nga.org/governor/josh-stein/,2026-08-11,D,https://www.nga.org/governor/josh-stein/,2026-08-11,3.99,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,Decriminalized,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+NE,,,,,,,4.55,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+NH,,,,,,,,,,,Medical and Decriminalized,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+NY,,,,,,,,,,,,,,44.5,https://mapresearch.org/equality-profiles/ny/,2026-08-11
+OH,,,,,,,2.75,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,1.75,https://mapresearch.org/equality-profiles/oh/,2026-08-11
+OK,,,,,,,4.5,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,-6.75,https://mapresearch.org/equality-profiles/ok/,2026-08-11
+OR,,,,,,,9.9,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+PA,D,https://www.nga.org/governor/josh-shapiro/,2026-08-11,D,https://www.nga.org/governor/josh-shapiro/,2026-08-11,,,,,,,,16.75,https://mapresearch.org/equality-profiles/pa/,2026-08-11
+RI,,,,,,,5.99,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,,,
+TX,,,,,,,,,,,CBD Oil Only,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+UT,,,,,,,4.5,top_marginal_state_individual_income_tax,https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/,2026-08-11,,,,9,https://mapresearch.org/equality-profiles/ut/,2026-08-11
+VA,D,https://www.nga.org/governor/abigail-spanberger/,2026-08-11,D,https://www.nga.org/governor/abigail-spanberger/,2026-08-11,,,,,Recreational,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,
+WY,,,,,,,,,,,Illegal,https://disa.com/marijuana-legality-by-state/,2026-08-11,,,

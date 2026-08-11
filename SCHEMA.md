@@ -16,6 +16,18 @@ State-level information that applies to all locations within a state (no need to
 
 **Note**: This table contains state-specific regulatory information. Empty fields indicate no restriction or grade available. `AssaultWeaponBan` reflects the current general-ban state list used by the app's "No Assault Weapons Ban" filter, not narrower assault-weapon regulations. `MagazineLimit`, `GhostGunBan`, and `HighCapMagBan` can be refreshed with `python manage.py update_state_law_data`.
 
+### Normalized state-owned facts
+
+These fields are the normalized destination for facts that legacy city CSVs duplicated onto every `locations_location` row. Do not backfill them by picking an arbitrary city value; adjudicate conflicts from sources, store the source URL and verification date, and keep application reads compatible through the `lib/locations.ts` join.
+
+- **StateParty** / **StatePartySourceUrl** / **StatePartyVerifiedOn**: Legacy compact governor-party shorthand (`R`/`D`) kept for `LocationRow` compatibility. Full state-government configuration and political-lean scoring live in `lib/state-politics-data.ts`.
+- **Governor** / **GovernorSourceUrl** / **GovernorVerifiedOn**: Current governor party (`R`/`D`) and provenance.
+- **IncomeTax** / **IncomeTaxSemantics** / **IncomeTaxSourceUrl** / **IncomeTaxVerifiedOn**: State individual income-tax value with explicit semantics, e.g. `top_marginal_individual_income_tax`.
+- **MarijuanaStatus** / **MarijuanaStatusSourceUrl** / **MarijuanaStatusVerifiedOn**: State cannabis legal status and provenance.
+- **LGBTQStatePolicyScore** / **LGBTQStatePolicySourceUrl** / **LGBTQStatePolicyVerifiedOn**: State policy score, separate from municipal HRC MEI/local friendliness.
+
+Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudications with `scripts/import-state-owned-fields.ts`. Audit remaining duplicated-location drift with `scripts/verify-state-field-divergence.ts`.
+
 ---
 
 ## Location Model Fields

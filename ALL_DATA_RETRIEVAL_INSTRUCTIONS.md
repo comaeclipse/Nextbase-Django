@@ -21,6 +21,8 @@ Coverage changes with every import. Do not rely on historical row counts or stat
 
 Do not fill gaps with guesses. If a source is weak, leave the field blank and record the gap.
 
+For a **new city or a city being reported as complete**, a recorded gap is a blocker, not a completion state. The importer now rejects incomplete curated CSV rows by default. `--allow-incomplete` is only for an explicit legacy repair or migration; it must never be used to describe a city as complete.
+
 ## Inspect Current Data
 
 Choose the local environment file without printing secrets. Prefer `.env`; use `.env.vercel` only when it is the available local Neon configuration:
@@ -216,7 +218,6 @@ Normalization:
 Fields:
 
 - `sales_tax`
-- `income_tax`
 - `col_index`
 - `cost_of_living`
 - `gas_price`
@@ -231,12 +232,12 @@ Recommended sources:
 Retrieval notes:
 
 - `sales_tax` can be state-only, combined state/local average, or city-specific. Choose one convention and apply it consistently.
-- `income_tax` should represent top marginal state individual income tax unless the product chooses another definition.
+- `income_tax` is state-owned. Do not write it through `scripts/import-csv.ts`; adjudicate it into `locations_stateinfo` with explicit semantics, source URL, and verification date. The intended default semantic is top marginal state individual income tax unless the product chooses another definition.
 - `col_index` needs a consistent source. If no licensed cost-of-living source is available, use a documented proxy and do not overstate it.
 
 Normalization:
 
-- `sales_tax` and `income_tax`: decimal percent values such as `6.25`, not `0.0625`.
+- `sales_tax`: decimal percent values such as `6.25`, not `0.0625`.
 - `col_index`: integer where 100 means U.S. average.
 - `cost_of_living`: derive from `col_index`: `Low` under 95, `Moderate` 95-115, `High` over 115 unless product rules say otherwise.
 - `gas_price`: formatted text like `$3.19`.
@@ -388,8 +389,8 @@ Trend calculation requirements:
 
 Normalization:
 
-- `state_party`: `R` or `D` based on current state-level partisan control definition chosen by product. If using governor party, do not duplicate it as state control without explanation.
-- `governor`: `R`, `D`, or other current party.
+- `state_party`: state-owned; do not write it through `scripts/import-csv.ts`. It remains a legacy compact governor-party shorthand (`R`/`D`) for `LocationRow` compatibility. Do not use it as a full state-control label; use `lib/state-politics-data.ts` for governor/legislature configuration and political-lean scoring.
+- `governor`: state-owned; do not write it through `scripts/import-csv.ts`. Store the current governor party (`R`/`D`) with source and verification metadata.
 - `election_2016` / `election_2024`: winner surname or party label, consistently.
 - `election_2016_percent` / `election_2024_percent`: integer percent for the winning candidate using the documented denominator.
 - `rep_vote_share_change_pp`: 2024 Republican vote share minus 2016 Republican vote share.
@@ -658,12 +659,12 @@ The dry run lists every proposed flip; review it before writing.
 
 ### Existing CSV Import
 
-`scripts/import-csv.ts` upserts curated location rows into `locations_location` by `(name, state)`.
+`scripts/import-csv.ts` upserts curated location rows into `locations_location` by `(name, state)`. It intentionally does not write state-owned fields (`StateParty`, `Governor`, `Income`, `Veterans Benefits`, `Marijuana`, `LGBTQStatePolicyScore`) even if those columns appear in older CSVs. Those facts must be adjudicated into `locations_stateinfo` with source and verification metadata.
 
 Expected CSV columns include:
 
 ```text
-City,State,County,StateParty,Governor,CityPolitics,2016Election,2016PresidentPercent,2024 Election,2024PresidentPercent,ElectionChange,Population,Density,SalesTax,Income,CostOfLiving,AvgHomeValue,VA,NearestVA,DistanceToVA,Veterans Benefits,TCI,CrimeRating,Marijuana,LGBTQ,LGBTQ_MEI,LGBTQStatePolicyScore,LGBTQSource,TechHub,DefenseHub,Snow,Rain,SunnyDays,AverageLowWinter,AverageHighSummer,HumiditySummer,Climate,Gas,Description,Tags,rep_vote_share_change_pp,dem_vote_share_change_pp
+City,State,County,CityPolitics,2016Election,2016PresidentPercent,2024 Election,2024PresidentPercent,ElectionChange,Population,Density,SalesTax,CostOfLiving,AvgHomeValue,VA,NearestVA,DistanceToVA,TCI,CrimeRating,LGBTQ,LGBTQ_MEI,LGBTQSource,TechHub,DefenseHub,Snow,Rain,SunnyDays,AverageLowWinter,AverageHighSummer,HumiditySummer,Climate,Gas,Description,Tags,rep_vote_share_change_pp,dem_vote_share_change_pp
 ```
 
 Run:
@@ -672,6 +673,12 @@ Run:
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv --dry-run
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv
 ```
+
+### City completion gate
+
+The CSV importer rejects blank or placeholder values for all curated city fields, including `TCI`, `CrimeRating`, `Gas`, and `DefenseHub`. `DefenseHub=N` is valid: it records a reviewed negative judgment in `defense_hub_manual`; a blank still means unresearched. It also requires explicit Yes/No values for `VA`, `TechHub`, and `DefenseHub`, and a non-empty JSON `Tags` array.
+
+Use `--allow-incomplete` only when repairing an older incomplete row or carrying out a deliberate legacy migration. The command prints every bypassed field and the resulting import is not a completed city. Do not use that flag for a city addition, refresh claimed as complete, or release-ready data package.
 
 Use `--clear` only when intentionally replacing all locations:
 
@@ -692,6 +699,25 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defen
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts --dry-run
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
 ```
+
+Then run the completion audit for each city being added or declared complete. It must exit successfully before the city can be reported complete:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/verify-location-completeness.ts --name "City, ST"
+```
+
+For state-owned fields that still exist on legacy location rows, run the divergence audit before and after any state-info normalization work:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/migrate-state-owned-fields.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/migrate-state-owned-fields.ts
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-state-owned-fields.ts data\state_owned_facts.csv --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-state-owned-fields.ts data\state_owned_facts.csv
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/verify-state-field-divergence.ts --normalized-only
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/verify-state-field-divergence.ts
+```
+
+Expected current failures are not importer failures; they are the adjudication backlog. Do not average or pick an arbitrary city value to clear this check. Resolve each state conflict from sources, write the state-owned value and provenance to `locations_stateinfo`, then keep city reads compatible through the `lib/locations.ts` join.
 
 If the importer creates a `needs_review` pace result, do not leave the new city
 uncategorized. Review the candidate against the actual place experience, then

@@ -70,3 +70,31 @@ Lockheed Martin operates an F-16 production line at SCTAC (the former Donaldson 
 Sources:
 - Lockheed Martin, "Greenville Story" — https://www.lockheedmartin.com/en-us/news/features/2022/the-greenville-story.html
 - Sen. Tim Scott, press release, November 2025 — https://www.scott.senate.gov/
+
+## avg_home_value correction (issue #49, retrieved 2026-08-11)
+
+The stored `avg_home_value` of $584,375 had no documented source in this file — it predates the
+CSV-per-city convention and was never sourced against a primary. Issue #49 flagged it because,
+combined with `col_index=93` (confirmed correct against BEA Regional Price Parities below), it
+implied an implausibly cheap non-housing cost of living for a city with housing 1.57x the national
+median.
+
+Corrected to **$330,858** (Zillow ZHVI, city-level, Greenville SC, retrieved 2026-08-11):
+https://www.zillow.com/home-values/24960/greenville-sc/
+
+Cross-checks, all independently well below the old $584,375 figure and clustering near the
+corrected value:
+- Zillow ZHVI, Greenville County: $311,414
+- Redfin, Greenville County median sale price (May 2026): $368,146 —
+  https://www.redfin.com/county/2455/SC/Greenville-County/housing-market
+- U.S. News, Greenville median home price: $461,274 —
+  https://realestate.usnews.com/places/south-carolina/greenville
+
+`col_index=93` cross-checked against BEA Regional Price Parities, Greenville-Anderson-Mauldin MSA,
+all items, 2024: 93.260 (near-exact match) —
+https://fred.stlouisfed.org/series/RPPALL24860. Not touched.
+
+`avg_home_value_display` updated to `$330,858` to match. This changes `cost_of_living` derivation
+inputs not at all (`col_index` unchanged), but does raise the home-affordability factor in the Fit
+score (`lib/scoring.ts`), since that factor reads `avg_home_value_display` — this is the intended
+effect of fixing an inflated figure, not a side effect to work around.

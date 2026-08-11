@@ -24,7 +24,9 @@ export interface LocationRow {
   featured: boolean;
 
   // Political
+  /** Legacy duplicate; state-owned value should come from locations_stateinfo. */
   state_party: string | null;
+  /** Legacy duplicate; state-owned value should come from locations_stateinfo. */
   governor: string | null;
   city_politics: string | null;
   election_2016: string | null;
@@ -37,6 +39,7 @@ export interface LocationRow {
   population: string | null;
   density: number | null;
   sales_tax: string | null; // numeric
+  /** Legacy duplicate; state-owned value should come from locations_stateinfo. */
   income_tax: string | null; // numeric
   col_index: number | null;
 
@@ -47,13 +50,16 @@ export interface LocationRow {
   /** Nearest VA medical center (parent facility), distinct from CBOC/clinic. */
   nearest_va_hospital: string | null;
   distance_to_va_hospital: string | null;
+  /** Legacy duplicate; state-owned value should come from locations_stateinfo. */
   veterans_benefits: string | null;
 
   // Safety & social
   tci: number | null;
+  /** Legacy duplicate; state-owned value should come from locations_stateinfo. */
   marijuana_status: string | null;
   lgbtq_rating: string | null;
   lgbtq_mei_score: number | null;
+  /** Legacy duplicate; state-owned value should come from locations_stateinfo. */
   lgbtq_state_policy_score: string | null; // numeric
   lgbtq_score_source: string | null;
 
@@ -156,6 +162,28 @@ export interface StateInfoRow {
   vet_benefits_summary: string | null;
   /** Null until a human checks the row against a primary source. */
   vet_benefits_verified_on: string | null;
+
+  /*
+   * Optional until scripts/migrate-state-owned-fields.ts has been applied.
+   * These are normalized state-owned replacements for legacy duplicated
+   * locations_location columns.
+   */
+  state_party?: string | null;
+  state_party_source_url?: string | null;
+  state_party_verified_on?: string | null;
+  governor?: string | null;
+  governor_source_url?: string | null;
+  governor_verified_on?: string | null;
+  income_tax?: string | null;
+  income_tax_semantics?: string | null;
+  income_tax_source_url?: string | null;
+  income_tax_verified_on?: string | null;
+  marijuana_status?: string | null;
+  marijuana_status_source_url?: string | null;
+  marijuana_status_verified_on?: string | null;
+  lgbtq_state_policy_score?: string | null;
+  lgbtq_state_policy_source_url?: string | null;
+  lgbtq_state_policy_verified_on?: string | null;
 }
 
 /**

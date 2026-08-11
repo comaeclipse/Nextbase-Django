@@ -17,16 +17,26 @@ const [name, state] = cityKey.split(",").map((part) => part.trim());
 const sql = getSql();
 
 const requiredColumns = [
-  "county", "state_party", "governor", "city_politics", "election_2016",
+  "county", "city_politics", "election_2016",
   "election_2016_percent", "election_2024", "election_2024_percent", "election_change",
   "rep_vote_share_change_pp", "dem_vote_share_change_pp", "population", "density", "sales_tax",
-  "income_tax", "col_index", "avg_home_value", "has_va", "nearest_va", "distance_to_va",
-  "nearest_va_hospital", "distance_to_va_hospital", "veterans_benefits", "tci", "crime",
-  "marijuana_status", "lgbtq_rating", "lgbtq_mei_score", "lgbtq_state_policy_score",
+  "col_index", "avg_home_value", "has_va", "nearest_va", "distance_to_va",
+  "nearest_va_hospital", "distance_to_va_hospital", "tci", "crime",
+  "lgbtq_rating", "lgbtq_mei_score",
   "lgbtq_score_source", "tech_hub", "defense_hub_manual", "defense_hub", "snow_annual",
   "rain_annual", "sun_days", "alw", "avg_high_summer", "humidity_summer", "climate",
   "climate_category", "gas_price", "description", "tags", "latitude", "longitude",
 ] as const;
+
+function hasValue(value: unknown): boolean {
+  return !(value === null || value === undefined || value === "");
+}
+
+function allowsMissingMeiScore(row: Record<string, unknown>): boolean {
+  const rating = String(row.lgbtq_rating ?? "").toLowerCase();
+  const source = String(row.lgbtq_score_source ?? "").toLowerCase();
+  return rating.includes("not rated") || source.includes("not rated");
+}
 
 async function main() {
   const [row] = await sql.query(
@@ -43,6 +53,9 @@ async function main() {
 
   const missing: string[] = requiredColumns.filter((column) => {
     const value = row[column];
+    if (column === "lgbtq_mei_score" && !hasValue(value) && allowsMissingMeiScore(row)) {
+      return false;
+    }
     return value === null || value === undefined || value === "" || (column === "tags" && (!Array.isArray(value) || value.length === 0));
   });
   if (!row.pace_category) missing.push("pace_category");
