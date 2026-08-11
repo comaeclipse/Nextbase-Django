@@ -11,6 +11,12 @@
  * summary didn't mention it", which is not the same as "the state doesn't offer
  * it". Filter with `IS TRUE`, never `= false`, or you'll silently exclude states
  * whose summary was just terser.
+ *
+ * This CSV is an unverified draft (see issue #42) and never touches
+ * vet_benefits_verified_on / vet_benefits_source_url -- those are owned by
+ * scripts/import-retired-pay-tax.ts, which checks retired_pay_tax against a
+ * primary source per state. Re-running this importer must not silently erase
+ * that verification, so those columns are left out of the upsert entirely.
  */
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
@@ -90,9 +96,6 @@ function parseRow(row: Row): Record<string, unknown> {
     parks_benefit: parseBoolV(row["ParksBenefit"]),
     hunt_fish_benefit: parseBoolV(row["HuntFishBenefit"]),
     vet_benefits_summary: cleanEmpty(row["Summary"]),
-    // Deliberately null: nothing in this dataset has been checked against a
-    // primary source. Render benefit copy only once this is populated.
-    vet_benefits_verified_on: null,
   };
 }
 

@@ -16,6 +16,16 @@ State-level information that applies to all locations within a state (no need to
 
 **Note**: This table contains state-specific regulatory information. Empty fields indicate no restriction or grade available. `AssaultWeaponBan` reflects the current general-ban state list used by the app's "No Assault Weapons Ban" filter, not narrower assault-weapon regulations. `MagazineLimit`, `GhostGunBan`, and `HighCapMagBan` can be refreshed with `python manage.py update_state_law_data`.
 
+### Veteran Benefits Tax Detail
+- **retired_pay_tax**: `no_income_tax` | `exempt` | `partial` | `conditional` | `taxed` | `unknown` — how the state taxes military retired pay. Read by `lib/income.ts`; `partial`/`conditional` are currently modeled as fully taxed (a documented conservative approximation), flagged to the reader.
+- **retired_pay_exclusion_amount**: flat/capped dollar amount excluded per year, when the state's rule reduces to a single figure. Null when it doesn't (e.g. an age-tiered cap) — the real structure lives in `retired_pay_condition` instead.
+- **retired_pay_exclusion_pct**: percentage of retired pay excluded, when the exclusion is stated as a percentage rather than a dollar cap.
+- **retired_pay_condition**: free text — the age/income/service gate or multi-tier structure a scalar can't carry.
+- **vet_benefits_source_url**: where the `retired_pay_tax` classification was verified.
+- **vet_benefits_verified_on**: date a human last checked `retired_pay_tax` against `vet_benefits_source_url`. Null means unverified.
+
+All five columns are maintained by `scripts/migrate-vet-benefits-tax-columns.ts` + `scripts/import-retired-pay-tax.ts` from `data/state_retired_pay_tax.csv`, verified per-state against primary sources 2026-08-11 (issue #42). `scripts/import-state-benefits.ts` (the broader, still-unverified `data/state_vet_benefits.csv` draft) never touches `vet_benefits_source_url` or `vet_benefits_verified_on` so it can't silently erase this verification.
+
 ---
 
 ## Location Model Fields
