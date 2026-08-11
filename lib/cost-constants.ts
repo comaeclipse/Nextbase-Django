@@ -71,27 +71,31 @@ export const COST_CONSTANTS = {
    * leaving it in would double-count it.
    */
   nonHousingBaseline65Plus: constant({
-    value: null,
+    value: 3269.92,
     unit: "USD per month",
     kind: "measured",
     source:
-      "BLS Consumer Expenditure Survey, table of average annual expenditures " +
-      "by age of reference person; use the 65+ row, total minus housing, / 12",
-    sourceUrl: null,
-    sourcedOn: null,
+      "BLS Consumer Expenditure Survey 2024, reference person 65+: total " +
+      "average annual expenditures $61,432 minus housing $22,193 = $39,239, / 12",
+    sourceUrl: "https://fred.stlouisfed.org/series/CXUTOTALEXPLB0407M",
+    sourcedOn: "2026-08-11",
     refresh: "annual",
     note:
-      "WHICH FIGURE YOU PICK LARGELY DECIDES THE FEATURE. A smoke test with a " +
-      "$2,500/mo placeholder put all 132 cities 'over budget' for someone on " +
-      "$2,400/mo — the anchor alone exceeded their income before any housing " +
-      "was added. That is arithmetic, not a bug, but it means a mean-based " +
-      "anchor can make the tool answer 'nowhere' to everyone it is built for.\n" +
-      "The published 65+ AVERAGE is pulled upward by wealthy households and is " +
-      "probably too high. Prefer a median or lower-quintile figure for the age " +
-      "group if the source offers one. Consider sourcing two (a low and a mid " +
-      "figure) so the model can express a range rather than a false point " +
-      "estimate. Whichever you choose, the ground-truth check in " +
-      "scripts/verify-affordability.ts is what tells you if it is right.",
+      "THIS IS THE 65+ MEAN, AND IT DESCRIBES A RICHER HOUSEHOLD THAN THIS " +
+      "TOOL'S AUDIENCE. Total 65+ spending of $61,432/yr is about $5,119/mo; a " +
+      "veteran on $2,400/mo is nowhere near it, so the model will correctly " +
+      "report that they cannot fund an average-65+-household lifestyle in ANY " +
+      "city. That is a true statement and the wrong answer to the question " +
+      "being asked, which is 'where can I get by', not 'where can I live like " +
+      "the average retiree'.\n" +
+      "The alternative anchor is the lowest income quintile (all ages, 2024): " +
+      "$35,046 total, housing ~41.6%, giving roughly $1,705/mo non-housing — " +
+      "about half this figure. It is a better proxy for a modest fixed-income " +
+      "budget but is not age-specific.\n" +
+      "This is a PRODUCT decision, not a sourcing one, and it is deliberately " +
+      "left at the defensible measured value. Changing it, or exposing a " +
+      "modest/average toggle, should be decided against the ground-truth check " +
+      "in scripts/verify-affordability.ts rather than by taste.",
   }),
 
   /**
@@ -104,18 +108,34 @@ export const COST_CONSTANTS = {
    * housing already.
    */
   housingWeight: constant({
-    value: null,
+    value: 0.309,
     unit: "fraction 0..1",
     kind: "measured",
-    source: "C2ER / ACCRA Cost of Living Index published basket weights",
-    sourceUrl: null,
-    sourcedOn: null,
+    source:
+      "C2ER / ACCRA Cost of Living Index published basket weights: housing " +
+      "30.90% (grocery 17.26, utilities 10.21, transport 7.54, health 4.42, " +
+      "misc 29.67)",
+    sourceUrl: "http://c2c.coli.org/compare.asp?action=methodology",
+    sourcedOn: "2026-08-11",
     refresh: "rare",
     note:
-      "Confirm this matches whatever index col_index was actually sourced " +
-      "from. If col_index came from a different provider, use THAT provider's " +
-      "housing weight — mixing providers is the main way this model can be " +
-      "quietly wrong.",
+      "UNVERIFIED ASSUMPTION THAT col_index IS A C2ER INDEX. SCHEMA.md records " +
+      "only that COL means '100 = national average' and never names the " +
+      "provider. If col_index came from somewhere else, this weight is wrong " +
+      "and every derived non-housing index is skewed. Establishing that " +
+      "provenance is the single highest-value verification left in this file.\n" +
+      "The C2ER weights are a 2021 vintage and describe a professional/" +
+      "executive household, not a retiree.\n" +
+      "SCOPE: this is the housing/shelter category only. C2ER files utilities " +
+      "separately at 10.21%, so the derived non-housing index still carries " +
+      "local utility variation while the baseline it scales excludes " +
+      "utilities. That residual mismatch is small and deliberate — the " +
+      "alternative, removing 41.11%, would use a shelter-only proxy " +
+      "(avg_home_value) to strip a shelter-plus-utilities weight, which is " +
+      "worse.\n" +
+      "BEA Regional Price Parity is the escape hatch: free, public, and " +
+      "published with separate rents/goods/other components, which would " +
+      "remove the back-out algebra entirely.",
   }),
 
   /**
@@ -172,18 +192,26 @@ export const COST_CONSTANTS = {
    * to model only Part B; the harness will still run.
    */
   supplementalHealthMonthly: constant({
-    value: null,
+    value: 253,
     unit: "USD per month",
     kind: "measured",
-    source: "CMS / KFF published average Medigap + Part D premium",
-    sourceUrl: null,
-    sourcedOn: null,
+    source:
+      "KFF: average Medigap premium across all plans $217/mo, plus average " +
+      "stand-alone Part D premium $36/mo for 2026",
+    sourceUrl:
+      "https://www.kff.org/medicare/medicare-part-d-enrollment-premiums-and-cost-sharing-in-2026/",
+    sourcedOn: "2026-08-11",
     refresh: "annual",
     note:
-      "Genuinely varies by state and plan. A national average is a stand-in " +
-      "until there is a per-state figure. VA-enrolled veterans near a facility " +
-      "often carry far less than this — that discount is Phase D, and it needs " +
-      "distance_to_va parsed into a numeric column first.",
+      "MIXED VINTAGE: the Part D figure is 2026, the Medigap figure is KFF's " +
+      "2023 analysis and is the newest published average found. Medigap has " +
+      "risen since, so this understates slightly.\n" +
+      "The larger caveat is that it may not apply at all. Many veterans use VA " +
+      "healthcare and carry no Medigap, in which case this overstates their " +
+      "cost by most of $217/mo — larger than the gap between many cities. The " +
+      "VA-access discount is Phase D and needs distance_to_va parsed to a " +
+      "numeric column first. Until then this is the single least " +
+      "representative constant in the file for this audience.",
   }),
 
   /**
@@ -193,17 +221,22 @@ export const COST_CONSTANTS = {
    * is flagged in `approximations` so the UI can say so.
    */
   fallbackPropertyTaxRate: constant({
-    value: null,
+    value: 0.0099,
     unit: "fraction of home value per year",
     kind: "measured",
-    source: "Tax Foundation national average effective property tax rate",
-    sourceUrl: null,
-    sourcedOn: null,
+    source:
+      "US average effective property tax rate ~0.99% of home value, 2026 " +
+      "estimates aligned to Tax Foundation state analysis and Census ACS " +
+      "(annual taxes paid / home value)",
+    sourceUrl: "https://taxfoundation.org/data/all/state/property-taxes-by-state-county/",
+    sourcedOn: "2026-08-11",
     refresh: "annual",
     note:
-      "A national average hides enormous variation (roughly 0.3% to 2.5% " +
-      "across states), so a city relying on this fallback has a materially " +
-      "less trustworthy estimate. This is why per-city property_tax_rate is P0.",
+      "A national average hides enormous variation — roughly 0.29% in Hawaii " +
+      "to 1.88% in New Jersey and Illinois, a 6-7x spread — so any city " +
+      "relying on this fallback has a materially less trustworthy estimate and " +
+      "is flagged in `approximations`. This is why per-city property_tax_rate " +
+      "is P0; see issue #43.",
   }),
 
   /**
@@ -212,14 +245,14 @@ export const COST_CONSTANTS = {
    * what it is.
    */
   annualMaintenanceRate: constant({
-    value: null,
+    value: 0.01,
     unit: "fraction of home value per year",
     kind: "convention",
     source:
-      "Common financial-planning rule of thumb (commonly cited as ~1%/yr). " +
-      "Pick a value, cite where you took it from, and treat it as a knob.",
+      "The widely used 1%-of-home-value-per-year planning rule of thumb. Not a " +
+      "measured statistic — chosen as the most common convention.",
     sourceUrl: null,
-    sourcedOn: null,
+    sourcedOn: "2026-08-11",
     refresh: "rare",
     note:
       "Not a measurement. Older homes and harsh climates run higher. Because " +
@@ -239,21 +272,22 @@ export const COST_CONSTANTS = {
    * a month cheaper than it is.
    */
   nationalUtilitiesMonthly: constant({
-    value: null,
+    value: 373.33,
     unit: "USD per month",
     kind: "measured",
     source:
-      "BLS Consumer Expenditure Survey, housing -> utilities, fuels and public " +
-      "services line for the 65+ age group, / 12",
-    sourceUrl: null,
-    sourcedOn: null,
+      "BLS Consumer Expenditure Survey 2024, utilities/fuels/public services " +
+      "for reference person 65+: $4,480/yr, / 12",
+    sourceUrl: "https://fred.stlouisfed.org/series/CXUUTILSLB0407M",
+    sourcedOn: "2026-08-11",
     refresh: "annual",
     note:
-      "Take this from the SAME BLS table as nonHousingBaseline65Plus, so the " +
-      "two are consistent and utilities are neither dropped nor double-counted.\n" +
-      "This is a national figure, but utility costs vary a lot by climate and " +
-      "state. lib/electricity.ts already holds state-level cents/kWh and is " +
-      "wired to nothing — scaling this by that index is the obvious follow-up.",
+      "Same BLS release and same age group as nonHousingBaseline65Plus, so " +
+      "utilities are counted exactly once: excluded from the baseline (BLS " +
+      "files them under housing) and added back explicitly for owners only.\n" +
+      "National figure, but utility cost varies a lot by climate and state. " +
+      "lib/electricity.ts already holds state-level cents/kWh and is wired to " +
+      "nothing — scaling this by that index is the obvious follow-up.",
   }),
 
   /**
@@ -288,14 +322,14 @@ export const COST_CONSTANTS = {
    * be discounted before scaling a premium by it.
    */
   structureShareOfValue: constant({
-    value: null,
+    value: 0.7,
     unit: "fraction 0..1",
     kind: "convention",
     source:
-      "Planning convention; varies widely by market. Pick a value and cite " +
-      "where you took it from.",
+      "Convention: land is commonly taken as roughly 20-30% of residential " +
+      "market value, leaving ~70% as insurable structure. Not measured.",
     sourceUrl: null,
-    sourcedOn: null,
+    sourcedOn: "2026-08-11",
     refresh: "rare",
     note:
       "Genuinely market-specific: land is a small share of value in Forest, MS " +
@@ -327,12 +361,14 @@ export const COST_CONSTANTS = {
 
   /** Default down payment fraction for the `buying` tenure. */
   defaultDownPaymentFraction: constant({
-    value: null,
+    value: 0.2,
     unit: "fraction 0..1",
     kind: "convention",
-    source: "Product decision — set the default you want to show.",
+    source:
+      "Product decision: 20%, matching the borrower profile Freddie Mac's PMMS " +
+      "assumes, so the rate and the down payment describe the same buyer.",
     sourceUrl: null,
-    sourcedOn: null,
+    sourcedOn: "2026-08-11",
     refresh: "rare",
     note:
       "Many retirees buying after selling a home put down far more than a " +
