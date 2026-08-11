@@ -7,7 +7,7 @@ Retrieval date: 2026-07-10.
 - Geography: Chantilly CDP in Fairfax County, VA. The row is CDP-based, while political and crime fields use the local reporting geographies noted below.
 - Population and density: Census Reporter ACS 2024 5-year profile reports 24,036 people and 2,002.7 people per square mile; stored as `24,036` and `2003`.
 - Housing: Zillow city-level ZHVI for Chantilly, VA reports $819,232 as of 2026-05-31. The schema field is `avg_home_value`, but the source metric is ZHVI, a typical home value.
-- Cost of living: CostOfLivingData's Chantilly page reports a cost index of 193, with 100 as the U.S. average, using 2023 ACS vintage data. The imported product category is therefore `High`.
+- Cost of living: CostOfLivingData's Chantilly page reported a cost index of 193, with 100 as the U.S. average, using 2023 ACS vintage data, and drove the imported `High` product category. **Superseded 2026-08-11 — see the issue #49 section below.**
 - Sales and income tax: Fairfax County lists Virginia general sales tax, county local tax, and Northern Virginia transportation tax totaling 6.0%. Virginia's top individual income tax rate is 5.75%.
 - Gas: AAA Washington metro regular average was $3.911 on retrieval, rounded to `$3.91`.
 
@@ -61,3 +61,37 @@ Retrieval date: 2026-07-10.
 - Ellanor C. Lawrence Park: https://www.fairfaxcounty.gov/parks/eclawrence
 - Fairfax County Economic Development Authority: https://fairfaxcountyeda.org/
 - Virginia Economic Development Partnership aerospace: https://www.vedp.org/industry/aerospace
+
+## col_index correction (issue #49, retrieved 2026-08-11)
+
+`col_index=193` was the highest value in the entire database and, algebraically backing housing
+out of it, implied an implausibly high non-housing cost of living. Re-verification against six
+independent 2026 sources found none within 65 points of 193:
+
+- BestPlaces: 149.7 — https://www.bestplaces.net/cost_of_living/city/virginia/chantilly
+- AreaVibes: 150 — https://www.areavibes.com/chantilly-va/cost-of-living/
+- HomeSnacks: 152 — https://www.homesnacks.com/va/chantilly-cost-of-living/
+- Salary.com: ~143 — https://www.salary.com/research/cost-of-living/chantilly-va
+- ERI: ~106
+- BEA Regional Price Parities, Washington-Arlington-Alexandria MSA, all items, 2024: 108.884 —
+  https://fred.stlouisfed.org/series/RPPALL47900
+- (Secondary, not independently verified against a primary C2ER table) Fairfax County C2ER-based
+  figure reported at ~128.
+
+Corrected `col_index` to **109** (BEA RPP, rounded to the nearest integer — the only source above
+that is official, free, and independently verifiable against a primary table). `cost_of_living`
+recomputed to `Moderate` per `deriveCostOfLiving()` in `scripts/import-csv.ts`. `description`
+updated to drop "high housing and living costs" (no longer accurate once cost of living is
+`Moderate`) in favor of "high housing costs but a moderate overall cost of living".
+
+**This does not fully resolve the row's plausibility-band failure.** Re-deriving
+`nonHousingIndex` with `col_index=109` and the unchanged, ZHVI-confirmed `avg_home_value=819,232`
+gives ≈59.4 — still below the 70 floor (it was 181.1, "too high," before this fix; now "too low").
+Only the unverified ~128 C2ER figure would land the row in-band (≈87). Per the "never invent a
+value" rule, 128 was not used since its primary source could not be pinned down. Net effect: the
+confirmed-wrong 2023-vintage aggregator figure (193) is replaced with the best-sourced official
+figure available (109), but Chantilly should now be treated as a second instance of the "model tail"
+question raised for Irvine/Costa Mesa in issue #49 — high-housing-cost DC suburb, moderate
+everything else, where a fixed 30.9% housing weight may not reconcile the two — rather than as a
+closed data-error case. Resolving it further needs either a primary C2ER Fairfax County citation or
+the tail policy decision (exclude/clamp/switch-provider) issue #49 raises.
