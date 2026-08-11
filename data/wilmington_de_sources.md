@@ -65,3 +65,14 @@ None of the six issue #29 target fields for this row were left blank — all wer
 `scripts/verify-location-completeness.ts` additionally flags this row as missing `tech_hub`,
 `defense_hub_manual`, and `defense_hub`. Those are out of scope for issue #29 (belong to issue #26) and
 were not researched or populated here.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+Delaware Army National Guard headquarters is located in Wilmington, and New Castle Air National Guard Base (home of the 166th Airlift Wing) is in the same urbanized area, sharing Wilmington's metro/commuting geography even though the base's mailing address is technically New Castle.
+
+Sources:
+- Wikipedia, "New Castle Air National Guard Base" — https://en.wikipedia.org/wiki/New_Castle_Air_National_Guard_Base
+- Wikipedia, "Delaware Air National Guard" — https://en.wikipedia.org/wiki/Delaware_Air_National_Guard
+- Wikipedia, "166th Airlift Wing" — https://en.wikipedia.org/wiki/166th_Airlift_Wing
