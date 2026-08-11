@@ -84,3 +84,13 @@ None of the six issue #29 target fields for this row were left blank — all wer
 audit, issue #26) and requires a separate curatorial judgment call about defense/aerospace employer
 presence per `CLAUDE.md`'s defense-hub rules, not a sourced narrative fact — left untouched here and
 flagged in the issue #29 progress comment instead of being guessed at.
+
+## defense_hub_manual (issue #20, retrieved 2026-08-11)
+
+Determination: **TRUE**
+
+The U.S. Coast Guard Aviation Training Center in Mobile is the national aviation-training hub for the entire Coast Guard, and Austal USA operates a major Navy shipyard in Mobile building Littoral Combat Ships and Expeditionary Fast Transports — two substantial, independently verifiable defense/military presences.
+
+Sources:
+- U.S. Coast Guard, Force Readiness Command, Aviation Training Center Mobile — https://www.forcecom.uscg.mil/
+- Wikipedia, "Coast Guard Aviation Training Center" — https://en.wikipedia.org/wiki/Coast_Guard_Aviation_Training_Center
