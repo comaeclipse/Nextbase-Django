@@ -1,0 +1,11 @@
+City,State,HasWalmart,HasCostco,SourceNote
+Chicago,IL,Y,Y,user_supplied_2026-08-16
+Irvine,CA,Y,Y,user_supplied_2026-08-16
+Florence,AL,Y,N,user_supplied_2026-08-16
+Houston,TX,Y,Y,user_supplied_2026-08-16
+Fresno,CA,Y,Y,user_supplied_2026-08-16
+Danville,IL,Y,N,user_supplied_2026-08-16
+Phoenix,AZ,Y,Y,user_supplied_2026-08-16
+Decorah,IA,Y,N,user_supplied_2026-08-16
+Scranton,PA,Y,N,user_supplied_2026-08-16
+Victorville,CA,Y,Y,user_supplied_2026-08-16
