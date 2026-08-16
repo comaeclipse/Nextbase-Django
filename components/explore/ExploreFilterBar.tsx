@@ -83,6 +83,8 @@ export type ExploreFilters = {
   healthcare: string[];
   activities: string[];
   incomeTax: "" | "none" | "low";
+  hasWalmart: boolean;
+  hasCostco: boolean;
   lgbtq: boolean;
   noAwb: boolean;
   noHcm: boolean;
@@ -103,6 +105,8 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   healthcare: [],
   activities: [],
   incomeTax: "",
+  hasWalmart: false,
+  hasCostco: false,
   lgbtq: false,
   noAwb: false,
   noHcm: false,
@@ -241,6 +245,8 @@ export function moreFilterCount(filters: ExploreFilters) {
     filters.activities.length +
     (filters.snow ? 1 : 0) +
     (filters.incomeTax ? 1 : 0) +
+    (filters.hasWalmart ? 1 : 0) +
+    (filters.hasCostco ? 1 : 0) +
     (filters.lgbtq ? 1 : 0) +
     (filters.noAwb ? 1 : 0) +
     (filters.noHcm ? 1 : 0)
@@ -639,6 +645,24 @@ function MoreFiltersContent({
           </section>
         </>
       ) : null}
+
+      <Separator />
+
+      <section className="space-y-3">
+        <SectionHeading title="Retail access" />
+        <ToggleRow
+          icon={Store}
+          label="Has Walmart"
+          checked={filters.hasWalmart}
+          onCheckedChange={(checked) => update("hasWalmart", checked)}
+        />
+        <ToggleRow
+          icon={Store}
+          label="Has Costco"
+          checked={filters.hasCostco}
+          onCheckedChange={(checked) => update("hasCostco", checked)}
+        />
+      </section>
 
       <Separator />
 

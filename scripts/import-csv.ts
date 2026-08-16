@@ -172,6 +172,8 @@ function parseRow(row: Row): Record<string, unknown> {
     // The derived `defense_hub` column is left for scripts/recompute-defense-hub.ts
     // (manual===false ? false : presence ? true : manual). See lib/defense.ts.
     defense_hub_manual: parseBoolV(row["DefenseHub"]),
+    has_walmart: parseBoolV(row["HasWalmart"]),
+    has_costco: parseBoolV(row["HasCostco"]),
     snow_annual: parseIntV(row["Snow"]),
     rain_annual: parseIntV(row["Rain"]),
     sun_days: parseIntV(row["SunnyDays"]),

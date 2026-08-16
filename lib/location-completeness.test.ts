@@ -7,6 +7,7 @@ const completeRow = Object.fromEntries(
 
 Object.assign(completeRow, {
   City: "Example", State: "EX", VA: "No", TechHub: "Y", DefenseHub: "N",
+  HasWalmart: "N", HasCostco: "Y",
   Tags: '["Hiking"]', Gas: "$3.19", CrimeRating: "Low", Description: "Sourced city summary.",
 });
 
@@ -16,19 +17,21 @@ describe("locationCsvCompletionProblems", () => {
   });
 
   it("rejects the core fields that previously slipped through as blanks", () => {
-    const incomplete = { ...completeRow, TCI: "", CrimeRating: "?", Gas: "NA", DefenseHub: "" };
+    const incomplete = { ...completeRow, TCI: "", CrimeRating: "?", Gas: "NA", DefenseHub: "", HasWalmart: "" };
     expect(locationCsvCompletionProblems(incomplete)).toEqual([
       "TCI is blank",
       "CrimeRating is blank",
       "DefenseHub is blank",
+      "HasWalmart is blank",
       "Gas is blank",
     ]);
   });
 
   it("requires deliberate booleans and structured tags", () => {
-    const invalid = { ...completeRow, DefenseHub: "maybe", Tags: "Hiking" };
+    const invalid = { ...completeRow, DefenseHub: "maybe", HasCostco: "maybe", Tags: "Hiking" };
     expect(locationCsvCompletionProblems(invalid)).toEqual([
       "DefenseHub must be an explicit Yes/No value",
+      "HasCostco must be an explicit Yes/No value",
       "Tags must be a non-empty JSON array",
     ]);
   });

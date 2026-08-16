@@ -66,6 +66,8 @@ export default function ExploreClient({
             activities: [],
             snow: "",
             incomeTax: "",
+            hasWalmart: false,
+            hasCostco: false,
             lgbtq: false,
             noAwb: false,
             noHcm: false,
@@ -122,6 +124,8 @@ export default function ExploreClient({
       income_tax: filters.incomeTax || null,
       vibes: filters.vibes.join(",") || null,
       employers: filters.employers.join(",") || null,
+      has_walmart: filters.hasWalmart ? "true" : null,
+      has_costco: filters.hasCostco ? "true" : null,
       sort: filters.sort,
     };
   }, [filters]);

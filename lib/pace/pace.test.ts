@@ -463,6 +463,8 @@ describe("lifestyle filter compatibility", () => {
       tech_hub: null,
       defense_hub: null,
       defense_hub_manual: null,
+      has_walmart: null,
+      has_costco: null,
       snow_annual: null,
       rain_annual: null,
       sun_days: null,

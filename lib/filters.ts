@@ -30,6 +30,8 @@ export interface FilterParams {
   vibes?: string | null;
   /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
   employers?: string | null;
+  has_walmart?: string | null;
+  has_costco?: string | null;
   sort?: string | null;
 }
 
@@ -252,6 +254,13 @@ export function filterAndSort(
       const index = employerIndex ?? {};
       list = list.filter((l) => matchesEmployers(index[l.id], slugs));
     }
+  }
+
+  if (p.has_walmart === "true") {
+    list = list.filter((l) => l.has_walmart === true);
+  }
+  if (p.has_costco === "true") {
+    list = list.filter((l) => l.has_costco === true);
   }
 
   // Scores + sorting

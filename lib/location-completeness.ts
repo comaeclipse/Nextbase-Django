@@ -24,12 +24,13 @@ export const REQUIRED_LOCATION_CSV_COLUMNS = [
   "ElectionChange", "Population", "Density", "SalesTax", "CostOfLiving",
   "AvgHomeValue", "VA", "NearestVA", "DistanceToVA", "TCI",
   "CrimeRating", "LGBTQ", "LGBTQ_MEI",
-  "LGBTQSource", "TechHub", "DefenseHub", "Snow", "Rain", "SunnyDays",
+  "LGBTQSource", "TechHub", "DefenseHub", "HasWalmart", "HasCostco",
+  "Snow", "Rain", "SunnyDays",
   "AverageLowWinter", "AverageHighSummer", "HumiditySummer", "Climate", "Gas",
   "Description", "Tags", "rep_vote_share_change_pp", "dem_vote_share_change_pp",
 ] as const;
 
-const BOOLEAN_COLUMNS = ["VA", "TechHub", "DefenseHub"] as const;
+const BOOLEAN_COLUMNS = ["VA", "TechHub", "DefenseHub", "HasWalmart", "HasCostco"] as const;
 const BOOLEAN_VALUES = new Set(["y", "yes", "true", "t", "1", "n", "no", "false", "f", "0"]);
 const NOT_RATED_VALUES = new Set(["not rated", "not-rated", "not hrc rated"]);
 
