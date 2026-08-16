@@ -18,7 +18,7 @@ import type { Location } from "@/lib/types";
 import PublicNav from "@/components/PublicNav";
 import HousingMarketCard from "@/components/HousingMarketCard";
 import { getHousingMarket } from "@/lib/housing-market";
-import { Check, X } from "lucide-react";
+import { Check, ShoppingCart, X } from "lucide-react";
 import "../../styles/city.css";
 
 export const dynamic = "force-dynamic";
@@ -38,6 +38,19 @@ function BanBadge({ value }: { value: boolean | null }) {
     </span>
   ) : (
     <span className="badge good">
+      <X className="icon" /> No
+    </span>
+  );
+}
+
+function RetailAccessStatus({ value }: { value: boolean | null }) {
+  if (value === null) return <>—</>;
+  return value ? (
+    <span className="badge good">
+      <Check className="icon" /> Yes
+    </span>
+  ) : (
+    <span className="badge neutral">
       <X className="icon" /> No
     </span>
   );
@@ -99,6 +112,8 @@ export default async function CityDetailPage({
   const medianHomePriceSubtitle = housingMarket
     ? "Median sale price"
     : "Typical home value";
+  const hasRetailAccessData =
+    location.has_walmart !== null || location.has_costco !== null;
 
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
@@ -369,6 +384,37 @@ export default async function CityDetailPage({
 
           {housingMarket && (
             <HousingMarketCard city={location.name} market={housingMarket} />
+          )}
+
+          {hasRetailAccessData && (
+            <div className="card">
+              <div className="card-head">
+                <ShoppingCart className="icon" />
+                <h2>Retail Access</h2>
+              </div>
+              <div className="card-body">
+                <div className="spec-grid">
+                  <div className="spec">
+                    <span className="spec-key">
+                      <ShoppingCart className="icon" />
+                      Walmart
+                    </span>
+                    <span className="spec-val">
+                      <RetailAccessStatus value={location.has_walmart} />
+                    </span>
+                  </div>
+                  <div className="spec">
+                    <span className="spec-key">
+                      <ShoppingCart className="icon" />
+                      Costco
+                    </span>
+                    <span className="spec-val">
+                      <RetailAccessStatus value={location.has_costco} />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
 
           {/* Climate & Weather */}
