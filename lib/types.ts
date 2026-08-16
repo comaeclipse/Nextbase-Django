@@ -70,6 +70,10 @@ export interface LocationRow {
   /** The hand-curated input to `defense_hub`; never written by employer sync. */
   defense_hub_manual: boolean | null;
 
+  // Retail access
+  has_walmart: boolean | null;
+  has_costco: boolean | null;
+
   // Weather & climate
   snow_annual: number | null;
   rain_annual: number | null;

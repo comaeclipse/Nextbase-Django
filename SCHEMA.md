@@ -86,6 +86,9 @@ Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudi
 - **DefenseHub**: Whether location has significant defense/military presence (Y/N). **Derived** — see [Defense hub (derived)](#defense-hub-derived); edit `defense_hub_manual`, never this column
 - **DefenseHubManual**: The hand-curated input to `DefenseHub`. Three-valued: `null` means "never researched", which is not `false`
 
+### Retail Access
+- **HasWalmart** / **HasCostco**: Whether the city has an in-city Walmart or Costco location, sourced from official store/warehouse pages or another durable source. Stored as nullable booleans: `null` means unresearched or not yet backfilled, not a confirmed `false`.
+
 ### Weather & Climate
 - **Snow**: Average annual snowfall (inches)
 - **Rain**: Average annual rainfall (inches)

@@ -24,6 +24,8 @@ export async function GET(req: NextRequest) {
     income_tax: sp.get("income_tax"),
     vibes: sp.get("vibes"),
     employers: sp.get("employers"),
+    has_walmart: sp.get("has_walmart"),
+    has_costco: sp.get("has_costco"),
     sort: sp.get("sort"),
   };
 
