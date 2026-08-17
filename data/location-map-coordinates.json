@@ -311,6 +311,13 @@
       "longitude": -97.345836
     },
     {
+      "name": "Bowling Green",
+      "state": "KY",
+      "census_place_geoid": "2108902",
+      "latitude": 36.976832,
+      "longitude": -86.433661
+    },
+    {
       "name": "Louisville",
       "state": "KY",
       "census_place_geoid": "2148000",

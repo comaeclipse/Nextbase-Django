@@ -166,6 +166,113 @@
       ]
     },
     {
+      "city": "Bowling Green",
+      "state": "KY",
+      "signals": [
+        {
+          "key": "violent_crime_below_national",
+          "dimension": "safety",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Violent crime below the national average",
+          "detail": "The 2024 FBI UCR mirror reports 224.5 violent crimes per 100,000 residents, below the national baseline of 359.1. This supports the stored violent-crime index while remaining a citywide reported-crime measure.",
+          "audience": "Households comparing broad city safety",
+          "evidence_kind": "fbi_ucr_mirror",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.opencrime.us/cities/bowling-green-kentucky",
+            "https://plaincrime.com/city/bowling-green-ky",
+            "https://www.fbi.gov/how-we-can-help-you/more-fbi-services-and-information/ucr"
+          ],
+          "source_retrieved_on": "2026-08-17"
+        },
+        {
+          "key": "property_crime_theft_exposure",
+          "dimension": "safety",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Property crime is the practical safety issue",
+          "detail": "The 2024 UCR mirror reports 2,270 property crimes and a 2,928.9 per 100,000 property-crime rate, led by larceny-theft. BGPD's 2025 year-end figures reported by WBKO also highlight shoplifting, thefts from vehicles, and stolen guns.",
+          "audience": "Car owners, renters, and buyers comparing neighborhoods",
+          "evidence_kind": "fbi_ucr_mirror_and_local_police_reporting",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.opencrime.us/cities/bowling-green-kentucky",
+            "https://plaincrime.com/city/bowling-green-ky",
+            "https://www.wbko.com/2026/01/13/bowling-green-police-department-shares-2025-city-crime-statistics/"
+          ],
+          "source_retrieved_on": "2026-08-17"
+        },
+        {
+          "key": "reported_rape_outlier",
+          "dimension": "safety",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Reported rape is an offense-mix outlier",
+          "detail": "The 2024 UCR mirror lists 69 rape reports, or 89.0 per 100,000. This is meaningful context for safety discussion, but it should be treated as reported-crime data rather than a direct individual-risk probability.",
+          "audience": "Households evaluating personal safety context",
+          "evidence_kind": "fbi_ucr_mirror",
+          "confidence": "medium",
+          "source_urls": [
+            "https://plaincrime.com/city/bowling-green-ky",
+            "https://www.opencrime.us/cities/bowling-green-kentucky",
+            "https://www.fbi.gov/how-we-can-help-you/more-fbi-services-and-information/ucr"
+          ],
+          "source_retrieved_on": "2026-08-17"
+        },
+        {
+          "key": "va_outpatient_clinic_in_city",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "VA outpatient clinic in Bowling Green",
+          "detail": "The Bowling Green VA Clinic is an in-city outpatient clinic offering primary care, mental health care, social work, telehealth, laboratory services, nutrition counseling, and related support services.",
+          "audience": "Veterans using routine outpatient VA care",
+          "geography_scope": "city",
+          "evidence_kind": "official_va_facility_page",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.va.gov/tennessee-valley-health-care/locations/bowling-green-va-clinic/"
+          ],
+          "source_retrieved_on": "2026-08-17"
+        },
+        {
+          "key": "va_hospital_care_is_regional",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Full VA hospital care requires a regional trip",
+          "detail": "Bowling Green has local outpatient VA care, but the nearest stored VA medical center is Nashville VA Medical Center, about 61 miles away. VA Tennessee Valley also lists Alvin C. York VA Medical Center in Murfreesboro as a main medical-center location.",
+          "audience": "Veterans needing hospital or specialty services",
+          "geography_scope": "regional",
+          "evidence_kind": "official_va_facility_page_and_vast_distance",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.va.gov/tennessee-valley-health-care/locations/",
+            "https://www.va.gov/tennessee-valley-health-care/locations/bowling-green-va-clinic/"
+          ],
+          "source_retrieved_on": "2026-08-17"
+        },
+        {
+          "key": "va_outpatient_expansion_planned",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Larger VA outpatient clinic is planned",
+          "detail": "VA announced an August 2026 lease for a new 41,028-net-usable-square-foot Bowling Green outpatient clinic, with construction and facility preparation expected by fall 2028 and the first patient expected by spring 2029.",
+          "audience": "Veterans weighing medium-term access improvements",
+          "geography_scope": "city",
+          "evidence_kind": "official_va_news_release",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.va.gov/tennessee-valley-health-care/news-releases/va-signs-lease-for-new-outpatient-clinic-in-bowling-green-kentucky-to-expand-veterans-access-to-health/",
+            "https://www.va.gov/tennessee-valley-health-care/stories/va-breaks-ground-on-new-multi-specialty-cookeville-clinic/"
+          ],
+          "source_retrieved_on": "2026-08-17"
+        }
+      ]
+    },
+    {
       "city": "Elko",
       "state": "NV",
       "signals": [

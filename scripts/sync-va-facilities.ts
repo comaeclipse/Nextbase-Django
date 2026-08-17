@@ -68,6 +68,13 @@ function formatMiles(mi: number): string {
   return `${Math.round(mi)} miles`;
 }
 
+function samePlace(site: VaSite, city: CityRow): boolean {
+  return (
+    site.state?.toUpperCase() === city.state.toUpperCase() &&
+    site.city?.trim().toLowerCase() === city.name.trim().toLowerCase()
+  );
+}
+
 function classifySite(staNo: string, name: string): VaSite["kind"] | null {
   if (/vet\s*center/i.test(name)) return null;
 
@@ -202,7 +209,7 @@ async function main() {
     const distanceToVa = formatMiles(out.miles);
     const nearestHospital = hosp.site.name;
     const distanceHospital = formatMiles(hosp.miles);
-    const hasVa = out.miles < 0.5;
+    const hasVa = out.miles < 0.5 || samePlace(out.site, city);
 
     notes.push(
       `| ${city.name}, ${city.state} | ${nearestVa} | ${distanceToVa.replace(" miles", "")} | ${nearestHospital} | ${distanceHospital.replace(" miles", "")} |`
