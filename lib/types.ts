@@ -117,6 +117,10 @@ export interface LocationRow {
   /** AGI at or below which the state exempts Social Security benefits. */
   ss_tax_threshold_single?: number | null;
   ss_tax_threshold_married?: number | null;
+  /** Age at year-end at or above which the SS exemption gate opens. */
+  ss_tax_min_age?: number | null;
+  /** If true, reaching ss_tax_min_age exempts SS regardless of AGI. */
+  ss_tax_age_exempts_fully?: boolean | null;
 
   /** Monthly median gross rent, dollars. ACS 5-year B25064. */
   median_rent?: number | null;

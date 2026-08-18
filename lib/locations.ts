@@ -71,6 +71,8 @@ const LOCATION_SELECT = `
   s.ss_tax_treatment,
   s.ss_tax_threshold_single,
   s.ss_tax_threshold_married,
+  s.ss_tax_min_age,
+  s.ss_tax_age_exempts_fully,
   rpp.goods_rpp,
   rpp.housing_rpp,
   rpp.utilities_rpp,

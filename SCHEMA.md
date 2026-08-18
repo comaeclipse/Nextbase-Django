@@ -26,6 +26,16 @@ State-level information that applies to all locations within a state (no need to
 
 All five columns are maintained by `scripts/migrate-vet-benefits-tax-columns.ts` + `scripts/import-retired-pay-tax.ts` from `data/state_retired_pay_tax.csv`, verified per-state against primary sources 2026-08-11 (issue #42). `scripts/import-state-benefits.ts` (the broader, still-unverified `data/state_vet_benefits.csv` draft) never touches `retired_pay_tax`, `vet_benefits_source_url`, or `vet_benefits_verified_on` so it can't silently regress this verification.
 
+### Social Security tax treatment
+
+- **ss_tax_treatment**: `not_taxed` | `partial` | `taxed` | `unknown`
+- **ss_tax_threshold_single** / **ss_tax_threshold_married**: AGI at or below which benefits are exempt
+- **ss_tax_min_age**: age at year-end at or above which the exemption gate opens. Null means no age condition.
+- **ss_tax_age_exempts_fully**: if true, reaching `ss_tax_min_age` exempts Social Security regardless of AGI (Colorado 65+). If false, min age is required *in addition* to the AGI threshold (Rhode Island full retirement age).
+- **ss_tax_source_url** / **ss_tax_verified_on**: provenance
+
+The UI only has a 65-or-older flag, so a gate older than 65 is treated as met for 65+ filers and recorded as an approximation. Maintain with `scripts/migrate-ss-tax-columns.ts`, `scripts/migrate-ss-tax-age-columns.ts`, and `scripts/import-ss-tax.ts` from `data/state_ss_tax.csv`.
+
 ### Normalized state-owned facts
 
 These fields are the normalized destination for facts that legacy city CSVs duplicated onto every `locations_location` row. Do not backfill them by picking an arbitrary city value; adjudicate conflicts from sources, store the source URL and verification date, and keep application reads compatible through the `lib/locations.ts` join.
