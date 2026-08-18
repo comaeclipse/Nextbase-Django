@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { filterAndSort } from "./filters";
+import type { MilitaryProximity, MilitaryProximityIndex } from "./military";
 import type { LocationRow } from "./types";
 
 function loc(partial: Partial<LocationRow>): LocationRow {
@@ -87,5 +88,91 @@ describe("retail access filters", () => {
       has_costco: "true",
     });
     expect(result.map((location) => location.name)).toEqual(["Both"]);
+  });
+});
+
+describe("near_base filter", () => {
+  const navy: MilitaryProximity = {
+    installation_id: 10,
+    command_name: "NAS Pensacola",
+    service_branch: "Navy",
+    branch_slug: "navy",
+    city: "Pensacola",
+    state: "FL",
+    distance_miles: 8,
+  };
+  const airForce: MilitaryProximity = {
+    installation_id: 11,
+    command_name: "Eglin Air Force Base",
+    service_branch: "Air Force",
+    branch_slug: "air_force",
+    city: "Valparaiso",
+    state: "FL",
+    distance_miles: 45,
+  };
+  const armyFar: MilitaryProximity = {
+    installation_id: 12,
+    command_name: "Fort Moore",
+    service_branch: "Army",
+    branch_slug: "army",
+    city: "Columbus",
+    state: "GA",
+    distance_miles: 120,
+  };
+
+  const rows = [
+    loc({ id: 1, name: "Pensacola" }),
+    loc({ id: 2, name: "Elko" }),
+    loc({ id: 3, name: "Marietta", defense_hub: true }),
+  ];
+  const militaryIndex: MilitaryProximityIndex = {
+    1: {
+      nearest: navy,
+      nearest_by_branch: { navy, air_force: airForce },
+    },
+    3: {
+      nearest: armyFar,
+      nearest_by_branch: { army: armyFar },
+    },
+  };
+
+  it("matches cities with any base inside the distance band", () => {
+    const result = filterAndSort(
+      rows,
+      [],
+      { near_base: "true", base_max_distance: "25" },
+      { militaryIndex }
+    );
+    expect(result.map((location) => location.name)).toEqual(["Pensacola"]);
+  });
+
+  it("matches a branch inside the band", () => {
+    const result = filterAndSort(
+      rows,
+      [],
+      { base_branch: "air_force", base_max_distance: "50" },
+      { militaryIndex }
+    );
+    expect(result.map((location) => location.name)).toEqual(["Pensacola"]);
+  });
+
+  it("rejects the same branch outside the band", () => {
+    const result = filterAndSort(
+      rows,
+      [],
+      { base_branch: "air_force", base_max_distance: "25" },
+      { militaryIndex }
+    );
+    expect(result.map((location) => location.name)).toEqual([]);
+  });
+
+  it("does not treat defense_hub as near_base", () => {
+    const result = filterAndSort(
+      rows,
+      [],
+      { near_base: "true", base_max_distance: "50" },
+      { militaryIndex }
+    );
+    expect(result.map((location) => location.name)).toEqual(["Pensacola"]);
   });
 });

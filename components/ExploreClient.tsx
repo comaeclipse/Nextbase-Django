@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { DefenseEmployerRow, Location, StateInfoRow } from "@/lib/types";
 import type { EmployerIndex } from "@/lib/defense";
+import type { MilitaryProximityIndex } from "@/lib/military";
 import { filterAndSort, type FilterParams } from "@/lib/filters";
 import ExploreFilterBar, {
   DEFAULT_FILTERS,
@@ -31,6 +32,7 @@ export default function ExploreClient({
   initialStateFilter = null,
   employers,
   employerIndex,
+  militaryIndex = {},
 }: {
   initialLocations: Location[];
   stateInfos: StateInfoRow[];
@@ -38,6 +40,7 @@ export default function ExploreClient({
   initialStateFilter?: string | null;
   employers: DefenseEmployerRow[];
   employerIndex: EmployerIndex;
+  militaryIndex?: MilitaryProximityIndex;
 }) {
   const [filters, setFilters] = useState<ExploreFilters>({
     ...DEFAULT_FILTERS,
@@ -106,6 +109,8 @@ export default function ExploreClient({
             lgbtq: false,
             noAwb: false,
             noHcm: false,
+            baseMaxDistance: "",
+            baseBranches: [],
           };
       }
     });
@@ -159,6 +164,14 @@ export default function ExploreClient({
       income_tax: filters.incomeTax || null,
       vibes: filters.vibes.join(",") || null,
       employers: filters.employers.join(",") || null,
+      near_base:
+        filters.baseMaxDistance || filters.baseBranches.length > 0
+          ? "true"
+          : null,
+      base_branch: filters.baseBranches.join(",") || null,
+      base_max_distance:
+        filters.baseMaxDistance ||
+        (filters.baseBranches.length > 0 ? "50" : null),
       has_walmart: filters.hasWalmart ? "true" : null,
       has_costco: filters.hasCostco ? "true" : null,
       sort: filters.sort === "headroom_desc" ? "best" : filters.sort,
@@ -169,8 +182,9 @@ export default function ExploreClient({
     () =>
       filterAndSort(initialLocations, stateInfos, filterParams, {
         employerIndex,
+        militaryIndex,
       }),
-    [employerIndex, filterParams, initialLocations, stateInfos]
+    [employerIndex, filterParams, initialLocations, militaryIndex, stateInfos]
   );
 
   const annotated = useMemo(() => {

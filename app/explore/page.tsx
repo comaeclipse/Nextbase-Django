@@ -3,6 +3,7 @@ import {
   getAllLocations,
   getAllStateInfo,
   getEmployerIndex,
+  getMilitaryProximityIndex,
 } from "@/lib/locations";
 import { calculateBaselineScore } from "@/lib/scoring";
 import { computeStateCounts } from "@/lib/filters";
@@ -18,11 +19,13 @@ export default async function ExplorePage({
 }: {
   searchParams: Promise<{ state_filter?: string | string[] }>;
 }) {
-  const [rows, stateInfos, employers, employerIndex, params] = await Promise.all([
+  const [rows, stateInfos, employers, employerIndex, militaryIndex, params] =
+    await Promise.all([
     getAllLocations(),
     getAllStateInfo(),
     getActiveEmployers(),
     getEmployerIndex(),
+    getMilitaryProximityIndex(),
     searchParams,
   ]);
   const locations: Location[] = rows.map((r) => ({
@@ -57,6 +60,7 @@ export default async function ExplorePage({
       initialStateFilter={initialStateFilter}
       employers={employers}
       employerIndex={employerIndex}
+      militaryIndex={militaryIndex}
     />
   );
 }

@@ -5,6 +5,7 @@ import {
   getEmployerIndex,
   getLatestAirQuality,
   getLocationById,
+  getMilitaryProximityIndex,
   getSimilarLocations,
   getStateInfo,
 } from "@/lib/locations";
@@ -19,6 +20,7 @@ import PublicNav from "@/components/PublicNav";
 import HousingMarketCard from "@/components/HousingMarketCard";
 import CityAffordabilityCard from "@/components/city/CityAffordabilityCard";
 import { getHousingMarket } from "@/lib/housing-market";
+import { formatNearestBase } from "@/lib/military";
 import { Check, X } from "lucide-react";
 import "../../styles/city.css";
 
@@ -104,13 +106,16 @@ export default async function CityDetailPage({
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
   // instead of two sequential Neon round trips.
-  const [stateInfo, similarRows, employerIndex, airQuality] = await Promise.all([
+  const [stateInfo, similarRows, employerIndex, airQuality, militaryIndex] =
+    await Promise.all([
     stateAbbr ? getStateInfo(stateAbbr) : Promise.resolve(null),
     getSimilarLocations(location.state, location.id),
     getEmployerIndex(),
     getLatestAirQuality(location.id),
+    getMilitaryProximityIndex(),
   ]);
   const employersHere = employerIndex[location.id] ?? [];
+  const nearestBase = militaryIndex[location.id]?.nearest ?? null;
   const similar: Location[] = similarRows.map((r) => ({
     ...r,
     calculated_match_score: calculateBaselineScore(r),
@@ -699,6 +704,19 @@ export default async function CityDetailPage({
                     {location.density ? `${location.density}/sq mi` : "—"}
                   </span>
                 </div>
+                {nearestBase ? (
+                  <div className="spec" style={{ gridColumn: "1 / -1" }}>
+                    <span className="spec-key">
+                      <svg className="icon" viewBox="0 0 24 24">
+                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                      </svg>{" "}
+                      Nearest base
+                    </span>
+                    <span className="spec-val">
+                      {formatNearestBase(nearestBase)}
+                    </span>
+                  </div>
+                ) : null}
               </div>
               {(location.tech_hub || location.defense_hub) && (
                 <div className="tags" style={{ marginTop: "1rem" }}>

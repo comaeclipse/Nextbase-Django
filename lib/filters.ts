@@ -6,6 +6,12 @@
 import type { LocationRow, StateInfoRow, Location } from "./types";
 import { matchesEmployers, type EmployerIndex } from "./defense";
 import {
+  isServiceBranchSlug,
+  matchesNearBase,
+  parseBaseMaxDistance,
+  type MilitaryProximityIndex,
+} from "./military";
+import {
   parseNumber,
   locationHomeValue,
   parseLgbtqScore,
@@ -30,6 +36,15 @@ export interface FilterParams {
   vibes?: string | null;
   /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
   employers?: string | null;
+  /**
+   * Near a military installation. Independent of `employers` and `defense_hub`.
+   * Set to "true", or implied when `base_max_distance` / `base_branch` is set.
+   */
+  near_base?: string | null;
+  /** Comma-separated branch slugs: army, navy, air_force, marine_corps. */
+  base_branch?: string | null;
+  /** Predefined band in miles: 25, 50, or 100. Defaults to 50. */
+  base_max_distance?: string | null;
   has_walmart?: string | null;
   has_costco?: string | null;
   sort?: string | null;
@@ -39,6 +54,8 @@ export interface FilterOptions {
   scoreFn?: (loc: LocationRow) => number;
   /** Required only when `employers` is set. */
   employerIndex?: EmployerIndex;
+  /** Required only when the near_base facet is set. */
+  militaryIndex?: MilitaryProximityIndex;
 }
 
 function splitTypes(value: string): string[] {
@@ -179,7 +196,8 @@ export function filterAndSort(
   p: FilterParams,
   options: FilterOptions = {}
 ): Location[] {
-  const { scoreFn = calculateBaselineScore, employerIndex } = options;
+  const { scoreFn = calculateBaselineScore, employerIndex, militaryIndex } =
+    options;
   const awbStates = new Set(
     stateInfos.filter((s) => s.assault_weapons_ban).map((s) => s.state)
   );
@@ -244,6 +262,23 @@ export function filterAndSort(
       const s = parseLgbtqScore(l);
       return s !== null && s >= 70;
     });
+  }
+
+  // Near a military installation. Independent of defense_hub / employer presence.
+  const nearBaseActive =
+    p.near_base === "true" || Boolean(p.base_max_distance) || Boolean(p.base_branch);
+  if (nearBaseActive) {
+    const branches = p.base_branch
+      ? splitTypes(p.base_branch).filter(isServiceBranchSlug)
+      : [];
+    const maxDistance = parseBaseMaxDistance(p.base_max_distance);
+    const index = militaryIndex ?? {};
+    list = list.filter((l) =>
+      matchesNearBase(index[l.id], {
+        maxDistance,
+        branches: branches.length > 0 ? branches : undefined,
+      })
+    );
   }
 
   // Defense-employer presence. Any nonzero posting count (incl. remote) matches
