@@ -31,6 +31,7 @@ import {
   Waves,
   X,
   Anchor,
+  Factory,
   Plane,
   Shield,
 } from "lucide-react";
@@ -82,6 +83,8 @@ export type ExploreFilters = {
   geography: string[];
   vibes: string[];
   employers: string[];
+  /** Physical defense-employer presence; independent of `defense_hub` and `near_base`. */
+  defenseEcosystem: boolean;
   snow: string;
   healthcare: string[];
   activities: string[];
@@ -107,6 +110,7 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   geography: [],
   vibes: [],
   employers: [],
+  defenseEcosystem: false,
   snow: "",
   healthcare: [],
   activities: [],
@@ -164,8 +168,8 @@ export const VIBE_OPTIONS: Option[] = [
 ];
 
 export const HEALTHCARE_OPTIONS: Option[] = [
-  { id: "va-hospital", label: "VA hospital nearby", icon: Stethoscope },
-  { id: "va-clinic", label: "VA clinic access", icon: Stethoscope },
+  { id: "va-hospital", label: "VA medical center nearby", icon: Stethoscope },
+  { id: "va-clinic", label: "VA outpatient care nearby", icon: Stethoscope },
 ];
 
 export const ACTIVITY_OPTIONS: Option[] = [
@@ -262,6 +266,7 @@ export function moreFilterCount(filters: ExploreFilters) {
   return (
     filters.vibes.length +
     filters.employers.length +
+    (filters.defenseEcosystem ? 1 : 0) +
     filters.healthcare.length +
     filters.activities.length +
     (filters.snow ? 1 : 0) +
@@ -667,45 +672,51 @@ function MoreFiltersContent({
         />
       </section>
 
-      {employerGroups.length > 0 ? (
-        <>
-          <Separator />
-          <section className="space-y-4">
-            <SectionHeading
-              title="Defense employers"
-              description="Show cities with a physical facility from a selected employer."
-            />
-            <div className="space-y-4">
-              {employerGroups.map(([parent, entries]) => (
-                <div key={parent} className="space-y-2">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                    {parent}
-                  </p>
-                  {entries.map(({ employer, cities }) => (
-                    <Label
-                      key={employer.slug}
-                      htmlFor={`employer-${employer.slug}`}
-                      className="flex cursor-pointer items-center gap-3 py-1 text-sm font-normal"
-                    >
-                      <Checkbox
-                        id={`employer-${employer.slug}`}
-                        checked={filters.employers.includes(employer.slug)}
-                        onCheckedChange={(value) =>
-                          toggleEmployer(employer.slug, value === true)
-                        }
-                      />
-                      <span className="flex-1">{employer.display_name}</span>
-                      <span className="text-xs text-muted-foreground">
-                        {cities}
-                      </span>
-                    </Label>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </section>
-        </>
-      ) : null}
+      <Separator />
+
+      <section className="space-y-4">
+        <SectionHeading
+          title="Defense industry"
+          description="Physical contractor presence, independent of living near a base."
+        />
+        <ToggleRow
+          icon={Factory}
+          label="Defense industry nearby"
+          checked={filters.defenseEcosystem}
+          onCheckedChange={(checked) => update("defenseEcosystem", checked)}
+        />
+        {employerGroups.length > 0 ? (
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">Specific employers</p>
+            {employerGroups.map(([parent, entries]) => (
+              <div key={parent} className="space-y-2">
+                <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                  {parent}
+                </p>
+                {entries.map(({ employer, cities }) => (
+                  <Label
+                    key={employer.slug}
+                    htmlFor={`employer-${employer.slug}`}
+                    className="flex cursor-pointer items-center gap-3 py-1 text-sm font-normal"
+                  >
+                    <Checkbox
+                      id={`employer-${employer.slug}`}
+                      checked={filters.employers.includes(employer.slug)}
+                      onCheckedChange={(value) =>
+                        toggleEmployer(employer.slug, value === true)
+                      }
+                    />
+                    <span className="flex-1">{employer.display_name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {cities}
+                    </span>
+                  </Label>
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </section>
 
       <Separator />
 

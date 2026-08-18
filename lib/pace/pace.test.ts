@@ -451,6 +451,7 @@ describe("lifestyle filter compatibility", () => {
       has_va: null,
       nearest_va: null,
       distance_to_va: null,
+      nearest_va_kind: null,
       nearest_va_hospital: null,
       distance_to_va_hospital: null,
       veterans_benefits: null,

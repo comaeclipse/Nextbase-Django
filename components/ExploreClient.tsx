@@ -65,6 +65,7 @@ export default function ExploreClient({
             ...current,
             vibes: [],
             employers: [],
+            defenseEcosystem: false,
             healthcare: [],
             activities: [],
             snow: "",
@@ -129,6 +130,7 @@ export default function ExploreClient({
       income_tax: filters.incomeTax || null,
       vibes: filters.vibes.join(",") || null,
       employers: filters.employers.join(",") || null,
+      defense_ecosystem: filters.defenseEcosystem ? "true" : null,
       near_base:
         filters.baseMaxDistance || filters.baseBranches.length > 0
           ? "true"

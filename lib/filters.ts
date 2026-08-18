@@ -4,7 +4,11 @@
  * results match the current Django behavior exactly.
  */
 import type { LocationRow, StateInfoRow, Location } from "./types";
-import { matchesEmployers, type EmployerIndex } from "./defense";
+import {
+  hasDefenseEmployerSignal,
+  matchesEmployers,
+  type EmployerIndex,
+} from "./defense";
 import {
   isServiceBranchSlug,
   matchesNearBase,
@@ -37,6 +41,11 @@ export interface FilterParams {
   /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
   employers?: string | null;
   /**
+   * Physical defense-employer presence. Independent of `near_base` and of
+   * `defense_hub` (which also includes manually designated base towns).
+   */
+  defense_ecosystem?: string | null;
+  /**
    * Near a military installation. Independent of `employers` and `defense_hub`.
    * Set to "true", or implied when `base_max_distance` / `base_branch` is set.
    */
@@ -52,7 +61,7 @@ export interface FilterParams {
 
 export interface FilterOptions {
   scoreFn?: (loc: LocationRow) => number;
-  /** Required only when `employers` is set. */
+  /** Required when `employers` or `defense_ecosystem` is set. */
   employerIndex?: EmployerIndex;
   /** Required only when the near_base facet is set. */
   militaryIndex?: MilitaryProximityIndex;
@@ -84,13 +93,35 @@ function matchesLifestyle(loc: LocationRow, lifestyleTypes: string): boolean {
   return types.includes(category);
 }
 
+/**
+ * Local/nearby outpatient-capable VA access. Medical centers count: a VAMC
+ * provides outpatient care, so `va_clinic` must not exclude them.
+ */
+function hasVaOutpatientAccess(loc: LocationRow): boolean {
+  return loc.has_va === true;
+}
+
+/**
+ * Nearby VA medical-center access. `has_va` is the existing nearby gate;
+ * `nearest_va_kind` (or, before that column is backfilled, name equality with
+ * `nearest_va_hospital`) is what makes this different from outpatient access.
+ * A named hospital 80 miles away does not satisfy this — almost every city
+ * has `nearest_va_hospital` filled.
+ */
+function hasVaHospitalAccess(loc: LocationRow): boolean {
+  if (loc.has_va !== true) return false;
+  if (loc.nearest_va_kind === "hospital") return true;
+  return (
+    loc.nearest_va_hospital != null && loc.nearest_va === loc.nearest_va_hospital
+  );
+}
+
 function matchesHealthcare(loc: LocationRow, healthcareTypes: string): boolean {
   const types = splitTypes(healthcareTypes);
   if (types.length === 0) return true;
   for (const hc of types) {
-    // Only a single "has a local VA facility" signal is tracked, so both the
-    // hospital and clinic options resolve to it.
-    if ((hc === "va_hospital" || hc === "va_clinic") && loc.has_va) return true;
+    if (hc === "va_hospital" && hasVaHospitalAccess(loc)) return true;
+    if (hc === "va_clinic" && hasVaOutpatientAccess(loc)) return true;
   }
   return false;
 }
@@ -281,8 +312,16 @@ export function filterAndSort(
     );
   }
 
-  // Defense-employer presence. Any nonzero posting count (incl. remote) matches
-  // this facet; the onsite+hybrid presence rule gates only the defense_hub column.
+  // Physical defense-employer presence. Not `defense_hub`: that flag also
+  // includes manually designated base towns with no contractor plant.
+  if (p.defense_ecosystem === "true") {
+    const index = employerIndex ?? {};
+    list = list.filter((l) => hasDefenseEmployerSignal(index[l.id]));
+  }
+
+  // Specific-employer presence. Any nonzero posting count (incl. remote) matches
+  // this facet; the onsite+hybrid presence rule gates only defense_ecosystem /
+  // the defense_hub column.
   if (p.employers) {
     const slugs = splitTypes(p.employers);
     if (slugs.length > 0) {
