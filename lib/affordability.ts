@@ -457,10 +457,8 @@ export interface LocationBudget {
 /**
  * Build the state tax inputs from a location row.
  *
- * `retired_pay_tax` arrives denormalized from locations_stateinfo on the
- * location query (see lib/locations.ts). `ssTaxTreatment` has no column yet, so
- * null is passed deliberately and the income model reports it as missing rather
- * than assuming a state does or does not tax benefits.
+ * `retired_pay_tax` and the Social Security tax columns arrive denormalized
+ * from locations_stateinfo on the location query (see lib/locations.ts).
  */
 export function stateTaxProfileFor(loc: CostInputs): StateTaxProfile {
   const rate =
@@ -473,6 +471,8 @@ export function stateTaxProfileFor(loc: CostInputs): StateTaxProfile {
     ssTaxTreatment: loc.ss_tax_treatment ?? null,
     ssTaxThresholdSingle: loc.ss_tax_threshold_single ?? null,
     ssTaxThresholdMarried: loc.ss_tax_threshold_married ?? null,
+    ssTaxMinAge: loc.ss_tax_min_age ?? null,
+    ssTaxAgeExemptsFully: loc.ss_tax_age_exempts_fully ?? null,
   };
 }
 

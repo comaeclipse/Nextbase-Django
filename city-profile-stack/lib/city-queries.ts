@@ -530,6 +530,7 @@ export async function estimateCostForCities(opts: {
             COALESCE(s.income_tax, l.income_tax) AS income_tax,
             s.retired_pay_tax, s.ss_tax_treatment,
             s.ss_tax_threshold_single, s.ss_tax_threshold_married,
+            s.ss_tax_min_age, s.ss_tax_age_exempts_fully,
             rpp.goods_rpp, rpp.housing_rpp, rpp.utilities_rpp,
             rpp.other_services_rpp, rpp.bea_geo_type, rpp.bea_geo_name,
             rpp.vintage_year AS rpp_vintage_year
@@ -557,6 +558,11 @@ export async function estimateCostForCities(opts: {
           r.ss_tax_threshold_single === null ? null : Number(r.ss_tax_threshold_single),
         ss_tax_threshold_married:
           r.ss_tax_threshold_married === null ? null : Number(r.ss_tax_threshold_married),
+        ss_tax_min_age: r.ss_tax_min_age === null ? null : Number(r.ss_tax_min_age),
+        ss_tax_age_exempts_fully:
+          r.ss_tax_age_exempts_fully === null
+            ? null
+            : Boolean(r.ss_tax_age_exempts_fully),
         goods_rpp: r.goods_rpp === null ? null : Number(r.goods_rpp),
         housing_rpp: r.housing_rpp === null ? null : Number(r.housing_rpp),
         utilities_rpp: r.utilities_rpp === null ? null : Number(r.utilities_rpp),

@@ -271,6 +271,68 @@ describe("estimateNetMonthlyIncome", () => {
     expect(e.approximations.some((a) => /threshold is not on file/i.test(a))).toBe(true);
   });
 
+  it("exempts a 65+ Colorado filer above the AGI threshold", () => {
+    const colorado: StateTaxProfile = {
+      stateIncomeTaxRatePct: 4.4,
+      retiredPayTax: "taxed",
+      ssTaxTreatment: "partial",
+      ssTaxThresholdSingle: 75_000,
+      ssTaxThresholdMarried: 95_000,
+      ssTaxMinAge: 65,
+      ssTaxAgeExemptsFully: true,
+    };
+    const e = estimateNetMonthlyIncome(
+      [src("social_security", 2_000), src("pension_or_ira", 6_000)],
+      colorado,
+      { filing: "single", age65Plus: true },
+      C
+    );
+    expect(e.stateMonthly).toBeCloseTo(6_000 * 0.044, 6);
+    expect(e.notes.some((n) => /age 65 or older/i.test(n))).toBe(true);
+  });
+
+  it("still applies Colorado's AGI threshold under age 65", () => {
+    const colorado: StateTaxProfile = {
+      stateIncomeTaxRatePct: 4.4,
+      retiredPayTax: "taxed",
+      ssTaxTreatment: "partial",
+      ssTaxThresholdSingle: 75_000,
+      ssTaxThresholdMarried: 95_000,
+      ssTaxMinAge: 65,
+      ssTaxAgeExemptsFully: true,
+    };
+    const over = estimateNetMonthlyIncome(
+      [src("social_security", 2_000), src("pension_or_ira", 6_000)],
+      colorado,
+      { filing: "single", age65Plus: false },
+      C
+    );
+    expect(over.stateMonthly).toBeGreaterThan(6_000 * 0.044);
+  });
+
+  it("taxes a Rhode Island filer below full retirement age even under the AGI line", () => {
+    const rhodeIsland: StateTaxProfile = {
+      stateIncomeTaxRatePct: 3.75,
+      retiredPayTax: "taxed",
+      ssTaxTreatment: "partial",
+      ssTaxThresholdSingle: 107_000,
+      ssTaxThresholdMarried: 133_750,
+      ssTaxMinAge: 67,
+      ssTaxAgeExemptsFully: false,
+    };
+    const e = estimateNetMonthlyIncome(
+      [src("social_security", 2_000), src("pension_or_ira", 3_000)],
+      rhodeIsland,
+      { filing: "single", age65Plus: false },
+      C
+    );
+    expect(e.taxableSocialSecurityAnnual).toBeGreaterThan(0);
+    expect(e.stateMonthly).toBeGreaterThan(3_000 * 0.0375);
+    expect(e.notes.some((n) => /before the required retirement age/i.test(n))).toBe(
+      true
+    );
+  });
+
   it("says so when a state does not tax benefits at all", () => {
     const e = estimateNetMonthlyIncome(
       [src("social_security", 2_000)],

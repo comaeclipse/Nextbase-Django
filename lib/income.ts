@@ -54,8 +54,8 @@ export type FilingStatus = "single" | "married";
 /**
  * How a state treats Social Security benefits.
  *
- * There is no column for this yet — it is a P0 ingestion task. Until it lands,
- * callers pass null and the model flags the gap rather than guessing.
+ * Stored on locations_stateinfo. Callers pass null only when the row is
+ * unsourced; the model flags that gap rather than guessing.
  */
 export type SsTaxTreatment = "not_taxed" | "partial" | "taxed" | "unknown";
 
@@ -75,6 +75,35 @@ export interface StateTaxProfile {
    */
   ssTaxThresholdSingle?: number | null;
   ssTaxThresholdMarried?: number | null;
+  /**
+   * Age at year-end at or above which the SS exemption gate opens.
+   * Null means no age condition. Compared against the UI's age65Plus flag:
+   * under 65 fails any gate of 65+, and a gate older than 65 (Rhode Island
+   * full retirement age) is treated as met for 65+ with an approximation.
+   */
+  ssTaxMinAge?: number | null;
+  /**
+   * If true, reaching ssTaxMinAge exempts benefits regardless of AGI
+   * (Colorado 65+). If false, min age is required in addition to the
+   * threshold (Rhode Island).
+   */
+  ssTaxAgeExemptsFully?: boolean | null;
+}
+
+/**
+ * Whether this household meets a state's Social Security age gate.
+ *
+ * The UI only knows 65-or-older, so a gate of 67 (SSA full retirement age)
+ * is treated as met for 65+ filers and flagged as an approximation.
+ */
+export function ssAgeGate(
+  minAge: number | null | undefined,
+  age65Plus: boolean
+): { met: boolean; approximated: boolean } {
+  if (minAge == null || minAge <= 0) return { met: true, approximated: false };
+  if (!age65Plus) return { met: false, approximated: false };
+  if (minAge <= 65) return { met: true, approximated: false };
+  return { met: true, approximated: true };
 }
 
 export interface NetIncomeEstimate {
@@ -349,10 +378,32 @@ export function estimateNetMonthlyIncome(
         case "taxed":
           stateBase += taxableSS;
           break;
-        case "partial":
+        case "partial": {
+          // Age gate first. Colorado 65+ is fully exempt regardless of AGI.
+          // Rhode Island requires full retirement age *and* the AGI line.
+          const gate = ssAgeGate(state.ssTaxMinAge, opts.age65Plus);
+          if (state.ssTaxAgeExemptsFully && gate.met) {
+            notes.push(
+              "This state does not tax Social Security benefits at age 65 or older."
+            );
+            break;
+          }
+          if (!gate.met && !state.ssTaxAgeExemptsFully) {
+            stateBase += taxableSS;
+            notes.push(
+              "This state taxes Social Security benefits before the required retirement age."
+            );
+            break;
+          }
+          if (gate.approximated) {
+            approximations.push(
+              `state Social Security exemption requires age ${state.ssTaxMinAge}+; modeled using the 65-or-older flag`
+            );
+          }
           // A `partial` state exempts benefits below an income line. With the
           // line on file this is a calculation; without it, fall back to
-          // assuming taxed and say so.
+          // assuming taxed and say so. Colorado under 65 falls through here
+          // (the 55–64 AGI test).
           if (threshold === null || threshold === undefined) {
             approximations.push(
               "state partially taxes Social Security but the income threshold is not on file; assumed fully taxed"
@@ -366,6 +417,7 @@ export function estimateNetMonthlyIncome(
             stateBase += taxableSS;
           }
           break;
+        }
         default:
           // Most states do not tax benefits, so assuming taxed would overstate
           // the burden for most of them -- but guessing either way is worse

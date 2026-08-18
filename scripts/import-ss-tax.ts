@@ -20,6 +20,11 @@
  *   ThresholdSingle   AGI at or below which benefits are exempt, single filer.
  *                     Blank means no threshold applies.
  *   ThresholdMarried  same, married filing jointly
+ *   MinAge            age at year-end at or above which the exemption gate opens.
+ *                     Blank means no age condition.
+ *   AgeExemptsFully   true if reaching MinAge exempts SS regardless of AGI
+ *                     (Colorado 65+). false/blank means MinAge is required in
+ *                     addition to the threshold (Rhode Island FRA).
  *   SourceUrl         required unless treatment is `unknown`
  *   VerifiedOn        YYYY-MM-DD, required unless treatment is `unknown`
  *   Notes             free text; conditions the enum cannot capture
@@ -78,11 +83,39 @@ function parseThreshold(
   return Math.round(n);
 }
 
+function parseMinAge(
+  raw: string | undefined,
+  problems: string[]
+): number | null {
+  const c = clean(raw);
+  if (c === null) return null;
+  const n = Number(c);
+  if (!Number.isInteger(n) || n < 55 || n > 75) {
+    problems.push(`MinAge "${c}" is not an age in 55–75`);
+    return null;
+  }
+  return n;
+}
+
+function parseAgeExemptsFully(
+  raw: string | undefined,
+  problems: string[]
+): boolean | null {
+  const c = clean(raw)?.toLowerCase() ?? null;
+  if (c === null) return null;
+  if (c === "true" || c === "yes" || c === "1") return true;
+  if (c === "false" || c === "no" || c === "0") return false;
+  problems.push(`AgeExemptsFully "${raw}" is not true/false`);
+  return null;
+}
+
 interface Parsed {
   state: string;
   treatment: string;
   thresholdSingle: number | null;
   thresholdMarried: number | null;
+  minAge: number | null;
+  ageExemptsFully: boolean | null;
   sourceUrl: string | null;
   verifiedOn: string | null;
   notes: string | null;
@@ -131,6 +164,8 @@ async function main() {
 
     const thresholdSingle = parseThreshold(row.ThresholdSingle, "ThresholdSingle", problems);
     const thresholdMarried = parseThreshold(row.ThresholdMarried, "ThresholdMarried", problems);
+    const minAge = parseMinAge(row.MinAge, problems);
+    const ageExemptsFully = parseAgeExemptsFully(row.AgeExemptsFully, problems);
 
     const sourceUrl = clean(row.SourceUrl);
     const verifiedOn = clean(row.VerifiedOn);
@@ -151,6 +186,10 @@ async function main() {
       );
     }
 
+    if (ageExemptsFully && minAge === null) {
+      problems.push("AgeExemptsFully=true requires MinAge");
+    }
+
     if (problems.length) {
       rejected.push({ state, problems });
       continue;
@@ -167,6 +206,8 @@ async function main() {
       treatment,
       thresholdSingle,
       thresholdMarried,
+      minAge,
+      ageExemptsFully,
       sourceUrl,
       verifiedOn,
       notes: clean(row.Notes),
@@ -225,14 +266,18 @@ async function main() {
        SET ss_tax_treatment = $1,
            ss_tax_threshold_single = $2,
            ss_tax_threshold_married = $3,
-           ss_tax_source_url = $4,
-           ss_tax_verified_on = $5
-       WHERE state = $6
+           ss_tax_min_age = $4,
+           ss_tax_age_exempts_fully = $5,
+           ss_tax_source_url = $6,
+           ss_tax_verified_on = $7
+       WHERE state = $8
        RETURNING state`,
       [
         a.treatment,
         a.thresholdSingle,
         a.thresholdMarried,
+        a.minAge,
+        a.ageExemptsFully,
         a.sourceUrl,
         a.verifiedOn,
         a.state,
