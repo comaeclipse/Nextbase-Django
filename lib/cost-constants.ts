@@ -66,21 +66,27 @@ export const COST_CONSTANTS = {
    * 65+, at the NATIONAL average. This is the anchor the whole model scales.
    *
    * Derivation from the source table: take total annual expenditures for the
-   * 65+ age group, subtract the housing component, divide by 12. Subtracting
-   * housing matters — the model prices housing separately from DB columns, so
-   * leaving it in would double-count it.
+   * 65+ age group, subtract housing and healthcare, then divide by 12. Both are
+   * priced separately by the model; leaving either in this baseline would
+   * double-count it.
    */
   nonHousingBaseline65Plus: constant({
-    value: 3269.92,
+    value: 2620,
     unit: "USD per month",
     kind: "measured",
     source:
       "BLS Consumer Expenditure Survey 2024, reference person 65+: total " +
-      "average annual expenditures $61,432 minus housing $22,193 = $39,239, / 12",
+      "average annual expenditures $61,432 minus housing $22,193 and " +
+      "healthcare $7,799 = $31,440, / 12",
     sourceUrl: "https://fred.stlouisfed.org/series/CXUTOTALEXPLB0407M",
-    sourcedOn: "2026-08-11",
+    sourcedOn: "2026-08-17",
     refresh: "annual",
     note:
+      "Healthcare is removed because medicarePartBMonthly and " +
+      "supplementalHealthMonthly add health premiums separately. The previous " +
+      "total-minus-housing derivation counted healthcare twice. Healthcare uses " +
+      "the same BLS release and age group: " +
+      "https://fred.stlouisfed.org/series/CXUHEALTHLB0407M.\n" +
       "THIS IS THE 65+ MEAN, AND IT DESCRIBES A RICHER HOUSEHOLD THAN THIS " +
       "TOOL'S AUDIENCE. Total 65+ spending of $61,432/yr is about $5,119/mo; a " +
       "veteran on $2,400/mo is nowhere near it, so the model will correctly " +
@@ -89,9 +95,9 @@ export const COST_CONSTANTS = {
       "being asked, which is 'where can I get by', not 'where can I live like " +
       "the average retiree'.\n" +
       "The alternative anchor is the lowest income quintile (all ages, 2024): " +
-      "$35,046 total, housing ~41.6%, giving roughly $1,705/mo non-housing — " +
-      "about half this figure. It is a better proxy for a modest fixed-income " +
-      "budget but is not age-specific.\n" +
+      "$35,046 total, housing ~41.6%; a comparable non-housing/non-health " +
+      "derivation still needs to be sourced. It is a better proxy for a " +
+      "modest fixed-income budget but is not age-specific.\n" +
       "This is a PRODUCT decision, not a sourcing one, and it is deliberately " +
       "left at the defensible measured value. Changing it, or exposing a " +
       "modest/average toggle, should be decided against the ground-truth check " +

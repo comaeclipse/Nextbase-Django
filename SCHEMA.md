@@ -62,7 +62,10 @@ Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudi
 - **Density**: Population density (people per square mile)
 - **Sales Tax**: Sales tax percentage
 - **Income**: State income tax percentage (0.00 = no income tax)
-- **COL**: Cost of Living index (100 = national average)
+- **COL**: Cost of Living index (100 = national average). Legacy mixed-provider composite still used by the categorical Fit score; the affordability engine should not decompose it (see issue #52).
+- **median_rent**: Monthly median gross rent in dollars (ACS 5-year table B25064). Gross rent includes utilities, matching the affordability model's renter housing term. Place-level matches are preferred; county fallbacks are listed in `data/sources/rent/match-report.md`. Refresh with `scripts/import-median-rent.ts`.
+- **property_tax_rate**: Effective annual property tax as a fraction of home value (e.g. `0.01250` = 1.25%), not a percent. Refresh with `scripts/import-property-tax.ts`.
+- **avg_home_value** / **avg_home_value_display**: Typical home value (ZHVI) used by ownership tenures in the affordability model.
 
 > **Schema note (Phase 4 cleanup):** `has_va`, `tech_hub`, and `defense_hub` are stored as
 > Booleans (the importer parses "Yes"/"No"/"Y"/"N"); `density` is stored as an integer; and

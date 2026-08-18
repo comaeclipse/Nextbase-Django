@@ -17,7 +17,8 @@
  *
  *   housing        priced per city from DB columns (home value, property tax,
  *                  rent), because it is the dominant and most local cost.
- *   nonHousing     a national baseline scaled by a LOCAL index.
+ *   nonHousing     a national baseline excluding housing and healthcare,
+ *                  scaled by a LOCAL index.
  *   nationalFixed  Medicare and supplemental premiums. These do NOT vary by
  *                  location, so scaling them by a cost index — as a naive COL
  *                  model does — overstates the gap between cheap and expensive
@@ -61,16 +62,14 @@ export type Tenure = "rent" | "own_outright" | "buying";
 export type Band = "comfortable" | "tight" | "over" | "unknown";
 
 /**
- * LocationRow plus the cost columns that are planned but not yet ingested.
- *
- * `median_rent` and `property_tax_rate` are P0 ingestion tasks. Declaring them
- * as optional here means this module compiles and runs today, and starts
- * producing better numbers the moment the columns land — without a type change.
+ * LocationRow plus the per-city cost columns. Both are nullable: partial
+ * coverage is expected and the model reports `missing` / `approximations`
+ * rather than guessing.
  */
 export interface CostInputs extends LocationRow {
-  /** Monthly median rent in dollars. Not yet ingested. */
+  /** Monthly median gross rent in dollars (ACS B25064). */
   median_rent?: number | null;
-  /** Effective annual property tax as a fraction of home value. Not yet ingested. */
+  /** Effective annual property tax as a fraction of home value. */
   property_tax_rate?: number | null;
 }
 

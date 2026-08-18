@@ -251,17 +251,21 @@ function reportGroundTruth(
   const raw = JSON.parse(readFileSync(GROUND_TRUTH_PATH, "utf8"));
   const truth: GroundTruth[] = Array.isArray(raw) ? raw : (raw.entries ?? []);
 
-  if (truth.length === 0) {
+  const MIN_GROUND_TRUTH_ENTRIES = 8;
+  if (truth.length < MIN_GROUND_TRUTH_ENTRIES) {
     console.log(
-      "  No entries yet. Hand-source true monthly cost for 8-10 cities across\n" +
+      `  Only ${truth.length} entries. Hand-source true monthly cost for at least ` +
+        `${MIN_GROUND_TRUTH_ENTRIES} cities across\n` +
         "  the price range and add them — this is the only check that can catch a\n" +
         "  constant that is sourced but wrong."
     );
-    return true;
+    return false;
   }
 
   const byId = new Map(rows.map((r) => [r.id, r]));
   let worst = 0;
+  let compared = 0;
+  let skipped = 0;
 
   console.log(
     `  ${"city".padEnd(24)} ${"tenure".padEnd(13)} ${"modeled".padStart(9)} ${"actual".padStart(9)} ${"error".padStart(8)}`
@@ -270,13 +274,16 @@ function reportGroundTruth(
     const loc = byId.get(t.id);
     if (!loc) {
       console.log(`  ${t.city.padEnd(24)} (id ${t.id} not in DB)`);
+      skipped += 1;
       continue;
     }
     const modeled = estimateMonthlyCost(loc, t.tenure, c.constants).monthlyCost;
     if (modeled === null) {
       console.log(`  ${t.city.padEnd(24)} ${t.tenure.padEnd(13)} not priceable`);
+      skipped += 1;
       continue;
     }
+    compared += 1;
     const err = (modeled - t.actualMonthlyCost) / t.actualMonthlyCost;
     worst = Math.max(worst, Math.abs(err));
     console.log(
@@ -284,6 +291,14 @@ function reportGroundTruth(
         `${money(modeled).padStart(9)} ${money(t.actualMonthlyCost).padStart(9)} ` +
         `${(err * 100 >= 0 ? "+" : "") + (err * 100).toFixed(0) + "%"}`.padStart(9)
     );
+  }
+
+  if (skipped > 0 || compared < MIN_GROUND_TRUTH_ENTRIES) {
+    console.log(
+      `\n  ✗ compared ${compared}/${truth.length}; every benchmark must resolve to a ` +
+        "priceable live row."
+    );
+    return false;
   }
 
   const TOLERANCE = 0.2;
