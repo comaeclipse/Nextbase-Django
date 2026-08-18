@@ -1,4 +1,4 @@
-# VA facilities sync — 2026-08-07
+# VA facilities sync — 2026-08-11
 
 Source: [VHA Medical Facilities (VAST / ArcGIS)](https://vha.maps.arcgis.com/home/item.html?id=c6821e66523a46f5b32893641b9bd0dd)
 Distance method: great-circle miles from city centroid to facility LAT/LON.
@@ -12,6 +12,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Albuquerque, NM | Raymond G. Murphy Department of Veterans Affairs Medical Center | 5 | Raymond G. Murphy Department of Veterans Affairs Medical Center | 5 |
 | Amarillo, TX | Amarillo VA Mobile Clinic | 4 | Thomas E. Creek Department of Veterans Affairs Medical Center | 4 |
 | Anchorage, AK | Colonel Mary Louise Rasmuson Campus of the Alaska VA Healthcare System | 16 | Colonel Mary Louise Rasmuson Campus of the Alaska VA Healthcare System | 16 |
+| Asheville, NC | Charles George Department of Veterans Affairs Medical Center | 4 | Charles George Department of Veterans Affairs Medical Center | 4 |
 | Ashville, OH | Grove City VA Clinic | 11 | Chillicothe VA Medical Center | 23 |
 | Atlanta, GA | Fort McPherson VA Clinic | 4 | Joseph Maxwell Cleland Atlanta VA Medical Center | 7 |
 | Baltimore, MD | Baltimore VA Clinic | 1 | Baltimore VA Medical Center | 1 |
@@ -37,6 +38,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Cheyenne, WY | Cheyenne VA Medical Center | 1 | Cheyenne VA Medical Center | 1 |
 | Chicago, IL | Chicago VA Clinic | 2 | Jesse Brown Department of Veterans Affairs Medical Center | 2 |
 | Cincinnati, OH | Cincinnati 1 VA Mobile Clinic | 0 | Cincinnati VA Medical Center | 0 |
+| Cody, WY | Cody VA Clinic | 0 | Sheridan VA Medical Center | 104 |
 | Colorado Springs, CO | Union Boulevard VA Clinic | 2 | Rocky Mountain Regional VA Medical Center | 61 |
 | Columbus, GA | Columbus Downtown VA Clinic | 6 | Central Alabama VA Medical Center-Montgomery | 80 |
 | Columbus, OH | Columbus VA Clinic | 3 | Chillicothe VA Medical Center | 41 |
@@ -53,9 +55,12 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Florence, AL | Florence VA Clinic | 6 | Nashville VA Medical Center | 103 |
 | Forest, MS | G.V. (Sonny) Montgomery Department of Veterans Affairs Medical Center | 40 | G.V. (Sonny) Montgomery Department of Veterans Affairs Medical Center | 40 |
 | Fort Collins, CO | Fort Collins VA Clinic | 1 | Cheyenne VA Medical Center | 44 |
+| Fort Stockton, TX | Fort Stockton VA Clinic | 1 | George H. O'Brien, Jr., Department of Veterans Affairs Medical Center | 124 |
 | Fort Wayne, IN | Fort Wayne VA Medical Center | 2 | Marion VA Medical Center | 47 |
 | Fresno, CA | Fresno VA Medical Center | 1 | Fresno VA Medical Center | 1 |
 | Gilbert, AZ | Staff Sergeant Alexander W. Conrad Veterans Affairs Health Care Clinic | 1 | Carl T. Hayden Veterans' Administration Medical Center | 23 |
+| Goleta, CA | Santa Barbara VA Clinic | 5 | West Los Angeles VA Medical Center | 84 |
+| Grand Forks, ND | Grand Forks VA Clinic | 2 | Fargo VA Medical Center | 72 |
 | Grand Junction, CO | Western Colorado VA Mobile Clinic | 2 | Grand Junction VA Medical Center | 2 |
 | Great Falls, MT | Great Falls VA Clinic | 2 | Fort Harrison VA Medical Center | 72 |
 | Greenville, SC | Lance Corporal Dana Cornell Darnell VA Clinic | 3 | Charles George Department of Veterans Affairs Medical Center | 52 |
@@ -75,6 +80,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Kuna, ID | Boise VA Medical Center | 13 | Boise VA Medical Center | 13 |
 | Lake Forest, CA | Laguna Hills VA Clinic | 4 | Tibor Rubin VA Medical Center | 27 |
 | Las Vegas, NV | Northwest Las Vegas VA Clinic | 2 | North Las Vegas VA Medical Center | 10 |
+| Lexington, MA | Edith Nourse Rogers Memorial Veterans' Hospital | 5 | Edith Nourse Rogers Memorial Veterans' Hospital | 5 |
 | Little Rock, AR | Little Rock 2 VA Mobile Clinic | 3 | John L. McClellan Memorial Veterans' Hospital | 3 |
 | Louisville, KY | Newburg VA Clinic | 4 | Robley Rex Department of Veterans Affairs Medical Center | 4 |
 | Malabar, FL | Palm Bay VA Clinic | 3 | Orlando VA Medical Center | 50 |
@@ -85,9 +91,11 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Minneapolis, MN | Minneapolis VA Clinic | 1 | Minneapolis VA Medical Center | 5 |
 | Missoula, MT | David J. Thatcher VA Clinic | 3 | Fort Harrison VA Medical Center | 93 |
 | Mobile, AL | Mobile VA Clinic | 6 | Biloxi VA Medical Center | 53 |
+| Morrisville, NC | Brier Creek VA Clinic | 6 | Durham VA Medical Center | 13 |
 | Nashville, TN | Albion Street VA Clinic | 1 | Nashville VA Medical Center | 2 |
 | New Orleans, LA | New Orleans VA Medical Center | 11 | New Orleans VA Medical Center | 11 |
 | Norfolk, VA | Portsmouth VA Clinic | 7 | Hampton VA Medical Center | 8 |
+| North Kingstown, RI | Middletown VA Clinic | 8 | Providence VA Medical Center | 18 |
 | North Platte, NE | North Platte VA Clinic | 1 | Cheyenne VA Medical Center | 210 |
 | Odessa, TX | Wilson and Young Medal of Honor VA Clinic | 4 | George H. O'Brien, Jr., Department of Veterans Affairs Medical Center | 57 |
 | Oklahoma City, OK | Oklahoma City VA Medical Center | 1 | Oklahoma City VA Medical Center | 1 |
@@ -104,6 +112,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Portland, OR | Portland VA Clinic | 2 | Portland VA Medical Center | 3 |
 | Providence, RI | Eagle Street VA Clinic | 1 | Providence VA Medical Center | 1 |
 | Pueblo, CO | Pueblo VA Community Living Center | 3 | Rocky Mountain Regional VA Medical Center | 103 |
+| Quincy, MA | Quincy VA Clinic | 1 | Jamaica Plain VA Medical Center | 7 |
 | Raleigh, NC | Raleigh III VA Clinic | 2 | Durham VA Medical Center | 21 |
 | Rapid City, SD | Rapid City VA Clinic | 4 | Fort Meade VA Medical Center | 27 |
 | Reno, NV | North Reno VA Clinic | 3 | Ioannis A. Lougaris Veterans' Administration Medical Center | 4 |
@@ -120,9 +129,11 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | St. Charles, MO | St. Charles County VA Clinic | 1 | John J. Cochran Veterans Hospital | 19 |
 | Syracuse, NY | Syracuse VA Medical Center | 0 | Wilkes-Barre VA Medical Center | 125 |
 | Tucson, AZ | Tucson VA Mobile Clinic | 6 | Tucson VA Medical Center | 6 |
+| Tullahoma, TN | Tullahoma VA Clinic | 11 | Nashville VA Medical Center | 62 |
 | Tulsa, OK | Tulsa Eleventh Street VA Clinic | 3 | Jack C. Montgomery Department of Veterans Affairs Medical Center | 37 |
 | Victorville, CA | Victorville VA Clinic | 2 | Jerry L. Pettis Memorial Veterans' Hospital | 33 |
 | Virginia Beach, VA | Virginia Beach VA Clinic | 9 | Hampton VA Medical Center | 23 |
+| Waltham, MA | Jamaica Plain VA Medical Center | 8 | Jamaica Plain VA Medical Center | 8 |
 | Warren, MI | Piquette Street VA Clinic | 9 | John D. Dingell Department of Veterans Affairs Medical Center | 10 |
 | Warren, PA | Warren County VA Clinic | 4 | Erie VA Medical Center | 50 |
 | Watertown, NY | Watertown VA Clinic | 2 | Buffalo VA Medical Center | 162 |

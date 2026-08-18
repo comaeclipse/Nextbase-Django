@@ -94,6 +94,13 @@
       "longitude": -119.793359
     },
     {
+      "name": "Goleta",
+      "state": "CA",
+      "census_place_geoid": "0630378",
+      "latitude": 34.435441,
+      "longitude": -119.858946
+    },
+    {
       "name": "Irvine",
       "state": "CA",
       "census_place_geoid": "0636770",
@@ -150,6 +157,13 @@
       "longitude": -104.760749
     },
     {
+      "name": "Fort Collins",
+      "state": "CO",
+      "census_place_geoid": "0827425",
+      "latitude": 40.548216,
+      "longitude": -105.064833
+    },
+    {
       "name": "Grand Junction",
       "state": "CO",
       "census_place_geoid": "0831660",
@@ -178,6 +192,13 @@
       "longitude": -75.532104
     },
     {
+      "name": "Crestview",
+      "state": "FL",
+      "census_place_geoid": "1215475",
+      "latitude": 30.747932,
+      "longitude": -86.579275
+    },
+    {
       "name": "Malabar",
       "state": "FL",
       "census_place_geoid": "1242625",
@@ -190,6 +211,13 @@
       "census_place_geoid": "1253000",
       "latitude": 28.40865,
       "longitude": -81.254805
+    },
+    {
+      "name": "Pace",
+      "state": "FL",
+      "census_place_geoid": "1253725",
+      "latitude": 30.616737,
+      "longitude": -87.164733
     },
     {
       "name": "Pensacola",
@@ -463,6 +491,13 @@
       "census_place_geoid": "3050200",
       "latitude": 46.874359,
       "longitude": -114.026136
+    },
+    {
+      "name": "Asheville",
+      "state": "NC",
+      "census_place_geoid": "3702140",
+      "latitude": 35.570972,
+      "longitude": -82.552725
     },
     {
       "name": "Fayetteville",
@@ -773,6 +808,13 @@
       "longitude": -86.785002
     },
     {
+      "name": "Tullahoma",
+      "state": "TN",
+      "census_place_geoid": "4775320",
+      "latitude": 35.373311,
+      "longitude": -86.218277
+    },
+    {
       "name": "Amarillo",
       "state": "TX",
       "census_place_geoid": "4803000",
@@ -792,6 +834,13 @@
       "census_place_geoid": "4824000",
       "latitude": 31.84778,
       "longitude": -106.431106
+    },
+    {
+      "name": "Fort Stockton",
+      "state": "TX",
+      "census_place_geoid": "4826808",
+      "latitude": 30.892574,
+      "longitude": -102.88421
     },
     {
       "name": "Houston",
@@ -869,6 +918,13 @@
       "census_place_geoid": "5307695",
       "latitude": 47.539877,
       "longitude": -122.717048
+    },
+    {
+      "name": "Hamilton",
+      "state": "WA",
+      "census_place_geoid": "5329255",
+      "latitude": 48.522478,
+      "longitude": -121.995264
     },
     {
       "name": "Spokane",
