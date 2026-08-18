@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
-  "updated_on": "2026-08-07",
-  "recent_change": "Added odessa_vs_elko_after_dark_2026 (cross-city comparison gold pack, four Odessa venues verified 2026-08-07) and elko_trans_teenager_adversarial_abstention_2026 (insufficient-evidence pack). Phase 1 (elko_tuesday_evening_texture_2026) promoted to locally_normalized with six verified venues.",
+  "updated_on": "2026-08-17",
+  "recent_change": "Added Bowling Green safety and VA-access refinements, preserving distinct outpatient-clinic, hospital-access, and source-vintage caveats.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -143,6 +143,41 @@
       "artifact": "data/conversation-captures/2026-08-07-elko-odessa-north-platte.md",
       "artifact_section": "three-city-comparison",
       "limitations": ["This is a research hypothesis, not a similarity score or recommendation."],
+      "embedding_ready": false
+    },
+    {
+      "id": "irvine_safety_baseline_2026",
+      "city": "Irvine",
+      "state": "CA",
+      "topic": "safety_baseline",
+      "claim": "Irvine consistently ranks among the safest large cities in the U.S., with a violent crime rate around 84 per 100,000 (versus the national average of ~359), yielding a TCI of 23. Crime is not a material quality-of-life concern relative to most large Southern California cities.",
+      "status": "source_linked",
+      "artifact": "data/conversation-captures/2026-08-08-irvine-safety-affordability.md",
+      "artifact_section": "safety-analysis",
+      "source_urls": [
+        "https://www.cjcj.org/reports-publications/fact-sheet/california-heads-for-record-low-crime-in-2025",
+        "https://www.opencrime.us/cities/irvine-california",
+        "https://cde.ucr.cjis.gov/LATEST/resources/reports/UCR%20Summary%20of%20Reported%20Crimes%20in%20the%20Nation%202024.pdf"
+      ],
+      "limitations": ["FBI-based reporting lag; 2024 data is the latest available.", "Crime rate is citywide; neighborhood variation is not captured."],
+      "embedding_ready": false
+    },
+    {
+      "id": "irvine_housing_affordability_deep_dive_2026",
+      "city": "Irvine",
+      "state": "CA",
+      "topic": "housing_affordability",
+      "claim": "Irvine's median home sale price is approximately $1.52 million, with cheaper pockets around $967k (ZIP 92606). At current mortgage rates (~6.7%), plausible homeownership requires roughly $250,000 household income at minimum, and a typical family home ($1.2M–1.6M) requires $350,000–400,000. A 20% down payment on the median is about $305,000 before closing costs.",
+      "status": "source_linked",
+      "artifact": "data/conversation-captures/2026-08-08-irvine-safety-affordability.md",
+      "artifact_section": "housing-affordability-analysis",
+      "source_urls": [
+        "https://www.redfin.com/city/9361/CA/Irvine/housing-market",
+        "https://www.redfin.com/zipcode/92606/housing-market",
+        "https://www.erieri.com/cost-of-living/united-states/california/irvine",
+        "https://apnews.com/article/42d8262fb00b904fd7c2b906751610d7"
+      ],
+      "limitations": ["Redfin median is a point-in-time snapshot; market conditions fluctuate.", "Income thresholds assume 20% down, ~6.7% rate, and ~1.1% property tax with HOA — actual requirements vary by loan product and buyer situation.", "Irvine has significant condo/townhome inventory that is cheaper than detached homes; the $250k income floor is for condo-level entry, not detached-family-home entry."],
       "embedding_ready": false
     },
     {

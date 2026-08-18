@@ -3819,6 +3819,29 @@
           "source_retrieved_on": "2026-08-06"
         }
       ]
+    },
+    {
+      "city": "Goleta",
+      "state": "CA",
+      "signals": [
+        {
+          "key": "specialized_deep_tech_defense_cluster",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Unusually dense aerospace, defense, and space-tech cluster",
+          "detail": "Known as 'Infrared Valley', Goleta hosts a highly specialized defense engineering enclave (including RTX, Northrop Grumman, Lockheed Martin, and Anduril). It offers exceptional employment depth for its size in photonics, sensors, space systems, and precision manufacturing, strongly reinforced by nearby UC Santa Barbara.",
+          "audience": "Transitioning veterans with clearances or experience in engineering, electronics, space, sensors, manufacturing, or defense software",
+          "geography_scope": "city and surrounding region",
+          "evidence_kind": "editorial_synthesis",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.lockheedmartin.com/en-us/who-we-are/business-areas/missiles-and-fire-control/santa-barbara.html",
+            "https://www.ece.ucsb.edu/news/all/2026/tech-titans-santa-barbara-ucsb"
+          ],
+          "source_retrieved_on": "2026-08-08"
+        }
+      ]
     }
   ]
 }
