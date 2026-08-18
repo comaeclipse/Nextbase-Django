@@ -30,6 +30,7 @@ import {
   Trees,
   Waves,
   X,
+  Wallet,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -64,6 +65,12 @@ import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { DefenseEmployerRow } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import AffordabilityForm from "@/components/affordability/AffordabilityForm";
+import {
+  scenarioChipLabel,
+  scenarioIsActive,
+  type AffordabilityScenario,
+} from "@/lib/affordability-scenario";
 
 /* ------------------------------------------------------------------ *
  * Filter model
@@ -181,6 +188,7 @@ const PRICE_OPTIONS = [
 /** Base UI resolves the trigger's label from `items`, so these carry both. */
 export const SORT_OPTIONS = [
   { value: "best", label: "Best match" },
+  { value: "headroom_desc", label: "Most leftover" },
   { value: "cost_asc", label: "Cost: low to high" },
   { value: "cost_desc", label: "Cost: high to low" },
   { value: "climate", label: "Climate" },
@@ -719,6 +727,9 @@ export default function ExploreFilterBar({
   stateCounts,
   employerGroups,
   resultCount,
+  scenario,
+  onScenarioChange,
+  onClearScenario,
 }: {
   filters: ExploreFilters;
   update: <K extends keyof ExploreFilters>(key: K, value: ExploreFilters[K]) => void;
@@ -727,6 +738,9 @@ export default function ExploreFilterBar({
   stateCounts: Record<string, number>;
   employerGroups: [string, { employer: DefenseEmployerRow; cities: number }[]][];
   resultCount: number;
+  scenario: AffordabilityScenario;
+  onScenarioChange: (next: AffordabilityScenario) => void;
+  onClearScenario: () => void;
 }) {
   const count = moreFilterCount(filters);
 
@@ -748,6 +762,7 @@ export default function ExploreFilterBar({
       count > 0 ? { key: "more", label: "More filters" } : null,
     ] as ({ key: ChipKey; label: string } | null)[]
   ).filter(Boolean) as { key: ChipKey; label: string }[];
+  const incomeActive = scenarioIsActive(scenario);
 
   const moreContent = (
     <MoreFiltersContent
@@ -861,6 +876,29 @@ export default function ExploreFilterBar({
               </PopoverContent>
             </Popover>
 
+            <Popover>
+              <PopoverTrigger
+                render={
+                  <FilterButton
+                    label={
+                      scenarioIsActive(scenario)
+                        ? scenarioChipLabel(scenario)
+                        : "On my income"
+                    }
+                    icon={Wallet}
+                    active={scenarioIsActive(scenario)}
+                  />
+                }
+              />
+              <PopoverContent align="start" className="max-h-[min(36rem,70vh)] w-[min(28rem,calc(100vw-2rem))] gap-4 overflow-y-auto p-4">
+                <SectionHeading
+                  title="On my income"
+                  description="Ranks and annotates cities. It never hides a place that fails a budget cut."
+                />
+                <AffordabilityForm scenario={scenario} onChange={onScenarioChange} />
+              </PopoverContent>
+            </Popover>
+
             <Drawer direction="right">
               <DrawerTrigger
                 render={
@@ -934,6 +972,14 @@ export default function ExploreFilterBar({
               <div className="min-h-0 flex-1 overflow-y-auto px-4">
                 <div className="space-y-7 py-2">
                   <section className="space-y-4">
+                    <SectionHeading
+                      title="On my income"
+                      description="Ranks and annotates cities. Never hides a place."
+                    />
+                    <AffordabilityForm scenario={scenario} onChange={onScenarioChange} />
+                  </section>
+                  <Separator />
+                  <section className="space-y-4">
                     <SectionHeading title="Budget" />
                     <BudgetFields filters={filters} update={update} />
                   </section>
@@ -998,8 +1044,24 @@ export default function ExploreFilterBar({
           </Button>
         </div>
 
-        {activeChips.length > 0 ? (
+        {activeChips.length > 0 || incomeActive ? (
           <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1">
+            {incomeActive ? (
+              <Badge
+                variant="secondary"
+                className="h-8 shrink-0 gap-1 rounded-full pl-3 pr-1.5 font-medium"
+              >
+                {scenarioChipLabel(scenario)}
+                <button
+                  type="button"
+                  onClick={onClearScenario}
+                  className="grid size-6 place-items-center rounded-full hover:bg-background"
+                  aria-label="Clear income scenario"
+                >
+                  <X className="size-3.5" />
+                </button>
+              </Badge>
+            ) : null}
             {activeChips.map((chip) => (
               <Badge
                 key={chip.key}
@@ -1036,6 +1098,9 @@ export default function ExploreFilterBar({
             <span className="truncate">
               <strong>{resultCount} locations</strong>
               {filters.state ? ` in ${filters.state}` : " matching your criteria"}
+              {incomeActive
+                ? " · ranked and annotated, never filtered out by budget"
+                : ""}
             </span>
           </div>
           <Select
