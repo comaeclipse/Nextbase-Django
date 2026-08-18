@@ -21,7 +21,7 @@ const requiredColumns = [
   "election_2016_percent", "election_2024", "election_2024_percent", "election_change",
   "rep_vote_share_change_pp", "dem_vote_share_change_pp", "population", "density", "sales_tax",
   "col_index", "avg_home_value", "has_va", "nearest_va", "distance_to_va",
-  "nearest_va_hospital", "distance_to_va_hospital", "nearest_va_kind", "tci", "crime",
+  "nearest_va_hospital", "distance_to_va_hospital", "tci", "crime",
   "lgbtq_rating", "lgbtq_mei_score",
   "lgbtq_score_source", "tech_hub", "defense_hub_manual", "defense_hub", "snow_annual",
   "rain_annual", "sun_days", "alw", "avg_high_summer", "humidity_summer", "climate",
