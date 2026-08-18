@@ -54,6 +54,14 @@ node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-rtx-employer-loc
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
 ```
 
+Military proximity (near a base; independent of `defense_hub`):
+
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/merge-military-installation-coordinates.ts [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-military-proximity.ts [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-military-proximity.ts [--dry-run]
+```
+
 ## Structure
 
 ```
@@ -76,6 +84,7 @@ lib/
   locations.ts          # read-only queries (ORDER BY featured DESC, name ASC)
   scoring.ts            # editorial "Fit" score (5 factors x 20%), pyRound
   filters.ts            # filter + sort (mirrors old views.filter_locations)
+  military.ts           # near-base proximity index + matching
   climate.ts            # climate-normals shaping: diurnal anchoring, dew point
   pace/                 # retirement-pace classifier (RUCA + EPA)
   states.ts             # state-name -> USPS abbr
@@ -87,10 +96,11 @@ baselines/              # parity references (django_scores.json used by tests)
 
 - **Fit score** (`lib/scoring.ts`): five equally weighted factors — LGBTQ friendliness, VA access, cost of living, home affordability, safety. Uses Python-compatible round-half-to-even (`pyRound`). `defense_hub` is **not** a scoring factor.
 - **Defense hub** (`lib/defense.ts`): `defense_hub` is derived, not curated — `manual === false ? false : presence ? true : manual`, where presence = ≥1 onsite+hybrid RTX opening (a physical facility). Any facility promotes; an explicit `defense_hub_manual = false` vetoes. Edit `defense_hub_manual`, never `defense_hub`. See SCHEMA.md.
+- **Near a base** (`lib/military.ts`): independent of `defense_hub`. Distances live in `location_military_proximity` (every geocoded city × every geocoded active installation). Explore / API `near_base` + optional `base_branch` (`army|navy|air_force|marine_corps`) + `base_max_distance` (`25|50|100`, default 50) filter that index. City pages show the named nearest installation. Recompute with `scripts/sync-military-proximity.ts` after a coordinate merge. One installation (NSF Thurmont) is ungeocoded by design; see `data/military_installation_coordinate_gaps.md`.
 - **Pace / lifestyle** (`lib/pace/`): `urban` | `suburban` | `small_town` | `rural` from `location_pace_current` (RUCA + EPA SLD). The `lifestyle` filter matches `pace_category`; there is no density fallback. See SCHEMA.md and `PACE_CLASSIFICATION_PLAN.md`.
 - **City profile stack** (`city-profile-stack/`): **read `city-profile-stack/PRODUCT.md` first** — it states the goal in plain words (answer "what's like Elko?" and "best city for this kind of person?" from the DB, with cited evidence and honest "I don't know"s). Both already run via `scripts/tools/find-similar-locations.ts` and `match-profile.ts`. Do not re-explain the goal in new jargon; point here. The rest of this bullet is the internal model. Qualitative research in four layers — raw dossier (`location_research_dossiers`, archive of record) → signals (`location_profile_signals`, user-facing observations) → features (`location_features`, 0..1 quantified, `editorial` / `derived_structural` / `propagated`) → vectors built at query time. Features describe **places, not people**; personas are derived at read time, never stored. Each feature has a `kind` — `capacity` / `intensity` / `position` — and preference matching must branch on it. `city-profile-stack/scripts/tools/derive-structural-features.ts` extrapolates to all 109 cities and prints a formula-vs-ground-truth calibration table. See SCHEMA.md.
-- **Climate** (`lib/climate.ts`, `/city/[id]/climate`): temperature comes from `location_weather_monthly`, moisture from `location_hourly_normals` — never mix them (SCHEMA.md:274; the hourly station can be 50+ mi away, so its dew point travels but its `temp_f` doesn't). `buildDiurnal` rescales each month's hourly curve onto that month's `avg_low_f`/`avg_high_f` and recomputes heat index from the anchored temp; it's the only derived number on the page and the footnote says so. Monthly `humidity_pct`/`sun_pct` are **100% NULL** by design — GHCN monthly normals carry no humidity element.
-- **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, geography, income_tax, vibes, employers, sort`. Response: `{ totalResults, locations }`. `lifestyle` accepts `urban,suburban,small_town,rural`. **Nothing in the UI calls this** — `/explore` filters client-side via the same `filterAndSort`.
+- **Climate** (`lib/climate.ts`, `/city/[id]/climate`): temperature comes from `location_weather_monthly`, moisture from `location_hourly_normals` — never mix them (SCHEMA.md:345; the hourly station can be 50+ mi away, so its dew point travels but its `temp_f` doesn't). `buildDiurnal` rescales each month's hourly curve onto that month's `avg_low_f`/`avg_high_f` and recomputes heat index from the anchored temp; it's the only derived number on the page and the footnote says so. Monthly `humidity_pct`/`sun_pct` are **100% NULL** by design — GHCN monthly normals carry no humidity element.
+- **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, geography, income_tax, vibes, employers, near_base, base_branch, base_max_distance, sort`. Response: `{ totalResults, locations }`. `lifestyle` accepts `urban,suburban,small_town,rural`. `base_branch` accepts `army,navy,air_force,marine_corps`. `base_max_distance` accepts `25,50,100`. **Nothing in the UI calls this** — `/explore` filters client-side via the same `filterAndSort`.
 - **Pixel parity is a hard requirement** for `/` and `/city/[id]`. Their CSS is copied verbatim into `app/styles/{home,city}.css` and left **unlayered** so it always beats any Tailwind base. Do not introduce global Tailwind/Preflight.
 - **Never give those sheets a document-wide selector.** Next keeps a visited route's stylesheet in the document across client-side navigations, so an unlayered `* { margin: 0; padding: 0 }` outlives its own page and flattens every Tailwind utility on whatever you browse to next (this silently broke all nine data routes when reached from `/` or a city page). Their globals are scoped `:where(.home-page)` / `:where(.city-page)` — `:where()` keeps specificity at zero, so the cascade on those pages is unchanged. `/map` uses the same `.map-page` pattern. Keep new global rules out, or scope them the same way.
 

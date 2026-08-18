@@ -1,6 +1,10 @@
 import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
 import type { EmployerIndex, EmployerPresence } from "./defense";
+import {
+  buildMilitaryProximityIndex,
+  type MilitaryProximityIndex,
+} from "./military";
 import type {
   AirQualityAnnualRow,
   DefenseEmployerRow,
@@ -335,4 +339,64 @@ export const getEmployerIndex = unstable_cache(
   },
   ["locations:getEmployerIndex"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [EMPLOYERS_TAG] }
+);
+
+/*
+ * location_id -> nearest military installation + nearest per branch.
+ *
+ * The full city×installation table stays in Neon; this compact index is what
+ * Explore filters client-side and what the city page uses for the named-base
+ * line. Independent of defense_hub / employer presence.
+ */
+export const getMilitaryProximityIndex = unstable_cache(
+  async (): Promise<MilitaryProximityIndex> => {
+    const sql = getSql();
+    try {
+      const rows = (await sql.query(
+        `WITH ranked AS (
+           SELECT
+             p.location_id,
+             p.military_installation_id AS installation_id,
+             m.command_name,
+             m.service_branch,
+             m.city,
+             m.state,
+             p.distance_miles,
+             ROW_NUMBER() OVER (
+               PARTITION BY p.location_id
+               ORDER BY p.distance_miles, m.command_name
+             ) AS nearest_rank,
+             ROW_NUMBER() OVER (
+               PARTITION BY p.location_id, m.service_branch
+               ORDER BY p.distance_miles, m.command_name
+             ) AS branch_rank
+           FROM location_military_proximity p
+           JOIN military_installations m ON m.id = p.military_installation_id
+         )
+         SELECT *
+         FROM ranked
+         WHERE nearest_rank = 1 OR branch_rank = 1`
+      )) as Record<string, unknown>[];
+
+      return buildMilitaryProximityIndex(
+        rows.map((row) => ({
+          location_id: Number(row.location_id),
+          installation_id: Number(row.installation_id),
+          command_name: String(row.command_name),
+          service_branch: String(row.service_branch),
+          city: String(row.city),
+          state: String(row.state),
+          distance_miles: Number(row.distance_miles),
+          nearest_rank: Number(row.nearest_rank),
+          branch_rank: Number(row.branch_rank),
+        }))
+      );
+    } catch (err) {
+      // 42P01 = undefined_table: table not migrated yet.
+      if ((err as { code?: string })?.code === "42P01") return {};
+      throw err;
+    }
+  },
+  ["locations:getMilitaryProximityIndex"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );

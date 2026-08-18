@@ -30,6 +30,9 @@ import {
   Trees,
   Waves,
   X,
+  Anchor,
+  Plane,
+  Shield,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -88,6 +91,9 @@ export type ExploreFilters = {
   lgbtq: boolean;
   noAwb: boolean;
   noHcm: boolean;
+  /** Predefined miles band: 25, 50, 100. Empty means the facet is off. */
+  baseMaxDistance: "" | "25" | "50" | "100";
+  baseBranches: string[];
   sort: string;
 };
 
@@ -110,6 +116,8 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   lgbtq: false,
   noAwb: false,
   noHcm: false,
+  baseMaxDistance: "",
+  baseBranches: [],
   sort: "best",
 };
 
@@ -172,6 +180,19 @@ const SNOW_OPTIONS = [
   ["some", "Some snow"],
   ["lots", "Lots of snow"],
 ] as const;
+
+const BASE_DISTANCE_OPTIONS = [
+  ["25", "Within 25 mi"],
+  ["50", "Within 50 mi"],
+  ["100", "Within 100 mi"],
+] as const;
+
+export const BASE_BRANCH_OPTIONS: Option[] = [
+  { id: "army", label: "Army", icon: Shield },
+  { id: "navy", label: "Navy", icon: Anchor },
+  { id: "air_force", label: "Air Force", icon: Plane },
+  { id: "marine_corps", label: "Marine Corps", icon: ShieldCheck },
+];
 
 /** Home prices, in thousands — `lib/filters` multiplies these back up. */
 const PRICE_OPTIONS = [
@@ -249,7 +270,9 @@ export function moreFilterCount(filters: ExploreFilters) {
     (filters.hasCostco ? 1 : 0) +
     (filters.lgbtq ? 1 : 0) +
     (filters.noAwb ? 1 : 0) +
-    (filters.noHcm ? 1 : 0)
+    (filters.noHcm ? 1 : 0) +
+    (filters.baseMaxDistance ? 1 : 0) +
+    filters.baseBranches.length
   );
 }
 
@@ -603,6 +626,44 @@ function MoreFiltersContent({
           options={ACTIVITY_OPTIONS}
           values={filters.activities}
           onChange={(next) => update("activities", next)}
+        />
+      </section>
+
+      <Separator />
+
+      <section className="space-y-4">
+        <SectionHeading
+          title="Near a military base"
+          description="Crow-fly distance to an active installation. Independent of defense-employer presence."
+        />
+        <ToggleGroup
+          value={filters.baseMaxDistance ? [filters.baseMaxDistance] : []}
+          onValueChange={(values: string[]) => {
+            const band = (values[0] ?? "") as ExploreFilters["baseMaxDistance"];
+            update("baseMaxDistance", band);
+            if (!band) update("baseBranches", []);
+          }}
+          variant="outline"
+          spacing={0}
+          aria-label="Distance to a military base"
+          className="grid grid-cols-3"
+        >
+          {BASE_DISTANCE_OPTIONS.map(([value, label]) => (
+            <ToggleGroupItem key={value} value={value} className="px-2">
+              {label}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+        <CheckCards
+          name="base-branch"
+          options={BASE_BRANCH_OPTIONS}
+          values={filters.baseBranches}
+          onChange={(next) => {
+            update("baseBranches", next);
+            if (next.length > 0 && !filters.baseMaxDistance) {
+              update("baseMaxDistance", "50");
+            }
+          }}
         />
       </section>
 

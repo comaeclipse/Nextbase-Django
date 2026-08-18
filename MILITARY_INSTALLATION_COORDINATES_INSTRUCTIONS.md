@@ -2,9 +2,11 @@
 
 Use this guide when an LLM (or operator) is asked to source per-installation
 latitude/longitude for the `military_installations` table. This is **Phase 1**
-of issue [#4](https://github.com/comaeclipse/Nextbase-Django/issues/4) and is
-the sole blocker on issue [#1](https://github.com/comaeclipse/Nextbase-Django/issues/1)
-("near a base" city curation) and the `near_base` facet of issue #7.
+of issue [#4](https://github.com/comaeclipse/Nextbase-Django/issues/4) and was
+the blocker on issue [#1](https://github.com/comaeclipse/Nextbase-Django/issues/1)
+("near a base" city curation) and the `near_base` facet of issue #7. Remaining
+unresolved rows (currently NSF Thurmont / Camp David) are documented in
+`data/military_installation_coordinate_gaps.md`.
 
 This is a **research task, not a coding task**. Do not edit `scripts/`, do not
 write to the database, and do not modify the existing `data/*_installations.json`
@@ -17,10 +19,10 @@ session (or the `data`/`backend` role) apply them.
 Marine Corps), loaded from `data/air_force_installations.json`,
 `data/navy_installations.json`, `data/army_installations.json`, and
 `data/marine_corps_installations.json` via `scripts/import-military-installations.ts`.
-Every row's `latitude`/`longitude` is `NULL` **by design** — the source files
-only give a command's principal city/state, not a site-level point. Confirmed
-still true in the DB as of 2026-08-11 (`SELECT count(*) FILTER (WHERE latitude
-IS NULL) FROM military_installations` = 182).
+The branch-directory source files only give a command's principal city/state,
+not a site-level point; coordinates come from the HIFLD merge (and documented
+GNIS / official-address follow-ups). Do not substitute city centroids. See
+`data/military_installation_coordinate_gaps.md` for the one remaining gap.
 
 Without coordinates, no "is city X within N miles of a base" query is possible.
 
