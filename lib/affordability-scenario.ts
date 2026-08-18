@@ -3,7 +3,7 @@
  * page, and the chat estimator so the same mix of income, tenure, and spending
  * profile drives every surface.
  */
-import type { Tenure, SpendingProfile } from "./affordability";
+import type { HealthCoverage, Tenure, SpendingProfile } from "./affordability";
 import type { FilingStatus, IncomeKind, IncomeSource } from "./income";
 import { COST_CONSTANTS } from "./cost-constants";
 import { TAX_YEAR } from "./tax-constants";
@@ -19,6 +19,7 @@ export interface AffordabilityScenario {
   spouse65Plus: boolean;
   tenure: Tenure;
   spendingProfile: SpendingProfile;
+  healthCoverage: HealthCoverage;
 }
 
 export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
@@ -32,6 +33,7 @@ export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
   spouse65Plus: false,
   tenure: "own_outright",
   spendingProfile: "modest",
+  healthCoverage: "medicare_supplement",
 };
 
 export const INCOME_FIELDS: {
@@ -110,6 +112,23 @@ export const PROFILE_OPTIONS: {
   },
 ];
 
+export const HEALTH_COVERAGE_OPTIONS: {
+  id: HealthCoverage;
+  label: string;
+  hint: string;
+}[] = [
+  {
+    id: "medicare_supplement",
+    label: "Medicare + supplement",
+    hint: "Part B, Medigap, and Part D",
+  },
+  {
+    id: "va_primary",
+    label: "VA primary care",
+    hint: "Part B only — Medigap and Part D dropped, copays not estimated",
+  },
+];
+
 export function parseMonthlyAmount(raw: string): number {
   const n = Number(String(raw).replace(/[^0-9.]/g, ""));
   return Number.isFinite(n) && n > 0 ? n : 0;
@@ -157,9 +176,17 @@ export function profileLabel(profile: SpendingProfile): string {
   return PROFILE_OPTIONS.find((o) => o.id === profile)?.label ?? profile;
 }
 
+export function healthCoverageLabel(coverage: HealthCoverage): string {
+  return HEALTH_COVERAGE_OPTIONS.find((o) => o.id === coverage)?.label ?? coverage;
+}
+
 export function scenarioChipLabel(scenario: AffordabilityScenario): string {
   const gross = scenarioGrossMonthly(scenario);
-  return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)} · ${formatUsd(gross)}/mo`;
+  const coverage =
+    scenario.healthCoverage === "va_primary"
+      ? ` · ${healthCoverageLabel(scenario.healthCoverage)}`
+      : "";
+  return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)}${coverage} · ${formatUsd(gross)}/mo`;
 }
 
 export const AFFORDABILITY_DISCLAIMER =

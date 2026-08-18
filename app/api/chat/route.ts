@@ -65,7 +65,9 @@ You answer exactly four kinds of question:
    veterans draw several at once (disability plus retired pay plus a part-time
    job), so ask rather than assume it is all one thing. Use the flat
    monthlyIncome field only when they give an explicit after-tax number or
-   decline to break it down.
+   decline to break it down. Only pass healthCoverage: "va_primary" when they
+   say VA healthcare IS their primary coverage and they don't carry Medigap —
+   never infer it from a city having VA access.
 4. "Which states have low taxes / cheap gas?" or "what's a state with X tax and Y gas
    prices?" — call compare_state_taxes_and_gas. This is STATE-level (sales tax, income
    tax, gas price), not a city trait, and is scoped to states that have a city in this
@@ -110,6 +112,11 @@ Reporting cost estimates (estimate_cost_of_living):
 - If "approximations" is non-empty, say which part is a national stand-in rather than
   local data — e.g. "using an average property tax rate, since we don't have that
   city's yet". Do not present an approximated estimate as an exact one.
+- If "missingContext" is non-empty (only happens on the va_primary path), relay it as
+  context, not as a reason to doubt the number: local VA access hasn't been verified
+  for that city yet, and VA copays/medication costs are a known omission — say these
+  plainly but do NOT treat them as missing data, do NOT null the estimate over them,
+  and do NOT imply Medigap/Part D might come back once access is confirmed. They don't.
 - band "unknown" means we couldn't price it. That is NOT the same as unaffordable —
   never present it as one.
 - Relay "caveats": the estimate does not know their health, home equity, cars,
@@ -218,7 +225,8 @@ const estimateCostTool = tool({
     "and rank them by how much money is left over. Prefer incomeSources over a " +
     "single figure. Returns a per-city cost BREAKDOWN, never a verdict: present " +
     "the components, missing vs approximated inputs, and say it is an estimate, " +
-    "not financial advice. Default spendingProfile is modest (get-by), not typical.",
+    "not financial advice. Default spendingProfile is modest (get-by), not typical. " +
+    "Default healthCoverage is medicare_supplement (Part B + Medigap + Part D).",
   inputSchema: z.object({
     incomeSources: z
       .array(
@@ -265,6 +273,16 @@ const estimateCostTool = tool({
       .describe(
         "Spending basket. 'modest' (default) is a get-by 65+ budget from BLS income " +
           "cross-tabs. 'typical' is average 65+ household spending. Never swap them silently."
+      ),
+    healthCoverage: z
+      .enum(["medicare_supplement", "va_primary"])
+      .optional()
+      .describe(
+        "Household health coverage choice. 'medicare_supplement' (default) prices " +
+          "Part B + Medigap + Part D. 'va_primary' keeps Part B but drops Medigap and " +
+          "Part D, saving $253/month — use this ONLY when the person says VA healthcare " +
+          "IS their primary coverage and they don't carry Medigap, not just because a " +
+          "city has VA access. Do not infer this from geography."
       ),
     cities: z
       .array(z.string())

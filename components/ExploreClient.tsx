@@ -194,7 +194,7 @@ export default function ExploreClient({
       scenario.tenure,
       cost.constants,
       tax.constants,
-      { spendingProfile: scenario.spendingProfile }
+      { spendingProfile: scenario.spendingProfile, healthCoverage: scenario.healthCoverage }
     );
     if (filters.sort !== "headroom_desc") {
       const byId = new Map(ranked.map((row) => [row.location.id, row]));

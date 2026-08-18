@@ -9,6 +9,7 @@ import type { LocationBudget, Tenure } from "@/lib/affordability";
 import {
   bandLabel,
   formatUsd,
+  healthCoverageLabel,
   profileLabel,
   tenureLabel,
 } from "@/lib/affordability-scenario";
@@ -43,6 +44,7 @@ export default function LocationCard({
       ...(budget?.income.approximations ?? []),
     ]),
   ];
+  const missingContext = budget?.cost.missingContext ?? [];
 
   return (
     <article
@@ -116,6 +118,9 @@ export default function LocationCard({
                 ? ` · take-home ${formatUsd(budget.income.netMonthly)}`
                 : ""}
               {` · ${profileLabel(budget.cost.spendingProfile)} · ${tenureLabel(tenure)}`}
+              {budget.cost.healthCoverage === "va_primary"
+                ? ` · ${healthCoverageLabel(budget.cost.healthCoverage)}`
+                : ""}
             </p>
             {missing.length > 0 ? (
               <p className="text-[11px] text-amber-800">
@@ -124,6 +129,10 @@ export default function LocationCard({
             ) : approximations.length > 0 ? (
               <p className="text-[11px] text-muted-foreground">
                 Approximated: {approximations.join("; ")}
+              </p>
+            ) : missingContext.length > 0 ? (
+              <p className="text-[11px] text-muted-foreground">
+                Not modeled: {missingContext.join("; ")}
               </p>
             ) : null}
           </div>

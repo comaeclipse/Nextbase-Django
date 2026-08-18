@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_AFFORDABILITY_SCENARIO,
+  healthCoverageLabel,
   parseMonthlyAmount,
+  scenarioChipLabel,
   scenarioGrossMonthly,
   scenarioIsActive,
   scenarioSources,
@@ -28,5 +30,24 @@ describe("affordability scenario", () => {
       "military_retirement",
     ]);
     expect(scenarioIsActive(scenario)).toBe(true);
+  });
+
+  it("defaults to medicare_supplement, the backward-compatible coverage choice", () => {
+    expect(DEFAULT_AFFORDABILITY_SCENARIO.healthCoverage).toBe(
+      "medicare_supplement"
+    );
+  });
+
+  it("only surfaces health coverage in the chip label when it isn't the default", () => {
+    const defaultChip = scenarioChipLabel(DEFAULT_AFFORDABILITY_SCENARIO);
+    expect(defaultChip).not.toMatch(/medicare|va primary/i);
+
+    const vaScenario = {
+      ...DEFAULT_AFFORDABILITY_SCENARIO,
+      healthCoverage: "va_primary" as const,
+    };
+    expect(scenarioChipLabel(vaScenario)).toContain(
+      healthCoverageLabel("va_primary")
+    );
   });
 });
