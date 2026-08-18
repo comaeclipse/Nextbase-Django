@@ -12,21 +12,24 @@
  *
  * COLUMNS
  *   senior_deduction_amount       dollars subtracted from state taxable income,
- *                                 PER QUALIFYING INDIVIDUAL (so a married couple
- *                                 both past the age line claims it twice) —
- *                                 mirrors how the federal age-65 deduction
- *                                 already works in lib/income.ts.
+ *                                 PER QUALIFYING INDIVIDUAL when
+ *                                 senior_deduction_per_qualifying_person is true
+ *                                 (Montana: each taxpayer who has attained 65).
  *   senior_deduction_min_age      age at which a filer qualifies. The app only
  *                                 asks "are you 65+", so a value other than 65
  *                                 is applied as an approximation, flagged to
  *                                 the reader (same pattern PR #57 used for
  *                                 Rhode Island's ~67 full retirement age).
+ *   senior_deduction_per_qualifying_person
+ *                                 true = one unit per 65+ filer/spouse; false =
+ *                                 a household amount that is not doubled.
+ *   senior_deduction_tax_year     tax year the stored amount is for.
+ *   senior_deduction_source_status
+ *                                 official (published by the revenue department)
+ *                                 or calculated (e.g. a statutory CPI formula).
+ *                                 Do not store a calculated figure as official.
  *   senior_deduction_source_url   where the amount and age were verified.
- *   senior_deduction_verified_on  when a human last checked them. These two
- *                                 exist for the same reason ss_tax_source_url /
- *                                 ss_tax_verified_on do: state amounts are
- *                                 typically inflation-adjusted annually, so an
- *                                 unsourced, undated figure goes stale silently.
+ *   senior_deduction_verified_on  when a human last checked them.
  *
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-senior-deduction-columns.ts [--dry-run]
@@ -46,6 +49,21 @@ const COLUMNS: { name: string; ddl: string; note: string }[] = [
     name: "senior_deduction_min_age",
     ddl: "senior_deduction_min_age integer",
     note: "age at which a filer qualifies; null = no general senior deduction",
+  },
+  {
+    name: "senior_deduction_per_qualifying_person",
+    ddl: "senior_deduction_per_qualifying_person boolean",
+    note: "true = one unit per 65+ filer/spouse; false = household amount",
+  },
+  {
+    name: "senior_deduction_tax_year",
+    ddl: "senior_deduction_tax_year integer",
+    note: "tax year the stored amount is for",
+  },
+  {
+    name: "senior_deduction_source_status",
+    ddl: "senior_deduction_source_status character varying(16)",
+    note: "official (DOR-published) or calculated (e.g. CPI formula)",
   },
   {
     name: "senior_deduction_source_url",
@@ -74,7 +92,7 @@ async function main() {
   console.log(dryRun ? "\nDry run complete." : "\nMigration complete.");
   if (!dryRun) {
     console.log(
-      "Next: source and import senior_deduction_* per state (e.g. Montana), with URL + verification date."
+      "Next: fill data/state_senior_deduction.csv, then scripts/import-senior-deduction.ts"
     );
   }
 }

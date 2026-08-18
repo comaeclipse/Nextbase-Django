@@ -129,6 +129,8 @@ export interface LocationRow {
   senior_deduction_amount?: number | null;
   /** Age at which a filer qualifies for senior_deduction_amount. */
   senior_deduction_min_age?: number | null;
+  /** If true, each 65+ filer/spouse gets one unit of senior_deduction_amount. */
+  senior_deduction_per_qualifying_person?: boolean | null;
 
   /** Monthly median gross rent, dollars. ACS 5-year B25064. */
   median_rent?: number | null;
@@ -209,6 +211,14 @@ export interface StateInfoRow {
   lgbtq_state_policy_score?: string | null;
   lgbtq_state_policy_source_url?: string | null;
   lgbtq_state_policy_verified_on?: string | null;
+
+  senior_deduction_amount?: number | null;
+  senior_deduction_min_age?: number | null;
+  senior_deduction_per_qualifying_person?: boolean | null;
+  senior_deduction_tax_year?: number | null;
+  senior_deduction_source_status?: "official" | "calculated" | null;
+  senior_deduction_source_url?: string | null;
+  senior_deduction_verified_on?: string | null;
 }
 
 /**

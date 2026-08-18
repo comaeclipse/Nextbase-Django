@@ -475,6 +475,8 @@ export function stateTaxProfileFor(loc: CostInputs): StateTaxProfile {
     ssTaxAgeExemptsFully: loc.ss_tax_age_exempts_fully ?? null,
     seniorDeductionAmount: loc.senior_deduction_amount ?? null,
     seniorDeductionMinAge: loc.senior_deduction_min_age ?? null,
+    seniorDeductionPerQualifyingPerson:
+      loc.senior_deduction_per_qualifying_person ?? null,
   };
 }
 

@@ -98,6 +98,12 @@ export interface StateTaxProfile {
   seniorDeductionAmount?: number | null;
   /** Age at which a filer qualifies for seniorDeductionAmount. */
   seniorDeductionMinAge?: number | null;
+  /**
+   * If true (Montana), each 65+ filer/spouse gets one unit. If false, the
+   * amount is a household figure and is not multiplied by qualifying seniors.
+   * Null/undefined means per-person, matching the statute that forced this.
+   */
+  seniorDeductionPerQualifyingPerson?: boolean | null;
 }
 
 /**
@@ -437,10 +443,10 @@ export function estimateNetMonthlyIncome(
       }
     }
 
-    // A general 65+ subtraction against taxable income from any source, not
-    // an SS exemption (see seniorDeductionAmount doc comment). Applied after
-    // the base is assembled so it offsets retired pay / SS / pension / wages
-    // alike, the same way Montana's statute does.
+    // A general senior subtraction from state taxable income, not an SS
+    // exemption (see seniorDeductionAmount doc comment). Applied after the
+    // base is assembled so it offsets retired pay / SS / pension / wages
+    // alike — Montana starts from federal taxable income and then subtracts.
     const stateBaseBeforeSeniorDeduction = stateBase;
     if (
       state.seniorDeductionAmount &&
@@ -455,7 +461,9 @@ export function estimateNetMonthlyIncome(
           `this state's senior deduction begins at age ${state.seniorDeductionMinAge}; the 65+ filing flag is used as an approximation`
         );
       }
-      const deduction = qualifying65 * state.seniorDeductionAmount;
+      const units =
+        state.seniorDeductionPerQualifyingPerson === false ? 1 : qualifying65;
+      const deduction = units * state.seniorDeductionAmount;
       stateBase = Math.max(0, stateBase - deduction);
       notes.push(
         "Includes this state's general deduction for filers 65 and older, which reduces taxable income regardless of source."

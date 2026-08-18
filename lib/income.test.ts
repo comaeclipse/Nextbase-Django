@@ -402,6 +402,8 @@ describe("general senior state-income deduction (e.g. Montana)", () => {
     retiredPayTax: "taxed",
     ssTaxTreatment: "taxed",
     seniorDeductionAmount: 5_660,
+    seniorDeductionMinAge: 65,
+    seniorDeductionPerQualifyingPerson: true,
   };
 
   it("gives a 65+ filer the subtraction; a filer under 65 gets nothing", () => {
@@ -446,6 +448,25 @@ describe("general senior state-income deduction (e.g. Montana)", () => {
     );
     expect(both.stateMonthly).toBeLessThan(one.stateMonthly);
     expect(one.stateMonthly - both.stateMonthly).toBeCloseTo(
+      (5_660 * 0.05) / 12, 6
+    );
+  });
+
+  it("gives one unit when only one spouse of a married couple is 65+", () => {
+    const sources = [src("pension_or_ira", 6_000)];
+    const none = estimateNetMonthlyIncome(
+      sources,
+      MONTANA_LIKE,
+      { filing: "married", age65Plus: false, spouse65Plus: false },
+      C
+    );
+    const one = estimateNetMonthlyIncome(
+      sources,
+      MONTANA_LIKE,
+      { filing: "married", age65Plus: true, spouse65Plus: false },
+      C
+    );
+    expect(none.stateMonthly - one.stateMonthly).toBeCloseTo(
       (5_660 * 0.05) / 12, 6
     );
   });
