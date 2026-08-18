@@ -73,6 +73,8 @@ const LOCATION_SELECT = `
   s.ss_tax_threshold_married,
   s.ss_tax_min_age,
   s.ss_tax_age_exempts_fully,
+  s.senior_deduction_amount,
+  s.senior_deduction_min_age,
   rpp.goods_rpp,
   rpp.housing_rpp,
   rpp.utilities_rpp,

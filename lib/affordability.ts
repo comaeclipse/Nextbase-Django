@@ -473,6 +473,8 @@ export function stateTaxProfileFor(loc: CostInputs): StateTaxProfile {
     ssTaxThresholdMarried: loc.ss_tax_threshold_married ?? null,
     ssTaxMinAge: loc.ss_tax_min_age ?? null,
     ssTaxAgeExemptsFully: loc.ss_tax_age_exempts_fully ?? null,
+    seniorDeductionAmount: loc.senior_deduction_amount ?? null,
+    seniorDeductionMinAge: loc.senior_deduction_min_age ?? null,
   };
 }
 

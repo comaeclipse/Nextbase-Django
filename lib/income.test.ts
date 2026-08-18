@@ -392,3 +392,95 @@ describe("estimateNetMonthlyIncome", () => {
     expect(e.effectiveRate).toBe(0);
   });
 });
+
+describe("general senior state-income deduction (e.g. Montana)", () => {
+  // Montana taxes Social Security exactly as the IRS does (no ss_tax_*
+  // exemption) but subtracts a flat amount per 65+ filer from taxable income
+  // generally. This is deliberately NOT expressed via ssTaxTreatment.
+  const MONTANA_LIKE: StateTaxProfile = {
+    stateIncomeTaxRatePct: 5,
+    retiredPayTax: "taxed",
+    ssTaxTreatment: "taxed",
+    seniorDeductionAmount: 5_660,
+  };
+
+  it("gives a 65+ filer the subtraction; a filer under 65 gets nothing", () => {
+    const sources = [src("pension_or_ira", 3_000)];
+    const older = estimateNetMonthlyIncome(
+      sources, MONTANA_LIKE, { filing: "single", age65Plus: true }, C
+    );
+    const younger = estimateNetMonthlyIncome(
+      sources, MONTANA_LIKE, { filing: "single", age65Plus: false }, C
+    );
+    expect(older.stateMonthly).toBeLessThan(younger.stateMonthly);
+    // 5,660 less taxable, at 5% => 283/yr less state tax.
+    expect(younger.stateMonthly - older.stateMonthly).toBeCloseTo(
+      (5_660 * 0.05) / 12, 6
+    );
+  });
+
+  it("does not touch Social Security's own taxed-as-IRS treatment", () => {
+    const e = estimateNetMonthlyIncome(
+      [src("social_security", 1_800), src("pension_or_ira", 3_000)],
+      MONTANA_LIKE,
+      { filing: "single", age65Plus: true },
+      C
+    );
+    // Still taxed like the IRS taxes it -- no "does not tax" / threshold note.
+    expect(
+      e.notes.some((n) => /does not tax Social Security/i.test(n))
+    ).toBe(false);
+    expect(e.taxableSocialSecurityAnnual).toBeGreaterThan(0);
+  });
+
+  it("doubles the subtraction when both spouses are 65+", () => {
+    const sources = [src("pension_or_ira", 6_000)];
+    const one = estimateNetMonthlyIncome(
+      sources, MONTANA_LIKE, { filing: "married", age65Plus: true }, C
+    );
+    const both = estimateNetMonthlyIncome(
+      sources,
+      MONTANA_LIKE,
+      { filing: "married", age65Plus: true, spouse65Plus: true },
+      C
+    );
+    expect(both.stateMonthly).toBeLessThan(one.stateMonthly);
+    expect(one.stateMonthly - both.stateMonthly).toBeCloseTo(
+      (5_660 * 0.05) / 12, 6
+    );
+  });
+
+  it("never taxes taxable income below zero", () => {
+    const e = estimateNetMonthlyIncome(
+      [src("pension_or_ira", 200)],
+      MONTANA_LIKE,
+      { filing: "single", age65Plus: true },
+      C
+    );
+    expect(e.stateMonthly).toBe(0);
+  });
+
+  it("flags an off-65 minimum age as an approximation", () => {
+    const e = estimateNetMonthlyIncome(
+      [src("pension_or_ira", 3_000)],
+      { ...MONTANA_LIKE, seniorDeductionMinAge: 62 },
+      { filing: "single", age65Plus: true },
+      C
+    );
+    expect(
+      e.approximations.some((a) => /begins at age 62/i.test(a))
+    ).toBe(true);
+  });
+
+  it("does nothing for a state with no senior deduction on file", () => {
+    const e = estimateNetMonthlyIncome(
+      [src("pension_or_ira", 3_000)],
+      TAXING_STATE,
+      { filing: "single", age65Plus: true },
+      C
+    );
+    expect(
+      e.notes.some((n) => /general deduction for filers 65/i.test(n))
+    ).toBe(false);
+  });
+});

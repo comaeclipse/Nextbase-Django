@@ -28,13 +28,28 @@ All five columns are maintained by `scripts/migrate-vet-benefits-tax-columns.ts`
 
 ### Social Security tax treatment
 
-- **ss_tax_treatment**: `not_taxed` | `partial` | `taxed` | `unknown`
-- **ss_tax_threshold_single** / **ss_tax_threshold_married**: AGI at or below which benefits are exempt
+- **ss_tax_treatment**: `not_taxed` | `partial` | `taxed` | `unknown` — how the state taxes Social Security **benefits specifically**. `taxed` adds the federally taxable portion (`taxableSS`), not 100% of gross benefits.
+- **ss_tax_threshold_single** / **ss_tax_threshold_married**: AGI at or below which a `partial` state exempts benefits entirely. Null means no threshold is on file, which `lib/income.ts` treats as fully taxed and flags as an approximation.
 - **ss_tax_min_age**: age at year-end at or above which the exemption gate opens. Null means no age condition.
 - **ss_tax_age_exempts_fully**: if true, reaching `ss_tax_min_age` exempts Social Security regardless of AGI (Colorado 65+). If false, min age is required *in addition* to the AGI threshold (Rhode Island full retirement age).
 - **ss_tax_source_url** / **ss_tax_verified_on**: provenance
 
 The UI only has a 65-or-older flag, so a gate older than 65 is treated as met for 65+ filers and recorded as an approximation. Maintain with `scripts/migrate-ss-tax-columns.ts`, `scripts/migrate-ss-tax-age-columns.ts`, and `scripts/import-ss-tax.ts` from `data/state_ss_tax.csv`.
+
+### General senior subtraction from state taxable income
+
+A **general** subtraction from the state's taxable-income base, not an SS-specific exemption. Distinct from `ss_tax_*`: some states (Montana, since TY2024) start from federal taxable income, include Social Security only to the extent the IRS does, and then subtract a fixed amount for each taxpayer who has attained a given age.
+
+- **senior_deduction_amount**: dollars subtracted **per qualifying individual**. A married couple both past the age line claims it twice, the same way the federal age-65 standard-deduction add-on works. Null means the state has no such deduction.
+- **senior_deduction_min_age**: age at which a filer qualifies. The income model only knows "is this filer 65+", so a value other than 65 is applied as an approximation and flagged.
+- **senior_deduction_per_qualifying_person**: if true (Montana), count each 65+ filer/spouse. If false, the amount is a household figure and is not doubled.
+- **senior_deduction_tax_year**: tax year the stored amount is for.
+- **senior_deduction_source_status**: `official` (published by the revenue department) or `calculated` (derived, e.g. from a statutory inflation formula). Do not store a calculated figure as if it were the agency's published amount.
+- **senior_deduction_source_url** / **senior_deduction_verified_on**: where the amount and age were verified, and when. These amounts are typically inflation-adjusted annually.
+
+Montana is the motivating case (issue #58): `ss_tax_treatment = taxed` with all SS threshold/age fields null, plus this senior subtraction. Encoding the subtraction as an SS exemption would misrepresent state law. `ss_tax_*` and `senior_deduction_*` are independent; a state can carry either, both, or neither.
+
+Maintain `senior_deduction_*` with `scripts/migrate-senior-deduction-columns.ts` and `scripts/import-senior-deduction.ts` from `data/state_senior_deduction.csv`.
 
 ### Normalized state-owned facts
 

@@ -88,6 +88,16 @@ export interface StateTaxProfile {
    * threshold (Rhode Island).
    */
   ssTaxAgeExemptsFully?: boolean | null;
+  /**
+   * General senior subtraction from state taxable income, dollars PER
+   * QUALIFYING INDIVIDUAL — distinct from ssTaxTreatment because some states
+   * (Montana, since TY2024) tax Social Security exactly as the IRS does and
+   * instead subtract a flat amount from the combined taxable-income base.
+   * Encoding that as an SS exemption would be false.
+   */
+  seniorDeductionAmount?: number | null;
+  /** Age at which a filer qualifies for seniorDeductionAmount. */
+  seniorDeductionMinAge?: number | null;
 }
 
 /**
@@ -427,9 +437,34 @@ export function estimateNetMonthlyIncome(
       }
     }
 
+    // A general 65+ subtraction against taxable income from any source, not
+    // an SS exemption (see seniorDeductionAmount doc comment). Applied after
+    // the base is assembled so it offsets retired pay / SS / pension / wages
+    // alike, the same way Montana's statute does.
+    const stateBaseBeforeSeniorDeduction = stateBase;
+    if (
+      state.seniorDeductionAmount &&
+      qualifying65 > 0 &&
+      stateBaseBeforeSeniorDeduction > 0
+    ) {
+      if (
+        state.seniorDeductionMinAge != null &&
+        state.seniorDeductionMinAge !== 65
+      ) {
+        approximations.push(
+          `this state's senior deduction begins at age ${state.seniorDeductionMinAge}; the 65+ filing flag is used as an approximation`
+        );
+      }
+      const deduction = qualifying65 * state.seniorDeductionAmount;
+      stateBase = Math.max(0, stateBase - deduction);
+      notes.push(
+        "Includes this state's general deduction for filers 65 and older, which reduces taxable income regardless of source."
+      );
+    }
+
     stateAnnual = stateBase * (rate / 100);
 
-    if (stateBase === 0 && grossMonthly > 0) {
+    if (stateBaseBeforeSeniorDeduction === 0 && grossMonthly > 0) {
       notes.push(
         "None of this household's income is taxable by this state, so its income tax rate does not affect them."
       );

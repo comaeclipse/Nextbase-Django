@@ -121,6 +121,14 @@ export interface LocationRow {
   ss_tax_min_age?: number | null;
   /** If true, reaching ss_tax_min_age exempts SS regardless of AGI. */
   ss_tax_age_exempts_fully?: boolean | null;
+  /**
+   * General senior subtraction from state taxable income (not Social
+   * Security-specific — see lib/income.ts and issue #58). Dollars per
+   * qualifying individual; null means the state has no such deduction.
+   */
+  senior_deduction_amount?: number | null;
+  /** Age at which a filer qualifies for senior_deduction_amount. */
+  senior_deduction_min_age?: number | null;
 
   /** Monthly median gross rent, dollars. ACS 5-year B25064. */
   median_rent?: number | null;
