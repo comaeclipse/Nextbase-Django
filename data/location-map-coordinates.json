@@ -885,6 +885,13 @@
       "longitude": -77.442088
     },
     {
+      "name": "Lynchburg",
+      "state": "VA",
+      "census_place_geoid": "5147672",
+      "latitude": 37.399016,
+      "longitude": -79.195458
+    },
+    {
       "name": "Norfolk",
       "state": "VA",
       "census_place_geoid": "5157000",

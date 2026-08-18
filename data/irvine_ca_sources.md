@@ -36,3 +36,8 @@ Retrieval date: 2026-07-07.
 - MilitaryINSTALLATIONS Camp Pendleton overview: https://installations.militaryonesource.mil/in-depth-overview/camp-pendleton
 - OpenCrime Irvine 2024 violent crime rate: https://www.opencrime.us/cities/irvine-california
 - FBI 2024 national crime summary: https://cde.ucr.cjis.gov/LATEST/resources/reports/UCR%20Summary%20of%20Reported%20Crimes%20in%20the%20Nation%202024.pdf
+- CJCJ California crime trends 2025 fact sheet: https://www.cjcj.org/reports-publications/fact-sheet/california-heads-for-record-low-crime-in-2025
+- ERI Irvine cost-of-living estimate (46% above U.S. average): https://www.erieri.com/cost-of-living/united-states/california/irvine
+- Redfin Irvine median home sale price (~$1.52M, retrieved 2026-08-08): https://www.redfin.com/city/9361/CA/Irvine/housing-market
+- Redfin ZIP 92606 median (~$967k, retrieved 2026-08-08): https://www.redfin.com/zipcode/92606/housing-market
+- AP News mortgage rate context (~6.7% 30-yr, Aug 2026): https://apnews.com/article/42d8262fb00b904fd7c2b906751610d7
