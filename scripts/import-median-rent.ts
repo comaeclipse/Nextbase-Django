@@ -21,7 +21,7 @@
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-median-rent.ts [--dry-run]
  *   ... --skip-download     use the cached API responses in data/sources/rent
- *   ... --year 2023         ACS 5-year vintage (default 2023)
+ *   ... --year 2023         Override the ACS 5-year vintage (default 2024)
  *   ... --no-county-fallback   place-level matches only
  *
  * A Census API key is REQUIRED. The API answers keyless requests with a 302 to
@@ -41,7 +41,7 @@ const VARIABLE = "B25064_001E"; // median gross rent, dollars
 const dryRun = process.argv.includes("--dry-run");
 const skipDownload = process.argv.includes("--skip-download");
 const noCountyFallback = process.argv.includes("--no-county-fallback");
-const year = argValue("--year") ?? "2023";
+const year = argValue("--year") ?? "2024";
 
 /**
  * Plausible bounds for a US median gross rent. ACS uses negative sentinels
@@ -59,6 +59,34 @@ const STATE_FIPS: Record<string, string> = {
   OH: "39", OK: "40", OR: "41", PA: "42", RI: "44", SC: "45", SD: "46",
   TN: "47", TX: "48", UT: "49", VT: "50", VA: "51", WA: "53", WV: "54",
   WI: "55", WY: "56",
+};
+
+/**
+ * Narrow aliases for official Census place names that cannot normalize to the
+ * curated display name. These remain exact, reviewed mappings rather than a
+ * fuzzy join; each target is present in the downloaded ACS place response.
+ */
+const PLACE_ALIASES: Record<string, string> = {
+  "HI|Honolulu": "Urban Honolulu",
+  // Preserve the existing location key while the legacy spelling is repaired.
+  "IN|Indianopolis": "Indianapolis city (balance)",
+  "KY|Louisville": "Louisville/Jefferson County metro government (balance)",
+  "TN|Nashville": "Nashville-Davidson metropolitan government (balance)",
+};
+
+/**
+ * Reviewed reasons a city has no usable ACS place-level B25064 value.
+ * County fallback is coarser; these notes keep that approximation visible.
+ */
+const FALLBACK_REASONS: Record<string, string> = {
+  "Hamilton, WA":
+    "ACS place row exists (Hamilton town) but B25064 is suppressed; population 297 is below the ACS disclosure threshold.",
+  "Malabar, FL":
+    "ACS place row exists (Malabar town) but B25064 is suppressed for this small Brevard County town.",
+  "McHenry, MS":
+    "Unincorporated community with no Census place geography in the ACS place file.",
+  "North Kingstown, RI":
+    "New England town published as a county subdivision, not a Census place. The RI ACS place file has 36 CDPs/cities; Kingston CDP is a different place in South Kingstown and must not be substituted.",
 };
 
 function argValue(flag: string): string | null {
@@ -204,7 +232,10 @@ async function main() {
     const abbr = loc.state.toUpperCase();
     const label = `${loc.name}, ${loc.state}`;
 
-    const placeRent = placeByState.get(abbr)?.get(geoKey(abbr, normalizePlace(loc.name)));
+    const sourcePlace = PLACE_ALIASES[`${abbr}|${loc.name}`] ?? loc.name;
+    const placeRent = placeByState
+      .get(abbr)
+      ?.get(geoKey(abbr, normalizePlace(sourcePlace)));
     if (placeRent !== undefined) {
       exact.push({ id: loc.id, label, rent: placeRent });
       continue;
@@ -287,8 +318,20 @@ function writeReport(
     "",
     viaCounty.length === 0
       ? "None."
-      : ["| City | County used | Median gross rent |", "| --- | --- | --- |"]
-          .concat(viaCounty.map((v) => `| ${v.label} | ${v.county} | $${v.rent} |`))
+      : [
+          "These cities have no usable ACS place-level B25064 value. County median",
+          "gross rent is used instead; that is coarser and typically pulled by the",
+          "rest of the county. Each fallback was reviewed against the ACS place file.",
+          "",
+          "| City | County used | Median gross rent | Why place-level was unavailable |",
+          "| --- | --- | --- | --- |",
+        ]
+          .concat(
+            viaCounty.map((v) => {
+              const why = FALLBACK_REASONS[v.label] ?? "Not yet reviewed — do not treat as a silent match.";
+              return `| ${v.label} | ${v.county} | $${v.rent} | ${why} |`;
+            })
+          )
           .join("\n"),
     "",
     "## Unmatched",

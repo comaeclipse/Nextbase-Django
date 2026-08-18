@@ -11,6 +11,18 @@ import ExploreFilterBar, {
 } from "@/components/explore/ExploreFilterBar";
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
+import {
+  rankByBudget,
+  type LocationBudget,
+} from "@/lib/affordability";
+import { resolveCostConstants } from "@/lib/cost-constants";
+import { resolveTaxConstants } from "@/lib/tax-constants";
+import {
+  DEFAULT_AFFORDABILITY_SCENARIO,
+  scenarioIsActive,
+  scenarioSources,
+  type AffordabilityScenario,
+} from "@/lib/affordability-scenario";
 
 export default function ExploreClient({
   initialLocations,
@@ -31,6 +43,9 @@ export default function ExploreClient({
     ...DEFAULT_FILTERS,
     state: initialStateFilter ?? "",
   });
+  const [scenario, setScenario] = useState<AffordabilityScenario>(
+    DEFAULT_AFFORDABILITY_SCENARIO
+  );
 
   function update<K extends keyof ExploreFilters>(
     key: K,
@@ -41,6 +56,26 @@ export default function ExploreClient({
 
   function resetAll() {
     setFilters(DEFAULT_FILTERS);
+    setScenario(DEFAULT_AFFORDABILITY_SCENARIO);
+  }
+
+  function updateScenario(next: AffordabilityScenario) {
+    const wasActive = scenarioIsActive(scenario);
+    const nowActive = scenarioIsActive(next);
+    setScenario(next);
+    if (!wasActive && nowActive) {
+      setFilters((current) => ({ ...current, sort: "headroom_desc" }));
+    }
+    if (wasActive && !nowActive && filters.sort === "headroom_desc") {
+      setFilters((current) => ({ ...current, sort: "best" }));
+    }
+  }
+
+  function clearScenario() {
+    setScenario(DEFAULT_AFFORDABILITY_SCENARIO);
+    if (filters.sort === "headroom_desc") {
+      setFilters((current) => ({ ...current, sort: "best" }));
+    }
   }
 
   /** Chips are grouped, so clearing one clears every field behind it. */
@@ -126,17 +161,53 @@ export default function ExploreClient({
       employers: filters.employers.join(",") || null,
       has_walmart: filters.hasWalmart ? "true" : null,
       has_costco: filters.hasCostco ? "true" : null,
-      sort: filters.sort,
+      sort: filters.sort === "headroom_desc" ? "best" : filters.sort,
     };
   }, [filters]);
 
-  const results = useMemo(
+  const filtered = useMemo(
     () =>
       filterAndSort(initialLocations, stateInfos, filterParams, {
         employerIndex,
       }),
     [employerIndex, filterParams, initialLocations, stateInfos]
   );
+
+  const annotated = useMemo(() => {
+    const active = scenarioIsActive(scenario);
+    if (!active) {
+      return filtered.map((location) => ({ location, budget: null as LocationBudget | null }));
+    }
+    const cost = resolveCostConstants();
+    const tax = resolveTaxConstants();
+    if (!cost.ok || !tax.ok) {
+      return filtered.map((location) => ({ location, budget: null as LocationBudget | null }));
+    }
+    const ranked = rankByBudget(
+      filtered,
+      {
+        sources: scenarioSources(scenario),
+        filing: scenario.filing,
+        age65Plus: scenario.age65Plus,
+        spouse65Plus: scenario.spouse65Plus,
+      },
+      scenario.tenure,
+      cost.constants,
+      tax.constants,
+      { spendingProfile: scenario.spendingProfile }
+    );
+    if (filters.sort !== "headroom_desc") {
+      const byId = new Map(ranked.map((row) => [row.location.id, row]));
+      return filtered.map((location) => {
+        const row = byId.get(location.id);
+        return { location, budget: row ?? null };
+      });
+    }
+    return ranked.map((row) => ({
+      location: row.location as Location,
+      budget: row,
+    }));
+  }, [filtered, filters.sort, scenario]);
 
   return (
     <>
@@ -150,7 +221,10 @@ export default function ExploreClient({
           clearFilter={clearFilter}
           stateCounts={stateCounts}
           employerGroups={employerGroups}
-          resultCount={results.length}
+          resultCount={annotated.length}
+          scenario={scenario}
+          onScenarioChange={updateScenario}
+          onClearScenario={clearScenario}
         />
       </div>
 
@@ -161,11 +235,13 @@ export default function ExploreClient({
               Explore retirement locations
             </h1>
             <p className="text-muted-foreground">
-              Filter by climate, budget, lifestyle, and veteran benefits.
+              {scenarioIsActive(scenario)
+                ? "Filter as usual, then rank by money left over. Cities without enough data stay in the list."
+                : "Filter by climate, budget, lifestyle, and veteran benefits. Open On my income to estimate leftover by city."}
             </p>
           </div>
 
-          {results.length === 0 ? (
+          {annotated.length === 0 ? (
             <div className="grid place-items-center gap-2 rounded-2xl border border-dashed bg-background p-12 text-center">
               <p className="font-medium">No locations match those filters</p>
               <p className="text-sm text-muted-foreground">
@@ -174,8 +250,13 @@ export default function ExploreClient({
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
-              {results.map((location) => (
-                <LocationCard key={location.id} location={location} />
+              {annotated.map(({ location, budget }) => (
+                <LocationCard
+                  key={location.id}
+                  location={location}
+                  budget={budget}
+                  tenure={scenario.tenure}
+                />
               ))}
             </div>
           )}

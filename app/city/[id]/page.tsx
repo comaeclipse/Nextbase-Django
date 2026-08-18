@@ -17,6 +17,7 @@ import { resolveStateAbbr } from "@/lib/states";
 import type { Location } from "@/lib/types";
 import PublicNav from "@/components/PublicNav";
 import HousingMarketCard from "@/components/HousingMarketCard";
+import CityAffordabilityCard from "@/components/city/CityAffordabilityCard";
 import { getHousingMarket } from "@/lib/housing-market";
 import { Check, X } from "lucide-react";
 import "../../styles/city.css";
@@ -366,6 +367,8 @@ export default async function CityDetailPage({
               </div>
             </div>
           </div>
+
+          <CityAffordabilityCard location={location} />
 
           {housingMarket && (
             <HousingMarketCard city={location.name} market={housingMarket} />

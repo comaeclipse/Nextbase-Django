@@ -1,28 +1,337 @@
 {
   "_readme": [
-    "Hand-researched actual monthly costs for a retiree household, used by",
+    "Independent monthly cost benchmarks for a retiree household, used by",
     "scripts/verify-affordability.ts to calibrate the model.",
     "",
     "This is the ONLY check that can catch a constant that is sourced but wrong.",
     "Plausibility bounds and coverage reports verify internal consistency; only",
     "real observed costs verify that the model is pointed at reality.",
     "",
-    "Aim for 8-10 cities spread across the price range - a couple cheap, a",
-    "couple expensive, several mid. Clustering them all in one band hides",
-    "systematic bias.",
+    "Entries are UMass Boston 2025 Elder Index values for one adult age 65+,",
+    "good health, at county-level market costs. The Index includes housing,",
+    "health care, food, transportation, and miscellaneous essentials. It is an",
+    "independent model, not a sample of this app's inputs.",
     "",
-    "Fill `entries` with objects shaped like:",
-    "  {",
-    "    \"id\": 42,",
-    "    \"city\": \"Pueblo, Colorado\",",
-    "    \"tenure\": \"own_outright\",",
-    "    \"actualMonthlyCost\": 2850,",
-    "    \"source\": \"how you arrived at this - listings, a local budget, ACS\",",
-    "    \"sourcedOn\": \"2026-08-09\"",
-    "  }",
+    "The release gate compares the `modest` spending profile to these figures.",
+    "`typical` (BLS 65+ mean) is expected to read high and is not the gate.",
     "",
-    "`id` must match locations_location.id. `tenure` is one of own_outright,",
-    "buying, or rent. The harness fails above 20% error on any entry."
+    "Component split: actualHousing is the Elder Index housing brick;",
+    "actualNonHousing is total minus housing (food + transportation +",
+    "miscellaneous + health). Modeled non-housing is everyday costs plus",
+    "Medicare/Medigap premiums.",
+    "",
+    "Gate:",
+    "  - non-housing error <= 20% on every entry (the spending-profile claim).",
+    "  - total error <= 20% on every `rent` entry (ACS gross rent vs Elder",
+    "    renter housing is like-for-like).",
+    "  - own_outright and buying housing are reported, not gated: those",
+    "    tenures price the city's typical ZHVI home plus 1% maintenance, which",
+    "    is not the Elder Index modest dwelling. Rankings still work; the",
+    "    dollar total for ownership in expensive metros will read high.",
+    "",
+    "`id` must match locations_location.id. `tenure` is rent, own_outright, or buying."
   ],
-  "entries": []
+  "spendingProfile": "modest",
+  "entries": [
+    {
+      "id": 85,
+      "city": "Pueblo, Colorado",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2058,
+      "actualHousing": 525,
+      "actualNonHousing": 1533,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Pueblo County, CO; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=6068&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 85,
+      "city": "Pueblo, Colorado",
+      "tenure": "rent",
+      "actualMonthlyCost": 2492,
+      "actualHousing": 959,
+      "actualNonHousing": 1533,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Pueblo County, CO; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=6068&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 85,
+      "city": "Pueblo, Colorado",
+      "tenure": "buying",
+      "actualMonthlyCost": 2885,
+      "actualHousing": 1352,
+      "actualNonHousing": 1533,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Pueblo County, CO; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=6068&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 88,
+      "city": "Forest, Mississippi",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 1824,
+      "actualHousing": 382,
+      "actualNonHousing": 1442,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Scott County, MS; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=7234&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 88,
+      "city": "Forest, Mississippi",
+      "tenure": "rent",
+      "actualMonthlyCost": 2226,
+      "actualHousing": 784,
+      "actualNonHousing": 1442,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Scott County, MS; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=7234&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 88,
+      "city": "Forest, Mississippi",
+      "tenure": "buying",
+      "actualMonthlyCost": 2628,
+      "actualHousing": 1186,
+      "actualNonHousing": 1442,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Scott County, MS; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=7234&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 12,
+      "city": "Phoenix, Arizona",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 1942,
+      "actualHousing": 568,
+      "actualNonHousing": 1374,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Maricopa County, AZ; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=5876&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 12,
+      "city": "Phoenix, Arizona",
+      "tenure": "rent",
+      "actualMonthlyCost": 3053,
+      "actualHousing": 1679,
+      "actualNonHousing": 1374,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Maricopa County, AZ; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=5876&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 12,
+      "city": "Phoenix, Arizona",
+      "tenure": "buying",
+      "actualMonthlyCost": 3045,
+      "actualHousing": 1671,
+      "actualNonHousing": 1374,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Maricopa County, AZ; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=5876&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 101,
+      "city": "Dallas, Texas",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2201,
+      "actualHousing": 749,
+      "actualNonHousing": 1452,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Dallas County, TX; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=8351&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 101,
+      "city": "Dallas, Texas",
+      "tenure": "rent",
+      "actualMonthlyCost": 3058,
+      "actualHousing": 1606,
+      "actualNonHousing": 1452,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Dallas County, TX; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=8351&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 101,
+      "city": "Dallas, Texas",
+      "tenure": "buying",
+      "actualMonthlyCost": 3313,
+      "actualHousing": 1861,
+      "actualNonHousing": 1452,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Dallas County, TX; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=8351&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 105,
+      "city": "Albany, New York",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2246,
+      "actualHousing": 739,
+      "actualNonHousing": 1507,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Albany County, NY; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=7600&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 105,
+      "city": "Albany, New York",
+      "tenure": "rent",
+      "actualMonthlyCost": 2737,
+      "actualHousing": 1230,
+      "actualNonHousing": 1507,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Albany County, NY; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=7600&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 105,
+      "city": "Albany, New York",
+      "tenure": "buying",
+      "actualMonthlyCost": 3215,
+      "actualHousing": 1708,
+      "actualNonHousing": 1507,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Albany County, NY; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=7600&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 29,
+      "city": "Boston, Massachusetts",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2648,
+      "actualHousing": 1096,
+      "actualNonHousing": 1552,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Suffolk County, MA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=7001&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 29,
+      "city": "Boston, Massachusetts",
+      "tenure": "rent",
+      "actualMonthlyCost": 3946,
+      "actualHousing": 2394,
+      "actualNonHousing": 1552,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Suffolk County, MA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=7001&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 29,
+      "city": "Boston, Massachusetts",
+      "tenure": "buying",
+      "actualMonthlyCost": 4262,
+      "actualHousing": 2710,
+      "actualNonHousing": 1552,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Suffolk County, MA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=7001&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 73,
+      "city": "San Diego, California",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2200,
+      "actualHousing": 832,
+      "actualNonHousing": 1368,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; San Diego County, CA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=5995&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 73,
+      "city": "San Diego, California",
+      "tenure": "rent",
+      "actualMonthlyCost": 3696,
+      "actualHousing": 2328,
+      "actualNonHousing": 1368,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; San Diego County, CA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=5995&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 73,
+      "city": "San Diego, California",
+      "tenure": "buying",
+      "actualMonthlyCost": 4085,
+      "actualHousing": 2717,
+      "actualNonHousing": 1368,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; San Diego County, CA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=5995&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 122,
+      "city": "Bellevue, Washington",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2552,
+      "actualHousing": 1062,
+      "actualNonHousing": 1490,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; King County, WA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=5548&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 122,
+      "city": "Bellevue, Washington",
+      "tenure": "rent",
+      "actualMonthlyCost": 3783,
+      "actualHousing": 2293,
+      "actualNonHousing": 1490,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; King County, WA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=5548&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 122,
+      "city": "Bellevue, Washington",
+      "tenure": "buying",
+      "actualMonthlyCost": 4120,
+      "actualHousing": 2630,
+      "actualNonHousing": 1490,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; King County, WA; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=5548&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 123,
+      "city": "Boulder, Colorado",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2238,
+      "actualHousing": 766,
+      "actualNonHousing": 1472,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Boulder County, CO; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=6023&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 123,
+      "city": "Boulder, Colorado",
+      "tenure": "rent",
+      "actualMonthlyCost": 3174,
+      "actualHousing": 1702,
+      "actualNonHousing": 1472,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Boulder County, CO; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=6023&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 123,
+      "city": "Boulder, Colorado",
+      "tenure": "buying",
+      "actualMonthlyCost": 3721,
+      "actualHousing": 2249,
+      "actualNonHousing": 1472,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Boulder County, CO; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=6023&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 21,
+      "city": "Honolulu, Hawaii",
+      "tenure": "own_outright",
+      "actualMonthlyCost": 2262,
+      "actualHousing": 751,
+      "actualNonHousing": 1511,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner without mortgage; Honolulu County, HI; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_free%5D=field_housing_owner_free&state_county%5B0%5D=6319&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 21,
+      "city": "Honolulu, Hawaii",
+      "tenure": "rent",
+      "actualMonthlyCost": 3563,
+      "actualHousing": 2052,
+      "actualNonHousing": 1511,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, renter; Honolulu County, HI; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_renter%5D=field_housing_renter&state_county%5B0%5D=6319&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    },
+    {
+      "id": 21,
+      "city": "Honolulu, Hawaii",
+      "tenure": "buying",
+      "actualMonthlyCost": 4337,
+      "actualHousing": 2826,
+      "actualNonHousing": 1511,
+      "source": "UMass Boston Elder Index 2025; single adult, good health, owner with mortgage; Honolulu County, HI; https://elderindex.org/explore?fields_on_off_hidden_submitted=1&health_status=field_health_good&housing_status%5Bfield_housing_owner_mortgage%5D=field_housing_owner_mortgage&state_county%5B0%5D=6319&views_fields_combined_on_off_form=0",
+      "sourcedOn": "2026-08-18"
+    }
+  ]
 }

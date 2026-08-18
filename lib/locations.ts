@@ -31,6 +31,7 @@ const EMPLOYERS_TAG = "defense-employers";
 
 function normalizeLocation(row: Record<string, unknown>): LocationRow {
   const pace = row.pace_category;
+  const geoType = row.bea_geo_type;
   return {
     ...row,
     id: Number(row.id),
@@ -41,6 +42,15 @@ function normalizeLocation(row: Record<string, unknown>): LocationRow {
       pace === "rural"
         ? pace
         : null,
+    goods_rpp: row.goods_rpp == null ? null : Number(row.goods_rpp),
+    housing_rpp: row.housing_rpp == null ? null : Number(row.housing_rpp),
+    utilities_rpp: row.utilities_rpp == null ? null : Number(row.utilities_rpp),
+    other_services_rpp:
+      row.other_services_rpp == null ? null : Number(row.other_services_rpp),
+    bea_geo_type:
+      geoType === "msa" || geoType === "nonmetro_state" ? geoType : null,
+    rpp_vintage_year:
+      row.rpp_vintage_year == null ? null : Number(row.rpp_vintage_year),
   } as LocationRow;
 }
 
@@ -60,7 +70,15 @@ const LOCATION_SELECT = `
   s.no_income_tax,
   s.ss_tax_treatment,
   s.ss_tax_threshold_single,
-  s.ss_tax_threshold_married
+  s.ss_tax_threshold_married,
+  rpp.goods_rpp,
+  rpp.housing_rpp,
+  rpp.utilities_rpp,
+  rpp.other_services_rpp,
+  rpp.bea_geo_type,
+  rpp.bea_geo_code,
+  rpp.bea_geo_name,
+  rpp.vintage_year AS rpp_vintage_year
 `;
 
 /*
@@ -77,6 +95,7 @@ const LOCATION_FROM = `
   FROM locations_location l
   LEFT JOIN location_pace_current p ON p.location_id = l.id
   LEFT JOIN locations_stateinfo s ON s.state = l.state
+  LEFT JOIN location_cost_rpp rpp ON rpp.location_id = l.id
 `;
 
 /*

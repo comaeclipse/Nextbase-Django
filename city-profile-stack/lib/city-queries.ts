@@ -18,8 +18,10 @@ import {
   type Band,
   type CostEstimate,
   type CostInputs,
+  type SpendingProfile,
   type Tenure,
 } from "../../lib/affordability";
+import { DEFAULT_SPENDING_PROFILE } from "../../lib/cost-constants";
 import {
   isStateTaxIrrelevant,
   type FilingStatus,
@@ -427,6 +429,7 @@ export type CostEstimateResult =
   | {
       ready: true;
       tenure: Tenure;
+      spendingProfile: SpendingProfile;
       scopeNote: string;
       /** What the estimate structurally cannot account for. */
       caveats: string[];
@@ -448,8 +451,9 @@ export type CostEstimateResult =
     };
 
 export const COST_SCOPE_NOTE =
-  "Estimates cover cities in this database only, and are modeled from cost " +
-  "indexes and home values — not quotes or observed household budgets.";
+  "Estimates cover cities in this database only. Housing is priced from rent " +
+  "or home value; everyday costs use BEA regional price parities against a " +
+  "named BLS spending profile. This is not a quote or financial advice.";
 
 const COST_CAVEATS = [
   "individual health status and VA enrollment",
@@ -463,10 +467,9 @@ const COST_CAVEATS = [
  * Price a retiree household's monthly cost across cities and rank by headroom.
  *
  * Returns `{ ready: false }` when the national constants in lib/cost-constants.ts
- * have not been sourced yet. That is a real state today (Phase 0 is outstanding),
- * and returning it explicitly is the point: a tool that quietly returned an
- * empty list would invite the model to fill the silence from general knowledge,
- * which is exactly what the system prompt forbids.
+ * have not been sourced yet. Returning it explicitly is the point: a tool that
+ * quietly returned an empty list would invite the model to fill the silence
+ * from general knowledge, which is exactly what the system prompt forbids.
  */
 export async function estimateCostForCities(opts: {
   /** Either a flat after-tax figure, or a composition to be taxed per state. */
@@ -476,6 +479,7 @@ export async function estimateCostForCities(opts: {
   age65Plus?: boolean;
   spouse65Plus?: boolean;
   tenure: Tenure;
+  spendingProfile?: SpendingProfile;
   cities?: string[];
   limit?: number;
   homePriceOverride?: number;
@@ -525,9 +529,13 @@ export async function estimateCostForCities(opts: {
             l.avg_home_value_display, l.median_rent, l.property_tax_rate,
             COALESCE(s.income_tax, l.income_tax) AS income_tax,
             s.retired_pay_tax, s.ss_tax_treatment,
-            s.ss_tax_threshold_single, s.ss_tax_threshold_married
+            s.ss_tax_threshold_single, s.ss_tax_threshold_married,
+            rpp.goods_rpp, rpp.housing_rpp, rpp.utilities_rpp,
+            rpp.other_services_rpp, rpp.bea_geo_type, rpp.bea_geo_name,
+            rpp.vintage_year AS rpp_vintage_year
      FROM locations_location l
-     LEFT JOIN locations_stateinfo s ON s.state = l.state`
+     LEFT JOIN locations_stateinfo s ON s.state = l.state
+     LEFT JOIN location_cost_rpp rpp ON rpp.location_id = l.id`
   )) as Record<string, unknown>[];
 
   const locations = rows.map(
@@ -549,6 +557,15 @@ export async function estimateCostForCities(opts: {
           r.ss_tax_threshold_single === null ? null : Number(r.ss_tax_threshold_single),
         ss_tax_threshold_married:
           r.ss_tax_threshold_married === null ? null : Number(r.ss_tax_threshold_married),
+        goods_rpp: r.goods_rpp === null ? null : Number(r.goods_rpp),
+        housing_rpp: r.housing_rpp === null ? null : Number(r.housing_rpp),
+        utilities_rpp: r.utilities_rpp === null ? null : Number(r.utilities_rpp),
+        other_services_rpp:
+          r.other_services_rpp === null ? null : Number(r.other_services_rpp),
+        bea_geo_type: r.bea_geo_type ?? null,
+        bea_geo_name: r.bea_geo_name ?? null,
+        rpp_vintage_year:
+          r.rpp_vintage_year === null ? null : Number(r.rpp_vintage_year),
       }) as CostInputs
   );
 
@@ -563,7 +580,10 @@ export async function estimateCostForCities(opts: {
         .filter((l): l is CostInputs => l !== undefined)
     : locations;
 
-  const estimateOpts = { homePriceOverride: opts.homePriceOverride };
+  const estimateOpts = {
+    homePriceOverride: opts.homePriceOverride,
+    spendingProfile: opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE,
+  };
 
   /*
    * Two paths. With a composition, take-home is computed per city because
@@ -615,6 +635,7 @@ export async function estimateCostForCities(opts: {
   return {
     ready: true,
     tenure: opts.tenure,
+    spendingProfile: estimateOpts.spendingProfile,
     scopeNote: COST_SCOPE_NOTE,
     caveats: COST_CAVEATS,
     incomeBasis: useComposition ? "composition" : "flat_after_tax",

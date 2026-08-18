@@ -214,11 +214,11 @@ const matchPersonTool = tool({
 
 const estimateCostTool = tool({
   description:
-    "Estimate the monthly cost of living in our cities for someone on a fixed income, " +
-    "and rank them by how much money is left over. Use this whenever the user gives a " +
-    "specific dollar figure — a budget, pension, VA disability payment, or Social " +
-    "Security check. Returns a per-city cost BREAKDOWN, not a verdict: present the " +
-    "components and say it is an estimate. Does NOT model state income tax.",
+    "Estimate the monthly cost of living in our cities for a veteran household, " +
+    "and rank them by how much money is left over. Prefer incomeSources over a " +
+    "single figure. Returns a per-city cost BREAKDOWN, never a verdict: present " +
+    "the components, missing vs approximated inputs, and say it is an estimate, " +
+    "not financial advice. Default spendingProfile is modest (get-by), not typical.",
   inputSchema: z.object({
     incomeSources: z
       .array(
@@ -258,6 +258,13 @@ const estimateCostTool = tool({
         "Housing situation. 'own_outright' means they own with no mortgage — common " +
           "for retirees who sold a home, and much cheaper than 'buying'. Ask the user " +
           "rather than assuming; the answer changes materially."
+      ),
+    spendingProfile: z
+      .enum(["modest", "typical"])
+      .optional()
+      .describe(
+        "Spending basket. 'modest' (default) is a get-by 65+ budget from BLS income " +
+          "cross-tabs. 'typical' is average 65+ household spending. Never swap them silently."
       ),
     cities: z
       .array(z.string())

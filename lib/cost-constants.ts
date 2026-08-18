@@ -1,8 +1,8 @@
 /*
  * National constants for the fixed-income cost model (lib/affordability.ts).
  *
- * WHY THIS FILE EXISTS SEPARATELY: the affordability model converts a *relative*
- * cost index (col_index, where 100 = national average) into *absolute* dollars.
+ * WHY THIS FILE EXISTS SEPARATELY: the affordability model converts *relative*
+ * BEA Regional Price Parities (100 = national average) into *absolute* dollars.
  * That conversion is impossible without a national dollar anchor. An earlier
  * draft of this feature skipped the anchor and hard-coded an income -> index
  * mapping invented from nothing; against real data it returned zero results for
@@ -66,76 +66,218 @@ export const COST_CONSTANTS = {
    * 65+, at the NATIONAL average. This is the anchor the whole model scales.
    *
    * Derivation from the source table: take total annual expenditures for the
-   * 65+ age group, subtract the housing component, divide by 12. Subtracting
-   * housing matters — the model prices housing separately from DB columns, so
-   * leaving it in would double-count it.
+   * 65+ age group, subtract housing and healthcare, then divide by 12. Both are
+   * priced separately by the model; leaving either in this baseline would
+   * double-count it.
    */
   nonHousingBaseline65Plus: constant({
-    value: 3269.92,
+    value: 2620,
     unit: "USD per month",
     kind: "measured",
     source:
       "BLS Consumer Expenditure Survey 2024, reference person 65+: total " +
-      "average annual expenditures $61,432 minus housing $22,193 = $39,239, / 12",
+      "average annual expenditures $61,432 minus housing $22,193 and " +
+      "healthcare $7,799 = $31,440, / 12",
     sourceUrl: "https://fred.stlouisfed.org/series/CXUTOTALEXPLB0407M",
-    sourcedOn: "2026-08-11",
+    sourcedOn: "2026-08-17",
     refresh: "annual",
     note:
-      "THIS IS THE 65+ MEAN, AND IT DESCRIBES A RICHER HOUSEHOLD THAN THIS " +
-      "TOOL'S AUDIENCE. Total 65+ spending of $61,432/yr is about $5,119/mo; a " +
-      "veteran on $2,400/mo is nowhere near it, so the model will correctly " +
-      "report that they cannot fund an average-65+-household lifestyle in ANY " +
-      "city. That is a true statement and the wrong answer to the question " +
-      "being asked, which is 'where can I get by', not 'where can I live like " +
-      "the average retiree'.\n" +
-      "The alternative anchor is the lowest income quintile (all ages, 2024): " +
-      "$35,046 total, housing ~41.6%, giving roughly $1,705/mo non-housing — " +
-      "about half this figure. It is a better proxy for a modest fixed-income " +
-      "budget but is not age-specific.\n" +
-      "This is a PRODUCT decision, not a sourcing one, and it is deliberately " +
-      "left at the defensible measured value. Changing it, or exposing a " +
-      "modest/average toggle, should be decided against the ground-truth check " +
-      "in scripts/verify-affordability.ts rather than by taste.",
+      "Healthcare is removed because medicarePartBMonthly and " +
+      "supplementalHealthMonthly add health premiums separately. The previous " +
+      "total-minus-housing derivation counted healthcare twice. Healthcare uses " +
+      "the same BLS release and age group: " +
+      "https://fred.stlouisfed.org/series/CXUHEALTHLB0407M.\n" +
+      "THIS IS THE 65+ MEAN (`typical` spending profile). Total 65+ spending " +
+      "of $61,432/yr is about $5,119/mo; a veteran on $2,400/mo cannot fund " +
+      "that lifestyle in any city. The `modest` profile (BLS 65+ by income, " +
+      "$15,000–$29,999) is the default for 'where can I get by'. Do not " +
+      "quietly replace this mean with an all-ages lowest-quintile figure.",
   }),
 
   /**
-   * The housing share of the composite COL index basket. Used to algebraically
-   * remove housing from col_index so it is not counted twice — see
-   * `nonHousingIndex()` in lib/affordability.ts.
+   * Goods slice of the 65+ non-housing/non-health baseline. Scaled by BEA
+   * goods RPP. Housing (including furnishings and housekeeping supplies) and
+   * healthcare are already out of the parent baseline, so they are not in
+   * this slice either.
    *
-   * This matters more than it looks: in this database
-   * corr(col_index, avg_home_value) = 0.840, so col_index is heavily driven by
-   * housing already.
+   * BLS CE 2024, reference person 65+, annual: food at home $5,251; alcoholic
+   * beverages $532; apparel $1,198; vehicle purchases $3,510; gasoline /
+   * motor oil $1,806 (transportation residual after vehicle purchases, other
+   * vehicle expenses, and public transit); reading $120; tobacco $266;
+   * entertainment toys/hobbies $97; entertainment other supplies/equipment
+   * $525. Total $13,305 / 12.
    */
-  housingWeight: constant({
-    value: 0.309,
-    unit: "fraction 0..1",
+  nonHousingGoodsMonthly: constant({
+    value: 1108.75,
+    unit: "USD per month",
     kind: "measured",
     source:
-      "C2ER / ACCRA Cost of Living Index published basket weights: housing " +
-      "30.90% (grocery 17.26, utilities 10.21, transport 7.54, health 4.42, " +
-      "misc 29.67)",
-    sourceUrl: "http://c2c.coli.org/compare.asp?action=methodology",
-    sourcedOn: "2026-08-11",
-    refresh: "rare",
+      "BLS CE 2024, 65+: goods categories inside the $31,440 non-housing/" +
+      "non-health remainder, / 12",
+    sourceUrl: "https://fred.stlouisfed.org/release/tables?eid=1198958&rid=479",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
     note:
-      "UNVERIFIED ASSUMPTION THAT col_index IS A C2ER INDEX. SCHEMA.md records " +
-      "only that COL means '100 = national average' and never names the " +
-      "provider. If col_index came from somewhere else, this weight is wrong " +
-      "and every derived non-housing index is skewed. Establishing that " +
-      "provenance is the single highest-value verification left in this file.\n" +
-      "The C2ER weights are a 2021 vintage and describe a professional/" +
-      "executive household, not a retiree.\n" +
-      "SCOPE: this is the housing/shelter category only. C2ER files utilities " +
-      "separately at 10.21%, so the derived non-housing index still carries " +
-      "local utility variation while the baseline it scales excludes " +
-      "utilities. That residual mismatch is small and deliberate — the " +
-      "alternative, removing 41.11%, would use a shelter-only proxy " +
-      "(avg_home_value) to strip a shelter-plus-utilities weight, which is " +
-      "worse.\n" +
-      "BEA Regional Price Parity is the escape hatch: free, public, and " +
-      "published with separate rents/goods/other components, which would " +
-      "remove the back-out algebra entirely.",
+      "Do not average this with the services RPP. Goods and other services " +
+      "are separate BEA components and are scaled independently.",
+  }),
+
+  /**
+   * Local-consumption services slice of the same baseline. Scaled by BEA
+   * other-services RPP. Cash contributions and pensions are *not* in this
+   * slice — they do not have a local price level.
+   *
+   * BLS CE 2024, 65+, annual: food away from home $2,689; other vehicle
+   * expenses $3,198; public transportation $1,024; entertainment fees $602;
+   * audio/visual equipment and services $1,048; pets $752; personal care
+   * $782; education $429; miscellaneous $973 (includes a $1 rounding
+   * remainder so the three slices reconstruct $31,440). Total $11,497 / 12.
+   */
+  nonHousingOtherServicesMonthly: constant({
+    value: 958.083333,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS CE 2024, 65+: other-services categories inside the $31,440 " +
+      "remainder, / 12",
+    sourceUrl: "https://fred.stlouisfed.org/release/tables?eid=1198958&rid=479",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
+  }),
+
+  /**
+   * Cash contributions plus personal insurance and pensions. These sit in the
+   * BLS 65+ mean but are not local consumption, so they are *not* scaled by
+   * RPP. $3,158 + $3,480 = $6,638 / 12.
+   */
+  nonHousingUnscaledMonthly: constant({
+    value: 553.166667,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS CE 2024, 65+: cash contributions $3,158 plus personal insurance " +
+      "and pensions $3,480, / 12",
+    sourceUrl: "https://fred.stlouisfed.org/release/tables?eid=1198958&rid=479",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
+    note:
+      "Kept so the typical/mean profile reconstructs the 65+ remainder. The " +
+      "modest profile sets this slice to 0 — cash gifts and pension " +
+      "withholding are not part of a get-by budget (see " +
+      "modestNonHousingUnscaledMonthly).",
+  }),
+
+  /**
+   * Modest non-housing/non-health remainder. Default spending profile.
+   *
+   * BLS Table 3254, 2021–2022 (latest 65+ × income cross-tab as of 2026-08-18):
+   * consumer units with reference person 65+ and income $15,000–$29,999.
+   * Mean income $22,114 — around Social Security plus a small pension — and
+   * the largest 65+ income group (10.1M of 36.5M CUs). Total expenditures
+   * $36,583 minus housing $14,169 minus healthcare $5,573 = $16,841. Cash
+   * contributions $3,160 and personal insurance/pensions $481 are then
+   * removed (they are not local get-by consumption; Elder Index omits them),
+   * leaving $13,200 / 12.
+   */
+  modestNonHousingBaseline65Plus: constant({
+    value: 1100,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS CE Table 3254, 2021–2022, 65+ with income $15,000–$29,999: " +
+      "non-housing/non-health remainder after dropping cash contributions " +
+      "and pensions, / 12",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/reference-person-age-by-income-65-or-older-2021-2022.pdf",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
+    note:
+      "Latest published 65+ × income table; 2022–2023 and 2023–2024 files " +
+      "are not posted yet. Two-year mean, not the 2024 calendar-year 65+ " +
+      "mean used by the typical profile. Household size is 1.3 people vs " +
+      "the Elder Index's one adult, so this slightly overstates a " +
+      "single-veteran budget. Do not substitute the all-ages lowest quintile.",
+  }),
+
+  /**
+   * Modest goods slice. Same BLS-to-BEA mapping as the typical goods constant.
+   *
+   * Annual: food at home $3,353; alcoholic beverages $249; apparel $546;
+   * vehicle purchases $1,602; gasoline $1,081; reading $117; tobacco $243;
+   * entertainment toys/hobbies $73; entertainment other supplies $248.
+   * Total $7,512 / 12.
+   */
+  modestNonHousingGoodsMonthly: constant({
+    value: 626,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS CE Table 3254, 2021–2022, 65+ $15,000–$29,999: goods categories " +
+      "inside the modest remainder, / 12",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/reference-person-age-by-income-65-or-older-2021-2022.pdf",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
+  }),
+
+  /**
+   * Modest other-services slice. $1 rounding remainder assigned here so
+   * goods + services reconstruct $13,200.
+   *
+   * Annual: food away $1,184; other vehicle expenses $1,887; public
+   * transportation $186; entertainment fees $162; audio/visual $769; pets
+   * $327; personal care $410; education $70; miscellaneous $693.
+   * Total $5,688 / 12.
+   */
+  modestNonHousingOtherServicesMonthly: constant({
+    value: 474,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS CE Table 3254, 2021–2022, 65+ $15,000–$29,999: other-services " +
+      "categories inside the modest remainder, / 12",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/reference-person-age-by-income-65-or-older-2021-2022.pdf",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
+  }),
+
+  /**
+   * Modest unscaled slice. Zero: cash contributions and pension withholding
+   * in this income group are not a get-by local price.
+   */
+  modestNonHousingUnscaledMonthly: constant({
+    value: 0,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS CE Table 3254, 2021–2022, 65+ $15,000–$29,999: cash contributions " +
+      "$3,160 plus personal insurance and pensions $481 are omitted from " +
+      "the modest profile",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/reference-person-age-by-income-65-or-older-2021-2022.pdf",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
+    note:
+      "The typical profile keeps this slice so the 65+ mean reconstructs. " +
+      "Modest drops it rather than scaling a charity/pension average.",
+  }),
+
+  /**
+   * Modest owner utilities. Same BLS table and income column as the modest
+   * remainder; owners only, scaled by BEA utilities RPP.
+   */
+  modestNationalUtilitiesMonthly: constant({
+    value: 259.333333,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "BLS CE Table 3254, 2021–2022, 65+ $15,000–$29,999: utilities, fuels, " +
+      "and public services $3,112 / 12",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/reference-person-age-by-income-65-or-older-2021-2022.pdf",
+    sourcedOn: "2026-08-18",
+    refresh: "annual",
   }),
 
   /**
@@ -285,9 +427,10 @@ export const COST_CONSTANTS = {
       "Same BLS release and same age group as nonHousingBaseline65Plus, so " +
       "utilities are counted exactly once: excluded from the baseline (BLS " +
       "files them under housing) and added back explicitly for owners only.\n" +
-      "National figure, but utility cost varies a lot by climate and state. " +
-      "lib/electricity.ts already holds state-level cents/kWh and is wired to " +
-      "nothing — scaling this by that index is the obvious follow-up.",
+      "The owner term is scaled by the city's BEA utilities RPP. Renters do " +
+      "not use this constant: ACS B25064 gross rent already includes utilities.\n" +
+      "The modest profile uses modestNationalUtilitiesMonthly from the 65+ " +
+      "by-income table instead of this 65+ mean.",
   }),
 
   /**
@@ -379,14 +522,6 @@ export const COST_CONSTANTS = {
 
 export type CostConstantKey = keyof typeof COST_CONSTANTS;
 
-/**
- * Plausibility band for a derived non-housing index. A city outside this range
- * does not have exotic costs — it has an inconsistent col_index or
- * avg_home_value. Flagging beats scoring: see scripts/verify-affordability.ts,
- * which prints outliers as a data-quality report.
- */
-export const NON_HOUSING_INDEX_BOUNDS = { min: 70, max: 160 } as const;
-
 /** Every constant that still has `value: null`. */
 export function missingConstants(): CostConstantKey[] {
   return (Object.keys(COST_CONSTANTS) as CostConstantKey[]).filter(
@@ -417,4 +552,42 @@ export function resolveCostConstants(): ConstantsResolution {
     out[key] = COST_CONSTANTS[key].value as number;
   }
   return { ok: true, constants: out };
+}
+
+/**
+ * Which national spending basket the model scales.
+ *
+ * `modest` is BLS 65+ by income ($15k–$30k) — "what does it take to get by?"
+ * `typical` is the BLS 65+ mean — "what does the average retiree household spend?"
+ * Callers must pick one; the engine never silently swaps them.
+ */
+export type SpendingProfile = "modest" | "typical";
+
+export const DEFAULT_SPENDING_PROFILE: SpendingProfile = "modest";
+
+export interface SpendingSlices {
+  goodsMonthly: number;
+  otherServicesMonthly: number;
+  unscaledMonthly: number;
+  utilitiesMonthly: number;
+}
+
+export function spendingSlices(
+  profile: SpendingProfile,
+  c: ResolvedConstants
+): SpendingSlices {
+  if (profile === "typical") {
+    return {
+      goodsMonthly: c.nonHousingGoodsMonthly,
+      otherServicesMonthly: c.nonHousingOtherServicesMonthly,
+      unscaledMonthly: c.nonHousingUnscaledMonthly,
+      utilitiesMonthly: c.nationalUtilitiesMonthly,
+    };
+  }
+  return {
+    goodsMonthly: c.modestNonHousingGoodsMonthly,
+    otherServicesMonthly: c.modestNonHousingOtherServicesMonthly,
+    unscaledMonthly: c.modestNonHousingUnscaledMonthly,
+    utilitiesMonthly: c.modestNationalUtilitiesMonthly,
+  };
 }

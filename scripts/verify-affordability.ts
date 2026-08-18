@@ -24,9 +24,10 @@ import { resolveStateAbbr } from "../lib/states";
 import { HOME_INSURANCE_DATASET } from "../lib/insurance";
 import {
   COST_CONSTANTS,
+  DEFAULT_SPENDING_PROFILE,
   resolveCostConstants,
-  NON_HOUSING_INDEX_BOUNDS,
   type CostConstantKey,
+  type SpendingProfile,
 } from "../lib/cost-constants";
 import {
   estimateMonthlyCost,
@@ -46,6 +47,10 @@ interface GroundTruth {
   tenure: Tenure;
   /** Actual observed monthly cost for a retiree household, in dollars. */
   actualMonthlyCost: number;
+  /** Elder Index housing brick. */
+  actualHousing: number;
+  /** Total minus housing (food, transportation, miscellaneous, health). */
+  actualNonHousing: number;
   source: string;
   sourcedOn: string;
 }
@@ -106,9 +111,17 @@ function reportRawCoverage(rows: CostInputs[]) {
   const propTax = has(
     (l) => l.property_tax_rate !== null && l.property_tax_rate !== undefined
   );
+  const rpp = has(
+    (l) =>
+      l.goods_rpp != null &&
+      l.utilities_rpp != null &&
+      l.other_services_rpp != null
+  );
   const ownable = has(
     (l) =>
-      l.col_index !== null &&
+      l.goods_rpp != null &&
+      l.utilities_rpp != null &&
+      l.other_services_rpp != null &&
       !!l.avg_home_value &&
       !!resolveStateAbbr(l.state)
   );
@@ -118,7 +131,8 @@ function reportRawCoverage(rows: CostInputs[]) {
       `  ${label.padEnd(34)} ${String(count).padStart(4)}/${n}  ${pct(count, n).padStart(4)}${note}`
     );
 
-  line("col_index", colIndex);
+  line("BEA RPP (goods/utilities/other)", rpp, rpp === 0 ? "  <- blocks every tenure" : "");
+  line("col_index (Fit score only)", colIndex);
   line("avg_home_value", homeValue);
   line("homeowners insurance (by state)", insurance);
   line("property_tax_rate", propTax, propTax === 0 ? "  <- P0 ingestion" : "");
@@ -136,62 +150,100 @@ function reportRawCoverage(rows: CostInputs[]) {
 }
 
 /* ------------------------------------------------------------------ *
- * 3. Plausibility / data quality
+ * 3. RPP coverage and legacy col_index comparison
  * ------------------------------------------------------------------ */
-function reportPlausibility(rows: CostInputs[], c: ReturnType<typeof resolveCostConstants>) {
-  if (!c.ok) return { outliers: [] as CostInputs[] };
-  heading("3. Derived index plausibility");
+const LEGACY_HOUSING_WEIGHT = 0.309;
+const LEGACY_INDEX_BOUNDS = { min: 70, max: 160 };
 
-  const { min, max } = NON_HOUSING_INDEX_BOUNDS;
-  console.log(
-    `  A city outside ${min}-${max} has a col_index and avg_home_value that\n` +
-      `  disagree with each other. These are data bugs to fix, not cheap cities.\n`
-  );
-  console.log(
-    "  !! col_index IS MIXED-PROVENANCE. Source notes identify at least five\n" +
-      "     different providers across the table -- BestPlaces (28 cities),\n" +
-      "     C2ER/ACCRA (12), ERI/SalaryExpert (11), CostOfLivingData (5),\n" +
-      "     PayScale (3) -- each with a different basket. housingWeight is a\n" +
-      "     C2ER figure, so the back-out below is only valid for the C2ER rows.\n" +
-      "     PASSING THIS BAND IS NOT EVIDENCE OF CORRECTNESS: an in-band city\n" +
-      "     can still be derived from an index this weight does not describe.\n" +
-      "     See issue #40 (BEA RPP migration) and #49.\n"
-  );
+function homeValueNumber(loc: CostInputs): number | null {
+  if (loc.avg_home_value == null) return null;
+  const n = parseFloat(loc.avg_home_value);
+  return Number.isFinite(n) ? n : null;
+}
 
-  const outliers: CostInputs[] = [];
-  const values: number[] = [];
+function legacyNonHousingIndex(loc: CostInputs, nationalMedian: number): number | null {
+  if (loc.col_index == null) return null;
+  const value = homeValueNumber(loc);
+  if (value === null) return loc.col_index;
+  const housingIdx = (100 * value) / nationalMedian;
+  const w = LEGACY_HOUSING_WEIGHT;
+  const derived = (loc.col_index - w * housingIdx) / (1 - w);
+  if (derived < LEGACY_INDEX_BOUNDS.min || derived > LEGACY_INDEX_BOUNDS.max) {
+    return null;
+  }
+  return derived;
+}
+
+function reportRppAndLegacy(
+  rows: CostInputs[],
+  c: ReturnType<typeof resolveCostConstants>
+): { unmatched: CostInputs[] } {
+  heading("3. BEA RPP coverage vs legacy col_index back-out");
+
+  const unmatched = rows.filter(
+    (l) => l.goods_rpp == null || l.utilities_rpp == null || l.other_services_rpp == null
+  );
+  const msa = rows.filter((l) => l.bea_geo_type === "msa").length;
+  const nonmetro = rows.filter((l) => l.bea_geo_type === "nonmetro_state").length;
+  console.log(
+    `  RPP matched ${rows.length - unmatched.length}/${rows.length}` +
+      `  (MSA ${msa}, state nonmetro ${nonmetro}, unmatched ${unmatched.length})`
+  );
+  if (unmatched.length) {
+    for (const row of unmatched.slice(0, 15)) {
+      console.log(`    unmatched ${row.name}, ${row.state}`);
+    }
+  }
+
+  if (!c.ok) return { unmatched };
+
+  const nationalMedian = c.constants.nationalMedianHomeValue;
+  const compared: { loc: CostInputs; rpp: number; legacy: number; delta: number }[] = [];
+  let legacyBlocked = 0;
+  let rppOnly = 0;
 
   for (const loc of rows) {
-    if (loc.col_index === null || !loc.avg_home_value) continue;
-    const idx = nonHousingIndex(loc, c.constants);
-    if (idx === null) outliers.push(loc);
-    else values.push(idx);
+    const rpp = nonHousingIndex(loc, c.constants);
+    const legacy = legacyNonHousingIndex(loc, nationalMedian);
+    if (rpp === null && legacy === null) continue;
+    if (rpp !== null && legacy === null) {
+      rppOnly += 1;
+      continue;
+    }
+    if (rpp === null && legacy !== null) {
+      legacyBlocked += 1;
+      continue;
+    }
+    compared.push({
+      loc,
+      rpp: rpp!,
+      legacy: legacy!,
+      delta: rpp! - legacy!,
+    });
   }
 
-  values.sort((a, b) => a - b);
-  if (values.length) {
-    const at = (q: number) => values[Math.floor(q * (values.length - 1))];
+  compared.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+  console.log(
+    `\n  Side-by-side effective non-housing index (RPP minus legacy col_index back-out)`
+  );
+  console.log(
+    `  comparable ${compared.length}   newly priceable via RPP ${rppOnly}` +
+      `   still only priceable on the old path ${legacyBlocked}`
+  );
+  if (compared.length) {
     console.log(
-      `  In-band: ${values.length}   ` +
-        `p10 ${at(0.1).toFixed(1)}  median ${at(0.5).toFixed(1)}  p90 ${at(0.9).toFixed(1)}`
+      `  ${"city".padEnd(28)} ${"RPP".padStart(7)} ${"legacy".padStart(7)} ${"delta".padStart(7)}`
     );
-  }
-
-  if (outliers.length) {
-    console.log(`\n  ✗ ${outliers.length} out-of-band:`);
-    for (const o of outliers.slice(0, 20)) {
+    for (const row of compared.slice(0, 12)) {
       console.log(
-        `      ${`${o.name}, ${o.state}`.padEnd(30)} ` +
-          `col_index ${String(o.col_index).padStart(4)}  ` +
-          `home ${money(parseFloat(o.avg_home_value!))}`
+        `  ${`${row.loc.name}, ${row.loc.state}`.padEnd(28)} ` +
+          `${row.rpp.toFixed(1).padStart(7)} ${row.legacy.toFixed(1).padStart(7)} ` +
+          `${(row.delta >= 0 ? "+" : "") + row.delta.toFixed(1).padStart(6)}`
       );
     }
-    if (outliers.length > 20) console.log(`      ... and ${outliers.length - 20} more`);
-  } else {
-    console.log("  ✓ every priceable city lands in a plausible band");
   }
 
-  return { outliers };
+  return { unmatched };
 }
 
 /* ------------------------------------------------------------------ *
@@ -199,10 +251,15 @@ function reportPlausibility(rows: CostInputs[], c: ReturnType<typeof resolveCost
  * ------------------------------------------------------------------ */
 function reportModelCoverage(rows: CostInputs[], c: ReturnType<typeof resolveCostConstants>) {
   if (!c.ok) return;
-  heading("4. Model coverage by tenure");
+  heading("4. Model coverage by tenure (modest profile)");
+
+  const modestOpts = { spendingProfile: "modest" as const };
+  const typicalOpts = { spendingProfile: "typical" as const };
 
   for (const tenure of TENURES) {
-    const estimates = rows.map((l) => estimateMonthlyCost(l, tenure, c.constants));
+    const estimates = rows.map((l) =>
+      estimateMonthlyCost(l, tenure, c.constants, modestOpts)
+    );
     const priced = estimates.filter((e) => e.monthlyCost !== null);
     const approximated = priced.filter((e) => e.approximations.length > 0);
 
@@ -216,12 +273,21 @@ function reportModelCoverage(rows: CostInputs[], c: ReturnType<typeof resolveCos
       const costs = priced.map((e) => e.monthlyCost!).sort((a, b) => a - b);
       const at = (q: number) => costs[Math.floor(q * (costs.length - 1))];
       console.log(
-        `                 cost range ${money(costs[0])} - ${money(costs[costs.length - 1])}` +
+        `                 modest range ${money(costs[0])} - ${money(costs[costs.length - 1])}` +
           `   median ${money(at(0.5))}`
       );
+      const typicalCosts = rows
+        .map((l) => estimateMonthlyCost(l, tenure, c.constants, typicalOpts).monthlyCost)
+        .filter((n): n is number => n !== null)
+        .sort((a, b) => a - b);
+      if (typicalCosts.length) {
+        const tAt = (q: number) => typicalCosts[Math.floor(q * (typicalCosts.length - 1))];
+        console.log(
+          `                 typical median ${money(tAt(0.5))}  (65+ mean; not the get-by gate)`
+        );
+      }
     }
 
-    // Why the rest failed, most common reason first.
     const reasons = new Map<string, number>();
     for (const e of estimates) {
       for (const m of e.missing) reasons.set(m, (reasons.get(m) ?? 0) + 1);
@@ -236,12 +302,21 @@ function reportModelCoverage(rows: CostInputs[], c: ReturnType<typeof resolveCos
 /* ------------------------------------------------------------------ *
  * 5. Ground truth
  * ------------------------------------------------------------------ */
+function errPct(modeled: number, actual: number): number {
+  return (modeled - actual) / actual;
+}
+
+function fmtErr(err: number): string {
+  const pctStr = `${err * 100 >= 0 ? "+" : ""}${(err * 100).toFixed(0)}%`;
+  return pctStr.padStart(8);
+}
+
 function reportGroundTruth(
   rows: CostInputs[],
   c: ReturnType<typeof resolveCostConstants>
 ): boolean {
   if (!c.ok) return true;
-  heading("5. Modeled vs hand-researched ground truth");
+  heading("5. Modeled vs Elder Index ground truth (modest profile)");
 
   if (!existsSync(GROUND_TRUTH_PATH)) {
     console.log(`  (no ${GROUND_TRUTH_PATH} — skipping)`);
@@ -250,53 +325,134 @@ function reportGroundTruth(
 
   const raw = JSON.parse(readFileSync(GROUND_TRUTH_PATH, "utf8"));
   const truth: GroundTruth[] = Array.isArray(raw) ? raw : (raw.entries ?? []);
+  const profile: SpendingProfile = raw.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
+  const opts = { spendingProfile: profile };
 
-  if (truth.length === 0) {
+  const MIN_GROUND_TRUTH_CITIES = 10;
+  const cities = new Set(truth.map((t) => t.id));
+  const tenures = new Set(truth.map((t) => t.tenure));
+  if (cities.size < MIN_GROUND_TRUTH_CITIES || !TENURES.every((t) => tenures.has(t))) {
     console.log(
-      "  No entries yet. Hand-source true monthly cost for 8-10 cities across\n" +
-        "  the price range and add them — this is the only check that can catch a\n" +
-        "  constant that is sourced but wrong."
-    );
-    return true;
-  }
-
-  const byId = new Map(rows.map((r) => [r.id, r]));
-  let worst = 0;
-
-  console.log(
-    `  ${"city".padEnd(24)} ${"tenure".padEnd(13)} ${"modeled".padStart(9)} ${"actual".padStart(9)} ${"error".padStart(8)}`
-  );
-  for (const t of truth) {
-    const loc = byId.get(t.id);
-    if (!loc) {
-      console.log(`  ${t.city.padEnd(24)} (id ${t.id} not in DB)`);
-      continue;
-    }
-    const modeled = estimateMonthlyCost(loc, t.tenure, c.constants).monthlyCost;
-    if (modeled === null) {
-      console.log(`  ${t.city.padEnd(24)} ${t.tenure.padEnd(13)} not priceable`);
-      continue;
-    }
-    const err = (modeled - t.actualMonthlyCost) / t.actualMonthlyCost;
-    worst = Math.max(worst, Math.abs(err));
-    console.log(
-      `  ${t.city.padEnd(24)} ${t.tenure.padEnd(13)} ` +
-        `${money(modeled).padStart(9)} ${money(t.actualMonthlyCost).padStart(9)} ` +
-        `${(err * 100 >= 0 ? "+" : "") + (err * 100).toFixed(0) + "%"}`.padStart(9)
-    );
-  }
-
-  const TOLERANCE = 0.2;
-  if (worst > TOLERANCE) {
-    console.log(
-      `\n  ✗ worst error ${(worst * 100).toFixed(0)}% exceeds the ${TOLERANCE * 100}% tolerance.\n` +
-        "    A systematic bias in one direction usually means a wrong constant;\n" +
-        "    scattered errors usually mean a bad column for those cities."
+      `  Need at least ${MIN_GROUND_TRUTH_CITIES} cities and all three tenures. ` +
+        `Have ${cities.size} cities, tenures: ${[...tenures].join(",") || "(none)"}.`
     );
     return false;
   }
-  console.log(`\n  ✓ worst error ${(worst * 100).toFixed(0)}% is within tolerance`);
-  return true;
+
+  const byId = new Map(rows.map((r) => [r.id, r]));
+  const TOLERANCE = 0.2;
+  let worstNonHousing = 0;
+  let worstRentTotal = 0;
+  let compared = 0;
+  let skipped = 0;
+  let failed = false;
+
+  const byTenure = new Map<Tenure, { housing: number[]; nonHousing: number[]; total: number[] }>();
+  for (const t of TENURES) byTenure.set(t, { housing: [], nonHousing: [], total: [] });
+
+  console.log(
+    `  ${"city".padEnd(22)} ${"tenure".padEnd(13)} ` +
+      `${"m.hous".padStart(8)} ${"a.hous".padStart(8)} ${"h.err".padStart(8)}  ` +
+      `${"m.nh".padStart(8)} ${"a.nh".padStart(8)} ${"nh.err".padStart(8)}  ` +
+      `${"m.tot".padStart(8)} ${"a.tot".padStart(8)} ${"t.err".padStart(8)}`
+  );
+
+  for (const t of truth) {
+    const loc = byId.get(t.id);
+    if (!loc) {
+      console.log(`  ${t.city.padEnd(22)} (id ${t.id} not in DB)`);
+      skipped += 1;
+      failed = true;
+      continue;
+    }
+    const estimate = estimateMonthlyCost(loc, t.tenure, c.constants, opts);
+    if (
+      estimate.monthlyCost === null ||
+      estimate.housing === null ||
+      estimate.nonHousing === null
+    ) {
+      console.log(`  ${t.city.padEnd(22)} ${t.tenure.padEnd(13)} not priceable`);
+      skipped += 1;
+      failed = true;
+      continue;
+    }
+    compared += 1;
+    const modeledHousing = estimate.housing;
+    const modeledNonHousing = estimate.nonHousing + estimate.nationalFixed;
+    const modeledTotal = estimate.monthlyCost;
+    const actualNonHousing = t.actualNonHousing ?? t.actualMonthlyCost - t.actualHousing;
+    const hErr = errPct(modeledHousing, t.actualHousing);
+    const nhErr = errPct(modeledNonHousing, actualNonHousing);
+    const tErr = errPct(modeledTotal, t.actualMonthlyCost);
+    worstNonHousing = Math.max(worstNonHousing, Math.abs(nhErr));
+    if (t.tenure === "rent") {
+      worstRentTotal = Math.max(worstRentTotal, Math.abs(tErr));
+    }
+    byTenure.get(t.tenure)!.housing.push(hErr);
+    byTenure.get(t.tenure)!.nonHousing.push(nhErr);
+    byTenure.get(t.tenure)!.total.push(tErr);
+
+    const nhFlag = Math.abs(nhErr) > TOLERANCE ? " ✗" : "";
+    const totFlag = t.tenure === "rent" && Math.abs(tErr) > TOLERANCE ? " ✗" : "";
+    console.log(
+      `  ${t.city.padEnd(22)} ${t.tenure.padEnd(13)} ` +
+        `${money(modeledHousing).padStart(8)} ${money(t.actualHousing).padStart(8)} ${fmtErr(hErr)}  ` +
+        `${money(modeledNonHousing).padStart(8)} ${money(actualNonHousing).padStart(8)} ${fmtErr(nhErr)}${nhFlag}  ` +
+        `${money(modeledTotal).padStart(8)} ${money(t.actualMonthlyCost).padStart(8)} ${fmtErr(tErr)}${totFlag}`
+    );
+  }
+
+  console.log("\n  Error by tenure (mean of signed errors, then worst absolute):");
+  for (const tenure of TENURES) {
+    const bucket = byTenure.get(tenure)!;
+    if (!bucket.total.length) continue;
+    const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+    const worst = (xs: number[]) => Math.max(...xs.map(Math.abs));
+    console.log(
+      `    ${tenure.padEnd(14)} housing mean ${fmtErr(mean(bucket.housing)).trim()} worst ${fmtErr(worst(bucket.housing)).trim()}` +
+        `   non-housing mean ${fmtErr(mean(bucket.nonHousing)).trim()} worst ${fmtErr(worst(bucket.nonHousing)).trim()}` +
+        `   total mean ${fmtErr(mean(bucket.total)).trim()} worst ${fmtErr(worst(bucket.total)).trim()}`
+    );
+  }
+
+  if (skipped > 0 || compared < truth.length) {
+    console.log(
+      `\n  ✗ compared ${compared}/${truth.length}; every benchmark must resolve to a ` +
+        "priceable live row."
+    );
+    return false;
+  }
+
+  if (worstNonHousing > TOLERANCE) {
+    console.log(
+      `\n  ✗ worst non-housing error ${(worstNonHousing * 100).toFixed(0)}% exceeds the ` +
+        `${TOLERANCE * 100}% tolerance. That is the spending-profile claim (#50).`
+    );
+    failed = true;
+  } else {
+    console.log(
+      `\n  ✓ worst non-housing error ${(worstNonHousing * 100).toFixed(0)}% is within ${TOLERANCE * 100}%`
+    );
+  }
+
+  if (worstRentTotal > TOLERANCE) {
+    console.log(
+      `  ✗ worst rent total error ${(worstRentTotal * 100).toFixed(0)}% exceeds the ` +
+        `${TOLERANCE * 100}% tolerance.`
+    );
+    failed = true;
+  } else {
+    console.log(
+      `  ✓ worst rent total error ${(worstRentTotal * 100).toFixed(0)}% is within ${TOLERANCE * 100}%`
+    );
+  }
+
+  console.log(
+    "  Owner/buying housing is reported, not gated: ZHVI typical home + 1% " +
+      "maintenance is not the Elder Index modest dwelling."
+  );
+
+  return !failed;
 }
 
 /* ------------------------------------------------------------------ *
@@ -312,9 +468,21 @@ function writeBaseline(rows: CostInputs[], c: ReturnType<typeof resolveCostConst
       id: l.id,
       name: `${l.name}, ${l.state}`,
       nonHousingIndex: round2(nonHousingIndex(l, c.constants)),
-      own_outright: round2(estimateMonthlyCost(l, "own_outright", c.constants).monthlyCost),
-      buying: round2(estimateMonthlyCost(l, "buying", c.constants).monthlyCost),
-      rent: round2(estimateMonthlyCost(l, "rent", c.constants).monthlyCost),
+      own_outright: round2(
+        estimateMonthlyCost(l, "own_outright", c.constants, {
+          spendingProfile: DEFAULT_SPENDING_PROFILE,
+        }).monthlyCost
+      ),
+      buying: round2(
+        estimateMonthlyCost(l, "buying", c.constants, {
+          spendingProfile: DEFAULT_SPENDING_PROFILE,
+        }).monthlyCost
+      ),
+      rent: round2(
+        estimateMonthlyCost(l, "rent", c.constants, {
+          spendingProfile: DEFAULT_SPENDING_PROFILE,
+        }).monthlyCost
+      ),
     }))
     .sort((a, b) => a.id - b.id);
 
@@ -359,7 +527,7 @@ async function main() {
     return;
   }
 
-  const { outliers } = reportPlausibility(rows, resolution);
+  const { unmatched } = reportRppAndLegacy(rows, resolution);
   reportModelCoverage(rows, resolution);
   const groundTruthOk = reportGroundTruth(rows, resolution);
 
@@ -370,7 +538,7 @@ async function main() {
   heading("Summary");
   const problems: string[] = [];
   if (!constantsReady) problems.push("constants unsourced");
-  if (outliers.length) problems.push(`${outliers.length} out-of-band cities`);
+  if (unmatched.length) problems.push(`${unmatched.length} cities without BEA RPP`);
   if (!groundTruthOk) problems.push("ground-truth error over tolerance");
 
   if (problems.length === 0) {

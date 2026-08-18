@@ -197,6 +197,37 @@ body:has(> .city-page) { background: var(--bg); }
 .housing-source:hover { text-decoration: underline; text-underline-offset: .2rem; }
 .housing-source svg { height: .9rem; width: .9rem; }
 
+/* ── Affordability estimate (city page) ── */
+.aff-fields { display: grid; gap: .7rem 1rem; grid-template-columns: 1fr 1fr; margin: 1rem 0; }
+.aff-field span { display: block; color: var(--fg-subtle); font-size: .74rem; font-weight: 600; }
+.aff-field input {
+    width: 100%; margin: .28rem 0 .18rem; padding: .45rem .6rem;
+    border: 1px solid var(--border); border-radius: .45rem; font-size: .92rem;
+}
+.aff-field small { display: block; color: var(--fg-subtle); font-size: .7rem; }
+.aff-row-controls { display: grid; gap: .85rem; margin-bottom: 1rem; }
+.aff-legend { display: block; color: var(--fg-subtle); font-size: .74rem; font-weight: 600; margin-bottom: .35rem; }
+.aff-toggles { display: flex; flex-wrap: wrap; gap: .4rem; }
+.aff-toggle {
+    background: #fff; border: 1px solid var(--border); border-radius: 999px;
+    cursor: pointer; font-size: .8rem; font-weight: 600; padding: .28rem .75rem;
+}
+.aff-toggle[aria-pressed="true"] { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+.aff-check { align-items: center; display: inline-flex; font-size: .82rem; gap: .4rem; margin: .45rem .9rem 0 0; }
+.aff-empty, .aff-disclaimer, .aff-notes { color: var(--fg-subtle); font-size: .8rem; line-height: 1.5; }
+.aff-empty { margin: .2rem 0 1rem; }
+.aff-hero { display: grid; gap: .8rem; grid-template-columns: repeat(3, 1fr); margin: .4rem 0 1rem; }
+.aff-hero > div { border: 1px solid var(--border); border-radius: .55rem; padding: .85rem 1rem; }
+.aff-hero strong { display: block; font-size: 1.35rem; letter-spacing: -.02em; margin: .2rem 0 .35rem; }
+.aff-hero small { display: block; color: var(--fg-subtle); font-size: .74rem; }
+.aff-breakdown { border-top: 1px solid var(--border); display: grid; gap: .7rem; grid-template-columns: repeat(3, 1fr); padding-top: .85rem; }
+.aff-breakdown dt { color: var(--fg-subtle); font-size: .74rem; }
+.aff-breakdown dd { font-size: .91rem; font-weight: 700; margin: .12rem 0 0; }
+.aff-notes { margin: .85rem 0 0; }
+.aff-notes ul { margin: .35rem 0 0 1.1rem; }
+.aff-missing { color: #b45309; }
+.aff-disclaimer { margin-top: 1rem; }
+
 /* ── Data rows / spec grid ── */
 .spec-grid {
     display: grid; grid-template-columns: repeat(2, 1fr);
@@ -336,7 +367,7 @@ body:has(> .city-page) { background: var(--bg); }
 
 @media (max-width: 900px) {
     .spec-grid { grid-template-columns: 1fr; }
-    .housing-market-grid, .housing-details { grid-template-columns: 1fr; }
+    .housing-market-grid, .housing-details, .aff-fields, .aff-hero, .aff-breakdown { grid-template-columns: 1fr; }
     .similar-grid { grid-template-columns: 1fr; }
     .hero-title { font-size: 1.9rem; }
     .nav-links { display: none; }

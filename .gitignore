@@ -92,3 +92,8 @@ npm-debug.log*
 /data/sources/air-quality/*.zip
 /data/sources/air-quality/annual_aqi_by_*.csv
 /data/sources/air-quality/*Gaz_counties*.txt
+
+# BEA RPP importer zips and Census gazetteer (regenerable via import-bea-rpp.ts)
+/data/sources/rpp/raw/
+/data/sources/rpp/*.zip
+/data/sources/rpp/*Gaz_counties*
