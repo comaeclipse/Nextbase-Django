@@ -2,7 +2,7 @@ import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 
 /*
  * Read-only connection to the existing Neon Postgres database.
- * We keep the original Django table/column names (see MIGRATION_PLAN.md), so
+ * We keep the original Django table/column names (see SCHEMA.md), so
  * queries use `locations_location` / `locations_stateinfo` directly.
  *
  * Lazily initialized so `next build` never throws when DATABASE_URL is absent

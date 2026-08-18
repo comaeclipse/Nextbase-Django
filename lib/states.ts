@@ -27,7 +27,7 @@ const VALID_ABBRS = new Set(Object.values(STATE_NAME_TO_ABBR));
  *
  * Django's view only maps full names (STATE_NAME_TO_ABBR.get), so rows that
  * already store a two-letter code resolve to None there and the firearm-law
- * panel does NOT render. Per MIGRATION_PLAN.md we additionally tolerate rows
+ * panel does NOT render. We additionally tolerate rows
  * that already store two-letter codes, so the panel renders for those rows.
  *
  * Product decision (2026-07-07): tolerate two-letter codes so the firearm-law

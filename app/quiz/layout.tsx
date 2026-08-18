@@ -4,7 +4,7 @@ import PublicNav from "@/components/PublicNav";
 
 /*
  * Scoped shadcn/Tailwind layout for the quiz feature, mirroring the pattern
- * documented for the future admin section (see MIGRATION_PLAN.md): shadcn.css
+ * documented for the future admin section (see CLAUDE.md): shadcn.css
  * is imported only here, never globally, so Tailwind's Preflight reset never
  * reaches the pixel-parity public pages (home/explore/city).
  */
