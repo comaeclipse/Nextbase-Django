@@ -9,28 +9,35 @@
  * THE MODEL
  *
  *   monthlyCost = housing(city, tenure)
- *               + nonHousingBaseline x nonHousingIndex(city) / 100
+ *               + goodsBaseline x goodsRpp / 100
+ *               + otherServicesBaseline x otherServicesRpp / 100
+ *               + unscaledNonHousing
  *               + nationalFixed
  *
- * The three terms behave differently by location and must be treated
- * separately:
+ * The national baselines come from a named spending profile (`modest` by
+ * default, or `typical`). The profile is recorded on the estimate; it is
+ * never inferred from the user's income.
+ *
+ * The terms behave differently by location and must be treated separately:
  *
  *   housing        priced per city from DB columns (home value, property tax,
  *                  rent), because it is the dominant and most local cost.
- *   nonHousing     a national baseline excluding housing and healthcare,
- *                  scaled by a LOCAL index.
+ *                  BEA housing RPP is stored but not used here.
+ *   goods /
+ *   other services BLS 65+ slices scaled by the matching BEA RPP component.
+ *                  They are never averaged into one index.
+ *   unscaled       cash contributions and pensions: in the 65+ mean, but not
+ *                  a local price level.
  *   nationalFixed  Medicare and supplemental premiums. These do NOT vary by
- *                  location, so scaling them by a cost index — as a naive COL
- *                  model does — overstates the gap between cheap and expensive
- *                  cities.
+ *                  location.
  *
- * WHY HOUSING IS BACKED OUT OF col_index
+ * WHY THIS DOES NOT USE col_index
  *
- * A composite COL index already contains housing. In this database
- * corr(col_index, avg_home_value) = 0.840, so it contains a lot of it. Pricing
- * housing from avg_home_value AND scaling the whole budget by col_index would
- * count housing roughly twice. `nonHousingIndex()` removes it algebraically
- * before the scaling step.
+ * col_index in this database was assembled from at least five providers.
+ * Backing housing out of it with a single C2ER weight produced plausible
+ * numbers for cities the weight does not describe. BEA RPP publishes goods,
+ * utilities, and other services separately, so that algebra is gone. Legacy
+ * col_index remains on the row for the categorical Fit score only.
  *
  * WHAT THIS MODEL DOES NOT CAPTURE
  *
@@ -43,9 +50,13 @@ import type { LocationRow } from "./types";
 import { resolveStateAbbr } from "./states";
 import { HOME_INSURANCE_DATASET } from "./insurance";
 import {
-  NON_HOUSING_INDEX_BOUNDS,
+  DEFAULT_SPENDING_PROFILE,
+  spendingSlices,
   type ResolvedConstants,
+  type SpendingProfile,
 } from "./cost-constants";
+
+export type { SpendingProfile };
 import { estimateNetMonthlyIncome } from "./income";
 import type {
   FilingStatus,
@@ -62,9 +73,9 @@ export type Tenure = "rent" | "own_outright" | "buying";
 export type Band = "comfortable" | "tight" | "over" | "unknown";
 
 /**
- * LocationRow plus the per-city cost columns. Both are nullable: partial
- * coverage is expected and the model reports `missing` / `approximations`
- * rather than guessing.
+ * LocationRow plus the per-city cost columns. RPP, rent, and property tax
+ * are nullable: partial coverage is expected and the model reports `missing`
+ * / `approximations` rather than guessing.
  */
 export interface CostInputs extends LocationRow {
   /** Monthly median gross rent in dollars (ACS B25064). */
@@ -74,6 +85,8 @@ export interface CostInputs extends LocationRow {
 }
 
 export interface CostEstimate {
+  /** Which national basket was scaled. Never inferred from income. */
+  spendingProfile: SpendingProfile;
   /** Total estimated monthly cost, or null when it could not be computed. */
   monthlyCost: number | null;
   /** The housing term, or null if the tenure's inputs were unavailable. */
@@ -106,6 +119,11 @@ export interface Affordability extends CostEstimate {
 
 /** Options for a single estimate. All optional; sensible defaults applied. */
 export interface EstimateOptions {
+  /**
+   * National spending basket. Defaults to `modest` (get-by). Pass `typical`
+   * for the BLS 65+ mean. The estimate records which one was used.
+   */
+  spendingProfile?: SpendingProfile;
   /** Override the default down payment fraction for `buying`. */
   downPaymentFraction?: number;
   /**
@@ -153,59 +171,81 @@ function annualHomeInsurance(
   return row.annualPremium * (insuredValue / c.insuranceBenchmarkDwelling);
 }
 
+function rppNumber(value: number | string | null | undefined): number | null {
+  if (value === null || value === undefined || value === "") return null;
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
 /**
- * The city's cost index with housing removed.
- *
- *   col_index = w x housingIndex + (1 - w) x nonHousingIndex
- *   => nonHousingIndex = (col_index - w x housingIndex) / (1 - w)
- *
- * Returns null when the inputs are missing OR when the result is implausible.
- * An out-of-band result means the city's col_index and avg_home_value disagree
- * with each other; that is a data-quality bug to fix upstream, not a number to
- * quietly ship. scripts/verify-affordability.ts reports these.
+ * Effective non-housing index for display: the expenditure-weighted average
+ * of the BEA components that actually scale the baseline. Unscaled cash
+ * contributions/pensions sit at 100. Returns null when RPP is missing.
  */
 export function nonHousingIndex(
   loc: CostInputs,
   c: ResolvedConstants,
   approximations: string[] = [],
-  /**
-   * Receives WHY the index could not be derived, when it could not be.
-   *
-   * The two failure modes are not the same problem and must not be reported
-   * as one. A city with no `col_index` is simply un-researched. A city whose
-   * `col_index` and `avg_home_value` contradict each other has data that is
-   * present and wrong — usually because the index came from a provider whose
-   * basket this model's housing weight does not describe. Collapsing both into
-   * "local cost index" hid that distinction and made an incompatible-source
-   * problem look like a coverage gap.
-   */
-  reasons: string[] = []
+  reasons: string[] = [],
+  profile: SpendingProfile = DEFAULT_SPENDING_PROFILE
 ): number | null {
-  if (loc.col_index === null || loc.col_index === undefined) {
-    reasons.push("local cost index");
+  const goods = rppNumber(loc.goods_rpp);
+  const other = rppNumber(loc.other_services_rpp);
+  if (goods === null || other === null) {
+    reasons.push("BEA regional price parity");
     return null;
   }
-
-  const value = homeValue(loc);
-  if (value === null) {
-    // No home value: assume housing is typical for this city's overall cost
-    // level (housingIndex = col_index), which makes the algebra collapse to
-    // nonHousingIndex = col_index. Defensible as a stand-in, but it is an
-    // assumption rather than a measurement, so it gets labeled.
-    approximations.push("no home value on file; assumed typical local housing");
-    return withinBounds(loc.col_index, reasons);
+  if (loc.bea_geo_type === "nonmetro_state") {
+    approximations.push(
+      loc.bea_geo_name
+        ? `BEA ${loc.bea_geo_name}, not a city-level price level`
+        : "BEA state nonmetropolitan portion, not a city-level price level"
+    );
   }
-
-  const housingIdx = (100 * value) / c.nationalMedianHomeValue;
-  const w = c.housingWeight;
-  return withinBounds((loc.col_index - w * housingIdx) / (1 - w), reasons);
+  const slices = spendingSlices(profile, c);
+  const total =
+    slices.goodsMonthly + slices.otherServicesMonthly + slices.unscaledMonthly;
+  if (total <= 0) {
+    reasons.push("BEA regional price parity");
+    return null;
+  }
+  return (
+    (slices.goodsMonthly * goods +
+      slices.otherServicesMonthly * other +
+      slices.unscaledMonthly * 100) /
+    total
+  );
 }
 
-function withinBounds(n: number, reasons: string[] = []): number | null {
-  const { min, max } = NON_HOUSING_INDEX_BOUNDS;
-  if (n >= min && n <= max) return n;
-  reasons.push("incompatible cost index (disagrees with home value)");
-  return null;
+function nonHousingDollars(
+  loc: CostInputs,
+  c: ResolvedConstants,
+  approximations: string[],
+  reasons: string[],
+  profile: SpendingProfile
+): number | null {
+  const goods = rppNumber(loc.goods_rpp);
+  const other = rppNumber(loc.other_services_rpp);
+  if (goods === null || other === null) {
+    reasons.push("BEA regional price parity");
+    return null;
+  }
+  if (loc.bea_geo_type === "nonmetro_state") {
+    const already = approximations.some((a) => /BEA /.test(a));
+    if (!already) {
+      approximations.push(
+        loc.bea_geo_name
+          ? `BEA ${loc.bea_geo_name}, not a city-level price level`
+          : "BEA state nonmetropolitan portion, not a city-level price level"
+      );
+    }
+  }
+  const slices = spendingSlices(profile, c);
+  return (
+    (slices.goodsMonthly * goods) / 100 +
+    (slices.otherServicesMonthly * other) / 100 +
+    slices.unscaledMonthly
+  );
 }
 
 /** Monthly principal + interest on an amortizing fixed-rate loan. */
@@ -233,13 +273,13 @@ function housingCost(
   c: ResolvedConstants,
   missing: string[],
   approximations: string[],
-  opts: EstimateOptions
+  opts: EstimateOptions,
+  profile: SpendingProfile
 ): number | null {
   if (tenure === "rent") {
     // No national stand-in is offered here on purpose. Rent varies far too much
     // between cities for a national average to mean anything — substituting one
-    // would defeat the entire point of a per-city estimate. Rent stays blocked
-    // until median_rent is ingested.
+    // would defeat the entire point of a per-city estimate.
     if (loc.median_rent === null || loc.median_rent === undefined) {
       missing.push("median rent");
       return null;
@@ -271,9 +311,16 @@ function housingCost(
   const monthlyInsurance = insuranceAnnual / 12;
   const monthlyMaintenance = (price * c.annualMaintenanceRate) / 12;
   // Utilities are added for owners only: a renter's gross rent already has
-  // them, and the non-housing baseline excludes them either way.
+  // them. Scale the national 65+ utilities bill by local BEA utilities RPP.
+  const utilitiesRpp = rppNumber(loc.utilities_rpp);
+  if (utilitiesRpp === null) {
+    missing.push("BEA regional price parity");
+    return null;
+  }
+  const monthlyUtilities =
+    (spendingSlices(profile, c).utilitiesMonthly * utilitiesRpp) / 100;
   const carrying =
-    monthlyTax + monthlyInsurance + monthlyMaintenance + c.nationalUtilitiesMonthly;
+    monthlyTax + monthlyInsurance + monthlyMaintenance + monthlyUtilities;
 
   if (tenure === "own_outright") return carrying;
 
@@ -299,15 +346,26 @@ export function estimateMonthlyCost(
 ): CostEstimate {
   const missing: string[] = [];
   const approximations: string[] = [];
+  const spendingProfile = opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
 
-  // Pushes its own failure reason onto `missing` — "local cost index" when
-  // absent, "incompatible cost index" when present but contradicting the home
-  // value. Those need different fixes, so they are reported differently.
-  const nhi = nonHousingIndex(loc, c, approximations, missing);
-  const nonHousing =
-    nhi === null ? null : (c.nonHousingBaseline65Plus * nhi) / 100;
+  const nhi = nonHousingIndex(loc, c, approximations, [], spendingProfile);
+  const nonHousing = nonHousingDollars(
+    loc,
+    c,
+    approximations,
+    missing,
+    spendingProfile
+  );
 
-  const housing = housingCost(loc, tenure, c, missing, approximations, opts);
+  const housing = housingCost(
+    loc,
+    tenure,
+    c,
+    missing,
+    approximations,
+    opts,
+    spendingProfile
+  );
   const nationalFixed =
     c.medicarePartBMonthly + c.supplementalHealthMonthly;
 
@@ -319,6 +377,7 @@ export function estimateMonthlyCost(
       : housing + nonHousing + nationalFixed;
 
   return {
+    spendingProfile,
     monthlyCost,
     housing,
     nonHousing,

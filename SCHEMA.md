@@ -67,6 +67,23 @@ Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudi
 - **property_tax_rate**: Effective annual property tax as a fraction of home value (e.g. `0.01250` = 1.25%), not a percent. Refresh with `scripts/import-property-tax.ts`.
 - **avg_home_value** / **avg_home_value_display**: Typical home value (ZHVI) used by ownership tenures in the affordability model.
 
+### Regional price parities (`location_cost_rpp`)
+
+BEA Regional Price Parities for the affordability engine. Joined 1:1 onto `locations_location` at query time. Not stored on the city table because the geography is metro/nonmetro with a vintage, and `col_index` must remain untouched for the categorical Fit score.
+
+- **LocationId**: PK / FK to `locations_location`
+- **VintageYear**: BEA RPP year (currently 2024)
+- **BeaGeoType**: `msa` or `nonmetro_state`. Statewide SARPP is never used as a silent fallback.
+- **BeaGeoCode** / **BeaGeoName**: BEA GeoFIPS and name (MSA code, or `ss999` for a state's nonmetropolitan portion)
+- **GoodsRpp** / **HousingRpp** / **UtilitiesRpp** / **OtherServicesRpp**: components, `100 = US average`. Housing RPP is stored for audit; housing is priced from `median_rent` / `avg_home_value`.
+- **SourceUrl** / **RetrievedOn**: provenance
+
+Migrate with `scripts/migrate-location-cost-rpp.ts`, then import with `scripts/import-bea-rpp.ts`. Match report: `data/sources/rpp/match-report.md`.
+
+### Spending profiles (`modest` / `typical`)
+
+The affordability engine scales a named national basket, not a single leftover `col_index`. `modest` (default) is BLS Table 3254 2021–2022, reference person 65+ with income $15,000–$29,999, after removing housing, healthcare, cash contributions, and pensions. `typical` is the BLS 2024 65+ mean remainder. Housing is still priced from `median_rent` / `avg_home_value`; BEA goods and other-services RPPs scale only those slices. The profile is recorded on every estimate and must be explicit in any UI — never inferred from income.
+
 > **Schema note (Phase 4 cleanup):** `has_va`, `tech_hub`, and `defense_hub` are stored as
 > Booleans (the importer parses "Yes"/"No"/"Y"/"N"); `density` is stored as an integer; and
 > `population` holds the full number (e.g. `915,927`). The legacy/duplicate columns `match_score`,

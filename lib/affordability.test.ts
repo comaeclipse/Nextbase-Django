@@ -21,7 +21,14 @@ import type { ResolvedConstants } from "./cost-constants";
 /** Round synthetic constants chosen to make the arithmetic checkable by hand. */
 const C: ResolvedConstants = {
   nonHousingBaseline65Plus: 2000,
-  housingWeight: 0.28,
+  nonHousingGoodsMonthly: 850,
+  nonHousingOtherServicesMonthly: 750,
+  nonHousingUnscaledMonthly: 400,
+  modestNonHousingBaseline65Plus: 2000,
+  modestNonHousingGoodsMonthly: 850,
+  modestNonHousingOtherServicesMonthly: 750,
+  modestNonHousingUnscaledMonthly: 400,
+  modestNationalUtilitiesMonthly: 400,
   nationalMedianHomeValue: 400_000,
   medicarePartBMonthly: 185,
   supplementalHealthMonthly: 215,
@@ -46,59 +53,55 @@ function loc(over: Partial<CostInputs> = {}): CostInputs {
     col_index: 100,
     avg_home_value: "400000",
     avg_home_value_display: null,
+    goods_rpp: 100,
+    utilities_rpp: 100,
+    other_services_rpp: 100,
+    bea_geo_type: "msa",
     ...over,
   } as CostInputs;
 }
 
 describe("nonHousingIndex", () => {
-  it("returns exactly 100 for an average city at the national median home value", () => {
-    // (100 - 0.28*100) / 0.72 = 100
+  it("returns exactly 100 when every RPP component is 100", () => {
     expect(nonHousingIndex(loc(), C)).toBeCloseTo(100, 6);
   });
 
-  it("REGRESSION: does not double-count housing", () => {
-    // Two cities with an IDENTICAL composite index. The one with pricier
-    // housing must have CHEAPER everything-else, because more of its index is
-    // explained by housing. A model that skipped the back-out step would score
-    // these two identically — that was the original bug this whole module
-    // exists to fix.
-    const average = nonHousingIndex(loc({ avg_home_value: "400000" }), C)!;
-    const pricey = nonHousingIndex(loc({ avg_home_value: "600000" }), C)!;
-
-    expect(pricey).toBeLessThan(average);
-    // (100 - 0.28*150) / 0.72 = 80.55...
-    expect(pricey).toBeCloseTo(80.5556, 3);
+  it("scales goods and other services independently instead of averaging them", () => {
+    // 850 at 120 and 750 at 100, plus 400 unscaled at 100:
+    // (850*120 + 750*100 + 400*100) / 2000 = 108.5
+    // A naive average of 120 and 100 would be 110.
+    expect(
+      nonHousingIndex(loc({ goods_rpp: 120, other_services_rpp: 100 }), C)
+    ).toBeCloseTo(108.5, 6);
   });
 
-  it("increases with col_index when housing is held constant", () => {
-    const cheap = nonHousingIndex(loc({ col_index: 90 }), C)!;
-    const mid = nonHousingIndex(loc({ col_index: 100 }), C)!;
-    const dear = nonHousingIndex(loc({ col_index: 110 }), C)!;
-    expect(cheap).toBeLessThan(mid);
-    expect(mid).toBeLessThan(dear);
+  it("does not scale cash contributions and pensions", () => {
+    const e = estimateMonthlyCost(
+      loc({ goods_rpp: 200, other_services_rpp: 200, median_rent: 0 }),
+      "rent",
+      C
+    );
+    expect(e.nonHousing).toBeCloseTo(850 * 2 + 750 * 2 + 400, 6);
   });
 
-  it("returns null for implausible results rather than shipping them", () => {
-    // An average composite index alongside triple-median housing implies
-    // absurdly cheap non-housing costs. That is inconsistent source data, not
-    // a bargain city, so it must be flagged rather than scored.
-    expect(nonHousingIndex(loc({ avg_home_value: "1200000" }), C)).toBeNull();
+  it("returns null when RPP is absent", () => {
+    expect(
+      nonHousingIndex(loc({ goods_rpp: null, other_services_rpp: null }), C)
+    ).toBeNull();
   });
 
-  it("returns null when col_index is absent", () => {
-    expect(nonHousingIndex(loc({ col_index: null }), C)).toBeNull();
-  });
-
-  it("falls back to col_index when home value is absent, and says so", () => {
+  it("labels a state nonmetro match as an approximation", () => {
     const approximations: string[] = [];
     const result = nonHousingIndex(
-      loc({ avg_home_value: null, col_index: 95 }),
+      loc({
+        bea_geo_type: "nonmetro_state",
+        bea_geo_name: "Iowa (Nonmetropolitan Portion)",
+      }),
       C,
       approximations
     );
-    expect(result).toBe(95);
-    expect(approximations).toHaveLength(1);
-    expect(approximations[0]).toMatch(/home value/i);
+    expect(result).toBeCloseTo(100, 6);
+    expect(approximations[0]).toMatch(/nonmetropolitan/i);
   });
 });
 
@@ -136,6 +139,7 @@ describe("estimateMonthlyCost", () => {
       fallbackPropertyTaxRate: 0,
       annualMaintenanceRate: 0,
       nationalUtilitiesMonthly: 0,
+      modestNationalUtilitiesMonthly: 0,
     };
     const cheap = estimateMonthlyCost(loc(), "own_outright", insuranceOnly, {
       homePriceOverride: 200_000,
@@ -169,20 +173,27 @@ describe("estimateMonthlyCost", () => {
     expect(e.missing).toHaveLength(0);
   });
 
-  it("REGRESSION: charges utilities to owners but not renters", () => {
-    // Median GROSS rent bundles utilities; the owner path has no such bundle,
-    // and the non-housing baseline excludes utilities for both. Without an
-    // explicit owner-side term, owning looked several hundred a month cheaper
-    // than it is.
+  it("REGRESSION: charges utilities to owners but not renters, scaled by local RPP", () => {
     const rent = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C).housing!;
-    expect(rent).toBe(1500); // exactly the rent, no utilities added on top
+    expect(rent).toBe(1500);
 
     const owned = estimateMonthlyCost(loc(), "own_outright", C).housing!;
     const withoutUtilities = estimateMonthlyCost(loc(), "own_outright", {
       ...C,
       nationalUtilitiesMonthly: 0,
+      modestNationalUtilitiesMonthly: 0,
     }).housing!;
-    expect(owned - withoutUtilities).toBeCloseTo(C.nationalUtilitiesMonthly, 6);
+    expect(owned - withoutUtilities).toBeCloseTo(C.modestNationalUtilitiesMonthly, 6);
+
+    const expensiveUtilities = estimateMonthlyCost(
+      loc({ utilities_rpp: 150 }),
+      "own_outright",
+      C
+    ).housing!;
+    expect(expensiveUtilities - withoutUtilities).toBeCloseTo(
+      C.modestNationalUtilitiesMonthly * 1.5,
+      6
+    );
   });
 
   it("labels the national property tax fallback as an approximation", () => {
@@ -203,16 +214,20 @@ describe("estimateMonthlyCost", () => {
   });
 
   it("returns a null total, not a partial one, when any component is missing", () => {
-    const e = estimateMonthlyCost(loc({ col_index: null }), "own_outright", C);
+    const e = estimateMonthlyCost(
+      loc({ goods_rpp: null, other_services_rpp: null, utilities_rpp: null }),
+      "own_outright",
+      C
+    );
     expect(e.monthlyCost).toBeNull();
-    expect(e.missing).toContain("local cost index");
-    // The components it COULD compute are still exposed for debugging.
-    expect(e.housing).not.toBeNull();
+    expect(e.missing).toContain("BEA regional price parity");
+    expect(e.housing).toBeNull();
   });
 });
 
 describe("assessAffordability", () => {
   const estimate = (cost: number | null): CostEstimate => ({
+    spendingProfile: "modest",
     monthlyCost: cost,
     housing: 0,
     nonHousing: 0,
@@ -247,9 +262,16 @@ describe("assessAffordability", () => {
 describe("rankByHeadroom", () => {
   it("sorts by money left over and never drops unpriceable cities", () => {
     const cities = [
-      loc({ id: 1, name: "Expensive", col_index: 120, avg_home_value: "500000" }),
-      loc({ id: 2, name: "Cheap", col_index: 85, avg_home_value: "250000" }),
-      loc({ id: 3, name: "NoData", col_index: null, avg_home_value: null }),
+      loc({ id: 1, name: "Expensive", goods_rpp: 120, other_services_rpp: 120 }),
+      loc({ id: 2, name: "Cheap", goods_rpp: 85, other_services_rpp: 85 }),
+      loc({
+        id: 3,
+        name: "NoData",
+        goods_rpp: null,
+        other_services_rpp: null,
+        utilities_rpp: null,
+        avg_home_value: null,
+      }),
     ];
     const ranked = rankByHeadroom(cities, 4000, "own_outright", C);
 
@@ -262,7 +284,7 @@ describe("rankByHeadroom", () => {
   });
 
   it("re-bands without changing order when only income changes", () => {
-    const cities = [loc({ id: 1 }), loc({ id: 2, col_index: 85 })];
+    const cities = [loc({ id: 1 }), loc({ id: 2, goods_rpp: 85, other_services_rpp: 85 })];
     const order = (income: number) =>
       rankByHeadroom(cities, income, "own_outright", C).map((r) => r.location.id);
     // Cost is income-independent, so ranking must be stable across incomes.
@@ -271,11 +293,50 @@ describe("rankByHeadroom", () => {
 });
 
 describe("tenure coverage", () => {
-  it("owning paths compute today; renting waits on ingestion", () => {
+  it("owning paths compute when RPP is present; renting still needs median rent", () => {
     const tenures: Tenure[] = ["own_outright", "buying", "rent"];
     const computable = tenures.filter(
       (t) => estimateMonthlyCost(loc(), t, C).monthlyCost !== null
     );
     expect(computable).toEqual(["own_outright", "buying"]);
+  });
+});
+
+describe("spending profiles", () => {
+  const modestC: ResolvedConstants = {
+    ...C,
+    modestNonHousingGoodsMonthly: 600,
+    modestNonHousingOtherServicesMonthly: 400,
+    modestNonHousingUnscaledMonthly: 0,
+    modestNationalUtilitiesMonthly: 250,
+    nonHousingGoodsMonthly: 850,
+    nonHousingOtherServicesMonthly: 750,
+    nonHousingUnscaledMonthly: 400,
+    nationalUtilitiesMonthly: 400,
+  };
+
+  it("defaults to modest and records the profile on the estimate", () => {
+    const e = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", modestC);
+    expect(e.spendingProfile).toBe("modest");
+    expect(e.nonHousing).toBeCloseTo(600 + 400, 6);
+  });
+
+  it("does not silently replace modest with the 65+ mean", () => {
+    const modest = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", modestC);
+    const typical = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", modestC, {
+      spendingProfile: "typical",
+    });
+    expect(typical.spendingProfile).toBe("typical");
+    expect(typical.nonHousing).toBeCloseTo(850 + 750 + 400, 6);
+    expect(modest.nonHousing).toBeLessThan(typical.nonHousing!);
+    expect(modest.monthlyCost).toBeLessThan(typical.monthlyCost!);
+  });
+
+  it("scales modest owner utilities independently of the typical utilities bill", () => {
+    const modestOwned = estimateMonthlyCost(loc(), "own_outright", modestC).housing!;
+    const typicalOwned = estimateMonthlyCost(loc(), "own_outright", modestC, {
+      spendingProfile: "typical",
+    }).housing!;
+    expect(typicalOwned - modestOwned).toBeCloseTo(400 - 250, 6);
   });
 });
