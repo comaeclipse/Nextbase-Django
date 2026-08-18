@@ -47,6 +47,12 @@ export interface LocationRow {
   has_va: boolean | null;
   nearest_va: string | null;
   distance_to_va: string | null;
+  /**
+   * Kind of the nearest outpatient-capable site (`nearest_va`).
+   * A VAMC is `"hospital"`; a CBOC/clinic is `"outpatient"`. Written by
+   * `scripts/sync-va-facilities.ts`. Null until that sync has run.
+   */
+  nearest_va_kind: "hospital" | "outpatient" | null;
   /** Nearest VA medical center (parent facility), distinct from CBOC/clinic. */
   nearest_va_hospital: string | null;
   distance_to_va_hospital: string | null;

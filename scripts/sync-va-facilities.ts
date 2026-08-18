@@ -13,7 +13,8 @@
  *
  * Distances are great-circle miles from the city centroid (method recorded in
  * the companion sources note). Legacy fields nearest_va / distance_to_va stay
- * outpatient-oriented; hospital fields are separate.
+ * outpatient-oriented; nearest_va_kind records whether that site is a hospital
+ * or an outpatient clinic; hospital name/distance fields are separate.
  *
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-va-facilities.ts [--dry-run] [--missing-only]
  */
@@ -185,9 +186,10 @@ async function main() {
     "Distance method: great-circle miles from city centroid to facility LAT/LON.",
     "Outpatient = nearest clinic/CBOC or medical center (Vet Centers excluded).",
     "Hospital = nearest parent facility (3-character STA_NO / VA medical center).",
+    "`nearest_va_kind` is the kind of that nearest outpatient-capable site.",
     "",
-    "| City | Outpatient | mi | Hospital | mi |",
-    "| --- | --- | ---: | --- | ---: |",
+    "| City | Outpatient | kind | mi | Hospital | mi |",
+    "| --- | --- | --- | ---: | --- | ---: |",
   ];
 
   for (const city of targets) {
@@ -200,17 +202,18 @@ async function main() {
 
     const nearestVa = out.site.name;
     const distanceToVa = formatMiles(out.miles);
+    const nearestKind = out.site.kind;
     const nearestHospital = hosp.site.name;
     const distanceHospital = formatMiles(hosp.miles);
     const hasVa = out.miles < 0.5;
 
     notes.push(
-      `| ${city.name}, ${city.state} | ${nearestVa} | ${distanceToVa.replace(" miles", "")} | ${nearestHospital} | ${distanceHospital.replace(" miles", "")} |`
+      `| ${city.name}, ${city.state} | ${nearestVa} | ${nearestKind} | ${distanceToVa.replace(" miles", "")} | ${nearestHospital} | ${distanceHospital.replace(" miles", "")} |`
     );
 
     if (dryRun) {
       console.log(
-        `= ${city.name}, ${city.state}: out=${nearestVa} (${distanceToVa}); hosp=${nearestHospital} (${distanceHospital})`
+        `= ${city.name}, ${city.state}: out=${nearestVa} (${nearestKind}, ${distanceToVa}); hosp=${nearestHospital} (${distanceHospital})`
       );
     } else {
       await sql.query(
@@ -218,10 +221,19 @@ async function main() {
            nearest_va = $2,
            distance_to_va = $3,
            has_va = $4,
-           nearest_va_hospital = $5,
-           distance_to_va_hospital = $6
+           nearest_va_kind = $5,
+           nearest_va_hospital = $6,
+           distance_to_va_hospital = $7
          WHERE id = $1`,
-        [city.id, nearestVa, distanceToVa, hasVa, nearestHospital, distanceHospital]
+        [
+          city.id,
+          nearestVa,
+          distanceToVa,
+          hasVa,
+          nearestKind,
+          nearestHospital,
+          distanceHospital,
+        ]
       );
     }
     updated++;
