@@ -153,11 +153,9 @@ export default function LocationCard({
             <Hospital className="size-3.5 shrink-0" aria-hidden />
             <span className="truncate">
               VA:{" "}
-              {location.has_va
-                ? "Yes"
-                : location.distance_to_va
-                  ? `Nearest is ${location.distance_to_va} away`
-                  : "Distance unknown"}
+              {location.distance_to_va
+                ? `Nearest is ${location.distance_to_va} away`
+                : "Distance unknown"}
             </span>
           </p>
           <Link

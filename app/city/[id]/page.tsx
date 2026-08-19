@@ -199,7 +199,7 @@ export default async function CityDetailPage({
                     <svg className="icon" viewBox="0 0 24 24">
                       <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
                     </svg>
-                    VA On-Site
+                    VA Nearby
                   </span>
                 )}
               </div>
@@ -536,7 +536,7 @@ export default async function CityDetailPage({
                     <svg className="icon" viewBox="0 0 24 24">
                       <path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h5v5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2z" />
                     </svg>{" "}
-                    Local VA Facility
+                    VA Care Nearby
                   </span>
                   <span className="spec-val">
                     {location.has_va ? (
@@ -560,7 +560,7 @@ export default async function CityDetailPage({
                     Distance to VA
                   </span>
                   <span className="spec-val">
-                    {location.has_va ? "On-site" : location.distance_to_va || "—"}
+                    {location.distance_to_va || "—"}
                   </span>
                 </div>
                 <div className="spec" style={{ gridColumn: "1 / -1" }}>
@@ -928,11 +928,9 @@ export default async function CityDetailPage({
                 <path d="m9 12 2 2 4-4" />
               </svg>
               <span>
-                {location.has_va
-                  ? `A VA facility is located in ${location.name}.`
-                  : location.distance_to_va
-                    ? `Nearest VA care is ${location.distance_to_va} away.`
-                    : "VA facility distance data unavailable."}
+                {location.distance_to_va
+                  ? `Nearest VA care is ${location.distance_to_va} away.`
+                  : "VA facility distance data unavailable."}
               </span>
             </div>
           </div>

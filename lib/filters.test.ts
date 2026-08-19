@@ -2,7 +2,29 @@ import { describe, expect, it } from "vitest";
 import { filterAndSort } from "./filters";
 import type { EmployerIndex, EmployerPresence } from "./defense";
 import type { MilitaryProximity, MilitaryProximityIndex } from "./military";
-import type { LocationRow } from "./types";
+import type { LocationRow, StateInfoRow } from "./types";
+
+function stateInfo(partial: Partial<StateInfoRow> & { state: string }): StateInfoRow {
+  return {
+    magazine_limit: null,
+    gifford_score: null,
+    ghost_gun_ban: null,
+    assault_weapons_ban: null,
+    high_cap_mag_ban: null,
+    no_income_tax: null,
+    retired_pay_tax: null,
+    disabled_vet_property_tax: null,
+    employment_preference: null,
+    education_benefit: null,
+    parks_benefit: null,
+    hunt_fish_benefit: null,
+    vet_benefits_summary: null,
+    // Verified by default so benefit tests exercise the facet, not the gate;
+    // the verification-gate test overrides this to null explicitly.
+    vet_benefits_verified_on: "2026-08-11",
+    ...partial,
+  };
+}
 
 function loc(partial: Partial<LocationRow>): LocationRow {
   return {
@@ -90,6 +112,98 @@ describe("retail access filters", () => {
       has_costco: "true",
     });
     expect(result.map((location) => location.name)).toEqual(["Both"]);
+  });
+});
+
+describe("veteran-benefit filters (state-level)", () => {
+  // TX: no income tax at all. VA: partial retired-pay exemption + disabled-vet
+  // property tax. NE: retired pay fully exempt. CA: taxed, no property benefit.
+  const rows = [
+    loc({ id: 1, name: "Austin", state: "TX" }),
+    loc({ id: 2, name: "Norfolk", state: "VA" }),
+    loc({ id: 3, name: "Omaha", state: "NE" }),
+    loc({ id: 4, name: "San Diego", state: "CA" }),
+  ];
+  const stateInfos: StateInfoRow[] = [
+    stateInfo({
+      state: "TX",
+      no_income_tax: true,
+      retired_pay_tax: "no_income_tax",
+      disabled_vet_property_tax: true,
+    }),
+    stateInfo({
+      state: "VA",
+      no_income_tax: false,
+      retired_pay_tax: "partial",
+      disabled_vet_property_tax: true,
+    }),
+    stateInfo({
+      state: "NE",
+      no_income_tax: false,
+      retired_pay_tax: "exempt",
+      // deliberately NULL, not false: source summary was silent
+      disabled_vet_property_tax: null,
+    }),
+    stateInfo({
+      state: "CA",
+      no_income_tax: false,
+      retired_pay_tax: "taxed",
+      disabled_vet_property_tax: false,
+    }),
+  ];
+
+  it("matches only states whose no_income_tax IS TRUE", () => {
+    expect(
+      names(filterAndSort(rows, stateInfos, { no_income_tax: "true" }))
+    ).toEqual(["Austin"]);
+  });
+
+  it("treats a NULL boolean as 'not a match', never as false", () => {
+    // NE's disabled_vet_property_tax is NULL; it must not appear, and the filter
+    // must never behave like `!= false` (which would include CA's explicit false).
+    expect(
+      names(filterAndSort(rows, stateInfos, { disabled_vet_property_tax: "true" }))
+    ).toEqual(["Austin", "Norfolk"].sort());
+  });
+
+  it("selects retired_pay_tax by enum membership (untaxed = no_income_tax + exempt)", () => {
+    expect(
+      names(
+        filterAndSort(rows, stateInfos, {
+          retired_pay_tax: "no_income_tax,exempt",
+        })
+      )
+    ).toEqual(["Austin", "Omaha"].sort());
+  });
+
+  it("excludes partial/conditional from the 'untaxed' retired-pay set", () => {
+    const result = names(
+      filterAndSort(rows, stateInfos, { retired_pay_tax: "no_income_tax,exempt" })
+    );
+    expect(result).not.toContain("Norfolk"); // partial
+    expect(result).not.toContain("San Diego"); // taxed
+  });
+
+  it("ignores unverified rows even when the column is TRUE", () => {
+    const unverified: StateInfoRow[] = [
+      stateInfo({ state: "TX", no_income_tax: true, vet_benefits_verified_on: null }),
+    ];
+    expect(
+      names(filterAndSort(rows, unverified, { no_income_tax: "true" }))
+    ).toEqual([]);
+  });
+
+  it("ANDs a benefit boolean against a retired-pay selection", () => {
+    // disabled_vet_property_tax TRUE ∩ retired pay untaxed → only Austin (VA is
+    // partial retired pay; NE has no property benefit).
+    expect(
+      names(
+        filterAndSort(rows, stateInfos, {
+          disabled_vet_property_tax: "true",
+          retired_pay_tax: "no_income_tax,exempt",
+        })
+      )
+    ).toEqual(["Austin"]);
   });
 });
 

@@ -11,11 +11,15 @@
  */
 import { getSql } from "../lib/db";
 
+// veterans_benefits is intentionally absent: the legacy per-city
+// locations_location.veterans_benefits column was dropped (issue #6,
+// scripts/migrate-drop-veterans-benefits-column.ts), so there is nothing left to
+// diverge. Its state-level provenance is still audited under --normalized-only
+// against locations_stateinfo.vet_benefits_summary below.
 const STATE_OWNED_LOCATION_COLUMNS = [
   "state_party",
   "governor",
   "income_tax",
-  "veterans_benefits",
   "marijuana_status",
   "lgbtq_state_policy_score",
 ] as const;
@@ -28,8 +32,6 @@ const NORMALIZED_READY_SQL: Record<StateOwnedColumn, string> = {
   governor: "governor IS NOT NULL AND governor_source_url IS NOT NULL AND governor_verified_on IS NOT NULL",
   income_tax:
     "income_tax IS NOT NULL AND income_tax_semantics IS NOT NULL AND income_tax_source_url IS NOT NULL AND income_tax_verified_on IS NOT NULL",
-  veterans_benefits:
-    "vet_benefits_summary IS NOT NULL AND vet_benefits_source_url IS NOT NULL AND vet_benefits_verified_on IS NOT NULL",
   marijuana_status:
     "marijuana_status IS NOT NULL AND marijuana_status_source_url IS NOT NULL AND marijuana_status_verified_on IS NOT NULL",
   lgbtq_state_policy_score:
