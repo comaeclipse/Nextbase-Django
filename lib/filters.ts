@@ -37,6 +37,25 @@ export interface FilterParams {
   activities?: string | null;
   geography?: string | null;
   income_tax?: string | null;
+  /*
+   * Veteran-benefit facets, sourced from `locations_stateinfo` (state-level).
+   * The booleans accept only the literal string "true" and match a state whose
+   * verified column IS TRUE — never `= false`, because these columns are
+   * three-valued (NULL = "source summary was silent", not "benefit absent";
+   * issue #6). Only rows with `vet_benefits_verified_on` set are eligible.
+   */
+  no_income_tax?: string | null;
+  disabled_vet_property_tax?: string | null;
+  employment_preference?: string | null;
+  education_benefit?: string | null;
+  parks_benefit?: string | null;
+  hunt_fish_benefit?: string | null;
+  /**
+   * Comma-separated `retired_pay_tax` enum values to include (OR within the
+   * facet), e.g. "no_income_tax,exempt" = "military retired pay isn't taxed
+   * here". Only verified rows match.
+   */
+  retired_pay_tax?: string | null;
   vibes?: string | null;
   /** Comma-separated employer slugs; OR within the facet, AND against the rest. */
   employers?: string | null;
@@ -235,6 +254,7 @@ export function filterAndSort(
   const hcmStates = new Set(
     stateInfos.filter((s) => s.high_cap_mag_ban).map((s) => s.state)
   );
+  const stateByAbbr = new Map(stateInfos.map((s) => [s.state, s]));
 
   let list = all.slice();
 
@@ -287,6 +307,50 @@ export function filterAndSort(
   }
   if (p.geography) list = list.filter((l) => matchesGeography(l, p.geography!));
   if (p.income_tax) list = list.filter((l) => matchesIncomeTax(l, p.income_tax!));
+
+  // Veteran-benefit facets (state-level, from locations_stateinfo). Three-valued
+  // booleans: match only explicit `true` — a NULL means the source summary was
+  // silent about the benefit, not that the state lacks it (issue #6). Only rows
+  // a human has verified (`vet_benefits_verified_on` set) are eligible, so an
+  // unverified state never drives a user-facing filter.
+  const vetBooleanFilters: [
+    string | null | undefined,
+    (s: StateInfoRow) => boolean | null
+  ][] = [
+    [p.no_income_tax, (s) => s.no_income_tax],
+    [p.disabled_vet_property_tax, (s) => s.disabled_vet_property_tax],
+    [p.employment_preference, (s) => s.employment_preference],
+    [p.education_benefit, (s) => s.education_benefit],
+    [p.parks_benefit, (s) => s.parks_benefit],
+    [p.hunt_fish_benefit, (s) => s.hunt_fish_benefit],
+  ];
+  for (const [flag, pick] of vetBooleanFilters) {
+    if (flag === "true") {
+      list = list.filter((l) => {
+        const s = stateByAbbr.get(l.state);
+        return s != null && s.vet_benefits_verified_on != null && pick(s) === true;
+      });
+    }
+  }
+
+  // Military retired-pay tax treatment. Comma-separated enum values to include
+  // (OR within the facet); e.g. "no_income_tax,exempt" answers "military retired
+  // pay isn't taxed here". Only verified rows match.
+  if (p.retired_pay_tax) {
+    const wanted = new Set(splitTypes(p.retired_pay_tax));
+    if (wanted.size > 0) {
+      list = list.filter((l) => {
+        const s = stateByAbbr.get(l.state);
+        return (
+          s != null &&
+          s.vet_benefits_verified_on != null &&
+          s.retired_pay_tax != null &&
+          wanted.has(s.retired_pay_tax)
+        );
+      });
+    }
+  }
+
   if (p.vibes) list = list.filter((l) => matchesVibes(l, p.vibes!));
   if (p.lgbtq_friendly === "true") {
     list = list.filter((l) => {

@@ -171,19 +171,25 @@ representative weekday foot-traffic sample.
 **Goal:** move from documents to durable local knowledge without touching the
 main location table.
 
-- [ ] Approve a small controlled vocabulary for claim type, evidence kind,
+- [x] Approve a small controlled vocabulary for claim type, evidence kind,
       stance, temporal pattern, geography scope, and confidence.
-- [ ] Define an R&D schema for `sources`, `places`, `schedules`, `claims`,
+      (`docs/KNOWLEDGE_MODEL.md` §3, frozen as v1 per §10 decision 1;
+      registries live in `lib/knowledge-model.ts`.)
+- [x] Define an R&D schema for `sources`, `places`, `schedules`, `claims`,
       `divergences`, `knowledge_chunks`, and link tables.
-- [ ] Map the existing `location_experience_observations` table into that
+      (`docs/KNOWLEDGE_MODEL.md` §2; proposed `cps_*` tables in §8.)
+- [x] Map the existing `location_experience_observations` table into that
       model; preserve it as an input rather than silently replacing it.
+      (§5; `validate-knowledge-model.ts` round-trips all 34 rows.)
 - [ ] Add source snapshots/content hashes and claim-level provenance.
-- [ ] Give source, claim, place, chunk, and derivation records stable IDs and
+      (Claim-level provenance is in place; snapshot *capture* is designed in
+      §6 but not yet implemented.)
+- [x] Give source, claim, place, chunk, and derivation records stable IDs and
       explicit version/freshness fields so indexes and caches can be invalidated
-      without guessing.
-- [ ] Identify the metadata fields that must be indexed for early filtering:
+      without guessing. (§2 preamble.)
+- [x] Identify the metadata fields that must be indexed for early filtering:
       geography, subject, claim type, temporal scope, stance, source quality,
-      and freshness.
+      and freshness. (§7.)
 - [ ] Create migration and importer dry runs only after the model review.
 
 **Exit condition:** the Elko pack loads losslessly into the proposed model,
