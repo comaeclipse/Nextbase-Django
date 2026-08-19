@@ -1,92 +1,62 @@
-# CLAUDE.md
+# AGENTS.md
 
-Guidance for agents working in this repository.
+Working rules for every agent and human on this repo (Claude Code, Codex, or hand-edits).
 
-## Project Overview
+**Project, stack, and domain guidance live in [CLAUDE.md](CLAUDE.md) — read it first.**
+This file is only about how we collaborate without clobbering each other. It used to be a
+copy of CLAUDE.md and silently went stale, which is exactly the failure it now documents;
+keep it a pointer, never a duplicate.
 
-**VetRetire** is a **Next.js 16** (App Router) + **React 19** + **TypeScript** web app that helps military veterans find retirement locations, with filters for climate, cost of living, lifestyle, healthcare/VA access, safety, and LGBTQ friendliness.
+## Branch hygiene
 
-It was migrated from Django in 2026 (the Django implementation is in git history). The app reads the **existing Neon PostgreSQL** schema directly, keeping the original table/column names (`locations_location`, `locations_stateinfo`).
+- **Branch from a freshly fetched `origin/master`.** Concurrent sessions share HEAD and can
+  switch branches under you — `git fetch && git switch -c <name> origin/master`.
+- **Use a worktree for any multi-step work.** Not just when branching.
+- **One concern per PR.** Data ingest, app code, and docs go in separate PRs.
+- **Rebase before review.** A branch more than ~15 commits behind master is a liability, not
+  a PR. CI warns past that threshold.
+- **Never stack a PR on another PR's branch** unless you intend to merge them in order.
 
-## Stack
+## The stale-branch trap (PR #61, 2026-08-18)
 
-- Next.js 16 App Router, React 19, TypeScript
-- `@neondatabase/serverless` for direct Neon Postgres access (read-only in the app)
-- Tailwind v4 + shadcn/ui — **scoped to a future admin section only** (`app/styles/shadcn.css`), never imported globally, because Tailwind's Preflight reset breaks the pixel-parity public pages
-- d3 + topojson-client + us-atlas for the explore map
+A branch forked, the same work was re-applied elsewhere and landed on master, and the
+original kept living. Eight days and 23 master commits later it had 7 merge conflicts and
+was abandoned — stranding ~50 files of real data work that had to be recovered by hand in
+#66/#67.
 
-## Setup & Commands
+Two things made it hard to see:
+
+- **Duplicate commits with different SHAs.** `8483cd4`/`9e678b0` ("Add retail access
+  filters") and `606005b`/`042816c` ("Add military-installation proximity") are byte-identical
+  pairs on different bases. Every commit is authored `comaeclipse` no matter which agent
+  wrote it, so authorship tells you nothing.
+- **`git diff master branch` overstates the damage.** Two-dot diff reports every file the
+  base gained since the fork as a deletion. A real 3-way merge keeps them. Use three-dot
+  (`git diff origin/master...HEAD`) to see what a PR *actually* changes — that is what
+  GitHub's "Files changed" shows.
+
+## Data changes
+
+- **Never run a production import from a feature branch before its source file is merged.**
+  Neon is shared and mutable: the import lands instantly, the DB looks done, and nobody
+  notices the CSV never reached master. That is how #61 stranded 13 cities' provenance
+  while every one of those cities was already live.
+- **Treat `data/`, `baselines/`, and `city-profile-stack/data/` as an audit trail.** Deleting
+  from them is almost always a stale-branch artifact. The `Data guard` workflow fails such a
+  PR; if the removal is genuinely intended, add the `allow-data-deletions` label.
+- **When recovering files from an old branch, diff both directions.** Confirm the branch
+  version is a strict superset before taking it, or you re-introduce the bug you are fixing.
+- **Verify against the DB, not the file diff**, when deciding what is actually missing.
+
+## Scratch files
+
+Keep them out of the repo root — `.gitignore` covers `/.check_*`, `/*_tmp.js`, `/*.tmp`,
+`/*.png`, `/*.csv`. Ingest CSVs belong in `data/<city>_<st>.csv`, never at the root.
+
+## Before opening a PR
 
 ```bash
-npm install
-# .env (gitignored) must contain DATABASE_URL (Neon connection string)
-npm run dev        # http://localhost:3000
-npm run build      # production build
-npx tsc --noEmit   # typecheck
-npm test           # vitest unit tests
+npm run lint && npx tsc --noEmit && npm test && npm run build
+git diff --name-status origin/master...HEAD | grep '^D' || true   # expect nothing under data/
+git rev-list --count HEAD..origin/master                          # if >15, rebase
 ```
-
-Data scripts (run with tsx + the env file):
-
-```bash
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts [--dry-run]
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/django_scores.json
-```
-
-Pace classification (lifestyle / settlement type):
-
-```bash
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-pace-classifications.ts [--dry-run]
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/prepare-pace-sources.ts [--skip-download]
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/classify-pace.ts --all [--dry-run]
-# also: --id N | --name "City, ST"
-```
-
-Defense employers (run in this order; each takes `--dry-run`):
-
-```bash
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-defense-employers.ts
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-rtx-employer-locations.ts
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
-```
-
-## Structure
-
-```
-app/
-  page.tsx              # home
-  explore/page.tsx      # explore (server shell) -> <ExploreClient>
-  city/[id]/page.tsx    # Zillow-style city detail
-  api/locations/route.ts# filter/sort API (query params below)
-  styles/*.css          # copied-verbatim page CSS (home/explore/city), UNLAYERED
-  styles/shadcn.css     # Tailwind + shadcn (admin-only, not imported globally)
-components/             # ExploreClient, LocationCard, StateMap
-lib/
-  db.ts                 # lazy Neon client (getSql)
-  types.ts              # LocationRow/StateInfoRow (snake_case, mirrors DB)
-  locations.ts          # read-only queries (ORDER BY featured DESC, name ASC)
-  scoring.ts            # editorial "Fit" score (5 factors x 20%), pyRound
-  filters.ts            # filter + sort (mirrors old views.filter_locations)
-  pace/                 # retirement-pace classifier (RUCA + EPA)
-  states.ts             # state-name -> USPS abbr
-scripts/                # data + verification scripts
-baselines/              # parity references (django_scores.json used by tests)
-```
-
-## Key domain logic
-
-- **Fit score** (`lib/scoring.ts`): five equally weighted factors — LGBTQ friendliness, VA access, cost of living, home affordability, safety. Uses Python-compatible round-half-to-even (`pyRound`). `defense_hub` is **not** a scoring factor.
-- **Defense hub** (`lib/defense.ts`): `defense_hub` is derived, not curated — `manual === false ? false : presence ? true : manual`, where presence = ≥1 onsite+hybrid RTX opening (a physical facility). Any facility promotes; an explicit `defense_hub_manual = false` vetoes. Edit `defense_hub_manual`, never `defense_hub`. See SCHEMA.md.
-- **Pace / lifestyle** (`lib/pace/`): `urban` | `suburban` | `small_town` | `rural` from `location_pace_current` (RUCA + EPA SLD). The `lifestyle` filter matches `pace_category`; there is no density fallback. See SCHEMA.md and `PACE_CLASSIFICATION_PLAN.md`.
-- **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, employers, sort`. Response: `{ totalResults, locations }`. `lifestyle` accepts `urban,suburban,small_town,rural`.
-- **Pixel parity is a hard requirement** for public pages. Their CSS is copied verbatim into `app/styles/*.css` and left **unlayered** so it always beats any Tailwind base. Do not introduce global Tailwind/Preflight.
-
-## Deployment
-
-Vercel, `framework: nextjs` (see `vercel.json`). Requires `DATABASE_URL` in the Vercel project env (provided by the Neon integration). Pages that read the DB use `export const dynamic = "force-dynamic"`.
-
-## Notes
-
-- Three data-maintenance commands were not ported from Django and live only in git history: `import_state_info`, `update_state_law_data`, `update_lgbtq_data`. Port to TS (like `scripts/import-csv.ts`) when next needed.
-- `SCHEMA.md` documents the (unchanged) database schema.
