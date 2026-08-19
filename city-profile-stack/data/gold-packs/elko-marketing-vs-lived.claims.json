@@ -19,7 +19,7 @@
     },
     "confidence": ["high", "medium", "low"]
   },
-  "notes_on_sourcing": "Explore Elko, Chamber, and Travel Nevada quotes re-verified verbatim 2026-08-19 (Travel Nevada via rendered page; the others from page source). Reddit threads are as reported by the owner pass; two of the six cited threads (1ni9ayb, pe2a01) are already verified corpus sources, the other four should have their excerpts re-verified before any claim here is promoted.",
+  "notes_on_sourcing": "Explore Elko, Chamber, and Travel Nevada quotes re-verified verbatim 2026-08-19 (Travel Nevada via rendered page; the others from page source). The two 24-hour listings (M2) were independently corroborated the same day by the Elko Junction shopping center's tenant pages — a landlord source, the closest available to first-party since neither venue publishes its own hours page. Reddit threads are as reported by the owner pass; two of the six cited threads (1ni9ayb, pe2a01) are already verified corpus sources, the other four could not be re-verified by automated access (Reddit login wall) and their excerpts await manual capture before any claim here is promoted.",
   "claims": [
     {
       "id": "M1_explore_elko_energy_up",
@@ -44,14 +44,19 @@
       "claim_type": "venue_schedule",
       "evidence_kind": "destination_organization",
       "stance": "context",
-      "confidence": "medium",
+      "confidence": "high",
       "geography_scope": "Elko city",
       "quote": "A little bit New Orleans, a little bit Vegas, this bar features gaming and spirits 24 hours a day.",
-      "source_urls": ["https://exploreelko.com/restaurants/bars/"],
+      "source_urls": [
+        "https://exploreelko.com/restaurants/bars/",
+        "https://elkojunction.com/tenants/bourbon-street-sports-bar/",
+        "https://elkojunction.com/tenants/dottys-casino/"
+      ],
       "retrieved_on": "2026-08-19",
       "measures": "availability",
       "limitations": [
-        "The strongest operational assertion in the marketing pole, but it is marketing-listed hours, not the venues' own hours pages; re-verify against first-party channels before treating 24-hour operation as established (the Tuesday pack's venue-hours discipline).",
+        "24-hour operation corroborated 2026-08-19 by the Elko Junction shopping center's own tenant pages (landlord source: Bourbon Street 'Open 24 hours'; 'Dotty's Casino #35 is open daily 24 hours'); neither venue has a first-party hours page, so this is corroborated marketing-plus-landlord, not venue-primary.",
+        "Dotty's street address conflicts across listings: Explore Elko says 1744 Mountain City Hwy, while its tenant listing sits under the Elko Junction center at 2755 Mountain City Hwy (Bourbon Street's 2755 address is consistent everywhere). The 24-hour claim is corroborated; the exact Dotty's address is not settled.",
         "24-hour gaming-bar availability proves doors open, not attendance, and both venues are gaming-centered — consistent with, not against, the narrow-menu reading."
       ]
     },
