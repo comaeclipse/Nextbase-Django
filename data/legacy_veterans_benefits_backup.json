@@ -1,0 +1,811 @@
+{
+  "note": "One-time backup of locations_location.veterans_benefits before it was dropped (issue #6). State-level summaries live in locations_stateinfo.vet_benefits_summary.",
+  "column": "locations_location.veterans_benefits",
+  "row_count": 134,
+  "rows": [
+    {
+      "id": "7",
+      "state": "AK",
+      "name": "Anchorage",
+      "veterans_benefits": "Alaska has no state individual income tax, so military retirement pay is not state-taxed. Veterans with a VA disability rating of 50% or greater who own and occupy their home receive a property tax exemption on the first $150,000 of assessed value, transferable to a surviving spouse age 60 or older."
+    },
+    {
+      "id": "8",
+      "state": "AL",
+      "name": "Huntsville",
+      "veterans_benefits": "Alabama fully exempts military retirement pay from state income tax (Ala. Code 40-18-20), with no age or income cap, and VA disability compensation is not taxed. Alabama residents who are permanently and totally disabled (including 100% P&T veterans) are exempt from ad valorem property tax on their home and up to 160 adjacent acres; veterans who obtained their home via a VA Specially Adapted Housing Grant pay no property tax on it regardless of value."
+    },
+    {
+      "id": "9",
+      "state": "AL",
+      "name": "Mobile",
+      "veterans_benefits": "Alabama fully exempts military retirement pay from state income tax (Ala. Code 40-18-20), with no age or income cap, and VA disability compensation is not taxed. Alabama residents who are permanently and totally disabled (including 100% P&T veterans) are exempt from ad valorem property tax on their home and up to 160 adjacent acres; veterans who obtained their home via a VA Specially Adapted Housing Grant pay no property tax on it regardless of value."
+    },
+    {
+      "id": "10",
+      "state": "AR",
+      "name": "Little Rock",
+      "veterans_benefits": "Arkansas fully exempts military retirement pay from state income tax (since Jan. 1, 2018), and veterans may also claim the state's separate $6,000 exemption on other retirement income. A veteran with a 100% service-connected VA disability rating (or VA special monthly compensation for loss/loss-of-use of a limb or total blindness) is fully exempt, with no dollar cap, from property tax on a primary residence and personal property."
+    },
+    {
+      "id": "11",
+      "state": "AZ",
+      "name": "Tucson",
+      "veterans_benefits": "Arizona has fully exempted military retirement pay from state income tax since tax year 2021, with no dollar cap, including Survivor Benefit Plan payments. A veteran with a 100% VA service-connected disability rating receives a full property tax exemption on their primary residence with no assessed-value limit; veterans with lower disability ratings may qualify for a partial exemption subject to income and assessed-value limits (capped near $4,748 of assessed value, adjusted annually for inflation)."
+    },
+    {
+      "id": "12",
+      "state": "AZ",
+      "name": "Phoenix",
+      "veterans_benefits": "Arizona has fully exempted military retirement pay from state income tax since tax year 2021, with no dollar cap, including Survivor Benefit Plan payments. A veteran with a 100% VA service-connected disability rating receives a full property tax exemption on their primary residence with no assessed-value limit; veterans with lower disability ratings may qualify for a partial exemption subject to income and assessed-value limits (capped near $4,748 of assessed value, adjusted annually for inflation)."
+    },
+    {
+      "id": "13",
+      "state": "CA",
+      "name": "Yuba City",
+      "veterans_benefits": "California excludes up to $20,000 of military retired pay from state income tax starting tax year 2025, for filers under $125,000 (single/head of household) or $250,000 (joint) income; VA disability compensation is not taxed. A veteran with a 100% VA service-connected disability rating (or 100% compensation via individual unemployability) qualifies for the Disabled Veterans' Property Tax Exemption — $180,671 off assessed value for the 2026 lien date, or $271,009 for low-income households (income under $81,131); a partial rating below 100% does not qualify."
+    },
+    {
+      "id": "14",
+      "state": "CA",
+      "name": "Costa Mesa",
+      "veterans_benefits": "California excludes up to $20,000 of military retired pay from state income tax starting tax year 2025, for filers under $125,000 (single/head of household) or $250,000 (joint) income; VA disability compensation is not taxed. A veteran with a 100% VA service-connected disability rating (or 100% compensation via individual unemployability) qualifies for the Disabled Veterans' Property Tax Exemption — $180,671 off assessed value for the 2026 lien date, or $271,009 for low-income households (income under $81,131); a partial rating below 100% does not qualify."
+    },
+    {
+      "id": "15",
+      "state": "CO",
+      "name": "Colorado Springs",
+      "veterans_benefits": "Colorado excludes military retirement pay (and Survivor Benefit Plan payments) from state income tax on a sliding scale by age: up to $15,000 under age 55, up to $20,000 for ages 55-64, and up to $24,000 for age 65 and over. A veteran with a 100% permanent VA service-connected disability rating (or individual unemployability status) qualifies for a property tax exemption on 50% of the first $200,000 of actual value of their primary residence."
+    },
+    {
+      "id": "16",
+      "state": "CT",
+      "name": "Bridgeport",
+      "veterans_benefits": "Connecticut fully exempts military retirement pay from state income tax with no age or income conditions. A veteran with a 100% Permanent & Total VA service-connected disability rating gets a full property tax exemption on their primary residence (effective Oct 1, 2024); other disabled veterans (10%+ rating) may receive a partial exemption based on age, rating, and income (at least $10,500 for a 100%-rated veteran with income under $18,000, or $21,000 if married), and any veteran with 90+ days of wartime service qualifies for a $1,500 exemption on real estate or a vehicle."
+    },
+    {
+      "id": "17",
+      "state": "DE",
+      "name": "Wilmington",
+      "veterans_benefits": "Delaware exempts military pension income from state income tax regardless of age, with the exemption increasing to $25,000 for taxable years beginning on or after January 1, 2026 (previously $12,500, and previously age-restricted to 60+). A veteran with a 100% VA-rated service-connected permanent and total disability (or 100% compensation via individual unemployability) who has held Delaware domicile for at least 3 years qualifies for a full county property tax and non-vocational school district property tax exemption on their primary residence, applied for by April 30."
+    },
+    {
+      "id": "18",
+      "state": "FL",
+      "name": "Pensacola",
+      "veterans_benefits": "Florida has no state individual income tax, so military retirement pay and VA disability compensation are entirely state-tax-free. A veteran with a 100% permanent and total VA disability rating receives a full homestead property tax exemption; partially disabled veterans get a $5,000 assessed-value reduction, and those 65+ get a percentage discount matching their disability rating; deployed service members get an exemption proportional to days deployed outside the continental U.S. Applications are due by March 1 for that tax year."
+    },
+    {
+      "id": "19",
+      "state": "FL",
+      "name": "Malabar",
+      "veterans_benefits": "Florida has no state individual income tax, so military retirement pay and VA disability compensation are entirely state-tax-free. A veteran with a 100% permanent and total VA disability rating receives a full homestead property tax exemption; partially disabled veterans get a $5,000 assessed-value reduction, and those 65+ get a percentage discount matching their disability rating; deployed service members get an exemption proportional to days deployed outside the continental U.S. Applications are due by March 1 for that tax year."
+    },
+    {
+      "id": "20",
+      "state": "GA",
+      "name": "Atlanta",
+      "veterans_benefits": "Starting with the 2026 tax year, Georgia exempts up to $65,000 of military retirement income from state income tax for veterans of any age (automatic, no application required); VA disability compensation remains completely tax-free. Georgia offers a homestead property tax exemption for eligible disabled veterans (or their surviving spouse/minor children) worth $126,526 for 2026."
+    },
+    {
+      "id": "21",
+      "state": "HI",
+      "name": "Honolulu",
+      "veterans_benefits": "Hawaii fully exempts military retirement pay (and SBP/RCSBP/RSFPP survivor annuities) from state income tax. Hawaii has no statewide veteran property tax exemption — it's administered by county — but in Honolulu County a totally service-connected disabled veteran's home is exempt from real property tax except the county minimum tax (about $300/year for 2025-2026); a general $100,000 home exemption applies to all owner-occupied properties."
+    },
+    {
+      "id": "22",
+      "state": "IA",
+      "name": "Des Moines",
+      "veterans_benefits": "Iowa fully exempts military retirement pay (and SBP payments) from state income tax with no cap, and active-duty pay is tax-free for Iowa residents. A veteran rated 100% service-connected disabled (or paid at the 100% rate via individual unemployability) qualifies for the Disabled Veteran Homestead Tax Credit, a full 100% property tax exemption on the homestead with no income limit (applications on/after July 1, 2026 limit the homestead to one-half acre); other qualifying wartime/peacetime veterans get a flat $4,000 assessed-value reduction instead."
+    },
+    {
+      "id": "23",
+      "state": "ID",
+      "name": "Kuna",
+      "veterans_benefits": "Idaho's Retirement Benefits Deduction lets qualifying retired service members (those classified as disabled, age 62 or older, or under 62 with sufficient earned income) subtract military retirement pay from state taxable income up to an annually recalculated cap (approximately $40,536 for a recent tax year, indexed to the Social Security maximum benefit). A veteran with a 100% service-connected disability rating (or individual unemployability) gets a property tax reduction of up to $1,500/year with no income limit; other disabled veterans (10%+) may qualify for a smaller reduction varying by county. Apply with the county assessor between January 1 and April 15."
+    },
+    {
+      "id": "24",
+      "state": "ID",
+      "name": "Boise",
+      "veterans_benefits": "Idaho's Retirement Benefits Deduction lets qualifying retired service members (those classified as disabled, age 62 or older, or under 62 with sufficient earned income) subtract military retirement pay from state taxable income up to an annually recalculated cap (approximately $40,536 for a recent tax year, indexed to the Social Security maximum benefit). A veteran with a 100% service-connected disability rating (or individual unemployability) gets a property tax reduction of up to $1,500/year with no income limit; other disabled veterans (10%+) may qualify for a smaller reduction varying by county. Apply with the county assessor between January 1 and April 15."
+    },
+    {
+      "id": "25",
+      "state": "IN",
+      "name": "Indianapolis",
+      "veterans_benefits": "Indiana fully exempts both military retirement pay and active-duty pay from state income tax (the active-duty exemption effective with the 2024 tax year). Under Indiana's new property tax credit system (HEA 1210, signed March 12, 2026, applying to 2026 taxes payable in 2027), totally disabled veterans (100% rating or individual unemployability) get a full property tax exemption with no home-value cap, while veterans rated 10-90% receive fixed dollar credits; veterans must register with their county auditor by December 30, 2026 using State Form 12662."
+    },
+    {
+      "id": "26",
+      "state": "KS",
+      "name": "Wichita",
+      "veterans_benefits": "Military retired pay included in federal adjusted gross income is not taxed by Kansas. Veterans with a service-connected disability rating may claim an additional state income tax exemption ($2,320 for tax year 2025+); those with 50%+ disability may claim a homestead refund on real estate taxes if their home is valued at $350,000 or less and household income is $56,450 or less. Beginning July 1, 2026, honorably discharged veterans with a 100% service-connected total/permanent disability (or individual unemployability) are exempt from Kansas sales tax on up to $24,000/year in purchases (excluding tobacco, e-cigarettes, alcohol, and motor vehicles)."
+    },
+    {
+      "id": "27",
+      "state": "KY",
+      "name": "Louisville",
+      "veterans_benefits": "Service members who retired from the military before January 1, 1998 are fully exempt from Kentucky income tax on their retired pay; those who retired after December 31, 1997 may exclude up to $31,110 (adjusted every two years for inflation), with additional pro-rated exclusion available via Schedule P for those with creditable service before 1998. Kentucky homeowners who are 65+ or totally disabled qualify for a homestead exemption deducted from their home's assessed value ($49,100 for the 2025-2026 assessment years, also recalculated every two years)."
+    },
+    {
+      "id": "28",
+      "state": "LA",
+      "name": "New Orleans",
+      "veterans_benefits": "Louisiana does not tax military retirement pay; active-duty service members stationed outside Louisiana for 120 or more consecutive days may exempt up to $50,000 of military pay. Veterans with a service-connected disability rating of 50-69% get an additional property tax exemption on the next $2,500 of assessed valuation (beyond the base homestead exemption), 70-99% get the next $4,500, and a 100% rating is exempt from all ad valorem property taxation."
+    },
+    {
+      "id": "29",
+      "state": "MA",
+      "name": "Boston",
+      "veterans_benefits": "Massachusetts fully exempts military retirement pay (treated like other exempt contributory government pensions), active-duty pay, and VA disability compensation/pension from state income tax. Property tax is set and collected locally, not by the state: disabled veterans (10%+ VA rating, with residency and domicile conditions) may claim a local property tax exemption of $400 to $1,500 through their city or town's board of assessors, with amounts varying by municipality."
+    },
+    {
+      "id": "30",
+      "state": "MD",
+      "name": "Baltimore",
+      "veterans_benefits": "Maryland excludes $12,500 of military retirement income for retirees under 55 and $20,000 for those 55 and older; retirees 55+ may also qualify for the state's general pension exclusion (up to $39,500 for 2026), though the combined military and general exclusions cannot exceed the total pension received. Veterans rated 100% permanently and totally disabled (or 100% unemployable) by the VA get a complete exemption from Maryland real property taxes on their primary home; many counties also offer supplemental property tax credits for veterans with 50%+ disability ratings."
+    },
+    {
+      "id": "31",
+      "state": "ME",
+      "name": "Portland",
+      "veterans_benefits": "Maine fully exempts military retirement pay from state income tax with no cap, age requirement, or phase-in (expanded in 2026 to cover Space Force retirees and USPHS/NOAA officers). Qualifying wartime veterans (age 62+ or receiving federal disability compensation) get a base $6,000 assessed-value property tax exemption; veterans with a 100% service-connected disability get a $100,000 exemption, those rated 50-90% get $50,000, and paraplegic veterans get $50,000 -- all in addition to the base exemption. Apply by April 1 with Form OPT-7, DD-214, and disability documentation to the local municipal assessor."
+    },
+    {
+      "id": "32",
+      "state": "MI",
+      "name": "Warren",
+      "veterans_benefits": "Michigan fully exempts military retirement pay from state income tax, covering all branches, reserve retirement, and National Guard retirement. Veterans with a 100% permanent and total disability rating, individual unemployability (IU) rating, or VA specially adapted housing assistance qualify for a full property tax exemption; file Form 5107 with the local assessor by December 31 (beginning in 2026, annual reapplication is no longer required)."
+    },
+    {
+      "id": "33",
+      "state": "MN",
+      "name": "Minneapolis",
+      "veterans_benefits": "Minnesota allows an unlimited subtraction for military retirement pay from state income tax, with no age or income limits, covering traditional retirement, Reserve/Guard retirement, and Survivor Benefit Plan payments (file Form M1M). Disabled veterans get a market value exclusion on their home rather than a flat exemption: a 70-99% rating excludes $150,000 of market value, a 100% P&T rating excludes $300,000; apply through the county assessor by December 15 for the following year's taxes."
+    },
+    {
+      "id": "34",
+      "state": "MO",
+      "name": "St. Charles",
+      "veterans_benefits": "Missouri fully exempts military retirement pay from state income tax for tax years beginning January 1, 2024 (the prior income-based phase-out was eliminated), covering active-duty, Reserve, and National Guard retirement. Missouri has no general property tax exemption for ordinary 100% disabled veterans; a full constitutional homestead exemption applies only to former Prisoners of War with a total service-connected disability. Most 100% service-connected disabled veterans instead claim the income-tested Missouri Property Tax Credit (\"circuit breaker\"), up to $1,100 for homeowners ($750 for renters), subject to income limits."
+    },
+    {
+      "id": "35",
+      "state": "MS",
+      "name": "Jackson",
+      "veterans_benefits": "Mississippi exempts military retired pay from state income tax (active duty, reserve, and National Guard retirement), and VA disability pension/compensation is not taxed. Mississippi residents who are 65+ or disabled get an exemption on the first $7,500 of property taxes; honorably discharged totally disabled veterans, honorably discharged veterans age 90+, and surviving unremarried spouses of service members who died on active duty get a full exemption from all state property taxes."
+    },
+    {
+      "id": "36",
+      "state": "MT",
+      "name": "Billings",
+      "veterans_benefits": "Working military retirees who are Montana residents may deduct up to 50% of their military retirement or survivor pay for the first five consecutive years after meeting eligibility (available to those who became Montana residents after June 30, 2023, or were residents before receiving retired pay; the exemption is scheduled to expire in tax year 2033). Active-duty pay is tax-free. Honorably discharged veterans with a 100% service-connected disability (or their unmarried surviving spouse) may qualify for a reduced property tax rate through Montana's Disabled Veterans Assistance Program, subject to income limits."
+    },
+    {
+      "id": "37",
+      "state": "NC",
+      "name": "Raleigh",
+      "veterans_benefits": "North Carolina fully exempts military retirement pay and Survivor Benefit Plan payments from state income tax, with no dollar cap, for retirees who served at least 20 years or were medically retired. A veteran with a 100% permanent and total service-connected disability rating can exclude the first $45,000 of their home's assessed value from property taxes, with no income limit."
+    },
+    {
+      "id": "38",
+      "state": "NC",
+      "name": "Indian Trail",
+      "veterans_benefits": "North Carolina fully exempts military retirement pay and Survivor Benefit Plan payments from state income tax, with no dollar cap, for retirees who served at least 20 years or were medically retired. A veteran with a 100% permanent and total service-connected disability rating can exclude the first $45,000 of their home's assessed value from property taxes, with no income limit."
+    },
+    {
+      "id": "39",
+      "state": "ND",
+      "name": "Fargo",
+      "veterans_benefits": "North Dakota has no state income tax, so military retirement pay, active-duty and reserve pay, and SBP/RCSBP/RSFPP annuities are all untaxed by the state by default. A veteran with a 100% VA service-connected disability rating qualifies for a $120,000 property tax exemption on their primary residence; apply through the county tax assessor."
+    },
+    {
+      "id": "40",
+      "state": "NE",
+      "name": "Omaha",
+      "veterans_benefits": "For tax years beginning on or after January 1, 2022, Nebraska allows all military retirees to exclude 100% of military retirement benefits from state taxable income. Starting January 1, 2026, disabled and/or blind veterans can also claim a Motor Vehicle Tax and Motor Vehicle Fee exemption on one personally-owned vehicle. The Nebraska Homestead Exemption offers property tax relief for veterans totally disabled by a service-connected condition (or their surviving spouse), and for veterans whose home was substantially contributed to by the VA; apply through the county assessor."
+    },
+    {
+      "id": "41",
+      "state": "NH",
+      "name": "Manchester",
+      "veterans_benefits": "New Hampshire has no state income tax on earned income, wages, or retirement pay, so military retirement is completely tax-free at the state level (confirmed since the Interest and Dividends Tax was repealed for taxable periods beginning after December 31, 2024). Wartime veterans get a property tax credit of $51 to $750 depending on the municipality (each sets its own amount above the $51 state minimum); surviving spouses of veterans killed on active duty may qualify for $700 to $2,000; permanently and totally disabled veterans, double amputees, and paraplegics get a base credit of $700 on their primary residence."
+    },
+    {
+      "id": "42",
+      "state": "NJ",
+      "name": "Paterson",
+      "veterans_benefits": "New Jersey fully exempts military retirement pay (active duty, reserve, and National Guard retirement) from state income tax, with no age or income limit; honorably discharged veterans also get an additional $6,000 New Jersey income tax exemption. New Jersey offers a property tax credit of up to $6,000/year for veterans 65+ or permanently and totally disabled; 100% permanently and totally disabled veterans get a full exemption from property tax."
+    },
+    {
+      "id": "43",
+      "state": "NM",
+      "name": "Albuquerque",
+      "veterans_benefits": "New Mexico exempts military retirement pay up to $30,000/year, with new legislation removing that cap entirely for military retirees and surviving spouses for taxable years beginning on or after January 1, 2026 (full exemption); active-duty pay for New Mexico resident service members is fully exempt regardless. All honorably discharged veterans get a $10,000 reduction in taxable property value regardless of disability status; a 100% service-connected disability rating brings full property tax exemption on the primary residence (no income or value cap); starting the 2026 tax year, 10-99% disability ratings get a proportional exemption (e.g. a 70% rating = 70% exemption)."
+    },
+    {
+      "id": "44",
+      "state": "NV",
+      "name": "Las Vegas",
+      "veterans_benefits": "Nevada has no state income tax, so military retirement pay, VA disability compensation, and all other retirement income are entirely untaxed by the state. Nevada's Veterans Exemption provides an assessed-value reduction ($3,640 for the 2026/2027 fiscal year, adjusted periodically); veterans with a service-connected disability get an additional $20,000 assessed-value reduction on their home."
+    },
+    {
+      "id": "45",
+      "state": "NY",
+      "name": "Syracuse",
+      "veterans_benefits": "New York offers multiple veterans property-tax exemptions, veterans tuition awards and education benefits, civil service preference, and state military/veterans pay tax treatment that can exempt military retirement and active-duty pay from New York income tax."
+    },
+    {
+      "id": "46",
+      "state": "OH",
+      "name": "Akron",
+      "veterans_benefits": "Ohio fully exempts all military retirement pay from state income tax, including Survivor Benefit Plan and RCSBP annuities, with no income or age limits. Veterans with a 100% VA disability rating (including individual unemployability) qualify for the Enhanced Homestead Exemption, which removes $58,000 of appraised home value from property taxation for tax year 2026, with no income limit; the exemption is not automatic and must be applied for."
+    },
+    {
+      "id": "47",
+      "state": "OH",
+      "name": "Columbus",
+      "veterans_benefits": "Ohio fully exempts all military retirement pay from state income tax, including Survivor Benefit Plan and RCSBP annuities, with no income or age limits. Veterans with a 100% VA disability rating (including individual unemployability) qualify for the Enhanced Homestead Exemption, which removes $58,000 of appraised home value from property taxation for tax year 2026, with no income limit; the exemption is not automatic and must be applied for."
+    },
+    {
+      "id": "48",
+      "state": "OH",
+      "name": "Cincinnati",
+      "veterans_benefits": "Ohio fully exempts all military retirement pay from state income tax, including Survivor Benefit Plan and RCSBP annuities, with no income or age limits. Veterans with a 100% VA disability rating (including individual unemployability) qualify for the Enhanced Homestead Exemption, which removes $58,000 of appraised home value from property taxation for tax year 2026, with no income limit; the exemption is not automatic and must be applied for."
+    },
+    {
+      "id": "49",
+      "state": "OK",
+      "name": "Tulsa",
+      "veterans_benefits": "For tax year 2022 and after, Oklahoma fully exempts 100% of military retirement benefits (and disability retirement pay) from any branch of the U.S. Armed Forces from state income tax; Social Security benefits are also untaxed. Oklahoma residents certified by the VA with a 100% permanent, service-connected disability get a full property tax exemption on their homestead's fair cash value; veterans with lower service-connected disability ratings get a proportional exemption (e.g. a 60% rating gives a 60% reduction)."
+    },
+    {
+      "id": "50",
+      "state": "OR",
+      "name": "Portland",
+      "veterans_benefits": "Oregon currently only exempts the portion of military/federal pension income based on service before October 1, 1991 from state income tax (pay for service on or after that date is taxed); pending state legislation (HB2050) would fully exempt federal retirement pay for disabled veterans and reserve/National Guard members starting tax years on or after January 1, 2026, but had not been confirmed enacted as of this research date. Oregon offers a property tax exemption of $26,303 or $31,565 (varies) on the assessed value of a disabled veteran's (or surviving spouse's) homestead; Oregon has no state sales tax."
+    },
+    {
+      "id": "51",
+      "state": "PA",
+      "name": "Philadelphia",
+      "veterans_benefits": "Pennsylvania fully exempts military retirement pay, Survivor Benefit Plan annuities, and VA disability compensation from state income tax, with no age or income limit. A veteran with a 100% permanent service-connected disability (or TDIU, blindness, paraplegia, or loss of two or more limbs) and wartime service qualifies for a full property tax exemption on their primary residence, covering county, township, and school district taxes."
+    },
+    {
+      "id": "52",
+      "state": "RI",
+      "name": "Providence",
+      "veterans_benefits": "Rhode Island has fully exempted military retirement pay (including SBP, RCSBP, and RSFPP annuities) from state income tax since tax year 2023, with no age or income limits. A veteran with a 100% permanent and total disability rating qualifies for a full property tax exemption on their primary residence (extending to a surviving spouse who remains in the home); other totally disabled veterans get at least $10,000 of assessed value removed before taxes are calculated (plus an additional $10,000 for those with a specially adapted housing grant). Exemption amounts, deadlines, and procedures are set locally and vary by city and town."
+    },
+    {
+      "id": "53",
+      "state": "SC",
+      "name": "Irmo",
+      "veterans_benefits": "Since the 2022 tax year, South Carolina fully exempts all military retirement pay from state income tax (including SBP, RCSBP, and RSFPP payments), with no age threshold, income cap, or earned income requirement; VA disability compensation is also untaxed. Veterans with a 100% total and permanent service-connected disability get a full property tax exemption (bill to zero, no value cap) on their homestead and up to 5 acres, plus exemption from property tax on up to two private vehicles."
+    },
+    {
+      "id": "54",
+      "state": "SC",
+      "name": "Greenville",
+      "veterans_benefits": "Since the 2022 tax year, South Carolina fully exempts all military retirement pay from state income tax (including SBP, RCSBP, and RSFPP payments), with no age threshold, income cap, or earned income requirement; VA disability compensation is also untaxed. Veterans with a 100% total and permanent service-connected disability get a full property tax exemption (bill to zero, no value cap) on their homestead and up to 5 acres, plus exemption from property tax on up to two private vehicles."
+    },
+    {
+      "id": "55",
+      "state": "SD",
+      "name": "Sioux Falls",
+      "veterans_benefits": "South Dakota has no state income tax, so military retirement pay, VA disability compensation, and all other income are completely tax-free at the state level. Veterans with a 100% service-connected disability get a $150,000 assessed-value property tax exemption; veterans with at least 70% disability can receive a significant reduction; paraplegic veterans get a full property tax exemption on their home, an exemption that also extends to unremarried surviving spouses of permanently/totally disabled veterans or those with loss (or loss of use) of both lower extremities."
+    },
+    {
+      "id": "56",
+      "state": "TN",
+      "name": "Nashville",
+      "veterans_benefits": "Tennessee has no state income tax, so military retirement pay, VA disability compensation, and all other income are entirely untaxed at the state level. Tennessee provides property tax relief (a reimbursement, not a blanket exemption) covering property taxes on up to $175,000 of a disabled veteran's home value; veterans with a 100% total service-connected disability rating are eligible for a property tax exemption on their primary residence."
+    },
+    {
+      "id": "57",
+      "state": "TX",
+      "name": "Houston",
+      "veterans_benefits": "Partial property tax reduction"
+    },
+    {
+      "id": "58",
+      "state": "TX",
+      "name": "El Paso",
+      "veterans_benefits": "Texas has no state income tax, so military retirement pay and all other retirement income are entirely untaxed at the state level. Texas offers property tax exemptions ranging from $5,000 to $12,000 based on disability rating for veterans rated 10% or more disabled; a veteran with a 100% disability rating (or who is 65+) receives a full property tax exemption on their homestead."
+    },
+    {
+      "id": "59",
+      "state": "UT",
+      "name": "Salt Lake City",
+      "veterans_benefits": "Utah effectively fully exempts military retirement pay through a nonrefundable tax credit (in place since 2021) that offsets the state's flat 4.55% income tax rate on that income, resulting in a near-zero effective tax. Disabled veterans with a 10%+ VA rating (plus Utah residency) qualify for a property tax abatement, prorated by disability percentage, on up to $535,459 of taxable value for a 100% permanently and totally disabled veteran (2026 maximum); VA disability compensation itself is untaxed."
+    },
+    {
+      "id": "60",
+      "state": "VA",
+      "name": "Norfolk",
+      "veterans_benefits": "Virginia allows military retirees to subtract up to $40,000 of retirement pay from state taxable income starting the 2025 tax year, with no age requirement; the subtraction cap is scheduled to be removed entirely (full exemption of military benefits) starting the 2026 tax year. Medal of Honor recipients get a full exemption of military retirement pay. Veterans with a 100% permanent and total service-connected disability are exempt from property taxes on their primary residence (up to one acre) and one vehicle."
+    },
+    {
+      "id": "61",
+      "state": "VT",
+      "name": "Burlington",
+      "veterans_benefits": "Under Vermont's Act 71 (effective the 2025 tax year), military retirement and survivor benefit income is fully exempt from state income tax for taxpayers with adjusted gross income up to $125,000, phasing out between $125,000 and $175,000 AGI (no exemption above $175,000); taxpayers cannot claim both the Social Security and military-retirement exemptions in the same year. Disabled veterans (50%+ VA disability compensation, non-service-connected pension, or permanent medical military retirement) qualify for a property tax exemption with a state-mandated minimum of $10,000, which individual towns may raise up to $40,000."
+    },
+    {
+      "id": "62",
+      "state": "WA",
+      "name": "Bremerton",
+      "veterans_benefits": "Washington has no state income tax, so military retirement pay is completely tax-free at the state level. Veterans with an 80%+ disability rating (or paid at the 100% rate) qualify for an income-based property tax exemption for taxes levied for collection in 2026 (the rating threshold drops to 40% starting with taxes levied for collection in 2027); VA disability compensation and Dependency and Indemnity Compensation are excluded entirely when calculating eligibility income, though other military retirement pay counts toward the income threshold."
+    },
+    {
+      "id": "63",
+      "state": "WI",
+      "name": "Milwaukee",
+      "veterans_benefits": "Wisconsin fully exempts military retirement pay from state income tax, including SBP, RCSBP, and RSFPP annuities, regardless of branch, years of service, or retirement date; Social Security benefits are also untaxed. Wisconsin offers a refundable property tax credit: a base credit of $400 for veterans who served during designated wartime periods, and a full property tax exemption on the primary residence for veterans with a 100% service-connected disability (or individual unemployability) rating, extending to surviving spouses."
+    },
+    {
+      "id": "64",
+      "state": "WV",
+      "name": "Charleston",
+      "veterans_benefits": "West Virginia has fully exempted military retirement pay from state income tax since 2018, with no income limit for pensions from any branch of the U.S. Armed Forces; VA disability compensation is also untaxed. Instead of an assessor-level property tax exemption, West Virginia offers a refundable state income tax credit (since January 1, 2024) equal to 100% of the property tax paid on the primary residence for honorably discharged veterans with a 90-100% combined VA disability rating."
+    },
+    {
+      "id": "65",
+      "state": "WY",
+      "name": "Cheyenne",
+      "veterans_benefits": "Wyoming has no state income tax, so military retirement pay and all other retirement income are entirely untaxed by the state. Veterans with a compensable VA service-connected disability (any rating, regardless of time of service), who have been Wyoming residents for the preceding three years, qualify for a property tax exemption reducing assessed valuation by $6,000 annually (doubled from $3,000 effective January 1, 2025); the exemption can instead be applied toward vehicle licensing fees if not used on real property. Apply through the county assessor's office (Laramie County's deadline is typically in late May for the current tax year)."
+    },
+    {
+      "id": "66",
+      "state": "IL",
+      "name": "Chicago",
+      "veterans_benefits": "Illinois fully exempts military retirement pay (including military disability retirement pay) from state income tax. Disabled veterans get a tiered property tax exemption: $2,500 for a 30-49% disability rating, $5,000 for 50-69%, and full exemption from property tax on the primary residence at 70% or higher; returning veterans (from active duty in an armed conflict) get a $5,000 assessed-value reduction for the return year and the following year."
+    },
+    {
+      "id": "67",
+      "state": "VA",
+      "name": "Virginia Beach",
+      "veterans_benefits": "Virginia offers a military retirement subtraction up to $40,000 for tax year 2025 and later, property tax exemption for qualifying 100% permanent and total disabled veterans and eligible surviving spouses, education/employment assistance, and local DVS benefits support."
+    },
+    {
+      "id": "68",
+      "state": "TX",
+      "name": "San Antonio",
+      "veterans_benefits": "No state income tax; property tax exemptions for 100% disabled veterans."
+    },
+    {
+      "id": "69",
+      "state": "AZ",
+      "name": "Sierra Vista",
+      "veterans_benefits": "Arizona exempts military retired pay from state income tax and offers veteran benefits including property tax relief for qualifying disabled veterans, education and tuition assistance, license plates, state park benefits, and hunting/fishing license privileges."
+    },
+    {
+      "id": "70",
+      "state": "IL",
+      "name": "Danville",
+      "veterans_benefits": "Illinois does not tax military retired pay or Social Security benefits, and offers veteran property-tax relief including disabled veteran homestead exemptions, returning veteran homestead exemptions, education benefits, employment assistance, and state veterans homes."
+    },
+    {
+      "id": "71",
+      "state": "CA",
+      "name": "Irvine",
+      "veterans_benefits": "California partially excludes qualifying military retirement and Survivor Benefit Plan income—up to $20,000 for tax years 2025–2029, subject to federal AGI limits of $125,000 ($250,000 for joint filers and qualifying surviving spouses). Veterans rated 100% disabled for a service-connected disability or compensated at the 100% rate due to individual unemployability may qualify for an assessed-value exemption on a principal residence; it is not generally a complete property-tax waiver. Additional programs include dependent college fee waivers, qualifying disabled-veteran vehicle fee exemptions, and CalVet home loans."
+    },
+    {
+      "id": "72",
+      "state": "FL",
+      "name": "Orlando",
+      "veterans_benefits": "Florida has no state personal income tax, so military retirement and other retirement income are not taxed at the state level. Florida also offers disabled veteran homestead/property tax exemptions, in-state tuition support for eligible veterans using GI Bill benefits, employment preference, and state veterans homes."
+    },
+    {
+      "id": "73",
+      "state": "CA",
+      "name": "San Diego",
+      "veterans_benefits": "California partially excludes qualifying military retirement and Survivor Benefit Plan income—up to $20,000 for tax years 2025–2029, subject to federal AGI limits of $125,000 ($250,000 for joint filers and qualifying surviving spouses). Veterans rated 100% disabled for a service-connected disability or compensated at the 100% rate due to individual unemployability may qualify for an assessed-value exemption on a principal residence; it is not generally a complete property-tax waiver. Additional programs include dependent college fee waivers, qualifying disabled-veteran vehicle fee exemptions, and CalVet home loans."
+    },
+    {
+      "id": "74",
+      "state": "KS",
+      "name": "Overland Park",
+      "veterans_benefits": "Kansas exempts military retired pay from state income tax, offers a homestead property-tax refund program for qualifying disabled veterans and surviving spouses, and begins a disabled veteran sales-tax exemption for qualifying 100% disabled veterans on July 1, 2026."
+    },
+    {
+      "id": "75",
+      "state": "NC",
+      "name": "Fayetteville",
+      "veterans_benefits": "North Carolina provides qualifying disabled veterans and surviving spouses a $45,000 homestead property-tax exclusion; DMVA also offers benefits/claims, education, health-care, and employment resources."
+    },
+    {
+      "id": "76",
+      "state": "PA",
+      "name": "King of Prussia",
+      "veterans_benefits": "Pennsylvania exempts military retirement pay from state personal income tax and offers a real-estate tax exemption for qualifying disabled veterans and surviving spouses, plus education and assistance programs through the Department of Military and Veterans Affairs."
+    },
+    {
+      "id": "77",
+      "state": "GA",
+      "name": "Marietta",
+      "veterans_benefits": "Georgia provides retirement-income adjustments for eligible residents age 62+ and military-retirement exclusions; qualifying disabled veterans receive an indexed homestead exemption."
+    },
+    {
+      "id": "78",
+      "state": "MT",
+      "name": "Great Falls",
+      "veterans_benefits": "Montana working military retirees may qualify for a military-retirement and survivor-benefit income-tax exemption; qualifying disabled veteran homeowners may receive income-based property-tax relief."
+    },
+    {
+      "id": "79",
+      "state": "ND",
+      "name": "Jamestown",
+      "veterans_benefits": "North Dakota allows qualifying military retirement pay to be subtracted from state taxable income and offers a disabled veterans property-tax credit for qualifying service-connected disabled veterans and surviving spouses."
+    },
+    {
+      "id": "80",
+      "state": "MN",
+      "name": "Burnsville",
+      "veterans_benefits": "Minnesota exempts military retirement pay from state income tax, offers disabled veterans a property-tax market value exclusion, provides short-term financial assistance, education benefits, and free state park passes for qualifying disabled veterans and certain service members."
+    },
+    {
+      "id": "81",
+      "state": "NY",
+      "name": "Rome",
+      "veterans_benefits": "New York offers multiple veterans property-tax exemptions, veterans tuition awards and education benefits, civil service preference, and state military/veterans pay tax treatment that can exempt military retirement and active-duty pay from New York income tax."
+    },
+    {
+      "id": "82",
+      "state": "IA",
+      "name": "Decorah",
+      "veterans_benefits": "Iowa exempts military retirement pay and survivor benefits from state income tax, offers military and disabled-veteran property tax relief, and provides state veterans services including employment, education, and county veterans-affairs assistance."
+    },
+    {
+      "id": "83",
+      "state": "IA",
+      "name": "Carroll",
+      "veterans_benefits": "Iowa exempts military retirement pay and survivor benefits from state income tax, offers military and disabled-veteran property tax relief, and provides state veterans services including employment, education, and county veterans-affairs assistance."
+    },
+    {
+      "id": "84",
+      "state": "VA",
+      "name": "Chantilly",
+      "veterans_benefits": "Virginia exempts qualifying 100% disabled veterans and surviving spouses from real property tax, provides a one-vehicle personal property tax exemption for eligible 100% disabled veterans, and allows a military retirement pay subtraction up to $40,000 for eligible veterans age 55 and older."
+    },
+    {
+      "id": "85",
+      "state": "CO",
+      "name": "Pueblo",
+      "veterans_benefits": "Colorado offers military retired pay tax subtractions, a disabled veteran and surviving spouse property tax exemption equal to 50% of the first $200,000 of actual value for eligible primary residences, education and tuition assistance, vehicle plates, and hunting and fishing license benefits."
+    },
+    {
+      "id": "86",
+      "state": "ME",
+      "name": "Bath",
+      "veterans_benefits": "Maine offers income-tax treatment for military retirement pay, veteran property-tax exemptions, motor-vehicle excise relief for qualifying disabled veterans, emergency financial assistance, education and employment support, and recreation/license benefits through the Bureau of Maine Veterans' Services."
+    },
+    {
+      "id": "87",
+      "state": "IN",
+      "name": "Fort Wayne",
+      "veterans_benefits": "Indiana exempts military pay and retired pay from state income tax and offers disabled-veteran property-tax deductions, education and tuition assistance, military plates, hunting and fishing licenses, and state park privileges for qualifying veterans."
+    },
+    {
+      "id": "88",
+      "state": "MS",
+      "name": "Forest",
+      "veterans_benefits": "Mississippi exempts military retirement pay from state income tax and offers disabled-veteran homestead property-tax exemptions, state employment preference, education and tuition assistance, military vehicle tags, and hunting and fishing privileges for qualifying veterans."
+    },
+    {
+      "id": "89",
+      "state": "AR",
+      "name": "Camden",
+      "veterans_benefits": "Arkansas exempts military retired pay; state benefits include disabled-veteran property-tax relief, employment preference, education assistance, and hunting/fishing privileges."
+    },
+    {
+      "id": "90",
+      "state": "WY",
+      "name": "Casper",
+      "veterans_benefits": "Wyoming has no individual income tax, so military retirement income is not taxed at the state level; qualifying veterans and surviving spouses may claim a $6,000 assessed-value property-tax exemption, or apply it to vehicle licensing fees if not used on real property."
+    },
+    {
+      "id": "91",
+      "state": "CA",
+      "name": "Eureka",
+      "veterans_benefits": "California partially excludes qualifying military retirement and Survivor Benefit Plan income—up to $20,000 for tax years 2025–2029, subject to federal AGI limits of $125,000 ($250,000 for joint filers and qualifying surviving spouses). Veterans rated 100% disabled for a service-connected disability or compensated at the 100% rate due to individual unemployability may qualify for an assessed-value exemption on a principal residence; it is not generally a complete property-tax waiver. Additional programs include dependent college fee waivers, qualifying disabled-veteran vehicle fee exemptions, and CalVet home loans."
+    },
+    {
+      "id": "92",
+      "state": "WA",
+      "name": "Spokane",
+      "veterans_benefits": "Washington has no state individual income tax, so military retirement income is not taxed as wage or pension income; qualifying seniors, people retired due to disability, and veterans compensated at the 80% service-connected rate may qualify for income-based property-tax exemptions or deferrals."
+    },
+    {
+      "id": "93",
+      "state": "GA",
+      "name": "Savannah",
+      "veterans_benefits": "Georgia provides age- and income-conditional military-retirement income exclusions, a disabled-veteran homestead exemption, employment preference, education and tuition assistance, free veteran driver's licenses, vehicle tags, veterans nursing homes, and hunting and fishing privileges."
+    },
+    {
+      "id": "94",
+      "state": "SD",
+      "name": "Rapid City",
+      "veterans_benefits": "South Dakota has no state individual income tax, provides veterans service officers and employment preference, and exempts $200,000 of owner-occupied value for qualifying permanently and totally disabled veterans; qualifying surviving spouses may receive a $150,000 exemption."
+    },
+    {
+      "id": "95",
+      "state": "NY",
+      "name": "Ithaca",
+      "veterans_benefits": "New York provides veterans services, property-tax exemptions for eligible veterans, education assistance, and employment preferences."
+    },
+    {
+      "id": "96",
+      "state": "PA",
+      "name": "Pittsburgh",
+      "veterans_benefits": "Pennsylvania does not tax qualifying military retirement pay or VA disability benefits and offers a real-estate-tax exemption to eligible disabled wartime veterans and qualifying surviving spouses; eligibility and financial-need criteria apply."
+    },
+    {
+      "id": "97",
+      "state": "TX",
+      "name": "Amarillo",
+      "veterans_benefits": "Texas has no state individual income tax and provides disabled-veteran property-tax exemptions, including a total residence-homestead exemption for qualifying veterans with a 100% service-connected disability or individual-unemployability rating. Texas Veterans Commission programs also include employment preference and education benefits."
+    },
+    {
+      "id": "98",
+      "state": "LA",
+      "name": "Shreveport",
+      "veterans_benefits": "Louisiana exempts military retirement benefits from state income tax and offers disabled-veteran property-tax exemptions, with additional assessed-value exemptions for 50%-99% service-connected disability ratings and a full remaining homestead-assessed-value exemption for qualifying 100% disabled veterans."
+    },
+    {
+      "id": "99",
+      "state": "NV",
+      "name": "Reno",
+      "veterans_benefits": "Nevada has no individual income tax, so military retirement income is not taxed at the state level; qualifying veterans and disabled veterans may receive property-tax exemptions, and disabled veterans with at least a 60% permanent service-connected disability may apply the exemption toward real property or vehicle registration taxes."
+    },
+    {
+      "id": "100",
+      "state": "SD",
+      "name": "Pierre",
+      "veterans_benefits": "South Dakota has no state individual income tax, provides veterans service assistance and employment preference, and exempts $200,000 of owner-occupied value for qualifying permanently and totally disabled veterans; qualifying surviving spouses may receive a $150,000 exemption."
+    },
+    {
+      "id": "101",
+      "state": "TX",
+      "name": "Dallas",
+      "veterans_benefits": "Texas has no state individual income tax, offers disabled-veteran property-tax exemptions from $5,000 to $12,000 by disability rating, and provides a full residence-homestead property-tax exemption for qualifying 100% disabled veterans and eligible surviving spouses."
+    },
+    {
+      "id": "102",
+      "state": "CA",
+      "name": "Fresno",
+      "veterans_benefits": "California partially excludes qualifying military retirement and Survivor Benefit Plan income—up to $20,000 for tax years 2025–2029, subject to federal AGI limits of $125,000 ($250,000 for joint filers and qualifying surviving spouses). Veterans rated 100% disabled for a service-connected disability or compensated at the 100% rate due to individual unemployability may qualify for an assessed-value exemption on a principal residence; it is not generally a complete property-tax waiver. Additional programs include dependent college fee waivers, qualifying disabled-veteran vehicle fee exemptions, and CalVet home loans."
+    },
+    {
+      "id": "103",
+      "state": "NY",
+      "name": "Binghamton",
+      "veterans_benefits": "New York exempts military retirement pay from state income taxes and offers property tax exemptions for veterans."
+    },
+    {
+      "id": "104",
+      "state": "MT",
+      "name": "Missoula",
+      "veterans_benefits": "Montana working military retirees may qualify for a military-retirement income-tax exemption; qualifying disabled veteran homeowners may receive income-based property-tax relief."
+    },
+    {
+      "id": "105",
+      "state": "NY",
+      "name": "Albany",
+      "veterans_benefits": "Military retired pay exempt from state income tax, property tax exemptions up to 15-25% for wartime/combat veterans, tuition assistance, civil service preference, state park privileges."
+    },
+    {
+      "id": "106",
+      "state": "PA",
+      "name": "Scranton",
+      "veterans_benefits": "Military retirement pay 100% exempt from PA state income tax. 100% disabled veterans receive full property tax exemption. PA operates 6 state veterans homes including Gino J. Merli Veterans' Center in Scranton."
+    },
+    {
+      "id": "107",
+      "state": "TN",
+      "name": "Memphis",
+      "veterans_benefits": "Tennessee has no individual income tax on pensions or other retirement income; eligible disabled veterans and surviving spouses may receive state property-tax relief, and state programs include veteran education, recreation, and service benefits."
+    },
+    {
+      "id": "108",
+      "state": "TX",
+      "name": "Odessa",
+      "veterans_benefits": "Texas has no state individual income tax and provides disabled-veteran property-tax exemptions, including a total residence-homestead exemption for qualifying veterans with a 100% service-connected disability or individual-unemployability rating. Texas Veterans Commission programs also include employment preference and education benefits."
+    },
+    {
+      "id": "109",
+      "state": "NV",
+      "name": "Elko",
+      "veterans_benefits": "Nevada has no individual income tax, so military retirement income is not taxed at the state level; qualifying veterans and disabled veterans may receive property-tax exemptions, and disabled veterans with at least a 60% permanent service-connected disability may apply the exemption toward real property or vehicle registration taxes."
+    },
+    {
+      "id": "110",
+      "state": "OR",
+      "name": "Bend",
+      "veterans_benefits": "Oregon exempts active-duty military pay for service outside Oregon, gives disabled veterans and surviving spouses a property-tax exemption, and offers state veteran home and education/employment supports."
+    },
+    {
+      "id": "111",
+      "state": "CO",
+      "name": "Grand Junction",
+      "veterans_benefits": "Colorado offers military retired-pay tax subtractions, a disabled veteran and surviving-spouse property-tax exemption for eligible primary residences, education and tuition assistance, vehicle plates, and hunting and fishing license benefits."
+    },
+    {
+      "id": "112",
+      "state": "AL",
+      "name": "Florence",
+      "veterans_benefits": "Alabama exempts military retirement pay from state income tax. Qualifying disabled veterans may receive a homestead property-tax exemption, and the Alabama Department of Veterans Affairs provides veterans services."
+    },
+    {
+      "id": "113",
+      "state": "AZ",
+      "name": "Gilbert",
+      "veterans_benefits": "Arizona taxes military retirement pay and does not provide a general statewide property-tax exemption for all veterans; eligibility-based property-tax relief and Arizona Department of Veterans' Services programs may apply. Verify current eligibility with the state before relying on a benefit."
+    },
+    {
+      "id": "114",
+      "state": "NE",
+      "name": "North Platte",
+      "veterans_benefits": "Nebraska excludes military retirement pay from state taxable income. Qualifying veterans may receive income-based homestead relief or disabled-veteran property-tax relief; confirm current eligibility with Nebraska Department of Veterans' Affairs."
+    },
+    {
+      "id": "115",
+      "state": "OH",
+      "name": "Ashville",
+      "veterans_benefits": "Ohio exempts military retirement and Survivor Benefit Plan income from state income tax; qualifying disabled veterans may receive a homestead property-tax exemption and veterans can access state benefits and county veterans-service support."
+    },
+    {
+      "id": "116",
+      "state": "CA",
+      "name": "Victorville",
+      "veterans_benefits": "California partially excludes qualifying military retirement and Survivor Benefit Plan income—up to $20,000 for tax years 2025–2029, subject to federal AGI limits of $125,000 ($250,000 for joint filers and qualifying surviving spouses). Veterans rated 100% disabled for a service-connected disability or compensated at the 100% rate due to individual unemployability may qualify for an assessed-value exemption on a principal residence; it is not generally a complete property-tax waiver. Additional programs include dependent college fee waivers, qualifying disabled-veteran vehicle fee exemptions, and CalVet home loans."
+    },
+    {
+      "id": "118",
+      "state": "NY",
+      "name": "Watertown",
+      "veterans_benefits": "New York exempts qualifying military retirement pay from state income tax and offers several veterans property-tax exemptions, along with education and employment benefits."
+    },
+    {
+      "id": "119",
+      "state": "ME",
+      "name": "Bangor",
+      "veterans_benefits": "Maine fully exempts military retirement and survivor benefits from state income tax and offers qualifying veterans property-tax exemptions, motor-vehicle excise relief, emergency financial assistance, education and employment support, and recreation and license benefits through the Bureau of Maine Veterans' Services."
+    },
+    {
+      "id": "120",
+      "state": "PA",
+      "name": "Warren",
+      "veterans_benefits": "Pennsylvania exempts eligible retirement income from state income tax, offers a real-property tax exemption to qualifying disabled veterans, and provides veterans employment services and preference information."
+    },
+    {
+      "id": "121",
+      "state": "OK",
+      "name": "Oklahoma City",
+      "veterans_benefits": "Oklahoma excludes the greater of $10,000 or 75% of qualifying military retirement income, and offers qualifying 100% disabled veterans property- and sales-tax exemptions plus state veterans services."
+    },
+    {
+      "id": "122",
+      "state": "WA",
+      "name": "Bellevue",
+      "veterans_benefits": "Washington has no state individual income tax. Qualifying veterans with disabilities and qualifying surviving spouses may receive income-based property-tax relief; VA disability compensation is excluded from the income calculation."
+    },
+    {
+      "id": "123",
+      "state": "CO",
+      "name": "Boulder",
+      "veterans_benefits": "Colorado provides eligible disabled veterans a property-tax exemption; military retirement benefits are subject to Colorado income tax with applicable pension and military-retirement deductions."
+    },
+    {
+      "id": "124",
+      "state": "CO",
+      "name": "Broomfield",
+      "veterans_benefits": "Colorado provides eligible disabled veterans a property-tax exemption; military retirement benefits are subject to Colorado income tax with applicable pension and military-retirement deductions."
+    },
+    {
+      "id": "125",
+      "state": "CA",
+      "name": "Lake Forest",
+      "veterans_benefits": "California provides eligible disabled veterans a property-tax exemption and excludes qualifying military retirement pay from state income tax."
+    },
+    {
+      "id": "126",
+      "state": "GA",
+      "name": "Columbus",
+      "veterans_benefits": "Georgia provides age- and income-conditional military-retirement income exclusions, a disabled-veteran homestead exemption, employment preference, education and tuition assistance, free veteran driver's licenses, vehicle tags, veterans nursing homes, and hunting and fishing privileges."
+    },
+    {
+      "id": "127",
+      "state": "CO",
+      "name": "Fort Collins",
+      "veterans_benefits": "Colorado offers military retired-pay tax subtractions, a disabled-veteran and surviving-spouse property-tax exemption, education and tuition assistance, vehicle plates, and hunting/fishing license benefits."
+    },
+    {
+      "id": "128",
+      "state": "TX",
+      "name": "Fort Stockton",
+      "veterans_benefits": "Texas offers qualifying disabled veterans property-tax exemptions; the Hazlewood Act provides up to 150 hours of tuition exemption for qualified veterans and eligible family members; Texas also operates state veterans homes and other veteran programs. Texas has no individual state income tax, so military retirement pay is not subject to Texas personal income tax."
+    },
+    {
+      "id": "129",
+      "state": "CA",
+      "name": "Goleta",
+      "veterans_benefits": "California partially excludes qualifying military retirement and Survivor Benefit Plan income—up to $20,000 for tax years 2025-2029, subject to federal AGI limits. Veterans rated 100% disabled for a service-connected disability or compensated at the 100% rate due to individual unemployability may qualify for an assessed-value property-tax exemption. Additional programs include dependent college fee waivers, disabled-veteran vehicle fee exemptions, and CalVet home loans."
+    },
+    {
+      "id": "130",
+      "state": "WA",
+      "name": "Hamilton",
+      "veterans_benefits": "Washington does not levy an individual state income tax on wages or military retirement income. Qualified disabled veterans and surviving spouses may also qualify for Washington property-tax relief subject to disability, residency and income requirements."
+    },
+    {
+      "id": "131",
+      "state": "MA",
+      "name": "Lexington",
+      "veterans_benefits": "Massachusetts fully excludes U.S. military retirement pensions from state gross income. Eligible veterans may also receive local property-tax exemptions based on disability or qualifying service, with additional options under the state's HERO Act."
+    },
+    {
+      "id": "132",
+      "state": "MS",
+      "name": "McHenry",
+      "veterans_benefits": "Mississippi exempts military retired pay from state income tax and does not tax VA disability compensation. Qualifying disabled veterans may also receive additional state and local property-tax benefits."
+    },
+    {
+      "id": "133",
+      "state": "NC",
+      "name": "Morrisville",
+      "veterans_benefits": "North Carolina allows qualifying military retirees to deduct eligible U.S. military retirement pay from state taxable income. Additional state veterans programs include property-tax relief for qualifying disabled veterans, administered through state and county veterans services."
+    },
+    {
+      "id": "134",
+      "state": "RI",
+      "name": "North Kingstown",
+      "veterans_benefits": "Rhode Island fully exempts military retirement pay from state income tax. Qualifying veterans and surviving spouses may also receive local property-tax exemptions, with amounts varying by city or town."
+    },
+    {
+      "id": "135",
+      "state": "MA",
+      "name": "Quincy",
+      "veterans_benefits": "Massachusetts fully excludes U.S. military retirement pensions from state gross income. Eligible veterans may also receive local property-tax exemptions based on qualifying service or service-connected disability, with additional municipal options under current Massachusetts law."
+    },
+    {
+      "id": "136",
+      "state": "MA",
+      "name": "Waltham",
+      "veterans_benefits": "Massachusetts fully excludes U.S. military retirement pensions from state gross income. Eligible veterans may also qualify for local property-tax exemptions based on service-connected disability or qualifying service, with additional municipal options under current Massachusetts law."
+    },
+    {
+      "id": "137",
+      "state": "WY",
+      "name": "Cody",
+      "veterans_benefits": "Wyoming has no individual state income tax, so military retirement pay is not subject to state income tax. Qualifying veterans may also receive a $6,000 exemption from the assessed value of a primary residence, or apply it toward vehicle licensing, subject to residency and service eligibility requirements."
+    },
+    {
+      "id": "138",
+      "state": "ND",
+      "name": "Grand Forks",
+      "veterans_benefits": "North Dakota excludes qualifying military retirement pay from state taxable income, and disabled veterans with a service-connected disability of 50% or greater may qualify for the state's disabled veterans property-tax credit on a homestead."
+    },
+    {
+      "id": "139",
+      "state": "TN",
+      "name": "Tullahoma",
+      "veterans_benefits": "Tennessee has no individual income tax on wages or most retirement income. Qualifying disabled veterans and surviving spouses may receive state-funded property-tax relief; veterans with a 100% permanent-and-total service-connected disability and former prisoners of war are exempt from the county motor-vehicle privilege tax. Tennessee also provides veteran identification and license-plate options, recreational and hunting/fishing benefits, burial and cemetery services, education and employment assistance, and state veterans homes."
+    },
+    {
+      "id": "140",
+      "state": "NC",
+      "name": "Asheville",
+      "veterans_benefits": "Qualifying military retirement pay is deductible for eligible 20+ year or Chapter 61 retirees; qualifying disabled veterans may exclude the first $45,000 of appraised homestead value."
+    },
+    {
+      "id": "141",
+      "state": "UT",
+      "name": "St. George",
+      "veterans_benefits": "Utah taxes military retired pay but offers disabled-veteran property-tax exemptions, veterans hiring preference, state education and tuition assistance, free state park admission through the disabled-veteran Honor Pass, special plates, and hunting and fishing privileges."
+    }
+  ]
+}

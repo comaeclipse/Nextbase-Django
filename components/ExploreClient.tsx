@@ -105,6 +105,8 @@ export default function ExploreClient({
             activities: [],
             snow: "",
             incomeTax: "",
+            noStateIncomeTax: false,
+            retiredPayUntaxed: false,
             hasWalmart: false,
             hasCostco: false,
             lgbtq: false,
@@ -163,6 +165,11 @@ export default function ExploreClient({
       activities: filters.activities.join(",") || null,
       geography: filters.geography.join(",") || null,
       income_tax: filters.incomeTax || null,
+      no_income_tax: filters.noStateIncomeTax ? "true" : null,
+      // "Military retirement not taxed" = no income tax at all OR retired pay
+      // explicitly exempt. `conditional`/`partial` are deliberately excluded:
+      // they'd mislead a retiree who doesn't meet the gate (issue #6).
+      retired_pay_tax: filters.retiredPayUntaxed ? "no_income_tax,exempt" : null,
       vibes: filters.vibes.join(",") || null,
       employers: filters.employers.join(",") || null,
       defense_ecosystem: filters.defenseEcosystem ? "true" : null,

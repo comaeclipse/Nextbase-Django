@@ -1,0 +1,398 @@
+{
+  "schema_version": 2,
+  "pack_id": "north_platte_ordinary_evening_gold_v1",
+  "question": "Is North Platte's ordinary-evening social life event-led rather than venue-led, and how does it relate to the town's continuous industrial rhythm?",
+  "question_shape": "conflicting_evidence",
+  "geography_scope": "North Platte city, NE",
+  "temporal_scope": "Ordinary-week (non-festival) hours as published 2026-08-19; event claims are for scheduled 2026 dates; two lived accounts carry older vintages noted per claim.",
+  "retrieved_on": "2026-08-19",
+  "ledger_entries": ["north_platte_ordinary_evening_2026"],
+  "method_note": "Owner research pass (Packet 2, 2026-08-19) against the rhythm-calibration evidence bar in docs/rhythm-calibration.md. Handling rules applied at capture time: regular and event/special hours kept separate; a missing hour recorded as unknown, never converted to closed; kitchen, dining, lounge, and facility hours separated wherever the source separates them; marketing language classified as portrayal, not operations; festival extensions (Nebraskaland Days, Canteen events, after-prom rentals) excluded from the ordinary-week sample. Tavern selection favored evidence of actual local use (pool-league activity) over listing rank. Stance in this pack is relative to the prior calibration theory that North Platte's social evenings are event-led rather than venue-led: supports = weighs toward that reading, contradicts = weighs against it.",
+  "vocabulary": {
+    "claim_type": ["venue_schedule", "event_schedule", "marketing_portrayal", "lived_texture", "comparison", "not_established", "context"],
+    "evidence_kind": ["venue_hours_primary", "venue_hours_aggregator", "community_sentiment", "destination_organization", "local_member_organization", "employer_primary"],
+    "stance": {
+      "supports": "Weighs toward the event-led / narrow-ordinary-evening reading.",
+      "contradicts": "Weighs against it: evidence of a real ordinary venue layer.",
+      "context": "Frames the answer without settling it."
+    },
+    "confidence": ["high", "medium", "low"]
+  },
+  "notes_on_sourcing": "Eight of ten venue-hours records are first-party (venue's own site); Brothers Tavern is a local-media directory record and Merrick's hours come from the Chamber directory, both marked lower confidence. A stale placeholder listing for Kelsey's (kelseysne.com, 12:00 AM-12:00 AM every day) was identified and excluded. Hub Bar's hours could not be established from any current first-party source and are recorded as unknown. The Rail Days Twilight Tours event page returned 410/gone on re-open the same day, so it is retained as an access-date observation only.",
+  "claims": [
+    {
+      "id": "R1_bailey_yard_continuous",
+      "claim": "Union Pacific's Bailey Yard runs a genuinely continuous industrial clock: UP reported in July 2025 that the yard covers 2,850 acres and handles about 10,000 rail cars daily, and a UP employee profile documents a North Platte trainman/switchman working the overnight shift.",
+      "claim_type": "context",
+      "evidence_kind": "employer_primary",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "North Platte / Bailey Yard specifically",
+      "quote": "I work the midnight shift, 11 p.m. to 7 a.m. by choice,",
+      "source_urls": [
+        "https://www.up.com/news/safety/Senior-Leads-Reinforce-Safety-250707",
+        "https://www.up.com/aboutup/career-corner/jeffbarner.htm"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "The worker profile was posted May 19, 2017 — it documents that overnight shifts are a real, chosen routine at Bailey Yard, not current staffing specifics.",
+        "Continuous industrial operation does not by itself prove that restaurants, bars, or other social infrastructure adapt to railroad workers' hours; that is what the venue sample tests."
+      ]
+    },
+    {
+      "id": "V1_kelseys_place",
+      "claim": "Kelsey's Place (219 Rodeo Rd) publishes Tuesday-Saturday hours of 11 AM to 1 AM on its own site; its kitchen close is unknown.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": ["https://kelseysplacebar.com/contact-us/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "The venue serves food but no first-party statement establishes the kitchen staying open to the 1 a.m. bar close; kitchen close is unknown, not 1 a.m.",
+        "A stale placeholder listing (kelseysne.com, 12:00 AM-12:00 AM daily) was identified and deliberately excluded."
+      ]
+    },
+    {
+      "id": "V2_brothers_tavern",
+      "claim": "Brothers Tavern (215 E 6th St, address confirmed by the North Platte Area Chamber) is listed at 11:00 AM-1:00 AM in the North Platte Telegraph business directory, with Sunday as call-for-hours; its kitchen close is unknown. Local use is independently evidenced: Western Nebraska APA reported it winning a North Platte-area Sunday 9-ball league session.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_aggregator",
+      "stance": "contradicts",
+      "confidence": "medium",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": [
+        "https://www.nparea.com/list/member/brothers-tavern-2805",
+        "https://nptelegraph.com/findit/product/image_d585849e-e9f7-11e4-9f3c-ef651d96a78e.html",
+        "https://www.facebook.com/Western.Nebraska.APA/posts/congratulations-to-brothers-tavern-out-of-north-platte-for-winning-the-spring-se/2373446396044025/"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "Hours come from a local-media directory record, not the venue's own page — lower confidence than Kelsey's first-party 1 a.m.",
+        "League activity proves local use, not evening crowd size."
+      ]
+    },
+    {
+      "id": "V3_hub_bar_unknown",
+      "claim": "Hub Bar (702 N Jeffers St) is a confirmed, locally used tavern — its first-party Facebook page establishes the venue and address, and Western Nebraska APA reported it winning a Wednesday 8-ball league session — but its regular hours could not be established from any current first-party source and are recorded as unknown.",
+      "claim_type": "not_established",
+      "evidence_kind": "local_member_organization",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": [
+        "https://www.facebook.com/pages/Hub-Bar/146682798690070",
+        "https://www.facebook.com/Western.Nebraska.APA/posts/congratulations-to-hub-bar-in-north-platte-for-winning-the-fall-session-wednesda/2164229866965680/"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "Unknown means unknown: this is not evidence that Hub Bar closes early, and not evidence that it is closed evenings.",
+        "The Wednesday league win is local-use evidence that also hints at midweek evening activity, but it carries no hours."
+      ]
+    },
+    {
+      "id": "V4_merricks_ranch_house",
+      "claim": "Merrick's Ranch House (1220 E 4th St), a North Platte legacy restaurant the Telegraph describes as open since the end of World War II, is listed by the Chamber at 11:00 AM-8:00 PM Tuesday-Sunday (Monday closed); the relevant ordinary-evening datum is the 8 PM close.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_aggregator",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": [
+        "https://merricksnp.com/",
+        "https://www.nparea.com/list/member/merrick-s-ranch-house-north-platte-7936",
+        "https://nptelegraph.com/gallery/news/collection_bd91a1ce-2057-11ea-bd32-cb5c5e6ad7e1.html"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "Hours are Chamber-directory, not first-party, and conflict on opening time: Merrick's own Facebook advertises breakfast Tuesday-Sunday 7-11 AM, so the 11 AM open is low-confidence; the 8 PM evening close is the datum this pack relies on, at medium confidence.",
+        "A legacy family restaurant closing at 8 PM neither supports nor refutes event-led evenings; it marks where the dining category exits the night."
+      ]
+    },
+    {
+      "id": "V5_north40_chophouse",
+      "claim": "North 40 Chophouse (520 N Jeffers St) publishes first-party lounge hours of 4-10 PM Monday-Thursday and 4-11 PM Friday-Saturday, with dining Monday-Saturday from 5 PM and last seating at 9 PM; last seating is not a kitchen-close time, which remains unpublished. The same page advertises live music in the lounge Wednesday-Saturday — entertainment programming, not the basis of its hours.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": ["https://north40.bar/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "'Last seating at 9pm' must not be silently converted into 'kitchen closes at 9'; the kitchen close is unknown.",
+        "Regular in-venue live programming (Wed-Sat) blurs the venue/event boundary in the venue's favor: it is ordinary-week programming, not a special event."
+      ]
+    },
+    {
+      "id": "V6_cedar_room",
+      "claim": "The Cedar Room (505-507 N Dewey St) publishes first-party hours: lunch Monday-Saturday 11 AM-3 PM, dinner 5-10 PM, lounge hours explicitly the same as restaurant hours, Sunday closed. Ordinary Tuesday-Saturday evening close is 10 PM.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "North Platte city",
+      "quote": "Lounge hours are the same as restaurant hours",
+      "source_urls": ["https://thecedarroomne.com/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "The lounge/restaurant synchronization is explicit and first-party; a separately defined kitchen shutoff is not published."
+      ]
+    },
+    {
+      "id": "V7_pals_brewing",
+      "claim": "Pals Brewing Company's North Platte taproom (4520 S Buffalo Bill Ave) publishes first-party regular hours of 11 AM-10 PM Monday-Saturday and 11 AM-9 PM Sunday; festival extensions are excluded from this record.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": ["https://www.palsbrewingcompany.com/tap-room-north-platte"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "The regular-hours page does not publish a distinct kitchen-vs-taproom cutoff.",
+        "Pals' festival-period late activity (to 1 AM) appears only in the event evidence (E2), never here."
+      ]
+    },
+    {
+      "id": "V8_espresso_shop",
+      "claim": "The Espresso Shop by Caravan (408 N Chestnut) publishes first-party hours of 6:30 AM-3:00 PM Monday-Saturday with the kitchen explicitly closing at 2:30 PM, Sunday closed — the sampled independent coffee/third-place venue does not extend into the ordinary evening at all.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "supports",
+      "confidence": "high",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": ["https://www.espressoshopnp.com/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "One venue represents the category in this sample; other coffee options may exist unsampled.",
+        "Supports the narrow-evening reading only for the non-alcohol third-place category, not for evenings overall."
+      ]
+    },
+    {
+      "id": "V9_wbs_fun_center",
+      "claim": "WB's Fun Center (1100 S Jeffers St) publishes first-party facility hours of 11 AM-10 PM Sunday-Thursday and 11 AM-12 AM Friday-Saturday; its overnight after-prom operations are private-event products handled under event evidence, not regular hours.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": ["https://wbsfun.com/contact-us"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "Facility hours; event rentals are a separate product and never extend the ordinary close recorded here."
+      ]
+    },
+    {
+      "id": "V10_pennys_diner",
+      "claim": "Penny's Diner (473 Halligan Drive) publishes first-party hours of Open 24/7 — genuine round-the-clock food service, not merely a 24-hour gym or convenience store, and the kind of venue a rail town's shift economy would predict.",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "high",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": ["https://pennysdiner.com/?p=154"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "One 24-hour diner is a real exception to the evening contraction, not a late-night ecosystem.",
+        "Its fit with the shift economy is an inference from category, not a documented customer pattern."
+      ]
+    },
+    {
+      "id": "E1_recurring_events",
+      "claim": "North Platte runs recurring organized evening programming: Wednesday Night Dances weekly 7:00-9:30 PM, the Fort Cody Summer Music Series on summer Thursdays (local opener 6 PM, featured act 7 PM), and downtown Music on the Bricks (Saturday, August 22, 2026, from 6 PM).",
+      "claim_type": "event_schedule",
+      "evidence_kind": "destination_organization",
+      "stance": "supports",
+      "confidence": "high",
+      "geography_scope": "North Platte city / downtown",
+      "quote": null,
+      "source_urls": [
+        "https://www.visitnorthplatte.com/event/wednesday-night-dances/9555/",
+        "https://www.visitnorthplatte.com/events/annual-events-festivals/",
+        "https://www.visitnorthplatte.com/event/music-on-the-bricks/10643/"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "frequency",
+      "temporal_pattern": "event_driven",
+      "limitations": [
+        "Organized events, never venue-hours proxies — the Wednesday dance lands on the very midweek night the venue sample tests, which is exactly why the two evidence classes are kept separate.",
+        "The Fort Cody series is seasonal (summer Thursdays), not year-round."
+      ]
+    },
+    {
+      "id": "E2_festival_and_special_events",
+      "claim": "Festival and special-event programming periodically extends North Platte's evening well beyond the regular venue layer: Canteen CruiseFest (July 10-12, 2026; live music, beer garden, food trucks; no verified daily end times), Pals' Boots N' Beef festival (July 31-August 1, 2026; Saturday 9:30 PM after-party and Grain Bin bar/late-food activity to 1 AM per the venue's own schedule), Rail Days Twilight Tours (August 7-8, 2026, 7-11 PM), and WB's after-prom private rentals running 12-4 AM.",
+      "claim_type": "event_schedule",
+      "evidence_kind": "destination_organization",
+      "stance": "supports",
+      "confidence": "medium",
+      "geography_scope": "North Platte city / downtown / venue-specific",
+      "quote": null,
+      "source_urls": [
+        "https://www.visitnorthplatte.com/canteen-cruisefest/",
+        "https://www.palsbrewingcompany.com/boots-n-beef/schedule",
+        "https://www.visitnorthplatte.com/event/north-platte-rail-days%3A-twilight-tours-at-the-tower/10464/",
+        "https://wbsfun.com/events"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "frequency",
+      "temporal_pattern": "event_driven",
+      "limitations": [
+        "None of these extends any ordinary-week closing time recorded in V1-V10.",
+        "The Rail Days event page returned 410/gone on same-day re-open; retained as an access-date event-calendar observation, not a durable fact.",
+        "Pals' festival pages disagree internally on festival kitchen times (10:45 PM vs the detailed schedule); irrelevant to the ordinary sample, recorded for honesty.",
+        "CruiseFest's daily end times were not verifiable; no time is invented.",
+        "After-prom rentals prove overnight capacity, not public late-night availability."
+      ]
+    },
+    {
+      "id": "P1_visit_np_portrayal",
+      "claim": "Visit North Platte's marketing portrays a continuously active town — 'There's almost always something going on in North Platte.' — and frames breweries/wineries as evening options ('If you're looking for a relaxing afternoon or evening, look no further than our local wineries and breweries!'); Pals' own page adds 'Our calendar is always packed with something fun and welcoming for all ages.'",
+      "claim_type": "marketing_portrayal",
+      "evidence_kind": "destination_organization",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "North Platte city (destination marketing)",
+      "quote": "There's almost always something going on in North Platte.",
+      "source_urls": [
+        "https://www.visitnorthplatte.com/events/",
+        "https://www.visitnorthplatte.com/things-to-do/breweries-wineries/",
+        "https://www.palsbrewingcompany.com/tap-room-north-platte"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "attendance",
+      "limitations": [
+        "Portrayal, not operations: the first quote directs visitors to an event calendar and the second identifies an evening-use category without hours — the operational counterpart is Pals' first-party 10 PM close (V7).",
+        "Notably, the portrayal's 'always something going on' is event-shaped language, which is consistent with, not contradicted by, the event evidence."
+      ]
+    },
+    {
+      "id": "A1_citydata_bar_centric_social_path",
+      "claim": "A City-Data poster who moved to North Platte in 2006 and lived there six months reports that, as a single adult who avoided the bar scene, they made one friend beyond coworkers in their entire time there — direct lived evidence that the bar scene is a materially important social pathway and that non-bar adult social life can be very thin.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "supports",
+      "confidence": "medium",
+      "geography_scope": "North Platte city (poster distinguishes it from nearby Gothenburg)",
+      "quote": "Being a single guy who doesnt do the bar scene, I made 1 friend beyond my coworkers in the whole time I was there.",
+      "source_urls": ["https://www.city-data.com/forum/nebraska/1056476-north-platte-ne.html"],
+      "retrieved_on": "2026-08-19",
+      "measures": "outcome",
+      "limitations": [
+        "Posted September 26, 2010 — a dated single account of a six-month residency; social conditions can change over 15+ years.",
+        "No weeknight/weekend specificity; it describes an integration outcome, not an evening schedule."
+      ]
+    },
+    {
+      "id": "A2_niche_integration_success",
+      "claim": "A Niche reviewer (February 23, 2023) who had moved to North Platte two years earlier reports successful social integration — and the rest of the review frames leisure around museums, lakes, parks, and sit-down restaurants, a broader conception than a bar-only routine.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "contradicts",
+      "confidence": "medium",
+      "geography_scope": "North Platte city",
+      "quote": "North Platte is a friendly city. I've made a good amount of friends since I moved here 2 years ago now.",
+      "source_urls": ["https://www.niche.com/places-to-live/north-platte-lincoln-ne/reviews/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "outcome",
+      "limitations": [
+        "Anonymous platform review; residence is implied by the text, not verified.",
+        "No weeknight/weekend specificity; it describes an integration outcome, not an evening schedule."
+      ]
+    },
+    {
+      "id": "X1_lived_disagreement",
+      "claim": "The two lived accounts genuinely disagree: a bar-avoiding single adult reports near-total social isolation (one friend beyond coworkers in six months), while a newcomer reports making a good amount of friends within two years — a materially different integration outcome, not two wordings of the same complaint. This satisfies rhythm-calibration evidence-bar item #4, with high geographic specificity and low temporal specificity.",
+      "claim_type": "comparison",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": [
+        "https://www.city-data.com/forum/nebraska/1056476-north-platte-ne.html",
+        "https://www.niche.com/places-to-live/north-platte-lincoln-ne/reviews/"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "outcome",
+      "limitations": [
+        "Neither account supplies a Tuesday-versus-Saturday behavioral diary; the disagreement is about integration outcome and social pathways, not hours.",
+        "The accounts are 13 years apart (2010 vs 2023), so cohort and era differences may explain part of the divergence."
+      ]
+    },
+    {
+      "id": "X2_rhythm_mismatch_refined",
+      "claim": "The rhythm mismatch is real but more precise than 'railroad works all night while everything else is closed': Bailey Yard's clock is continuous, while the public social rhythm narrows sharply by category as the night advances — the sampled independent coffee shop exits at 3 PM, the legacy family restaurant by 8 PM, the brewery, recreation center, lounge, and dining rooms by about 10 PM on a weeknight, taverns carry activity to 1 AM, and one 24/7 diner runs continuously.",
+      "claim_type": "comparison",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": ["https://www.up.com/aboutup/career-corner/jeffbarner.htm", "https://kelseysplacebar.com/contact-us/", "https://pennysdiner.com/?p=154"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "coverage": { "basis": "partial_sample", "universe": "North Platte ordinary-evening venues across categories" },
+      "limitations": [
+        "A ten-venue sample across six categories is representative by design but still partial; Hub Bar's unknown hours mean the tavern category's late depth could be understated.",
+        "Availability only: nothing in this pack measures how many people are actually out on an ordinary Tuesday."
+      ]
+    },
+    {
+      "id": "X3_event_led_correction",
+      "claim": "The strong version of the prior calibration theory — 'social evenings are event-led, not venue-led' — is contradicted by the ordinary-week sample: on a plain Tuesday or Wednesday, Kelsey's runs to 1 AM (Brothers reportedly the same at lower confidence), North 40's lounge, the Cedar Room, Pals, and WB's all run to 10 PM, and Penny's never closes. The defensible weak version survives: organized events materially expand the evening's breadth, audience, and late-hour activity beyond that regular layer.",
+      "claim_type": "comparison",
+      "evidence_kind": "venue_hours_primary",
+      "stance": "contradicts",
+      "confidence": "medium",
+      "geography_scope": "North Platte city",
+      "quote": null,
+      "source_urls": [
+        "https://kelseysplacebar.com/contact-us/",
+        "https://north40.bar/",
+        "https://www.visitnorthplatte.com/event/wednesday-night-dances/9555/"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "coverage": { "basis": "partial_sample", "universe": "North Platte ordinary-evening venues across categories" },
+      "limitations": [
+        "This corrects the calibration record's provisional 'event_led' assignment rather than the mismatch verdict itself; the mismatch stands on the category-contraction pattern (X2).",
+        "The correction is availability-based; an attendance-based test could still shift the venue-vs-event weighting."
+      ]
+    }
+  ],
+  "answer": {
+    "verdict": "Venue layer real; events amplify; the mismatch stands, refined.",
+    "one_line": "North Platte's ordinary weeknight has a real venue layer — taverns to 1 a.m., dining, brewery, and recreation to about 10 p.m., and a genuine 24/7 diner — so 'event-led, not venue-led' fails in its strong form; but social breadth contracts sharply by category as the night advances while Bailey Yard runs around the clock, and organized events periodically widen the evening well beyond the regular layer.",
+    "sentence_trace": [
+      { "sentence": "North Platte's industrial clock is genuinely continuous: Bailey Yard handles about 10,000 cars daily and its workers hold documented 11 p.m.-7 a.m. shifts.", "evidence": ["R1_bailey_yard_continuous"] },
+      { "sentence": "The ordinary weeknight venue layer is real, not event-dependent: Kelsey's runs to 1 a.m., North 40's lounge, the Cedar Room, Pals, and WB's to about 10 p.m., and Penny's Diner never closes.", "evidence": ["V1_kelseys_place", "V5_north40_chophouse", "V6_cedar_room", "V7_pals_brewing", "V9_wbs_fun_center", "V10_pennys_diner"] },
+      { "sentence": "But that layer narrows sharply by category as the night advances: the independent coffee shop closes at 3 p.m., the legacy family restaurant by 8, most dining and recreation by 10, leaving taverns and one 24-hour diner to carry the late night — with one sampled tavern's hours honestly unknown rather than assumed.", "evidence": ["V8_espresso_shop", "V4_merricks_ranch_house", "X2_rhythm_mismatch_refined", "V3_hub_bar_unknown"] },
+      { "sentence": "Organized events — weekly Wednesday dances, seasonal Thursday concerts, downtown and festival programming — materially broaden and extend that social rhythm, which is what the marketing's 'always something going on' actually describes.", "evidence": ["E1_recurring_events", "E2_festival_and_special_events", "P1_visit_np_portrayal"] },
+      { "sentence": "Lived accounts disagree in exactly the way the evidence bar requires: a bar-avoiding adult found almost no social path outside work, while a newcomer with a broader leisure conception integrated well.", "evidence": ["A1_citydata_bar_centric_social_path", "A2_niche_integration_success", "X1_lived_disagreement"] },
+      { "sentence": "So the calibration verdict stands as a refined high mismatch: a round-the-clock industrial town whose civilian evening is viable but category-contracting, amplified by events — not a town that is only awake when an event is scheduled.", "evidence": ["X3_event_led_correction", "X2_rhythm_mismatch_refined"] }
+    ]
+  }
+}
