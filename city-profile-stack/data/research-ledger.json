@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
   "updated_on": "2026-08-19",
-  "recent_change": "Added the Elko marketing-pole capture (owner Packet 1 research pass), filling eval E09's missing divergence pole; marketing quotes re-verified verbatim same day.",
+  "recent_change": "Added the North Platte ordinary-evening evidence pass (owner Packet 2): all four rhythm-calibration evidence-bar items satisfied, the event-led assignment corrected, and the calibration row graduated to complete. Also completed verification of the Elko marketing-pole pack (verbatim Reddit excerpts, Dotty's address).",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -104,7 +104,7 @@
         "https://www.visitnorthplatte.com/things-to-do/arts-entertainment/live-music/",
         "https://www.knopnews2.com/2026/05/16/music-bricks-kicks-off-summer-season-north-platte/"
       ],
-      "limitations": ["Social-rhythm conclusion still lacks a representative ordinary-week venue-hours sample."],
+      "limitations": ["Superseded in part on 2026-08-19: the ordinary-week venue-hours sample now exists (north_platte_ordinary_evening_2026), and it corrected the event-led assignment — the ordinary venue layer is real; events amplify rather than constitute the evening."],
       "embedding_ready": true
     },
     {
@@ -238,8 +238,34 @@
         "https://travelnevada.com/cities/elko/"
       ],
       "retrieval_date": "2026-08-19",
-      "limitations": ["Marketing quotes were re-verified verbatim against live pages on 2026-08-19; the four newly cited Reddit threads are as reported by the owner research pass and their excerpts await independent re-verification.", "The 24-hour operation of Bourbon Street Sports Bar and Dotty's was corroborated 2026-08-19 by the Elko Junction landlord tenant pages (no venue-primary hours page exists for either); Dotty's exact street address remains unsettled across listings (1744 vs the 2755 center).", "Event evidence (Sippin' Saturday, Ghost Tours) is labeled event evidence, not ordinary-night nightlife."],
-      "embedding_ready": false
+      "limitations": ["Marketing quotes were re-verified verbatim against live pages on 2026-08-19, and all six cited Reddit threads are verified (two pre-existing corpus sources; four captured verbatim by the owner the same day).", "The 24-hour operation of Bourbon Street Sports Bar and Dotty's was corroborated 2026-08-19 by the Elko Junction landlord tenant pages (no venue-primary hours page exists for either); Casino City corroborates Dotty's 1744 Mountain City Hwy address, with a store-number rendering inconsistency (#35 vs #53) outstanding.", "Event evidence (Sippin' Saturday, Ghost Tours) is labeled event evidence, not ordinary-night nightlife."],
+      "embedding_ready": true
+    },
+    {
+      "id": "north_platte_ordinary_evening_2026",
+      "city": "North Platte",
+      "state": "NE",
+      "topic": "social_evening_ecosystem",
+      "claim": "North Platte's ordinary weeknight has a real venue layer - taverns to 1 a.m., dining/brewery/lounge/recreation to about 10 p.m., an independent coffee shop out by 3 p.m., and one genuine 24/7 diner - so 'event-led, not venue-led' fails in its strong form; social breadth contracts sharply by category as the night advances while Bailey Yard runs a documented 11 p.m.-7 a.m. shift clock, and organized events (weekly Wednesday dances, seasonal concerts, festivals) periodically widen the evening well beyond the regular layer.",
+      "status": "locally_normalized",
+      "artifact": "data/gold-packs/north-platte-ordinary-evening.claims.json",
+      "supporting_artifacts": ["docs/rhythm-calibration.md"],
+      "source_urls": [
+        "https://www.up.com/aboutup/career-corner/jeffbarner.htm",
+        "https://kelseysplacebar.com/contact-us/",
+        "https://north40.bar/",
+        "https://thecedarroomne.com/",
+        "https://www.palsbrewingcompany.com/tap-room-north-platte",
+        "https://www.espressoshopnp.com/",
+        "https://wbsfun.com/contact-us",
+        "https://pennysdiner.com/?p=154",
+        "https://www.visitnorthplatte.com/event/wednesday-night-dances/9555/",
+        "https://www.city-data.com/forum/nebraska/1056476-north-platte-ne.html",
+        "https://www.niche.com/places-to-live/north-platte-lincoln-ne/reviews/"
+      ],
+      "retrieval_date": "2026-08-19",
+      "limitations": ["Ten venues across six categories is representative by design but partial; Hub Bar's hours are recorded as unknown (not closed), so late tavern depth may be understated.", "Availability only: no attendance or foot-traffic measurement.", "Brothers Tavern hours are directory-sourced and Merrick's hours are Chamber-sourced with a first-party breakfast-hours conflict on opening time; both marked lower confidence.", "The lived accounts are 13 years apart (2010 City-Data vs 2023 Niche) and neither is weeknight/weekend specific."],
+      "embedding_ready": true
     }
   ]
 }

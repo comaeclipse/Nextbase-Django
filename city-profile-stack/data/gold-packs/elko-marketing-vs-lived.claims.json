@@ -19,7 +19,7 @@
     },
     "confidence": ["high", "medium", "low"]
   },
-  "notes_on_sourcing": "Explore Elko, Chamber, and Travel Nevada quotes re-verified verbatim 2026-08-19 (Travel Nevada via rendered page; the others from page source). The two 24-hour listings (M2) were independently corroborated the same day by the Elko Junction shopping center's tenant pages — a landlord source, the closest available to first-party since neither venue publishes its own hours page. Reddit threads are as reported by the owner pass; two of the six cited threads (1ni9ayb, pe2a01) are already verified corpus sources, the other four could not be re-verified by automated access (Reddit login wall) and their excerpts await manual capture before any claim here is promoted.",
+  "notes_on_sourcing": "Explore Elko, Chamber, and Travel Nevada quotes re-verified verbatim 2026-08-19 (Travel Nevada via rendered page; the others from page source). The two 24-hour listings (M2) were independently corroborated the same day by the Elko Junction shopping center's tenant pages — a landlord source, the closest available to first-party since neither venue publishes its own hours page — and Dotty's 1744 address by Casino City. All six cited Reddit threads are now verified: two (1ni9ayb, pe2a01) were already corpus sources, and the other four had their excerpts captured verbatim by the owner on 2026-08-19 after automated access was blocked by Reddit's login wall.",
   "claims": [
     {
       "id": "M1_explore_elko_energy_up",
@@ -56,7 +56,7 @@
       "measures": "availability",
       "limitations": [
         "24-hour operation corroborated 2026-08-19 by the Elko Junction shopping center's own tenant pages (landlord source: Bourbon Street 'Open 24 hours'; 'Dotty's Casino #35 is open daily 24 hours'); neither venue has a first-party hours page, so this is corroborated marketing-plus-landlord, not venue-primary.",
-        "Dotty's street address conflicts across listings: Explore Elko says 1744 Mountain City Hwy, while its tenant listing sits under the Elko Junction center at 2755 Mountain City Hwy (Bourbon Street's 2755 address is consistent everywhere). The 24-hour claim is corroborated; the exact Dotty's address is not settled.",
+        "Dotty's 1744 Mountain City Hwy address is corroborated by Casino City (owner-retrieved 2026-08-19: 1744 Mountain City Highway, Elko, NV 89801-2482), matching Explore Elko; the store number renders inconsistently across sources (#35 vs #53), and the Elko Junction tenant listing under the 2755 center suggests either a second Elko location or a stale listing. Bourbon Street's 2755 address is consistent everywhere.",
         "24-hour gaming-bar availability proves doors open, not attendance, and both venues are gaming-centered — consistent with, not against, the narrow-menu reading."
       ]
     },
@@ -133,18 +133,18 @@
     },
     {
       "id": "L1_reddit_drink_thread_venues",
-      "claim": "In an r/Elko thread asking for the best spot for a drink, locals name Charlee's, Stray Dog, The Star, Muley's, DLC, 7018, and Mona's, with karaoke at Charlee's mentioned specifically — independently reproducing much of the marketing pole's venue inventory.",
+      "claim": "In an r/Elko thread asking for the best spot for a drink, locals name Charlee's, The Stray Dog, The Star, Muley's, DLC, 7018, and Mona's, and praise karaoke — independently reproducing much of the marketing pole's venue inventory.",
       "claim_type": "lived_texture",
       "evidence_kind": "community_sentiment",
       "stance": "context",
       "confidence": "medium",
       "geography_scope": "Elko area (commenter geography unverified)",
-      "quote": null,
+      "quote": "Karaoke is always a hit, there's an older couple that participate and the gentleman plays the harmonica and it's pure talent. Love it!",
       "source_urls": ["https://www.reddit.com/r/Elko/comments/1hb5qmx/best_spot_for_a_drink_in_elko/"],
       "retrieved_on": "2026-08-19",
       "measures": "availability",
       "limitations": [
-        "As reported by the owner research pass 2026-08-19; excerpts not yet independently re-verified.",
+        "Excerpts captured verbatim by the owner 2026-08-19. The karaoke comment does not itself name a venue; thread context and the corpus's verified nightly-karaoke record (Tuesday pack C3) point to Charlee's, but the attribution is contextual, not explicit.",
         "A recommendations thread demonstrates venues locals value, not how busy they are on an ordinary night."
       ]
     },
@@ -156,31 +156,31 @@
       "stance": "context",
       "confidence": "low",
       "geography_scope": "Elko area",
-      "quote": null,
+      "quote": "Elko Nevada, anywhere there's mining, it's a 24 hour town!",
       "source_urls": ["https://www.reddit.com/r/DougStanhope/comments/1jo9zaj/graveyard_shift_morning_drinking_towns/"],
       "retrieved_on": "2026-08-19",
       "measures": "availability",
       "coverage": { "basis": "single_source", "universe": "Elko late/odd-hours economy" },
       "limitations": [
         "A single anecdote from a comedy fandom subreddit; useful only as corroboration of M2, never on its own.",
-        "As reported by the owner research pass 2026-08-19; excerpt not yet independently re-verified."
+        "Excerpt captured verbatim by the owner 2026-08-19."
       ]
     },
     {
       "id": "L3_reddit_live_music",
-      "claim": "In an r/Elko things-to-do thread, a commenter says Elko has a lot of live music for a town its size — independent support for the marketing pole's live-music claims (Silver Dollar).",
+      "claim": "In an r/Elko things-to-do thread, a commenter says Elko has a lot of live music for a smaller place and names eight venues with regular performers — The Star, The Stage Door, JR's Bar & Grill, 7018 Brewing, The Maverick Casino, The DLC, Charlee's, and the Silver Dollar — with small bars hosting lounge/acoustic acts and downtown dives hosting rock/metal and honky-tonk bands. The Silver Dollar's inclusion independently corroborates the marketing pole's live-music claim (M1).",
       "claim_type": "lived_texture",
       "evidence_kind": "community_sentiment",
       "stance": "context",
       "confidence": "medium",
       "geography_scope": "Elko area",
-      "quote": null,
+      "quote": "There is a lot of live music in Elko for a smaller place.",
       "source_urls": ["https://www.reddit.com/r/Elko/comments/1fupvm9/things_to_do_in_elko/"],
       "retrieved_on": "2026-08-19",
       "measures": "frequency",
       "limitations": [
-        "As reported by the owner research pass 2026-08-19; excerpt not yet independently re-verified.",
-        "'A lot for a town its size' is a relative judgment, not a schedule."
+        "Excerpts captured verbatim by the owner 2026-08-19; the eight-venue list is one commenter's inventory, not a verified schedule.",
+        "'A lot for a smaller place' is a relative judgment, not a schedule."
       ]
     },
     {
@@ -191,12 +191,12 @@
       "stance": "context",
       "confidence": "medium",
       "geography_scope": "Elko area",
-      "quote": null,
+      "quote": "Bar life is active especially on the weekends if you like dive bars and the casinos hold pretty regular events.",
       "source_urls": ["https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/"],
       "retrieved_on": "2026-08-19",
       "measures": "attendance",
       "limitations": [
-        "As reported by the owner research pass 2026-08-19; excerpt not yet independently re-verified.",
+        "Excerpt captured verbatim by the owner 2026-08-19.",
         "Weekend activity and regular casino events fit the Chamber's event-shaped evidence (M4) and say nothing about ordinary weeknights."
       ]
     },
@@ -231,7 +231,7 @@
       "measures": "availability",
       "limitations": [
         "Convergence on availability facts only; it does not extend to how the two poles characterize breadth (D2).",
-        "The Reddit half of the convergence is as-reported pending excerpt re-verification."
+        "The Reddit half of the convergence was captured verbatim by the owner 2026-08-19."
       ]
     },
     {

@@ -59,6 +59,7 @@ export const EVIDENCE_KIND_TO_CLASS: Record<string, EvidenceClass> = {
   venue_hours_aggregator: "venue_hours_aggregator",
   community_sentiment: "community_sentiment",
   institutional_baseline: "institutional",
+  employer_primary: "institutional",
   internal_corpus_audit: "internal_corpus_audit",
   // experience-observations kinds
   community_account: "community_sentiment",

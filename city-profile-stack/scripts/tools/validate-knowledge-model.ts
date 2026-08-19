@@ -30,6 +30,7 @@ const PACK_FILES = [
   "city-profile-stack/data/gold-packs/odessa-vs-elko-after-dark.claims.json",
   "city-profile-stack/data/gold-packs/elko-trans-teenager-insufficient-evidence.claims.json",
   "city-profile-stack/data/gold-packs/elko-marketing-vs-lived.claims.json",
+  "city-profile-stack/data/gold-packs/north-platte-ordinary-evening.claims.json",
 ];
 const OBSERVATIONS_FILE = "city-profile-stack/data/experience-observations.json";
 
