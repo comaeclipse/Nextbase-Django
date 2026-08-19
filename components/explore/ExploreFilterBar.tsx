@@ -35,6 +35,7 @@ import {
   Factory,
   Plane,
   Shield,
+  BadgeCheck,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -96,6 +97,10 @@ export type ExploreFilters = {
   healthcare: string[];
   activities: string[];
   incomeTax: "" | "none" | "low";
+  /** Verified `locations_stateinfo.no_income_tax IS TRUE` (issue #6). */
+  noStateIncomeTax: boolean;
+  /** Verified `retired_pay_tax` in {no_income_tax, exempt} — retired pay untaxed. */
+  retiredPayUntaxed: boolean;
   hasWalmart: boolean;
   hasCostco: boolean;
   lgbtq: boolean;
@@ -122,6 +127,8 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   healthcare: [],
   activities: [],
   incomeTax: "",
+  noStateIncomeTax: false,
+  retiredPayUntaxed: false,
   hasWalmart: false,
   hasCostco: false,
   lgbtq: false,
@@ -279,6 +286,8 @@ export function moreFilterCount(filters: ExploreFilters) {
     filters.activities.length +
     (filters.snow ? 1 : 0) +
     (filters.incomeTax ? 1 : 0) +
+    (filters.noStateIncomeTax ? 1 : 0) +
+    (filters.retiredPayUntaxed ? 1 : 0) +
     (filters.hasWalmart ? 1 : 0) +
     (filters.hasCostco ? 1 : 0) +
     (filters.lgbtq ? 1 : 0) +
@@ -748,6 +757,27 @@ function MoreFiltersContent({
 
       <section className="space-y-3">
         <SectionHeading
+          title="Veteran benefits"
+          description="State-level, from primary-source-verified data."
+        />
+        <ToggleRow
+          icon={Landmark}
+          label="No state income tax"
+          checked={filters.noStateIncomeTax}
+          onCheckedChange={(checked) => update("noStateIncomeTax", checked)}
+        />
+        <ToggleRow
+          icon={BadgeCheck}
+          label="Military retirement not taxed"
+          checked={filters.retiredPayUntaxed}
+          onCheckedChange={(checked) => update("retiredPayUntaxed", checked)}
+        />
+      </section>
+
+      <Separator />
+
+      <section className="space-y-3">
+        <SectionHeading
           title="Personal preferences"
           description="Kept out of the main search until they matter."
         />
@@ -769,13 +799,9 @@ function MoreFiltersContent({
           checked={filters.noHcm}
           onCheckedChange={(checked) => update("noHcm", checked)}
         />
-        {/* One field, two switches — turning either on turns the other off. */}
-        <ToggleRow
-          icon={Landmark}
-          label="No state income tax"
-          checked={filters.incomeTax === "none"}
-          onCheckedChange={(checked) => update("incomeTax", checked ? "none" : "")}
-        />
+        {/* "No income tax" lives under Veteran benefits, backed by the verified
+            locations_stateinfo.no_income_tax column; this rate band uses the
+            per-city numeric rate the verified boolean can't express. */}
         <ToggleRow
           icon={Landmark}
           label="Low state income tax (4% or less)"

@@ -56,7 +56,12 @@ export interface LocationRow {
   /** Nearest VA medical center (parent facility), distinct from CBOC/clinic. */
   nearest_va_hospital: string | null;
   distance_to_va_hospital: string | null;
-  /** Legacy duplicate; state-owned value should come from locations_stateinfo. */
+  /**
+   * State veteran-benefit summary. Populated by the location query's alias from
+   * the verified `locations_stateinfo.vet_benefits_summary` (see lib/locations.ts);
+   * the legacy per-city `locations_location.veterans_benefits` column is no
+   * longer read and is slated for removal (issue #6).
+   */
   veterans_benefits: string | null;
 
   // Safety & social
