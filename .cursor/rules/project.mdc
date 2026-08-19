@@ -1,0 +1,23 @@
+---
+description: VetRetire project guidance and agent collaboration rules
+globs:
+alwaysApply: true
+---
+
+# VetRetire
+
+Read these two files before making any change. Do not duplicate their content here —
+this file is a pointer, and pointers cannot go stale the way copies do.
+
+- **[AGENTS.md](../../AGENTS.md)** — collaboration rules: branch hygiene, the
+  stale-branch trap, data-change rules, the task-handoff preamble, drift detection.
+- **[CLAUDE.md](../../CLAUDE.md)** — project guidance: stack, structure, commands,
+  and the key domain logic (fit score, defense hub, near-base, pace, affordability,
+  climate, pixel parity).
+
+Non-negotiables, repeated here because they are the ones that have actually gone wrong:
+
+- Branch from a freshly fetched `origin/master`. Never commit to `master`.
+- Push the branch and open a PR when done. Unpushed work gets lost.
+- Do not run production database imports from a task branch.
+- No scratch files, screenshots, or temp scripts in the repo root.
