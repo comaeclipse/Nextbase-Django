@@ -14,7 +14,9 @@
  * Distances are great-circle miles from the city centroid (method recorded in
  * the companion sources note). Legacy fields nearest_va / distance_to_va stay
  * outpatient-oriented; nearest_va_kind records whether that site is a hospital
- * or an outpatient clinic; hospital name/distance fields are separate.
+ * or an outpatient clinic; hospital name/distance fields are separate. has_va
+ * is set when that nearest outpatient-capable site is within
+ * OUTPATIENT_ACCESS_RADIUS_MI.
  *
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-va-facilities.ts [--dry-run] [--missing-only]
  */
@@ -29,6 +31,15 @@ const VHA_LAYER =
 const SOURCE_URL =
   "https://vha.maps.arcgis.com/home/item.html?id=c6821e66523a46f5b32893641b9bd0dd";
 const EARTH_RADIUS_MI = 3958.8;
+/*
+ * `has_va` is the "nearby outpatient-capable VA access" gate that
+ * lib/filters.ts reads for both the va_clinic and va_hospital facets. It was
+ * previously 0.5 miles from the city centroid, which only 7 of 141 cities
+ * cleared and made both facets effectively dead. 25 miles is a routine
+ * drive for outpatient care and is the band the explore facets are meant to
+ * express. Crow-fly, not drive time; drive-time access remains future work.
+ */
+const OUTPATIENT_ACCESS_RADIUS_MI = 25;
 
 interface VaSite {
   id: string;
@@ -185,6 +196,7 @@ async function main() {
     `Source: [VHA Medical Facilities (VAST / ArcGIS)](${SOURCE_URL})`,
     "Distance method: great-circle miles from city centroid to facility LAT/LON.",
     "Outpatient = nearest clinic/CBOC or medical center (Vet Centers excluded).",
+    `\`has_va\` = nearest outpatient-capable site within ${OUTPATIENT_ACCESS_RADIUS_MI} miles (crow-fly).`,
     "Hospital = nearest parent facility (3-character STA_NO / VA medical center).",
     "`nearest_va_kind` is the kind of that nearest outpatient-capable site.",
     "",
@@ -205,7 +217,7 @@ async function main() {
     const nearestKind = out.site.kind;
     const nearestHospital = hosp.site.name;
     const distanceHospital = formatMiles(hosp.miles);
-    const hasVa = out.miles < 0.5;
+    const hasVa = out.miles <= OUTPATIENT_ACCESS_RADIUS_MI;
 
     notes.push(
       `| ${city.name}, ${city.state} | ${nearestVa} | ${nearestKind} | ${distanceToVa.replace(" miles", "")} | ${nearestHospital} | ${distanceHospital.replace(" miles", "")} |`
