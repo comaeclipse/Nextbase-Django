@@ -185,6 +185,13 @@
       "longitude": -73.195757
     },
     {
+      "name": "Hartford",
+      "state": "CT",
+      "census_place_geoid": "0937000",
+      "latitude": 41.765933,
+      "longitude": -72.681579
+    },
+    {
       "name": "Wilmington",
       "state": "DE",
       "census_place_geoid": "1077580",
@@ -290,6 +297,13 @@
       "longitude": -116.229817
     },
     {
+      "name": "Idaho Falls",
+      "state": "ID",
+      "census_place_geoid": "1639700",
+      "latitude": 43.489616,
+      "longitude": -112.03534
+    },
+    {
       "name": "Kuna",
       "state": "ID",
       "census_place_geoid": "1644290",
@@ -318,7 +332,7 @@
       "longitude": -85.142791
     },
     {
-      "name": "Indianopolis",
+      "name": "Indianapolis",
       "state": "IN",
       "census_place_geoid": "1836003",
       "latitude": 39.776664,

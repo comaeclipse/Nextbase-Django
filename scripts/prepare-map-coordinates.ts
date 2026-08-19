@@ -37,7 +37,7 @@ interface MapCoordinate {
 // The Gazetteer uses the official Census place labels for these three cities.
 // Retain product-facing names in locations_location and normalize only here.
 const PLACE_ALIASES: Record<LocationKey, LocationKey> = {
-  "Indianopolis|IN": "indianapolis city (balance)|IN",
+  "Indianapolis|IN": "indianapolis city (balance)|IN",
   "Honolulu|HI": "urban honolulu|HI",
   "Boise|ID": "boise city|ID",
   "Nashville|TN": "nashville-davidson metropolitan government (balance)|TN",

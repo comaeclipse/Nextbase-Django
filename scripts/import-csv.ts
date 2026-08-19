@@ -33,7 +33,7 @@ function getCentroids(): Record<string, PacePlaceCentroid> {
 }
 
 const PLACE_ALIASES: Record<string, string> = {
-  "indianopolis|in": "indianapolis city (balance)|in",
+  "indianapolis|in": "indianapolis city (balance)|in",
   "honolulu|hi": "urban honolulu|hi",
   "boise|id": "boise city|id",
   "nashville|tn": "nashville-davidson metropolitan government (balance)|tn",
