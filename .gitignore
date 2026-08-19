@@ -106,3 +106,10 @@ npm-debug.log*
 /*.tmp
 /*.png
 /*.csv
+
+# Local pg_dump output (large, and it contains live data). Scoped to dump
+# files, not all of backups/ - that directory has tracked source snapshots.
+/backups/*.dump
+/backups/*.sql
+/backups/*.dump.gz
+/backups/*.sql.gz
