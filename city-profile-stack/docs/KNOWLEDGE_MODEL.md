@@ -202,7 +202,7 @@ retrieval filters on; the detail is what a reader trusts. Closed classes:
 | `venue_hours_primary` | venue's own site |
 | `venue_hours_aggregator` | Yelp/`restaurantguru`/corroborated listings |
 | `community_sentiment` | every `*_community_account` observation kind |
-| `institutional` | `institutional_baseline`, chambers, event institutions, member/newcomer orgs, cultural institutions, economic-development bodies |
+| `institutional` | `institutional_baseline`, `employer_primary` (an employer's own operational pages), chambers, event institutions, member/newcomer orgs, cultural institutions, economic-development bodies |
 | `official_statistic` | `federal_labor_market_data`, `state_workforce_agency`, regulations |
 | `marketing_material` | destination/tourism organizations — **the E09 pole**; tonight's Packet 1 lands here |
 | `internal_corpus_audit` | corpus-inventory and abstention evidence |
