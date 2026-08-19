@@ -57,3 +57,14 @@ Only a modest Colorado Army National Guard armory was found — below the bar fo
 
 Sources:
 - Colorado National Guard, armory locations page — https://www.co.ng.mil/
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: **TRUE**. Grand Junction Economic Partnership reports 4,161 aerospace occupations in Mesa County and identifies aerospace and advanced manufacturing as a major local industry, with documented Lockheed Martin supply-chain participation. Grand Junction-based SG Aerospace & Gas is a Lockheed Martin supplier and aerospace-component manufacturer. CoorsTek's Grand Junction operation manufactures components for aerospace and defense applications. The local aerospace base continues expanding in 2026, including a 109,000-square-foot West Star Aviation expansion adding up to 100 jobs.
+
+This revises and supersedes the 2026-08-11 NULL determination above. `defense_hub_manual` was set to `true` in Neon on 2026-08-19; `defense_hub` itself is derived by `scripts/recompute-defense-hub.ts`, not written directly.
+
+Sources:
+- Grand Junction Economic Partnership (aerospace industry) — https://www.gjep.org/aerospace-industry/
+- Grand Junction Economic Partnership (key industries) — https://www.gjep.org/move-here/key-industries/
+- Grand Junction Economic Partnership (West Star Aviation expansion) — https://www.gjep.org/key-industries/aviation-aerospace/local-collaboration-helps-west-star-aviation-grand-junction-expansion-take-flight/

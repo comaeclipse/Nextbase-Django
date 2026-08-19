@@ -29,3 +29,13 @@ Odessa's economy is dominated by oil and gas. Only a small National Guard armory
 
 Sources:
 - Texas Military Department, armory/facility locations — https://tmd.texas.gov/
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: **NULL (revised research, still left unset)**. Odessa Development Corporation's current business-attraction strategy and 2025-2026 major-employer reporting are dominated by oilfield services, energy, industrial manufacturing, renewable-energy manufacturing, logistics, construction, and data centers — not aerospace or defense. Targeted searches did not establish a current major military installation or substantial defense-prime/defense-manufacturing employer comparable to the evidence supporting the TRUE cities in this batch. Absence of a discovered defense cluster is not itself sufficient evidence for a hard FALSE veto, so NULL remains the defensible value.
+
+No DB write was made for this revision; `defense_hub_manual` remains NULL, matching the 2026-08-11 determination above.
+
+Sources:
+- Odessa Development Corporation — https://www.odessatex.com/media-center/news/p/item/61896/economic-development-101-fueling-odessas-future
+- Odessa Development Corporation, 2025 wins — https://www.odessatex.com/media-center/news/p/item/65938/odc-caps-2025-with-major-economic-wins
