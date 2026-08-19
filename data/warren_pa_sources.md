@@ -32,3 +32,13 @@ No installation or defense-contractor facility found. Specifically ruled out con
 
 Sources:
 - No qualifying source found for Warren, PA specifically; Francis E. Warren AFB (Cheyenne, WY) confirmed as an unrelated, differently-located installation via Wikipedia.
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: **TRUE**. Warren hosts a current physical ELLWOOD National Forge manufacturing facility at 1045 4th Avenue, part of ELLWOOD's engineered/finished-components and forging businesses — not a sales office. ELLWOOD has an established formal defense-business function; its senior defense-engagement executive has represented the company through the National Defense Industrial Association and NATO's industrial advisory structure. An ELLWOOD National Forge executive has served as president of the Marine Machinery Association, whose members supply hull, mechanical, and electrical equipment to the maritime industry. Current and recent DLA procurement records also show defense supply activity performed in Warren, PA.
+
+This revises and supersedes the 2026-08-11 NULL determination above. `defense_hub_manual` was set to `true` in Neon on 2026-08-19; `defense_hub` itself is derived by `scripts/recompute-defense-hub.ts`, not written directly.
+
+Sources:
+- ELLWOOD Group locations — https://www.ellwoodgroup.com/locations
+- ELLWOOD Group companies — https://www.ellwoodgroup.com/ellwood-companies

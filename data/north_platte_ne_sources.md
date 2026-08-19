@@ -53,3 +53,13 @@ Only a small National Guard armory was found. Nebraska's real ANG wing is in Lin
 
 Sources:
 - Nebraska National Guard, armory locations — https://www.nebraska.ng.mil/
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: **TRUE**. North Platte hosts two distinct current military facilities rather than incidental contracting. The Nebraska National Guard's official facility directory lists the North Platte Readiness Center at 1700 N. Jeffers. The U.S. Army Reserve separately lists the 1013th Quartermaster Field Service Company, Detachment 1 at the North Platte U.S. Army Reserve Center. Two distinct current Army National Guard and Army Reserve facilities in a city of roughly 23,000 people is affirmative physical military presence sufficient to promote.
+
+This revises and supersedes the 2026-08-11 NULL determination above. `defense_hub_manual` was set to `true` in Neon on 2026-08-19; `defense_hub` itself is derived by `scripts/recompute-defense-hub.ts`, not written directly.
+
+Sources:
+- Nebraska National Guard, contact/facility directory — https://ne.ng.mil/About-Us/Contact-Us/
+- U.S. Army Reserve, North Platte USARC / 1013th QM Field Service Co Det 1 (cite as found in Army Reserve unit locator)
