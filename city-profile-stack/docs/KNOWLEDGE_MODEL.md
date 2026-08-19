@@ -402,3 +402,9 @@ belongs to Phase 3 and the eval recommends against reaching for it yet.
 4. When Packet 1 lands the Elko marketing-pole claims, do they join the
    existing Tuesday pack (new claims + divergence) or a new pack? Proposal:
    same pack, bumped `schema_version`, since the question is unchanged.
+   *Interim answer taken 2026-08-19, reviewable:* a **separate pack**
+   (`elko-marketing-vs-lived.claims.json`) — the capture answers a different
+   question (portrayal-vs-lived, E09's shape) than the Tuesday pack's
+   after-8-p.m. question, and keeping the verified Tuesday pack byte-stable
+   preserves it as the round-trip baseline. The new pack references the
+   Tuesday pack rather than duplicating it.

@@ -22,7 +22,9 @@
 
 export const CLAIM_TYPES = [
   "venue_schedule",
+  "event_schedule",
   "lived_texture",
+  "marketing_portrayal",
   "comparison",
   "method",
   "correction",
@@ -177,6 +179,22 @@ export interface PackClaimFile {
   source_urls: string[];
   retrieved_on: string;
   limitations: string[];
+  // schema_version 2 additions — the eval v1 constructs (docs §4)
+  measures?: string;
+  temporal_pattern?: string;
+  coverage?: { basis: string; universe: string };
+  causal_status?: string;
+}
+
+/* schema_version 2: a pack may carry divergences (docs §4.4). Poles must cite
+ * claims that exist in the same pack. */
+export interface PackDivergenceFile {
+  id: string;
+  city: string;
+  topic: string;
+  poles: { perspective: string; claim_ids: string[]; status: string }[];
+  stance: string;
+  note: string;
 }
 
 export interface CorpusBoundary {
@@ -214,6 +232,7 @@ export interface PackFile {
   vocabulary: PackVocabulary;
   notes_on_sourcing?: string;
   claims: PackClaimFile[];
+  divergences?: PackDivergenceFile[];
   answer: PackAnswer;
 }
 
@@ -234,6 +253,7 @@ const PACK_KEYS: (keyof PackFile)[] = [
   "vocabulary",
   "notes_on_sourcing",
   "claims",
+  "divergences",
   "answer",
 ];
 const CLAIM_KEYS: (keyof PackClaimFile)[] = [
@@ -248,7 +268,12 @@ const CLAIM_KEYS: (keyof PackClaimFile)[] = [
   "source_urls",
   "retrieved_on",
   "limitations",
+  "measures",
+  "temporal_pattern",
+  "coverage",
+  "causal_status",
 ];
+const DIVERGENCE_KEYS = ["id", "city", "topic", "poles", "stance", "note"];
 
 export interface ParseResult<T> {
   value: T;
@@ -301,6 +326,44 @@ export function parsePack(raw: unknown, file: string): ParseResult<PackFile> {
     }
     if (!(CONFIDENCE_LEVELS as readonly string[]).includes(c.confidence) && !(c.confidence in CONFIDENCE_ALIASES)) {
       errors.push(`${where}: confidence "${c.confidence}" not in registry`);
+    }
+    if (c.measures !== undefined && !(MEASURES as readonly string[]).includes(c.measures)) {
+      errors.push(`${where}: measures "${c.measures}" not in registry`);
+    }
+    if (c.temporal_pattern !== undefined && !(TEMPORAL_PATTERNS as readonly string[]).includes(c.temporal_pattern)) {
+      errors.push(`${where}: temporal_pattern "${c.temporal_pattern}" not in registry`);
+    }
+    if (c.causal_status !== undefined && !(CAUSAL_STATUSES as readonly string[]).includes(c.causal_status)) {
+      errors.push(`${where}: causal_status "${c.causal_status}" not in registry`);
+    }
+    if (c.coverage !== undefined) {
+      errors.push(...unknownKeys(c.coverage, ["basis", "universe"], `${where} coverage`));
+      if (!(COVERAGE_BASES as readonly string[]).includes(c.coverage.basis)) {
+        errors.push(`${where}: coverage.basis "${c.coverage.basis}" not in registry`);
+      }
+    }
+  }
+
+  for (const d of p.divergences ?? []) {
+    const where = `${file} divergence ${d.id}`;
+    errors.push(...unknownKeys(d, DIVERGENCE_KEYS, where));
+    if (!(DIVERGENCE_STANCES as readonly string[]).includes(d.stance)) errors.push(`${where}: stance "${d.stance}" not in registry`);
+    if (d.poles.length < 2) errors.push(`${where}: needs at least two poles`);
+    for (const pole of d.poles) {
+      errors.push(...unknownKeys(pole, ["perspective", "claim_ids", "status"], where));
+      if (!(POLE_PERSPECTIVES as readonly string[]).includes(pole.perspective)) {
+        errors.push(`${where}: perspective "${pole.perspective}" not in registry`);
+      }
+      if (pole.status !== "present" && pole.status !== "missing") errors.push(`${where}: pole status "${pole.status}" invalid`);
+      if (pole.status === "present" && pole.claim_ids.length === 0) {
+        errors.push(`${where}: present pole "${pole.perspective}" has no claims — poles must be claims, never prose`);
+      }
+      if (pole.status === "missing" && pole.claim_ids.length > 0) {
+        errors.push(`${where}: missing pole "${pole.perspective}" must not cite claims`);
+      }
+      for (const id of pole.claim_ids) {
+        if (!claimIds.has(id)) errors.push(`${where}: pole cites unknown claim "${id}"`);
+      }
     }
   }
 

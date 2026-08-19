@@ -1,0 +1,301 @@
+{
+  "schema_version": 2,
+  "pack_id": "elko_marketing_vs_lived_gold_v1",
+  "question": "Do Elko's official marketing portrayals of nightlife and evening activity match residents' lived accounts?",
+  "question_shape": "conflicting_evidence",
+  "geography_scope": "Elko city, NV as a marketed destination; resident accounts sometimes blur Elko / Spring Creek / county",
+  "temporal_scope": "Marketing copy and resident accounts as captured 2026-08-19; Chamber event claims are for scheduled 2026 dates.",
+  "retrieved_on": "2026-08-19",
+  "ledger_entries": ["elko_marketing_pole_2026"],
+  "method_note": "The marketing pole was captured by an owner research pass (Packet 1, 2026-08-19) across Explore Elko (the destination marketing organization), the Elko Area Chamber of Commerce, and Travel Nevada. Every marketing quote below was independently re-verified verbatim against the live pages the same day. The lived pole combines newly captured resident threads (as reported by the owner pass; excerpts pending independent re-verification) with the corpus's existing Elko sentiment evidence — it aligns with S1/S2 of elko-tuesday-after-8pm.claims.json, which this pack deliberately does not duplicate. This pack fills the marketing pole that eval v1 question E09 found missing.",
+  "vocabulary": {
+    "claim_type": ["marketing_portrayal", "venue_schedule", "event_schedule", "lived_texture", "comparison"],
+    "evidence_kind": ["destination_organization", "state_tourism_institution", "local_member_organization", "community_sentiment"],
+    "stance": {
+      "context": "Frames one pole of the divergence without settling the comparison.",
+      "shared_signal": "Marketing and lived accounts agree on this point.",
+      "material_difference": "The poles differ in a way that matters to the answer.",
+      "asymmetric_evidence": "The poles are not equally evidenced on this point; guards against false symmetry."
+    },
+    "confidence": ["high", "medium", "low"]
+  },
+  "notes_on_sourcing": "Explore Elko, Chamber, and Travel Nevada quotes re-verified verbatim 2026-08-19 (Travel Nevada via rendered page; the others from page source). Reddit threads are as reported by the owner pass; two of the six cited threads (1ni9ayb, pe2a01) are already verified corpus sources, the other four should have their excerpts re-verified before any claim here is promoted.",
+  "claims": [
+    {
+      "id": "M1_explore_elko_energy_up",
+      "claim": "Explore Elko's restaurants page asserts sustained evening energy and names three venues without hours: 'When the day winds down, Elko keeps the energy up. Order a cocktail at Luciano's, a cold beer at The Stray Dog Pub, or join the locals at The Silver Dollar for live music and good company.'",
+      "claim_type": "marketing_portrayal",
+      "evidence_kind": "destination_organization",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "Elko city (destination marketing)",
+      "quote": "When the day winds down, Elko keeps the energy up.",
+      "source_urls": ["https://exploreelko.com/restaurants/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "attendance",
+      "limitations": [
+        "This is what the destination marketing organization asserts, not measured activity; the vibe sentence carries no venue hours or attendance evidence.",
+        "The named venues (Luciano's, Stray Dog Pub, Silver Dollar) make the assertion checkable, which pure vibe copy would not be."
+      ]
+    },
+    {
+      "id": "M2_explore_elko_24h_listings",
+      "claim": "Explore Elko's Bars & Nightlife page lists two venues with 24-hour operation: Bourbon Street Sports Bar ('A little bit New Orleans, a little bit Vegas, this bar features gaming and spirits 24 hours a day', 2755 Mountain City Hwy) and Dotty's ('Open 24 hours, seven days a week', 30 gaming machines and a full bar, 1744 Mountain City Hwy).",
+      "claim_type": "venue_schedule",
+      "evidence_kind": "destination_organization",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko city",
+      "quote": "A little bit New Orleans, a little bit Vegas, this bar features gaming and spirits 24 hours a day.",
+      "source_urls": ["https://exploreelko.com/restaurants/bars/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "The strongest operational assertion in the marketing pole, but it is marketing-listed hours, not the venues' own hours pages; re-verify against first-party channels before treating 24-hour operation as established (the Tuesday pack's venue-hours discipline).",
+        "24-hour gaming-bar availability proves doors open, not attendance, and both venues are gaming-centered — consistent with, not against, the narrow-menu reading."
+      ]
+    },
+    {
+      "id": "M3_explore_elko_night_bowling",
+      "claim": "Explore Elko's family-activities page markets after-dark activity beyond bars: it asks whether you have 'gone bowling at night' and says 'Don't miss Cosmic Bowling on weekends.'",
+      "claim_type": "marketing_portrayal",
+      "evidence_kind": "destination_organization",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "Elko city (destination marketing)",
+      "quote": "Don't miss Cosmic Bowling on weekends.",
+      "source_urls": ["https://exploreelko.com/things-to-do/family-activities/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "frequency",
+      "temporal_pattern": "year_round_weekly",
+      "limitations": [
+        "Names a recurring weekend program but supplies no evening schedule; the weekend framing gives no ordinary-weeknight evidence.",
+        "Notable as the only non-alcohol after-dark activity the marketing pole names."
+      ]
+    },
+    {
+      "id": "M4_chamber_event_shaped_evenings",
+      "claim": "The Elko Area Chamber's concrete evening offerings are scheduled events, not ongoing nightlife: Sippin' Saturday (September 19, 2026) starts 'at Rubies Sports Bar and Nightclub, 442 Idaho Street, from 4 PM to 7 PM', and the Annual Elko Ghost Tours run 'October 22nd, 23rd and 24th at 6 PM' as 'spine-tingling evenings'.",
+      "claim_type": "event_schedule",
+      "evidence_kind": "local_member_organization",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "downtown Elko, scheduled events",
+      "quote": "starting at Rubies Sports Bar and Nightclub, 442 Idaho Street, from 4 PM to 7 PM.",
+      "source_urls": ["https://www.elkonevada.com/sippin-saturday", "https://www.elkonevada.com/ghost-tours"],
+      "retrieved_on": "2026-08-19",
+      "measures": "frequency",
+      "temporal_pattern": "event_driven",
+      "limitations": [
+        "Exact venues and times, but event evidence must be labeled as event evidence rather than nightlife (rhythm-calibration item #3): a September cocktail walk ending at 7 PM and three October tour evenings say nothing about an ordinary Tuesday.",
+        "Both events are evening-oriented and downtown, which does support organized-evening capacity."
+      ]
+    },
+    {
+      "id": "M5_chamber_directory_no_hours",
+      "claim": "The Chamber's dining directory promotes a 'Cafe', Pub, Grill & Bars' category including Charlee's Bar, Cook's Steakhouse & Saloon, Mattie's Taphouse, and Winger's, with addresses and phone numbers but no opening or closing hours.",
+      "claim_type": "marketing_portrayal",
+      "evidence_kind": "local_member_organization",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "Elko city",
+      "quote": null,
+      "source_urls": ["https://www.elkonevada.com/dining0db08cf5"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "coverage": { "basis": "partial_sample", "universe": "Elko bars and pubs promoted by the Chamber" },
+      "limitations": [
+        "Directory promotion proves the establishments are marketed, not that they operate late; the directory carries no hours at all.",
+        "Overlaps the Tuesday pack's verified venues (Charlee's, Mattie's), which is corroborating identity evidence even without hours."
+      ]
+    },
+    {
+      "id": "M6_travel_nevada_soft",
+      "claim": "Travel Nevada's Elko page is the softest of the three marketing sources: it calls Stockmen's 'a crowd favorite as the center of downtown Elko's gaming and entertainment action' and promotes Basque venues (The Star Hotel, Ogi Deli Bar & Pintxos, Toki Ona) and the Picon Punch, but the page text contains no occurrence of 'night' and gives no evening hours.",
+      "claim_type": "marketing_portrayal",
+      "evidence_kind": "state_tourism_institution",
+      "stance": "context",
+      "confidence": "high",
+      "geography_scope": "Elko city (state tourism marketing)",
+      "quote": "Stockmen's is a crowd favorite as the center of downtown Elko's gaming and entertainment action",
+      "source_urls": ["https://travelnevada.com/cities/elko/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "attendance",
+      "limitations": [
+        "'Entertainment action' has greater semantic breadth than any operational evidence on the page supports; treat as vibe amplification, not scene evidence.",
+        "The absence of 'night' in the current page text is a fact about this capture date; the page can change."
+      ]
+    },
+    {
+      "id": "L1_reddit_drink_thread_venues",
+      "claim": "In an r/Elko thread asking for the best spot for a drink, locals name Charlee's, Stray Dog, The Star, Muley's, DLC, 7018, and Mona's, with karaoke at Charlee's mentioned specifically — independently reproducing much of the marketing pole's venue inventory.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko area (commenter geography unverified)",
+      "quote": null,
+      "source_urls": ["https://www.reddit.com/r/Elko/comments/1hb5qmx/best_spot_for_a_drink_in_elko/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "As reported by the owner research pass 2026-08-19; excerpts not yet independently re-verified.",
+        "A recommendations thread demonstrates venues locals value, not how busy they are on an ordinary night."
+      ]
+    },
+    {
+      "id": "L2_reddit_24h_town",
+      "claim": "A Reddit discussion about towns serving graveyard-shift workers singles out Elko as a '24 hour town' because of mining — independent, sociologically consistent corroboration that the marketing pole's 24-hour listings reflect a real shift-work economy rather than pure tourism copy.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "low",
+      "geography_scope": "Elko area",
+      "quote": null,
+      "source_urls": ["https://www.reddit.com/r/DougStanhope/comments/1jo9zaj/graveyard_shift_morning_drinking_towns/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "coverage": { "basis": "single_source", "universe": "Elko late/odd-hours economy" },
+      "limitations": [
+        "A single anecdote from a comedy fandom subreddit; useful only as corroboration of M2, never on its own.",
+        "As reported by the owner research pass 2026-08-19; excerpt not yet independently re-verified."
+      ]
+    },
+    {
+      "id": "L3_reddit_live_music",
+      "claim": "In an r/Elko things-to-do thread, a commenter says Elko has a lot of live music for a town its size — independent support for the marketing pole's live-music claims (Silver Dollar).",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko area",
+      "quote": null,
+      "source_urls": ["https://www.reddit.com/r/Elko/comments/1fupvm9/things_to_do_in_elko/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "frequency",
+      "limitations": [
+        "As reported by the owner research pass 2026-08-19; excerpt not yet independently re-verified.",
+        "'A lot for a town its size' is a relative judgment, not a schedule."
+      ]
+    },
+    {
+      "id": "L4_reddit_weekend_events",
+      "claim": "A longtime-area resident describes bar life as active on weekends and says casinos regularly hold events — adding temporal specificity (weekends, episodic events) that the marketing pole's generalized energy language lacks.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko area",
+      "quote": null,
+      "source_urls": ["https://www.reddit.com/r/Nevada/comments/lyn1ts/moving_to_elko_nevada_whats_it_like_there/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "attendance",
+      "limitations": [
+        "As reported by the owner research pass 2026-08-19; excerpt not yet independently re-verified.",
+        "Weekend activity and regular casino events fit the Chamber's event-shaped evidence (M4) and say nothing about ordinary weeknights."
+      ]
+    },
+    {
+      "id": "L5_reddit_narrow_menu",
+      "claim": "An Elko native explicitly distinguishes establishments from things to do: there is not a lot to do for people uninterested in outdoor recreation — 'some casinos, some bars, some restaurants' — describing the same physical inventory the marketing pole promotes as essentially the whole after-dark menu.",
+      "claim_type": "lived_texture",
+      "evidence_kind": "community_sentiment",
+      "stance": "context",
+      "confidence": "medium",
+      "geography_scope": "Elko area (commenters sometimes blur Elko / Spring Creek / county)",
+      "quote": null,
+      "source_urls": ["https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "attendance",
+      "limitations": [
+        "Same thread as the Tuesday pack's verified S1 sentiment evidence; this claim highlights the establishments-versus-things-to-do distinction specifically.",
+        "Community sentiment, not a measured sample; disappointed commenters may be over-represented."
+      ]
+    },
+    {
+      "id": "D1_facts_converge",
+      "claim": "On the underlying facts the poles converge: bars, casinos, live music, karaoke, and 24-hour gaming-bar operation are attested by both marketing pages and resident accounts, with venue-level overlap on both sides (Stray Dog appears in M1 and L1; Charlee's in M5, L1, and the Tuesday pack).",
+      "claim_type": "comparison",
+      "evidence_kind": "community_sentiment",
+      "stance": "shared_signal",
+      "confidence": "medium",
+      "geography_scope": "Elko city / Elko area",
+      "quote": null,
+      "source_urls": ["https://exploreelko.com/restaurants/bars/", "https://www.reddit.com/r/Elko/comments/1hb5qmx/best_spot_for_a_drink_in_elko/"],
+      "retrieved_on": "2026-08-19",
+      "measures": "availability",
+      "limitations": [
+        "Convergence on availability facts only; it does not extend to how the two poles characterize breadth (D2).",
+        "The Reddit half of the convergence is as-reported pending excerpt re-verification."
+      ]
+    },
+    {
+      "id": "D2_breadth_diverges",
+      "claim": "The poles diverge on breadth, not facts: marketing frames the inventory as generalized evening energy ('keeps the energy up', 'entertainment action'), while residents describe the same inventory as essentially the entire menu ('some casinos, some bars, some restaurants'). The divergence is category inflation — attendance-shaped language resting on availability-shaped evidence — not factual disagreement about what is open.",
+      "claim_type": "comparison",
+      "evidence_kind": "community_sentiment",
+      "stance": "material_difference",
+      "confidence": "medium",
+      "geography_scope": "Elko city / Elko area",
+      "quote": null,
+      "source_urls": ["https://exploreelko.com/restaurants/", "https://www.reddit.com/r/Nevada/comments/1ni9ayb/what_is_it_like_to_live_in_elko_nevada/"],
+      "retrieved_on": "2026-08-19",
+      "limitations": [
+        "Both characterizations can be simultaneously true of the same physical reality; neither is falsified by the other.",
+        "This is the eval E09 divergence, now with both poles present as tagged claims."
+      ]
+    },
+    {
+      "id": "D3_ordinary_weeknight_gap",
+      "claim": "Neither pole supplies ordinary-weeknight attendance evidence: the marketing pole's only ordinary-night operational data is two 24-hour gaming-bar listings, the Chamber's evening evidence is event-shaped, and the lived pole's temporal specificity is about weekends. Ordinary-weeknight after-dark activity remains established only as availability (the Tuesday hours pack), not attendance.",
+      "claim_type": "comparison",
+      "evidence_kind": "community_sentiment",
+      "stance": "asymmetric_evidence",
+      "confidence": "high",
+      "geography_scope": "Elko city",
+      "quote": null,
+      "source_urls": [
+        "city-profile-stack/data/gold-packs/elko-tuesday-after-8pm.claims.json",
+        "https://www.elkonevada.com/sippin-saturday"
+      ],
+      "retrieved_on": "2026-08-19",
+      "measures": "attendance",
+      "coverage": { "basis": "anecdotal", "universe": "ordinary-weeknight after-dark activity in Elko city" },
+      "limitations": [
+        "Guards against reading this pack's rich weekend/event/24-hour evidence as ordinary-Tuesday liveliness evidence — the exact overreach eval questions E01/E03 probe."
+      ]
+    }
+  ],
+  "divergences": [
+    {
+      "id": "elko_nv/after_dark_character",
+      "city": "Elko, NV",
+      "topic": "after-dark character: marketing portrayal vs lived accounts",
+      "poles": [
+        {
+          "perspective": "marketing",
+          "claim_ids": ["M1_explore_elko_energy_up", "M2_explore_elko_24h_listings", "M3_explore_elko_night_bowling", "M4_chamber_event_shaped_evenings", "M5_chamber_directory_no_hours", "M6_travel_nevada_soft"],
+          "status": "present"
+        },
+        {
+          "perspective": "lived",
+          "claim_ids": ["L1_reddit_drink_thread_venues", "L2_reddit_24h_town", "L3_reddit_live_music", "L4_reddit_weekend_events", "L5_reddit_narrow_menu"],
+          "status": "present"
+        }
+      ],
+      "stance": "co_true_different_measures",
+      "note": "Both poles describe the same physical inventory. The marketing pole frames it as generalized evening energy (attendance-shaped language on availability-shaped evidence); the lived pole frames the same inventory as a narrow menu that is basically the whole of nightlife. Category-breadth inflation, not factual disagreement — and the lived pole independently corroborates the marketing pole's concrete facts (venues, live music, 24-hour operation), so neither pole is dismissible. Aligns with S1/S2 of the Tuesday pack."
+    }
+  ],
+  "answer": {
+    "verdict": "Both true; the gap is breadth, not facts.",
+    "one_line": "Elko's marketing and its residents describe the same after-dark inventory — bars, casinos, live music, karaoke, and even 24-hour gaming bars — but marketing packages it as generalized evening energy while residents call the same list basically all there is; the honest reading holds both, and notes that neither pole offers ordinary-weeknight attendance evidence.",
+    "sentence_trace": [
+      { "sentence": "Elko's marketing is not making the nightlife up: the venues, live music, and even 24-hour operation it promotes are independently reproduced in resident threads.", "evidence": ["D1_facts_converge", "M2_explore_elko_24h_listings", "L1_reddit_drink_thread_venues", "L2_reddit_24h_town"] },
+      { "sentence": "Explore Elko makes the clearest ongoing-nightlife claim ('When the day winds down, Elko keeps the energy up') and backs it with named venues; the Chamber's concrete evening evidence is scheduled events; Travel Nevada's current page never says 'night' at all.", "evidence": ["M1_explore_elko_energy_up", "M4_chamber_event_shaped_evenings", "M6_travel_nevada_soft"] },
+      { "sentence": "Residents affirm the same facts but strip the gloss: the bars, casinos, and occasional music are described as essentially the entire menu, with the activity concentrated on weekends and events.", "evidence": ["L5_reddit_narrow_menu", "L4_reddit_weekend_events"] },
+      { "sentence": "So the divergence is category breadth, not factual disagreement — the two poles are co-true because they measure different things, and an answer must hold both rather than pick a side.", "evidence": ["D2_breadth_diverges"] },
+      { "sentence": "What neither pole establishes is ordinary-weeknight attendance: that question still rests on the Tuesday pack's availability evidence and honest uncertainty about crowds.", "evidence": ["D3_ordinary_weeknight_gap"] }
+    ]
+  }
+}

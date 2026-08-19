@@ -29,6 +29,7 @@ const PACK_FILES = [
   "city-profile-stack/data/gold-packs/elko-tuesday-after-8pm.claims.json",
   "city-profile-stack/data/gold-packs/odessa-vs-elko-after-dark.claims.json",
   "city-profile-stack/data/gold-packs/elko-trans-teenager-insufficient-evidence.claims.json",
+  "city-profile-stack/data/gold-packs/elko-marketing-vs-lived.claims.json",
 ];
 const OBSERVATIONS_FILE = "city-profile-stack/data/experience-observations.json";
 
@@ -198,27 +199,38 @@ const ELKO_SCHEDULES: Schedule[] = [
   );
 }
 
-// --- 4. The E09 divergence is expressible (docs §4.4) ----------------------
-// Lived pole: present (S1, S2). Marketing pole: missing until the Elko
-// marketing-material capture lands — exactly the one-sidedness E09 exposed.
+// --- 4. The E09 divergence is real data now (docs §4.4) --------------------
+// The marketing pole was captured 2026-08-19 (Packet 1); both poles must load
+// as tagged claims from the marketing-vs-lived pack.
 
 {
-  const elkoClaimIds = new Set(elko.claims.map((c) => c.id));
-  const e09: Divergence = {
-    id: "elko_nv/after_dark_character",
-    city: "Elko, NV",
-    topic: "after-dark character: marketing portrayal vs lived accounts",
-    poles: [
-      { perspective: "lived", claim_ids: ["S1_reddit_narrow_nightlife", "S2_reddit_drinking_centered"], status: "present" },
-      { perspective: "marketing", claim_ids: [], status: "missing" },
-    ],
-    stance: "asymmetric_evidence",
-    note: "Marketing pole has no captured claims yet; until it does, any answer must present the lived pole as one-sided evidence, not as the settled truth.",
-  };
-  check("divergence: E09 marketing-vs-lived is representable with a missing pole", validateDivergence(e09, elkoClaimIds));
+  const mvl = packs.get(PACK_FILES[3])!;
+  const errors: string[] = [];
+  const d = (mvl.divergences ?? []).find((x) => x.id === "elko_nv/after_dark_character");
+  if (!d) {
+    errors.push("the E09 divergence is missing from the marketing-vs-lived pack");
+  } else {
+    for (const perspective of ["marketing", "lived"]) {
+      const pole = d.poles.find((p) => p.perspective === perspective);
+      if (!pole || pole.status !== "present" || pole.claim_ids.length === 0) {
+        errors.push(`the ${perspective} pole is not present with claims`);
+      }
+    }
+    if (d.stance !== "co_true_different_measures") {
+      errors.push(`expected co_true_different_measures, got "${d.stance}"`);
+    }
+  }
+  check("divergence: E09 loads with both poles present as tagged claims", errors);
 
-  const broken: Divergence = { ...e09, poles: [{ perspective: "lived", claim_ids: [], status: "present" }] };
-  const caught = validateDivergence(broken, elkoClaimIds);
+  const broken: Divergence = {
+    id: "probe",
+    city: "Elko, NV",
+    topic: "probe",
+    poles: [{ perspective: "lived", claim_ids: [], status: "present" }],
+    stance: "genuine_conflict",
+    note: "",
+  };
+  const caught = validateDivergence(broken, new Set<string>());
   check(
     "divergence: a prose-only pole is rejected (poles must be claims)",
     caught.length >= 2 ? [] : ["a present pole without claims was accepted"]
