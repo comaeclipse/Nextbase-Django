@@ -97,3 +97,12 @@ npm-debug.log*
 /data/sources/rpp/raw/
 /data/sources/rpp/*.zip
 /data/sources/rpp/*Gaz_counties*
+
+# Agent scratch files. All of these were committed to PR #61 by accident;
+# .check_cities_tmp.js broke its CI with a lint error. Root-level only, so
+# tracked data under data/ and docs elsewhere are unaffected.
+/.check_*
+/*_tmp.js
+/*.tmp
+/*.png
+/*.csv

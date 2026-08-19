@@ -1,0 +1,77 @@
+name: Data guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+concurrency:
+  group: data-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deletions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Flag deleted data files
+        env:
+          BASE: ${{ github.base_ref }}
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$BASE"
+
+          # Three-dot: only what this PR itself changes, matching GitHub's
+          # "Files changed" view. Two-dot would flag every file the base
+          # gained since the branch forked, which is noise, not deletion.
+          deleted=$(git diff --name-status --diff-filter=DR \
+            "origin/$BASE...HEAD" -- data/ baselines/ city-profile-stack/data/ \
+            | cut -f2 || true)
+
+          if [ -z "$deleted" ]; then
+            echo "No data files deleted or renamed."
+            exit 0
+          fi
+
+          count=$(printf '%s\n' "$deleted" | wc -l | tr -d ' ')
+          echo "This PR deletes or renames $count tracked data file(s):"
+          printf '  %s\n' $deleted
+
+          if printf '%s' "$LABELS" | grep -q '"allow-data-deletions"'; then
+            echo
+            echo "Label 'allow-data-deletions' present - allowing."
+            exit 0
+          fi
+
+          cat <<'MSG'
+
+          Data files are the audit trail for rows already imported into Neon,
+          so a deletion here is rarely intentional. It usually means the branch
+          forked before those files landed and is reverting them.
+
+          If the removal IS intended, add the 'allow-data-deletions' label.
+          Otherwise rebase onto the base branch and push again.
+          MSG
+          exit 1
+
+  staleness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Warn when the branch has fallen far behind
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$BASE"
+          behind=$(git rev-list --count "HEAD..origin/$BASE")
+          echo "Branch is $behind commit(s) behind origin/$BASE."
+          if [ "$behind" -gt 15 ]; then
+            echo "::warning::Branch is $behind commits behind $BASE. PR #61 was 23 behind and had to be abandoned - rebase before review."
+          fi
