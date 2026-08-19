@@ -74,3 +74,13 @@ No installation or defense-contractor facility found in or near this Charlotte s
 
 Sources:
 - No qualifying source found; absence of evidence documented after searching DoD installation lists and Union County/Charlotte-region economic development pages.
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: NULL (revised research, still left unset). Indian Trail sits inside an unusually strong regional aerospace-manufacturing cluster: Union County officially describes precision/aerospace manufacturing as a core industry and calls itself the largest geographic aerospace cluster in North Carolina, reporting approximately $1.4 billion in aerospace investment since 2002 and more than 18,000 aerospace/aircraft-manufacturing jobs in the Charlotte-Union County region as of 2025. ATI Allvac is currently undertaking a $200 million aerospace-materials expansion in nearby Monroe, adding 70 jobs. However, this research did not establish a current military installation or a substantial defense-specific prime contractor physically in Indian Trail itself — the evidence is aerospace-manufacturing-cluster strength, not a defense-specific anchor. Per the repo's conservative standard, broad regional aerospace activity alone should not be converted into a defense_hub_manual = true without a military or defense-contractor anchor. This closes out research on all 10 of the original issue #20 "left NULL" cities: Indian Trail joins Bend, Bellevue, Odessa, and Pierre as a defensible researched-NULL, while Binghamton, Florence, Grand Junction, Warren, and North Platte were promoted to TRUE in this round.
+
+No DB write was made for this revision; `defense_hub_manual` remains NULL, matching the 2026-08-11 determination above.
+
+Sources:
+- Union County, NC Economic Development — https://www.unioncountync.gov/Home/Components/News/News/2060/1509
+- Economic Development Partnership of North Carolina, ATI Allvac Monroe expansion — https://edpnc.com/news/cir_pz/southwest/
