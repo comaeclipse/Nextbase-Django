@@ -6,9 +6,9 @@
   "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
   "source_retrieved_on": "2026-08-11",
   "count": 57,
-  "resolved_count": 56,
+  "resolved_count": 57,
   "high_confidence_count": 56,
-  "medium_confidence_count": 0,
+  "medium_confidence_count": 1,
   "coordinates": [
     {
       "command_name": "Altus Air Force Base",
@@ -650,13 +650,13 @@
       "command_name": "United States Air Force Academy",
       "city": "Colorado Springs",
       "state": "CO",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"Piñon Canyon Maneuver Site\" score 0.00 rejected as ambiguous/low"
+      "latitude": 38.998486,
+      "longitude": -104.870063,
+      "confidence": "medium",
+      "source_kind": "hifld_mirta",
+      "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
+      "retrieved_on": "2026-08-18",
+      "notes": "Matched MIRTA site \"USAF Academy Site 2\" (queried 2026-08-18); HIFLD also lists a separate \"USAF Academy Auxiliary Airfield\" farther southeast, which was not used. Name-variant match, so confidence is medium."
     },
     {
       "command_name": "Vance Air Force Base",

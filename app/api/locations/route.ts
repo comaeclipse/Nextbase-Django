@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAllLocations, getAllStateInfo, getEmployerIndex } from "@/lib/locations";
+import { getAllLocations, getAllStateInfo, getEmployerIndex, getMilitaryProximityIndex } from "@/lib/locations";
 import { filterAndSort, type FilterParams } from "@/lib/filters";
 
 // Typed replacement for Django's HTMX filter endpoint (locations:filter_locations).
@@ -24,18 +24,25 @@ export async function GET(req: NextRequest) {
     income_tax: sp.get("income_tax"),
     vibes: sp.get("vibes"),
     employers: sp.get("employers"),
+    near_base: sp.get("near_base"),
+    base_branch: sp.get("base_branch"),
+    base_max_distance: sp.get("base_max_distance"),
     has_walmart: sp.get("has_walmart"),
     has_costco: sp.get("has_costco"),
     sort: sp.get("sort"),
   };
 
-  const [locations, stateInfos, employerIndex] = await Promise.all([
+  const [locations, stateInfos, employerIndex, militaryIndex] = await Promise.all([
     getAllLocations(),
     getAllStateInfo(),
     getEmployerIndex(),
+    getMilitaryProximityIndex(),
   ]);
 
-  const results = filterAndSort(locations, stateInfos, params, { employerIndex });
+  const results = filterAndSort(locations, stateInfos, params, {
+    employerIndex,
+    militaryIndex,
+  });
   return NextResponse.json({
     totalResults: results.length,
     locations: results,

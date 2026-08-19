@@ -309,17 +309,29 @@ Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It 
 
 ## Military installations
 
-Military installations are stored separately from defense employers because a command is a public facility, not a contractor or job-posting footprint. This is the authoritative data layer for a future **near a base** radius filter.
+Military installations are stored separately from defense employers because a command is a public facility, not a contractor or job-posting footprint. This is the data layer for the **near a base** radius filter. It does **not** feed `defense_hub`.
 
 Table: `military_installations`
 
 - **ServiceBranch** / **CommandName**: The owning service and the official command name.
-- **InstallationType** / **OperationalStatus**: Controlled descriptive fields (the current Navy import uses `installation_command` and `active`).
+- **InstallationType** / **OperationalStatus**: Controlled descriptive fields (imports use `installation_command` and `active`).
 - **Country** / **City** / **State**: The source-defined principal municipality, retained even when it does not match a curated retirement location.
-- **Latitude** / **Longitude**: Reserved for authoritative installation-site coordinates. They remain null when the source only provides a municipality; city centroids must not be used to claim a precise radius match.
-- **SourceKind** / **SourceUrl** / **SourceRetrievedOn** / **Notes**: Ingest provenance and source scope.
+- **Latitude** / **Longitude**: Authoritative *installation-site* coordinates (never a city centroid). Coordinate provenance is stored separately from identity provenance (`coordinate_source_kind`, `coordinate_source_url`, `coordinate_retrieved_on`, `coordinate_confidence`, `coordinate_notes`).
+- **SourceKind** / **SourceUrl** / **SourceRetrievedOn** / **Notes**: Identity-ingest provenance from the branch-directory import.
 
-Rows are unique on `(service_branch, command_name, country, city, state)`. Service-specific seeds (currently `data/navy_installations.json` and `data/marine_corps_installations.json`) carry their own `service_branch` and load through `scripts/import-military-installations.ts` after `scripts/migrate-military-installations.ts`. Future services should follow the same format and add coordinate-enrichment from an authoritative site-level source before the UI exposes distance matching.
+Rows are unique on `(service_branch, command_name, country, city, state)`. Seeds are `data/{air_force,navy,army,marine_corps}_installations.json`, loaded by `scripts/import-military-installations.ts` after `scripts/migrate-military-installations.ts`. Coordinates merge from `data/{branch}_installations_coordinates.json` via `scripts/merge-military-installation-coordinates.ts`. One active installation (NSF Thurmont / Camp David) is intentionally ungeocoded; see `data/military_installation_coordinate_gaps.md`.
+
+### `location_military_proximity`
+
+Derived city↔installation distances. Not denormalized onto `locations_location`.
+
+- **LocationId**: FK to `locations_location`, `ON DELETE CASCADE`
+- **MilitaryInstallationId**: FK to `military_installations`, `ON DELETE CASCADE`
+- **DistanceMiles**: Great-circle miles from the city centroid to the installation site (`numeric(8,2)`)
+- **ComputedOn**: Sync timestamp. A rerun upserts the current cartesian product and deletes pairs whose `computed_on` is not this run.
+- **PRIMARY KEY** `(location_id, military_installation_id)`
+
+Only geocoded cities and geocoded *active* installations are paired. Recompute with `scripts/sync-military-proximity.ts` after a coordinate merge or a city add. Cities without centroids (currently McHenry, MS) and installations without a site-level point (currently NSF Thurmont / Camp David) are omitted, not guessed. The Explore / API `near_base` facet reads a compact nearest-overall + nearest-per-branch index (`lib/military.ts`); `defense_hub` is unchanged.
 
 ---
 

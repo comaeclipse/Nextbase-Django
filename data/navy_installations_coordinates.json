@@ -6,9 +6,9 @@
   "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
   "source_retrieved_on": "2026-08-11",
   "count": 54,
-  "resolved_count": 52,
+  "resolved_count": 53,
   "high_confidence_count": 45,
-  "medium_confidence_count": 7,
+  "medium_confidence_count": 8,
   "coordinates": [
     {
       "command_name": "Naval Air Station Patuxent River",
@@ -80,7 +80,7 @@
       "source_kind": null,
       "source_url": null,
       "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"Aberdeen Proving Ground\" score 0.00 rejected as ambiguous/low"
+      "notes": "Unresolved: not present in the public HIFLD MIRTA DoD Sites-Point layer (queried 2026-08-18; no Thurmont/Camp David site). NSF Thurmont is the Camp David presidential retreat; official .mil pages do not publish a geocodable visitor-center or HQ address. Do not substitute the Thurmont city centroid. Revisit only if HIFLD or an official site-level point is published."
     },
     {
       "command_name": "Joint Expeditionary Base Little Creek-Fort Story",
@@ -230,13 +230,13 @@
       "command_name": "Naval Support Activity Maine",
       "city": "Kittery",
       "state": "ME",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"NG Auburn Training Site\" score 0.00 rejected as ambiguous/low"
+      "latitude": 43.080105,
+      "longitude": -70.734254,
+      "confidence": "medium",
+      "source_kind": "hifld_mirta",
+      "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
+      "retrieved_on": "2026-08-18",
+      "notes": "Matched MIRTA site \"Portsmouth Naval Shipyard\" (queried 2026-08-18); NSA Maine's principal city is Kittery, which is where the shipyard sits. Alias match, so confidence is medium."
     },
     {
       "command_name": "Naval Support Activity Portsmouth",

@@ -6,9 +6,9 @@
   "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
   "source_retrieved_on": "2026-08-11",
   "count": 51,
-  "resolved_count": 48,
+  "resolved_count": 51,
   "high_confidence_count": 44,
-  "medium_confidence_count": 4,
+  "medium_confidence_count": 7,
   "coordinates": [
     {
       "command_name": "Aberdeen Proving Ground",
@@ -50,13 +50,13 @@
       "command_name": "Dugway Proving Ground",
       "city": "Dugway",
       "state": "UT",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"Tooele Army Depot \" score 0.00 rejected as ambiguous/low"
+      "latitude": 40.188705,
+      "longitude": -113.212461,
+      "confidence": "medium",
+      "source_kind": "hifld_mirta",
+      "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
+      "retrieved_on": "2026-08-18",
+      "notes": "Matched MIRTA site \"West Desert Test Center\" (queried 2026-08-18). WDTC is the test organization hosted at Dugway Proving Ground; HIFLD has no row named Dugway. Alias match, so confidence is medium."
     },
     {
       "command_name": "Fort Anderson-Pinn-Hill (Fort A.P. Hill)",
@@ -542,13 +542,13 @@
       "command_name": "U.S. Army Garrison Natick",
       "city": "Natick",
       "state": "MA",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"Devens Reserve Forces Tng Area\" score 0.00 rejected as ambiguous/low"
+      "latitude": 42.289939,
+      "longitude": -71.362426,
+      "confidence": "medium",
+      "source_kind": "hifld_mirta",
+      "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
+      "retrieved_on": "2026-08-18",
+      "notes": "Matched MIRTA site \"Combat Capabilities Development Command Soldier Center\" (queried 2026-08-18). CCDC/DEVCOM Soldier Center is the Natick Soldier Systems Center on USAG Natick. Alias match, so confidence is medium. Did not use Devens RFTA, which is a different installation."
     },
     {
       "command_name": "U.S. Army Garrison West Point",
@@ -602,13 +602,13 @@
       "command_name": "Yakima Training Center",
       "city": "Yakima",
       "state": "WA",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"NG Bremerton\" score 0.00 rejected as ambiguous/low"
+      "latitude": 46.76103,
+      "longitude": -120.19129,
+      "confidence": "medium",
+      "source_kind": "gnis",
+      "source_url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/summary/2512394",
+      "retrieved_on": "2026-08-18",
+      "notes": "Not present in HIFLD MIRTA (queried 2026-08-18; WA extract has JBLM but no Yakima site, and YTC is a JBLM sub-installation geographically in the Yakima/Kittitas basin). Used GNIS military feature FID 2512394 (NAD83 46.76103, -120.19129). Did not use the JBLM point."
     },
     {
       "command_name": "Yuma Proving Ground",

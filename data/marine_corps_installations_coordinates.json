@@ -6,9 +6,9 @@
   "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
   "source_retrieved_on": "2026-08-11",
   "count": 20,
-  "resolved_count": 17,
+  "resolved_count": 20,
   "high_confidence_count": 17,
-  "medium_confidence_count": 0,
+  "medium_confidence_count": 3,
   "coordinates": [
     {
       "command_name": "Marine Corps Air Station Yuma",
@@ -86,13 +86,13 @@
       "command_name": "Marine Corps Mountain Warfare Training Center",
       "city": "Bridgeport",
       "state": "CA",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"Chocolate Mountain Aerial Gunnery Range\" score 0.17 rejected as ambiguous/low"
+      "latitude": 38.374177,
+      "longitude": -119.542022,
+      "confidence": "medium",
+      "source_kind": "hifld_mirta",
+      "source_url": "https://services7.arcgis.com/n1YM8pTrFmm7L4hs/arcgis/rest/services/mirta/FeatureServer/0",
+      "retrieved_on": "2026-08-18",
+      "notes": "Matched MIRTA site \"Bridgeport\" (USMC, active, queried 2026-08-18) — HIFLD uses the host-city name for MWTC Pickel Meadows. Alias match, so confidence is medium."
     },
     {
       "command_name": "Marine Corps Recruit Depot San Diego",
@@ -110,13 +110,13 @@
       "command_name": "Marine Barracks Washington",
       "city": "Washington",
       "state": "DC",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"Naval Support Activity Wash\" score 0.00 rejected as ambiguous/low"
+      "latitude": 38.879281,
+      "longitude": -76.994975,
+      "confidence": "medium",
+      "source_kind": "official_mil_address",
+      "source_url": "https://www.barracks.marines.mil/About/",
+      "retrieved_on": "2026-08-18",
+      "notes": "Not present in HIFLD MIRTA DC extract (queried 2026-08-18; NSA Washington / JB Anacostia-Bolling are listed separately and were not used). Geocoded the official 8th & I address from barracks.marines.mil/About via the Census Geocoder (8TH ST SE & I ST SE, WASHINGTON, DC)."
     },
     {
       "command_name": "Marine Corps Support Facility Blount Island",
@@ -218,13 +218,13 @@
       "command_name": "Marine Corps Recruit Depot Parris Island",
       "city": "Beaufort",
       "state": "SC",
-      "latitude": null,
-      "longitude": null,
-      "confidence": null,
-      "source_kind": null,
-      "source_url": null,
-      "retrieved_on": null,
-      "notes": "No confident MIRTA match; best candidate \"Fort Jackson\" score 0.00 rejected as ambiguous/low"
+      "latitude": 32.34114,
+      "longitude": -80.70452,
+      "confidence": "medium",
+      "source_kind": "gnis",
+      "source_url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/summary/2512275",
+      "retrieved_on": "2026-08-18",
+      "notes": "Not present in HIFLD MIRTA (queried 2026-08-18; SC extract has MCAS Beaufort and NAVSUPPFAC Beaufort, which are different sites and were not used). Used GNIS military feature FID 2512275 (NAD83 32.34114, -80.70452) on the Parris Island topo sheet."
     },
     {
       "command_name": "Henderson Hall, Joint Base Myer-Henderson Hall",
