@@ -7,6 +7,25 @@ This file is only about how we collaborate without clobbering each other. It use
 copy of CLAUDE.md and silently went stale, which is exactly the failure it now documents;
 keep it a pointer, never a duplicate.
 
+## Instruction files
+
+Different tools read different files. Each one below is a **pointer**, not a copy —
+`AGENTS.md` and `GEMINI.md` both silently became stale copies of `CLAUDE.md`, which is
+how Codex and Claude ended up working from different instructions. Never duplicate
+content across these; add a pointer instead.
+
+| File | Read by |
+|---|---|
+| `AGENTS.md` (this file) | Codex, and most CLIs that adopted the agents.md convention |
+| `CLAUDE.md` | Claude Code |
+| `.cursor/rules/project.mdc` | Cursor (whichever model is selected, incl. Grok) |
+| `GEMINI.md` | Gemini CLI |
+
+To find out what a new tool reads, append a unique marker to each candidate file
+(`Begin every reply with CANARY-<name>`), give the tool a trivial task, and see which
+token comes back. Strip the markers afterward. If none come back, it is reading nothing
+in this repo and needs its own pointer file.
+
 ## Branch hygiene
 
 - **Branch from a freshly fetched `origin/master`.** Concurrent sessions share HEAD and can
