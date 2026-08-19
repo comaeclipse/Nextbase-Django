@@ -31,13 +31,20 @@ Use these independently. They are ordered evidence labels, not 0--1 scores.
 Every entry needs a `scope` (city, county, metro, downtown, or neighborhood),
 `retrieved_on` date, and a counterexample where one exists.
 
+Every calibration row also carries a `calibration_status`: `complete` only when
+all four items of the retrieval test below are satisfied for that city;
+`provisional` otherwise. The eval v1 full-suite run (N02) caught this table
+assigning North Platte a `high` mismatch while its own record supplies only
+items #1 and #3 of that bar — a partial assignment must not silently read as a
+finished one (see `KNOWLEDGE_MODEL.md` §4.5).
+
 ## First three calibration cases
 
-| City | Industrial rhythm | Social rhythm | Mismatch | What is actually established |
-| --- | --- | --- | --- | --- |
-| North Platte, NE | `continuous_24_7` | `event_led` / `venue_led` | `high` | Bailey Yard covers 2,850 acres and handles about 10,000 cars daily. Current tourism and local accounts show events, arts, bars, and downtown programming, but not a broad ordinary-night social inventory. |
-| Elko, NV | `shift_based` | `unknown` | `unknown` | Mining is a major regional labor anchor and outdoor/Western institutions are visible. The current evidence does not establish a representative after-hours pattern. |
-| Odessa, TX | `shift_based` | `thin` / `venue_led` | `moderate` (hypothesis) | Oilfield, construction, logistics, health, and trade are major work anchors. Residents describe limited broad clubbing/nightlife alongside specific activities; a citywide social-night sample is still absent. |
+| City | Industrial rhythm | Social rhythm | Mismatch | Status | What is actually established |
+| --- | --- | --- | --- | --- | --- |
+| North Platte, NE | `continuous_24_7` | `event_led` / `venue_led` | `high` | `provisional` — items #2 and #4 of the evidence bar are outstanding | Bailey Yard covers 2,850 acres and handles about 10,000 cars daily. Current tourism and local accounts show events, arts, bars, and downtown programming, but not a broad ordinary-night social inventory. |
+| Elko, NV | `shift_based` | `unknown` | `unknown` | `provisional` | Mining is a major regional labor anchor and outdoor/Western institutions are visible. The current evidence does not establish a representative after-hours pattern. |
+| Odessa, TX | `shift_based` | `thin` / `venue_led` | `moderate` (hypothesis) | `provisional` | Oilfield, construction, logistics, health, and trade are major work anchors. Residents describe limited broad clubbing/nightlife alongside specific activities; a citywide social-night sample is still absent. |
 
 The table intentionally leaves Elko and Odessa less resolved than North Platte.
 The point is not to make all three look comparable; it is to reveal exactly
@@ -72,9 +79,16 @@ which question remains unresearched.
     ]
   },
   "after_8_social_pattern": "sparse_except_venues_events",
-  "rhythm_mismatch": "high"
+  "rhythm_mismatch": "high",
+  "calibration_status": "provisional"
 }
 ```
+
+This record clearly supplies items #1 (Bailey Yard as the shift/continuous
+anchor) and #3 (an event calendar read as event evidence) of the retrieval
+test. Items #2 (a current, ordinary-week evening venue-hours sample) and #4
+(two disagreeing lived-experience accounts) are outstanding; until both land,
+`rhythm_mismatch: high` is a provisional assignment, not an established one.
 
 ## Retrieval test before assigning a city
 
