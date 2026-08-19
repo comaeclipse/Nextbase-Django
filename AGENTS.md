@@ -60,3 +60,55 @@ npm run lint && npx tsc --noEmit && npm test && npm run build
 git diff --name-status origin/master...HEAD | grep '^D' || true   # expect nothing under data/
 git rev-list --count HEAD..origin/master                          # if >15, rebase
 ```
+
+## Task handoff
+
+Paste this preamble into any task given to an outside agent (Codex, Grok, or a fresh
+Claude session). Every rule here maps to a specific failure from the 2026-08-19 cleanup,
+where eight PRs and four recovery rounds were needed to unpick work that was never
+wrong — only mislocated.
+
+```
+Before starting:
+  git fetch origin && git switch -c <branch> origin/master
+
+Rules:
+  - Never commit to master; never reuse an existing branch.
+  - One concern per branch. No scratch files, screenshots, or temp
+    scripts in the repo root.
+  - Do not run production DB imports. Produce the data file and a
+    --dry-run log instead.
+  - Read AGENTS.md before opening a PR.
+
+When done:
+  git push -u origin <branch>, open a PR against master, report the URL.
+  If the branch is >15 commits behind master, rebase first.
+```
+
+Why each line exists:
+
+- **Never commit to master.** The local `master` accumulated 12 unpushed commits, and
+  another branch a 13th (Idaho Falls). All correct work, all existing in exactly one
+  place on one machine, all nearly deleted during branch cleanup.
+- **Push and open a PR.** Unpushed work is indistinguishable from work that never
+  happened. Both stranded caches were commits that were simply never pushed.
+- **One ticket, one agent.** `8483cd4` and `9e678b0` are byte-identical "Add retail
+  access filters" commits with different SHAs — the same issue handed to two tools.
+- **No production imports from a task.** An import lands in Neon instantly, so the DB
+  looks correct while the source file never merges. That is how 13 cities went live
+  with zero provenance on master, and the DB actively hid the failure.
+
+## Detecting drift
+
+Run these periodically; each catches one failure mode before it compounds.
+
+```bash
+git log origin/master..master                          # unpushed local commits
+git branch -a --no-merged origin/master                # branches drifting from master
+git log --all --format='%s' | sort | uniq -d           # duplicated work (same subject, different SHA)
+```
+
+The third would have flagged the retail-access collision on the day it happened.
+
+Note for Windows/PowerShell: `&&` is not a valid separator in Windows PowerShell 5.1.
+Use `cmd-a; if ($?) { cmd-b }`, or run the commands separately.
