@@ -326,7 +326,7 @@ Retrieval notes:
 - Distinguish facility types: outpatient clinic / CBOC vs VA medical center (parent station). Do not map clinic distance to hospital access.
 - `scripts/sync-va-facilities.ts` writes both outpatient and hospital pairs using great-circle miles and a dated `data/va_facilities_sync_YYYY-MM-DD.md` note.
 - After sync, run `city-profile-stack/scripts/tools/derive-structural-features.ts` so `va_outpatient_access` and `va_hospital_access` refresh.
-- `has_va` is true when the nearest outpatient-capable site is essentially local (`0 miles`).
+- `has_va` is true when the nearest outpatient-capable site is within 25 crow-fly miles of the city centroid (`OUTPATIENT_ACCESS_RADIUS_MI` in `scripts/sync-va-facilities.ts`). It means "routine outpatient VA care is a normal drive away", not "a VA facility is inside city limits".
 
 Normalization:
 
