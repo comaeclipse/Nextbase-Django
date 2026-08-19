@@ -259,6 +259,7 @@ Fields:
 
 - `has_va`
 - `nearest_va` / `distance_to_va` — outpatient-capable VA site
+- `nearest_va_kind` — `hospital` or `outpatient` for that nearest site
 - `nearest_va_hospital` / `distance_to_va_hospital` — VA medical center
 - `veterans_benefits`
 
@@ -278,6 +279,7 @@ Retrieval notes:
 Normalization:
 
 - `has_va`: boolean (`true` when outpatient site is local / `0 miles`).
+- `nearest_va_kind`: `hospital` or `outpatient`.
 - `nearest_va` / `nearest_va_hospital`: facility name, not prose.
 - `distance_to_va` / `distance_to_va_hospital`: text like `24 miles`.
 - `veterans_benefits`: short state-specific benefit summary when applicable.

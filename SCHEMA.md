@@ -116,9 +116,10 @@ The affordability engine scales a named national basket, not a single leftover `
 > have been removed. Ranking is computed at request time (see `calculate_baseline_score`), not stored.
 
 ### Veterans Affairs
-- **VA**: Whether location has a VA facility ("Yes"/"No" in CSV → Boolean `has_va`)
+- **VA**: Whether location has a nearby VA facility ("Yes"/"No" in CSV → Boolean `has_va`). `has_va` is the Explore "nearby" gate for both VA options.
 - **NearestVA** / **DistanceToVA**: Nearest *outpatient-capable* VA health site (clinic/CBOC or medical center). Used by structural `va_outpatient_access`. Refresh with `scripts/sync-va-facilities.ts`.
-- **NearestVAHospital** / **DistanceToVAHospital**: Nearest VA *medical center* (VAST parent / 3-character station). Used by structural `va_hospital_access`. Never treat clinic distance as hospital access.
+- **NearestVAKind**: `hospital` or `outpatient` — the kind of `nearest_va`. Written by the VA sync. Explore `va_hospital` requires `has_va` and this to be `hospital` (name equality with `nearest_va_hospital` is the pre-sync fallback). `va_clinic` is outpatient-capable nearby (`has_va`), so a VAMC satisfies it.
+- **NearestVAHospital** / **DistanceToVAHospital**: Nearest VA *medical center* (VAST parent / 3-character station). Used by structural `va_hospital_access`. Never treat clinic distance as hospital access. Almost every geocoded city has a named nearest hospital, so this field alone is not a "nearby" filter.
 - **Veterans Benefits**: Additional veteran-specific benefits/tax breaks available
 
 ### Safety & Social

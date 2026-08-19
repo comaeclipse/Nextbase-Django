@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { filterAndSort } from "./filters";
+import type { EmployerIndex, EmployerPresence } from "./defense";
 import type { MilitaryProximity, MilitaryProximityIndex } from "./military";
 import type { LocationRow } from "./types";
 
@@ -31,6 +32,7 @@ function loc(partial: Partial<LocationRow>): LocationRow {
     has_va: null,
     nearest_va: null,
     distance_to_va: null,
+    nearest_va_kind: null,
     nearest_va_hospital: null,
     distance_to_va_hospital: null,
     veterans_benefits: null,
@@ -174,5 +176,216 @@ describe("near_base filter", () => {
       { militaryIndex }
     );
     expect(result.map((location) => location.name)).toEqual(["Pensacola"]);
+  });
+});
+
+function names(rows: { name: string }[]): string[] {
+  return rows.map((row) => row.name).sort();
+}
+
+function presence(partial: Partial<EmployerPresence> = {}): EmployerPresence {
+  return {
+    slug: "raytheon",
+    display_name: "Raytheon",
+    parent_company: "RTX",
+    counts_as_defense: true,
+    onsite: 0,
+    hybrid: 0,
+    remote: 0,
+    total: 0,
+    ...partial,
+  };
+}
+
+const nearbyBase: MilitaryProximity = {
+  installation_id: 1,
+  command_name: "Fort Example",
+  service_branch: "Army",
+  branch_slug: "army",
+  city: "Example",
+  state: "GA",
+  distance_miles: 12,
+};
+
+describe("veteran proximity axes", () => {
+  // A: base only. B: defense employer only. C: VA only (clinic).
+  // D: base + defense. E: base + VA hospital. F: all three.
+  const rows = [
+    loc({ id: 1, name: "A-base", defense_hub: true }),
+    loc({
+      id: 2,
+      name: "B-defense",
+      defense_hub: false,
+      has_va: false,
+    }),
+    loc({
+      id: 3,
+      name: "C-va-clinic",
+      has_va: true,
+      nearest_va: "Example VA Clinic",
+      nearest_va_kind: "outpatient",
+      nearest_va_hospital: "Far VA Medical Center",
+      distance_to_va_hospital: "80 miles",
+    }),
+    loc({ id: 4, name: "D-base-defense" }),
+    loc({
+      id: 5,
+      name: "E-base-va-hospital",
+      has_va: true,
+      nearest_va: "Local VA Medical Center",
+      nearest_va_kind: "hospital",
+      nearest_va_hospital: "Local VA Medical Center",
+    }),
+    loc({
+      id: 6,
+      name: "F-all",
+      has_va: true,
+      nearest_va: "Hub VA Clinic",
+      nearest_va_kind: "outpatient",
+      nearest_va_hospital: "Hub VA Medical Center",
+    }),
+    loc({
+      id: 7,
+      name: "G-hub-no-employer",
+      defense_hub: true,
+    }),
+    loc({
+      id: 8,
+      name: "H-remote-only",
+    }),
+    loc({
+      id: 9,
+      name: "I-corporate",
+    }),
+  ];
+
+  const militaryIndex: MilitaryProximityIndex = {
+    1: { nearest: nearbyBase, nearest_by_branch: { army: nearbyBase } },
+    4: { nearest: nearbyBase, nearest_by_branch: { army: nearbyBase } },
+    5: { nearest: nearbyBase, nearest_by_branch: { army: nearbyBase } },
+    6: { nearest: nearbyBase, nearest_by_branch: { army: nearbyBase } },
+  };
+
+  const employerIndex: EmployerIndex = {
+    2: [presence({ onsite: 3, total: 3 })],
+    4: [
+      presence({
+        slug: "lockheed-martin",
+        display_name: "Lockheed Martin",
+        onsite: 2,
+        total: 2,
+      }),
+    ],
+    6: [
+      presence({
+        slug: "anduril",
+        display_name: "Anduril Industries",
+        hybrid: 1,
+        total: 1,
+      }),
+    ],
+    8: [presence({ onsite: 0, hybrid: 0, remote: 8, total: 8 })],
+    9: [
+      presence({
+        slug: "rtx-corporate",
+        display_name: "RTX Corporate",
+        counts_as_defense: false,
+        onsite: 12,
+        total: 12,
+      }),
+    ],
+  };
+
+  const opts = { militaryIndex, employerIndex };
+
+  it("matches near_base without pulling in defense or VA-only cities", () => {
+    expect(
+      names(
+        filterAndSort(rows, [], { near_base: "true", base_max_distance: "50" }, opts)
+      )
+    ).toEqual(["A-base", "D-base-defense", "E-base-va-hospital", "F-all"].sort());
+  });
+
+  it("matches defense_ecosystem from physical defense employers, not defense_hub", () => {
+    expect(
+      names(filterAndSort(rows, [], { defense_ecosystem: "true" }, opts))
+    ).toEqual(["B-defense", "D-base-defense", "F-all"].sort());
+  });
+
+  it("does not treat remote-only or corporate presence as defense_ecosystem", () => {
+    const result = names(
+      filterAndSort(rows, [], { defense_ecosystem: "true" }, opts)
+    );
+    expect(result).not.toContain("H-remote-only");
+    expect(result).not.toContain("I-corporate");
+    expect(result).not.toContain("G-hub-no-employer");
+    expect(result).not.toContain("A-base");
+  });
+
+  it("keeps specific-employer filtering independent of defense_ecosystem", () => {
+    expect(
+      names(filterAndSort(rows, [], { employers: "raytheon" }, opts))
+    ).toEqual(["B-defense", "H-remote-only"].sort());
+  });
+
+  it("requires a hospital for va_hospital and does not treat a clinic as one", () => {
+    expect(
+      names(filterAndSort(rows, [], { healthcare: "va_hospital" }, opts))
+    ).toEqual(["E-base-va-hospital"]);
+  });
+
+  it("lets a medical center satisfy va_clinic outpatient access", () => {
+    expect(
+      names(filterAndSort(rows, [], { healthcare: "va_clinic" }, opts))
+    ).toEqual(["C-va-clinic", "E-base-va-hospital", "F-all"].sort());
+  });
+
+  it("ORs VA options within the healthcare facet", () => {
+    expect(
+      names(
+        filterAndSort(rows, [], { healthcare: "va_hospital,va_clinic" }, opts)
+      )
+    ).toEqual(["C-va-clinic", "E-base-va-hospital", "F-all"].sort());
+  });
+
+  it("ANDs the three veteran-proximity axes against each other", () => {
+    expect(
+      names(
+        filterAndSort(
+          rows,
+          [],
+          {
+            near_base: "true",
+            defense_ecosystem: "true",
+            healthcare: "va_clinic",
+          },
+          opts
+        )
+      )
+    ).toEqual(["F-all"]);
+  });
+
+  it("falls back to name equality when nearest_va_kind is not yet backfilled", () => {
+    const unsynced = loc({
+      id: 10,
+      name: "Unsynced-hospital",
+      has_va: true,
+      nearest_va: "Town VA Medical Center",
+      nearest_va_kind: null,
+      nearest_va_hospital: "Town VA Medical Center",
+    });
+    const clinicFallback = loc({
+      id: 11,
+      name: "Unsynced-clinic",
+      has_va: true,
+      nearest_va: "Town VA Clinic",
+      nearest_va_kind: null,
+      nearest_va_hospital: "Distant VA Medical Center",
+    });
+    expect(
+      names(
+        filterAndSort([unsynced, clinicFallback], [], { healthcare: "va_hospital" })
+      )
+    ).toEqual(["Unsynced-hospital"]);
   });
 });

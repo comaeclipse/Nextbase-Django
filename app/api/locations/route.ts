@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
     income_tax: sp.get("income_tax"),
     vibes: sp.get("vibes"),
     employers: sp.get("employers"),
+    defense_ecosystem: sp.get("defense_ecosystem"),
     near_base: sp.get("near_base"),
     base_branch: sp.get("base_branch"),
     base_max_distance: sp.get("base_max_distance"),
