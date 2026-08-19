@@ -16,9 +16,14 @@ import {
   type CostInputs,
   type Tenure,
 } from "./affordability";
-import type { ResolvedConstants } from "./cost-constants";
+import { resolveCostConstants, type ResolvedConstants } from "./cost-constants";
 
-/** Round synthetic constants chosen to make the arithmetic checkable by hand. */
+/**
+ * Round synthetic constants chosen to make the arithmetic checkable by hand.
+ * medigapMonthly + partDMonthly = 215, matching the old combined
+ * supplementalHealthMonthly this file used before it was split — so every
+ * test below that sums to 400 (185 + 215) is unaffected by the split.
+ */
 const C: ResolvedConstants = {
   nonHousingBaseline65Plus: 2000,
   nonHousingGoodsMonthly: 850,
@@ -31,7 +36,8 @@ const C: ResolvedConstants = {
   modestNationalUtilitiesMonthly: 400,
   nationalMedianHomeValue: 400_000,
   medicarePartBMonthly: 185,
-  supplementalHealthMonthly: 215,
+  medigapMonthly: 179,
+  partDMonthly: 36,
   fallbackPropertyTaxRate: 0.01,
   annualMaintenanceRate: 0.01,
   mortgageRate30yr: 0.06,
@@ -225,9 +231,136 @@ describe("estimateMonthlyCost", () => {
   });
 });
 
+describe("healthCoverage", () => {
+  // Real, sourced national constants — these tests pin the actual dollar
+  // figures from lib/cost-constants.ts, not the synthetic C above, because
+  // the acceptance criteria for issue #60 are about the real numbers a user
+  // sees: $455.90 default, $202.90 VA-primary, $253 difference.
+  const resolution = resolveCostConstants();
+  if (!resolution.ok) {
+    throw new Error(
+      `Real cost constants are unsourced (${resolution.missing.join(", ")}); ` +
+        "healthCoverage acceptance tests require Phase 0 to be complete."
+    );
+  }
+  const real = resolution.constants;
+
+  it("defaults to medicare_supplement at exactly $455.90/month fixed health cost", () => {
+    const e = estimateMonthlyCost(loc({ median_rent: 1000 }), "rent", real);
+    expect(e.healthCoverage).toBe("medicare_supplement");
+    expect(e.nationalFixed).toBeCloseTo(455.9, 6);
+  });
+
+  it("omitting healthCoverage entirely matches the explicit default (backward compatible)", () => {
+    const withDefault = estimateMonthlyCost(
+      loc({ median_rent: 1000 }),
+      "rent",
+      real,
+      { healthCoverage: "medicare_supplement" }
+    );
+    const omitted = estimateMonthlyCost(loc({ median_rent: 1000 }), "rent", real);
+    expect(omitted.nationalFixed).toBe(withDefault.nationalFixed);
+    expect(omitted.monthlyCost).toBe(withDefault.monthlyCost);
+  });
+
+  it("va_primary is exactly $202.90/month fixed health cost — Part B only", () => {
+    const e = estimateMonthlyCost(loc({ median_rent: 1000 }), "rent", real, {
+      healthCoverage: "va_primary",
+    });
+    expect(e.nationalFixed).toBeCloseTo(202.9, 6);
+    expect(e.nationalFixed).toBe(real.medicarePartBMonthly);
+  });
+
+  it("switching to va_primary reduces monthlyCost (and increases leftover) by exactly $253", () => {
+    const location = loc({ median_rent: 1000 });
+    const defaultCost = estimateMonthlyCost(location, "rent", real).monthlyCost!;
+    const vaCost = estimateMonthlyCost(location, "rent", real, {
+      healthCoverage: "va_primary",
+    }).monthlyCost!;
+
+    expect(defaultCost - vaCost).toBeCloseTo(253, 6);
+
+    // Leftover (headroom) moves by exactly the same $253, in a household's
+    // favor, since income is unchanged and only the coverage choice moved.
+    const income = 3000;
+    const defaultHeadroom = income - defaultCost;
+    const vaHeadroom = income - vaCost;
+    expect(vaHeadroom - defaultHeadroom).toBeCloseTo(253, 6);
+  });
+
+  it("does not touch housing or non-housing terms — only nationalFixed moves", () => {
+    const location = loc({ median_rent: 1000 });
+    const defaultEstimate = estimateMonthlyCost(location, "rent", real);
+    const vaEstimate = estimateMonthlyCost(location, "rent", real, {
+      healthCoverage: "va_primary",
+    });
+    expect(vaEstimate.housing).toBe(defaultEstimate.housing);
+    expect(vaEstimate.nonHousing).toBe(defaultEstimate.nonHousing);
+  });
+
+  it("keeps Part B in both coverage paths", () => {
+    const defaultEstimate = estimateMonthlyCost(loc({ median_rent: 1000 }), "rent", real);
+    const vaEstimate = estimateMonthlyCost(loc({ median_rent: 1000 }), "rent", real, {
+      healthCoverage: "va_primary",
+    });
+    expect(defaultEstimate.nationalFixed).toBeGreaterThanOrEqual(real.medicarePartBMonthly);
+    expect(vaEstimate.nationalFixed).toBe(real.medicarePartBMonthly);
+  });
+
+  it("flags unknown VA access as missingContext, never as missing or a null total", () => {
+    const e = estimateMonthlyCost(loc({ median_rent: 1000 }), "rent", real, {
+      healthCoverage: "va_primary",
+    });
+    expect(e.missingContext.length).toBeGreaterThan(0);
+    expect(e.missingContext.some((m) => /va healthcare access/i.test(m))).toBe(true);
+    expect(e.missing).toHaveLength(0);
+    expect(e.monthlyCost).not.toBeNull();
+  });
+
+  it("does not change the affordability band for an otherwise fully-priced city", () => {
+    const location = loc({ median_rent: 1000 });
+    const income = 3000;
+    const vaEstimate = estimateMonthlyCost(location, "rent", real, {
+      healthCoverage: "va_primary",
+    });
+    const band = assessAffordability(vaEstimate, income).band;
+    // va_primary is strictly cheaper, so it must never read "unknown" or a
+    // worse band than the default coverage would for the same income.
+    const defaultBand = assessAffordability(
+      estimateMonthlyCost(location, "rent", real),
+      income
+    ).band;
+    expect(band).not.toBe("unknown");
+    expect(["comfortable", "tight", "over"]).toContain(band);
+    const rank = { comfortable: 0, tight: 1, over: 2, unknown: 3 } as const;
+    expect(rank[band]).toBeLessThanOrEqual(rank[defaultBand]);
+  });
+
+  it("names VA copays/medication as an omission, not an estimate", () => {
+    const e = estimateMonthlyCost(loc({ median_rent: 1000 }), "rent", real, {
+      healthCoverage: "va_primary",
+    });
+    expect(e.missingContext.some((m) => /copay/i.test(m))).toBe(true);
+  });
+
+  it("does not reorder fully-priced cities — the adjustment is household-wide, not per-city", () => {
+    const cities = [
+      loc({ id: 1, name: "Expensive", goods_rpp: 120, other_services_rpp: 120 }),
+      loc({ id: 2, name: "Cheap", goods_rpp: 85, other_services_rpp: 85 }),
+      loc({ id: 3, name: "Mid" }),
+    ];
+    const order = (healthCoverage: "medicare_supplement" | "va_primary") =>
+      rankByHeadroom(cities, 4000, "own_outright", real, { healthCoverage }).map(
+        (r) => r.location.id
+      );
+    expect(order("va_primary")).toEqual(order("medicare_supplement"));
+  });
+});
+
 describe("assessAffordability", () => {
   const estimate = (cost: number | null): CostEstimate => ({
     spendingProfile: "modest",
+    healthCoverage: "medicare_supplement",
     monthlyCost: cost,
     housing: 0,
     nonHousing: 0,
@@ -235,6 +368,7 @@ describe("assessAffordability", () => {
     nonHousingIndex: 100,
     missing: [],
     approximations: [],
+    missingContext: [],
   });
 
   it("bands at 80% and 100% of income", () => {

@@ -18,6 +18,7 @@ import {
   type Band,
   type CostEstimate,
   type CostInputs,
+  type HealthCoverage,
   type SpendingProfile,
   type Tenure,
 } from "../../lib/affordability";
@@ -406,6 +407,12 @@ export interface CityCostBreakdown {
   /** Inputs filled with a national stand-in instead of local data. */
   approximations: string[];
   /**
+   * Context that does NOT block or change monthlyCost — e.g. unverified local
+   * VA healthcare access, or the VA copay/medication omission, on the
+   * `va_primary` health coverage path. See lib/affordability.ts.
+   */
+  missingContext: string[];
+  /**
    * Take-home breakdown for THIS state, when an income composition was given.
    * Null when the caller supplied a flat after-tax figure instead.
    */
@@ -430,6 +437,8 @@ export type CostEstimateResult =
       ready: true;
       tenure: Tenure;
       spendingProfile: SpendingProfile;
+      /** Household health coverage choice this estimate used. */
+      healthCoverage: HealthCoverage;
       scopeNote: string;
       /** What the estimate structurally cannot account for. */
       caveats: string[];
@@ -480,6 +489,8 @@ export async function estimateCostForCities(opts: {
   spouse65Plus?: boolean;
   tenure: Tenure;
   spendingProfile?: SpendingProfile;
+  /** Household health coverage choice. Defaults to "medicare_supplement". */
+  healthCoverage?: HealthCoverage;
   cities?: string[];
   limit?: number;
   homePriceOverride?: number;
@@ -596,9 +607,11 @@ export async function estimateCostForCities(opts: {
         .filter((l): l is CostInputs => l !== undefined)
     : locations;
 
+  const healthCoverage = opts.healthCoverage ?? "medicare_supplement";
   const estimateOpts = {
     homePriceOverride: opts.homePriceOverride,
     spendingProfile: opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE,
+    healthCoverage,
   };
 
   /*
@@ -652,6 +665,7 @@ export async function estimateCostForCities(opts: {
     ready: true,
     tenure: opts.tenure,
     spendingProfile: estimateOpts.spendingProfile,
+    healthCoverage,
     scopeNote: COST_SCOPE_NOTE,
     caveats: COST_CAVEATS,
     incomeBasis: useComposition ? "composition" : "flat_after_tax",
@@ -670,6 +684,7 @@ export async function estimateCostForCities(opts: {
         ...r.cost.approximations,
         ...(r.income?.approximations ?? []),
       ],
+      missingContext: r.cost.missingContext,
       takeHome: r.income
         ? {
             grossMonthly: roundMoney(r.income.grossMonthly)!,

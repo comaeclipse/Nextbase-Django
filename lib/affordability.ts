@@ -29,7 +29,9 @@
  *   unscaled       cash contributions and pensions: in the 65+ mean, but not
  *                  a local price level.
  *   nationalFixed  Medicare and supplemental premiums. These do NOT vary by
- *                  location.
+ *                  location, but DO vary by the household's `healthCoverage`
+ *                  choice (medicare_supplement keeps Medigap + Part D;
+ *                  va_primary drops both and keeps Part B only).
  *
  * WHY THIS DOES NOT USE col_index
  *
@@ -69,6 +71,18 @@ import type { ResolvedTaxConstants } from "./tax-constants";
 /** How the household occupies its home. Drives which housing branch runs. */
 export type Tenure = "rent" | "own_outright" | "buying";
 
+/**
+ * Household health-insurance coverage choice, independent of city. Default
+ * `medicare_supplement` keeps the historical Part B + Medigap + Part D stack.
+ * `va_primary` keeps Part B (VA guidance is to take it regardless — it covers
+ * non-VA doctors/hospitals and delaying it risks a lifetime late-enrollment
+ * penalty) and drops Medigap and Part D, because VA drug coverage counts as
+ * Medicare creditable prescription drug coverage. This is a household choice,
+ * not something a city's VA access implies — carrying VA health care does not
+ * by itself mean Medigap was dropped, so it is never inferred from geography.
+ */
+export type HealthCoverage = "medicare_supplement" | "va_primary";
+
 /** Budget verdict band. `unknown` means we could not compute, not "bad". */
 export type Band = "comfortable" | "tight" | "over" | "unknown";
 
@@ -87,6 +101,8 @@ export interface CostInputs extends LocationRow {
 export interface CostEstimate {
   /** Which national basket was scaled. Never inferred from income. */
   spendingProfile: SpendingProfile;
+  /** Which health coverage stack fed `nationalFixed`. Never inferred from geography. */
+  healthCoverage: HealthCoverage;
   /** Total estimated monthly cost, or null when it could not be computed. */
   monthlyCost: number | null;
   /** The housing term, or null if the tenure's inputs were unavailable. */
@@ -109,6 +125,17 @@ export interface CostEstimate {
    * say which parts were approximated.
    */
   approximations: string[];
+  /**
+   * Context worth surfacing that does NOT block or change `monthlyCost` —
+   * unlike `missing` (blocks the total) and `approximations` (a national
+   * stand-in WAS folded into the total). Populated on the `va_primary` health
+   * coverage path: local VA healthcare access has not been verified for this
+   * city (no drive-time ingest exists yet), and VA outpatient copays /
+   * medication costs are a known, unestimated omission. Unknown VA access
+   * must never null `monthlyCost` or change the affordability band — that is
+   * exactly what this field exists to avoid.
+   */
+  missingContext: string[];
 }
 
 export interface Affordability extends CostEstimate {
@@ -124,6 +151,8 @@ export interface EstimateOptions {
    * for the BLS 65+ mean. The estimate records which one was used.
    */
   spendingProfile?: SpendingProfile;
+  /** Household health coverage choice. Defaults to "medicare_supplement". */
+  healthCoverage?: HealthCoverage;
   /** Override the default down payment fraction for `buying`. */
   downPaymentFraction?: number;
   /**
@@ -346,7 +375,9 @@ export function estimateMonthlyCost(
 ): CostEstimate {
   const missing: string[] = [];
   const approximations: string[] = [];
+  const missingContext: string[] = [];
   const spendingProfile = opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
+  const healthCoverage = opts.healthCoverage ?? "medicare_supplement";
 
   const nhi = nonHousingIndex(loc, c, approximations, [], spendingProfile);
   const nonHousing = nonHousingDollars(
@@ -367,7 +398,23 @@ export function estimateMonthlyCost(
     spendingProfile
   );
   const nationalFixed =
-    c.medicarePartBMonthly + c.supplementalHealthMonthly;
+    healthCoverage === "va_primary"
+      ? c.medicarePartBMonthly
+      : c.medicarePartBMonthly + c.medigapMonthly + c.partDMonthly;
+
+  if (healthCoverage === "va_primary") {
+    // Neither line blocks or approximates monthlyCost — see missingContext's
+    // doc comment. City-level VA drive-time data does not exist yet (a later,
+    // separate ingest), so access is unverified for every city today; that is
+    // reported as unknown context, never as a reason to null the total or
+    // restore the dropped Medigap/Part D premiums.
+    missingContext.push(
+      "local VA healthcare access is not yet verified for this city (no drive-time data ingested)"
+    );
+    missingContext.push(
+      "VA outpatient copays and medication costs are not estimated — they vary by disability rating, priority group, and prescriptions"
+    );
+  }
 
   // Any missing component means no total. Never substitute a default and
   // present the result as if it were complete.
@@ -378,6 +425,7 @@ export function estimateMonthlyCost(
 
   return {
     spendingProfile,
+    healthCoverage,
     monthlyCost,
     housing,
     nonHousing,
@@ -385,6 +433,7 @@ export function estimateMonthlyCost(
     nonHousingIndex: nhi,
     missing,
     approximations,
+    missingContext,
   };
 }
 

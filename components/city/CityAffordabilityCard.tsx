@@ -11,12 +11,14 @@ import { resolveTaxConstants } from "@/lib/tax-constants";
 import {
   AFFORDABILITY_DISCLAIMER,
   DEFAULT_AFFORDABILITY_SCENARIO,
+  HEALTH_COVERAGE_OPTIONS,
   INCOME_FIELDS,
   PROFILE_OPTIONS,
   TENURE_OPTIONS,
   affordabilityVintage,
   bandLabel,
   formatUsd,
+  healthCoverageLabel,
   profileLabel,
   scenarioIsActive,
   scenarioSources,
@@ -24,7 +26,7 @@ import {
   type AffordabilityScenario,
 } from "@/lib/affordability-scenario";
 import type { FilingStatus } from "@/lib/income";
-import type { SpendingProfile, Tenure } from "@/lib/affordability";
+import type { HealthCoverage, SpendingProfile, Tenure } from "@/lib/affordability";
 
 function Field({
   id,
@@ -82,7 +84,7 @@ export default function CityAffordabilityCard({ location }: { location: Location
       scenario.tenure,
       cost.constants,
       tax.constants,
-      { spendingProfile: scenario.spendingProfile }
+      { spendingProfile: scenario.spendingProfile, healthCoverage: scenario.healthCoverage }
     );
   }, [location, scenario]);
 
@@ -196,6 +198,22 @@ export default function CityAffordabilityCard({ location }: { location: Location
               ))}
             </div>
           </div>
+          <div>
+            <span className="aff-legend">Health coverage</span>
+            <div className="aff-toggles" role="group" aria-label="Health coverage">
+              {HEALTH_COVERAGE_OPTIONS.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  className="aff-toggle"
+                  aria-pressed={scenario.healthCoverage === option.id}
+                  onClick={() => set("healthCoverage", option.id as HealthCoverage)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {!budget ? (
@@ -251,7 +269,11 @@ export default function CityAffordabilityCard({ location }: { location: Location
                 <dd>{formatUsd(cost?.nonHousing)}</dd>
               </div>
               <div>
-                <dt>Medicare / supplement</dt>
+                <dt>
+                  {scenario.healthCoverage === "va_primary"
+                    ? "Medicare Part B"
+                    : "Medicare / supplement"}
+                </dt>
                 <dd>{formatUsd(cost?.nationalFixed)}</dd>
               </div>
               <div>
@@ -300,6 +322,19 @@ export default function CityAffordabilityCard({ location }: { location: Location
                   <li key={note}>{note}</li>
                 ))}
               </ul>
+            ) : null}
+            {cost?.missingContext.length ? (
+              <div className="aff-notes">
+                <p>
+                  <strong>Not modeled</strong> — these do not change the total
+                  or the band above:
+                </p>
+                <ul>
+                  {cost.missingContext.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             ) : null}
             {ownershipCaveat ? <p className="aff-notes">{ownershipCaveat}</p> : null}
           </>

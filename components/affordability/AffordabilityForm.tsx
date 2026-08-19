@@ -6,6 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   AFFORDABILITY_DISCLAIMER,
+  HEALTH_COVERAGE_OPTIONS,
   INCOME_FIELDS,
   PROFILE_OPTIONS,
   TENURE_OPTIONS,
@@ -13,7 +14,7 @@ import {
   type AffordabilityScenario,
 } from "@/lib/affordability-scenario";
 import type { FilingStatus } from "@/lib/income";
-import type { SpendingProfile, Tenure } from "@/lib/affordability";
+import type { HealthCoverage, SpendingProfile, Tenure } from "@/lib/affordability";
 
 export default function AffordabilityForm({
   scenario,
@@ -138,6 +139,35 @@ export default function AffordabilityForm({
         </ToggleGroup>
         <p className="text-[11px] text-muted-foreground">
           {PROFILE_OPTIONS.find((o) => o.id === scenario.spendingProfile)?.hint}
+        </p>
+      </section>
+
+      <section className="grid gap-2">
+        <p className="text-sm font-medium">Health coverage</p>
+        <ToggleGroup
+          value={[scenario.healthCoverage]}
+          onValueChange={(values: string[]) =>
+            set(
+              "healthCoverage",
+              (values[0] as HealthCoverage) ?? "medicare_supplement"
+            )
+          }
+          variant="outline"
+          spacing={0}
+          aria-label="Health coverage"
+          className="grid grid-cols-2"
+        >
+          {HEALTH_COVERAGE_OPTIONS.map((option) => (
+            <ToggleGroupItem key={option.id} value={option.id} className="px-2">
+              {option.label}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+        <p className="text-[11px] text-muted-foreground">
+          {
+            HEALTH_COVERAGE_OPTIONS.find((o) => o.id === scenario.healthCoverage)
+              ?.hint
+          }
         </p>
       </section>
 

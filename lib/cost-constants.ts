@@ -83,7 +83,7 @@ export const COST_CONSTANTS = {
     refresh: "annual",
     note:
       "Healthcare is removed because medicarePartBMonthly and " +
-      "supplementalHealthMonthly add health premiums separately. The previous " +
+      "medigapMonthly/partDMonthly add health premiums separately. The previous " +
       "total-minus-housing derivation counted healthcare twice. Healthcare uses " +
       "the same BLS release and age group: " +
       "https://fred.stlouisfed.org/series/CXUHEALTHLB0407M.\n" +
@@ -330,30 +330,51 @@ export const COST_CONSTANTS = {
   }),
 
   /**
-   * Typical Medigap/supplement + Part D monthly premium. Set to 0 if you decide
-   * to model only Part B; the harness will still run.
+   * Average Medigap (Medicare Supplement) premium across all plan types. Split
+   * out from the former combined `supplementalHealthMonthly` so the
+   * `va_primary` HealthCoverage path (lib/affordability.ts) can drop this
+   * specific premium while Part D keeps its own line.
    */
-  supplementalHealthMonthly: constant({
-    value: 253,
+  medigapMonthly: constant({
+    value: 217,
     unit: "USD per month",
     kind: "measured",
-    source:
-      "KFF: average Medigap premium across all plans $217/mo, plus average " +
-      "stand-alone Part D premium $36/mo for 2026",
+    source: "KFF: average Medigap premium across all plans, 2023 analysis",
     sourceUrl:
       "https://www.kff.org/medicare/medicare-part-d-enrollment-premiums-and-cost-sharing-in-2026/",
     sourcedOn: "2026-08-11",
     refresh: "annual",
     note:
-      "MIXED VINTAGE: the Part D figure is 2026, the Medigap figure is KFF's " +
-      "2023 analysis and is the newest published average found. Medigap has " +
-      "risen since, so this understates slightly.\n" +
-      "The larger caveat is that it may not apply at all. Many veterans use VA " +
-      "healthcare and carry no Medigap, in which case this overstates their " +
-      "cost by most of $217/mo — larger than the gap between many cities. The " +
-      "VA-access discount is Phase D and needs distance_to_va parsed to a " +
-      "numeric column first. Until then this is the single least " +
-      "representative constant in the file for this audience.",
+      "MIXED VINTAGE: this is KFF's 2023 analysis, the newest published " +
+      "average found; Medigap has risen since, so this understates slightly.\n" +
+      "Only applies to the default `medicare_supplement` HealthCoverage " +
+      "choice. Many veterans use VA healthcare and carry no Medigap — the " +
+      "`va_primary` path drops this premium entirely as a household coverage " +
+      "choice, not a geography one. Carrying VA health care does not by " +
+      "itself mean Medigap was dropped, which is why this is opt-in rather " +
+      "than inferred from a city's VA access.",
+  }),
+
+  /**
+   * Average stand-alone Part D (prescription drug) premium. Split out from
+   * the former combined `supplementalHealthMonthly` for the same reason as
+   * `medigapMonthly`.
+   */
+  partDMonthly: constant({
+    value: 36,
+    unit: "USD per month",
+    kind: "measured",
+    source: "KFF: average stand-alone Part D premium for 2026",
+    sourceUrl:
+      "https://www.kff.org/medicare/medicare-part-d-enrollment-premiums-and-cost-sharing-in-2026/",
+    sourcedOn: "2026-08-11",
+    refresh: "annual",
+    note:
+      "Only applies to the default `medicare_supplement` HealthCoverage " +
+      "choice. VA drug coverage counts as Medicare creditable prescription " +
+      "drug coverage, so the `va_primary` path drops this premium too, " +
+      "without modeling a late-enrollment penalty while that VA coverage " +
+      "continues.",
   }),
 
   /**
