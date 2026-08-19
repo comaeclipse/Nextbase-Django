@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
-  "updated_on": "2026-08-17",
-  "recent_change": "Added Bowling Green safety and VA-access refinements, preserving distinct outpatient-clinic, hospital-access, and source-vintage caveats.",
+  "updated_on": "2026-08-19",
+  "recent_change": "Added the Elko marketing-pole capture (owner Packet 1 research pass), filling eval E09's missing divergence pole; marketing quotes re-verified verbatim same day.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -218,6 +218,28 @@
       "retrieval_date": "2026-08-17",
       "limitations": ["The larger clinic is planned/future access, not current capacity.", "The row's 1-mile outpatient distance is centroid-to-facility distance, not proof the clinic is outside city limits.", "VA hospital access remains separate from outpatient clinic access."],
       "embedding_ready": true
+    },
+    {
+      "id": "elko_marketing_pole_2026",
+      "city": "Elko",
+      "state": "NV",
+      "topic": "marketing_vs_lived_after_dark",
+      "claim": "Elko's official marketing (Explore Elko, Elko Area Chamber, Travel Nevada) and resident accounts describe the same after-dark inventory - bars, casinos, live music, karaoke, two 24-hour gaming-bar listings - but marketing frames it as generalized evening energy while residents describe the same list as basically the whole menu; the divergence is category breadth, not factual disagreement.",
+      "status": "locally_normalized",
+      "artifact": "data/gold-packs/elko-marketing-vs-lived.claims.json",
+      "artifact_section": "divergences",
+      "source_urls": [
+        "https://exploreelko.com/restaurants/",
+        "https://exploreelko.com/restaurants/bars/",
+        "https://exploreelko.com/things-to-do/family-activities/",
+        "https://www.elkonevada.com/sippin-saturday",
+        "https://www.elkonevada.com/ghost-tours",
+        "https://www.elkonevada.com/dining0db08cf5",
+        "https://travelnevada.com/cities/elko/"
+      ],
+      "retrieval_date": "2026-08-19",
+      "limitations": ["Marketing quotes were re-verified verbatim against live pages on 2026-08-19; the four newly cited Reddit threads are as reported by the owner research pass and their excerpts await independent re-verification.", "The 24-hour operation of Bourbon Street Sports Bar and Dotty's was corroborated 2026-08-19 by the Elko Junction landlord tenant pages (no venue-primary hours page exists for either); Dotty's exact street address remains unsettled across listings (1744 vs the 2755 center).", "Event evidence (Sippin' Saturday, Ghost Tours) is labeled event evidence, not ordinary-night nightlife."],
+      "embedding_ready": false
     }
   ]
 }
