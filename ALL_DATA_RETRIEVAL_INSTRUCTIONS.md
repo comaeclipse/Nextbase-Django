@@ -23,6 +23,66 @@ Do not fill gaps with guesses. If a source is weak, leave the field blank and re
 
 For a **new city or a city being reported as complete**, a recorded gap is a blocker, not a completion state. The importer now rejects incomplete curated CSV rows by default. `--allow-incomplete` is only for an explicit legacy repair or migration; it must never be used to describe a city as complete.
 
+## Ingest Workflow: branch, PR, and when to write to Neon
+
+Follow this for every city add or refresh. It exists because the opposite order lost the
+provenance for 13 cities: each was researched, imported into Neon, and then its CSV never
+merged — the database looked correct, so nobody noticed for weeks.
+
+**The database write is the irreversible, shared step. The repo artifacts are the
+recoverable ones. So land the artifacts first.** If the import is skipped you notice
+immediately (the city is missing from the site); if the CSV is never merged you do not
+notice at all.
+
+### Phase 1 — research, on a branch, no database writes
+
+```powershell
+git fetch origin
+git switch -c data/ingest-<batch> origin/master
+```
+
+Produce `data/<city>_<st>.csv` and `data/<city>_<st>_sources.md`, then validate **without
+writing**:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts data\<city>_<st>.csv --dry-run
+```
+
+The city-completion gate runs before the dry-run branch in `scripts/import-csv.ts`, so a
+dry run does enforce it — an incomplete row fails here, on the branch, before anything
+reaches Neon. Push and open a PR containing **only** the CSV and its sources file. Review
+is on the research, which is the part that needs human judgement.
+
+Do **not** run the real importer, and do **not** commit
+`data/location-map-coordinates.json` from this branch — see the batching notes below.
+
+### Phase 2 — import, from `master`, after the PR merges
+
+```powershell
+git switch master; git pull
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts data\<city>_<st>.csv
+```
+
+Then the follow-up chain, in order (each is detailed in **Import Paths**): employer link
+backfill → `recompute-defense-hub.ts` → `derive-structural-features.ts` →
+`verify-location-completeness.ts --name "City, ST"`. Regenerate the map crosswalk
+(`prepare-map-coordinates.ts`) and open a second small PR for the artifacts the import
+produced — the updated `data/location-map-coordinates.json` and any dated
+`data/va_facilities_sync_YYYY-MM-DD.md` note.
+
+### Batching
+
+- **Group about five cities per branch, by state or region.** One PR per city does not
+  scale to a 100–200 city backlog, and a shared state or region means shared research:
+  election returns are county-level, weather stations are regional, and
+  `locations_stateinfo` is per-state.
+- **Never commit `data/location-map-coordinates.json` from an ingest branch.** Every city
+  touches that one file, so concurrent branches conflict on it every single time. It is
+  regenerated deterministically from the live locations by `prepare-map-coordinates.ts`,
+  so regenerate it once on `master` in phase 2 instead of merging conflicting copies.
+- **One batch in flight at a time** unless you are using separate worktrees. Concurrent
+  sessions share `HEAD`.
+
 ## Inspect Current Data
 
 Choose the local environment file without printing secrets. Prefer `.env`; use `.env.vercel` only when it is the available local Neon configuration:

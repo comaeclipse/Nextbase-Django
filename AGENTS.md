@@ -59,7 +59,10 @@ Two things made it hard to see:
 - **Never run a production import from a feature branch before its source file is merged.**
   Neon is shared and mutable: the import lands instantly, the DB looks done, and nobody
   notices the CSV never reached master. That is how #61 stranded 13 cities' provenance
-  while every one of those cities was already live.
+  while every one of those cities was already live. For city ingests specifically, follow
+  the two-phase workflow in
+  [ALL_DATA_RETRIEVAL_INSTRUCTIONS.md](ALL_DATA_RETRIEVAL_INSTRUCTIONS.md#ingest-workflow-branch-pr-and-when-to-write-to-neon):
+  research artifacts merge to `master` first, the Neon write happens from `master` after.
 - **Treat `data/`, `baselines/`, and `city-profile-stack/data/` as an audit trail.** Deleting
   from them is almost always a stale-branch artifact. The `Data guard` workflow fails such a
   PR; if the removal is genuinely intended, add the `allow-data-deletions` label.
