@@ -2,6 +2,8 @@
 
 Guidance for agents working in this repository.
 
+**Collaboration rules (branching, data changes, the stale-branch trap) live in [AGENTS.md](AGENTS.md).** Read it before opening a PR.
+
 ## Project Overview
 
 **VetRetire** is a **Next.js 16** (App Router) + **React 19** + **TypeScript** web app that helps military veterans find retirement locations, with filters for climate, cost of living, lifestyle, healthcare/VA access, safety, and LGBTQ friendliness.
