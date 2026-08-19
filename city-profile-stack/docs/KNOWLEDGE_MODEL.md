@@ -390,21 +390,38 @@ belongs to Phase 3 and the eval recommends against reaching for it yet.
 - No automatic parsing of claim prose into schedules — schedule structuring
   is a deliberate, reviewable act with `claim_ids` provenance.
 
-## 10. Open questions for review
+## 10. Decisions (resolved 2026-08-19)
 
-1. **Vocabulary approval** (issue #12's first checkbox): are the registries in
-   §3 — especially the seven `evidence_class` values and the four `measures`
-   values — the ones to freeze?
-2. Should `coverage` be required on every `comparison` claim, or only when a
-   claim generalizes beyond enumerated instances?
-3. Divergence `stance` values: is `co_true_different_measures` the right name
-   for the marketing-vs-lived common case?
-4. When Packet 1 lands the Elko marketing-pole claims, do they join the
-   existing Tuesday pack (new claims + divergence) or a new pack? Proposal:
-   same pack, bumped `schema_version`, since the question is unchanged.
-   *Interim answer taken 2026-08-19, reviewable:* a **separate pack**
-   (`elko-marketing-vs-lived.claims.json`) — the capture answers a different
-   question (portrayal-vs-lived, E09's shape) than the Tuesday pack's
-   after-8-p.m. question, and keeping the verified Tuesday pack byte-stable
-   preserves it as the round-trip baseline. The new pack references the
-   Tuesday pack rather than duplicating it.
+These four were put to the owner for review; the owner deferred the calls
+(2026-08-19), so they were decided as follows and are recorded here as v1
+policy. Any of them can be reopened by an issue that cites a failing case.
+
+1. **The vocabulary is frozen as v1** — the registries in §3, including the
+   seven `evidence_class` values and the four `measures` values. They
+   survived contact with all four gold packs and all 34 experience
+   observations without needing a value the corpus couldn't supply. Freezing
+   does not mean immutable: a new value enters by editing the registry in
+   `lib/knowledge-model.ts` with a rationale (ideally a failing question or
+   an unmappable source), never by appearing ad hoc in a pack — the validator
+   enforces exactly this.
+2. **`coverage` is required only when a claim generalizes beyond enumerated
+   instances.** If a claim's subject is the named things it cites ("Charlee's
+   runs karaoke nightly"), coverage adds nothing. The moment the claim's
+   universe exceeds its citations ("several venues" → "citywide", a
+   cross-city ranking, a directory presented as a scene), `coverage` is
+   mandatory. This is an authoring rule checked by eval questions (E08, O02,
+   C03 are the regression tests), not mechanically — a validator cannot know
+   a claim's intended universe.
+3. **`co_true_different_measures` keeps its name.** Its first real use (the
+   Elko marketing-vs-lived divergence) matched the definition exactly, and
+   the owner's independent description of the phenomenon — "different
+   interpretations of diversity and density" — is the same concept in plain
+   words.
+4. **Marketing-pole claims live in a separate pack**
+   (`elko-marketing-vs-lived.claims.json`), not the Tuesday pack. The capture
+   answers a different question (portrayal-vs-lived, E09's shape) than "is
+   Elko dead after 8 p.m.", and keeping the verified Tuesday pack byte-stable
+   preserves it as the round-trip baseline. Packs reference each other
+   (`reuses` links) rather than duplicating claims. General rule going
+   forward: **one question, one pack** — a new question gets a new pack even
+   when it shares a city and a corpus.
