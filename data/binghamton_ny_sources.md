@@ -48,3 +48,18 @@ Genuine mixed evidence, left NULL. The Collins Aerospace site in Binghamton has 
 Sources:
 - Wikipedia, "Link Trainer" / Binghamton aviation history — https://en.wikipedia.org/wiki/Link_Trainer
 - Collins Aerospace / RTX careers site (site listing only, no headcount disclosed) — https://careers.rtx.com/
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+This revises, but does not delete, the 2026-08-11 determination above. The original NULL
+call was reasonable given only the Collins-postings evidence available at the time; new
+targeted research since then found substantially more evidence.
+
+Determination: TRUE. Current evidence establishes Greater Binghamton/Broome County as a substantive defense/aerospace employment cluster. Collins Aerospace maintains an active Binghamton training-and-simulation facility. BAE Systems employs more than 1,300 people at its Endicott campus in the Greater Binghamton metro, where employees develop systems for commercial and military air and land applications; BAE opened a 150,000-square-foot expansion there in 2026. NYSDOL analysis of USASpending data found $231.5 million in DoD prime contracts awarded in Broome County during FY2020–FY2023, with six of the Southern Tier's ten largest defense vendors located in the county.
+
+Sources:
+- RTX / Collins Aerospace, "Who We Are — North America — United States" (active Binghamton, NY location doing training and simulation development, spanning Government and Commercial Systems) — https://www.rtx.com/collinsaerospace/who-we-are/about-us/global/north-america/united-states
+- New York State Department of Labor, USASpending DoD contract analysis (Broome County: $231.5M in DoD prime-contract spending FY2020–FY2023; six of the Southern Tier's ten largest defense vendors, including BAE Systems, Innovation Associates, Apex Pinnacle, Aptim Federal Services, Airborne Supply, BSC Partners) — https://content.govdelivery.com/accounts/NYDOL/bulletins/381088a
+- BAE Systems, "BAE Systems significantly expands Endicott operations to support aircraft electrification" (1,300+ employees at Endicott campus, commercial and military air/land applications) — https://www.baesystems.com/en/article/bae-systems-significantly-expands-endicott-operations-to-support-aircraft-electrification
+- BAE Systems, "New building dedicated to aircraft and ground vehicle electrification opens in Endicott" (May 2026, 150,000-sq-ft expansion) — https://www.baesystems.com/en-us/article/new-building-dedicated-to-aircraft-and-ground-vehicle-electrification-opens-in-endicott
+- Empire State Development, "Governor Hochul and Senator Schumer Announce $65 Million Expansion, BAE Systems" ($65M investment, up to 134 additional jobs) — https://esd.ny.gov/esd-media-center/press-releases/governor-hochul-and-senator-schumer-announce-65-million-expansion-bae-systems
