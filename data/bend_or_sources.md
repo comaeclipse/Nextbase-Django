@@ -61,3 +61,13 @@ A small defense-adjacent firm (Cv International) was found to have relocated to 
 
 Sources:
 - Local business/relocation coverage of Cv International's move to Prineville, OR, late 2025 (secondary source, not defense-specific to Bend).
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: **NULL (revised research, still left unset)**. Central Oregon's official aviation-sector material centers on civilian aircraft manufacturing, avionics, and flight training (Epic Aircraft, CiES, Electronics International, Leading Edge Aviation) — not a defense cluster. Bend-based Blue Moon Designs does have genuine, continuing DoD business: an approximately $1.05M 2021 DoD contract for helicopter ground-support equipment and an approximately $181K 2024 order for an upgraded helicopter ladder. That is real defense contracting but on too small a scale to establish Bend as a defense-industrial hub — not strong enough to promote to TRUE, but also not absent enough to justify a hard FALSE veto. Left NULL.
+
+No DB write was made for this revision; `defense_hub_manual` remains NULL, matching the 2026-08-11 determination above.
+
+Sources:
+- Economic Development for Central Oregon (aviation sector) — https://www.edcoinfo.com/industry/aviation
+- USAspending.gov, Blue Moon Designs 2021 award — https://www.usaspending.gov/award/CONT_AWD_N6833521C0628_9700_-NONE-_-NONE-/

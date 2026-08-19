@@ -55,3 +55,12 @@ Sources:
 - PR Newswire, Raytheon Forest MS expansion release — https://www.prnewswire.com/
 - Mississippi Development Authority (Mississippi.org), RTX profile — https://mississippi.org/
 - Area Development, 2023-09-18 — https://www.areadevelopment.com/
+
+## defense_hub_manual audit (issue #20, retrieved 2026-08-19)
+
+Determination: TRUE (validated, no change). Fresh research strongly confirms and strengthens the prior determination. RTX currently operates its Raytheon Consolidated Manufacturing Center in Forest with more than 1,000 employees, including more than 200 veterans, producing airborne radars for F/A-18 and F-15 aircraft, Next Generation Jammer pods for the EA-18G Growler, P-8 Poseidon radar systems, Sentinel ground radars, radar-warning receivers, and Silent Knight terrain-following radar for U.S. Special Operations Command — supporting approximately 20 major programs across three production shifts. Raytheon is completing a $50 million expansion adding 100 high-skill jobs for U.S. Navy electronic-attack and airborne-radar programs. RTX confirmed in 2025 that its PhantomStrike military radar is also produced in Forest. No DB change — `defense_hub_manual` was already `true`.
+
+Sources:
+- RTX/Raytheon, Forest MS location page — https://careers.rtx.com/global/en/raytheon-forest-ms-location
+- Mississippi Development Authority, RTX Forest expansion — https://mississippi.org/news/rtx-expands-high-tech-manufacturing-footprint-in-mississippi/
+- RTX, PhantomStrike radar first flight test — https://www.rtx.com/news/news-center/2025/05/06/rtxs-raytheon-completes-first-flight-test-for-phantomstrike-radar

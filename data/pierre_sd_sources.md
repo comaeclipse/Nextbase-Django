@@ -89,3 +89,14 @@ Only a legacy armory/museum was found. South Dakota National Guard's real headqu
 
 Sources:
 - South Dakota National Guard, unit/facility locations — https://sd.ng.mil/
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: **NULL (revised research, still left unset)**. Pierre has real current military and federal-defense-related activity: 2026 South Dakota National Guard hiring records place the 200th Engineer Company in Pierre (headquartered there historically at the Pierre National Guard Armory) plus another current Guard billet, and the U.S. Army Corps of Engineers maintains current Pierre-area operations including its South Dakota regulatory office and the Oahe Project Office. That rules out a hard FALSE veto. But South Dakota's much larger current defense-industry expansion is explicitly concentrated elsewhere (Rapid City/Ellsworth and other manufacturing communities), and the Pierre evidence doesn't rise to a retiree-relevant defense-employment cluster. Left NULL, now with documented current evidence rather than an unresearched gap.
+
+No DB write was made for this revision; `defense_hub_manual` remains NULL, matching the 2026-08-11 determination above.
+
+Sources:
+- South Dakota National Guard, current hiring/unit records — https://dev.sd.gov/sdng
+- U.S. Army Corps of Engineers, South Dakota district offices — https://www.nwo.usace.army.mil/Locations/District-Offices/South-Dakota/
+- South Dakota state defense-industry expansion coverage (Rapid City/Ellsworth focus) — https://news.sd.gov/news

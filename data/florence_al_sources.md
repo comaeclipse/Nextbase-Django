@@ -84,3 +84,15 @@ No evidence found of a military installation or defense-contractor facility in o
 
 Sources:
 - No qualifying source found; absence of evidence documented after searching DoD installation lists and Florence/Shoals-area economic development pages.
+
+## defense_hub_manual revision (issue #20, retrieved 2026-08-19)
+
+Determination: **TRUE**. Florence-Muscle Shoals now has multiple substantial, current defense-industrial anchors. ALL.SPACE selected Florence-Muscle Shoals as its U.S. Technical and Manufacturing Hub, explicitly tied to its U.S. government and defense business. The U.S. Navy participated in the 2026 opening of a major new Muscle Shoals defense-industrial manufacturing facility supporting submarine construction and the maritime industrial base (~$2.4 billion investment, up to 1,000 manufacturing jobs). DoD separately awarded Constellium Muscle Shoals $23 million under the Defense Production Act to expand aluminum casting capacity for defense-critical applications. The Shoals Economic Development Authority already identifies aerospace and defense as a target sector, including local manufacturers producing components for Cobra and Apache helicopters.
+
+This revises and supersedes the 2026-08-11 NULL determination above. `defense_hub_manual` was set to `true` in Neon on 2026-08-19; `defense_hub` itself is derived by `scripts/recompute-defense-hub.ts`, not written directly.
+
+Sources:
+- ALL.SPACE — https://www.all.space/insights/all-space-redomiciles-to-the-united-states-strengthening-commitment-to-u-s-defense-ecosystem
+- U.S. Navy — https://www.navy.mil/DesktopModules/ArticleCS/Print.aspx?Article=4448486&ModuleId=4049&PortalId=1
+- U.S. House / Rep. Robert Aderholt — https://aderholt.house.gov/media-center/press-releases/congressman-aderholt-joins-us-navy-secretary-and-alabama-delegation
+- Shoals Economic Development Authority — https://shoalseda.com/industry/

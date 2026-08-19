@@ -66,3 +66,12 @@ Sources:
 - Ohio Tech News, Arsenal-1 coverage — https://ohiotechnews.com/
 - NBC4 Columbus (nbc4i.com), construction-start coverage — https://www.nbc4i.com/
 - ABC6 Columbus (abc6onyourside.com), Fury production coverage — https://abc6onyourside.com/
+
+## defense_hub_manual audit (issue #20, retrieved 2026-08-19)
+
+Determination: TRUE (validated, no change). Fresh research strongly confirms and strengthens the prior determination. Anduril is building Arsenal-1 in the Ashville/Pickaway County area as a hyperscale defense-manufacturing facility: more than $900 million in capital investment, more than five million square feet of manufacturing space, and more than 4,000 new jobs. Current Ashville hiring is specifically for Arsenal-1 defense production, including the Roadrunner counter-UAS interceptor. Anduril has stated that Air Force Collaborative Combat Aircraft production and eventually Barracuda missile-variant production will also move to Arsenal-1. No DB change — `defense_hub_manual` was already `true`.
+
+Sources:
+- Anduril Industries, Arsenal-1 — https://www.anduril.com/arsenal/arsenal-1
+- Anduril Industries, Ashville job posting (Roadrunner/Arsenal-1 production) — https://job-boards.greenhouse.io/andurilindustries/jobs/5134458007
+- Anduril Industries, YFQ-44A/CCA flight testing news — https://www.anduril.com/news/anduril-yfq-44a-begins-flight-testing-for-the-collaborative-combat-aircraft-program
