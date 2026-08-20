@@ -2723,6 +2723,278 @@
         "searched_not_found: consistent closing-hour evidence; the refrain is thin redundancy rather than a hard citywide closing time",
         "not_researched: whether the 'small city' classification should become a fifth pace category alongside urban/suburban/small_town/rural"
       ]
+    },
+    {
+      "city": "Victorville",
+      "state": "CA",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.45,
+          "confidence": 0.55,
+          "evidence": "Residents explicitly warn newcomers about freezing nights and a distinctly colder high-desert winter than lower-elevation Southern California.",
+          "signals": [
+            "winter_cold_and_occasional_snow"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.25,
+          "confidence": 0.45,
+          "evidence": "Snow occurs and can disrupt Cajon Pass travel, but residents do not describe persistent snow cover as a normal daily winter burden.",
+          "signals": [
+            "winter_cold_and_occasional_snow"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.85,
+          "confidence": 0.78,
+          "evidence": "Multiple independent threads describe summer heat as intense enough to constrain daytime outdoor activity.",
+          "signals": [
+            "dry_extreme_summer_heat"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.15,
+          "confidence": 0.62,
+          "evidence": "Residents consistently characterize the summer heat as dry rather than muggy.",
+          "signals": [
+            "dry_extreme_summer_heat"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.55,
+          "confidence": 0.57,
+          "evidence": "Spring and other shoulder seasons receive favorable comments, while intense summer heat and cold/wind reduce year-round comfort.",
+          "signals": [
+            "dry_extreme_summer_heat",
+            "persistent_wind_and_cool_nights",
+            "winter_cold_and_occasional_snow"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.85,
+          "confidence": 0.67,
+          "evidence": "Residents treat air conditioning as necessary during summer and report potentially substantial cooling costs.",
+          "signals": [
+            "dry_extreme_summer_heat",
+            "high_ac_dependence"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.75,
+          "confidence": 0.72,
+          "evidence": "Strong seasonal wind, particularly in spring, recurs independently across local weather discussions.",
+          "signals": [
+            "persistent_wind_and_cool_nights"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.75,
+          "confidence": 0.72,
+          "evidence": "Residents identify local desert recreation plus nearby hiking, Mojave Narrows, Silverwood, Wrightwood and mountain destinations.",
+          "signals": [
+            "nearby_outdoor_recreation"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.6,
+          "confidence": 0.58,
+          "evidence": "Quiet desert views, stars and sunsets are repeatedly cited as positive reasons to enjoy living in the High Desert.",
+          "signals": [
+            "desert_scenery_and_quiet"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.5,
+          "confidence": 0.48,
+          "evidence": "Residents regularly include Silverwood-area recreation among nearby outdoor options, although water recreation is not a dominant Victorville theme.",
+          "signals": [
+            "nearby_outdoor_recreation"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.62,
+          "confidence": 0.72,
+          "evidence": "Major employment, higher-level healthcare, airport access and deeper entertainment frequently require a trip down Cajon Pass.",
+          "signals": [
+            "cajon_pass_commute_penalty",
+            "basic_care_local_specialty_care_leaks",
+            "passenger_airport_access_is_awkward"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.4,
+          "confidence": 0.72,
+          "evidence": "Victorville supplies ordinary restaurants, shopping and activities but residents repeatedly describe limited variety and travel elsewhere for deeper options.",
+          "signals": [
+            "amenities_exist_but_repeat",
+            "regional_service_center_role"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.45,
+          "confidence": 0.5,
+          "evidence": "Victorville acts as a regional shopping hub, yet scarce destinations such as Costco serve a very large catchment and some residents travel down hill for broader selection.",
+          "signals": [
+            "regional_service_center_role"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.3,
+          "confidence": 0.58,
+          "evidence": "Community discussions of Ontario Airport describe the connection as inconvenient without a car and very slow by public transit.",
+          "signals": [
+            "passenger_airport_access_is_awkward"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.9,
+          "confidence": 0.82,
+          "evidence": "Multiple independent transit discussions agree that dispersed destinations and hourly buses make a reliable car the practical default.",
+          "signals": [
+            "strong_car_dependence",
+            "transit_usable_but_slow"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.2,
+          "confidence": 0.76,
+          "evidence": "Residents explicitly describe Victorville as car-oriented and complain that Old Town has not yet developed into the walkable center they want.",
+          "signals": [
+            "weak_walkable_core"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.5,
+          "confidence": 0.48,
+          "evidence": "Community accounts describe basic healthcare, Kaiser facilities and hospitals as available locally, despite substantial criticism of the hospital environment.",
+          "signals": [
+            "basic_care_local_specialty_care_leaks"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.35,
+          "confidence": 0.52,
+          "evidence": "Network-specific accounts describe repeated travel down hill for services that were not available or convenient locally.",
+          "signals": [
+            "basic_care_local_specialty_care_leaks"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.3,
+          "confidence": 0.66,
+          "evidence": "Residents repeatedly distinguish adequate basic care from specialist, complex or higher-acuity care that often requires Ontario or Loma Linda.",
+          "signals": [
+            "basic_care_local_specialty_care_leaks"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.3,
+          "confidence": 0.76,
+          "evidence": "Independent job-search threads repeatedly report difficulty finding work locally and recommend searching down hill.",
+          "signals": [
+            "local_job_search_difficulty"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.9,
+          "confidence": 0.83,
+          "evidence": "The Cajon Pass is repeatedly described as a major daily cost whose congestion, accidents and weather can turn ordinary commutes into multi-hour trips.",
+          "signals": [
+            "cajon_pass_commute_penalty"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.4,
+          "confidence": 0.48,
+          "evidence": "Community accounts describe rising housing costs alongside a local labor market many residents consider too thin, but direct wage-to-cost evidence is under-sampled.",
+          "signals": [
+            "local_cost_wage_mismatch"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.65,
+          "confidence": 0.47,
+          "evidence": "Long-time residents associate recent in-migration with higher housing prices and greater pressure on local systems, although community accounts do not quantify the effect.",
+          "signals": [
+            "growth_strain_is_visible_in_discourse",
+            "housing_bargain_eroding"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.65,
+          "confidence": 0.73,
+          "evidence": "Residents still choose Victorville because ownership is attainable relative to much of Southern California, while emphasizing that prices are no longer historically cheap.",
+          "signals": [
+            "california_relative_housing_value",
+            "housing_bargain_eroding"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.8,
+          "confidence": 0.73,
+          "evidence": "Recent buyers describe obtaining newer multi-bedroom detached homes and yards at prices that would buy substantially less house down hill.",
+          "signals": [
+            "california_relative_housing_value"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.45,
+          "confidence": 0.45,
+          "evidence": "Families can identify parks, recreation and schools, but community threads complain about limited children's activities and often prefer particular nearby communities or school areas.",
+          "signals": [
+            "family_location_preferences_are_uneven",
+            "school_reputation_uneven",
+            "amenities_exist_but_repeat"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.45,
+          "confidence": 0.57,
+          "evidence": "Newcomers seeking friends are routinely directed toward hobby groups, sports, hiking, libraries and organized events rather than a naturally dense social circuit.",
+          "signals": [
+            "hobby_based_social_entry"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.6,
+          "confidence": 0.52,
+          "evidence": "When residents ask about conventional adult nightlife, the limited recommendations disproportionately center on bars and breweries.",
+          "signals": [
+            "thin_nightlife_depth"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.3,
+          "confidence": 0.7,
+          "evidence": "Young-adult threads repeatedly characterize evening choices as limited and frequently suggest going down hill for more variety.",
+          "signals": [
+            "thin_nightlife_depth"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.45,
+          "confidence": 0.57,
+          "evidence": "Resident accounts vary dramatically by neighborhood: some specific areas generate recurring warnings while other residents report long periods without serious problems.",
+          "signals": [
+            "safety_varies_block_by_block"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.6,
+          "confidence": 0.35,
+          "evidence": "Drug problems are a conspicuous part of Victorville's community discourse, but that discourse is frequently inflammatory and too stereotype-heavy to justify an extreme value or strong confidence.",
+          "signals": [
+            "substance_problem_discourse_is_loud"
+          ]
+        }
+      },
+      "gaps": [
+        "not_researched: political conservatism, political heterogeneity, religious-culture prominence and municipal LGBTQ policy were outside this research pass.",
+        "discussed_but_unscoreable: LGBTQ social acceptance, racial inclusion and related interpersonal-climate claims appeared too thinly or inflammatory to score responsibly.",
+        "not_researched: remote-work infrastructure, tourism pressure, economic-cycle exposure, precipitation seasonality, winter daylight deficit and severe-storm risk were not independently developed in the community-source pass.",
+        "searched_not_found: targeted apartment discussions produced useful property-level safety recommendations but did not establish citywide rental vacancy, wait-list or competition conditions strongly enough to score rental_availability."
+      ]
     }
   ]
 }
