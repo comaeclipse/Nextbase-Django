@@ -34,8 +34,8 @@ export default async function MosquesPage() {
       <header className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight">Mosque Map</h1>
         <p className="max-w-2xl text-sm text-muted-foreground">
-          Find a mosque near where you&apos;re considering retiring. Click a marker for
-          details, or a cluster to zoom in.
+          Find a mosque near where you&apos;re considering retiring. Zoom in and click a
+          dot for details.
         </p>
       </header>
       <MosquesMap mosques={mosques} />
