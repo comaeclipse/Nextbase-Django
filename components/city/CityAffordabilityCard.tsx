@@ -3,7 +3,10 @@
 import { useMemo, useState } from "react";
 import type { Location } from "@/lib/types";
 import {
+  COMFORT_COST_SHARE,
   assessBudget,
+  estimateMonthlyCost,
+  incomeTargets,
   type LocationBudget,
 } from "@/lib/affordability";
 import { resolveCostConstants } from "@/lib/cost-constants";
@@ -17,8 +20,8 @@ import {
   TENURE_OPTIONS,
   affordabilityVintage,
   bandLabel,
+  bandVerdict,
   formatUsd,
-  healthCoverageLabel,
   profileLabel,
   scenarioIsActive,
   scenarioSources,
@@ -68,6 +71,24 @@ export default function CityAffordabilityCard({ location }: { location: Location
     setScenario((current) => ({ ...current, [key]: value }));
   }
 
+  // The no-input answer: what take-home income each housing choice takes in
+  // this city. Recomputed only when the spending/coverage toggles move — the
+  // income fields don't affect it, which is the point.
+  const glance = useMemo(() => {
+    const cost = resolveCostConstants();
+    if (!cost.ok) return null;
+    return TENURE_OPTIONS.map((option) => ({
+      tenure: option.id,
+      label: option.label,
+      targets: incomeTargets(
+        estimateMonthlyCost(location, option.id, cost.constants, {
+          spendingProfile: scenario.spendingProfile,
+          healthCoverage: scenario.healthCoverage,
+        })
+      ),
+    }));
+  }, [location, scenario.spendingProfile, scenario.healthCoverage]);
+
   const budget: LocationBudget | null = useMemo(() => {
     if (!scenarioIsActive(scenario)) return null;
     const cost = resolveCostConstants();
@@ -115,7 +136,49 @@ export default function CityAffordabilityCard({ location }: { location: Location
       </div>
       <div className="card-body">
         <p className="lede">
-          Enter how your income breaks down. The estimate uses {profileLabel(scenario.spendingProfile).toLowerCase()} spending and {tenureLabel(scenario.tenure).toLowerCase()} housing.
+          At a glance: the monthly take-home income it takes to live in {location.name}, at {profileLabel(scenario.spendingProfile).toLowerCase()} spending.
+        </p>
+
+        {glance ? (
+          <>
+            <table className="aff-targets">
+              <thead>
+                <tr>
+                  <th scope="col">Housing</th>
+                  <th scope="col">Covers the basics</th>
+                  <th scope="col">Comfortable</th>
+                </tr>
+              </thead>
+              <tbody>
+                {glance.map((row) => (
+                  <tr key={row.tenure}>
+                    <th scope="row">{row.label}</th>
+                    {row.targets ? (
+                      <>
+                        <td>{formatUsd(row.targets.breakEven)}/mo</td>
+                        <td>
+                          <strong>{formatUsd(row.targets.comfortable)}/mo</strong>
+                        </td>
+                      </>
+                    ) : (
+                      <td colSpan={2}>Not enough data</td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="aff-targets-note">
+              Both are after-tax amounts. &ldquo;Covers the basics&rdquo; just
+              meets estimated costs; &ldquo;comfortable&rdquo; keeps at least{" "}
+              {Math.round((1 - COMFORT_COST_SHARE) * 100)}% of income unspent
+              as cushion. Ownership rows use this city&rsquo;s typical home
+              value; buying assumes 20% down at current rates.
+            </p>
+          </>
+        ) : null}
+
+        <p className="lede">
+          For a personal verdict, enter how your income breaks down — taxes are estimated for {location.state}.
         </p>
 
         <div className="aff-fields">
@@ -218,7 +281,7 @@ export default function CityAffordabilityCard({ location }: { location: Location
 
         {!budget ? (
           <p className="aff-empty">
-            Add at least one income source to see estimated monthly cost, take-home, and leftover for {location.name}.
+            Add at least one income source above for a personal verdict on {location.name}.
           </p>
         ) : cost?.monthlyCost === null ? (
           <div className="aff-notes aff-missing">
@@ -234,6 +297,9 @@ export default function CityAffordabilityCard({ location }: { location: Location
           </div>
         ) : (
           <>
+            <p className={`aff-verdict aff-verdict-${budget.band}`}>
+              {bandVerdict(budget.band)}
+            </p>
             <div className="aff-hero">
               <div>
                 <span className="aff-legend">Estimated monthly cost</span>

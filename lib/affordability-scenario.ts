@@ -168,6 +168,23 @@ export function bandLabel(
   return "Not enough data";
 }
 
+/**
+ * One plain sentence per band, so the card can lead with a verdict a reader
+ * doesn't have to interpret. Same three bands as bandLabel — the sentence is
+ * presentation, never a fourth judgment.
+ */
+export function bandVerdict(
+  band: "comfortable" | "tight" | "over" | "unknown"
+): string {
+  if (band === "comfortable")
+    return "Your income covers this city with room to spare.";
+  if (band === "tight")
+    return "You could make it work here, but you'd be cutting back and watching every dollar.";
+  if (band === "over")
+    return "This city costs more than your estimated take-home — the numbers don't work at this income.";
+  return "We can't price this city yet, so there's no verdict.";
+}
+
 export function tenureLabel(tenure: Tenure): string {
   return TENURE_OPTIONS.find((o) => o.id === tenure)?.label ?? tenure;
 }
