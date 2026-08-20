@@ -100,15 +100,18 @@ export const PROFILE_OPTIONS: {
   label: string;
   hint: string;
 }[] = [
+  // Labels describe the BUDGET, never the person — "Getting by" / "Typical
+  // retiree" read as judgments about the reader, and both flow into prose
+  // ("at modest spending"), so they must work lowercased mid-sentence too.
   {
     id: "modest",
-    label: "Getting by",
-    hint: "BLS 65+ households earning $15k–$30k",
+    label: "Modest",
+    hint: "A leaner budget — BLS 65+ households earning $15k–$30k",
   },
   {
     id: "typical",
-    label: "Typical retiree",
-    hint: "BLS average 65+ household spending",
+    label: "Average",
+    hint: "Average spending across all BLS 65+ households",
   },
 ];
 
