@@ -31,6 +31,7 @@ import {
 } from "../../lib/income";
 import { getGasPrices } from "../../lib/gas-prices";
 import { STATE_NAME_TO_ABBR, resolveStateAbbr } from "../../lib/states";
+import { STATE_GUN_FREEDOM_DATASET } from "../../lib/state-gun-freedom";
 
 /** Only features that can exist for an unresearched city are comparable. */
 const COMPARABLE = new Set(
@@ -867,6 +868,105 @@ export async function compareStateTaxesAndGas(
   return {
     scopeNote: STATE_TAX_GAS_SCOPE_NOTE,
     caveats: STATE_TAX_GAS_CAVEATS,
+    sortedBy: sortBy,
+    states: entries.slice(0, limit),
+  };
+}
+
+/* ------------------------------------------------------------------ *
+ * State-level gun freedom comparison
+ *
+ * Reuses the static STATE_GUN_FREEDOM_DATASET from lib/state-gun-freedom.ts
+ * verbatim (same third-party provisional rubric that backs /gun-freedom) --
+ * this never re-derives the index. The only DB work is figuring out which
+ * states have a city in this database, and which cities, for scoping --
+ * identical join pattern to compareStateTaxesAndGas.
+ * ------------------------------------------------------------------ */
+
+export interface StateGunFreedomEntry {
+  state: string;
+  stateName: string | null;
+  /** 0-100, 100 = least restrictive. */
+  value: number;
+  /** 1 = freest state in the full 50-state dataset. */
+  rank: number;
+  displayBand?: string;
+  summary: string;
+  /** Present only for states whose relevant laws are in active litigation. */
+  legalStatus?: "Unsettled";
+  /** Cities in this database, for this state. */
+  cities: string[];
+}
+
+export type StateGunFreedomSort = "freest" | "most_restrictive";
+
+export interface StateGunFreedomResult {
+  scopeNote: string;
+  caveats: string[];
+  dataVintage: string;
+  sources: { label: string; href: string }[];
+  sortedBy: StateGunFreedomSort;
+  states: StateGunFreedomEntry[];
+}
+
+export const STATE_GUN_FREEDOM_SCOPE_NOTE =
+  "Covers only states with at least one city in this database, not all 50 states.";
+
+const STATE_GUN_FREEDOM_CAVEATS = [
+  "This is a third-party provisional policy rubric (see \"sources\"), not VetRetire's own legal research, and not legal advice.",
+  "Scores are STATE-level law only -- they do not capture city/county ordinances or federal law.",
+  "Virginia and New Jersey carry legalStatus \"Unsettled\": their assault-weapon and magazine laws are in active litigation, not settled in either direction.",
+];
+
+/** "Which states have the strongest/weakest gun rights?" -- scoped to states we have cities in. */
+export async function compareStateGunFreedom(
+  opts: {
+    states?: string[];
+    sortBy?: StateGunFreedomSort;
+    limit?: number;
+  } = {}
+): Promise<StateGunFreedomResult> {
+  const sql = getSql();
+  const rows = (await sql.query(`SELECT state, name FROM locations_location`)) as {
+    state: string;
+    name: string;
+  }[];
+
+  const citiesByState = new Map<string, string[]>();
+  for (const r of rows) {
+    const abbr = resolveStateAbbr(r.state) ?? r.state.trim().toUpperCase();
+    let cities = citiesByState.get(abbr);
+    if (!cities) citiesByState.set(abbr, (cities = []));
+    cities.push(`${r.name}, ${abbr}`);
+  }
+
+  let entries: StateGunFreedomEntry[] = STATE_GUN_FREEDOM_DATASET.data
+    .filter((d) => citiesByState.has(d.state))
+    .map((d) => ({
+      state: d.state,
+      stateName: d.name,
+      value: d.value,
+      rank: d.rank,
+      displayBand: d.displayBand,
+      summary: d.summary,
+      legalStatus: d.legalStatus,
+      cities: (citiesByState.get(d.state) ?? []).sort(),
+    }));
+
+  if (opts.states?.length) {
+    const wanted = new Set(opts.states.map((s) => resolveStateAbbr(s) ?? s.trim().toUpperCase()));
+    entries = entries.filter((e) => wanted.has(e.state));
+  }
+
+  const sortBy = opts.sortBy ?? "freest";
+  entries = [...entries].sort((a, b) => (sortBy === "freest" ? a.rank - b.rank : b.rank - a.rank));
+
+  const limit = opts.limit ?? (opts.states?.length ? entries.length : 15);
+  return {
+    scopeNote: STATE_GUN_FREEDOM_SCOPE_NOTE,
+    caveats: STATE_GUN_FREEDOM_CAVEATS,
+    dataVintage: STATE_GUN_FREEDOM_DATASET.dataVintage,
+    sources: STATE_GUN_FREEDOM_DATASET.sources,
     sortedBy: sortBy,
     states: entries.slice(0, limit),
   };
