@@ -454,8 +454,8 @@ export const COMFORT_COST_SHARE = 0.8;
  */
 export interface IncomeTargets {
   /**
-   * Take-home at which income exactly meets the estimated cost. Below this
-   * the band is "over"; at or above it, at least "tight".
+   * Take-home at which income meets the estimated cost. Below this the band
+   * is "over"; at or above it, at least "tight".
    */
   breakEven: number;
   /**
@@ -465,12 +465,20 @@ export interface IncomeTargets {
   comfortable: number;
 }
 
-/** Null when the city could not be priced, mirroring `monthlyCost`. */
+/**
+ * Null when the city could not be priced, mirroring `monthlyCost`.
+ *
+ * Both targets are ceiled to whole dollars. Two reasons: the UI prints whole
+ * dollars, and in IEEE doubles `c <= (c / SHARE) * SHARE` is false for a
+ * large fraction of cost values, so the raw quotient can band as "tight" at
+ * its own "comfortable" target. Rounding up guarantees a printed target
+ * always satisfies the band it names.
+ */
 export function incomeTargets(estimate: CostEstimate): IncomeTargets | null {
   if (estimate.monthlyCost === null) return null;
   return {
-    breakEven: estimate.monthlyCost,
-    comfortable: estimate.monthlyCost / COMFORT_COST_SHARE,
+    breakEven: Math.ceil(estimate.monthlyCost),
+    comfortable: Math.ceil(estimate.monthlyCost / COMFORT_COST_SHARE),
   };
 }
 

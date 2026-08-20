@@ -422,10 +422,29 @@ describe("incomeTargets", () => {
     expect(assessAffordability(e, targets.breakEven - 1).band).toBe("over");
   });
 
+  it("holds at non-round costs where the naive quotient would band tight", () => {
+    // For these costs `c <= (c / 0.8) * 0.8` is FALSE in doubles — without
+    // the whole-dollar ceiling the "comfortable" target bands as tight at its
+    // own number. Real monthlyCost values are arbitrary sums of index
+    // products, so the FP-friendly 2400 above is the exception, not the rule.
+    for (const cost of [500.04, 1878.1954]) {
+      const e = estimate(cost);
+      const targets = incomeTargets(e)!;
+      expect(Number.isInteger(targets.breakEven)).toBe(true);
+      expect(Number.isInteger(targets.comfortable)).toBe(true);
+      expect(assessAffordability(e, targets.comfortable).band).toBe(
+        "comfortable"
+      );
+      expect(assessAffordability(e, targets.breakEven).band).toBe("tight");
+      expect(assessAffordability(e, targets.breakEven - 1).band).toBe("over");
+    }
+  });
+
   it("keeps the comfortable cushion at 1 - COMFORT_COST_SHARE of income", () => {
     const targets = incomeTargets(estimate(2400))!;
     expect(targets.breakEven).toBe(2400);
-    expect(targets.comfortable).toBeCloseTo(2400 / COMFORT_COST_SHARE, 6);
+    // 2400 / 0.8 = 3000 exactly, so the ceiling is a no-op here.
+    expect(targets.comfortable).toBe(2400 / COMFORT_COST_SHARE);
     // The cushion at the comfortable target is exactly the advertised share.
     expect(
       (targets.comfortable - 2400) / targets.comfortable
