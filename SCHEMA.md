@@ -349,7 +349,9 @@ Table: `mosques`
 - **Phone** / **Website**: From `contact:phone`/`phone` and `contact:website`/`website`/`url` tags.
 - **SourceKind** / **SourceUrl** / **SourceRetrievedOn**: Always `'openstreetmap'`, a link to the OSM element, and the fetch date.
 
-Rows are unique on `(osm_type, osm_id)`. Data is ODbL-licensed by OpenStreetMap contributors — the `/mosques` page must credit them. Seeds are `data/mosques_overpass_<date>.json`, produced by `scripts/fetch-mosques-overpass.ts` (queries the public Overpass API for `amenity=place_of_worship` + `religion=muslim` within the US) and loaded by `scripts/import-mosques.ts` after `scripts/migrate-mosques.ts`.
+Rows are unique on `(osm_type, osm_id)`. Data is ODbL-licensed by OpenStreetMap contributors — the `/mosques` page must credit them. Seeds are `data/mosques_overpass_v<n>_<date>.json`, produced by `scripts/fetch-mosques-overpass.ts` and loaded by `scripts/import-mosques.ts` after `scripts/migrate-mosques.ts`.
+
+The snapshot carries a `match_rule` per record and a `stats` block; **neither is imported** — they exist so a snapshot can be audited without re-querying Overpass. See CLAUDE.md "Mosques" for what the rules are. The importer upserts and therefore cannot delete: after a refresh whose de-duplication collapsed rows that were previously imported separately, run it once more with `--prune` to drop the rows the snapshot no longer contains. `--prune` is only safe against a complete national snapshot.
 
 ---
 
