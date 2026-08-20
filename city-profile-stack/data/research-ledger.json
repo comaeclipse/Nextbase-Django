@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
   "updated_on": "2026-08-20",
-  "recent_change": "Added the Gilbert research pass (owner-run Block 1-4 prompt, second city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 28 Reddit citations archive-verified, zero dead links, structural PDFs resolved (AZ DPS, NOAA NCEI, Gilbert planning documents), and the held-out prediction comparison falsifying 7 of 27 features in the opposite direction from Victorville. Gilbert's genre vocabulary shares nothing with Casper/Victorville — the method discriminates. Previous change: Added the Victorville research pass (owner-run Block 1-4 prompt): reddit_sentiment_2026 dossier plus the first nanogenre proposal produced through the standing PROMPT_TEMPLATE.md Block 4 process, with all 28 Reddit citations archive-verified, ACS/BLS figures re-verified, one dead city-planning link flagged and corroborated by a live substitute, and the held-out prediction comparison falsifying 11 of 31 returned features. Previous change: Added the Casper nanogenre prototype v0.1 (owner-provided research): first end-to-end test of the genre classification method from NANOGENRE_TAXONOMY.md against a real city, reconciling structural/official-statistic evidence against community sentiment into a multi-label broad/micro/nano assignment, with an explicit measured-vs-experienced divergence on event activity vs. nightlife depth.",
+  "recent_change": "Added the Odessa research pass (owner-run Block 1-4 prompt, third city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 38 Reddit citations archive-verified, all 17 structural sources live (BLS LQ 85.21 and five QuickFacts figures re-read verbatim), zero dead links, and the held-out comparison falsifying 7 of 35 features -- this time primarily testing the derived_structural formula, which over-predicted Odessa outdoor access (0.82 vs 0.20) and under-predicted the energy signature. Records the taxonomy's strongest recurrence candidate: the Casper+Odessa interior energy/extraction regional service hub micro bundle (2 of the 3 cities the micro floor requires). Previous change: Added the Gilbert research pass (owner-run Block 1-4 prompt, second city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 28 Reddit citations archive-verified, zero dead links, structural PDFs resolved (AZ DPS, NOAA NCEI, Gilbert planning documents), and the held-out prediction comparison falsifying 7 of 27 features in the opposite direction from Victorville. Gilbert's genre vocabulary shares nothing with Casper/Victorville — the method discriminates. Previous change: Added the Victorville research pass (owner-run Block 1-4 prompt): reddit_sentiment_2026 dossier plus the first nanogenre proposal produced through the standing PROMPT_TEMPLATE.md Block 4 process, with all 28 Reddit citations archive-verified, ACS/BLS figures re-verified, one dead city-planning link flagged and corroborated by a live substitute, and the held-out prediction comparison falsifying 11 of 31 returned features. Previous change: Added the Casper nanogenre prototype v0.1 (owner-provided research): first end-to-end test of the genre classification method from NANOGENRE_TAXONOMY.md against a real city, reconciling structural/official-statistic evidence against community sentiment into a multi-label broad/micro/nano assignment, with an explicit measured-vs-experienced divergence on event activity vs. nightlife depth.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -16,6 +16,36 @@
     "promotion_review": "Candidate for an explicitly approved R&D database import; never implies production approval."
   },
   "entries": [
+    {
+      "id": "odessa_nanogenre_proposal_v1_2026",
+      "city": "Odessa",
+      "state": "TX",
+      "topic": "nanogenre_classification",
+      "claim": "Odessa is a hot, dry, car-first Permian work hub where oil-linked wages and job depth are real, everyday drives are fairly short, but amenities, nearby nature and complex-care depth feel thinner than the city's population would suggest. Primary microgenre: Boom-Cycle Energy/Trade Service Hub. Primary nanogenre: Hot-Dry Boom-Cycle Energy Hub with Thin Amenity Depth, plus two secondary nanogenre overlays.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/odessa-tx-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/odessa-tx-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/odessa-tx.md",
+        "data/dossiers/research-dossiers/odessa-tx.json"
+      ],
+      "source_urls": [
+        "https://www.bls.gov/oes/2023/may/oes475013.htm",
+        "https://www.census.gov/quickfacts/fact/table/odessacitytexas/POP645223",
+        "https://www.flymaf.com/27/About-MAF",
+        "https://resources.finalsite.net/images/v1786647801/ectorcountyisdorg/jg2vjzupvn42jkwgmmec/ECISD2026A-FAccountabilityRatingspressrelease.pdf",
+        "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+        "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "Median household income ($73,472) was the one QuickFacts figure not re-read verbatim (row label differs); the other five matched exactly. The prediction baseline self-borrowed from Odessa's 26 derived_structural features at weight 1.0, so the falsification comparison tests the structural-derivation formula more than neighbor propagation.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro).",
+        "RECURRENCE CANDIDATE: the Casper+Odessa interior energy/extraction regional service hub micro bundle is the taxonomy's strongest recurrence to date (2 of the 3 cities the micro floor requires); the recurrence is at micro grain only, since Casper's doorstep outdoor access is exactly what Odessa lacks. Label unification is the reviewer's editorial call."
+      ],
+      "embedding_ready": false
+    },
     {
       "id": "gilbert_nanogenre_proposal_v1_2026",
       "city": "Gilbert",

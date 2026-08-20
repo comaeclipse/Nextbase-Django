@@ -4712,6 +4712,517 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "Odessa",
+      "state": "TX",
+      "signals": [
+        {
+          "key": "oilfield_job_depth",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Strong work-driven relocation market",
+          "detail": "Relocation threads repeatedly begin with a job offer that is attractive enough to justify moving to Odessa or the Midland-Odessa region. Oil, engineering, industrial and related work dominate the discussion, although this does not imply equally deep opportunity in every profession.",
+          "audience": "Workers prioritizing employment opportunity or income",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1bwwp56/",
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ckup/relocating_to_odessa_for_a_new_job_need_local/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "oil_cycle_dependence",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Local confidence follows the oil cycle",
+          "detail": "Residents repeatedly describe the regional economy as unusually dependent on oil and gas and warn newcomers that downturns affect jobs, housing and business activity. This is one of the most consistent structural claims in relocation discussions.",
+          "audience": "Anyone relying on long-term local employment stability",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ljro3u",
+            "https://www.reddit.com/r/Midessa/comments/bnszgc"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "high_wage_trade_opportunity",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Trades can justify the local cost base",
+          "detail": "Oilfield and mechanically skilled workers describe the area as a place where practical experience can translate into strong earnings. The signal is specifically about oil-linked trades and industrial work, not the entire wage distribution.",
+          "audience": "Skilled tradespeople and oilfield workers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1r38o4s/moving_back_to_midlandodessa_after_11_years/",
+            "https://www.reddit.com/r/Midessa/comments/1bwwp56/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "non_oil_wage_squeeze",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Non-oil wages can feel squeezed",
+          "detail": "Residents and school employees complain that housing and living costs shaped by the oil economy make lower-paid local work harder to sustain. Education-sector comments are particularly negative about the gap between compensation and local costs.",
+          "audience": "Teachers, clerical workers and lower-paid service workers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1tyo0xw/ecisd_jobs/",
+            "https://www.reddit.com/r/Midessa/comments/f8d8ej",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_cost_pressure",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Housing feels expensive for the setting",
+          "detail": "High rent and housing cost are recurring complaints in both old and recent relocation threads. The intensity moves with economic conditions, so older boom-era dollar figures should not be treated as current prices.",
+          "audience": "Renters and newcomers without oilfield-level pay",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/bnszgc"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "odessa_cost_edge_over_midland",
+          "dimension": "housing",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Odessa is usually seen as cheaper than Midland",
+          "detail": "Several comparison threads explicitly recommend Odessa as the lower-cost side of the paired market. The difference is relative rather than a claim that Odessa itself is inexpensive.",
+          "audience": "People choosing between Odessa and Midland",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1bwwp56/",
+            "https://www.reddit.com/r/Midessa/comments/1nelqq2/moving_to_midland/",
+            "https://www.reddit.com/r/Midessa/comments/1s4rhyt/how_is_being_in_midland_for_a_women_in_her_20s/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "geographic_isolation",
+          "dimension": "access",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Major destinations feel far away",
+          "detail": "Residents repeatedly describe Odessa-Midland as several hours from the larger-city or outdoor destinations they want to visit. The region has air service, but community discussion still experiences surface travel as geographically isolated.",
+          "audience": "Frequent travelers and people who value spontaneous day trips",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+            "https://www.reddit.com/r/howislivingthere/comments/1t8phtm/whats_it_actually_like_living_in_the/",
+            "https://www.reddit.com/r/Midessa/comments/ff2woa/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "short_local_drive_times",
+          "dimension": "commute",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Trips inside Odessa are usually short",
+          "detail": "A recent relocation discussion characterized most Odessa destinations as roughly 15 to 20 minutes apart. Regional job commutes can be much longer, so this signal applies to ordinary trips inside the city rather than the entire Permian Basin.",
+          "audience": "Drivers comparing Odessa with larger metros",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "road_driver_stress",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Road quality and driving are recurring complaints",
+          "detail": "Residents frequently warn about aggressive or unsafe driving, theft from vehicles and poor road conditions. Some accounts are unusually harsh, so the safest interpretation is persistent road and driver stress rather than a quantified crash-risk claim.",
+          "audience": "Daily drivers and families",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ruzh7b/safe_places_to_live/",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_first_daily_life",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Daily life is strongly car-first",
+          "detail": "Residents describe Midessa as heavily car dependent, with missing sidewalks in some areas and driving assumed for ordinary errands. This is a stronger and more consistent signal than complaints about commute length itself.",
+          "audience": "People hoping to live without a car",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1vryr4e/no_offense_but_midland_and_odessa_look_exactly/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ckup/relocating_to_odessa_for_a_new_job_need_local/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_hot_dry",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Summer heat is a defining condition",
+          "detail": "Recent newcomers are routinely told to prepare for hot, dry weather, and long-time discussions treat intense summer heat as normal rather than exceptional. The community signal is very strong for heat but less precise about exact seasonal thresholds.",
+          "audience": "Anyone sensitive to heat or planning outdoor activity",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1v5ckup/relocating_to_odessa_for_a_new_job_need_local/",
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+            "https://www.reddit.com/r/Midessa/comments/1k4k8ls"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "low_humidity_relief",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Dry air is a real upside for some",
+          "detail": "A positivity thread explicitly praised the area's dry, low-humidity weather compared with more humid places. This is preference-sensitive: the same aridity contributes to dust and the barren impression disliked by other residents.",
+          "audience": "People who strongly dislike humid climates",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/11k5e8a/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "wind_dust_hail",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Dust, wind and hail shape weather perception",
+          "detail": "Relocation accounts repeatedly mention dust and occasionally severe hail or storm impacts. Community discussion is less systematic about frequency, so the signal establishes visibility rather than a precise hazard rate.",
+          "audience": "Drivers, homeowners and outdoor-oriented residents",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+            "https://www.reddit.com/r/howislivingthere/comments/1t8phtm/whats_it_actually_like_living_in_the/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "outdoor_recreation_requires_driving",
+          "dimension": "outdoors",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Serious outdoor recreation usually means a trip",
+          "detail": "Local mountain biking, disc golf and similar options exist, but residents consistently send hikers toward Big Bend, New Mexico or other destinations. This is one of the strongest quality-of-life cautions for people whose routine depends on nearby nature.",
+          "audience": "Hikers, climbers, paddlers and nature-oriented households",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/ff2woa/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "amenities_exist_but_repeat",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Amenities exist but feel shallow",
+          "detail": "Residents can name theaters, sports, museums, arcades, restaurants and hobby venues, so 'nothing to do' is literally false. The recurring complaint is that variety exhausts quickly and the commercial mix feels chain-heavy for a regional population of this size.",
+          "audience": "People who need frequent novelty, culture or specialty options",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/11k5e8a/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ws1q/what_are_some_things_to_do_in_midland_and_odessa/",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Nightlife is present but not deep",
+          "detail": "Bars, dancing, karaoke and breweries remain available, but residents repeatedly characterize the nightlife circuit as small or diminished. Odessa in particular is described as having lost notable bar-scene depth over time.",
+          "audience": "Young adults and nightlife-oriented movers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1tt6u5h/18_places/",
+            "https://www.reddit.com/r/Midessa/comments/1ol3kt9/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_integration_effort",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Newcomers often have to pursue community",
+          "detail": "Residents attribute social difficulty to transient workers, long work schedules and established circles. The evidence supports an effortful social environment more strongly than a claim that residents are generally unfriendly.",
+          "audience": "Newcomers arriving without family or an existing network",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1rpotte/where_can_i_meet_people/",
+            "https://www.reddit.com/r/Midessa/comments/1j89wv9/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "church_sports_social_channels",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Church and sports are major social entry points",
+          "detail": "When newcomers ask where to meet people, church events and organized sports appear repeatedly alongside hobby groups and bars. This indicates visible religious and recreational social infrastructure without implying that everyone participates.",
+          "audience": "New residents looking for structured ways to meet people",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1rpotte/where_can_i_meet_people/",
+            "https://www.reddit.com/r/Midessa/comments/yjr9w1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dating_pool_friction",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Dating frustration recurs among young adults",
+          "detail": "Multiple local threads describe loneliness, difficulty getting dates and a socially interconnected or transient dating environment. Some explanations in these threads are sexist or inflammatory, so only the repeated experience of difficulty is retained.",
+          "audience": "Single adults prioritizing dating opportunities",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1q5evze/no_dating_and_loneliness_venting_and_advice_if/",
+            "https://www.reddit.com/r/Midessa/comments/1ayifot"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_neighborhood_dependent",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Safety perception varies sharply by neighborhood",
+          "detail": "Residents commonly reject the idea that all of Odessa or Midessa is dangerous while still warning about theft, certain neighborhoods and vehicle security. Northeast and north Odessa receive more favorable relocation commentary than West Odessa.",
+          "audience": "Families, renters and newcomers choosing neighborhoods",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ruzh7b/safe_places_to_live/",
+            "https://www.reddit.com/r/Midessa/comments/1qs8bt8/moving_to_midlandodessa_area_in_couple_weeks/",
+            "https://www.reddit.com/r/Midessa/comments/184t6n9/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "schools_negative_reputation_mixed",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "School reputation is weak but not unanimous",
+          "detail": "Teachers and some parents criticize district administration, staffing, pay and school quality, while at least one long-term Odessa parent reports that the schools are fine and the children are happy. The contradiction is meaningful and argues against a single citywide school-quality claim.",
+          "audience": "Families with school-age children",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/xcaraq",
+            "https://www.reddit.com/r/Midessa/comments/f8d8ej"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "family_activities_exist",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Families can find recurring activities",
+          "detail": "Sports, museums, theaters, arcades, parks and organized events appear in recommendations to families. The signal is moderate because critics still describe the total menu as limited compared with larger cities.",
+          "audience": "Families with children",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/11k5e8a/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ws1q/what_are_some_things_to_do_in_midland_and_odessa/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "routine_care_options_exist",
+          "dimension": "healthcare",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Routine healthcare exists locally",
+          "detail": "Residents recommend physicians in Odessa and discuss multiple local hospitals rather than describing a complete care desert. Satisfaction is provider-specific, and negative system-level comments are common enough that this is not a strong positive signal.",
+          "audience": "Residents needing primary, maternity or routine hospital care",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/u3qduh/",
+            "https://www.reddit.com/r/Midessa/comments/1jaowuo/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "complex_care_often_outbound",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Serious specialist care often prompts travel",
+          "detail": "In a recent gastroenterology discussion, multiple residents independently recommended Lubbock or Dallas for serious medical issues. Broader relocation threads also criticize local healthcare, making outbound complex care a stronger signal than dissatisfaction with any one doctor.",
+          "audience": "People expecting frequent specialty or complex medical care",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1uwgogk/gastroenterologist_recommendations/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "conservative_public_climate",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Conservative politics are highly visible",
+          "detail": "Local discussions routinely characterize Midland-Odessa as conservative or anti-progressive, including both criticism and matter-of-fact descriptions. Visible left-leaning residents and organizing threads show that the civic environment is not politically uniform.",
+          "audience": "People for whom local political culture affects quality of life",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1vryr4e/no_offense_but_midland_and_odessa_look_exactly/",
+            "https://www.reddit.com/r/Midessa/comments/1k4k8ls",
+            "https://www.reddit.com/r/Midessa/comments/1j89wv9/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_network_small_present",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "LGBTQ community exists but is not a large scene",
+          "detail": "Local threads point to a Pride center, gay-friendly churches and recurring events in Odessa. Other LGBTQ movers describe the broader region as conservative, so the evidence supports a small but discoverable network rather than either invisibility or a large scene.",
+          "audience": "LGBTQ newcomers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/mus6tr/",
+            "https://www.reddit.com/r/Midessa/comments/yjr9w1/",
+            "https://www.reddit.com/r/Midessa/comments/1k4k8ls"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "racial_climate_conflicted",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Racial inclusion accounts conflict",
+          "detail": "A dedicated thread contains sharply conflicting first-hand descriptions: some residents report little overt racism, while a Black resident reports repeated explicit anti-Black harassment. Because the discourse also becomes inflammatory, the disagreement itself is the reliable finding.",
+          "audience": "People evaluating day-to-day inclusion",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1jabf3v"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_food_bright_spot",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 2,
+          "label": "Local food is a recurring bright spot",
+          "detail": "Positive threads name independent restaurants and long-term residents sometimes call family-owned food one of Odessa's better features. Other residents criticize the broader restaurant scene, so this is a narrow positive rather than evidence of deep culinary variety.",
+          "audience": "Residents who value local restaurants",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/nfg5kk",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "east_north_growth",
+          "dimension": "growth",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Newer growth concentrates east and north",
+          "detail": "Relocation discussions repeatedly distinguish newer north and east Odessa development from older parts of town. Residents associate these growth areas with newer apartments, subdivisions and retail, although the exact pace requires structural verification.",
+          "audience": "Homebuyers and renters comparing neighborhoods",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+            "https://www.reddit.com/r/Midessa/comments/1qs8bt8/moving_to_midlandodessa_area_in_couple_weeks/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }

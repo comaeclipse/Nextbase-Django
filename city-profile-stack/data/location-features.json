@@ -3248,6 +3248,323 @@
         "not_researched: VA outpatient and VA hospital access were outside the community-discussion evidence developed in this pass.",
         "not_researched: Water-recreation access and substance-problem visibility were not investigated deeply enough to score."
       ]
+    },
+    {
+      "city": "Odessa",
+      "state": "TX",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "summer_heat_severity": {
+          "value": 0.9,
+          "confidence": 0.8,
+          "evidence": "Recent relocation threads consistently describe Odessa as extremely hot in summer and tell newcomers to prepare for sustained heat.",
+          "signals": [
+            "summer_hot_dry"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.25,
+          "confidence": 0.55,
+          "evidence": "Residents explicitly praise the dry air and contrast it with humid parts of Texas, although the topic is not discussed as often as heat.",
+          "signals": [
+            "low_humidity_relief"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.45,
+          "confidence": 0.6,
+          "evidence": "Summer heat materially constrains outdoor comfort, while the evidence does not show similarly severe year-round cold limitations.",
+          "signals": [
+            "summer_hot_dry",
+            "low_humidity_relief"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.75,
+          "confidence": 0.55,
+          "evidence": "Dust, wind and blowing conditions recur in relocation descriptions strongly enough to be part of the experienced climate.",
+          "signals": [
+            "wind_dust_hail"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.7,
+          "confidence": 0.5,
+          "evidence": "Residents mention hail and damaging storms as meaningful property and driving concerns, though the community evidence does not quantify frequency.",
+          "signals": [
+            "wind_dust_hail"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.2,
+          "confidence": 0.75,
+          "evidence": "Local biking and disc-golf options exist, but residents repeatedly send hikers and nature seekers hours toward Big Bend or New Mexico.",
+          "signals": [
+            "outdoor_recreation_requires_driving"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.15,
+          "confidence": 0.65,
+          "evidence": "The surrounding landscape is more often described as bleak, dusty or something to leave for recreation than as a reason residents stay.",
+          "signals": [
+            "outdoor_recreation_requires_driving",
+            "geographic_isolation"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.85,
+          "confidence": 0.8,
+          "evidence": "Multiple independent relocation and outdoor threads describe major-city amenities and significant natural recreation as several-hour trips.",
+          "signals": [
+            "geographic_isolation",
+            "outdoor_recreation_requires_driving"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.4,
+          "confidence": 0.8,
+          "evidence": "Residents can name entertainment, food, museums, sports and retail, but repeatedly say the choices become repetitive for a region of this size.",
+          "signals": [
+            "amenities_exist_but_repeat",
+            "local_food_bright_spot"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.9,
+          "confidence": 0.75,
+          "evidence": "Community discussion describes everyday Midessa life as strongly car-first, with incomplete sidewalks and driving assumed for normal errands.",
+          "signals": [
+            "car_first_daily_life",
+            "short_local_drive_times"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.6,
+          "confidence": 0.45,
+          "evidence": "Residents identify local hospitals and recommend individual Odessa primary and maternity providers, indicating meaningful routine-care capacity despite mixed satisfaction.",
+          "signals": [
+            "routine_care_options_exist"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.25,
+          "confidence": 0.7,
+          "evidence": "Recent specialist discussions repeatedly recommend traveling to Lubbock or Dallas for serious or complex medical problems.",
+          "signals": [
+            "complex_care_often_outbound"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.85,
+          "confidence": 0.8,
+          "evidence": "Work-driven relocation is one of the dominant local thread genres, with newcomers repeatedly arriving because regional job offers are materially attractive.",
+          "signals": [
+            "oilfield_job_depth"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.2,
+          "confidence": 0.75,
+          "evidence": "Residents consistently describe oil and gas as the economic engine whose movements affect employment, housing and local confidence.",
+          "signals": [
+            "oil_cycle_dependence",
+            "oilfield_job_depth"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.9,
+          "confidence": 0.8,
+          "evidence": "Oilfield, mechanical and industrial workers repeatedly describe earnings as the central reason the region is worth living in.",
+          "signals": [
+            "high_wage_trade_opportunity"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.35,
+          "confidence": 0.55,
+          "evidence": "Trips within Odessa are described as short, but work locations elsewhere in the basin and I-20 construction can create materially longer regional commutes.",
+          "signals": [
+            "short_local_drive_times",
+            "road_driver_stress"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.55,
+          "confidence": 0.55,
+          "evidence": "Oil-linked wages can support local costs well, while teachers and other non-oil workers describe a much less favorable wage-to-cost relationship.",
+          "signals": [
+            "high_wage_trade_opportunity",
+            "non_oil_wage_squeeze",
+            "housing_cost_pressure"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.65,
+          "confidence": 0.5,
+          "evidence": "Residents identify expanding north and east Odessa development while simultaneously complaining about housing costs and infrastructure lag.",
+          "signals": [
+            "east_north_growth",
+            "housing_cost_pressure"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.9,
+          "confidence": 0.8,
+          "evidence": "Community accounts explicitly tie housing, jobs and local activity to oil booms and downturns.",
+          "signals": [
+            "oil_cycle_dependence"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.45,
+          "confidence": 0.7,
+          "evidence": "Housing is repeatedly called expensive, especially by newcomers and non-oil workers, even though Odessa is commonly cheaper than Midland.",
+          "signals": [
+            "housing_cost_pressure",
+            "odessa_cost_edge_over_midland"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.4,
+          "confidence": 0.65,
+          "evidence": "Residents often complain that housing costs are high relative to the city's amenity depth and isolated setting.",
+          "signals": [
+            "housing_cost_pressure",
+            "amenities_exist_but_repeat"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.55,
+          "confidence": 0.4,
+          "evidence": "Relocation threads routinely compare numerous apartment complexes, suggesting meaningful inventory, but the source base speaks much more clearly about price than vacancy or wait times.",
+          "signals": [
+            "housing_cost_pressure",
+            "east_north_growth"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "Residents routinely describe the public culture as strongly conservative, while visible progressive residents and organizing prevent a near-1.0 score.",
+          "signals": [
+            "conservative_public_climate"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.55,
+          "confidence": 0.4,
+          "evidence": "LGBTQ residents and movers describe a conservative broader climate but also point to a Pride organization, friendly churches and people able to find compatible circles.",
+          "signals": [
+            "lgbtq_network_small_present",
+            "conservative_public_climate"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.35,
+          "confidence": 0.5,
+          "evidence": "A discoverable Odessa LGBTQ network and recurring events exist, but the discussion does not describe a large dedicated venue, nightlife or dating ecosystem.",
+          "signals": [
+            "lgbtq_network_small_present"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.45,
+          "confidence": 0.4,
+          "evidence": "Conservative culture appears dominant, but local threads also show open progressive organizing and residents publicly dissenting from that majority climate.",
+          "signals": [
+            "conservative_public_climate"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.55,
+          "confidence": 0.5,
+          "evidence": "Families can find sports, entertainment, museums and activities, but substantial disagreement over school quality prevents a stronger score.",
+          "signals": [
+            "family_activities_exist",
+            "schools_negative_reputation_mixed"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.7,
+          "confidence": 0.55,
+          "evidence": "Church and church events repeatedly appear as default recommendations for meeting people and building community.",
+          "signals": [
+            "church_sports_social_channels",
+            "conservative_public_climate"
+          ]
+        },
+        "racial_inclusion_climate": {
+          "value": 0.5,
+          "confidence": 0.35,
+          "evidence": "First-hand accounts directly conflict: some residents describe race as largely unremarkable in daily life while another Black resident reports explicit recurring harassment. The discussion itself becomes inflammatory, so disagreement is retained rather than resolved.",
+          "signals": [
+            "racial_climate_conflicted"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.4,
+          "confidence": 0.7,
+          "evidence": "Newcomers report that transient workers, long schedules and existing circles make passive friend-making difficult, although structured activities provide routes in.",
+          "signals": [
+            "social_integration_effort",
+            "church_sports_social_channels"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.35,
+          "confidence": 0.75,
+          "evidence": "Bars, breweries, karaoke and dancing exist, but multiple independent threads characterize the circuit as limited and repetitive.",
+          "signals": [
+            "nightlife_thin",
+            "amenities_exist_but_repeat"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.3,
+          "confidence": 0.6,
+          "evidence": "Repeated young-adult threads describe loneliness, difficulty finding dates and frustration with the local dating environment.",
+          "signals": [
+            "dating_pool_friction"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.65,
+          "confidence": 0.6,
+          "evidence": "The work-first oilfield identity, Odessa-versus-Midland distinction, local sports culture and strong shared vocabulary around the Permian Basin give the place a recognizable character despite chain-heavy development.",
+          "signals": [
+            "oilfield_job_depth",
+            "amenities_exist_but_repeat",
+            "local_food_bright_spot"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.55,
+          "confidence": 0.55,
+          "evidence": "Many residents say ordinary life in decent neighborhoods is uneventful, while others emphasize theft, risky driving and neighborhood-specific problems.",
+          "signals": [
+            "safety_neighborhood_dependent",
+            "road_driver_stress"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.5,
+          "confidence": 0.3,
+          "evidence": "Drug use and treatment needs appear in West Odessa and rehabilitation discussions, but the evidence is thin and sometimes inflammatory. A mid-range value with low confidence preserves visibility without generalizing isolated accounts to the city.",
+          "signals": [
+            "safety_neighborhood_dependent"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Targeted community searches produced too little Odessa-specific discussion of normal winter cold, snow and ice to score winter_cold_severity or snow_burden responsibly.",
+        "discussed_but_unscoreable: Rain is described mainly through dryness, rare storms and flooding anecdotes, not with enough seasonal detail to score precipitation_seasonality.",
+        "not_researched: VA outpatient and VA hospital access were not investigated in the community-sentiment layer.",
+        "not_researched: Remote-work viability was not investigated closely enough to score.",
+        "not_researched: Public-land access and water-recreation access were not independently developed beyond the broader finding that significant outdoor recreation often requires travel.",
+        "discussed_but_unscoreable: The community material establishes the existence of an LGBTQ social network but does not establish Odessa municipal LGBTQ policy, so lgbtq_municipal_policy is omitted.",
+        "discussed_but_unscoreable: Community healthcare discussion does not cleanly separate appointment availability and referral administration from perceived doctor quality, so healthcare_navigability is omitted."
+      ]
     }
   ]
 }
