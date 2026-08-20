@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
   "updated_on": "2026-08-20",
-  "recent_change": "Added the Victorville research pass (owner-run Block 1-4 prompt): reddit_sentiment_2026 dossier plus the first nanogenre proposal produced through the standing PROMPT_TEMPLATE.md Block 4 process, with all 28 Reddit citations archive-verified, ACS/BLS figures re-verified, one dead city-planning link flagged and corroborated by a live substitute, and the held-out prediction comparison falsifying 11 of 31 returned features. Previous change: Added the Casper nanogenre prototype v0.1 (owner-provided research): first end-to-end test of the genre classification method from NANOGENRE_TAXONOMY.md against a real city, reconciling structural/official-statistic evidence against community sentiment into a multi-label broad/micro/nano assignment, with an explicit measured-vs-experienced divergence on event activity vs. nightlife depth.",
+  "recent_change": "Added the Gilbert research pass (owner-run Block 1-4 prompt, second city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 28 Reddit citations archive-verified, zero dead links, structural PDFs resolved (AZ DPS, NOAA NCEI, Gilbert planning documents), and the held-out prediction comparison falsifying 7 of 27 features in the opposite direction from Victorville. Gilbert's genre vocabulary shares nothing with Casper/Victorville — the method discriminates. Previous change: Added the Victorville research pass (owner-run Block 1-4 prompt): reddit_sentiment_2026 dossier plus the first nanogenre proposal produced through the standing PROMPT_TEMPLATE.md Block 4 process, with all 28 Reddit citations archive-verified, ACS/BLS figures re-verified, one dead city-planning link flagged and corroborated by a live substitute, and the held-out prediction comparison falsifying 11 of 31 returned features. Previous change: Added the Casper nanogenre prototype v0.1 (owner-provided research): first end-to-end test of the genre classification method from NANOGENRE_TAXONOMY.md against a real city, reconciling structural/official-statistic evidence against community sentiment into a multi-label broad/micro/nano assignment, with an explicit measured-vs-experienced divergence on event activity vs. nightlife depth.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -16,6 +16,36 @@
     "promotion_review": "Candidate for an explicitly approved R&D database import; never implies production approval."
   },
   "entries": [
+    {
+      "id": "gilbert_nanogenre_proposal_v1_2026",
+      "city": "Gilbert",
+      "state": "AZ",
+      "topic": "nanogenre_classification",
+      "claim": "Gilbert is a large, high-income East Valley family suburb where daily life runs by car and air conditioning, the Heritage District supplies a compact restaurant-and-evening node, and deeper urbanity is traded for parks, schools, safety and somewhat better housing value than Scottsdale. Primary microgenre: High-Income Family-Oriented Growth Suburb. Primary nanogenre: Heat-Managed Car-Dependent Family Suburb with a Compact Restaurant Core, plus two secondary nanogenre overlays.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/gilbert-az-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/gilbert-az-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/gilbert-az.md",
+        "data/dossiers/research-dossiers/gilbert-az.json"
+      ],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/gilberttownarizona/POP815223",
+        "https://azcrimestatistics.azdps.gov/tops/report/crime-overview/gilbert-pd/2024/pdf",
+        "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&startDate=0001-01-01&endDate=9996-12-31&stations=USW00023183&format=pdf",
+        "https://www.gilbertaz.gov/home/showpublisheddocument/41151/637607567171130000",
+        "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+        "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "Census QuickFacts was in a maintenance cycle on 2026-08-20, so its cited figures were corroborated via Census Reporter rather than re-read from the cited pages; gilbertaz.gov PDF contents were confirmed to load in a real browser but specific figures were not extracted verbatim.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro).",
+        "Gilbert's proposal shares no vocabulary with the Casper or Victorville proposals -- negative-control evidence that the classification method discriminates between city types; its Sunbelt/family-suburb broad candidates await future suburban dossiers for recurrence."
+      ],
+      "embedding_ready": false
+    },
     {
       "id": "victorville_nanogenre_proposal_v1_2026",
       "city": "Victorville",

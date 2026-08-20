@@ -4270,6 +4270,448 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "Gilbert",
+      "state": "AZ",
+      "signals": [
+        {
+          "key": "family_orientation_is_core",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Family life is the clearest local strength",
+          "detail": "Across relocation and comparison threads, Gilbert is repeatedly recommended for families, children, parks, schools and neighborhood stability. Child-free commenters often describe the same family orientation as a reason they would choose Scottsdale, Tempe or Phoenix instead.",
+          "audience": "Families with children and people deciding between family-oriented and adult-oriented suburbs.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+            "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "everyday_safety_feels_high",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Residents commonly feel safe day to day",
+          "detail": "Multiple residents describe children playing outside after dark, bikes or deliveries being left outside and generally low anxiety about ordinary neighborhood crime. This is perceived safety rather than a claim that crime does not occur.",
+          "audience": "Families, solo residents and anyone prioritizing low day-to-day safety anxiety.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_image_has_real_caveats",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Safe does not mean crime-free",
+          "detail": "Residents also report vehicle break-ins, package theft and other property crime, while the Gilbert Goons controversy repeatedly appears as a challenge to the city's pristine safety image. The dominant reading remains relatively safe, but the utopian version is contradicted.",
+          "audience": "People evaluating safety claims at neighborhood level rather than city reputation alone.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/zi9dzc/crime/",
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "extreme_summer_heat_controls_schedule",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Summer heat dictates the daily schedule",
+          "detail": "Residents repeatedly describe summer as the season for air conditioning, pools, very early or late outdoor activity and trips to higher elevations. There is disagreement over whether the unpleasant outdoor period lasts four months or closer to half the year, but not over the heat being severe.",
+          "audience": "Anyone expecting frequent daytime outdoor activity in summer.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/",
+            "https://www.reddit.com/r/Gilbert/comments/rmibs5/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_is_mild_and_snow_is_not_a_burden",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Winter is the outdoor season",
+          "detail": "Transplants from colder climates repeatedly contrast Gilbert with months of snow and deep winter elsewhere. Residents describe the cooler part of the year as the period when hiking, golf and other outdoor activities become easiest.",
+          "audience": "People seeking to avoid snow and prolonged freezing weather.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/rmibs5/moving/",
+            "https://www.reddit.com/r/Gilbert/comments/1fnce0j/moving_to_gilbert_in_december_many_questions_for/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "outdoor_life_is_strongly_seasonal",
+          "dimension": "outdoors",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Outdoor life shifts by season and time of day",
+          "detail": "Residents who enjoy the climate emphasize many pleasant fall-through-spring months, while critics emphasize the long hot-season restriction. Both accounts can be true: access is present, but usable hours change dramatically through the year.",
+          "audience": "Hikers, runners, cyclists, families and other outdoor-oriented movers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/tyyepv/what_are_the_best_places_for_a_hike_trail_run_in/",
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_dependence_is_experienced_norm",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Most of Gilbert life assumes a car",
+          "detail": "Community comparisons routinely describe amenities in drive-time terms and treat trips among Gilbert, Chandler, Mesa and Scottsdale as normal. Downtown Gilbert is a walkable exception, not evidence of citywide car-light living.",
+          "audience": "People who cannot or prefer not to drive for most errands.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+            "https://www.reddit.com/r/Gilbert/comments/1krg3c7/commute_dt_for_pv_vs_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_dependence_is_structurally_documented",
+          "dimension": "mobility",
+          "polarity": "neutral",
+          "strength": 5,
+          "label": "Town planning documents confirm low non-car share",
+          "detail": "Gilbert engineering standards state that transit, cycling and walking have such a low modal split that traffic studies generally assume a combined zero share unless a special situation applies. This is a structural record, not resident sentiment.",
+          "audience": "People evaluating whether Gilbert can support a low-car lifestyle.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.gilbertaz.gov/home/showpublisheddocument/41151/637607567171130000"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "east_valley_access_is_convenient",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "East Valley cities function as one amenity network",
+          "detail": "Residents routinely cross into Chandler, Mesa, Tempe and Scottsdale for dining, nightlife, recreation and work. This weakens the practical cost of Gilbert not containing every amenity itself, although Phoenix destinations are a longer trip.",
+          "audience": "People comfortable treating the East Valley as their broader daily activity area.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "downtown_phoenix_commute_can_be_costly",
+          "dimension": "commute",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Central Phoenix commuting changes the equation",
+          "detail": "Gilbert-to-downtown commuters discuss roughly half-hour or longer trips under favorable conditions and greater uncertainty around rush hour. The burden depends strongly on where in Gilbert someone starts and which direction they travel.",
+          "audience": "Workers commuting to downtown or central Phoenix.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1krg3c7/commute_dt_for_pv_vs_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "downtown_restaurant_core_is_real",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Downtown has a genuine dining concentration",
+          "detail": "Resident food threads produce substantial local recommendation lists, while relocation threads repeatedly cite downtown Gilbert as the main place for dinner, happy hour and casual evening activity. The evidence supports strong dining more clearly than broad cultural depth.",
+          "audience": "People who value restaurants and a compact evening destination.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1us5fg2/local_eats/",
+            "https://www.reddit.com/r/Gilbert/comments/uj4rct/downtown_gilbert_shops/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_depth_is_limited",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Nightlife is concentrated rather than deep",
+          "detail": "Gilbert has bars, breweries, happy hours and some dancing, especially downtown. Young-single relocation discussions nevertheless repeatedly point to Scottsdale, Tempe or Phoenix for a larger and more varied nightlife scene.",
+          "audience": "Young singles and people who want varied late-night entertainment.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1lq83ig/moving_to_gilbert/",
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "routine_retail_is_abundant",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Routine shopping and services are easy to find",
+          "detail": "Residents describe extensive shopping centers, groceries, fitness options and chains across Gilbert, with San Tan Village functioning as a major retail node. Specialty or luxury shopping remains deeper in Scottsdale, but routine access is rarely described as deficient.",
+          "audience": "People prioritizing convenient suburban errands and shopping.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/q97iw9/fell_in_love_with_gilbert_when_visiting_and_would/",
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "serious_trails_are_close_not_in_town",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Mountain recreation is a short drive away",
+          "detail": "Gilbert itself is repeatedly described as flat, with canals and the Riparian Preserve providing local exercise space. Residents commonly drive roughly 15 to 30 minutes to Usery, San Tan Mountain and other more substantial trail systems.",
+          "audience": "Hikers and trail runners who want frequent but not necessarily doorstep mountain access.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/tyyepv/what_are_the_best_places_for_a_hike_trail_run_in/",
+            "https://www.reddit.com/r/Gilbert/comments/1av0fn8/camping_near_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_affordability_has_eroded",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Gilbert no longer feels like cheap suburbia",
+          "detail": "Longer-term residents frequently contrast current prices with much cheaper pre-2020 conditions. Younger buyers and renters describe starter-home prices and rent as difficult to reconcile with ordinary household budgets.",
+          "audience": "First-time buyers, younger households and renters.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/",
+            "https://www.reddit.com/r/Gilbert/comments/q3uo4t/gilbert_now_apperantly_the_15th_most_expensive/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "gilbert_retains_relative_value_vs_scottsdale",
+          "dimension": "housing",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Housing looks better beside Scottsdale",
+          "detail": "The same residents who describe Gilbert as expensive often call it comparatively good value next to Scottsdale or North Scottsdale. This is a relative-value claim, not evidence that Gilbert is affordable in absolute terms.",
+          "audience": "Buyers choosing among higher-cost East Valley communities.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+            "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lower_cost_rentals_are_competitive",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Budget rentals can be difficult to secure",
+          "detail": "Recent rental threads show substantial difficulty finding inexpensive units and describe desirable houses as moving quickly. This evidence is strongest for lower-budget renters rather than the rental market at every price point.",
+          "audience": "Renters arriving without a high housing budget.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1utzgav/looking_for_rental/",
+            "https://www.reddit.com/r/Gilbert/comments/1tzl6qe/looking_for_a_house_for_rent/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "growth_pressure_is_visible",
+          "dimension": "growth",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Growth is still producing infrastructure friction",
+          "detail": "Residents complain about apartment construction, traffic, utility costs and the pace of development. They disagree over whether more multifamily housing is necessary affordability relief or an additional growth burden, so the disagreement itself is part of the signal.",
+          "audience": "Homebuyers concerned with long-term infrastructure and development patterns.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/vns0qr/what_are_the_issues_on_your_mind_in_gilbert/",
+            "https://www.reddit.com/r/Gilbert/comments/1mzwskf/community_input_request_new_retail_development/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_income_does_not_erase_cost_pressure",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "High incomes coexist with entry-level strain",
+          "detail": "Community discussions explicitly distinguish Gilbert's high household-income reputation from the experience of younger workers trying to buy or rent. Several commenters argue that wages and housing have diverged enough to make traditional suburban entry difficult.",
+          "audience": "Workers without existing home equity or unusually high household income.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "school_choice_is_a_family_asset",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Families report several credible school options",
+          "detail": "Parents describe generally positive experiences across Gilbert, Higley and Chandler Unified schools serving Gilbert, plus charter options. Experiences differ by campus and Arizona school funding is criticized, so this should not be read as a universal quality guarantee.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1ihlv5m/gilbert_schools_compared_to_other_states/",
+            "https://www.reddit.com/r/Gilbert/comments/1pa6pj0/gilbert_vs_chandlerschools_and_areas_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "friend_making_is_activity_based",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Newcomers make friends through organized activities",
+          "detail": "Recent threads recommend pickleball, gyms, adult leagues, clubs, events and churches rather than suggesting an effortless spontaneous social scene. Successful examples exist, so the evidence does not support calling Gilbert socially closed.",
+          "audience": "Newcomers who need to build a social network from scratch.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1u35utk/finding_friends/",
+            "https://www.reddit.com/r/Gilbert/comments/1la5omg/need_friends/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lds_presence_is_visible_not_totalizing",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "LDS culture is visible but not socially totalizing",
+          "detail": "Multiple Gilbert threads agree that LDS congregations, churches and the temple are noticeable parts of the local landscape. Non-LDS residents usually say daily life is not dominated by the church, although some report neighborhood social circles where religious affiliation matters more.",
+          "audience": "Non-LDS movers concerned about religious visibility or social integration.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1spinbd/is_gilbert_similar_to_provo_i_was_told_that/",
+            "https://www.reddit.com/r/Gilbert/comments/14rvr95/potentially_looking_to_move_to_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "chandler_is_a_close_peer",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Chandler and Gilbert often feel interchangeable",
+          "detail": "Residents frequently describe the municipal difference as smaller than the difference among neighborhoods or school boundaries. Chandler receives somewhat stronger district-level school praise, while Gilbert supporters cite newer-looking neighborhoods and its downtown.",
+          "audience": "Relocators deciding between Gilbert and Chandler.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1k8fdmh/gilbert_vs_chandler/",
+            "https://www.reddit.com/r/Gilbert/comments/1pa6pj0/gilbert_vs_chandlerschools_and_areas_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "gilbert_is_more_mature_than_queen_creek",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Gilbert has fewer outer-growth growing pains",
+          "detail": "People who have lived in both Gilbert and Queen Creek repeatedly describe Gilbert as more established, with better freeway access, restaurants and activity infrastructure. Queen Creek is credited with newer homes and more space, so this is an infrastructure-and-amenities comparison rather than a universal quality ranking.",
+          "audience": "Families considering a farther-out East Valley move.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/QueenCreek/comments/1nckv1m/gilbert_vs_queen_creek/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "suburban_blandness_is_a_recurring_critique",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Some residents find the city culturally generic",
+          "detail": "Strip malls, chains, repetitive subdivisions and weak historic texture appear repeatedly in negative accounts. Downtown Gilbert and Agritopia provide counterexamples, so the evidence supports limited citywide distinctiveness rather than no identity at all.",
+          "audience": "People who place high value on historic fabric, independent culture or urban texture.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+            "https://www.reddit.com/r/Gilbert/comments/uj4rct/downtown_gilbert_shops/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "valley_job_market_broadens_options",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "The wider metro provides employment depth",
+          "detail": "Residents distinguish Gilbert's own employment base from the much larger Phoenix-area job market and note the ability to change employers elsewhere in the Valley. The benefit therefore depends on willingness to commute rather than Gilbert alone supplying every career path.",
+          "audience": "Workers in fields with employers spread across the Phoenix metro.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1lq83ig/moving_to_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }
