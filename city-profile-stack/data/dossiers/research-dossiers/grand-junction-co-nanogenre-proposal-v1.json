@@ -1,0 +1,224 @@
+{
+  "city": "Grand Junction",
+  "state": "CO",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Grand Junction, Colorado — Nanogenre Classification Proposal v1",
+  "summary": "Sixth genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process: official/structural evidence (Census QuickFacts, BLS GJ OEWS, BLM, city housing and planning records, Intermountain/St. Mary's material, D51, GVT, NCEI normals) reconciled against the same research pass's community-sentiment evidence. Serves as the wind negative control for the calibration set, extends the interior-regional-service-hub family to five cities — meeting the broad floor while tripping the 40% prevalence cap — and carries the ZHVI cross-city housing calibration addendum.",
+  "narrative_file": "grand-junction-co-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Companion to grand-junction-co.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_40_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "bls_gj_wage_figures_30_08_and_33_54_re_read_verbatim_on_the_live_page",
+      "wind_negative_control_verified_against_weather_spark_windiest_month_8_3_mph_calmest_6_2_mph_below_north_plattes_calmest_9_7",
+      "va_medical_center_verified_against_va_gov_exposing_a_stale_outpatient_classification_in_the_apps_own_va_sync_data_task_filed",
+      "nws_gjt_cla_rotating_url_corroborated_via_ncei_normals_api_jan_38_1_17_3_jul_94_5_63_9",
+      "zhvi_addendum_spot_checked_against_the_live_zillow_page_427763_vs_429488_a_one_month_vintage_difference",
+      "both_multi_mb_city_pdfs_unhoused_survey_and_impact_fee_study_resolved_as_real_documents",
+      "nine_question_reconciliation_table_with_divergences_held_not_averaged"
+    ],
+    "limitations": [
+      "delivered_block_2_source_urls_arrived_as_markdown_wrapped_links_normalized_mechanically_to_bare_urls_flagged",
+      "st_marys_staffing_allegations_are_community_accounts_requiring_independent_verification",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "the_cited_nws_gjt_cla_product_url_is_rotating_and_did_not_resolve_normals_corroborated_via_ncei_the_107F_record_high_rests_on_original_retrieval"
+    ],
+    "gaps": [
+      "the_service_hub_familys_prevalence_cap_violation_71_pct_vs_40_pct_needs_corpus_diversification_before_broad_admission",
+      "no_second_city_yet_tests_whether_the_nano_primary_bundle_recurs_intact",
+      "measured_crime_rates_not_reconciled_against_neighborhood_sentiment",
+      "commodity_cycle_history_not_researched_deeply_enough_for_genre_inclusion"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/grandjunctioncitycolorado/INC110224",
+    "https://www.bls.gov/regions/mountain-plains/news-release/2026/occupationalemploymentandwages_grandjunction_20260805.htm",
+    "https://www.blm.gov/office/grand-junction-field-office",
+    "https://www.gjcity.org/DocumentCenter/View/16099/2025-Unhoused-Survey-Report-",
+    "https://www.gjcity.org/359/Long-Range-Planning",
+    "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1167128/File/document",
+    "https://intermountainhealthcare.org/-/media/files/intermountain-health/community-benefit/chis-2025/st-marys-regional-hospital-2025-implementation-strategy.ashx",
+    "https://www.d51schools.org/",
+    "https://gvt.mesacounty.us/routes-schedules",
+    "https://forecast.weather.gov/product.php?issuedby=GJT&product=CLA&site=NWS",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL&stations=USW00023066&format=json",
+    "https://weatherspark.com/y/3113/Average-Weather-in-Grand-Junction-Colorado-United-States-Year-Round",
+    "https://www.zillow.com/home-values/31819/grand-junction-co/",
+    "https://www.va.gov/western-colorado-health-care/locations/",
+    "https://www.reddit.com/r/grandjunction/comments/1tg6j7j/looking_for_a_home_base_would_love_any_feedback/",
+    "https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/",
+    "https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/",
+    "https://www.reddit.com/r/grandjunction/comments/1fepqgf/",
+    "https://www.reddit.com/r/relocating/comments/1kx0u6z/considering_a_move_from_boston_suburbs_to/",
+    "https://www.reddit.com/r/grandjunction/comments/178q2en/thinking_of_a_move_to_gj_thoughts/",
+    "https://www.reddit.com/r/grandjunction/comments/1od88tw/best_restaurants_downtown/",
+    "https://www.reddit.com/r/grandjunction/comments/1cdrdof/",
+    "https://www.reddit.com/r/grandjunction/comments/1oytaug/what_are_your_thoughts_on_area_schools/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Interior-West Regional Service Hub",
+        "High-Desert Outdoor Gateway",
+        "Small-Metro College/Medical Hub"
+      ],
+      "micro_primary": "Isolated High-Desert Regional Service Hub",
+      "micro_secondary": [
+        "Immediate-Access Outdoor Small Metro",
+        "Western College-Medical Service Center"
+      ],
+      "nano_primary": {
+        "label": "High-Desert Regional Hub with Immediate Public-Land Access and Thin Urban Depth",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "Short-Commute Western Hub with Wage-Housing Squeeze",
+          "confidence": "high"
+        },
+        {
+          "label": "Dry-Heat Outdoor City with Regional Medical Reach",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "Grand Junction is an isolated but unusually self-sufficient high-desert service city where enormous public-land access, short everyday trips and regional medical capacity coexist with shallow big-city amenities, hot summers and a pronounced local wage-to-housing mismatch.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Per NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1, admission requires 2 independently-researched cities for nano, 3 for micro, 5 for broad. FOUR RECURRENCE OBSERVATIONS for the next taxonomy review: (1) The interior-regional-service-hub family reaches FIVE cities (Casper, Odessa, Cheyenne, North Platte, Grand Junction), meeting the broad floor of 5 -- but 5 of 7 currently-classified cities is 71% prevalence, far above the 40% broad cap. Per section 3, a cap-exceeding genre should be split or promoted, not admitted as-is; here the violation is substantially selection bias from deliberately chasing the recurrence with a tiny denominator. Remedy: diversify the corpus (classify structurally different cities) before any broad admission -- do not admit now, do not discard. (2) 'High-Desert' vocabulary recurs (Victorville, Grand Junction) but the bundles differ sharply -- shared terrain vocabulary must not drive admission. (3) The wage-housing squeeze now appears in five of seven cities and is behaving like a trait, not a genre (section 3 #3 reasonable-rarity failure); keep it in local_wage_adequacy / housing_affordability, out of labels. (4) The wind negative control worked empirically: propagation predicted wind_exposure 0.73 for Grand Junction by borrowing from windy neighbors; measured value 0.32. The Casper+Cheyenne Wind-Exposed Hub candidate now has a verified discriminating boundary (North Platte 0.80 near it, Grand Junction 0.32 outside it)."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Grand Junction genuinely isolated, or does it function like a connected regional city?",
+        "measured_evidence": "Grand Junction's 2025 Census population estimate is 71,827, while its airport currently lists nonstop service to Denver, Dallas/Fort Worth, Phoenix, Salt Lake City, Las Vegas and Orange County; the airport therefore provides meaningful network access without making Grand Junction a hub itself. Source: https://www.census.gov/quickfacts/fact/table/grandjunctioncitycolorado/INC110224",
+        "experienced_evidence": "Residents split between calling Grand Junction a difficult travel base because many trips require a connection and saying the increasing number of Denver and other flights makes that problem much smaller than it once was. Source: https://www.reddit.com/r/grandjunction/comments/1tg6j7j/looking_for_a_home_base_would_love_any_feedback/",
+        "resulting_trait": "Isolated-by-road regional hub with a surprisingly useful commercial-air escape valve."
+      },
+      {
+        "question": "Is the outdoor reputation simply Colorado branding, or does it materially shape everyday life?",
+        "measured_evidence": "The BLM Grand Junction Field Office manages more than one million acres of public land surrounding the Western Slope's largest population center and explicitly lists hiking, rafting, mountain biking, OHV use and other recreation opportunities. Source: https://www.blm.gov/office/grand-junction-field-office",
+        "experienced_evidence": "Residents repeatedly describe trails within minutes, rafting close to town, skiing within roughly an hour and multiple major recreation areas within easy day-trip range. Source: https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/",
+        "resulting_trait": "Outdoor access is structural and everyday, not an aspirational lifestyle label."
+      },
+      {
+        "question": "Is Grand Junction still an affordable Colorado alternative?",
+        "measured_evidence": "The city's 2025 housing report lists a $1,500 median rent and $400,000 median home price and says housing prices have risen much faster than wages; BLS reports a May 2025 mean Grand Junction wage of $30.08 per hour versus $33.54 nationally. Sources: https://www.gjcity.org/DocumentCenter/View/16099/2025-Unhoused-Survey-Report- ; https://www.bls.gov/regions/mountain-plains/news-release/2026/occupationalemploymentandwages_grandjunction_20260805.htm",
+        "experienced_evidence": "Recent residents describe the local cost-to-wage gap as a major reason Grand Junction no longer feels inexpensive, even while acknowledging that many Front Range and resort markets cost more. Source: https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/",
+        "resulting_trait": "Relatively affordable within desirable Colorado, but expensive relative to the local labor market - the divergence itself is central."
+      },
+      {
+        "question": "Does a small isolated city mean weak healthcare?",
+        "measured_evidence": "St. Mary's official material identifies a Level II trauma center, Level III neonatology, open-heart surgery, brain and spine surgery and a comprehensive cancer program; the VA system also operates an inpatient medical center in Grand Junction with acute-care, psychiatric and long-term-care beds. Source: https://intermountainhealthcare.org/-/media/files/intermountain-health/community-benefit/chis-2025/st-marys-regional-hospital-2025-implementation-strategy.ashx",
+        "experienced_evidence": "Healthcare workers describe unusually high regional acuity and multiple hospitals, while patients and newcomers simultaneously report difficulty establishing primary and specialist care and recent staffing concerns at St. Mary's. Source: https://www.reddit.com/r/grandjunction/comments/1fepqgf",
+        "resulting_trait": "High medical capacity but imperfect navigability: the city can do more medicine than its size implies, yet accessing that capacity smoothly is a separate problem."
+      },
+      {
+        "question": "Is the climate mild, or is it harsh desert weather?",
+        "measured_evidence": "NWS reporting uses the 1991-2020 climate-normal period and shows Grand Junction's long-term climate includes hot summer extremes but much lower annual cold and snow exposure than Colorado mountain communities; the local record high is 107F. Source: https://forecast.weather.gov/product.php?issuedby=GJT&product=CLA&site=NWS (rotating product URL; normals corroborated at https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL&stations=USW00023066&format=json)",
+        "experienced_evidence": "Residents simultaneously praise sunny, relatively light-snow winters and complain that midsummer daytime heat can make low-elevation outdoor activity miserable. Source: https://www.reddit.com/r/relocating/comments/1kx0u6z/considering_a_move_from_boston_suburbs_to/",
+        "resulting_trait": "Long outdoor season with a seasonal inversion: easy valley winters are purchased with genuinely hot midsummers."
+      },
+      {
+        "question": "Is the city easy to get around, or merely car dependent?",
+        "measured_evidence": "Census estimates put mean travel time to work at 15.8 minutes. Grand Valley Transit operates multiple routes but generally stops around 8 p.m. and does not run Sundays, while the city has adopted a pedestrian/bicycle plan and continues expanding active-transportation infrastructure. Sources: https://www.census.gov/quickfacts/fact/table/grandjunctioncitycolorado/INC110224 ; https://gvt.mesacounty.us/routes-schedules",
+        "experienced_evidence": "Residents praise the lack of serious traffic but also explicitly say the city is difficult without a car outside downtown and the CMU area. Source: https://www.reddit.com/r/grandjunction/comments/178q2en/thinking_of_a_move_to_gj_thoughts/",
+        "resulting_trait": "Low commute burden without low car dependence: driving is easy precisely because most everyday mobility still defaults to driving."
+      },
+      {
+        "question": "Does Grand Junction have real urban amenities, or is there 'nothing to do'?",
+        "measured_evidence": "Census reports substantial retail and food-service activity for a city of roughly 72,000, and the municipality maintains a defined downtown and active transportation network; the structural evidence therefore does not describe an amenity-empty town. Source: https://www.census.gov/quickfacts/fact/table/grandjunctioncitycolorado/INC110224",
+        "experienced_evidence": "Residents can readily name restaurants, breweries, concerts and downtown venues, yet dedicated nightlife and relocation threads repeatedly say choices thin out quickly and late-night life is limited. Source: https://www.reddit.com/r/grandjunction/comments/1od88tw/best_restaurants_downtown/",
+        "resulting_trait": "Complete-enough regional-center amenities but shallow metropolitan depth: existence and variety diverge."
+      },
+      {
+        "question": "Is Grand Junction still a stable small city, or is growth changing its character?",
+        "measured_evidence": "Census estimates show population rising from a 2020 base of about 65,642 to 71,827 in 2025, roughly 9.4 percent growth, while city planning documents are actively expanding housing and transportation capacity. Sources: https://www.census.gov/quickfacts/fact/table/grandjunctioncitycolorado/INC110224 ; https://www.gjcity.org/359/Long-Range-Planning",
+        "experienced_evidence": "Longtime residents repeatedly say the city is better developed and more attractive than it was 15-20 years ago but also link growth to housing costs and the erosion of its former low-cost reputation. Source: https://www.reddit.com/r/grandjunction/comments/1cdrdof",
+        "resulting_trait": "A growing regional hub whose improved amenity base and worsening affordability are two sides of the same transition."
+      },
+      {
+        "question": "Do local schools amount to meaningful family infrastructure?",
+        "measured_evidence": "Mesa County Valley School District 51 reports roughly 19,400 students and more than 40 schools and programs; Colorado's 2025 framework rates the district Accredited and not on Performance Watch. Source: https://www.d51schools.org/",
+        "experienced_evidence": "The targeted parent search found mixed campus-specific anecdotes - some positive experiences, clubs and activities alongside warnings about individual schools - but too few independent family accounts for a confident citywide judgment. Source: https://www.reddit.com/r/grandjunction/comments/1oytaug/what_are_your_thoughts_on_area_schools/",
+        "resulting_trait": "Structurally substantial school infrastructure with under-sampled lived quality; the official system footprint is clearer than the resident consensus."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "colorado_relative_affordability_vs_local_wage_reality",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Cheaper than Front Range and resort Colorado, yet the city's own housing report documents $1,500 median rent and $400,000 median home price against a mean wage of $30.08/hr (below the $33.54 national mean), and the ZHVI addendum places Grand Junction ($429,488) essentially tied with Victorville despite very different structures.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe the wage-to-housing mismatch as the loudest structural complaint - Grand Junction no longer feels inexpensive to people earning Grand Junction wages.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Relative position within Colorado and adequacy against the local wage base measure different things; both poles hold and the municipal record sides with the lived pole. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "medical_capacity_vs_navigability",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "A Level II trauma center with open-heart and neurosurgery, multiple hospitals and a full VA Medical Center - regional referral capacity far above city size.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents report practices closed to new patients, long specialist lead times (one transplant arranged providers 18 months ahead) and unverified 2026 staffing allegations at St. Mary's.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Facility capacity and patient-level access measure different things; both poles hold. Same capacity-vs-navigability shape as North Platte's healthcare finding. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "amenity_existence_vs_metropolitan_depth",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Substantial retail/food-service activity, a defined walkable downtown, concerts and breweries - a complete regional-center amenity base.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents call choices repetitive and late-night life limited, describing a daytime/outdoor city.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Existence and depth diverge - the fourth city with this divergence family (after Casper, Cheyenne, North Platte). Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "low_commute_burden_vs_car_dependence",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "A 15.8-minute mean commute with transit that ends around 8 p.m. and skips Sundays.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents say the city is difficult without a car outside downtown and CMU; driving is easy precisely because everything assumes it.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Travel time and mode dependence measure different things - the same recurring shape as Casper, Cheyenne and North Platte. This divergence family now spans four cities. Maps to board Divergence Flag = Minor."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-20",
+      "method": "All 40 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles. Structural: Census QuickFacts, BLM, GVT, D51, gjcity long-range page and both multi-MB city PDFs (Unhoused Survey, impact-fee study) plus the Intermountain strategy PDF resolved directly; the BLS GJ OEWS release loaded in a real browser with $30.08 and $33.54 re-read verbatim; the rotating NWS GJT CLA product did not resolve and its normals were corroborated via the NCEI API (USW00023066: Jan 38.1/17.3, Jul 94.5/63.9). The wind negative-control addendum was verified against Weather Spark (windiest April 8.3 mph, calmest August 6.2 mph - below North Platte's calmest month). The ZHVI addendum was spot-checked against the live Zillow page ($427,763 +2.0% on 7/31 vs the cited $429,488 +2.1% on 6/30, a one-month vintage difference). The VA Medical Center was verified against va.gov, which exposed a stale 'outpatient' classification in the app's own VA sync data for location 111 - filed as a separate fix task. Block 2's source_urls arrived as markdown-wrapped links and were normalized mechanically to bare URLs.",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links; one rotating NWS product URL flagged and corroborated via the stable NCEI API added to source_urls."
+    }
+  }
+}

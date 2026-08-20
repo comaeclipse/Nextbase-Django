@@ -15,7 +15,7 @@ measured-vs-experienced reconciliation that Blocks 1–3 deliberately exclude.
 | Secondary microgenre   | Freight-Linked Outer-Metro Service Center                             |
 | Secondary microgenre   | Car-Dependent Desert Regional Retail Hub                              |
 | **Primary nanogenre**  | **Cajon-Pass-Dependent Housing-Value Logistics Exurb** (high confidence) |
-| Secondary nanogenre    | Wind-Exposed High-Desert Regional Service Hub (medium confidence)     |
+| Secondary nanogenre    | ~~Wind-Exposed High-Desert Regional Service Hub~~ (withdrawn 2026-08-20 — see calibration correction below) |
 
 **In one sentence:** Victorville is a car-dependent high-desert regional center where
 comparatively attainable Southern California housing and logistics/retail functions
@@ -26,6 +26,18 @@ All labels are **proposals, not admissions** — per NANOGENRE_TAXONOMY.md §3 /
 decision 1, a nanogenre needs 2 independently-researched cities before entering
 `genre-ontology.ts` (3 for micro, 5 for broad). Victorville is currently the only city
 carrying these exact labels.
+
+**Calibration correction (2026-08-20, revision 2):** the secondary nanogenre
+"Wind-Exposed High-Desert Regional Service Hub" is withdrawn. A cross-city calibration
+pass against hourly wind means (Weather Spark station data, independently re-verified)
+showed Victorville averages roughly 7–9 mph with a spring peak near 9 mph — genuinely
+windier than the San Bernardino/Ontario basin (5.3–7.4 mph), so residents' wind
+complaints are real, but far below the Cheyenne/Casper winter regime (January ~15 mph,
+five months at or above ~11–12 mph). Nationally calibrated, Victorville is *locally
+windy*, not wind-exposed: the `wind_exposure` feature was revised from 0.75 to 0.52 and
+wind is removed from the genre bundle entirely, remaining a moderate climate trait.
+This withdrawal reduces the "Wind-Exposed … Hub" recurrence candidate from three
+proposals to two (Casper, Cheyenne).
 
 ## Reconciliation: measured vs. experienced
 

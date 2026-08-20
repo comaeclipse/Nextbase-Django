@@ -4270,6 +4270,2439 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "Gilbert",
+      "state": "AZ",
+      "signals": [
+        {
+          "key": "family_orientation_is_core",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Family life is the clearest local strength",
+          "detail": "Across relocation and comparison threads, Gilbert is repeatedly recommended for families, children, parks, schools and neighborhood stability. Child-free commenters often describe the same family orientation as a reason they would choose Scottsdale, Tempe or Phoenix instead.",
+          "audience": "Families with children and people deciding between family-oriented and adult-oriented suburbs.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+            "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "everyday_safety_feels_high",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Residents commonly feel safe day to day",
+          "detail": "Multiple residents describe children playing outside after dark, bikes or deliveries being left outside and generally low anxiety about ordinary neighborhood crime. This is perceived safety rather than a claim that crime does not occur.",
+          "audience": "Families, solo residents and anyone prioritizing low day-to-day safety anxiety.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_image_has_real_caveats",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Safe does not mean crime-free",
+          "detail": "Residents also report vehicle break-ins, package theft and other property crime, while the Gilbert Goons controversy repeatedly appears as a challenge to the city's pristine safety image. The dominant reading remains relatively safe, but the utopian version is contradicted.",
+          "audience": "People evaluating safety claims at neighborhood level rather than city reputation alone.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/zi9dzc/crime/",
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "extreme_summer_heat_controls_schedule",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Summer heat dictates the daily schedule",
+          "detail": "Residents repeatedly describe summer as the season for air conditioning, pools, very early or late outdoor activity and trips to higher elevations. There is disagreement over whether the unpleasant outdoor period lasts four months or closer to half the year, but not over the heat being severe.",
+          "audience": "Anyone expecting frequent daytime outdoor activity in summer.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/",
+            "https://www.reddit.com/r/Gilbert/comments/rmibs5/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_is_mild_and_snow_is_not_a_burden",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Winter is the outdoor season",
+          "detail": "Transplants from colder climates repeatedly contrast Gilbert with months of snow and deep winter elsewhere. Residents describe the cooler part of the year as the period when hiking, golf and other outdoor activities become easiest.",
+          "audience": "People seeking to avoid snow and prolonged freezing weather.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/rmibs5/moving/",
+            "https://www.reddit.com/r/Gilbert/comments/1fnce0j/moving_to_gilbert_in_december_many_questions_for/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "outdoor_life_is_strongly_seasonal",
+          "dimension": "outdoors",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Outdoor life shifts by season and time of day",
+          "detail": "Residents who enjoy the climate emphasize many pleasant fall-through-spring months, while critics emphasize the long hot-season restriction. Both accounts can be true: access is present, but usable hours change dramatically through the year.",
+          "audience": "Hikers, runners, cyclists, families and other outdoor-oriented movers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/tyyepv/what_are_the_best_places_for_a_hike_trail_run_in/",
+            "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_dependence_is_experienced_norm",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Most of Gilbert life assumes a car",
+          "detail": "Community comparisons routinely describe amenities in drive-time terms and treat trips among Gilbert, Chandler, Mesa and Scottsdale as normal. Downtown Gilbert is a walkable exception, not evidence of citywide car-light living.",
+          "audience": "People who cannot or prefer not to drive for most errands.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+            "https://www.reddit.com/r/Gilbert/comments/1krg3c7/commute_dt_for_pv_vs_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_dependence_is_structurally_documented",
+          "dimension": "mobility",
+          "polarity": "neutral",
+          "strength": 5,
+          "label": "Town planning documents confirm low non-car share",
+          "detail": "Gilbert engineering standards state that transit, cycling and walking have such a low modal split that traffic studies generally assume a combined zero share unless a special situation applies. This is a structural record, not resident sentiment.",
+          "audience": "People evaluating whether Gilbert can support a low-car lifestyle.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.gilbertaz.gov/home/showpublisheddocument/41151/637607567171130000"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "east_valley_access_is_convenient",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "East Valley cities function as one amenity network",
+          "detail": "Residents routinely cross into Chandler, Mesa, Tempe and Scottsdale for dining, nightlife, recreation and work. This weakens the practical cost of Gilbert not containing every amenity itself, although Phoenix destinations are a longer trip.",
+          "audience": "People comfortable treating the East Valley as their broader daily activity area.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "downtown_phoenix_commute_can_be_costly",
+          "dimension": "commute",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Central Phoenix commuting changes the equation",
+          "detail": "Gilbert-to-downtown commuters discuss roughly half-hour or longer trips under favorable conditions and greater uncertainty around rush hour. The burden depends strongly on where in Gilbert someone starts and which direction they travel.",
+          "audience": "Workers commuting to downtown or central Phoenix.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1krg3c7/commute_dt_for_pv_vs_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "downtown_restaurant_core_is_real",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Downtown has a genuine dining concentration",
+          "detail": "Resident food threads produce substantial local recommendation lists, while relocation threads repeatedly cite downtown Gilbert as the main place for dinner, happy hour and casual evening activity. The evidence supports strong dining more clearly than broad cultural depth.",
+          "audience": "People who value restaurants and a compact evening destination.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1us5fg2/local_eats/",
+            "https://www.reddit.com/r/Gilbert/comments/uj4rct/downtown_gilbert_shops/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_depth_is_limited",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Nightlife is concentrated rather than deep",
+          "detail": "Gilbert has bars, breweries, happy hours and some dancing, especially downtown. Young-single relocation discussions nevertheless repeatedly point to Scottsdale, Tempe or Phoenix for a larger and more varied nightlife scene.",
+          "audience": "Young singles and people who want varied late-night entertainment.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1lq83ig/moving_to_gilbert/",
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "routine_retail_is_abundant",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Routine shopping and services are easy to find",
+          "detail": "Residents describe extensive shopping centers, groceries, fitness options and chains across Gilbert, with San Tan Village functioning as a major retail node. Specialty or luxury shopping remains deeper in Scottsdale, but routine access is rarely described as deficient.",
+          "audience": "People prioritizing convenient suburban errands and shopping.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/q97iw9/fell_in_love_with_gilbert_when_visiting_and_would/",
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "serious_trails_are_close_not_in_town",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Mountain recreation is a short drive away",
+          "detail": "Gilbert itself is repeatedly described as flat, with canals and the Riparian Preserve providing local exercise space. Residents commonly drive roughly 15 to 30 minutes to Usery, San Tan Mountain and other more substantial trail systems.",
+          "audience": "Hikers and trail runners who want frequent but not necessarily doorstep mountain access.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/tyyepv/what_are_the_best_places_for_a_hike_trail_run_in/",
+            "https://www.reddit.com/r/Gilbert/comments/1av0fn8/camping_near_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_affordability_has_eroded",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Gilbert no longer feels like cheap suburbia",
+          "detail": "Longer-term residents frequently contrast current prices with much cheaper pre-2020 conditions. Younger buyers and renters describe starter-home prices and rent as difficult to reconcile with ordinary household budgets.",
+          "audience": "First-time buyers, younger households and renters.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/",
+            "https://www.reddit.com/r/Gilbert/comments/q3uo4t/gilbert_now_apperantly_the_15th_most_expensive/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "gilbert_retains_relative_value_vs_scottsdale",
+          "dimension": "housing",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Housing looks better beside Scottsdale",
+          "detail": "The same residents who describe Gilbert as expensive often call it comparatively good value next to Scottsdale or North Scottsdale. This is a relative-value claim, not evidence that Gilbert is affordable in absolute terms.",
+          "audience": "Buyers choosing among higher-cost East Valley communities.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+            "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lower_cost_rentals_are_competitive",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Budget rentals can be difficult to secure",
+          "detail": "Recent rental threads show substantial difficulty finding inexpensive units and describe desirable houses as moving quickly. This evidence is strongest for lower-budget renters rather than the rental market at every price point.",
+          "audience": "Renters arriving without a high housing budget.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1utzgav/looking_for_rental/",
+            "https://www.reddit.com/r/Gilbert/comments/1tzl6qe/looking_for_a_house_for_rent/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "growth_pressure_is_visible",
+          "dimension": "growth",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Growth is still producing infrastructure friction",
+          "detail": "Residents complain about apartment construction, traffic, utility costs and the pace of development. They disagree over whether more multifamily housing is necessary affordability relief or an additional growth burden, so the disagreement itself is part of the signal.",
+          "audience": "Homebuyers concerned with long-term infrastructure and development patterns.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/vns0qr/what_are_the_issues_on_your_mind_in_gilbert/",
+            "https://www.reddit.com/r/Gilbert/comments/1mzwskf/community_input_request_new_retail_development/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_income_does_not_erase_cost_pressure",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "High incomes coexist with entry-level strain",
+          "detail": "Community discussions explicitly distinguish Gilbert's high household-income reputation from the experience of younger workers trying to buy or rent. Several commenters argue that wages and housing have diverged enough to make traditional suburban entry difficult.",
+          "audience": "Workers without existing home equity or unusually high household income.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "school_choice_is_a_family_asset",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Families report several credible school options",
+          "detail": "Parents describe generally positive experiences across Gilbert, Higley and Chandler Unified schools serving Gilbert, plus charter options. Experiences differ by campus and Arizona school funding is criticized, so this should not be read as a universal quality guarantee.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1ihlv5m/gilbert_schools_compared_to_other_states/",
+            "https://www.reddit.com/r/Gilbert/comments/1pa6pj0/gilbert_vs_chandlerschools_and_areas_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "friend_making_is_activity_based",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Newcomers make friends through organized activities",
+          "detail": "Recent threads recommend pickleball, gyms, adult leagues, clubs, events and churches rather than suggesting an effortless spontaneous social scene. Successful examples exist, so the evidence does not support calling Gilbert socially closed.",
+          "audience": "Newcomers who need to build a social network from scratch.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1u35utk/finding_friends/",
+            "https://www.reddit.com/r/Gilbert/comments/1la5omg/need_friends/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lds_presence_is_visible_not_totalizing",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "LDS culture is visible but not socially totalizing",
+          "detail": "Multiple Gilbert threads agree that LDS congregations, churches and the temple are noticeable parts of the local landscape. Non-LDS residents usually say daily life is not dominated by the church, although some report neighborhood social circles where religious affiliation matters more.",
+          "audience": "Non-LDS movers concerned about religious visibility or social integration.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1spinbd/is_gilbert_similar_to_provo_i_was_told_that/",
+            "https://www.reddit.com/r/Gilbert/comments/14rvr95/potentially_looking_to_move_to_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "chandler_is_a_close_peer",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Chandler and Gilbert often feel interchangeable",
+          "detail": "Residents frequently describe the municipal difference as smaller than the difference among neighborhoods or school boundaries. Chandler receives somewhat stronger district-level school praise, while Gilbert supporters cite newer-looking neighborhoods and its downtown.",
+          "audience": "Relocators deciding between Gilbert and Chandler.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1k8fdmh/gilbert_vs_chandler/",
+            "https://www.reddit.com/r/Gilbert/comments/1pa6pj0/gilbert_vs_chandlerschools_and_areas_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "gilbert_is_more_mature_than_queen_creek",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Gilbert has fewer outer-growth growing pains",
+          "detail": "People who have lived in both Gilbert and Queen Creek repeatedly describe Gilbert as more established, with better freeway access, restaurants and activity infrastructure. Queen Creek is credited with newer homes and more space, so this is an infrastructure-and-amenities comparison rather than a universal quality ranking.",
+          "audience": "Families considering a farther-out East Valley move.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/QueenCreek/comments/1nckv1m/gilbert_vs_queen_creek/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "suburban_blandness_is_a_recurring_critique",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Some residents find the city culturally generic",
+          "detail": "Strip malls, chains, repetitive subdivisions and weak historic texture appear repeatedly in negative accounts. Downtown Gilbert and Agritopia provide counterexamples, so the evidence supports limited citywide distinctiveness rather than no identity at all.",
+          "audience": "People who place high value on historic fabric, independent culture or urban texture.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+            "https://www.reddit.com/r/Gilbert/comments/uj4rct/downtown_gilbert_shops/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "valley_job_market_broadens_options",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "The wider metro provides employment depth",
+          "detail": "Residents distinguish Gilbert's own employment base from the much larger Phoenix-area job market and note the ability to change employers elsewhere in the Valley. The benefit therefore depends on willingness to commute rather than Gilbert alone supplying every career path.",
+          "audience": "Workers in fields with employers spread across the Phoenix metro.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Gilbert/comments/1lq83ig/moving_to_gilbert/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
+    },
+    {
+      "city": "Odessa",
+      "state": "TX",
+      "signals": [
+        {
+          "key": "oilfield_job_depth",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Strong work-driven relocation market",
+          "detail": "Relocation threads repeatedly begin with a job offer that is attractive enough to justify moving to Odessa or the Midland-Odessa region. Oil, engineering, industrial and related work dominate the discussion, although this does not imply equally deep opportunity in every profession.",
+          "audience": "Workers prioritizing employment opportunity or income",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1bwwp56/",
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ckup/relocating_to_odessa_for_a_new_job_need_local/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "oil_cycle_dependence",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Local confidence follows the oil cycle",
+          "detail": "Residents repeatedly describe the regional economy as unusually dependent on oil and gas and warn newcomers that downturns affect jobs, housing and business activity. This is one of the most consistent structural claims in relocation discussions.",
+          "audience": "Anyone relying on long-term local employment stability",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ljro3u",
+            "https://www.reddit.com/r/Midessa/comments/bnszgc"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "high_wage_trade_opportunity",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Trades can justify the local cost base",
+          "detail": "Oilfield and mechanically skilled workers describe the area as a place where practical experience can translate into strong earnings. The signal is specifically about oil-linked trades and industrial work, not the entire wage distribution.",
+          "audience": "Skilled tradespeople and oilfield workers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1r38o4s/moving_back_to_midlandodessa_after_11_years/",
+            "https://www.reddit.com/r/Midessa/comments/1bwwp56/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "non_oil_wage_squeeze",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Non-oil wages can feel squeezed",
+          "detail": "Residents and school employees complain that housing and living costs shaped by the oil economy make lower-paid local work harder to sustain. Education-sector comments are particularly negative about the gap between compensation and local costs.",
+          "audience": "Teachers, clerical workers and lower-paid service workers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1tyo0xw/ecisd_jobs/",
+            "https://www.reddit.com/r/Midessa/comments/f8d8ej",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_cost_pressure",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Housing feels expensive for the setting",
+          "detail": "High rent and housing cost are recurring complaints in both old and recent relocation threads. The intensity moves with economic conditions, so older boom-era dollar figures should not be treated as current prices.",
+          "audience": "Renters and newcomers without oilfield-level pay",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/bnszgc"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "odessa_cost_edge_over_midland",
+          "dimension": "housing",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Odessa is usually seen as cheaper than Midland",
+          "detail": "Several comparison threads explicitly recommend Odessa as the lower-cost side of the paired market. The difference is relative rather than a claim that Odessa itself is inexpensive.",
+          "audience": "People choosing between Odessa and Midland",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1bwwp56/",
+            "https://www.reddit.com/r/Midessa/comments/1nelqq2/moving_to_midland/",
+            "https://www.reddit.com/r/Midessa/comments/1s4rhyt/how_is_being_in_midland_for_a_women_in_her_20s/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "geographic_isolation",
+          "dimension": "access",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Major destinations feel far away",
+          "detail": "Residents repeatedly describe Odessa-Midland as several hours from the larger-city or outdoor destinations they want to visit. The region has air service, but community discussion still experiences surface travel as geographically isolated.",
+          "audience": "Frequent travelers and people who value spontaneous day trips",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+            "https://www.reddit.com/r/howislivingthere/comments/1t8phtm/whats_it_actually_like_living_in_the/",
+            "https://www.reddit.com/r/Midessa/comments/ff2woa/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "short_local_drive_times",
+          "dimension": "commute",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Trips inside Odessa are usually short",
+          "detail": "A recent relocation discussion characterized most Odessa destinations as roughly 15 to 20 minutes apart. Regional job commutes can be much longer, so this signal applies to ordinary trips inside the city rather than the entire Permian Basin.",
+          "audience": "Drivers comparing Odessa with larger metros",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "road_driver_stress",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Road quality and driving are recurring complaints",
+          "detail": "Residents frequently warn about aggressive or unsafe driving, theft from vehicles and poor road conditions. Some accounts are unusually harsh, so the safest interpretation is persistent road and driver stress rather than a quantified crash-risk claim.",
+          "audience": "Daily drivers and families",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ruzh7b/safe_places_to_live/",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_first_daily_life",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Daily life is strongly car-first",
+          "detail": "Residents describe Midessa as heavily car dependent, with missing sidewalks in some areas and driving assumed for ordinary errands. This is a stronger and more consistent signal than complaints about commute length itself.",
+          "audience": "People hoping to live without a car",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1vryr4e/no_offense_but_midland_and_odessa_look_exactly/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ckup/relocating_to_odessa_for_a_new_job_need_local/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_hot_dry",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Summer heat is a defining condition",
+          "detail": "Recent newcomers are routinely told to prepare for hot, dry weather, and long-time discussions treat intense summer heat as normal rather than exceptional. The community signal is very strong for heat but less precise about exact seasonal thresholds.",
+          "audience": "Anyone sensitive to heat or planning outdoor activity",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1v5ckup/relocating_to_odessa_for_a_new_job_need_local/",
+            "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+            "https://www.reddit.com/r/Midessa/comments/1k4k8ls"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "low_humidity_relief",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Dry air is a real upside for some",
+          "detail": "A positivity thread explicitly praised the area's dry, low-humidity weather compared with more humid places. This is preference-sensitive: the same aridity contributes to dust and the barren impression disliked by other residents.",
+          "audience": "People who strongly dislike humid climates",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/11k5e8a/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "wind_dust_hail",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Dust, wind and hail shape weather perception",
+          "detail": "Relocation accounts repeatedly mention dust and occasionally severe hail or storm impacts. Community discussion is less systematic about frequency, so the signal establishes visibility rather than a precise hazard rate.",
+          "audience": "Drivers, homeowners and outdoor-oriented residents",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+            "https://www.reddit.com/r/howislivingthere/comments/1t8phtm/whats_it_actually_like_living_in_the/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "outdoor_recreation_requires_driving",
+          "dimension": "outdoors",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Serious outdoor recreation usually means a trip",
+          "detail": "Local mountain biking, disc golf and similar options exist, but residents consistently send hikers toward Big Bend, New Mexico or other destinations. This is one of the strongest quality-of-life cautions for people whose routine depends on nearby nature.",
+          "audience": "Hikers, climbers, paddlers and nature-oriented households",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/ff2woa/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "amenities_exist_but_repeat",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Amenities exist but feel shallow",
+          "detail": "Residents can name theaters, sports, museums, arcades, restaurants and hobby venues, so 'nothing to do' is literally false. The recurring complaint is that variety exhausts quickly and the commercial mix feels chain-heavy for a regional population of this size.",
+          "audience": "People who need frequent novelty, culture or specialty options",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/11k5e8a/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ws1q/what_are_some_things_to_do_in_midland_and_odessa/",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Nightlife is present but not deep",
+          "detail": "Bars, dancing, karaoke and breweries remain available, but residents repeatedly characterize the nightlife circuit as small or diminished. Odessa in particular is described as having lost notable bar-scene depth over time.",
+          "audience": "Young adults and nightlife-oriented movers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1tt6u5h/18_places/",
+            "https://www.reddit.com/r/Midessa/comments/1ol3kt9/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_integration_effort",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Newcomers often have to pursue community",
+          "detail": "Residents attribute social difficulty to transient workers, long work schedules and established circles. The evidence supports an effortful social environment more strongly than a claim that residents are generally unfriendly.",
+          "audience": "Newcomers arriving without family or an existing network",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1rpotte/where_can_i_meet_people/",
+            "https://www.reddit.com/r/Midessa/comments/1j89wv9/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "church_sports_social_channels",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Church and sports are major social entry points",
+          "detail": "When newcomers ask where to meet people, church events and organized sports appear repeatedly alongside hobby groups and bars. This indicates visible religious and recreational social infrastructure without implying that everyone participates.",
+          "audience": "New residents looking for structured ways to meet people",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1rpotte/where_can_i_meet_people/",
+            "https://www.reddit.com/r/Midessa/comments/yjr9w1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dating_pool_friction",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Dating frustration recurs among young adults",
+          "detail": "Multiple local threads describe loneliness, difficulty getting dates and a socially interconnected or transient dating environment. Some explanations in these threads are sexist or inflammatory, so only the repeated experience of difficulty is retained.",
+          "audience": "Single adults prioritizing dating opportunities",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1q5evze/no_dating_and_loneliness_venting_and_advice_if/",
+            "https://www.reddit.com/r/Midessa/comments/1ayifot"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_neighborhood_dependent",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Safety perception varies sharply by neighborhood",
+          "detail": "Residents commonly reject the idea that all of Odessa or Midessa is dangerous while still warning about theft, certain neighborhoods and vehicle security. Northeast and north Odessa receive more favorable relocation commentary than West Odessa.",
+          "audience": "Families, renters and newcomers choosing neighborhoods",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1ruzh7b/safe_places_to_live/",
+            "https://www.reddit.com/r/Midessa/comments/1qs8bt8/moving_to_midlandodessa_area_in_couple_weeks/",
+            "https://www.reddit.com/r/Midessa/comments/184t6n9/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "schools_negative_reputation_mixed",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "School reputation is weak but not unanimous",
+          "detail": "Teachers and some parents criticize district administration, staffing, pay and school quality, while at least one long-term Odessa parent reports that the schools are fine and the children are happy. The contradiction is meaningful and argues against a single citywide school-quality claim.",
+          "audience": "Families with school-age children",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/xcaraq",
+            "https://www.reddit.com/r/Midessa/comments/f8d8ej"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "family_activities_exist",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Families can find recurring activities",
+          "detail": "Sports, museums, theaters, arcades, parks and organized events appear in recommendations to families. The signal is moderate because critics still describe the total menu as limited compared with larger cities.",
+          "audience": "Families with children",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/11k5e8a/",
+            "https://www.reddit.com/r/Midessa/comments/1v5ws1q/what_are_some_things_to_do_in_midland_and_odessa/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "routine_care_options_exist",
+          "dimension": "healthcare",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Routine healthcare exists locally",
+          "detail": "Residents recommend physicians in Odessa and discuss multiple local hospitals rather than describing a complete care desert. Satisfaction is provider-specific, and negative system-level comments are common enough that this is not a strong positive signal.",
+          "audience": "Residents needing primary, maternity or routine hospital care",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/u3qduh/",
+            "https://www.reddit.com/r/Midessa/comments/1jaowuo/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "complex_care_often_outbound",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Serious specialist care often prompts travel",
+          "detail": "In a recent gastroenterology discussion, multiple residents independently recommended Lubbock or Dallas for serious medical issues. Broader relocation threads also criticize local healthcare, making outbound complex care a stronger signal than dissatisfaction with any one doctor.",
+          "audience": "People expecting frequent specialty or complex medical care",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1uwgogk/gastroenterologist_recommendations/",
+            "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "conservative_public_climate",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Conservative politics are highly visible",
+          "detail": "Local discussions routinely characterize Midland-Odessa as conservative or anti-progressive, including both criticism and matter-of-fact descriptions. Visible left-leaning residents and organizing threads show that the civic environment is not politically uniform.",
+          "audience": "People for whom local political culture affects quality of life",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1vryr4e/no_offense_but_midland_and_odessa_look_exactly/",
+            "https://www.reddit.com/r/Midessa/comments/1k4k8ls",
+            "https://www.reddit.com/r/Midessa/comments/1j89wv9/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_network_small_present",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "LGBTQ community exists but is not a large scene",
+          "detail": "Local threads point to a Pride center, gay-friendly churches and recurring events in Odessa. Other LGBTQ movers describe the broader region as conservative, so the evidence supports a small but discoverable network rather than either invisibility or a large scene.",
+          "audience": "LGBTQ newcomers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/mus6tr/",
+            "https://www.reddit.com/r/Midessa/comments/yjr9w1/",
+            "https://www.reddit.com/r/Midessa/comments/1k4k8ls"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "racial_climate_conflicted",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Racial inclusion accounts conflict",
+          "detail": "A dedicated thread contains sharply conflicting first-hand descriptions: some residents report little overt racism, while a Black resident reports repeated explicit anti-Black harassment. Because the discourse also becomes inflammatory, the disagreement itself is the reliable finding.",
+          "audience": "People evaluating day-to-day inclusion",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1jabf3v"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_food_bright_spot",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 2,
+          "label": "Local food is a recurring bright spot",
+          "detail": "Positive threads name independent restaurants and long-term residents sometimes call family-owned food one of Odessa's better features. Other residents criticize the broader restaurant scene, so this is a narrow positive rather than evidence of deep culinary variety.",
+          "audience": "Residents who value local restaurants",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/nfg5kk",
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "east_north_growth",
+          "dimension": "growth",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Newer growth concentrates east and north",
+          "detail": "Relocation discussions repeatedly distinguish newer north and east Odessa development from older parts of town. Residents associate these growth areas with newer apartments, subdivisions and retail, although the exact pace requires structural verification.",
+          "audience": "Homebuyers and renters comparing neighborhoods",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+            "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+            "https://www.reddit.com/r/Midessa/comments/1qs8bt8/moving_to_midlandodessa_area_in_couple_weeks/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
+    },
+    {
+      "city": "Cheyenne",
+      "state": "WY",
+      "signals": [
+        {
+          "key": "wind_is_daily_life",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Persistent wind shapes daily life",
+          "detail": "Wind is one of the loudest and most consistent themes across relocation, exercise, winter and comparison threads. Residents disagree about whether outsiders exaggerate the danger, but not about wind being a recurring condition that affects driving, walking, property and comfort.",
+          "audience": "Anyone sensitive to wind, outdoor exercisers, drivers and homeowners.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/",
+            "https://www.reddit.com/r/FortCollins/comments/1lnpeu8/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_disrupts_regional_travel",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Winter makes highway access conditional",
+          "detail": "Residents repeatedly warn that I-80 and sometimes I-25 closures can turn an otherwise reasonable regional commute into an unreliable one. The stronger claim is about leaving town rather than Cheyenne itself routinely shutting down.",
+          "audience": "Regional commuters and households planning frequent Colorado or Laramie trips.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1dzh5sd/commuting_from_cheyenne_to_laramie/",
+            "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_is_mildish_and_dry",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Dry summers are easier than southern heat",
+          "detail": "Community accounts commonly describe summer as warm but dry, with low humidity and generally pleasant spring-through-fall stretches between weather events. Hot spells occur, so this is not a cool-summer claim.",
+          "audience": "People leaving humid or very hot climates.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/os496e/",
+            "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hail_is_property_cost",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Hail is a real property concern",
+          "detail": "Residents mention damaging hail often enough to treat it as more than a rare curiosity, including advice to inspect roofs and expect higher auto-insurance exposure. Frequency and dollar impact require independent insurance or climatological verification.",
+          "audience": "Homeowners and vehicle owners.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/os496e/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "outdoor_access_west_of_town",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Strong recreation within a short drive",
+          "detail": "Curt Gowdy, Vedauwoo and the Snowy Range recur as the standard hiking, mountain-biking, fishing and day-trip options. Residents distinguish this from having major trails or mountains directly inside the city.",
+          "audience": "Hikers, anglers, mountain bikers, campers and casual outdoor users.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1vbbda8/outdoor_culture_in_cheyenne/",
+            "https://www.reddit.com/r/Cheyenne/comments/1akibz1/where_do_people_in_cheyenne_go_hiking/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "city_is_car_convenient",
+          "dimension": "commute",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Most drives are short",
+          "detail": "Residents repeatedly characterize Cheyenne as a place where most destinations are roughly 10-15 minutes away and traffic rarely dominates daily life. That convenience is car-based rather than evidence of broad walkability.",
+          "audience": "Drivers and commuters.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1h4auez/",
+            "https://www.reddit.com/r/Cheyenne/comments/1rcnvi6/moving_to_the_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "amenities_basic_colorado_fills_gap",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Basic amenities locally; depth is south",
+          "detail": "Cheyenne is repeatedly described as having adequate everyday shopping and services but much less restaurant, nightlife and specialty-amenity depth than Fort Collins. Residents routinely use northern Colorado as the overflow market.",
+          "audience": "People used to large metros or broad retail and dining choice.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/",
+            "https://www.reddit.com/r/wyoming/comments/192kosw/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_is_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Nightlife has limited depth",
+          "detail": "Across multiple age groups, residents say evening choices repeat quickly and that Laramie or Fort Collins provide a deeper nightlife circuit. Local bars, breweries, concerts and downtown events prevent 'nothing to do' from being literally true.",
+          "audience": "Young adults, singles and nightlife-oriented residents.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1vgfw39/good_place_to_meet_people/",
+            "https://www.reddit.com/r/Cheyenne/comments/16lzrat/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_scene_skews_to_bars",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Bars and breweries anchor socializing",
+          "detail": "When newcomers ask where adults meet, bars and breweries are among the most common answers. Non-drinkers do receive alternatives - library programs, volunteering, gyms, book clubs and arts events - but those require more deliberate searching.",
+          "audience": "Non-drinkers and newcomers seeking social spaces.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/17wub87/",
+            "https://www.reddit.com/r/Cheyenne/comments/1hxzk7x/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "making_friends_requires_intent",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Newcomers must deliberately build a network",
+          "detail": "Several newcomers describe loneliness or difficulty meeting people outside work and bars. Other residents provide concrete clubs, activities and volunteering routes, so the evidence supports effort-dependent integration rather than social impossibility.",
+          "audience": "Newcomers without an existing workplace, church or family network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1hxzk7x/",
+            "https://www.reddit.com/r/Cheyenne/comments/1b52yi7/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "family_life_gets_better_reviews",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Family infrastructure gets stronger reviews",
+          "detail": "Parents and residents comparing Cheyenne with Laramie repeatedly cite parks, children's activities, housing choice and practical convenience as strengths. The discourse is noticeably more positive for settled families than for young singles.",
+          "audience": "Families with children.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+            "https://www.reddit.com/r/Cheyenne/comments/1rcnvi6/moving_to_the_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "schools_vary_but_often_positive",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "School reviews vary by triad",
+          "detail": "Parent accounts speak positively about several east and central elementary/secondary pathways while also emphasizing meaningful school-to-school differences. Claims about one side of town being categorically inferior are disputed by other parents.",
+          "audience": "Families choosing neighborhoods around school assignments.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+            "https://www.reddit.com/r/Cheyenne/comments/1cacezs/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "everyday_safety_feels_high",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Residents generally feel safe citywide",
+          "detail": "Neighborhood threads repeatedly tell newcomers there are few genuinely unsafe areas and that normal precautions are sufficient. Larger-metro transplants often describe Cheyenne's supposedly rougher areas as comparatively mild.",
+          "audience": "Anyone evaluating neighborhoods and daily safety.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1kk7nwr/",
+            "https://www.reddit.com/r/Cheyenne/comments/1mdnpv1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "property_crime_more_salient",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Property crime is the main safety caveat",
+          "detail": "When residents do identify a safety problem, they more often mention car break-ins, theft and localized drug-related activity than random violent crime. South and central Cheyenne appear in this discourse, but residents disagree strongly about how severe those differences really are.",
+          "audience": "Renters and buyers comparing neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1v4ynkg/planning_on_moving/",
+            "https://www.reddit.com/r/Cheyenne/comments/1rcnvi6/moving_to_the_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_relative_advantage_eroding",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Cheaper than neighbors, no longer cheap",
+          "detail": "Cheyenne is consistently described as easier on housing than Fort Collins and as having more usable inventory than Laramie. Newer accounts simultaneously describe steep appreciation and fear that the affordability gap is narrowing.",
+          "audience": "Renters and homebuyers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/",
+            "https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "frontier_days_distorts_short_term_housing",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Frontier Days disrupts short-term rentals",
+          "detail": "Temporary residents describe sharp furnished-rental distortions around Frontier Days, including landlords seeking exceptionally high event-week rates. The effect is highly seasonal rather than representative of the normal annual rental market.",
+          "audience": "Traveling workers and summer short-term renters.",
+          "geography_scope": "city",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1kk7nwr/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_wages_feel_thin_against_costs",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Lower wages can struggle with current rents",
+          "detail": "Several residents argue that ordinary local wages have not kept pace with housing and food costs, including a worker earning $17 per hour who struggled to secure stable housing. A contradictory low-cost studio account shows that individual circumstances vary substantially.",
+          "audience": "Workers in lower- and middle-wage local jobs.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1e1wirc/",
+            "https://www.reddit.com/r/wyoming/comments/1p07r5y/thinking_about_moving_to_cheyenne_what_should_i/",
+            "https://www.reddit.com/r/wyoming/comments/16n50ln/whats_a_good_wage_to_comfortably_afford_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "job_market_concentrated",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Best job depth clusters in a few sectors",
+          "detail": "Residents repeatedly point toward state government, healthcare, schools, retail and logistics while specialized professionals complain that desirable jobs outside those channels are thin. Some residents say networking matters heavily.",
+          "audience": "Specialized professionals moving without a job already secured.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/mtvmqy/",
+            "https://www.reddit.com/r/Cheyenne/comments/1etr44o/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "healthcare_quality_is_mixed",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Local healthcare reviews are genuinely mixed",
+          "detail": "Residents report both excellent and poor doctors, including successful local specialist diagnoses and surgery alongside complaints about physician turnover or difficulty finding good care. The contradiction itself is the useful finding.",
+          "audience": "Anyone establishing new routine care.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/194vqee/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "specialty_care_often_goes_south",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Complex care often uses Fort Collins or Denver",
+          "detail": "When neurological, complex or difficult-to-source specialist care comes up, residents frequently mention Fort Collins or Denver as the practical next tier. Cheyenne does provide some specialty care, so this is a depth limitation rather than an absence claim.",
+          "audience": "People who rely on recurring specialist or complex care.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/194vqee/",
+            "https://www.reddit.com/r/wyoming/comments/1q8be2o/autistic_resources_in_cheyenne/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "va_medical_center_is_local_asset",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Cheyenne has a full VA Medical Center",
+          "detail": "Veterans discussing relocation specifically cite Cheyenne's VA as an attraction, and the federal VA independently confirms a Cheyenne VA Medical Center and regional healthcare system at East Pershing Boulevard.",
+          "audience": "Veterans using VA healthcare.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1v4ynkg/planning_on_moving/",
+            "https://www.va.gov/cheyenne-health-care/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "front_range_access_reduces_isolation",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Fort Collins and Denver reduce isolation",
+          "detail": "Cheyenne's strongest regional-access advantage is its position near northern Colorado. Residents repeatedly contrast this with Casper's stand-alone geography and use Fort Collins or Denver for entertainment, shopping and specialist services.",
+          "audience": "People who want a small-city home base without complete metro isolation.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "growth_and_data_centers_raise_anxiety",
+          "dimension": "growth",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Data-center growth is changing expectations",
+          "detail": "Recent local threads repeatedly connect data-center construction and incoming temporary workers with concern about housing, utilities, infrastructure and Cheyenne's growth trajectory. Environmental and utility-impact claims are contested and require independent verification; the growth anxiety itself is well evidenced.",
+          "audience": "Long-term buyers and residents sensitive to rapid development.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/",
+            "https://www.reddit.com/r/Cheyenne/comments/1uyf33z/data_centers/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "political_climate_conservative_not_uniform",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Conservative climate with visible countercurrents",
+          "detail": "Residents generally describe Cheyenne as politically conservative, while a dedicated 2026 thread also produced multiple routes for a progressive newcomer to find compatible groups. This supports a conservative center of gravity without treating the city as politically homogeneous.",
+          "audience": "People for whom local political culture affects social fit.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1tuwu7w/finding_your_people_in_cheyenne_where_are_the/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "casper_tradeoff_identity_vs_connectivity",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Casper has identity; Cheyenne connectivity",
+          "detail": "In direct comparisons, Casper is described as more self-contained, locally distinctive and immediately tied to its own mountain and river recreation. Cheyenne is described as more connected to Colorado, more government-oriented and less geographically isolated.",
+          "audience": "People comparing Wyoming's two largest urban centers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1vi6zxf/",
+            "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
+    },
+    {
+      "city": "North Platte",
+      "state": "NE",
+      "signals": [
+        {
+          "key": "reputation_harsher_than_lived_safety",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 5,
+          "label": "Reputation is rougher than resident accounts",
+          "detail": "North Platte has a very negative statewide Reddit reputation for crime and roughness, but multiple residents and frequent visitors explicitly dispute the idea that ordinary life is unusually violent. The disagreement itself is the signal: reputation and lived everyday safety are not the same thing here.",
+          "audience": "Anyone evaluating everyday safety from online reputation.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1c67wec/serious_question_whats_wrong_with_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1s0oc8f/where_to_spend_the_night_in_western_ne_traveling/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "drug_problem_highly_visible_in_discourse",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Meth is a loud civic-reputation theme",
+          "detail": "Meth and other drugs recur across nearly every general North Platte discussion. Residents disagree sharply about how much an uninvolved person encounters in ordinary life, so this establishes high visibility in local reputation more securely than it establishes universal daily exposure.",
+          "audience": "Residents concerned about substance-related disorder or theft.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1c67wec/serious_question_whats_wrong_with_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "neighborhood_safety_evidence_thin",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Neighborhood safety claims are under-sampled",
+          "detail": "One older relocation thread warns against living north of the railroad tracks, while broader resident accounts describe ordinary safety more favorably. Targeted searching did not produce enough independent neighborhood-by-neighborhood testimony to validate a specific avoidance map.",
+          "audience": "Renters and buyers comparing specific neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "railroad_is_core_economic_anchor",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Railroad remains the defining job anchor",
+          "detail": "Residents and railroad workers consistently describe Union Pacific as a central local employer and wage setter. Good railroad work can make North Platte financially attractive, but dependence on one unusually important employer also narrows the economic base.",
+          "audience": "Tradespeople, railroad workers and job-seeking households.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "rail_dependency_creates_cycle_risk",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Rail dependence has downside exposure",
+          "detail": "Former residents connect periods of local weakness to railroad layoffs and describe rents and wages as unusually influenced by Union Pacific employment. Much of the clearest testimony is older, so the current degree of exposure needs structural verification.",
+          "audience": "Households whose income would not come from the railroad or hospital.",
+          "geography_scope": "regional",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.city-data.com/forum/nebraska/3199780-how-north-platte-these-days-kearney.html",
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "decent_job_changes_livability",
+          "dimension": "economy",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Livability depends heavily on job quality",
+          "detail": "A recurring resident formulation is that North Platte works reasonably well if a newcomer secures a halfway decent job. Commenters contrast railroad, healthcare and other stronger jobs with service-sector households that may feel housing costs more acutely.",
+          "audience": "Prospective movers comparing an actual job offer with local costs.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hospital_and_meatpacking_add_diversity",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Newer sectors soften railroad dependence",
+          "detail": "Residents discussing North Platte's stagnation specifically point to the hospital and meatpacking development as newer economic supports. The discourse still treats Union Pacific as unusually important, so this is diversification rather than a fully diversified economy.",
+          "audience": "Workers outside the railroad sector.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_supply_feels_tight",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Housing supply is a recurring complaint",
+          "detail": "Recent resident discussion explicitly calls North Platte's situation a housing crisis or says there is not enough housing for new residents. The city itself has continued planning for additional workforce and multifamily housing, which independently confirms that supply is an active planning issue.",
+          "audience": "New renters, first-time buyers and relocating workers.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.northplattene.gov/AgendaCenter/ViewFile/Minutes/_05282024-168"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_cost_value_is_mixed",
+          "dimension": "housing",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Cheap sticker prices do not end housing debate",
+          "detail": "Some relocation accounts call North Platte affordable, while others complain that rents reflect railroad-level wages or that older housing quality is disappointing. The community picture is therefore inexpensive relative to many outside markets but not uniformly good value for local earners.",
+          "audience": "Renters and buyers comparing North Platte with larger markets.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+            "https://www.city-data.com/forum/nebraska/3199780-how-north-platte-these-days-kearney.html"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_integration_can_be_slow",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Breaking into social circles can take work",
+          "detail": "Newcomers describe people as generally nice but sometimes reserved, with difficulty progressing beyond acquaintance. Several accounts say community-building is harder outside work, churches and bars.",
+          "audience": "Newcomers arriving without family or an established local network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "work_cohort_can_ease_friendmaking",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 2,
+          "label": "A built-in work cohort changes the experience",
+          "detail": "A 2026 Union Pacific newcomer who arrived alone reported that North Platte was not nearly as bad as expected and that he had already made good friends through training. This is one fresh account rather than a broad consensus, but it provides important counterevidence to the social-isolation theme.",
+          "audience": "Solo movers entering a large local employer.",
+          "geography_scope": "city",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_is_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Ordinary-week nightlife is limited",
+          "detail": "Relocation accounts explicitly describe little nightlife and few evening options outside drinking-oriented venues. Large annual events exist, but residents do not describe them as creating a deep ordinary-week social circuit.",
+          "audience": "Young adults and anyone who values varied evening entertainment.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "bars_and_churches_are_social_anchors",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Social life clusters around established anchors",
+          "detail": "One of the more specific newcomer-oriented accounts says socializing outside churches and bars can be difficult, and railroad discussion similarly portrays drinking as a common default activity. This does not mean all local social life is alcohol-centered, but alternatives appear thinner.",
+          "audience": "People seeking non-drinking adult social options.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "annual_events_add_civic_energy",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Big annual events punctuate a quiet baseline",
+          "detail": "Residents consistently mention NEBRASKAland Days, rodeos and concerts as real entertainment assets. These events add distinctive seasonal energy but should not be confused with deep year-round nightlife.",
+          "audience": "Residents who enjoy community festivals, rodeo and country music.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.visitnorthplatte.com/events/annual-events-festivals/nebraska-land-days/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "camping_fishing_and_water_are_close",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Fishing and camping are everyday-region assets",
+          "detail": "Multiple independent accounts mention Lake Maloney, Buffalo Bill SRA, reservoirs, fishing, hunting and camping as some of the strongest reasons to enjoy the area. This is substantially better supported than claims about formal trail or public-land access.",
+          "audience": "Anglers, hunters, campers and lake users.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "scenery_is_genuinely_mixed",
+          "dimension": "outdoors",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Open-country scenery divides opinion",
+          "detail": "Some residents and visitors praise the river, Sandhills access, open skies and western-Nebraska landscapes, while others find the region visually flat or bleak. A SameGrassButGreener commenter who visits both North Platte and Scottsbluff preferred Scottsbluff specifically for its natural setting.",
+          "audience": "People for whom landscape quality materially affects relocation preference.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1hgokfq/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "regional_service_hub_role",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "North Platte serves a much larger hinterland",
+          "detail": "Residents of western and southwest Nebraska discuss North Platte as a place people travel to for employment, shopping, healthcare and community-college services. It has more functional depth than many surrounding towns even while remaining isolated from a major metro.",
+          "audience": "People comparing North Platte with smaller western Nebraska communities.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "large_metro_access_is_a_trip",
+          "dimension": "access",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Major-city access requires planning",
+          "detail": "Residents regularly describe Denver, Omaha and other larger service centers in multi-hour terms. North Platte is a hub for its own region but does not function as an easy satellite of a major metropolitan area.",
+          "audience": "People who frequently need big-city shopping, entertainment or specialist services.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/UnionPacific/comments/1gvktwk/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "major_airport_access_is_indirect",
+          "dimension": "access",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Air travel usually involves a connection",
+          "detail": "Community accounts identify major-airport access as a weakness because Denver and larger airports are far by road. North Platte does have local commercial air service, so the limitation is access to a hub rather than absence of passenger aviation.",
+          "audience": "Frequent flyers and households with distant family.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.northplatteairport.com/flight-information/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "kearney_is_preferred_amenity_comparison",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Kearney usually wins the in-state comparison",
+          "detail": "When residents directly compare the two, Kearney is commonly favored for restaurants, growth, social energy and general desirability. North Platte retains stronger railroad specialization and western-region positioning.",
+          "audience": "People choosing among Nebraska's smaller regional centers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.reddit.com/r/Nebraska/comments/vhl8oh/",
+            "https://www.reddit.com/r/Nebraska/comments/1s0oc8f/where_to_spend_the_night_in_western_ne_traveling/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_is_cold_and_relatively_dry",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Cold, dry High Plains winter",
+          "detail": "Regional resident discussion describes southwest and western Nebraska winters as cold and comparatively dry, more like eastern Colorado or Wyoming than wetter eastern-Midwest winters. Snow does occur and blizzard conditions can matter even if persistent deep snow is not portrayed as the defining everyday condition.",
+          "audience": "People relocating from mild-winter climates.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/Nebraska/comments/wv9bwp/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_is_hot_but_drier_than_east",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Hot summers with western-Nebraska dryness",
+          "detail": "Regional accounts consistently call summers hot but generally drier than eastern Nebraska. North Platte-specific climate discussion does not portray humidity as absent, only as less defining than farther east.",
+          "audience": "People sensitive to summer heat or humidity.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/Nebraska/comments/1gw1wod/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "storms_are_variable_and_salient",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Storms are a noticeable High Plains feature",
+          "detail": "North Platte weather discussion emphasizes highly variable thunderstorm behavior and rapid changes, while broader regional accounts mention blizzards and severe-weather awareness. This supports meaningful storm exposure, but community discussion is less precise about frequency than official climate records.",
+          "audience": "Homeowners, drivers and weather-sensitive residents.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1dptskc/north_platte_weather/",
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "great_plains_health_has_unusual_depth",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Regional hospital punches above city size",
+          "detail": "Community accounts repeatedly identify the hospital as a local strength, and Great Plains Health currently documents a 116-bed regional referral center with primary care and a broad specialty roster. This establishes substantial local capacity but not wait times or ease of securing every specialist.",
+          "audience": "Households prioritizing routine and specialist medical access.",
+          "geography_scope": "regional",
+          "evidence_kind": "user_provided_facility_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.gphealth.org/about-us/",
+            "https://www.gphealth.org/clinics/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "va_outpatient_clinic_is_local",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Local VA outpatient access exists",
+          "detail": "The VA Nebraska-Western Iowa system lists a North Platte VA Clinic, while the nearest named VA medical center in the same system is Grand Island and even that facility lacks an emergency room or urgent care. North Platte therefore has strong local outpatient convenience but not local full VA hospital capability.",
+          "audience": "Veterans using VA healthcare.",
+          "geography_scope": "regional",
+          "evidence_kind": "user_provided_facility_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.va.gov/nebraska-western-iowa-health-care/operating-status/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "school_quality_is_conflicted_and_thin",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "School sentiment cannot support a score",
+          "detail": "One former student says the school system was not strong when they attended and would want evidence of improvement before raising children there, while other commenters characterize North Platte as a good family town. Targeted searching did not produce enough current parent-level discussion to resolve the disagreement.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_day_to_day_climate_is_mixed",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "LGBTQ+ climate appears mixed, not settled",
+          "detail": "A visibly LGBTQ+ resident working in area schools described occasional social harassment and ideological pushback but said physical danger was generally not the principal concern. This is valuable first-hand evidence but too thin for a high-confidence citywide judgment.",
+          "audience": "LGBTQ+ newcomers evaluating everyday social climate.",
+          "geography_scope": "city",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "political_climate_read_as_conservative",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Residents contrast NP as more conservative",
+          "detail": "A former North Platte resident directly contrasts Kearney as more progressive and North Platte as strongly conservative. Broader western-Nebraska discussion supports a conservative regional context, but city-specific political discussion is not deep enough for very high confidence.",
+          "audience": "People for whom local civic or political climate affects fit.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.reddit.com/r/Nebraska/comments/1i9i0ry/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "rail_western_identity_is_distinctive",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Railroad and western history shape identity",
+          "detail": "Residents repeatedly invoke rail workers, Buffalo Bill, ranching, rodeo, NEBRASKAland Days and western-Nebraska culture when describing what distinguishes North Platte. The identity is substantially more specific than a generic Interstate service town.",
+          "audience": "People who value visible local history and place identity.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
+    },
+    {
+      "city": "Grand Junction",
+      "state": "CO",
+      "signals": [
+        {
+          "key": "outdoor_access_immediate",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Major outdoor access starts at town",
+          "detail": "Across relocation and resident threads, immediate mountain biking, hiking, river use and nearby skiing are the city's most consistent positive theme. The notable point is everyday proximity rather than merely being somewhere in Colorado.",
+          "audience": "Hikers, cyclists, skiers, paddlers and outdoor-oriented households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/",
+            "https://www.reddit.com/r/grandjunction/comments/1l9qh4y/gj_bucket_list/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "scenery_and_daytrip_range",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Scenery and weekend range are major assets",
+          "detail": "Residents emphasize the Monument, Grand Mesa, Utah, river corridors and a large set of destinations within roughly two to four hours. The community treats the surrounding geography as a reason to stay.",
+          "audience": "People who value scenery and frequent regional road trips.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1cdrdof",
+            "https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "public_land_everyday",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Public-land recreation is part of normal life",
+          "detail": "Community recommendations repeatedly revolve around dispersed hiking, biking, river corridors and canyon country rather than a handful of city parks. This is a regional claim because many signature sites are outside municipal boundaries.",
+          "audience": "Public-land users, mountain bikers, hikers and campers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1l9qh4y/gj_bucket_list/",
+            "https://www.reddit.com/r/grandjunction/comments/mxy1wi"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_heat_limits_daytime",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Summer heat reshapes daytime activity",
+          "detail": "Dedicated summer discussions describe midsummer afternoons as hot enough to push exercise to dawn, air-conditioned spaces or higher elevations. Some residents stress that individual years vary, so this should not be read as Phoenix-level heat.",
+          "audience": "Heat-sensitive residents and people planning summer outdoor recreation.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1uvsxkb/first_summer_this_heat_is_brutal_help/",
+            "https://www.reddit.com/r/howislivingthere/comments/1prgvwu/what_is_life_like_in_grand_junction_co/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dry_heat_low_humidity",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Heat is distinctly dry rather than muggy",
+          "detail": "Transplants from humid climates repeatedly distinguish Grand Junction's dry air from eastern or Gulf Coast summers. Evaporative cooling is common enough to generate its own local discussions.",
+          "audience": "People comparing Grand Junction with humid climates.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/107yoin",
+            "https://www.reddit.com/r/grandjunction/comments/1s6k1qk/potential_transplant_advice_needed/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_valley_milder",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Valley winters are milder than Colorado image",
+          "detail": "Resident comparisons emphasize sunny winters and substantially less persistent snow than mountain communities. Snow and icy roads still occur, particularly when traveling east into canyon and mountain terrain.",
+          "audience": "Residents concerned about winter severity.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/relocating/comments/1kx0u6z/considering_a_move_from_boston_suburbs_to/",
+            "https://www.reddit.com/r/grandjunction/comments/1gk5ygj"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "severe_storms_not_defining",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Severe storms are memorable, not defining",
+          "detail": "A dedicated 2024 storm thread shows sharply localized wind and rain impacts, but long-time residents treated the episode as unusual enough to be noteworthy. This is thinner evidence than the heat signal.",
+          "audience": "Homeowners concerned about hail, wind and violent storms.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1dq6tga"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "pollen_dust_allergy_issue",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 2,
+          "label": "Spring pollen and dust bother some newcomers",
+          "detail": "A targeted allergy thread contains multiple transplant accounts reporting new or intensified symptoms attributed to dry air, pollen and windblown dust. This is clearly real for some residents but not sampled broadly enough to call universal.",
+          "audience": "People with seasonal allergies or respiratory sensitivities.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1cvpg8m"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "short_local_driving",
+          "dimension": "commute",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Routine trips are short and predictable",
+          "detail": "Residents repeatedly contrast local driving with Denver and describe most Grand Valley destinations as manageable within short drives. Congestion complaints exist but do not resemble major-metro commute discourse.",
+          "audience": "Commuters and households tired of Front Range traffic.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/178q2en/thinking_of_a_move_to_gj_thoughts/",
+            "https://www.reddit.com/r/grandjunction/comments/ec12r8"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_default_outside_core",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "A car remains the default outside the core",
+          "detail": "Residents explicitly describe the city as difficult to navigate without a car unless work and housing align with downtown or CMU. Short drives reduce the burden but do not eliminate dependence.",
+          "audience": "Non-drivers and households hoping to reduce car ownership.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "transit_service_limited",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Bus service exists but has limited span",
+          "detail": "Grand Valley Transit runs multiple fixed routes, but current schedules end around 8 p.m. and there is no Sunday service. That provides a real fallback network without making the region transit-oriented.",
+          "audience": "Car-free residents, older adults and households sharing vehicles.",
+          "geography_scope": "regional",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://gvt.mesacounty.us/routes-schedules"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "downtown_walkable_cluster",
+          "dimension": "mobility",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Downtown forms a real walkable cluster",
+          "detail": "Residents and visitors consistently describe Main Street and adjacent downtown blocks as a place where restaurants, bars and shops can be reached on foot after parking once or staying centrally. This does not describe most of the city.",
+          "audience": "People considering central neighborhoods or downtown living.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1czzy5w",
+            "https://www.reddit.com/r/grandjunction/comments/1od88tw/best_restaurants_downtown/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "urban_amenity_depth_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "City amenities exist but choices repeat",
+          "detail": "Relocation threads repeatedly call shopping and dining marginal compared with larger Colorado cities. The counterevidence is a viable downtown restaurant scene, so the problem is depth and variety rather than absence.",
+          "audience": "People who prioritize restaurant, shopping and cultural variety.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1s6k1qk/potential_transplant_advice_needed/",
+            "https://www.reddit.com/r/grandjunction/comments/1od88tw/best_restaurants_downtown/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_daytime_town",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Nightlife is shallow; daytime recreation dominates",
+          "detail": "Dedicated nightlife discussions call Grand Junction a daytime adventure town and say late options skew heavily toward bars. More recent threads show concerts, breweries and downtown events, so nightlife is limited rather than absent.",
+          "audience": "Young adults and people who prioritize late-night entertainment.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/udprzr/nightlife_in_grand_junction/",
+            "https://www.reddit.com/r/grandjunction/comments/1rsc1x0/saturday_night_fun_in_gj_for_out_of_towners/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_hobby_networks",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Friend-making works through recurring hobbies",
+          "detail": "Advice to newcomers repeatedly points toward climbing, river groups, trivia, bike nights, theater, gardens and open mics. This suggests social integration is possible but benefits from deliberate participation.",
+          "audience": "Newcomers trying to build a social network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1s99ust/how_to_meet_people_here/",
+            "https://www.reddit.com/r/grandjunction/comments/1sxqfw9/best_quick_food_options/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dating_pool_small",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Dating pool is functional but shallow",
+          "detail": "Young-adult accounts conflict: some report reasonably easy in-person socializing while others identify dating and friendship as the main weakness of moving to the area. The consistent element is limited population depth.",
+          "audience": "Single adults, especially newcomers in their 20s and 30s.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/10ruk2o",
+            "https://www.reddit.com/r/grandjunction/comments/1is73z4/recommendations_for_a_single_male_trying_to_make/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_wage_squeeze",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Housing costs have outrun local wages",
+          "detail": "Recent community discussion describes a severe gap between ordinary local pay and current rents or purchase prices. This is one of the loudest and most consistent relocation cautions in the 2025-26 sample.",
+          "audience": "Local-wage earners, renters and first-time buyers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/",
+            "https://www.reddit.com/r/howislivingthere/comments/1nbvf24/what_is_life_like_round_these_parts_grand/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "rental_search_friction",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Rental searches can be frustrating",
+          "detail": "Recent arrivals describe slow landlord responses and difficulty securing appropriately priced units before moving. The evidence indicates friction rather than proof that every rental segment is chronically unavailable.",
+          "audience": "New renters arriving without local contacts.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1kqqptg/moving_to_grand_junction_and_trying_to_find_a/",
+            "https://www.reddit.com/r/grandjunction/comments/1udq8t6/property_management_companies_vs_private_landlords/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "job_market_shallow",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Professional job depth is limited",
+          "detail": "Longtime and recent accounts repeatedly identify limited well-paid jobs and fewer equivalent employers as a weakness. Healthcare is an important exception and should not be generalized to the entire economy.",
+          "audience": "Professionals who need multiple employers in the same field.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1cdrdof",
+            "https://www.reddit.com/r/grandjunction/comments/1fepqgf"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "healthcare_regional_capacity",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Regional hospital capacity is unusually deep",
+          "detail": "Healthcare workers describe several hospitals and St. Mary's as a high-acuity referral center for a very large surrounding area. These operational claims are community accounts and should be checked against facility records before database use as hard facts.",
+          "audience": "People who value having substantial hospital care locally.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1fepqgf"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "healthcare_provider_waits",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Establishing providers can take planning",
+          "detail": "Residents report practices declining new patients, waits for appointments and the need to arrange specialists far in advance. One medically complex transplant said local specialist capacity was ultimately sufficient but began arranging care 18 months ahead.",
+          "audience": "People needing ongoing primary or specialist care.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1k3ddy0",
+            "https://www.reddit.com/r/grandjunction/comments/1lek278"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hospital_staffing_concern",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Recent St. Mary's staffing complaints are serious",
+          "detail": "A 2026 thread includes employees alleging staffing shortages, pay changes and increased medical errors at St. Mary's. Because these are consequential allegations from community accounts rather than audited quality data, they require independent verification.",
+          "audience": "Patients and healthcare workers evaluating local hospitals.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1t58v29/st_mary_hospital_increase_medical_errors/",
+            "https://www.reddit.com/r/IntermountainHealth/comments/1thixwa/st_mary_grand_junction_co_pay_cuts_medical_errors/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "va_hospital_present",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Veterans describe a local VA hospital",
+          "detail": "Veteran-oriented local threads repeatedly identify an actual VA hospital in Grand Junction rather than only a small outpatient clinic. Facility scope is independently checked in Block 4.",
+          "audience": "Veterans using VA healthcare.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/x17qpn",
+            "https://www.reddit.com/r/grandjunction/comments/mxy1wi"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_mostly_area_specific",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Safety reputation varies sharply by neighborhood",
+          "detail": "Residents disagree strongly over the city's crime reputation. Multiple people describe ordinary life as safe and compare Grand Junction favorably with larger metros, while particular streets and eastern areas receive recurring cautions.",
+          "audience": "Renters and buyers evaluating neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/15grd7h/crime_in_grand_junction/",
+            "https://www.reddit.com/r/grandjunction/comments/1o5268l/affordable_safe_areas_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "substance_homelessness_visible_contested",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Visible homelessness and addiction are debated",
+          "detail": "Some residents identify visible homelessness, drug use and related theft as noticeable local problems; others say the issue is substantially less severe than in larger metros. The discourse includes inflammatory language, so this signal should not be generalized to affected people or neighborhoods.",
+          "audience": "Residents sensitive to visible street disorder or property crime.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/15grd7h/crime_in_grand_junction/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "schools_mixed_under_sampled",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "School experiences vary; evidence is thin",
+          "detail": "The dedicated family search produced some positive accounts of clubs and generally acceptable experiences alongside warnings about particular campuses. The sample is too small to convert those comments into a citywide school-quality judgment.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1oytaug/what_are_your_thoughts_on_area_schools/",
+            "https://www.reddit.com/r/grandjunction/comments/ec12r8"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "political_climate_conservative_mixed",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Conservative-leaning, but not socially uniform",
+          "detail": "Residents commonly describe Grand Junction as more conservative than Fort Collins or Denver, while others distinguish the city from the more conservative surrounding county and emphasize internal variation. Because political threads use inflammatory language, the evidence supports a directional climate only.",
+          "audience": "People for whom local political climate affects relocation fit.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1k7t9ym/thinking_of_moving_to_gj/",
+            "https://www.reddit.com/r/GrandJunctionCO/comments/1ogekiu/moving_to_grand_junction/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_scene_present_small",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Queer social scene exists but is small",
+          "detail": "Recent LGBTQ discussion identifies a dedicated bar, drag nights and other queer-positive gathering places while explicitly contrasting the scale with Denver. This establishes presence more strongly than broad social acceptance.",
+          "audience": "LGBTQ residents seeking visible community and social venues.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1vnn5v4/trying_to_meet_other_gay_men_gj/",
+            "https://www.reddit.com/r/grandjunction/comments/1l9qh4y/gj_bucket_list/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "regional_air_travel_connection",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Local airport helps, but most trips connect",
+          "detail": "Residents disagree over whether Grand Junction is a difficult travel base: some emphasize the extra connecting segment, while frequent travelers note multiple daily Denver flights and improving service. The airport materially reduces isolation without functioning as a major hub.",
+          "audience": "Frequent flyers and remote workers who travel for work.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1tg6j7j/looking_for_a_home_base_would_love_any_feedback/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nearby_towns_split_roles",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Fruita and Palisade broaden the lifestyle menu",
+          "detail": "Residents frequently treat Grand Junction, Fruita and Palisade as a connected but differentiated valley: Grand Junction for services and downtown, Fruita for biking and smaller-town life, and Palisade for wineries, orchards and events. Clifton carries a rougher reputation that other residents contest.",
+          "audience": "Relocators choosing among Grand Valley communities.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1czzy5w",
+            "https://www.reddit.com/r/grandjunction/comments/qs4uta"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_pressure_official",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "City records confirm housing affordability pressure",
+          "detail": "Grand Junction's own housing reporting identifies rising prices, stagnant wages and a mismatch between housing supply and local incomes; the 2025 report lists a $1,500 median rent and $400,000 median home price. This independently supports the community wage-housing complaint.",
+          "audience": "Renters, buyers and local-wage households.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.gjcity.org/DocumentCenter/View/16099/2025-Unhoused-Survey-Report-?bidId="
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "growth_pressure_official",
+          "dimension": "growth",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "City is actively planning for continued growth",
+          "detail": "City planning and housing documents treat population growth, housing production and transportation capacity as active long-range issues rather than hypothetical future concerns. Growth is visible but the evidence does not support describing Grand Junction as a boomtown on the scale of the fastest Sun Belt metros.",
+          "audience": "Residents concerned about development and changing city scale.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.gjcity.org/359/Long-Range-Planning",
+            "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1167128/File/document"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }

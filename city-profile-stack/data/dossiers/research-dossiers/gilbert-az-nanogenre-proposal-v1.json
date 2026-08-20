@@ -1,0 +1,177 @@
+{
+  "city": "Gilbert",
+  "state": "AZ",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Gilbert, Arizona — Nanogenre Classification Proposal v1",
+  "summary": "Second genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process (after Victorville): official/structural evidence (Census QuickFacts, NOAA NCEI normals, Arizona DPS crime statistics, Gilbert planning and engineering documents) reconciled against the same research pass's community-sentiment evidence into a multi-label broad/micro/nano proposal, with explicit measured-vs-experienced divergences on amenity abundance vs. cultural texture and on safety reputation vs. recorded crime.",
+  "narrative_file": "gilbert-az-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Companion to gilbert-az.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). That dossier is community-sentiment-only by design; this one adds official_statistic and institutional evidence classes plus the genre-classification pass. Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_28_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "az_dps_crime_pdf_transportation_master_plan_pdf_and_noaa_ncei_normals_pdf_all_resolved_directly_as_real_documents",
+      "all_five_gilbertaz_gov_planning_documents_loaded_in_a_real_browser_the_site_403s_scripted_clients",
+      "eight_question_reconciliation_table_with_divergences_held_not_averaged",
+      "full_multi_label_genre_classification_broad_micro_nano_with_confidence_per_assignment",
+      "zero_dead_links_in_this_pass"
+    ],
+    "limitations": [
+      "census_quickfacts_was_in_a_maintenance_cycle_on_2026_08_20_so_cited_figures_were_corroborated_via_census_reporter_rather_than_re_read_from_the_cited_pages",
+      "gilbertaz_gov_pdf_contents_were_confirmed_to_load_but_specific_figures_were_not_extracted_and_re_verified_verbatim",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "az_dps_portal_cautions_that_legacy_summary_and_nibrs_reporting_differences_affect_exact_crime_rate_interpretation"
+    ],
+    "gaps": [
+      "second_independent_city_needed_before_any_nano_or_micro_label_can_enter_genre_ontology_ts_per_NANOGENRE_TAXONOMY_md_section_3_and_section_12_decision_1",
+      "gilbert_specific_healthcare_navigability_and_specialist_wait_experience_under_established",
+      "contemporary_acs_transportation_extraction_for_precise_transit_mode_share",
+      "neighborhood_level_gilbert_vs_mesa_comparison_pass"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/gilberttownarizona/POP815223",
+    "https://www.census.gov/quickfacts/fact/table/gilberttownarizona/INT100223",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&startDate=0001-01-01&endDate=9996-12-31&stations=USW00023183&format=pdf",
+    "https://azcrimestatistics.azdps.gov/tops/report/crime-overview/gilbert-pd/2024/pdf",
+    "https://alex.gilbertaz.gov/wp-content/uploads/2021/04/Gilbert-Transportation-Master-Plan-Results.pdf",
+    "https://www.gilbertaz.gov/home/showpublisheddocument/31044/636710705294500000",
+    "https://www.gilbertaz.gov/home/showpublisheddocument/32414/636880935145830000",
+    "https://www.gilbertaz.gov/home/showpublisheddocument/35989/637184835803930000",
+    "https://www.gilbertaz.gov/home/showpublisheddocument/41151/637607567171130000",
+    "https://www.gilbertaz.gov/home/showpublisheddocument/54174/639141026967870000",
+    "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+    "https://www.reddit.com/r/Gilbert/comments/uj4rct/downtown_gilbert_shops/",
+    "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/",
+    "https://www.reddit.com/r/Gilbert/comments/rmibs5/moving/",
+    "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+    "https://www.reddit.com/r/Gilbert/comments/1ihlv5m/gilbert_schools_compared_to_other_states/",
+    "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/",
+    "https://www.reddit.com/r/Gilbert/comments/1lq83ig/moving_to_gilbert/",
+    "https://www.reddit.com/r/Gilbert/comments/zi9dzc/crime/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Sunbelt Growth Suburb",
+        "Family-Oriented Metro Suburb"
+      ],
+      "micro_primary": "High-Income Family-Oriented Growth Suburb",
+      "micro_secondary": [
+        "Mature Boomburb Near Buildout",
+        "Restaurant-Core Car-Dependent Suburb"
+      ],
+      "nano_primary": {
+        "label": "Heat-Managed Car-Dependent Family Suburb with a Compact Restaurant Core",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "High-Cost Former-Bargain Boomburb Near Buildout",
+          "confidence": "high"
+        },
+        {
+          "label": "Safe-Feeling Family Suburb with Thin Urban Nightlife",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "Gilbert is a large, high-income East Valley family suburb where daily life runs by car and air conditioning, the Heritage District supplies a compact restaurant-and-evening node, and deeper urbanity is traded for parks, schools, safety and somewhat better housing value than Scottsdale.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Gilbert is the only independently-researched city carrying these exact labels; NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities before a nano genre is admitted (5 for broad, 3 for micro). Cross-city note for the next taxonomy review: Gilbert's proposal shares no vocabulary with the Casper or Victorville proposals — evidence the classification method discriminates between city types rather than reproducing one template. The 'Sunbelt Growth Suburb' and 'Family-Oriented Metro Suburb' broad candidates await future suburban dossiers for recurrence."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Gilbert still a small town, or is it functionally a large suburb?",
+        "measured_evidence": "The Census Bureau counted 267,918 residents in 2020 and estimated 288,790 by July 2024, a 7.8% increase from the 2020 estimate base. Gilbert's General Plan anticipates eventual buildout around 330,000. Sources: https://www.census.gov/quickfacts/fact/table/gilberttownarizona/POP815223 and https://www.gilbertaz.gov/home/showpublisheddocument/32414/636880935145830000",
+        "experienced_evidence": "Residents overwhelmingly describe Gilbert as suburbia within the Phoenix East Valley rather than a self-contained small town, even when they value its community feel. Source: https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+        "resulting_trait": "Large metropolitan suburb with inherited small-town branding: the municipal scale is now substantial, but neighborhood life remains deliberately suburban rather than urban."
+      },
+      {
+        "question": "Does the 'boring suburb' complaint survive measured evidence about amenities?",
+        "measured_evidence": "Gilbert's Heritage District planning document explicitly warned that the town could be perceived as subdivisions and shopping centers or 'any town USA' without a stronger sense of place. The Town also documents roughly 605 developed park acres in its parks inventory. Sources: https://www.gilbertaz.gov/home/showpublisheddocument/31044/636710705294500000 and https://www.gilbertaz.gov/home/showpublisheddocument/35989/637184835803930000",
+        "experienced_evidence": "Residents simultaneously describe downtown Gilbert as a useful restaurant and happy-hour destination and criticize the wider city as repetitive, chain-heavy and culturally thin. Sources: https://www.reddit.com/r/Gilbert/comments/uj4rct/downtown_gilbert_shops/ and https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+        "resulting_trait": "Amenity-rich but texture-thin suburb: Gilbert has substantial parks, retail and dining, yet those measurable amenities do not erase the experienced distinction between functional abundance and urban cultural depth."
+      },
+      {
+        "question": "Is the summer heat merely a climate statistic, or does it actually shape daily behavior?",
+        "measured_evidence": "NOAA 1991-2020 normals for Phoenix Sky Harbor, the principal regional climate station, show a normal July daily maximum of 106.5°F, June 104.2°F and August 105.1°F, with about 111 days per year reaching at least 100°F. Source: https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&startDate=0001-01-01&endDate=9996-12-31&stations=USW00023183&format=pdf",
+        "experienced_evidence": "Gilbert and Phoenix-area residents describe summer as a period when outdoor activity shifts to pools, early mornings, evenings, air-conditioned spaces or trips north, while disagreeing mainly about whether the constrained season lasts four months or closer to half the year. Sources: https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/ and https://www.reddit.com/r/Gilbert/comments/rmibs5/moving/",
+        "resulting_trait": "Heat-managed lifestyle: the measured extremity and the resident behavior agree that cooling infrastructure and time-of-day adaptation are structural parts of life."
+      },
+      {
+        "question": "Is Gilbert truly car-dependent if it has a walkable downtown and trails?",
+        "measured_evidence": "A Gilbert Transportation Master Plan survey reported 57% of respondents driving alone daily. Town engineering standards go further, instructing traffic studies that the combined transit, cycling and walking modal split may generally be assumed to be zero because those modes have such low shares, absent special circumstances. Sources: https://alex.gilbertaz.gov/wp-content/uploads/2021/04/Gilbert-Transportation-Master-Plan-Results.pdf and https://www.gilbertaz.gov/home/showpublisheddocument/41151/637607567171130000",
+        "experienced_evidence": "Residents describe most amenities and neighboring cities in drive-time terms while identifying downtown Gilbert as a localized place where walking among restaurants and events works well. Source: https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+        "resulting_trait": "Car-dependent suburb with walkable islands: the Heritage District and trail system are meaningful exceptions inside an automobile-dominant urban form."
+      },
+      {
+        "question": "Is the family-first reputation measurable or just relocation-board cliché?",
+        "measured_evidence": "Census QuickFacts reports 28.1% of Gilbert residents under age 18, 2.90 persons per household and a 73.1% owner-occupied housing rate. Gilbert's parks planning inventory documents about 605 developed park acres. Sources: https://www.census.gov/quickfacts/fact/table/gilberttownarizona/POP815223 and https://www.gilbertaz.gov/home/showpublisheddocument/35989/637184835803930000",
+        "experienced_evidence": "Family orientation is one of the most repetitive themes in the community corpus: children playing in neighborhoods, school choice, parks, sports and the repeated claim that Gilbert becomes substantially more attractive once children enter the comparison. Sources: https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/ and https://www.reddit.com/r/Gilbert/comments/1ihlv5m/gilbert_schools_compared_to_other_states/",
+        "resulting_trait": "Structurally and experientially family-anchored suburb: the community stereotype is strongly reinforced rather than contradicted by the household and park profile."
+      },
+      {
+        "question": "Is Gilbert still affordable, or is it only cheaper than Scottsdale?",
+        "measured_evidence": "Census QuickFacts reports a 2020-2024 median owner-occupied home value of $575,100 and median gross rent of $2,110, alongside a high owner-occupancy rate. Source: https://www.census.gov/quickfacts/fact/table/gilberttownarizona/INT100223",
+        "experienced_evidence": "Residents describe a sharp loss of the pre-2020 suburban bargain and real difficulty for younger buyers, while simultaneously noting that comparable housing remains substantially more attainable than in Scottsdale or North Scottsdale. Sources: https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/ and https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+        "resulting_trait": "Relative-value rather than affordable suburb: Gilbert can be the cheaper choice within an expensive comparison set while still being costly for first-time local buyers."
+      },
+      {
+        "question": "Does Gilbert contain enough employment to function as a true jobs center?",
+        "measured_evidence": "Gilbert's 2026 Housing Needs Assessment reports an estimated 2025 jobs-to-population ratio of 0.36 versus 0.51 for Maricopa County, while forecasting the Gilbert ratio to rise to 0.44 by 2040 as remaining land shifts toward employment uses. Source: https://www.gilbertaz.gov/home/showpublisheddocument/54174/639141026967870000",
+        "experienced_evidence": "Residents commonly frame employment opportunity in Valley-wide rather than Gilbert-only terms and treat commuting among East Valley cities as ordinary. Source: https://www.reddit.com/r/Gilbert/comments/1lq83ig/moving_to_gilbert/",
+        "resulting_trait": "Residentially weighted employment suburb embedded in a much deeper regional labor market: Gilbert is gaining jobs but still relies heavily on metropolitan connectivity."
+      },
+      {
+        "question": "How should the strong safety reputation be reconciled with local crime stories and the Gilbert Goons controversy?",
+        "measured_evidence": "Arizona DPS reported 5,580 offenses for Gilbert PD in 2024 against a reported population of 277,527, a crime rate of 2,010.62 per 100,000; the portal cautions that legacy-summary and NIBRS reporting differences can affect exact interpretation. Source: https://azcrimestatistics.azdps.gov/tops/report/crime-overview/gilbert-pd/2024/pdf",
+        "experienced_evidence": "Many residents describe very low everyday safety anxiety, while others document theft and repeatedly invoke the Gilbert Goons case as evidence that the city's safe image can hide serious incidents. Sources: https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/ and https://www.reddit.com/r/Gilbert/comments/zi9dzc/crime/",
+        "resulting_trait": "High perceived neighborhood safety with a punctured perfection narrative: safety remains a genuine relocation asset, but residents themselves resist equating that reputation with absence of crime or institutional failure."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "amenity_abundance_vs_cultural_texture",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Gilbert documents roughly 605 developed park acres, extensive retail and a planned Heritage District dining node — measurable amenity abundance.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents recurrently describe the city as bland, chain-heavy and repetitive, a critique Gilbert's own Heritage District planning anticipated as the 'any town USA' risk.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Amenity quantity (availability-shaped evidence) and cultural texture (experience-shaped evidence) measure different things; both poles hold. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "safety_reputation_vs_recorded_crime",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Arizona DPS recorded 5,580 offenses for Gilbert PD in 2024 (2,010.62 per 100,000) — a real, nonzero crime volume.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe unusually low everyday safety anxiety — children out after dark, bikes left outside — while the Gilbert Goons controversy punctures the perfection narrative without reversing the overall perception.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Recorded offense counts and day-to-day safety perception measure different things; both poles hold. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-20",
+      "method": "All 28 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles; the AZ DPS crime PDF, Transportation Master Plan PDF and NOAA NCEI normals PDF resolved directly as real documents; all five gilbertaz.gov planning documents loaded in a real browser (the site 403s scripted clients); Census QuickFacts was in a maintenance cycle, so population and household figures were corroborated via Census Reporter (288,797 vs the cited 288,790; 2.9 persons per household) with the home-value difference consistent with ACS 1-year vs 5-year vintage.",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links in this pass."
+    }
+  }
+}
