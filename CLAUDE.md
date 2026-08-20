@@ -64,6 +64,14 @@ node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-military-prox
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-military-proximity.ts [--dry-run]
 ```
 
+Mosques (`/mosques`, sourced from OpenStreetMap; run in this order):
+
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/fetch-mosques-overpass.ts [--dry-run]  # writes data/mosques_overpass_<date>.json, no DB access
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-mosques.ts [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-mosques.ts data/mosques_overpass_<date>.json [--dry-run]
+```
+
 ## Structure
 
 ```
@@ -75,18 +83,19 @@ app/
   city/[id]/climate/    # per-city climate dashboard (Tailwind + recharts)
   api/locations/route.ts# filter/sort API (query params below) — unused by the UI
   api/chat/route.ts     # city-profile chat endpoint
-  # 20 routes total. Besides the above, each of these is a standalone data
+  # 21 routes total. Besides the above, each of these is a standalone data
   # page (all shadcn-opt-in via their own layout.tsx):
   #   /air-quality /chat /critters /electricity /gas /gun-freedom /insurance
-  #   /politics /uv /veteran-benefits /weather /map /quiz /quiz2
+  #   /mosques /politics /uv /veteran-benefits /weather /map /quiz /quiz2
   #   /benefits/california /heatmap-demo
   styles/*.css          # copied-verbatim page CSS (home/city/map/quiz), UNLAYERED
   styles/shadcn.css     # Tailwind + shadcn; imported per-route from a layout.tsx
 components/
   explore/              # ExploreFilterBar (the demo-style filter bar)
   city-climate/         # CityClimateDashboard
+  mosques/              # MosquesMap (MapClusterLayer + MapPopup on @/components/ui/map)
   ui/                   # shadcn primitives on @base-ui/react
-lib/                    # 32 modules; the load-bearing ones:
+lib/                    # 33 modules; the load-bearing ones:
   db.ts                 # lazy Neon client (getSql)
   types.ts              # LocationRow/StateInfoRow (snake_case, mirrors DB)
   locations.ts          # read-only queries (ORDER BY featured DESC, name ASC)
@@ -103,7 +112,7 @@ lib/                    # 32 modules; the load-bearing ones:
   pace/                 # retirement-pace classifier (RUCA + EPA)
   states.ts             # state-name -> USPS abbr
   # the rest back one data page each: electricity, gas-prices, insurance,
-  # critters, housing-market, quiz, quiz2, state-*.ts, utils.ts
+  # critters, housing-market, mosques, quiz, quiz2, state-*.ts, utils.ts
 scripts/                # data + verification scripts
 baselines/              # parity references (django_scores.json used by tests)
 ```
@@ -121,6 +130,7 @@ baselines/              # parity references (django_scores.json used by tests)
 - **Climate** (`lib/climate.ts`, `/city/[id]/climate`): temperature comes from `location_weather_monthly`, moisture from `location_hourly_normals` — never mix them (SCHEMA.md:345; the hourly station can be 50+ mi away, so its dew point travels but its `temp_f` doesn't). `buildDiurnal` rescales each month's hourly curve onto that month's `avg_low_f`/`avg_high_f` and recomputes heat index from the anchored temp; it's the only derived number on the page and the footnote says so. Monthly `humidity_pct`/`sun_pct` are **100% NULL** by design — GHCN monthly normals carry no humidity element.
 - **`/api/locations`** query params: `snow, no_awb, no_hcm, state_filter, lgbtq_friendly, climate, cost_of_living, price_min, price_max, lifestyle, healthcare, activities, geography, income_tax, no_income_tax, retired_pay_tax, disabled_vet_property_tax, employment_preference, education_benefit, parks_benefit, hunt_fish_benefit, vibes, employers, defense_ecosystem, has_costco, has_walmart, near_base, base_branch, base_max_distance, sort`. Response: `{ totalResults, locations }`. `lifestyle` accepts `urban,suburban,small_town,rural`. `base_branch` accepts `army,navy,air_force,marine_corps`. `base_max_distance` accepts `25,50,100`. `defense_ecosystem`, `has_costco`, and `has_walmart` accept `true`. `healthcare` accepts `va_hospital,va_clinic` (OR within the facet). **Nothing in the UI calls this** — `/explore` filters client-side via the same `filterAndSort`.
 - **Veteran-benefit filters** (`lib/filters.ts`, from `locations_stateinfo`): the boolean facets `no_income_tax, disabled_vet_property_tax, employment_preference, education_benefit, parks_benefit, hunt_fish_benefit` accept only `true` and match a state whose verified column **IS TRUE** — never `= false`, because these columns are three-valued (NULL = "source summary was silent", not "benefit absent"). `retired_pay_tax` takes comma-separated enum values to include (`no_income_tax,exempt,partial,conditional,taxed`). Every facet matches only rows with `vet_benefits_verified_on` set. Explore surfaces two of them today — "No state income tax" (`no_income_tax=true`) and "Military retirement not taxed" (`retired_pay_tax=no_income_tax,exempt`, excluding `partial`/`conditional` so a gated retiree isn't misinformed). The legacy per-city `locations_location.veterans_benefits` column was dropped (issue #6, `scripts/migrate-drop-veterans-benefits-column.ts`); the city page + `lib/locations.ts` derive the summary from the verified `vet_benefits_summary`.
+- **Mosques** (`lib/mosques.ts`, `/mosques`): a standalone national point map, independent of `locations_location` — not tied to a curated retirement city, not a Fit-score factor. Sourced from OpenStreetMap (`amenity=place_of_worship` + `religion=muslim`) via `scripts/fetch-mosques-overpass.ts` → `scripts/migrate-mosques.ts` → `scripts/import-mosques.ts`. `MosquesMap` (`components/mosques/`) renders points through `MapClusterLayer` (native MapLibre GeoJSON clustering) rather than one `MapMarker` DOM node per mosque — see SCHEMA.md.
 - **Pixel parity is a hard requirement** for `/` and `/city/[id]`. Their CSS is copied verbatim into `app/styles/{home,city}.css` and left **unlayered** so it always beats any Tailwind base. Do not introduce global Tailwind/Preflight.
 - **Never give those sheets a document-wide selector.** Next keeps a visited route's stylesheet in the document across client-side navigations, so an unlayered `* { margin: 0; padding: 0 }` outlives its own page and flattens every Tailwind utility on whatever you browse to next (this silently broke all nine data routes when reached from `/` or a city page). Their globals are scoped `:where(.home-page)` / `:where(.city-page)` — `:where()` keeps specificity at zero, so the cascade on those pages is unchanged. `/map` uses the same `.map-page` pattern. Keep new global rules out, or scope them the same way.
 
