@@ -122,16 +122,8 @@ const parseTags = (v: string | undefined): string[] => {
   return [c];
 };
 
-const deriveCostOfLiving = (colIndex: number | null): string => {
-  if (colIndex === null) return "Moderate";
-  if (colIndex < 95) return "Low";
-  if (colIndex <= 115) return "Moderate";
-  return "High";
-};
-
 function parseRow(row: Row): Record<string, unknown> {
   const rawHomeValue = row["AvgHomeValue"] ?? "";
-  const colIndex = parseIntV(row["CostOfLiving"]);
   const city = cleanEmpty(row["City"] ?? "") ?? "";
   const state = cleanEmpty(row["State"] ?? "") ?? "";
   const coords = resolveCoordinates(city, state, row["Latitude"], row["Longitude"]);
@@ -143,7 +135,10 @@ function parseRow(row: Row): Record<string, unknown> {
     latitude: coords.latitude,
     longitude: coords.longitude,
     climate: cleanEmpty(row["Climate"] ?? "") ?? "",
-    cost_of_living: deriveCostOfLiving(colIndex),
+    // col_index / cost_of_living are intentionally not sourced from the CSV's
+    // CostOfLiving column anymore. They're populated post-import by
+    // scripts/sync-col-index-from-rpp.ts from the BEA all_items_rpp; see
+    // lib/cost-of-living.ts for the shared category-derivation function.
     // State-owned CSV fields are intentionally ignored here. They belong in
     // locations_stateinfo after sourced adjudication, not on every city row.
     city_politics: cleanEmpty(row["CityPolitics"]),
@@ -155,7 +150,6 @@ function parseRow(row: Row): Record<string, unknown> {
     population: cleanEmpty(row["Population"]),
     density: parseIntV(row["Density"]),
     sales_tax: parseDecimalV(row["SalesTax"]),
-    col_index: colIndex,
     avg_home_value: parseHomeValue(rawHomeValue),
     avg_home_value_display: cleanEmpty(rawHomeValue),
     has_va: parseBoolV(row["VA"]),
