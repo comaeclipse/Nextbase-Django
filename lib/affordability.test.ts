@@ -8,9 +8,11 @@
  */
 import { describe, it, expect } from "vitest";
 import {
+  COMFORT_COST_SHARE,
   nonHousingIndex,
   estimateMonthlyCost,
   assessAffordability,
+  incomeTargets,
   rankByHeadroom,
   type CostEstimate,
   type CostInputs,
@@ -390,6 +392,48 @@ describe("assessAffordability", () => {
     );
     expect(unknown.band).toBe("unknown");
     expect(unknown.headroom).toBeNull();
+  });
+});
+
+describe("incomeTargets", () => {
+  const estimate = (cost: number | null): CostEstimate => ({
+    spendingProfile: "modest",
+    healthCoverage: "medicare_supplement",
+    monthlyCost: cost,
+    housing: 0,
+    nonHousing: 0,
+    nationalFixed: 0,
+    nonHousingIndex: 100,
+    missing: [],
+    approximations: [],
+    missingContext: [],
+  });
+
+  it("is the exact inverse of the banding thresholds", () => {
+    const e = estimate(2400);
+    const targets = incomeTargets(e)!;
+
+    // At the comfortable target the band is comfortable; a dollar under, tight.
+    expect(assessAffordability(e, targets.comfortable).band).toBe("comfortable");
+    expect(assessAffordability(e, targets.comfortable - 1).band).toBe("tight");
+
+    // At break-even the band is tight; a dollar under, over.
+    expect(assessAffordability(e, targets.breakEven).band).toBe("tight");
+    expect(assessAffordability(e, targets.breakEven - 1).band).toBe("over");
+  });
+
+  it("keeps the comfortable cushion at 1 - COMFORT_COST_SHARE of income", () => {
+    const targets = incomeTargets(estimate(2400))!;
+    expect(targets.breakEven).toBe(2400);
+    expect(targets.comfortable).toBeCloseTo(2400 / COMFORT_COST_SHARE, 6);
+    // The cushion at the comfortable target is exactly the advertised share.
+    expect(
+      (targets.comfortable - 2400) / targets.comfortable
+    ).toBeCloseTo(1 - COMFORT_COST_SHARE, 6);
+  });
+
+  it("returns null for an unpriceable city, mirroring monthlyCost", () => {
+    expect(incomeTargets(estimate(null))).toBeNull();
   });
 });
 
