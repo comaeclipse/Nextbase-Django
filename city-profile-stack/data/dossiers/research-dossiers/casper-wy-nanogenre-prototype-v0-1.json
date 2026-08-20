@@ -1,0 +1,110 @@
+{
+  "city": "Casper",
+  "state": "WY",
+  "dossier_key": "nanogenre_prototype_v0_1_2026",
+  "source_kind": "nanogenre_classification_prototype",
+  "title": "Casper, Wyoming — City Nanogenre Prototype v0.1",
+  "summary": "First end-to-end test of the nanogenre classification method against a real city: structural/statistical evidence (Census, ACS, BLS, NWS, FAA, Wyoming DOT) reconciled against resident/community evidence (Niche, Reddit, Casper Chamber events calendar, city planning documents) into a multi-label genre assignment, with an explicit measured-vs-experienced divergence on nightlife/event activity.",
+  "narrative_file": "casper-wy-nanogenre-prototype-v0-1.md",
+  "analyst": "user_provided_research",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Complements, does not replace, casper-wy.json (dossier_key reddit_sentiment_2026, retrieved 2026-08-06). That dossier is community-sentiment-only. This one adds official_statistic and institutional evidence classes (Census/ACS/BLS/NWS/FAA/Wyoming DOT/city planning docs/Chamber calendar) absent from the original, plus an actual genre-classification pass. Per KNOWLEDGE_MODEL.md L0 (append-only, new revision rather than overwrite), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_and_economic_data_moderate_on_community_sentiment",
+    "strengths": [
+      "multiple_independent_official_statistic_sources_census_acs_bls_nws_faa_wyoming_dot",
+      "institutional_sources_city_comprehensive_plan_historic_preservation_plan_chamber_event_calendar",
+      "cross_references_prior_reddit_sentiment_dossier_independently",
+      "explicit_divergence_construction_event_activity_vs_nightlife_depth",
+      "full_multi_label_genre_classification_broad_micro_nano_with_confidence_per_assignment"
+    ],
+    "limitations": [
+      "several_citation_links_are_chatgpt_com_search_redirects_rather_than_direct_primary_urls_and_have_not_been_independently_re_resolved",
+      "reddit_evidence_is_three_threads_not_a_representative_sample_of_r_casper",
+      "niche_review_count_208_is_cited_but_no_individual_review_text_is_quoted_or_verified",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule"
+    ],
+    "gaps": [
+      "second_independent_city_needed_before_any_of_these_nano_or_micro_labels_can_enter_genre_ontology_ts_per_NANOGENRE_TAXONOMY_md_section_3_and_section_12_decision_1_nano_floor_of_2",
+      "no_direct_verification_that_the_127_128_chamber_calendar_events_are_evenly_distributed_across_the_month_vs_clustered_on_weekends"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/caspercitywyoming/PST040219",
+    "https://censusreporter.org/profiles/16000US5613150-casper-wy/",
+    "https://datausa.io/profile/geo/casper-wy/",
+    "https://www.casperwy.gov/UserFiles/Servers/Server_62983/File/Government/Departments/Community%20Development/Planning/GenCasperCompPlan/PlanBreakdown/Summer%202017%20Generation%20Casper_Adopted%207.5.17_Reduced.pdf",
+    "https://www.bls.gov/regions/mountain-plains/news-release/2026/occupationalemploymentandwages_casper_20260805.htm",
+    "https://www.doe.state.wy.us/lmi/annual-report/2026/2026_Annual_Report.pdf",
+    "https://www.bls.gov/eag/eag.wy_casper_msa.htm",
+    "https://www.casperwy.gov/UserFiles/Servers/Server_62983/File/Government/Departments/Community%20Development/Planning/Plans%20%26%20Other%20Docs/CasperPreservationPlan_FinalDraft_16Aug19.pdf",
+    "https://www.visitcasper.com/things-to-do/outdoor-recreation/casper-mountain/",
+    "https://www.weather.gov/media/riw/climate/toptens/kcpr.pdf",
+    "https://www.faa.gov/flight_deck/cpr",
+    "https://dot.state.wy.us/home/aeronautics/air_service/fly-wyoming-1.html",
+    "https://www.niche.com/places-to-live/casper-natrona-wy/reviews/",
+    "https://www.reddit.com/r/casper/comments/1v5x2qn/night_life_or_lack_thereof/",
+    "https://www.reddit.com/r/casper/comments/1n8ubzk",
+    "https://www.reddit.com/r/casper/comments/1m5yaaj",
+    "https://business.casperwyoming.org/events/calendar/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": ["Western Regional Hub", "High-Plains City", "Energy/Industrial City", "Outdoor-Access City"],
+      "micro_primary": "Isolated Interior-West Regional Service Hub",
+      "micro_secondary": [
+        "Legacy Energy / Extraction Small Metro",
+        "Mountain-Adjacent High-Plains Outdoor City",
+        "Short-Commute, Car-Oriented Small Metro"
+      ],
+      "nano_primary": {
+        "label": "Wind-Exposed Mountain-Edge Energy Hub",
+        "confidence": "very_high"
+      },
+      "nano_secondary": [
+        { "label": "Event-Active but Late-Night-Thin Regional City", "confidence": "high" },
+        { "label": "15-Minute Car City Without Big-Metro Congestion", "confidence": "very_high" },
+        { "label": "Stable, Homeowner-Oriented Regional Center Rather Than Growth Boomtown", "confidence": "high" }
+      ],
+      "admission_status": "NOT admitted to genre-ontology.ts. Casper is the only independently-researched city carrying these exact labels; NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities before a nano genre is admitted (5 for broad, 3 for micro). These stay recorded here as this city's candidate rationale until a second city's research independently produces the same bundle."
+    },
+    "structural_traits": {
+      "car_orientation": "high",
+      "congestion_burden": "low",
+      "transit_role": "very_low",
+      "walkable_core": "present_but_limited",
+      "commute_efficiency": "high",
+      "commute_mean_minutes": 17,
+      "commute_drive_alone_pct": 77.9,
+      "commute_transit_pct": 0.6,
+      "mountain_access": "very_high",
+      "mountain_town_economy": false,
+      "wind_exposure": "high",
+      "energy_legacy": "very_high",
+      "current_extraction_dependence": "moderate_high",
+      "regional_service_function": "very_high",
+      "population_2025_est": 58771,
+      "population_change_since_2020_pct": -0.6,
+      "owner_occupied_housing_pct": 69.8,
+      "median_household_income_usd": 70218,
+      "median_home_value_usd": 260400
+    },
+    "divergence": {
+      "topic": "nightlife_and_activity_depth",
+      "poles": [
+        {
+          "perspective": "institutional",
+          "claim": "Casper Area Chamber of Commerce July 2026 calendar listed roughly 127-128 events (live music, markets, art walks, rodeo activities, trivia, outdoor programming).",
+          "status": "present"
+        },
+        {
+          "perspective": "lived",
+          "claim": "Reddit residents describe late-night options collapsing to a handful of fast-food/convenience options and bars after midnight; newcomers are directed toward scheduled community events rather than a spontaneous street/nightlife scene.",
+          "status": "present"
+        }
+      ],
+      "stance": "co_true_different_measures",
+      "note": "Matches NANOGENRE_TAXONOMY.md section 8's mapping: co_true_different_measures -> board Divergence Flag = Minor. Event/festival availability (institutional, availability-shaped evidence) and late-night social depth (community_sentiment, attendance-shaped evidence) are both true because they measure different things -- exactly the KNOWLEDGE_MODEL.md section 4.1 'measures' distinction (availability vs. attendance)."
+    }
+  }
+}

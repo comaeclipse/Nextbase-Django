@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
-  "updated_on": "2026-08-19",
-  "recent_change": "Added the North Platte ordinary-evening evidence pass (owner Packet 2): all four rhythm-calibration evidence-bar items satisfied, the event-led assignment corrected, and the calibration row graduated to complete. Also completed verification of the Elko marketing-pole pack (verbatim Reddit excerpts, Dotty's address).",
+  "updated_on": "2026-08-20",
+  "recent_change": "Added the Victorville research pass (owner-run Block 1-4 prompt): reddit_sentiment_2026 dossier plus the first nanogenre proposal produced through the standing PROMPT_TEMPLATE.md Block 4 process, with all 28 Reddit citations archive-verified, ACS/BLS figures re-verified, one dead city-planning link flagged and corroborated by a live substitute, and the held-out prediction comparison falsifying 11 of 31 returned features. Previous change: Added the Casper nanogenre prototype v0.1 (owner-provided research): first end-to-end test of the genre classification method from NANOGENRE_TAXONOMY.md against a real city, reconciling structural/official-statistic evidence against community sentiment into a multi-label broad/micro/nano assignment, with an explicit measured-vs-experienced divergence on event activity vs. nightlife depth.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -16,6 +16,56 @@
     "promotion_review": "Candidate for an explicitly approved R&D database import; never implies production approval."
   },
   "entries": [
+    {
+      "id": "victorville_nanogenre_proposal_v1_2026",
+      "city": "Victorville",
+      "state": "CA",
+      "topic": "nanogenre_classification",
+      "claim": "Victorville is a car-dependent high-desert regional center where comparatively attainable Southern California housing and logistics/retail functions coexist with thin local job and amenity depth, while Cajon Pass controls access to the larger metropolitan economy. Primary microgenre: Housing-Value High-Desert Commuter Hub. Primary nanogenre: Cajon-Pass-Dependent Housing-Value Logistics Exurb, plus one secondary nanogenre overlay.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/victorville-ca-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/victorville-ca-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/victorville-ca.md",
+        "data/dossiers/research-dossiers/victorville-ca.json"
+      ],
+      "source_urls": [
+        "https://censusreporter.org/profiles/16000US0682590-victorville-ca/",
+        "https://www.bls.gov/regions/west/news-release/occupationalemploymentandwages_riverside.htm",
+        "https://www.victorvilleca.gov/files/assets/city/v/1/planning/documents/land-use-plans-remediated/1775072100_scla_specific_plan_mar_2021__1_-remediated.pdf",
+        "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/",
+        "https://www.reddit.com/r/highdesert/comments/1s9s2z8/how_do_you_get_a_job_here/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "The Land Use Element citation as delivered (victorvilleca.gov showpublisheddocument/13695) returned Page Not Found on 2026-08-20 verification; the planning-policy claim is corroborated by the live SCLA Specific Plan (March 2021). The aquatic-resources report's specific climate figures were checked for consistency with known NWS Victorville normals but not extracted verbatim from the PDF.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro).",
+        "Casper's proposal shares 'wind-exposed regional service hub' vocabulary with Victorville's secondary nanogenre -- a candidate recurrence for the next taxonomy review, not an admission."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "casper_nanogenre_prototype_v0_1_2026",
+      "city": "Casper",
+      "state": "WY",
+      "topic": "nanogenre_classification",
+      "claim": "Casper is a compact, car-oriented, wind-hardened high-plains regional hub with deep oil-and-extraction DNA, unusually immediate mountain recreation, short everyday travel times, an active organized community-event scene, but a comparatively thin spontaneous and late-night social ecosystem. Primary microgenre: Isolated Interior-West Regional Service Hub. Primary nanogenre: Wind-Exposed Mountain-Edge Energy Hub, plus three secondary nanogenre overlays.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/casper-wy-nanogenre-prototype-v0-1.md",
+      "supporting_artifacts": ["data/dossiers/research-dossiers/casper-wy-nanogenre-prototype-v0-1.json", "data/dossiers/research-dossiers/casper-wy.md", "data/dossiers/research-dossiers/casper-wy.json"],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/caspercitywyoming/PST040219",
+        "https://censusreporter.org/profiles/16000US5613150-casper-wy/",
+        "https://www.bls.gov/regions/mountain-plains/news-release/2026/occupationalemploymentandwages_casper_20260805.htm",
+        "https://www.weather.gov/media/riw/climate/toptens/kcpr.pdf",
+        "https://business.casperwyoming.org/events/calendar/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "Several citation links resolve through chatgpt.com search redirects and have not been independently re-resolved to confirm they land on the stated primary source. Reddit evidence is three threads, not a representative sample.",
+      "limitations": ["Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.", "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro) before admission; Casper is currently the only one."],
+      "embedding_ready": false
+    },
     {
       "id": "elko_cultural_baseline_2026",
       "city": "Elko",
