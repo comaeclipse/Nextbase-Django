@@ -5223,6 +5223,437 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "Cheyenne",
+      "state": "WY",
+      "signals": [
+        {
+          "key": "wind_is_daily_life",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Persistent wind shapes daily life",
+          "detail": "Wind is one of the loudest and most consistent themes across relocation, exercise, winter and comparison threads. Residents disagree about whether outsiders exaggerate the danger, but not about wind being a recurring condition that affects driving, walking, property and comfort.",
+          "audience": "Anyone sensitive to wind, outdoor exercisers, drivers and homeowners.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/",
+            "https://www.reddit.com/r/FortCollins/comments/1lnpeu8/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_disrupts_regional_travel",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Winter makes highway access conditional",
+          "detail": "Residents repeatedly warn that I-80 and sometimes I-25 closures can turn an otherwise reasonable regional commute into an unreliable one. The stronger claim is about leaving town rather than Cheyenne itself routinely shutting down.",
+          "audience": "Regional commuters and households planning frequent Colorado or Laramie trips.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1dzh5sd/commuting_from_cheyenne_to_laramie/",
+            "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_is_mildish_and_dry",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Dry summers are easier than southern heat",
+          "detail": "Community accounts commonly describe summer as warm but dry, with low humidity and generally pleasant spring-through-fall stretches between weather events. Hot spells occur, so this is not a cool-summer claim.",
+          "audience": "People leaving humid or very hot climates.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/os496e/",
+            "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hail_is_property_cost",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Hail is a real property concern",
+          "detail": "Residents mention damaging hail often enough to treat it as more than a rare curiosity, including advice to inspect roofs and expect higher auto-insurance exposure. Frequency and dollar impact require independent insurance or climatological verification.",
+          "audience": "Homeowners and vehicle owners.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/os496e/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "outdoor_access_west_of_town",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Strong recreation within a short drive",
+          "detail": "Curt Gowdy, Vedauwoo and the Snowy Range recur as the standard hiking, mountain-biking, fishing and day-trip options. Residents distinguish this from having major trails or mountains directly inside the city.",
+          "audience": "Hikers, anglers, mountain bikers, campers and casual outdoor users.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1vbbda8/outdoor_culture_in_cheyenne/",
+            "https://www.reddit.com/r/Cheyenne/comments/1akibz1/where_do_people_in_cheyenne_go_hiking/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "city_is_car_convenient",
+          "dimension": "commute",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Most drives are short",
+          "detail": "Residents repeatedly characterize Cheyenne as a place where most destinations are roughly 10-15 minutes away and traffic rarely dominates daily life. That convenience is car-based rather than evidence of broad walkability.",
+          "audience": "Drivers and commuters.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1h4auez/",
+            "https://www.reddit.com/r/Cheyenne/comments/1rcnvi6/moving_to_the_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "amenities_basic_colorado_fills_gap",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Basic amenities locally; depth is south",
+          "detail": "Cheyenne is repeatedly described as having adequate everyday shopping and services but much less restaurant, nightlife and specialty-amenity depth than Fort Collins. Residents routinely use northern Colorado as the overflow market.",
+          "audience": "People used to large metros or broad retail and dining choice.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/",
+            "https://www.reddit.com/r/wyoming/comments/192kosw/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_is_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Nightlife has limited depth",
+          "detail": "Across multiple age groups, residents say evening choices repeat quickly and that Laramie or Fort Collins provide a deeper nightlife circuit. Local bars, breweries, concerts and downtown events prevent 'nothing to do' from being literally true.",
+          "audience": "Young adults, singles and nightlife-oriented residents.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1vgfw39/good_place_to_meet_people/",
+            "https://www.reddit.com/r/Cheyenne/comments/16lzrat/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_scene_skews_to_bars",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Bars and breweries anchor socializing",
+          "detail": "When newcomers ask where adults meet, bars and breweries are among the most common answers. Non-drinkers do receive alternatives - library programs, volunteering, gyms, book clubs and arts events - but those require more deliberate searching.",
+          "audience": "Non-drinkers and newcomers seeking social spaces.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/17wub87/",
+            "https://www.reddit.com/r/Cheyenne/comments/1hxzk7x/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "making_friends_requires_intent",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Newcomers must deliberately build a network",
+          "detail": "Several newcomers describe loneliness or difficulty meeting people outside work and bars. Other residents provide concrete clubs, activities and volunteering routes, so the evidence supports effort-dependent integration rather than social impossibility.",
+          "audience": "Newcomers without an existing workplace, church or family network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1hxzk7x/",
+            "https://www.reddit.com/r/Cheyenne/comments/1b52yi7/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "family_life_gets_better_reviews",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Family infrastructure gets stronger reviews",
+          "detail": "Parents and residents comparing Cheyenne with Laramie repeatedly cite parks, children's activities, housing choice and practical convenience as strengths. The discourse is noticeably more positive for settled families than for young singles.",
+          "audience": "Families with children.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+            "https://www.reddit.com/r/Cheyenne/comments/1rcnvi6/moving_to_the_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "schools_vary_but_often_positive",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "School reviews vary by triad",
+          "detail": "Parent accounts speak positively about several east and central elementary/secondary pathways while also emphasizing meaningful school-to-school differences. Claims about one side of town being categorically inferior are disputed by other parents.",
+          "audience": "Families choosing neighborhoods around school assignments.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+            "https://www.reddit.com/r/Cheyenne/comments/1cacezs/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "everyday_safety_feels_high",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Residents generally feel safe citywide",
+          "detail": "Neighborhood threads repeatedly tell newcomers there are few genuinely unsafe areas and that normal precautions are sufficient. Larger-metro transplants often describe Cheyenne's supposedly rougher areas as comparatively mild.",
+          "audience": "Anyone evaluating neighborhoods and daily safety.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1kk7nwr/",
+            "https://www.reddit.com/r/Cheyenne/comments/1mdnpv1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "property_crime_more_salient",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Property crime is the main safety caveat",
+          "detail": "When residents do identify a safety problem, they more often mention car break-ins, theft and localized drug-related activity than random violent crime. South and central Cheyenne appear in this discourse, but residents disagree strongly about how severe those differences really are.",
+          "audience": "Renters and buyers comparing neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1v4ynkg/planning_on_moving/",
+            "https://www.reddit.com/r/Cheyenne/comments/1rcnvi6/moving_to_the_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_relative_advantage_eroding",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Cheaper than neighbors, no longer cheap",
+          "detail": "Cheyenne is consistently described as easier on housing than Fort Collins and as having more usable inventory than Laramie. Newer accounts simultaneously describe steep appreciation and fear that the affordability gap is narrowing.",
+          "audience": "Renters and homebuyers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/",
+            "https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "frontier_days_distorts_short_term_housing",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Frontier Days disrupts short-term rentals",
+          "detail": "Temporary residents describe sharp furnished-rental distortions around Frontier Days, including landlords seeking exceptionally high event-week rates. The effect is highly seasonal rather than representative of the normal annual rental market.",
+          "audience": "Traveling workers and summer short-term renters.",
+          "geography_scope": "city",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1kk7nwr/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_wages_feel_thin_against_costs",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Lower wages can struggle with current rents",
+          "detail": "Several residents argue that ordinary local wages have not kept pace with housing and food costs, including a worker earning $17 per hour who struggled to secure stable housing. A contradictory low-cost studio account shows that individual circumstances vary substantially.",
+          "audience": "Workers in lower- and middle-wage local jobs.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1e1wirc/",
+            "https://www.reddit.com/r/wyoming/comments/1p07r5y/thinking_about_moving_to_cheyenne_what_should_i/",
+            "https://www.reddit.com/r/wyoming/comments/16n50ln/whats_a_good_wage_to_comfortably_afford_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "job_market_concentrated",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Best job depth clusters in a few sectors",
+          "detail": "Residents repeatedly point toward state government, healthcare, schools, retail and logistics while specialized professionals complain that desirable jobs outside those channels are thin. Some residents say networking matters heavily.",
+          "audience": "Specialized professionals moving without a job already secured.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/mtvmqy/",
+            "https://www.reddit.com/r/Cheyenne/comments/1etr44o/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "healthcare_quality_is_mixed",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Local healthcare reviews are genuinely mixed",
+          "detail": "Residents report both excellent and poor doctors, including successful local specialist diagnoses and surgery alongside complaints about physician turnover or difficulty finding good care. The contradiction itself is the useful finding.",
+          "audience": "Anyone establishing new routine care.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/194vqee/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "specialty_care_often_goes_south",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Complex care often uses Fort Collins or Denver",
+          "detail": "When neurological, complex or difficult-to-source specialist care comes up, residents frequently mention Fort Collins or Denver as the practical next tier. Cheyenne does provide some specialty care, so this is a depth limitation rather than an absence claim.",
+          "audience": "People who rely on recurring specialist or complex care.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/194vqee/",
+            "https://www.reddit.com/r/wyoming/comments/1q8be2o/autistic_resources_in_cheyenne/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "va_medical_center_is_local_asset",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Cheyenne has a full VA Medical Center",
+          "detail": "Veterans discussing relocation specifically cite Cheyenne's VA as an attraction, and the federal VA independently confirms a Cheyenne VA Medical Center and regional healthcare system at East Pershing Boulevard.",
+          "audience": "Veterans using VA healthcare.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1v4ynkg/planning_on_moving/",
+            "https://www.va.gov/cheyenne-health-care/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "front_range_access_reduces_isolation",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Fort Collins and Denver reduce isolation",
+          "detail": "Cheyenne's strongest regional-access advantage is its position near northern Colorado. Residents repeatedly contrast this with Casper's stand-alone geography and use Fort Collins or Denver for entertainment, shopping and specialist services.",
+          "audience": "People who want a small-city home base without complete metro isolation.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "growth_and_data_centers_raise_anxiety",
+          "dimension": "growth",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Data-center growth is changing expectations",
+          "detail": "Recent local threads repeatedly connect data-center construction and incoming temporary workers with concern about housing, utilities, infrastructure and Cheyenne's growth trajectory. Environmental and utility-impact claims are contested and require independent verification; the growth anxiety itself is well evidenced.",
+          "audience": "Long-term buyers and residents sensitive to rapid development.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/",
+            "https://www.reddit.com/r/Cheyenne/comments/1uyf33z/data_centers/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "political_climate_conservative_not_uniform",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Conservative climate with visible countercurrents",
+          "detail": "Residents generally describe Cheyenne as politically conservative, while a dedicated 2026 thread also produced multiple routes for a progressive newcomer to find compatible groups. This supports a conservative center of gravity without treating the city as politically homogeneous.",
+          "audience": "People for whom local political culture affects social fit.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Cheyenne/comments/1tuwu7w/finding_your_people_in_cheyenne_where_are_the/",
+            "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "casper_tradeoff_identity_vs_connectivity",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Casper has identity; Cheyenne connectivity",
+          "detail": "In direct comparisons, Casper is described as more self-contained, locally distinctive and immediately tied to its own mountain and river recreation. Cheyenne is described as more connected to Colorado, more government-oriented and less geographically isolated.",
+          "audience": "People comparing Wyoming's two largest urban centers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/wyoming/comments/1vi6zxf/",
+            "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }

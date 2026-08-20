@@ -3565,6 +3565,336 @@
         "discussed_but_unscoreable: The community material establishes the existence of an LGBTQ social network but does not establish Odessa municipal LGBTQ policy, so lgbtq_municipal_policy is omitted.",
         "discussed_but_unscoreable: Community healthcare discussion does not cleanly separate appointment availability and referral administration from perceived doctor quality, so healthcare_navigability is omitted."
       ]
+    },
+    {
+      "city": "Cheyenne",
+      "state": "WY",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.72,
+          "confidence": 0.72,
+          "evidence": "Winter threads consistently describe genuinely cold weather, periodic deep-cold outbreaks and the need for serious winter clothing, while residents also say outsiders sometimes exaggerate it.",
+          "signals": [
+            "wind_is_daily_life",
+            "winter_disrupts_regional_travel"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.68,
+          "confidence": 0.7,
+          "evidence": "Residents describe recurring snow, occasional major dumps and snow-plus-wind conditions that affect roads and daily planning, without portraying the city as continuously snowbound.",
+          "signals": [
+            "winter_disrupts_regional_travel",
+            "wind_is_daily_life"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.32,
+          "confidence": 0.48,
+          "evidence": "Residents describe warm and occasionally hot summers but generally contrast them favorably with hotter southern climates.",
+          "signals": [
+            "summer_is_mildish_and_dry"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.12,
+          "confidence": 0.45,
+          "evidence": "Community descriptions explicitly characterize summer as low-humidity and dry.",
+          "signals": [
+            "summer_is_mildish_and_dry"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.48,
+          "confidence": 0.52,
+          "evidence": "Residents praise spring, summer and fall stretches but repeatedly describe winter cold and persistent wind as materially reducing comfortable outdoor time.",
+          "signals": [
+            "summer_is_mildish_and_dry",
+            "wind_is_daily_life"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.95,
+          "confidence": 0.85,
+          "evidence": "Wind appears across unrelated resident threads as a defining condition affecting property, driving, walking, exercise, snow drifting and mood.",
+          "signals": [
+            "wind_is_daily_life"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.63,
+          "confidence": 0.48,
+          "evidence": "Residents repeatedly mention damaging hail and high-wind events as property and vehicle considerations.",
+          "signals": [
+            "hail_is_property_cost",
+            "wind_is_daily_life"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.78,
+          "confidence": 0.72,
+          "evidence": "Curt Gowdy, Vedauwoo and the Snowy Range are repeatedly named for hiking, mountain biking, fishing and day trips close enough for regular use.",
+          "signals": [
+            "outdoor_access_west_of_town"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.76,
+          "confidence": 0.58,
+          "evidence": "Residents direct campers and hikers toward Medicine Bow National Forest and dispersed-use areas west of Cheyenne.",
+          "signals": [
+            "outdoor_access_west_of_town"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.58,
+          "confidence": 0.5,
+          "evidence": "Curt Gowdy and nearby reservoirs are repeatedly mentioned for fishing and lake-oriented recreation, although water recreation is not described as an in-city amenity.",
+          "signals": [
+            "outdoor_access_west_of_town"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.3,
+          "confidence": 0.72,
+          "evidence": "Fort Collins and Denver are routinely used as extensions of Cheyenne's amenity and service network, making it far less isolated than interior Wyoming hubs such as Casper.",
+          "signals": [
+            "front_range_access_reduces_isolation",
+            "casper_tradeoff_identity_vs_connectivity"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.43,
+          "confidence": 0.72,
+          "evidence": "Residents describe adequate basics but repeatedly leave town for deeper restaurants, entertainment, nightlife and specialty options.",
+          "signals": [
+            "amenities_basic_colorado_fills_gap",
+            "nightlife_is_thin"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.46,
+          "confidence": 0.52,
+          "evidence": "Everyday shopping is described as convenient, while unusual or higher-end choices are often obtained in northern Colorado or online.",
+          "signals": [
+            "amenities_basic_colorado_fills_gap"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.73,
+          "confidence": 0.58,
+          "evidence": "Residents treat Denver and the Front Range as reasonably reachable rather than a major expedition, giving Cheyenne much stronger hub-airport access than interior Wyoming cities.",
+          "signals": [
+            "front_range_access_reduces_isolation"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.83,
+          "confidence": 0.65,
+          "evidence": "Residents praise 10-15-minute driving convenience but explicitly describe ordinary mobility as driving rather than walking.",
+          "signals": [
+            "city_is_car_convenient"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.48,
+          "confidence": 0.48,
+          "evidence": "Downtown contains bars, breweries and events that can be combined on foot, but community discussions describe the city as a whole as strongly car-oriented.",
+          "signals": [
+            "city_is_car_convenient",
+            "nightlife_is_thin"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.57,
+          "confidence": 0.42,
+          "evidence": "Local doctors, hospital care and routine services clearly exist, but resident experiences with finding and keeping satisfactory physicians vary substantially.",
+          "signals": [
+            "healthcare_quality_is_mixed"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.46,
+          "confidence": 0.4,
+          "evidence": "Reports of good local care coexist with complaints about physician quality, turnover and needing to seek alternatives outside town.",
+          "signals": [
+            "healthcare_quality_is_mixed",
+            "specialty_care_often_goes_south"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.38,
+          "confidence": 0.62,
+          "evidence": "Residents routinely name Fort Collins or Denver when discussing neurological or difficult-to-source specialty care, despite some successful local specialist experiences.",
+          "signals": [
+            "specialty_care_often_goes_south",
+            "healthcare_quality_is_mixed"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.95,
+          "confidence": 0.88,
+          "evidence": "The local VA Medical Center provides an in-city VA healthcare anchor and is specifically cited by veterans as a relocation advantage.",
+          "signals": [
+            "va_medical_center_is_local_asset"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 1.0,
+          "confidence": 0.9,
+          "evidence": "Cheyenne has a VA Medical Center rather than only an outpatient clinic.",
+          "signals": [
+            "va_medical_center_is_local_asset"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.53,
+          "confidence": 0.48,
+          "evidence": "Residents identify recurring government, healthcare, education, retail and logistics work but specialized professionals describe a much shallower market.",
+          "signals": [
+            "job_market_concentrated"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.18,
+          "confidence": 0.68,
+          "evidence": "Within Cheyenne, residents repeatedly describe short trips and little traffic; the burden rises sharply only when a household depends on a regional interstate commute.",
+          "signals": [
+            "city_is_car_convenient",
+            "winter_disrupts_regional_travel"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.42,
+          "confidence": 0.58,
+          "evidence": "Several residents describe ordinary wages struggling against current rents and living costs, although unusually low-cost housing situations produce counterexamples.",
+          "signals": [
+            "local_wages_feel_thin_against_costs"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.4,
+          "confidence": 0.62,
+          "evidence": "Frontier Days produces a major temporary visitor and rental-market surge, but community accounts portray the rest of the year as comparatively quiet.",
+          "signals": [
+            "frontier_days_distorts_short_term_housing"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.6,
+          "confidence": 0.55,
+          "evidence": "Recent residents are increasingly concerned about data-center construction, temporary workers, housing demand and whether infrastructure will keep pace.",
+          "signals": [
+            "growth_and_data_centers_raise_anxiety",
+            "housing_relative_advantage_eroding"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.55,
+          "confidence": 0.63,
+          "evidence": "Cheyenne remains cheaper than Fort Collins in many resident comparisons, but newer accounts no longer describe local housing as broadly cheap.",
+          "signals": [
+            "housing_relative_advantage_eroding",
+            "local_wages_feel_thin_against_costs"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.48,
+          "confidence": 0.58,
+          "evidence": "Residents increasingly question whether current prices still deliver the expected small-city discount, even though Cheyenne compares favorably with nearby Colorado.",
+          "signals": [
+            "housing_relative_advantage_eroding"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.47,
+          "confidence": 0.5,
+          "evidence": "Cheyenne is described as having better rental choice than Laramie, but individual renters report difficult searches and event-season distortions.",
+          "signals": [
+            "housing_relative_advantage_eroding",
+            "frontier_days_distorts_short_term_housing"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.76,
+          "confidence": 0.52,
+          "evidence": "Residents consistently describe a conservative political center of gravity, including in otherwise nonpolitical city-comparison threads.",
+          "signals": [
+            "political_climate_conservative_not_uniform"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.48,
+          "confidence": 0.42,
+          "evidence": "A conservative majority climate coexists with identifiable progressive organizations and residents who publicly organize around finding one another.",
+          "signals": [
+            "political_climate_conservative_not_uniform"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.77,
+          "confidence": 0.63,
+          "evidence": "Parents repeatedly cite parks, activities, school options and practical convenience, with family-oriented evaluations substantially stronger than young-single evaluations.",
+          "signals": [
+            "family_life_gets_better_reviews",
+            "schools_vary_but_often_positive"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.43,
+          "confidence": 0.58,
+          "evidence": "Newcomers commonly report that friendship requires deliberate participation in clubs, volunteering, gyms, events or workplace networks.",
+          "signals": [
+            "making_friends_requires_intent",
+            "social_scene_skews_to_bars"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.7,
+          "confidence": 0.62,
+          "evidence": "Bars and breweries dominate answers to questions about adult hangouts, while non-drinking alternatives exist but are less immediately visible.",
+          "signals": [
+            "social_scene_skews_to_bars",
+            "nightlife_is_thin"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.34,
+          "confidence": 0.72,
+          "evidence": "Residents across several threads explicitly contrast Cheyenne's limited nightlife with Fort Collins and Laramie.",
+          "signals": [
+            "nightlife_is_thin"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.31,
+          "confidence": 0.52,
+          "evidence": "Young-adult discussions describe a small local dating and social pool and sometimes extend dating into northern Colorado.",
+          "signals": [
+            "nightlife_is_thin",
+            "making_friends_requires_intent"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.81,
+          "confidence": 0.65,
+          "evidence": "Residents repeatedly describe ordinary daily life as safe, while narrowing most neighborhood cautions to property crime and localized disorder.",
+          "signals": [
+            "everyday_safety_feels_high",
+            "property_crime_more_salient"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: A Cheyenne-specific community discussion of allergy-season severity was not found in the targeted search.",
+        "discussed_but_unscoreable: LGBTQ day-to-day social acceptance and scene size appeared only thinly or in broader Wyoming discussions, not enough to score Cheyenne responsibly.",
+        "searched_not_found: Cheyenne-specific first-hand accounts from residents of color were too sparse in the targeted relocation material to establish racial_inclusion_climate.",
+        "not_researched: religious_culture_prominence was not independently investigated in enough depth for a feature score.",
+        "not_researched: remote_work_viability was not investigated beyond incidental mentions and therefore is omitted.",
+        "not_researched: high_wage_trade_opportunity was not investigated with enough occupation-specific community evidence.",
+        "discussed_but_unscoreable: substance_problem_visibility appears in neighborhood and nightlife threads, but the language is frequently inflammatory and localized; converting it to a citywide numeric score would overstate the evidence."
+      ]
     }
   ]
 }
