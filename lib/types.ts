@@ -363,3 +363,19 @@ export interface DefenseEmployerLocationRow {
   is_featured: boolean;
   notes: string | null;
 }
+
+/** A mosque plotted on the standalone /mosques map (`mosques`, sourced from OpenStreetMap). */
+export interface MosqueRow {
+  id: number;
+  osm_type: "node" | "way" | "relation";
+  osm_id: number;
+  name: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  latitude: number;
+  longitude: number;
+  phone: string | null;
+  website: string | null;
+  source_url: string | null;
+}
