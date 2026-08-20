@@ -2,7 +2,9 @@
 
 import { useMemo, useState } from "react";
 import type * as GeoJSON from "geojson";
-import { Map, MapControls, MapClusterLayer, MapPopup } from "@/components/ui/map";
+import { Map, MapControls, MapPopup } from "@/components/ui/map";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import MosqueDotLayer, { type MosqueLayerMode } from "./MosqueDotLayer";
 
 export interface MappedMosque {
   id: number;
@@ -21,6 +23,7 @@ type MosqueProperties = { id: number };
 
 export default function MosquesMap({ mosques }: { mosques: MappedMosque[] }) {
   const [selected, setSelected] = useState<MappedMosque | null>(null);
+  const [mode, setMode] = useState<MosqueLayerMode>("dots");
   const byId = useMemo(() => {
     const index: Record<number, MappedMosque> = {};
     for (const mosque of mosques) index[mosque.id] = mosque;
@@ -46,17 +49,26 @@ export default function MosquesMap({ mosques }: { mosques: MappedMosque[] }) {
           <p className="text-xs font-bold tracking-widest text-primary">UNITED STATES</p>
           <h2 className="text-lg font-semibold">{mosques.length.toLocaleString()} mosques</h2>
         </div>
+        <ToggleGroup
+          value={[mode]}
+          onValueChange={(values: string[]) =>
+            setMode((values[0] as MosqueLayerMode) ?? "dots")
+          }
+          variant="outline"
+          spacing={0}
+          aria-label="Map display mode"
+        >
+          <ToggleGroupItem value="dots">Dots</ToggleGroupItem>
+          <ToggleGroupItem value="heatmap">Heatmap</ToggleGroupItem>
+        </ToggleGroup>
       </div>
 
       <div className="relative h-[min(69vh,680px)] min-h-[460px]">
         <Map center={[-98, 39]} zoom={3.3} minZoom={2.4} maxZoom={16}>
           <MapControls showZoom showLocate />
-          <MapClusterLayer<MosqueProperties>
+          <MosqueDotLayer<MosqueProperties>
             data={geojson}
-            clusterRadius={45}
-            clusterThresholds={[15, 60]}
-            clusterColors={["#0f9d79", "#2563eb", "#7c3aed"]}
-            pointColor="#0f9d79"
+            mode={mode}
             onPointClick={(feature) => {
               const mosque = byId[feature.properties.id];
               if (mosque) setSelected(mosque);
