@@ -336,6 +336,25 @@ Only geocoded cities and geocoded *active* installations are paired. Recompute w
 
 ---
 
+## Mosques
+
+Points of interest for the standalone `/mosques` map. Independent of `locations_location` — not tied to a curated retirement city, not a Fit-score factor, and not filtered by the Explore facets.
+
+Table: `mosques`
+
+- **OsmType** / **OsmId**: The source OpenStreetMap element (`node`, `way`, or `relation`) and its id. Ways/relations are stored at their `out center` centroid, not their full geometry.
+- **Name**: Nullable — some OSM `amenity=place_of_worship` entries carry no `name` tag.
+- **Address** / **City** / **State**: Built from `addr:housenumber`/`addr:street`/`addr:city`/`addr:state` tags when present; frequently `NULL` since OSM address tagging on places of worship is inconsistent.
+- **Latitude** / **Longitude**: Required (rows without coordinates are dropped at fetch time, never imported).
+- **Phone** / **Website**: From `contact:phone`/`phone` and `contact:website`/`website`/`url` tags.
+- **SourceKind** / **SourceUrl** / **SourceRetrievedOn**: Always `'openstreetmap'`, a link to the OSM element, and the fetch date.
+
+Rows are unique on `(osm_type, osm_id)`. Data is ODbL-licensed by OpenStreetMap contributors — the `/mosques` page must credit them. Seeds are `data/mosques_overpass_v<n>_<date>.json`, produced by `scripts/fetch-mosques-overpass.ts` and loaded by `scripts/import-mosques.ts` after `scripts/migrate-mosques.ts`.
+
+The snapshot carries a `match_rule` per record and a `stats` block; **neither is imported** — they exist so a snapshot can be audited without re-querying Overpass. See CLAUDE.md "Mosques" for what the rules are. The importer upserts and therefore cannot delete: after a refresh whose de-duplication collapsed rows that were previously imported separately, run it once more with `--prune` to drop the rows the snapshot no longer contains. `--prune` is only safe against a complete national snapshot.
+
+---
+
 ## Pace classification (derived)
 
 Retirement pace (`urban` / `suburban` / `small_town` / `rural`) is **not** stored on `locations_location`. It lives in an append-only history table plus a current view.
