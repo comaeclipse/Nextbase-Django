@@ -5654,6 +5654,513 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "North Platte",
+      "state": "NE",
+      "signals": [
+        {
+          "key": "reputation_harsher_than_lived_safety",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 5,
+          "label": "Reputation is rougher than resident accounts",
+          "detail": "North Platte has a very negative statewide Reddit reputation for crime and roughness, but multiple residents and frequent visitors explicitly dispute the idea that ordinary life is unusually violent. The disagreement itself is the signal: reputation and lived everyday safety are not the same thing here.",
+          "audience": "Anyone evaluating everyday safety from online reputation.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1c67wec/serious_question_whats_wrong_with_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1s0oc8f/where_to_spend_the_night_in_western_ne_traveling/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "drug_problem_highly_visible_in_discourse",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Meth is a loud civic-reputation theme",
+          "detail": "Meth and other drugs recur across nearly every general North Platte discussion. Residents disagree sharply about how much an uninvolved person encounters in ordinary life, so this establishes high visibility in local reputation more securely than it establishes universal daily exposure.",
+          "audience": "Residents concerned about substance-related disorder or theft.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1c67wec/serious_question_whats_wrong_with_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "neighborhood_safety_evidence_thin",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Neighborhood safety claims are under-sampled",
+          "detail": "One older relocation thread warns against living north of the railroad tracks, while broader resident accounts describe ordinary safety more favorably. Targeted searching did not produce enough independent neighborhood-by-neighborhood testimony to validate a specific avoidance map.",
+          "audience": "Renters and buyers comparing specific neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "railroad_is_core_economic_anchor",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Railroad remains the defining job anchor",
+          "detail": "Residents and railroad workers consistently describe Union Pacific as a central local employer and wage setter. Good railroad work can make North Platte financially attractive, but dependence on one unusually important employer also narrows the economic base.",
+          "audience": "Tradespeople, railroad workers and job-seeking households.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "rail_dependency_creates_cycle_risk",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Rail dependence has downside exposure",
+          "detail": "Former residents connect periods of local weakness to railroad layoffs and describe rents and wages as unusually influenced by Union Pacific employment. Much of the clearest testimony is older, so the current degree of exposure needs structural verification.",
+          "audience": "Households whose income would not come from the railroad or hospital.",
+          "geography_scope": "regional",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.city-data.com/forum/nebraska/3199780-how-north-platte-these-days-kearney.html",
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "decent_job_changes_livability",
+          "dimension": "economy",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Livability depends heavily on job quality",
+          "detail": "A recurring resident formulation is that North Platte works reasonably well if a newcomer secures a halfway decent job. Commenters contrast railroad, healthcare and other stronger jobs with service-sector households that may feel housing costs more acutely.",
+          "audience": "Prospective movers comparing an actual job offer with local costs.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hospital_and_meatpacking_add_diversity",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Newer sectors soften railroad dependence",
+          "detail": "Residents discussing North Platte's stagnation specifically point to the hospital and meatpacking development as newer economic supports. The discourse still treats Union Pacific as unusually important, so this is diversification rather than a fully diversified economy.",
+          "audience": "Workers outside the railroad sector.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_supply_feels_tight",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Housing supply is a recurring complaint",
+          "detail": "Recent resident discussion explicitly calls North Platte's situation a housing crisis or says there is not enough housing for new residents. The city itself has continued planning for additional workforce and multifamily housing, which independently confirms that supply is an active planning issue.",
+          "audience": "New renters, first-time buyers and relocating workers.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.northplattene.gov/AgendaCenter/ViewFile/Minutes/_05282024-168"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_cost_value_is_mixed",
+          "dimension": "housing",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Cheap sticker prices do not end housing debate",
+          "detail": "Some relocation accounts call North Platte affordable, while others complain that rents reflect railroad-level wages or that older housing quality is disappointing. The community picture is therefore inexpensive relative to many outside markets but not uniformly good value for local earners.",
+          "audience": "Renters and buyers comparing North Platte with larger markets.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+            "https://www.city-data.com/forum/nebraska/3199780-how-north-platte-these-days-kearney.html"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_integration_can_be_slow",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Breaking into social circles can take work",
+          "detail": "Newcomers describe people as generally nice but sometimes reserved, with difficulty progressing beyond acquaintance. Several accounts say community-building is harder outside work, churches and bars.",
+          "audience": "Newcomers arriving without family or an established local network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "work_cohort_can_ease_friendmaking",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 2,
+          "label": "A built-in work cohort changes the experience",
+          "detail": "A 2026 Union Pacific newcomer who arrived alone reported that North Platte was not nearly as bad as expected and that he had already made good friends through training. This is one fresh account rather than a broad consensus, but it provides important counterevidence to the social-isolation theme.",
+          "audience": "Solo movers entering a large local employer.",
+          "geography_scope": "city",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_is_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Ordinary-week nightlife is limited",
+          "detail": "Relocation accounts explicitly describe little nightlife and few evening options outside drinking-oriented venues. Large annual events exist, but residents do not describe them as creating a deep ordinary-week social circuit.",
+          "audience": "Young adults and anyone who values varied evening entertainment.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "bars_and_churches_are_social_anchors",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Social life clusters around established anchors",
+          "detail": "One of the more specific newcomer-oriented accounts says socializing outside churches and bars can be difficult, and railroad discussion similarly portrays drinking as a common default activity. This does not mean all local social life is alcohol-centered, but alternatives appear thinner.",
+          "audience": "People seeking non-drinking adult social options.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "annual_events_add_civic_energy",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Big annual events punctuate a quiet baseline",
+          "detail": "Residents consistently mention NEBRASKAland Days, rodeos and concerts as real entertainment assets. These events add distinctive seasonal energy but should not be confused with deep year-round nightlife.",
+          "audience": "Residents who enjoy community festivals, rodeo and country music.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.visitnorthplatte.com/events/annual-events-festivals/nebraska-land-days/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "camping_fishing_and_water_are_close",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Fishing and camping are everyday-region assets",
+          "detail": "Multiple independent accounts mention Lake Maloney, Buffalo Bill SRA, reservoirs, fishing, hunting and camping as some of the strongest reasons to enjoy the area. This is substantially better supported than claims about formal trail or public-land access.",
+          "audience": "Anglers, hunters, campers and lake users.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "scenery_is_genuinely_mixed",
+          "dimension": "outdoors",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Open-country scenery divides opinion",
+          "detail": "Some residents and visitors praise the river, Sandhills access, open skies and western-Nebraska landscapes, while others find the region visually flat or bleak. A SameGrassButGreener commenter who visits both North Platte and Scottsbluff preferred Scottsbluff specifically for its natural setting.",
+          "audience": "People for whom landscape quality materially affects relocation preference.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1hgokfq/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "regional_service_hub_role",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "North Platte serves a much larger hinterland",
+          "detail": "Residents of western and southwest Nebraska discuss North Platte as a place people travel to for employment, shopping, healthcare and community-college services. It has more functional depth than many surrounding towns even while remaining isolated from a major metro.",
+          "audience": "People comparing North Platte with smaller western Nebraska communities.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "large_metro_access_is_a_trip",
+          "dimension": "access",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Major-city access requires planning",
+          "detail": "Residents regularly describe Denver, Omaha and other larger service centers in multi-hour terms. North Platte is a hub for its own region but does not function as an easy satellite of a major metropolitan area.",
+          "audience": "People who frequently need big-city shopping, entertainment or specialist services.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/UnionPacific/comments/1gvktwk/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "major_airport_access_is_indirect",
+          "dimension": "access",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Air travel usually involves a connection",
+          "detail": "Community accounts identify major-airport access as a weakness because Denver and larger airports are far by road. North Platte does have local commercial air service, so the limitation is access to a hub rather than absence of passenger aviation.",
+          "audience": "Frequent flyers and households with distant family.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.northplatteairport.com/flight-information/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "kearney_is_preferred_amenity_comparison",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Kearney usually wins the in-state comparison",
+          "detail": "When residents directly compare the two, Kearney is commonly favored for restaurants, growth, social energy and general desirability. North Platte retains stronger railroad specialization and western-region positioning.",
+          "audience": "People choosing among Nebraska's smaller regional centers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.reddit.com/r/Nebraska/comments/vhl8oh/",
+            "https://www.reddit.com/r/Nebraska/comments/1s0oc8f/where_to_spend_the_night_in_western_ne_traveling/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_is_cold_and_relatively_dry",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Cold, dry High Plains winter",
+          "detail": "Regional resident discussion describes southwest and western Nebraska winters as cold and comparatively dry, more like eastern Colorado or Wyoming than wetter eastern-Midwest winters. Snow does occur and blizzard conditions can matter even if persistent deep snow is not portrayed as the defining everyday condition.",
+          "audience": "People relocating from mild-winter climates.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/Nebraska/comments/wv9bwp/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_is_hot_but_drier_than_east",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Hot summers with western-Nebraska dryness",
+          "detail": "Regional accounts consistently call summers hot but generally drier than eastern Nebraska. North Platte-specific climate discussion does not portray humidity as absent, only as less defining than farther east.",
+          "audience": "People sensitive to summer heat or humidity.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/",
+            "https://www.reddit.com/r/Nebraska/comments/1gw1wod/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "storms_are_variable_and_salient",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Storms are a noticeable High Plains feature",
+          "detail": "North Platte weather discussion emphasizes highly variable thunderstorm behavior and rapid changes, while broader regional accounts mention blizzards and severe-weather awareness. This supports meaningful storm exposure, but community discussion is less precise about frequency than official climate records.",
+          "audience": "Homeowners, drivers and weather-sensitive residents.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1dptskc/north_platte_weather/",
+            "https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "great_plains_health_has_unusual_depth",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Regional hospital punches above city size",
+          "detail": "Community accounts repeatedly identify the hospital as a local strength, and Great Plains Health currently documents a 116-bed regional referral center with primary care and a broad specialty roster. This establishes substantial local capacity but not wait times or ease of securing every specialist.",
+          "audience": "Households prioritizing routine and specialist medical access.",
+          "geography_scope": "regional",
+          "evidence_kind": "user_provided_facility_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.gphealth.org/about-us/",
+            "https://www.gphealth.org/clinics/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "va_outpatient_clinic_is_local",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Local VA outpatient access exists",
+          "detail": "The VA Nebraska-Western Iowa system lists a North Platte VA Clinic, while the nearest named VA medical center in the same system is Grand Island and even that facility lacks an emergency room or urgent care. North Platte therefore has strong local outpatient convenience but not local full VA hospital capability.",
+          "audience": "Veterans using VA healthcare.",
+          "geography_scope": "regional",
+          "evidence_kind": "user_provided_facility_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.va.gov/nebraska-western-iowa-health-care/operating-status/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "school_quality_is_conflicted_and_thin",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "School sentiment cannot support a score",
+          "detail": "One former student says the school system was not strong when they attended and would want evidence of improvement before raising children there, while other commenters characterize North Platte as a good family town. Targeted searching did not produce enough current parent-level discussion to resolve the disagreement.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_day_to_day_climate_is_mixed",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "LGBTQ+ climate appears mixed, not settled",
+          "detail": "A visibly LGBTQ+ resident working in area schools described occasional social harassment and ideological pushback but said physical danger was generally not the principal concern. This is valuable first-hand evidence but too thin for a high-confidence citywide judgment.",
+          "audience": "LGBTQ+ newcomers evaluating everyday social climate.",
+          "geography_scope": "city",
+          "evidence_kind": "single_resident_account",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "political_climate_read_as_conservative",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Residents contrast NP as more conservative",
+          "detail": "A former North Platte resident directly contrasts Kearney as more progressive and North Platte as strongly conservative. Broader western-Nebraska discussion supports a conservative regional context, but city-specific political discussion is not deep enough for very high confidence.",
+          "audience": "People for whom local civic or political climate affects fit.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+            "https://www.reddit.com/r/Nebraska/comments/1i9i0ry/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "rail_western_identity_is_distinctive",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Railroad and western history shape identity",
+          "detail": "Residents repeatedly invoke rail workers, Buffalo Bill, ranching, rodeo, NEBRASKAland Days and western-Nebraska culture when describing what distinguishes North Platte. The identity is substantially more specific than a generic Interstate service town.",
+          "audience": "People who value visible local history and place identity.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+            "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+            "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }
