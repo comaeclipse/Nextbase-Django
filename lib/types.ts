@@ -152,6 +152,8 @@ export interface LocationRow {
   housing_rpp?: number | null;
   utilities_rpp?: number | null;
   other_services_rpp?: number | null;
+  /** BEA "All Items" RPP (LineCode 1). Source for col_index; see scripts/sync-col-index-from-rpp.ts. */
+  all_items_rpp?: number | null;
   bea_geo_type?: "msa" | "nonmetro_state" | null;
   bea_geo_code?: string | null;
   bea_geo_name?: string | null;

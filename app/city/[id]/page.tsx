@@ -256,7 +256,9 @@ export default async function CityDetailPage({
                 {location.col_index ? location.col_index : location.cost_of_living}
               </div>
               <div className="kpi-sub">
-                {location.col_index ? "Index (100 = US avg)" : "Category"}
+                {location.col_index
+                  ? "Index (100 = US avg)"
+                  : "Category (index unavailable)"}
               </div>
             </div>
             <div className="kpi">
