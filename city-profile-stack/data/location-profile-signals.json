@@ -6161,6 +6161,548 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "Grand Junction",
+      "state": "CO",
+      "signals": [
+        {
+          "key": "outdoor_access_immediate",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Major outdoor access starts at town",
+          "detail": "Across relocation and resident threads, immediate mountain biking, hiking, river use and nearby skiing are the city's most consistent positive theme. The notable point is everyday proximity rather than merely being somewhere in Colorado.",
+          "audience": "Hikers, cyclists, skiers, paddlers and outdoor-oriented households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/",
+            "https://www.reddit.com/r/grandjunction/comments/1l9qh4y/gj_bucket_list/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "scenery_and_daytrip_range",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Scenery and weekend range are major assets",
+          "detail": "Residents emphasize the Monument, Grand Mesa, Utah, river corridors and a large set of destinations within roughly two to four hours. The community treats the surrounding geography as a reason to stay.",
+          "audience": "People who value scenery and frequent regional road trips.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1cdrdof",
+            "https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "public_land_everyday",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Public-land recreation is part of normal life",
+          "detail": "Community recommendations repeatedly revolve around dispersed hiking, biking, river corridors and canyon country rather than a handful of city parks. This is a regional claim because many signature sites are outside municipal boundaries.",
+          "audience": "Public-land users, mountain bikers, hikers and campers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1l9qh4y/gj_bucket_list/",
+            "https://www.reddit.com/r/grandjunction/comments/mxy1wi"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_heat_limits_daytime",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Summer heat reshapes daytime activity",
+          "detail": "Dedicated summer discussions describe midsummer afternoons as hot enough to push exercise to dawn, air-conditioned spaces or higher elevations. Some residents stress that individual years vary, so this should not be read as Phoenix-level heat.",
+          "audience": "Heat-sensitive residents and people planning summer outdoor recreation.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1uvsxkb/first_summer_this_heat_is_brutal_help/",
+            "https://www.reddit.com/r/howislivingthere/comments/1prgvwu/what_is_life_like_in_grand_junction_co/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dry_heat_low_humidity",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Heat is distinctly dry rather than muggy",
+          "detail": "Transplants from humid climates repeatedly distinguish Grand Junction's dry air from eastern or Gulf Coast summers. Evaporative cooling is common enough to generate its own local discussions.",
+          "audience": "People comparing Grand Junction with humid climates.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/107yoin",
+            "https://www.reddit.com/r/grandjunction/comments/1s6k1qk/potential_transplant_advice_needed/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_valley_milder",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Valley winters are milder than Colorado image",
+          "detail": "Resident comparisons emphasize sunny winters and substantially less persistent snow than mountain communities. Snow and icy roads still occur, particularly when traveling east into canyon and mountain terrain.",
+          "audience": "Residents concerned about winter severity.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/relocating/comments/1kx0u6z/considering_a_move_from_boston_suburbs_to/",
+            "https://www.reddit.com/r/grandjunction/comments/1gk5ygj"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "severe_storms_not_defining",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Severe storms are memorable, not defining",
+          "detail": "A dedicated 2024 storm thread shows sharply localized wind and rain impacts, but long-time residents treated the episode as unusual enough to be noteworthy. This is thinner evidence than the heat signal.",
+          "audience": "Homeowners concerned about hail, wind and violent storms.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1dq6tga"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "pollen_dust_allergy_issue",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 2,
+          "label": "Spring pollen and dust bother some newcomers",
+          "detail": "A targeted allergy thread contains multiple transplant accounts reporting new or intensified symptoms attributed to dry air, pollen and windblown dust. This is clearly real for some residents but not sampled broadly enough to call universal.",
+          "audience": "People with seasonal allergies or respiratory sensitivities.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1cvpg8m"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "short_local_driving",
+          "dimension": "commute",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Routine trips are short and predictable",
+          "detail": "Residents repeatedly contrast local driving with Denver and describe most Grand Valley destinations as manageable within short drives. Congestion complaints exist but do not resemble major-metro commute discourse.",
+          "audience": "Commuters and households tired of Front Range traffic.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/178q2en/thinking_of_a_move_to_gj_thoughts/",
+            "https://www.reddit.com/r/grandjunction/comments/ec12r8"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "car_default_outside_core",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "A car remains the default outside the core",
+          "detail": "Residents explicitly describe the city as difficult to navigate without a car unless work and housing align with downtown or CMU. Short drives reduce the burden but do not eliminate dependence.",
+          "audience": "Non-drivers and households hoping to reduce car ownership.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "transit_service_limited",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Bus service exists but has limited span",
+          "detail": "Grand Valley Transit runs multiple fixed routes, but current schedules end around 8 p.m. and there is no Sunday service. That provides a real fallback network without making the region transit-oriented.",
+          "audience": "Car-free residents, older adults and households sharing vehicles.",
+          "geography_scope": "regional",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://gvt.mesacounty.us/routes-schedules"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "downtown_walkable_cluster",
+          "dimension": "mobility",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Downtown forms a real walkable cluster",
+          "detail": "Residents and visitors consistently describe Main Street and adjacent downtown blocks as a place where restaurants, bars and shops can be reached on foot after parking once or staying centrally. This does not describe most of the city.",
+          "audience": "People considering central neighborhoods or downtown living.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1czzy5w",
+            "https://www.reddit.com/r/grandjunction/comments/1od88tw/best_restaurants_downtown/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "urban_amenity_depth_thin",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "City amenities exist but choices repeat",
+          "detail": "Relocation threads repeatedly call shopping and dining marginal compared with larger Colorado cities. The counterevidence is a viable downtown restaurant scene, so the problem is depth and variety rather than absence.",
+          "audience": "People who prioritize restaurant, shopping and cultural variety.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1s6k1qk/potential_transplant_advice_needed/",
+            "https://www.reddit.com/r/grandjunction/comments/1od88tw/best_restaurants_downtown/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_daytime_town",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Nightlife is shallow; daytime recreation dominates",
+          "detail": "Dedicated nightlife discussions call Grand Junction a daytime adventure town and say late options skew heavily toward bars. More recent threads show concerts, breweries and downtown events, so nightlife is limited rather than absent.",
+          "audience": "Young adults and people who prioritize late-night entertainment.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/udprzr/nightlife_in_grand_junction/",
+            "https://www.reddit.com/r/grandjunction/comments/1rsc1x0/saturday_night_fun_in_gj_for_out_of_towners/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "social_hobby_networks",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Friend-making works through recurring hobbies",
+          "detail": "Advice to newcomers repeatedly points toward climbing, river groups, trivia, bike nights, theater, gardens and open mics. This suggests social integration is possible but benefits from deliberate participation.",
+          "audience": "Newcomers trying to build a social network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1s99ust/how_to_meet_people_here/",
+            "https://www.reddit.com/r/grandjunction/comments/1sxqfw9/best_quick_food_options/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dating_pool_small",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Dating pool is functional but shallow",
+          "detail": "Young-adult accounts conflict: some report reasonably easy in-person socializing while others identify dating and friendship as the main weakness of moving to the area. The consistent element is limited population depth.",
+          "audience": "Single adults, especially newcomers in their 20s and 30s.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/10ruk2o",
+            "https://www.reddit.com/r/grandjunction/comments/1is73z4/recommendations_for_a_single_male_trying_to_make/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_wage_squeeze",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Housing costs have outrun local wages",
+          "detail": "Recent community discussion describes a severe gap between ordinary local pay and current rents or purchase prices. This is one of the loudest and most consistent relocation cautions in the 2025-26 sample.",
+          "audience": "Local-wage earners, renters and first-time buyers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/",
+            "https://www.reddit.com/r/howislivingthere/comments/1nbvf24/what_is_life_like_round_these_parts_grand/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "rental_search_friction",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Rental searches can be frustrating",
+          "detail": "Recent arrivals describe slow landlord responses and difficulty securing appropriately priced units before moving. The evidence indicates friction rather than proof that every rental segment is chronically unavailable.",
+          "audience": "New renters arriving without local contacts.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1kqqptg/moving_to_grand_junction_and_trying_to_find_a/",
+            "https://www.reddit.com/r/grandjunction/comments/1udq8t6/property_management_companies_vs_private_landlords/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "job_market_shallow",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Professional job depth is limited",
+          "detail": "Longtime and recent accounts repeatedly identify limited well-paid jobs and fewer equivalent employers as a weakness. Healthcare is an important exception and should not be generalized to the entire economy.",
+          "audience": "Professionals who need multiple employers in the same field.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1cdrdof",
+            "https://www.reddit.com/r/grandjunction/comments/1fepqgf"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "healthcare_regional_capacity",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Regional hospital capacity is unusually deep",
+          "detail": "Healthcare workers describe several hospitals and St. Mary's as a high-acuity referral center for a very large surrounding area. These operational claims are community accounts and should be checked against facility records before database use as hard facts.",
+          "audience": "People who value having substantial hospital care locally.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1fepqgf"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "healthcare_provider_waits",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Establishing providers can take planning",
+          "detail": "Residents report practices declining new patients, waits for appointments and the need to arrange specialists far in advance. One medically complex transplant said local specialist capacity was ultimately sufficient but began arranging care 18 months ahead.",
+          "audience": "People needing ongoing primary or specialist care.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1k3ddy0",
+            "https://www.reddit.com/r/grandjunction/comments/1lek278"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hospital_staffing_concern",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Recent St. Mary's staffing complaints are serious",
+          "detail": "A 2026 thread includes employees alleging staffing shortages, pay changes and increased medical errors at St. Mary's. Because these are consequential allegations from community accounts rather than audited quality data, they require independent verification.",
+          "audience": "Patients and healthcare workers evaluating local hospitals.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1t58v29/st_mary_hospital_increase_medical_errors/",
+            "https://www.reddit.com/r/IntermountainHealth/comments/1thixwa/st_mary_grand_junction_co_pay_cuts_medical_errors/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "va_hospital_present",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Veterans describe a local VA hospital",
+          "detail": "Veteran-oriented local threads repeatedly identify an actual VA hospital in Grand Junction rather than only a small outpatient clinic. Facility scope is independently checked in Block 4.",
+          "audience": "Veterans using VA healthcare.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/x17qpn",
+            "https://www.reddit.com/r/grandjunction/comments/mxy1wi"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_mostly_area_specific",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Safety reputation varies sharply by neighborhood",
+          "detail": "Residents disagree strongly over the city's crime reputation. Multiple people describe ordinary life as safe and compare Grand Junction favorably with larger metros, while particular streets and eastern areas receive recurring cautions.",
+          "audience": "Renters and buyers evaluating neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/15grd7h/crime_in_grand_junction/",
+            "https://www.reddit.com/r/grandjunction/comments/1o5268l/affordable_safe_areas_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "substance_homelessness_visible_contested",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Visible homelessness and addiction are debated",
+          "detail": "Some residents identify visible homelessness, drug use and related theft as noticeable local problems; others say the issue is substantially less severe than in larger metros. The discourse includes inflammatory language, so this signal should not be generalized to affected people or neighborhoods.",
+          "audience": "Residents sensitive to visible street disorder or property crime.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/15grd7h/crime_in_grand_junction/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "schools_mixed_under_sampled",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "School experiences vary; evidence is thin",
+          "detail": "The dedicated family search produced some positive accounts of clubs and generally acceptable experiences alongside warnings about particular campuses. The sample is too small to convert those comments into a citywide school-quality judgment.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1oytaug/what_are_your_thoughts_on_area_schools/",
+            "https://www.reddit.com/r/grandjunction/comments/ec12r8"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "political_climate_conservative_mixed",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Conservative-leaning, but not socially uniform",
+          "detail": "Residents commonly describe Grand Junction as more conservative than Fort Collins or Denver, while others distinguish the city from the more conservative surrounding county and emphasize internal variation. Because political threads use inflammatory language, the evidence supports a directional climate only.",
+          "audience": "People for whom local political climate affects relocation fit.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1k7t9ym/thinking_of_moving_to_gj/",
+            "https://www.reddit.com/r/GrandJunctionCO/comments/1ogekiu/moving_to_grand_junction/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_scene_present_small",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Queer social scene exists but is small",
+          "detail": "Recent LGBTQ discussion identifies a dedicated bar, drag nights and other queer-positive gathering places while explicitly contrasting the scale with Denver. This establishes presence more strongly than broad social acceptance.",
+          "audience": "LGBTQ residents seeking visible community and social venues.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1vnn5v4/trying_to_meet_other_gay_men_gj/",
+            "https://www.reddit.com/r/grandjunction/comments/1l9qh4y/gj_bucket_list/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "regional_air_travel_connection",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Local airport helps, but most trips connect",
+          "detail": "Residents disagree over whether Grand Junction is a difficult travel base: some emphasize the extra connecting segment, while frequent travelers note multiple daily Denver flights and improving service. The airport materially reduces isolation without functioning as a major hub.",
+          "audience": "Frequent flyers and remote workers who travel for work.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1tg6j7j/looking_for_a_home_base_would_love_any_feedback/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nearby_towns_split_roles",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Fruita and Palisade broaden the lifestyle menu",
+          "detail": "Residents frequently treat Grand Junction, Fruita and Palisade as a connected but differentiated valley: Grand Junction for services and downtown, Fruita for biking and smaller-town life, and Palisade for wineries, orchards and events. Clifton carries a rougher reputation that other residents contest.",
+          "audience": "Relocators choosing among Grand Valley communities.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/grandjunction/comments/1czzy5w",
+            "https://www.reddit.com/r/grandjunction/comments/qs4uta"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_pressure_official",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "City records confirm housing affordability pressure",
+          "detail": "Grand Junction's own housing reporting identifies rising prices, stagnant wages and a mismatch between housing supply and local incomes; the 2025 report lists a $1,500 median rent and $400,000 median home price. This independently supports the community wage-housing complaint.",
+          "audience": "Renters, buyers and local-wage households.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.gjcity.org/DocumentCenter/View/16099/2025-Unhoused-Survey-Report-?bidId="
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "growth_pressure_official",
+          "dimension": "growth",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "City is actively planning for continued growth",
+          "detail": "City planning and housing documents treat population growth, housing production and transportation capacity as active long-range issues rather than hypothetical future concerns. Growth is visible but the evidence does not support describing Grand Junction as a boomtown on the scale of the fastest Sun Belt metros.",
+          "audience": "Residents concerned about development and changing city scale.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.gjcity.org/359/Long-Range-Planning",
+            "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1167128/File/document"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }

@@ -4206,6 +4206,348 @@
         "discussed_but_unscoreable: religious visibility appears indirectly through references to churches as social institutions, but that does not establish the prominence of religious norms citywide.",
         "discussed_but_unscoreable: dating-pool complaints were too sparse and anecdotal to score dating_pool_depth."
       ]
+    },
+    {
+      "city": "Grand Junction",
+      "state": "CO",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.34,
+          "confidence": 0.62,
+          "evidence": "Residents describe valley winters as comparatively mild and sunny, while acknowledging periodic cold, snow and icy travel conditions.",
+          "signals": [
+            "winter_valley_milder"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.27,
+          "confidence": 0.6,
+          "evidence": "Snow occurs and can affect roads, but community comparisons consistently distinguish the Grand Valley from persistently snowy mountain Colorado.",
+          "signals": [
+            "winter_valley_milder"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.79,
+          "confidence": 0.78,
+          "evidence": "Dedicated summer threads describe midday heat as materially limiting outdoor activity and shifting recreation to early mornings or higher elevations.",
+          "signals": [
+            "summer_heat_limits_daytime"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.08,
+          "confidence": 0.74,
+          "evidence": "Transplants from humid regions consistently describe Grand Junction's heat as distinctly dry, and evaporative cooling remains practical locally.",
+          "signals": [
+            "dry_heat_low_humidity"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.73,
+          "confidence": 0.68,
+          "evidence": "Residents praise a long usable outdoor season and relatively mild valley winters, but midsummer heat noticeably reduces daytime comfort.",
+          "signals": [
+            "winter_valley_milder",
+            "summer_heat_limits_daytime"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.68,
+          "confidence": 0.61,
+          "evidence": "Summer discussions treat air-conditioning or effective evaporative cooling as important during hot spells, while winters still require normal heating.",
+          "signals": [
+            "summer_heat_limits_daytime",
+            "dry_heat_low_humidity"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.21,
+          "confidence": 0.42,
+          "evidence": "A localized severe-storm discussion shows damaging wind can occur, but residents characterized such episodes as unusual rather than a defining property concern.",
+          "signals": [
+            "severe_storms_not_defining"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.32,
+          "confidence": 0.6,
+          "evidence": "Added via the same-day cross-city wind calibration addendum (measured hourly means), designating Grand Junction the wind negative control: its windiest month averages only ~8.3 mph and its calmest ~6.2 mph - the calmest part of North Platte's year (~9.7 mph) is windier than the windiest part of Grand Junction's. Sheltered valley topography produces a dramatically calmer wind environment than the otherwise structurally similar Wyoming and Nebraska hubs. The community corpus correspondingly lacks a persistent-wind theme (see gaps).",
+          "signals": [
+            "severe_storms_not_defining"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.98,
+          "confidence": 0.86,
+          "evidence": "Independent community threads consistently place hiking, mountain biking, rafting and other outdoor recreation within minutes of ordinary city life.",
+          "signals": [
+            "outdoor_access_immediate"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.97,
+          "confidence": 0.82,
+          "evidence": "Resident recreation recommendations overwhelmingly use surrounding open desert, canyon and federal-land systems rather than requiring distant trips.",
+          "signals": [
+            "public_land_everyday"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.95,
+          "confidence": 0.84,
+          "evidence": "The Monument, Grand Mesa, canyon country and broad Western Slope scenery are repeatedly stated reasons residents enjoy or remain in the area.",
+          "signals": [
+            "scenery_and_daytrip_range"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.76,
+          "confidence": 0.7,
+          "evidence": "Residents repeatedly mention rafting, floating, paddling and river access as nearby activities, although water recreation is less dominant than biking and hiking.",
+          "signals": [
+            "outdoor_access_immediate"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.74,
+          "confidence": 0.71,
+          "evidence": "Residents treat Denver, Salt Lake City and larger urban systems as trips rather than errands, while the local airport partially mitigates that isolation.",
+          "signals": [
+            "regional_air_travel_connection",
+            "scenery_and_daytrip_range"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.45,
+          "confidence": 0.75,
+          "evidence": "Grand Junction has a real restaurant, shopping and entertainment base, but relocation threads repeatedly say choices become repetitive compared with larger Colorado cities.",
+          "signals": [
+            "urban_amenity_depth_thin"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.54,
+          "confidence": 0.58,
+          "evidence": "Residents describe sufficient regional shopping for ordinary needs while simultaneously calling the retail selection limited or marginal for a city of regional importance.",
+          "signals": [
+            "urban_amenity_depth_thin"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.34,
+          "confidence": 0.69,
+          "evidence": "A local commercial airport significantly improves connectivity, but residents still describe many trips as beginning with an added connecting flight rather than easy access to a hub airport.",
+          "signals": [
+            "regional_air_travel_connection"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.79,
+          "confidence": 0.78,
+          "evidence": "Residents explicitly describe a car as necessary for most households outside downtown or CMU, and existing transit has limited evening and Sunday coverage.",
+          "signals": [
+            "car_default_outside_core",
+            "transit_service_limited"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.72,
+          "confidence": 0.7,
+          "evidence": "Downtown Main Street is repeatedly described as a compact cluster where restaurants, bars and shops can be reached on foot, unlike most of the broader city.",
+          "signals": [
+            "downtown_walkable_cluster"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.63,
+          "confidence": 0.56,
+          "evidence": "The community describes substantial local medical capacity, but reports of practices closed to new patients and waits prevent a higher routine-access score.",
+          "signals": [
+            "healthcare_regional_capacity",
+            "healthcare_provider_waits"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.43,
+          "confidence": 0.65,
+          "evidence": "New residents repeatedly warn that establishing primary care and specialists can require advance planning even when the underlying services exist.",
+          "signals": [
+            "healthcare_provider_waits"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.69,
+          "confidence": 0.58,
+          "evidence": "Healthcare workers and medically complex transplants describe meaningful specialist and high-acuity capacity locally, tempered by long lead times for some providers.",
+          "signals": [
+            "healthcare_regional_capacity",
+            "healthcare_provider_waits"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.96,
+          "confidence": 0.61,
+          "evidence": "Veteran community discussions consistently identify local VA healthcare rather than requiring routine travel to another metro.",
+          "signals": [
+            "va_hospital_present"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 0.97,
+          "confidence": 0.61,
+          "evidence": "Local veteran accounts identify a full VA hospital in Grand Junction, not merely an outpatient clinic; Block 4 independently confirms the facility.",
+          "signals": [
+            "va_hospital_present"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.44,
+          "confidence": 0.75,
+          "evidence": "Residents repeatedly distinguish having jobs from having many equivalent employers and advancement paths, with healthcare standing out as a stronger sector.",
+          "signals": [
+            "job_market_shallow"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.48,
+          "confidence": 0.55,
+          "evidence": "The local economy supports multiple service sectors, but resident accounts repeatedly emphasize healthcare and a relatively narrow professional labor market.",
+          "signals": [
+            "job_market_shallow",
+            "healthcare_regional_capacity"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.19,
+          "confidence": 0.8,
+          "evidence": "Residents consistently describe local driving as short and predictable compared with Front Range commuting, even from nearby Grand Valley communities.",
+          "signals": [
+            "short_local_driving"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.32,
+          "confidence": 0.82,
+          "evidence": "The loudest recent economic theme is that ordinary local wages have not kept pace with rents and purchase prices.",
+          "signals": [
+            "housing_wage_squeeze",
+            "housing_pressure_official"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.69,
+          "confidence": 0.8,
+          "evidence": "City planning records show sustained housing and infrastructure expansion while residents describe a place changing noticeably from its lower-cost past.",
+          "signals": [
+            "growth_pressure_official",
+            "housing_wage_squeeze"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.36,
+          "confidence": 0.84,
+          "evidence": "Grand Junction remains cheaper than several highly desirable Colorado markets, but both residents and city records describe substantial absolute housing costs and affordability gaps.",
+          "signals": [
+            "housing_wage_squeeze",
+            "housing_pressure_official"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.34,
+          "confidence": 0.8,
+          "evidence": "Community discussion repeatedly argues that current prices are high for a city of Grand Junction's size and local wage base, weakening the expected small-city discount.",
+          "signals": [
+            "housing_wage_squeeze",
+            "housing_pressure_official"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.38,
+          "confidence": 0.66,
+          "evidence": "Recent newcomers report landlord-response delays and difficulty securing appropriately priced rentals, although the evidence does not establish universal shortages at every price point.",
+          "signals": [
+            "rental_search_friction",
+            "housing_pressure_official"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.67,
+          "confidence": 0.4,
+          "evidence": "Community comparisons consistently place Grand Junction to the conservative side of Fort Collins and Denver, while other residents distinguish the city from the more conservative surrounding county; inflammatory political language keeps confidence low.",
+          "signals": [
+            "political_climate_conservative_mixed"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.62,
+          "confidence": 0.38,
+          "evidence": "Recent LGBTQ discussions identify welcoming venues and community resources, but the sample is too small to infer a uniformly accepting day-to-day climate.",
+          "signals": [
+            "lgbtq_scene_present_small"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.34,
+          "confidence": 0.48,
+          "evidence": "Residents identify dedicated queer social events and at least one central gathering venue while explicitly noting that the scene is small compared with Denver.",
+          "signals": [
+            "lgbtq_scene_present_small"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.54,
+          "confidence": 0.68,
+          "evidence": "Newcomers can build community through recurring hobbies and groups, but repeated friend-seeking threads show that social connection rarely happens automatically.",
+          "signals": [
+            "social_hobby_networks"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.35,
+          "confidence": 0.77,
+          "evidence": "Dedicated nightlife threads describe limited late-night variety dominated by bars, despite genuine concerts, breweries and downtown activity.",
+          "signals": [
+            "nightlife_daytime_town"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.35,
+          "confidence": 0.66,
+          "evidence": "Young-adult accounts disagree on ease of dating but consistently reveal a smaller and less redundant pool than large metropolitan areas.",
+          "signals": [
+            "dating_pool_small"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.74,
+          "confidence": 0.61,
+          "evidence": "Multiple residents and transplants describe ordinary daily life as safe while acknowledging area-specific property crime and visible street disorder.",
+          "signals": [
+            "safety_mostly_area_specific"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.53,
+          "confidence": 0.38,
+          "evidence": "Residents do raise addiction and visible drug use as local concerns, but accounts differ sharply on scale and sometimes use inflammatory language, so the score is deliberately mid-range and low-confidence.",
+          "signals": [
+            "substance_homelessness_visible_contested"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: targeted weather searches found references to windblown dust and individual storms but not enough evidence that persistent wind materially shapes daily life, so wind_exposure is omitted. (A wind_exposure value of 0.32 was subsequently supplied via the same-day cross-city wind calibration addendum, which designates Grand Junction the wind negative control: measured hourly means show its windiest month is calmer than North Platte's calmest.)",
+        "not_researched: winter daylight deficit was not separately investigated in this pass.",
+        "searched_not_found: dedicated community evidence on precipitation seasonality was not strong enough to score that feature from lived experience.",
+        "discussed_but_unscoreable: school experiences were too campus-specific and thin to convert into a broad citywide family-infrastructure score.",
+        "searched_not_found: a dedicated community discussion establishing Grand Junction's municipal LGBTQ policy was not located, so lgbtq_municipal_policy is omitted.",
+        "not_researched: racial inclusion climate was not independently targeted in this pass and is therefore omitted rather than inferred from demographics.",
+        "discussed_but_unscoreable: religious visibility appears in broader Western Slope discussion but was too generalized and region-wide to score Grand Junction itself.",
+        "not_researched: economic-cycle exposure and high-wage trade opportunity were not researched deeply enough to separate current conditions from the region's historical energy-cycle reputation.",
+        "not_researched: remote-work viability was not technically verified; social discussions involving remote workers establish isolation risk, not broadband reliability."
+      ]
     }
   ]
 }
