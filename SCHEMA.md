@@ -100,6 +100,7 @@ BEA Regional Price Parities for the affordability engine. Joined 1:1 onto `locat
 - **VintageYear**: BEA RPP year (currently 2024)
 - **BeaGeoType**: `msa` or `nonmetro_state`. Statewide SARPP is never used as a silent fallback.
 - **BeaGeoCode** / **BeaGeoName**: BEA GeoFIPS and name (MSA code, or `ss999` for a state's nonmetropolitan portion)
+- **AllItemsRpp**: BEA LineCode 1 ("RPPs: All items"), `100 = US average`.
 - **GoodsRpp** / **HousingRpp** / **UtilitiesRpp** / **OtherServicesRpp**: components, `100 = US average`. Housing RPP is stored for audit; housing is priced from `median_rent` / `avg_home_value`.
 - **SourceUrl** / **RetrievedOn**: provenance
 
