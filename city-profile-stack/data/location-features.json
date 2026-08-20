@@ -254,9 +254,9 @@
       "dossier_key": "reddit_sentiment_2026",
       "features": {
         "wind_exposure": {
-          "value": 0.98,
+          "value": 0.9,
           "confidence": 0.85,
-          "evidence": "The clearest consensus in the dossier and the highest-confidence value in it. Wind reaches driving, heating, building upkeep, recreation, gardening, road visibility and climate tolerance; even residents who love Casper do not dispute the severity.",
+          "evidence": "The clearest consensus in the dossier and the highest-confidence value in it. Wind reaches driving, heating, building upkeep, recreation, gardening, road visibility and climate tolerance; even residents who love Casper do not dispute the severity. Recalibrated 2026-08-20 against cross-city hourly wind means (owner calibration pass, Weather Spark station data independently re-verified): January ~15.0 mph, the strongest winter wind regime of the researched cities; value trimmed from 0.98 to 0.90 to anchor the top of the national scale.",
           "signals": [
             "relentless_wind"
           ]
@@ -2781,9 +2781,9 @@
           ]
         },
         "wind_exposure": {
-          "value": 0.75,
-          "confidence": 0.72,
-          "evidence": "Strong seasonal wind, particularly in spring, recurs independently across local weather discussions.",
+          "value": 0.52,
+          "confidence": 0.65,
+          "evidence": "Recalibrated 2026-08-20 against cross-city hourly wind means (owner calibration pass, Weather Spark station data independently re-verified): Victorville averages roughly 7-9 mph with a spring peak near 9 mph in April - genuinely windier than the San Bernardino/Ontario basin (5.3-7.4 mph), so residents' wind complaints are real, but far below the Cheyenne/Casper winter regime (January ~15 mph). Locally windy, not Wyoming-level wind-exposed. Original community-sentiment value was 0.75.",
           "signals": [
             "persistent_wind_and_cool_nights"
           ]
@@ -3615,9 +3615,9 @@
           ]
         },
         "wind_exposure": {
-          "value": 0.95,
+          "value": 0.88,
           "confidence": 0.85,
-          "evidence": "Wind appears across unrelated resident threads as a defining condition affecting property, driving, walking, exercise, snow drifting and mood.",
+          "evidence": "Recalibrated 2026-08-20 against cross-city hourly wind means (owner calibration pass, Weather Spark station data independently re-verified): wind is a defining climatic feature especially fall through spring (January ~14.7 mph, five months at or above ~11-12 mph; NWS 2025 annual average 11.3 mph), but slightly below Casper's regime. Original value was 0.95.",
           "signals": [
             "wind_is_daily_life"
           ]

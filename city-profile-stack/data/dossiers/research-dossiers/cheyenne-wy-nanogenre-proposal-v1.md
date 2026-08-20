@@ -29,16 +29,19 @@ decision 1, a nanogenre needs 2 independently-researched cities before entering
 
 **Recurrence notes for the next taxonomy review — three separate observations:**
 
-1. **"Wind-Exposed … Hub" now appears in three independent proposals**: Casper
-   (primary nano "Wind-Exposed Mountain-Edge Energy Hub"), Victorville (secondary nano
-   "Wind-Exposed High-Desert Regional Service Hub") and Cheyenne (primary nano
-   "Wind-Exposed Front-Range-Edge State-Capital Hub"). The nano floor of 2 is
-   numerically cleared, but the §3 #4 nonredundancy question is now live: is
-   "wind-exposed regional hub" a genuine recurring *bundle* (wind shaping daily life
-   co-occurring with regional-hub function), or is it better expressed as a hub genre
-   plus a `wind_exposure` trait filter? All three cities score wind_exposure 0.75-0.95.
-   This is the taxonomy's first admission-versus-redundancy decision and it is the
-   reviewer's call.
+1. **"Wind-Exposed … Hub" appears in two independent proposals** *(revised 2026-08-20)*:
+   Casper (primary nano "Wind-Exposed Mountain-Edge Energy Hub") and Cheyenne (primary
+   nano "Wind-Exposed Front-Range-Edge State-Capital Hub"). Victorville briefly made it
+   three, but its secondary wind-exposed label was withdrawn the same day after a
+   national wind calibration (Victorville ~7–9 mph spring-peaked vs. the Cheyenne/Casper
+   ~15 mph January regime; its wind_exposure was revised 0.75 → 0.52). The two remaining
+   cities both sit at wind_exposure 0.88–0.90 with genuinely wind-shaped daily life, so
+   the nano floor of 2 is still met — and the withdrawal actually *sharpens* the
+   candidate, since it now discriminates (locally-windy cities don't qualify). The §3 #4
+   nonredundancy question remains live: is "wind-exposed regional hub" a genuine
+   recurring *bundle*, or better expressed as a hub genre plus a `wind_exposure` trait
+   filter? This is the taxonomy's first admission-versus-redundancy decision and it is
+   the reviewer's call.
 2. **Cross-level echo**: Cheyenne's broad label "Interior-West Regional Service Hub" is
    verbatim the vocabulary of Casper's *micro* label. Broad is supposed to be inferred
    by clustering stabilized micro genres (§12 decision 3), so this supports the eventual
