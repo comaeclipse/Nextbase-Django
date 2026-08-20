@@ -336,6 +336,23 @@ Only geocoded cities and geocoded *active* installations are paired. Recompute w
 
 ---
 
+## Mosques
+
+Points of interest for the standalone `/mosques` map. Independent of `locations_location` — not tied to a curated retirement city, not a Fit-score factor, and not filtered by the Explore facets.
+
+Table: `mosques`
+
+- **OsmType** / **OsmId**: The source OpenStreetMap element (`node`, `way`, or `relation`) and its id. Ways/relations are stored at their `out center` centroid, not their full geometry.
+- **Name**: Nullable — some OSM `amenity=place_of_worship` entries carry no `name` tag.
+- **Address** / **City** / **State**: Built from `addr:housenumber`/`addr:street`/`addr:city`/`addr:state` tags when present; frequently `NULL` since OSM address tagging on places of worship is inconsistent.
+- **Latitude** / **Longitude**: Required (rows without coordinates are dropped at fetch time, never imported).
+- **Phone** / **Website**: From `contact:phone`/`phone` and `contact:website`/`website`/`url` tags.
+- **SourceKind** / **SourceUrl** / **SourceRetrievedOn**: Always `'openstreetmap'`, a link to the OSM element, and the fetch date.
+
+Rows are unique on `(osm_type, osm_id)`. Data is ODbL-licensed by OpenStreetMap contributors — the `/mosques` page must credit them. Seeds are `data/mosques_overpass_<date>.json`, produced by `scripts/fetch-mosques-overpass.ts` (queries the public Overpass API for `amenity=place_of_worship` + `religion=muslim` within the US) and loaded by `scripts/import-mosques.ts` after `scripts/migrate-mosques.ts`.
+
+---
+
 ## Pace classification (derived)
 
 Retirement pace (`urban` / `suburban` / `small_town` / `rural`) is **not** stored on `locations_location`. It lives in an append-only history table plus a current view.
