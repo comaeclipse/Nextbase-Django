@@ -1,0 +1,98 @@
+{
+  "city": "Victorville",
+  "state": "CA",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Victorville, California — community sentiment synthesis",
+  "summary": "A comparatively attainable, spacious Southern California high-desert regional center: housing that still buys substantially more house than 'down the hill', quiet desert space, and real outdoor access — set against thin local job depth, near-total car dependence, healthcare that leaks down Cajon Pass for anything beyond routine care, and a commute relationship in which Cajon Pass itself is the single most consequential fact of daily life.",
+  "narrative_file": "victorville-ca.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "commuting_employment_housing_heat_wind_car_dependence_recreation_healthcare_and_amenity_depth_all_well_covered",
+      "neighborhood_specific_safety_threads_contradict_sweeping_citywide_stereotypes",
+      "all_28_cited_reddit_threads_independently_verified_real_via_archive_lookup_with_matching_subreddit_and_titles",
+      "acs_figures_in_the_narrative_independently_re_verified_against_census_reporter"
+    ],
+    "limitations": [
+      "reddit_overrepresents_dissatisfied_residents_newcomers_commuters_and_people_considering_leaving",
+      "victorville_high_desert_and_victor_valley_used_interchangeably_blurring_hesperia_apple_valley_adelanto_and_spring_valley_lake",
+      "housing_prices_employment_conditions_and_individual_businesses_change_rapidly",
+      "school_commentary_thin_and_reputation_based",
+      "crime_homelessness_and_drug_discussions_frequently_inflammatory_establishing_perception_not_prevalence",
+      "healthcare_complaints_often_concern_one_hospital_or_insurance_network_rather_than_every_provider",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "political_conservatism_political_heterogeneity_religious_culture_prominence_and_municipal_lgbtq_policy_outside_this_research_pass",
+      "lgbtq_social_acceptance_racial_inclusion_and_related_interpersonal_climate_too_thin_or_inflammatory_to_score",
+      "remote_work_infrastructure_tourism_pressure_economic_cycle_exposure_precipitation_seasonality_winter_daylight_deficit_and_severe_storm_risk_not_developed",
+      "rental_vacancy_wait_list_and_competition_conditions_searched_but_not_established"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/highdesert/comments/1excra5/possibly_moving_to_victorville/",
+    "https://www.reddit.com/r/howislivingthere/comments/1pat9gz/hows_living_in_victorville_ca/",
+    "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/",
+    "https://www.reddit.com/r/highdesert/comments/1s9s2z8/how_do_you_get_a_job_here/",
+    "https://www.reddit.com/r/highdesert/comments/1mr7ibg/",
+    "https://www.reddit.com/r/highdesert/comments/1r8q3rf/weather_in_victorville/",
+    "https://www.reddit.com/r/highdesert/comments/1fkxfqw/",
+    "https://www.reddit.com/r/highdesert/comments/17lyvwr/",
+    "https://www.reddit.com/r/highdesert/comments/1tzuyyd/things_to_do/",
+    "https://www.reddit.com/r/highdesert/comments/1s5k2wy/recommendations_on_where_to_go_out/",
+    "https://www.reddit.com/r/highdesert/comments/1rjjkw2/",
+    "https://www.reddit.com/r/highdesert/comments/1mpmobe/",
+    "https://www.reddit.com/r/highdesert/comments/1lk5dr9/",
+    "https://www.reddit.com/r/highdesert/comments/1uxj6dy/airport_shuttle/",
+    "https://www.reddit.com/r/highdesert/comments/1ndy7v6/",
+    "https://www.reddit.com/r/highdesert/comments/l2k8md/",
+    "https://www.reddit.com/r/highdesert/comments/1biyk4e/",
+    "https://censusreporter.org/profiles/16000US0682590-victorville-ca/"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions, so it functions as an independent test of them; the prediction comparison falsified 11 of 31 returned features (largest miss: downtown_walkability predicted 0.79 from big-metro neighbors, dossier 0.20).",
+    "location_context": {
+      "county": "San Bernardino County",
+      "region": "Victor Valley, Mojave High Desert, Southern California",
+      "setting": "high-desert regional retail/service center on I-15, separated from the Inland Empire by Cajon Pass",
+      "nearby_geographic_feature": "Cajon Pass; San Gabriel/San Bernardino mountains and Wrightwood to the south; Mojave Narrows and Silverwood nearby",
+      "important_distinction": "Victorville, 'High Desert' and 'Victor Valley' are used interchangeably in local discourse, blurring Victorville proper with Hesperia, Apple Valley, Adelanto and Spring Valley Lake; the dominant lived comparison is not another city but 'down the hill' — the Inland Empire on the other side of Cajon Pass."
+    },
+    "reddit_sentiment": "mixed_and_conditional_on_life_staying_local",
+    "city_archetype": "housing_value_high_desert_commuter_and_service_hub",
+    "strongest_positive_signals": [
+      "california_relative_housing_value",
+      "quiet_desert_space_and_dark_skies",
+      "nearby_desert_and_mountain_recreation",
+      "regional_retail_service_center_function",
+      "more_everyday_commercial_life_than_nothing_there_implies"
+    ],
+    "strongest_negative_signals": [
+      "thin_local_job_market",
+      "cajon_pass_commute_fragility",
+      "near_total_car_dependence",
+      "healthcare_leakage_down_the_hill",
+      "thin_nightlife_and_amenity_variety",
+      "neighborhood_dependent_safety_reputation"
+    ],
+    "best_for": [
+      "established_remote_workers",
+      "households_with_secured_local_employment",
+      "homebodies",
+      "buyers_prioritizing_yard_and_house_size",
+      "drivers_comfortable_with_sprawl",
+      "desert_and_outdoor_enthusiasts"
+    ],
+    "poor_fit_for": [
+      "daily_la_or_inland_empire_commuters",
+      "car_free_households",
+      "people_seeking_dense_nightlife_or_dating_options",
+      "workers_arriving_without_employment_lined_up",
+      "households_frequently_needing_tertiary_or_specialist_healthcare"
+    ],
+    "bottom_line": "Victorville is a comparatively attainable, spacious Southern California high-desert regional center whose housing and quiet make sense when your life can stay local — but whose thin job/amenity depth, car dependence and Cajon Pass connection become expensive when it cannot."
+  }
+}

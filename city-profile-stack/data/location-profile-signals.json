@@ -3842,6 +3842,434 @@
           "source_retrieved_on": "2026-08-08"
         }
       ]
+    },
+    {
+      "city": "Victorville",
+      "state": "CA",
+      "signals": [
+        {
+          "key": "california_relative_housing_value",
+          "dimension": "housing",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "More house for the money than down hill",
+          "detail": "Homeownership is repeatedly presented as the central reason to move to Victorville from more expensive Southern California markets. Recent residents still describe getting substantially more house and yard, while acknowledging that the discount has narrowed.",
+          "audience": "Homebuyers prioritizing detached-house size and yard space.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/",
+            "https://www.reddit.com/r/highdesert/comments/1rlb2en/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_bargain_eroding",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "The old High Desert bargain is shrinking",
+          "detail": "Residents repeatedly contrast current roughly $400,000-plus homes with substantially lower historical prices. Victorville remains inexpensive relative to much of Southern California, but long-time residents resist describing present prices as simply cheap.",
+          "audience": "Buyers basing relocation on Victorville's historical low-cost reputation.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1rlb2en/",
+            "https://www.reddit.com/r/howislivingthere/comments/1pat9gz/hows_living_in_victorville_ca/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "cajon_pass_commute_penalty",
+          "dimension": "commute",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Cajon Pass dominates down-hill commuting",
+          "detail": "Daily commuters describe ordinary congestion plus severe variability from crashes, weather and closures. Trips that are tolerable on a good day can become multi-hour events, making commute reliability as important as nominal distance.",
+          "audience": "Anyone retaining employment in the Inland Empire or Los Angeles basin.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/yjb7h2/just_moved_to_victorville/",
+            "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_job_search_difficulty",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Local job searches are a recurring complaint",
+          "detail": "Separate threads contain residents reporting months or years of unsuccessful local applications. Commenters repeatedly recommend commuting down the hill or securing employment before relocating, although individual employers and public-sector opportunities do exist.",
+          "audience": "Working-age newcomers without a job already secured.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1s9s2z8/how_do_you_get_a_job_here/",
+            "https://www.reddit.com/r/highdesert/comments/1lkn63d/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_cost_wage_mismatch",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Cheap housing does not guarantee easy finances",
+          "detail": "The employment discussion often collides with rising housing costs: residents describe a market that is cheaper than coastal Southern California while local job options remain comparatively thin. The evidence is stronger on job scarcity and rising costs separately than on a quantified local wage-to-rent ratio.",
+          "audience": "Households dependent on ordinary local wages.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1mr7ibg/",
+            "https://www.reddit.com/r/highdesert/comments/1s9s2z8/how_do_you_get_a_job_here/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "strong_car_dependence",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "A reliable car is close to essential",
+          "detail": "Residents overwhelmingly characterize the Victor Valley as car dependent. Some successfully use buses and Micro-Link, but hourly service, long journeys and dispersed destinations make this the exception rather than the default.",
+          "audience": "Non-drivers and one-car households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1rjjkw2/is_it_hard_to_get_around_the_high_desert_without/",
+            "https://www.reddit.com/r/highdesert/comments/1lk5dr9/how_reliable_is_the_vvta_bus_service/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "transit_usable_but_slow",
+          "dimension": "mobility",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Transit exists but usually costs time",
+          "detail": "VVTA users describe buses as reasonably reliable but often hourly, with service ending relatively early. Micro-Link receives more positive comments and shows that car-free travel is possible, just substantially less convenient.",
+          "audience": "Residents who cannot or prefer not to drive.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1lk5dr9/how_reliable_is_the_vvta_bus_service/",
+            "https://www.reddit.com/r/highdesert/comments/1rjjkw2/is_it_hard_to_get_around_the_high_desert_without/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "weak_walkable_core",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Victorville lacks a strong walkable core",
+          "detail": "Residents describe Victorville as designed around driving and express frustration with the slow realization of Old Town redevelopment. This is more specifically a built-form complaint than a claim that walking is literally impossible.",
+          "audience": "People seeking pedestrian-oriented daily life or a conventional downtown.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1mpmobe/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "thin_nightlife_depth",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Nightlife is limited and repetitive",
+          "detail": "Young adults looking for evenings out receive a short list dominated by bars, breweries and suggestions to travel elsewhere. There is nightlife, but residents do not describe anything resembling metropolitan variety.",
+          "audience": "Singles and residents who prioritize frequent evening entertainment.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1s5k2wy/recommendations_on_where_to_go_out/",
+            "https://www.reddit.com/r/highdesert/comments/1tzuyyd/things_to_do/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "amenities_exist_but_repeat",
+          "dimension": "amenities",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "There is activity, but limited depth",
+          "detail": "Residents can identify restaurants, libraries, breweries, recreation, hobby stores and community activities. The more defensible reading is therefore limited variety rather than 'nothing to do.'",
+          "audience": "People evaluating whether the city has enough ordinary leisure options.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1tzuyyd/things_to_do/",
+            "https://www.reddit.com/r/highdesert/comments/1l1njug/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hobby_based_social_entry",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Making friends often requires an activity",
+          "detail": "Threads from residents seeking friends commonly produce recommendations for hiking groups, pickleball, D&D, libraries, Meetup-style events and community organizations. That suggests social networks are findable but often require deliberate participation rather than emerging from a dense public social scene.",
+          "audience": "Newcomers arriving without an existing social network.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1tzuyyd/things_to_do/",
+            "https://www.reddit.com/r/highdesert/comments/1s5k2wy/recommendations_on_where_to_go_out/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nearby_outdoor_recreation",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Desert and mountain recreation is close",
+          "detail": "Residents repeatedly cite Mojave Narrows, local walking routes, off-road recreation, Silverwood, the Pacific Crest Trail vicinity, Wrightwood and mountain trips. Outdoor access is one of the clearer counters to complaints about limited conventional entertainment.",
+          "audience": "Hikers, off-road users and outdoor-oriented households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1lcj6vd/places_to_walkhike/",
+            "https://www.reddit.com/r/howislivingthere/comments/1pat9gz/hows_living_in_victorville_ca/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "desert_scenery_and_quiet",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Quiet, stars and sunsets have real appeal",
+          "detail": "Several transplants positively contrast the High Desert with busier Southern California environments, emphasizing open views, dark skies, quiet nights and sunsets. These are preference-sensitive benefits rather than universal advantages.",
+          "audience": "Homebodies and people actively seeking a quieter desert setting.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1excra5/possibly_moving_to_victorville/",
+            "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dry_extreme_summer_heat",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Summer heat materially shapes daily life",
+          "detail": "Residents consistently describe very hot but dry summers and adjust outdoor activity accordingly. Air conditioning is treated as normal infrastructure rather than an optional comfort.",
+          "audience": "Heat-sensitive residents and households concerned about cooling costs.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1fwyebk/",
+            "https://www.reddit.com/r/highdesert/comments/1n50q6p/",
+            "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "high_ac_dependence",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Cooling can become a major summer expense",
+          "detail": "One former Victorville resident reported summer electric bills around $400, while another described solar changing the economics substantially. The precise bill amount is household-specific, but the broader dependence on mechanical cooling is well supported.",
+          "audience": "Homebuyers budgeting utilities or evaluating solar.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1n50q6p/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "persistent_wind_and_cool_nights",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Wind and large temperature swings matter",
+          "detail": "Local weather threads repeatedly mention strong spring winds and unexpectedly chilly nights even when daytime temperatures are mild. The high-desert temperature swing is an important part of the climate's lived character.",
+          "audience": "Anyone sensitive to wind or expecting low-desert nighttime temperatures.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1r8q3rf/weather_in_victorville/",
+            "https://www.reddit.com/r/highdesert/comments/1fwyebk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_cold_and_occasional_snow",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Winter gets cold; snow is episodic",
+          "detail": "Residents warn newcomers that the High Desert can freeze and occasionally receive snow, while commute threads emphasize snow impacts around Cajon Pass. Snow is not described as a persistent winter burden comparable with snowy northern climates.",
+          "audience": "Southern California movers expecting uniformly mild winters.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/17lyvwr/",
+            "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "basic_care_local_specialty_care_leaks",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Higher-level healthcare often means down hill",
+          "detail": "Residents generally distinguish routine care from more involved treatment: basic services exist locally, while hospitalization, specialist services or network-specific care may require Ontario or Loma Linda trips. Some hospital criticism is vivid and anecdotal, so the strongest supported claim is geographic leakage rather than universal poor quality.",
+          "audience": "People expecting frequent specialist or hospital care.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1fkxfqw/",
+            "https://www.reddit.com/r/highdesert/comments/17lyvwr/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_varies_block_by_block",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 5,
+          "label": "Safety reputation is strongly neighborhood-specific",
+          "detail": "Neighborhood threads contradict broad claims that Victorville is uniformly dangerous. Old Town, Brentwood and several specific corridors attract caution, but residents living within or near supposedly bad areas sometimes report years without serious problems; newer western areas and Spring Valley Lake receive more favorable descriptions.",
+          "audience": "Homebuyers and renters choosing a specific neighborhood.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/l2k8md/",
+            "https://www.reddit.com/r/highdesert/comments/1ndy7v6/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "family_location_preferences_are_uneven",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Families often prefer nearby residential pockets",
+          "detail": "Family-oriented threads disproportionately recommend Spring Valley Lake, Apple Valley and southern Hesperia/Oak Hills over central Victorville. These are resident preferences rather than controlled comparisons of school or crime outcomes.",
+          "audience": "Households relocating with children.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1ndy7v6/",
+            "https://www.reddit.com/r/highdesert/comments/18xi8ud/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "school_reputation_uneven",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "School discussions favor selected alternatives",
+          "detail": "School threads frequently recommend Serrano or Oak Hills and express reservations about some Victorville-area schools. Evidence is thin, heavily reputation-based and sometimes inflammatory, so it should not be treated as measured school quality.",
+          "audience": "Families making school-boundary decisions.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1biyk4e/",
+            "https://www.reddit.com/r/highdesert/comments/12hkepb/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "regional_service_center_role",
+          "dimension": "amenities",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Victorville serves the wider Victor Valley",
+          "detail": "Residents from surrounding communities describe Victorville as a destination for major shopping and services. That creates more everyday commercial capacity than a stand-alone city reading suggests, while also producing congestion at scarce regional destinations.",
+          "audience": "People evaluating local retail and service convenience.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1pat9gz/hows_living_in_victorville_ca/",
+            "https://www.reddit.com/r/highdesert/comments/15375t8/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "passenger_airport_access_is_awkward",
+          "dimension": "access",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Passenger air travel usually requires a trip",
+          "detail": "Residents discussing Ontario Airport describe costly shuttles or multi-hour public-transit journeys from Victorville. A car makes the connection much more practical, reinforcing the area's wider car dependence.",
+          "audience": "Frequent airline travelers and car-free residents.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/1uxj6dy/airport_shuttle/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "growth_strain_is_visible_in_discourse",
+          "dimension": "growth",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Residents notice rapid in-migration and change",
+          "detail": "Longer-term residents associate population growth with rising housing costs and pressure on jobs and infrastructure. The theme is recurrent but usually anecdotal rather than quantified in community threads.",
+          "audience": "People expecting the slower, cheaper High Desert of a decade ago.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/highdesert/comments/17lyvwr/",
+            "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "substance_problem_discourse_is_loud",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Drug problems loom large in local reputation",
+          "detail": "Drug and addiction references appear repeatedly in discussions of Victorville, but much of that discourse is inflammatory, stereotyped and mixed with sweeping claims about crime and homelessness. This establishes a strong perception theme, not a measured prevalence rate.",
+          "audience": "Readers trying to distinguish local reputation from demonstrated conditions.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1pat9gz/hows_living_in_victorville_ca/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }
