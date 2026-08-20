@@ -227,6 +227,16 @@ body:has(> .city-page) { background: var(--bg); }
 .aff-notes ul { margin: .35rem 0 0 1.1rem; }
 .aff-missing { color: #b45309; }
 .aff-disclaimer { margin-top: 1rem; }
+.aff-targets { border-collapse: collapse; margin: .4rem 0 .5rem; width: 100%; }
+.aff-targets th, .aff-targets td { border-bottom: 1px solid var(--border); font-size: .86rem; padding: .45rem .6rem; text-align: left; }
+.aff-targets thead th { color: var(--fg-subtle); font-size: .72rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; }
+.aff-targets tbody th { color: var(--fg-muted); font-weight: 600; }
+.aff-targets td strong { font-weight: 700; }
+.aff-targets-note { color: var(--fg-subtle); font-size: .74rem; line-height: 1.45; margin: 0 0 1.1rem; }
+.aff-verdict { font-size: .95rem; font-weight: 600; margin: 0 0 .8rem; }
+.aff-verdict-comfortable { color: #15803d; }
+.aff-verdict-tight { color: #b45309; }
+.aff-verdict-over { color: #b91c1c; }
 
 /* ── Data rows / spec grid ── */
 .spec-grid {

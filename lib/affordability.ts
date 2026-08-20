@@ -438,6 +438,51 @@ export function estimateMonthlyCost(
 }
 
 /**
+ * Share of take-home income the estimated cost may reach and still band as
+ * "comfortable". One constant on purpose: the band in assessAffordability /
+ * assessBudget and the inverse income targets below must agree, or a city
+ * could advertise a "comfortable" income that its own band then calls tight.
+ */
+export const COMFORT_COST_SHARE = 0.8;
+
+/**
+ * The inverse question: instead of "does MY income cover this city?", "what
+ * take-home income does this city take?" Both numbers are monthly AFTER-tax
+ * dollars — grossing up depends on the household's income mix and the state,
+ * which is exactly what the forward path (assessBudget) models, so no gross
+ * figure is invented here.
+ */
+export interface IncomeTargets {
+  /**
+   * Take-home at which income meets the estimated cost. Below this the band
+   * is "over"; at or above it, at least "tight".
+   */
+  breakEven: number;
+  /**
+   * Take-home at which the band turns "comfortable": cost is at most
+   * COMFORT_COST_SHARE of income, leaving the rest as cushion.
+   */
+  comfortable: number;
+}
+
+/**
+ * Null when the city could not be priced, mirroring `monthlyCost`.
+ *
+ * Both targets are ceiled to whole dollars. Two reasons: the UI prints whole
+ * dollars, and in IEEE doubles `c <= (c / SHARE) * SHARE` is false for a
+ * large fraction of cost values, so the raw quotient can band as "tight" at
+ * its own "comfortable" target. Rounding up guarantees a printed target
+ * always satisfies the band it names.
+ */
+export function incomeTargets(estimate: CostEstimate): IncomeTargets | null {
+  if (estimate.monthlyCost === null) return null;
+  return {
+    breakEven: Math.ceil(estimate.monthlyCost),
+    comfortable: Math.ceil(estimate.monthlyCost / COMFORT_COST_SHARE),
+  };
+}
+
+/**
  * Attach headroom and a budget band to an estimate.
  *
  * Bands describe the estimate, they do not filter. Callers should rank and
@@ -454,7 +499,7 @@ export function assessAffordability(
   }
   const headroom = monthlyIncome - estimate.monthlyCost;
   const band: Band =
-    estimate.monthlyCost <= monthlyIncome * 0.8
+    estimate.monthlyCost <= monthlyIncome * COMFORT_COST_SHARE
       ? "comfortable"
       : estimate.monthlyCost <= monthlyIncome
         ? "tight"
@@ -556,7 +601,7 @@ export function assessBudget(
 
   const headroom = income.netMonthly - cost.monthlyCost;
   const band: Band =
-    cost.monthlyCost <= income.netMonthly * 0.8
+    cost.monthlyCost <= income.netMonthly * COMFORT_COST_SHARE
       ? "comfortable"
       : cost.monthlyCost <= income.netMonthly
         ? "tight"
