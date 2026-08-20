@@ -64,8 +64,8 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts d
 ```
 
 Then the follow-up chain, in order (each is detailed in **Import Paths**): employer link
-backfill → `recompute-defense-hub.ts` → `derive-structural-features.ts` →
-`verify-location-completeness.ts --name "City, ST"`. Regenerate the map crosswalk
+backfill → `recompute-defense-hub.ts` → `import-bea-rpp.ts` → `sync-col-index-from-rpp.ts` →
+`derive-structural-features.ts` → `verify-location-completeness.ts --name "City, ST"`. Regenerate the map crosswalk
 (`prepare-map-coordinates.ts`) and open a second small PR for the artifacts the import
 produced — the updated `data/location-map-coordinates.json` and any dated
 `data/va_facilities_sync_YYYY-MM-DD.md` note.
@@ -278,9 +278,10 @@ Normalization:
 Fields:
 
 - `sales_tax`
-- `col_index`
-- `cost_of_living`
 - `gas_price`
+
+`col_index` and `cost_of_living` used to be hand-sourced here too. They no longer are — see
+the note below.
 
 Recommended sources:
 
@@ -293,13 +294,13 @@ Retrieval notes:
 
 - `sales_tax` can be state-only, combined state/local average, or city-specific. Choose one convention and apply it consistently.
 - `income_tax` is state-owned. Do not write it through `scripts/import-csv.ts`; adjudicate it into `locations_stateinfo` with explicit semantics, source URL, and verification date. The intended default semantic is top marginal state individual income tax unless the product chooses another definition.
-- `col_index` needs a consistent source. If no licensed cost-of-living source is available, use a documented proxy and do not overstate it.
+- Do **not** research or hand-populate a cost-of-living score from BestPlaces, CostOfLivingData.com, or similar sites anymore. `col_index` and `cost_of_living` are derived automatically post-ingest, from BEA Regional Price Parities, by running `scripts/import-bea-rpp.ts` and then `scripts/sync-col-index-from-rpp.ts` (`--dry-run` first) against the city's `location_cost_rpp` match. See the **Ingest Workflow** follow-up chain.
 
-Normalization:
+Normalization (applied automatically by `scripts/sync-col-index-from-rpp.ts`, not by the researcher):
 
-- `sales_tax`: decimal percent values such as `6.25`, not `0.0625`.
 - `col_index`: integer where 100 means U.S. average.
-- `cost_of_living`: derive from `col_index`: `Low` under 95, `Moderate` 95-115, `High` over 115 unless product rules say otherwise.
+- `cost_of_living`: derived from `col_index`: `Low` under 95, `Moderate` 95-115, `High` over 115 unless product rules say otherwise.
+- `sales_tax`: decimal percent values such as `6.25`, not `0.0625`.
 - `gas_price`: formatted text like `$3.19`.
 
 ### Veterans Affairs
@@ -748,7 +749,7 @@ Use `--clear` only when intentionally replacing all locations:
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts path\to\locations.csv --clear
 ```
 
-The importer writes the CSV `DefenseHub` column to `defense_hub_manual`, not `defense_hub`. A brand-new city's employer sites are auto-linked on insert by the `link_city_to_employer_locations` trigger, but `defense_hub` stays unresolved until you recompute. **After every import, run the follow-ups** (order matters — link, then derive defense hub, then structural profile features):
+The importer writes the CSV `DefenseHub` column to `defense_hub_manual`, not `defense_hub`. A brand-new city's employer sites are auto-linked on insert by the `link_city_to_employer_locations` trigger, but `defense_hub` stays unresolved until you recompute. The importer also no longer sources `col_index`/`cost_of_living` from the CSV `CostOfLiving` column — that column is not read. **After every import, run the follow-ups** (order matters — link, then derive defense hub, then derive cost of living, then structural profile features):
 
 ```powershell
 # 1. Catch-all link (the trigger only fires on brand-new inserts, not upsert-updates)
@@ -756,7 +757,12 @@ node "--env-file=$envFile" -e $script   # link_employer_locations_to_cities(), s
 # 2. Derive defense_hub from the fresh links + manual curation
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts --dry-run
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
-# 3. Refresh chat/profile structural features (va_outpatient_access, housing, climate burdens, etc.)
+# 3. Derive col_index/cost_of_living from BEA Regional Price Parities
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-bea-rpp.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-bea-rpp.ts
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/sync-col-index-from-rpp.ts --dry-run
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/sync-col-index-from-rpp.ts
+# 4. Refresh chat/profile structural features (va_outpatient_access, housing, climate burdens, etc.)
 #    Without this, new cities stay invisible to /chat matching even when legacy columns are filled.
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts --dry-run
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts

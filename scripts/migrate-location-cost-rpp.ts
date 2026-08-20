@@ -57,6 +57,15 @@ async function main() {
     );
   }
 
+  // BEA LineCode 1 ("RPPs: All items") — added so col_index can eventually be
+  // standardized on this single federal source instead of the legacy
+  // mixed-provider composite. Idempotent ALTER, not a table recreate: the
+  // table already exists in prod.
+  await run(
+    "add all_items_rpp column",
+    `ALTER TABLE location_cost_rpp ADD COLUMN IF NOT EXISTS all_items_rpp numeric(8,3)`
+  );
+
   console.log(dryRun ? "\nDry run complete." : "\nMigration complete.");
 }
 

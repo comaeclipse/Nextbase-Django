@@ -84,6 +84,7 @@ function argValue(flag: string): string | null {
 type RppComponents = {
   code: string;
   name: string;
+  allItems: number;
   goods: number;
   housing: number;
   utilities: number;
@@ -178,7 +179,8 @@ function loadComponentTable(csvPath: string): Map<string, RppComponents> {
     const value = parseYearValue(row, year);
     if (!code || !name || !Number.isFinite(line) || value === null) continue;
     const current = byCode.get(code) ?? { code, name };
-    if (line === 2) current.goods = value;
+    if (line === 1) current.allItems = value;
+    else if (line === 2) current.goods = value;
     else if (line === 3) current.housing = value;
     else if (line === 4) current.utilities = value;
     else if (line === 5) current.other = value;
@@ -188,6 +190,7 @@ function loadComponentTable(csvPath: string): Map<string, RppComponents> {
   const complete = new Map<string, RppComponents>();
   for (const [code, row] of byCode) {
     if (
+      row.allItems &&
       row.goods &&
       row.housing &&
       row.utilities &&
@@ -196,6 +199,7 @@ function loadComponentTable(csvPath: string): Map<string, RppComponents> {
       complete.set(code, {
         code,
         name: row.name,
+        allItems: row.allItems,
         goods: row.goods,
         housing: row.housing,
         utilities: row.utilities,
@@ -277,11 +281,11 @@ function writeReport(
     "",
     "## Metropolitan statistical areas",
     "",
-    "| City | BEA geography | Goods | Utilities | Other services |",
-    "| --- | --- | ---: | ---: | ---: |",
+    "| City | BEA geography | All items | Goods | Utilities | Other services |",
+    "| --- | --- | ---: | ---: | ---: | ---: |",
     ...msa.map(
       (m) =>
-        `| ${m.label} | ${m.geo.name} | ${m.geo.goods.toFixed(1)} | ${m.geo.utilities.toFixed(1)} | ${m.geo.other.toFixed(1)} |`
+        `| ${m.label} | ${m.geo.name} | ${m.geo.allItems.toFixed(1)} | ${m.geo.goods.toFixed(1)} | ${m.geo.utilities.toFixed(1)} | ${m.geo.other.toFixed(1)} |`
     ),
     "",
     "## State nonmetropolitan portion (explicit)",
@@ -292,13 +296,13 @@ function writeReport(
           "These cities are not in a BEA MSA. The state's nonmetropolitan portion is",
           "a published BEA geography, not a silent statewide average.",
           "",
-          "| City | BEA geography | Goods | Utilities | Other services | Why |",
-          "| --- | --- | ---: | ---: | ---: | --- |",
+          "| City | BEA geography | All items | Goods | Utilities | Other services | Why |",
+          "| --- | --- | ---: | ---: | ---: | ---: | --- |",
         ]
           .concat(
             nonmetro.map(
               (m) =>
-                `| ${m.label} | ${m.geo.name} | ${m.geo.goods.toFixed(1)} | ${m.geo.utilities.toFixed(1)} | ${m.geo.other.toFixed(1)} | ${m.note} |`
+                `| ${m.label} | ${m.geo.name} | ${m.geo.allItems.toFixed(1)} | ${m.geo.goods.toFixed(1)} | ${m.geo.utilities.toFixed(1)} | ${m.geo.other.toFixed(1)} | ${m.note} |`
             )
           )
           .join("\n"),
@@ -435,14 +439,15 @@ async function main() {
       await sql.query(
         `INSERT INTO location_cost_rpp (
            location_id, vintage_year, bea_geo_type, bea_geo_code, bea_geo_name,
-           goods_rpp, housing_rpp, utilities_rpp, other_services_rpp,
+           all_items_rpp, goods_rpp, housing_rpp, utilities_rpp, other_services_rpp,
            source_url, retrieved_on
-         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
          ON CONFLICT (location_id) DO UPDATE SET
            vintage_year = EXCLUDED.vintage_year,
            bea_geo_type = EXCLUDED.bea_geo_type,
            bea_geo_code = EXCLUDED.bea_geo_code,
            bea_geo_name = EXCLUDED.bea_geo_name,
+           all_items_rpp = EXCLUDED.all_items_rpp,
            goods_rpp = EXCLUDED.goods_rpp,
            housing_rpp = EXCLUDED.housing_rpp,
            utilities_rpp = EXCLUDED.utilities_rpp,
@@ -455,6 +460,7 @@ async function main() {
           row.geoType,
           row.geo.code,
           row.geo.name,
+          row.geo.allItems,
           row.geo.goods,
           row.geo.housing,
           row.geo.utilities,

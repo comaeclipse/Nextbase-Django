@@ -87,19 +87,20 @@ Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudi
 - **Density**: Population density (people per square mile)
 - **Sales Tax**: Sales tax percentage
 - **Income**: State income tax percentage (0.00 = no income tax)
-- **COL**: Cost of Living index (100 = national average). Legacy mixed-provider composite still used by the categorical Fit score; the affordability engine should not decompose it (see issue #52).
+- **COL**: Cost of Living index (100 = national average). Derived from `location_cost_rpp.all_items_rpp` (BEA Regional Price Parity, "All items") via `scripts/sync-col-index-from-rpp.ts`, run as a required follow-up after any location import — no longer hand-researched per city from a cost-of-living website. Still used by the categorical Fit score; the affordability engine should not decompose it (see issue #52).
 - **median_rent**: Monthly median gross rent in dollars (ACS 5-year table B25064). Gross rent includes utilities, matching the affordability model's renter housing term. Place-level matches are preferred; county fallbacks are listed in `data/sources/rent/match-report.md`. Refresh with `scripts/import-median-rent.ts`.
 - **property_tax_rate**: Effective annual property tax as a fraction of home value (e.g. `0.01250` = 1.25%), not a percent. Refresh with `scripts/import-property-tax.ts`.
 - **avg_home_value** / **avg_home_value_display**: Typical home value (ZHVI) used by ownership tenures in the affordability model.
 
 ### Regional price parities (`location_cost_rpp`)
 
-BEA Regional Price Parities for the affordability engine. Joined 1:1 onto `locations_location` at query time. Not stored on the city table because the geography is metro/nonmetro with a vintage, and `col_index` must remain untouched for the categorical Fit score.
+BEA Regional Price Parities for the affordability engine. Joined 1:1 onto `locations_location` at query time. Not stored on the city table because the geography is metro/nonmetro with a vintage. `col_index` (and its derived `cost_of_living` category) is intentionally sourced FROM this table's "All items" RPP via `scripts/sync-col-index-from-rpp.ts` — the two are no longer independent.
 
 - **LocationId**: PK / FK to `locations_location`
 - **VintageYear**: BEA RPP year (currently 2024)
 - **BeaGeoType**: `msa` or `nonmetro_state`. Statewide SARPP is never used as a silent fallback.
 - **BeaGeoCode** / **BeaGeoName**: BEA GeoFIPS and name (MSA code, or `ss999` for a state's nonmetropolitan portion)
+- **AllItemsRpp**: BEA LineCode 1 ("RPPs: All items"), `100 = US average`.
 - **GoodsRpp** / **HousingRpp** / **UtilitiesRpp** / **OtherServicesRpp**: components, `100 = US average`. Housing RPP is stored for audit; housing is priced from `median_rent` / `avg_home_value`.
 - **SourceUrl** / **RetrievedOn**: provenance
 
