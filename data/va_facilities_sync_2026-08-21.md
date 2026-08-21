@@ -72,6 +72,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Great Falls, MT | Great Falls VA Clinic | outpatient | 2 | Fort Harrison VA Medical Center | 72 |
 | Green Bay, WI | Milo C. Huempfner Department of Veterans Affairs Outpatient Clinic | outpatient | 2 | Oscar G. Johnson Department of Veterans Affairs Medical Facility | 89 |
 | Greenville, SC | Lance Corporal Dana Cornell Darnell VA Clinic | outpatient | 3 | Charles George Department of Veterans Affairs Medical Center | 52 |
+| Greenville, TX | Greenville VA Clinic | outpatient | 4 | Dallas VA Medical Center | 50 |
 | Hamilton, WA | Mount Vernon VA Clinic | outpatient | 17 | Seattle VA Medical Center | 68 |
 | Hartford, CT | Newington VA Clinic | outpatient | 5 | West Haven VA Medical Center | 36 |
 | Honolulu, HI | Spark M. Matsunaga Department of Veterans Affairs Medical Center | hospital | 4 | Spark M. Matsunaga Department of Veterans Affairs Medical Center | 4 |
@@ -119,6 +120,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Orlando, FL | Orlando 2 VA Mobile Clinic | outpatient | 3 | Orlando VA Medical Center | 3 |
 | Overland Park, KS | Overland Park VA Clinic | outpatient | 3 | Kansas City VA Medical Center | 15 |
 | Pace, FL | Pensacola VA Clinic | outpatient | 17 | Biloxi VA Medical Center | 107 |
+| Palm Bay, FL | Palm Bay VA Clinic | outpatient | 5 | Orlando VA Medical Center | 47 |
 | Paterson, NJ | Paterson VA Clinic | outpatient | 1 | East Orange VA Medical Center | 12 |
 | Pensacola, FL | Pensacola VA Clinic | outpatient | 7 | Biloxi VA Medical Center | 105 |
 | Peoria, IL | Bob Michel Department of Veterans Affairs Outpatient Clinic | outpatient | 4 | Danville VA Medical Center | 115 |
@@ -134,6 +136,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Raleigh, NC | Raleigh III VA Clinic | outpatient | 2 | Durham VA Medical Center | 21 |
 | Rapid City, SD | Rapid City VA Clinic | outpatient | 4 | Fort Meade VA Medical Center | 27 |
 | Reno, NV | North Reno VA Clinic | outpatient | 3 | Ioannis A. Lougaris Veterans' Administration Medical Center | 4 |
+| Rochester, NY | Rochester Clinton Crossings VA Clinic | outpatient | 4 | Buffalo VA Medical Center | 62 |
 | Rome, NY | Donald J. Mitchell Department of Veterans Affairs Outpatient Clinic | outpatient | 4 | Wilkes-Barre VA Medical Center | 138 |
 | Salt Lake City, UT | Salt Lake City VA Mobile Clinic | outpatient | 5 | George E. Wahlen Department of Veterans Affairs Medical Center | 5 |
 | San Antonio, TX | Balcones Heights VA Clinic | outpatient | 2 | Audie L. Murphy Memorial Veterans' Hospital | 5 |
@@ -146,6 +149,7 @@ Hospital = nearest parent facility (3-character STA_NO / VA medical center).
 | Spokane, WA | East Front Avenue VA Clinic | outpatient | 2 | Mann-Grandstaff Department of Veterans Affairs Medical Center | 3 |
 | St. Charles, MO | St. Charles County VA Clinic | outpatient | 1 | John J. Cochran Veterans Hospital | 19 |
 | St. George, UT | St. George VA Clinic | outpatient | 1 | North Las Vegas VA Medical Center | 100 |
+| State College, PA | State College VA Clinic | outpatient | 4 | James E. Van Zandt Veterans' Administration Medical Center | 35 |
 | Syracuse, NY | Syracuse VA Medical Center | outpatient | 0 | Wilkes-Barre VA Medical Center | 125 |
 | Tucson, AZ | Tucson VA Mobile Clinic | outpatient | 6 | Tucson VA Medical Center | 6 |
 | Tullahoma, TN | Tullahoma VA Clinic | outpatient | 11 | Nashville VA Medical Center | 62 |

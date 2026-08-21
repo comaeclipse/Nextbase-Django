@@ -815,6 +815,13 @@
       "longitude": -75.665908
     },
     {
+      "name": "State College",
+      "state": "PA",
+      "census_place_geoid": "4273808",
+      "latitude": 40.791039,
+      "longitude": -77.856813
+    },
+    {
       "name": "Warren",
       "state": "PA",
       "census_place_geoid": "4281000",
