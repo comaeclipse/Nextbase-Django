@@ -13,6 +13,7 @@ import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
 import { locationCsvCompletionProblems } from "../lib/location-completeness";
+import { deriveCostOfLivingCategory } from "../lib/cost-of-living";
 import { classifyAndPersist, classifyLocation } from "../lib/pace";
 import type { PaceDerivedBundle, PacePlaceCentroid } from "../lib/pace/types";
 
@@ -135,10 +136,10 @@ function parseRow(row: Row): Record<string, unknown> {
     latitude: coords.latitude,
     longitude: coords.longitude,
     climate: cleanEmpty(row["Climate"] ?? "") ?? "",
-    // col_index / cost_of_living are intentionally not sourced from the CSV's
-    // CostOfLiving column anymore. They're populated post-import by
-    // scripts/sync-col-index-from-rpp.ts from the BEA all_items_rpp; see
-    // lib/cost-of-living.ts for the shared category-derivation function.
+    // locations_location.cost_of_living is NOT NULL. We initialize it from
+    // the CSV or fallback, and then scripts/sync-col-index-from-rpp.ts standardizes
+    // it from BEA all_items_rpp.
+    cost_of_living: deriveCostOfLivingCategory(parseIntV(row["CostOfLiving"])),
     // State-owned CSV fields are intentionally ignored here. They belong in
     // locations_stateinfo after sourced adjudication, not on every city row.
     city_politics: cleanEmpty(row["CityPolitics"]),
