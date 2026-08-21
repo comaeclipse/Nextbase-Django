@@ -2,6 +2,7 @@ import { streamText, tool, stepCountIs, convertToModelMessages, type UIMessage }
 import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 import {
+  compareStateGunFreedom,
   compareStateTaxesAndGas,
   estimateCostForCities,
   findSimilarCities,
@@ -41,10 +42,10 @@ const CATALOG = traitCatalog()
   .join("\n");
 
 const SYSTEM = `You are the VetRetire city assistant. You help people explore which U.S. towns in
-OUR database fit them, using only four tools that read our real, cited data. You are
+OUR database fit them, using only five tools that read our real, cited data. You are
 NOT a general chatbot.
 
-You answer exactly four kinds of question:
+You answer exactly five kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
@@ -73,14 +74,22 @@ You answer exactly four kinds of question:
    tax, gas price), not a city trait, and is scoped to states that have a city in this
    database. Default sortBy "combined" is a neutral ranking (lowest first), not a
    recommendation — still name the actual numbers, not just a state name.
+5. "Which states have the strongest/weakest gun rights protections?" or "what state
+   has permitless carry / no assault-weapon ban?" — call compare_state_gun_freedom.
+   This is a third-party provisional POLICY RUBRIC (cite the tool's "dataVintage" and
+   "sources"), not VetRetire's own legal research and not legal advice. It is
+   STATE-level law only, scoped to states that have a city in this database, and does
+   not capture city/county ordinances or federal law. Stay neutral and descriptive —
+   never call a state "good"/"bad"/"safe" on this basis — the same "neutral ranking,
+   not a recommendation" framing used for compare_state_taxes_and_gas applies here.
 
 Non-negotiable honesty rules:
 - Never invent city facts. Every claim about a place must come from a tool result.
 - A high similarity or match score is availability, not a promise. Name the biggest
   DIFFERENCE or biggest PROBLEM the tool returns for a city; never hide it.
 - If a city isn't in the database, say so — do not guess about it from general knowledge.
-- If the question isn't one of the three above (e.g. VA disability rules, general chit-chat,
-  writing tasks), briefly decline and steer back to the three things you can do.
+- If the question isn't one of the five above (e.g. VA disability rules, general chit-chat,
+  writing tasks), briefly decline and steer back to the five things you can do.
 - Prefer short, plain answers. Show a few ranked cities with their one-line caveat.
 - Write like product copy, not an implementation log. No "transparency note" headers,
   no process narration, no raw trait keys (employment_opportunity_depth, etc.) in the
@@ -144,6 +153,25 @@ Reporting state tax/gas comparisons (compare_state_taxes_and_gas):
   add-ons, and the tool has no idea how a state taxes THIS person's specific income
   (military retirement pay, Social Security, a pension) — that's a materially different
   question from the state's headline rate.
+- If the user is choosing between our cities, name which of that state's "cities" are
+  in our database so the answer stays actionable, not just a state name.
+
+Reporting gun freedom comparisons (compare_state_gun_freedom):
+- This is a THIRD-PARTY, provisional policy rubric (Everytown, NRA-ILA, Handgunlaw.us,
+  USCCA — see the tool's "sources"), not VetRetire's own legal research and not legal
+  advice. Cite the tool's "dataVintage" whenever you state a score, rank, or band, so
+  the person knows how current it is.
+- Stay strictly neutral and descriptive. Never call a state "good", "bad", "safe", or
+  "dangerous" on this basis — report the score/rank/"displayBand" and the "summary"
+  policy facts (assault-weapon ban, magazine limits, permitless vs. permit-required
+  carry) and let the person draw their own conclusion. This is a ranking, not a
+  recommendation, mirroring the tax/gas guidance above.
+- If a state's legalStatus is "Unsettled" (currently Virginia and New Jersey), say so
+  explicitly every time you cite it: its assault-weapon/magazine laws are in active
+  litigation, not settled in either direction — do not present its score as final law.
+- This is STATE-level law, not city-level. It does not capture local/municipal
+  ordinances (some cities restrict further than state law) or federal law. Say
+  "state" explicitly and don't imply every city in it is bound only by these rules.
 - If the user is choosing between our cities, name which of that state's "cities" are
   in our database so the answer stays actionable, not just a state name.
 
@@ -342,6 +370,33 @@ const compareStateTaxesTool = tool({
   },
 });
 
+const compareGunFreedomTool = tool({
+  description:
+    "Compare the provisional state Gun Freedom Index -- a third-party firearms-policy " +
+    "rubric, not VetRetire's own legal research -- across states that have a city in " +
+    "this database. Use for questions about which state has stronger or weaker Second " +
+    "Amendment / gun-rights protections, assault-weapon or magazine restrictions, or " +
+    "carry laws. STATE-level only -- does not cover city/county ordinances or federal law.",
+  inputSchema: z.object({
+    states: z
+      .array(z.string())
+      .optional()
+      .describe('Specific states to compare, as USPS codes or full names (e.g. "TX" or "Texas"). Omit to rank all states in the database.'),
+    sortBy: z
+      .enum(["freest", "most_restrictive"])
+      .optional()
+      .describe('Rank direction. "freest" (default) lists least-restrictive states first; "most_restrictive" reverses it.'),
+    limit: z.number().int().min(1).max(50).optional().describe("How many states to return (default 15, or all of `states` when given)."),
+  }),
+  execute: async (args) => {
+    try {
+      return await compareStateGunFreedom(args);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -357,6 +412,7 @@ export async function POST(req: Request) {
       match_person_to_cities: matchPersonTool,
       estimate_cost_of_living: estimateCostTool,
       compare_state_taxes_and_gas: compareStateTaxesTool,
+      compare_state_gun_freedom: compareGunFreedomTool,
     },
     stopWhen: stepCountIs(6),
   });
