@@ -1,0 +1,109 @@
+{
+  "city": "Cheyenne",
+  "state": "WY",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Cheyenne, Wyoming — community sentiment synthesis",
+  "summary": "A practical, quiet, family-capable high-plains capital whose biggest advantages are short daily trips and borrowed access to the Front Range, while its biggest costs are wind, thin young-adult social depth, increasingly contested affordability and periodic dependence on other cities for specialized amenities. Works best for people who actually want what critics call boring; the most dissatisfied group is young singles seeking dating, nightlife and walkability.",
+  "narrative_file": "cheyenne-wy.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "weather_fort_collins_laramie_comparisons_social_life_housing_anxiety_and_neighborhood_safety_generate_many_dedicated_threads",
+      "2024_2026_material_captures_rapidly_changing_housing_and_data_center_concerns",
+      "all_33_cited_reddit_threads_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "va_medical_center_claim_independently_corroborated_by_va_gov_and_by_the_apps_own_va_facility_sync_data"
+    ],
+    "limitations": [
+      "reddit_overrepresents_movers_transplants_younger_adults_and_residents_motivated_to_post",
+      "cheyenne_discussions_blur_city_limits_laramie_county_and_the_cheyenne_fort_collins_corridor",
+      "housing_rents_data_center_development_airline_service_and_restaurant_inventories_change_quickly",
+      "school_discussion_triad_specific_not_a_districtwide_performance_study",
+      "healthcare_threads_experiential_and_contradictory_rather_than_systematic",
+      "political_threads_can_become_performative_and_inflammatory",
+      "delivered_blocks_carried_chatgpt_contentreference_citation_artifacts_stripped_mechanically_on_import_text_otherwise_verbatim",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_one_zh_reddit_com_link_normalized_to_www"
+    ],
+    "gaps": [
+      "allergy_season_severity_searched_not_found",
+      "lgbtq_day_to_day_acceptance_and_scene_size_too_thin_to_score",
+      "first_hand_accounts_from_residents_of_color_too_sparse_for_racial_inclusion_climate",
+      "religious_culture_prominence_not_independently_investigated",
+      "remote_work_viability_not_investigated_beyond_incidental_mentions",
+      "high_wage_trade_opportunity_not_investigated_with_occupation_specific_evidence",
+      "substance_problem_visibility_language_frequently_inflammatory_and_localized"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/",
+    "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+    "https://www.reddit.com/r/wyoming/comments/192kosw/",
+    "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/",
+    "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/",
+    "https://www.reddit.com/r/Cheyenne/comments/1ugunbv/moving_to_cheyenne_soon_what_can_be_expected/",
+    "https://www.reddit.com/r/Cheyenne/comments/194vqee/",
+    "https://www.reddit.com/r/Cheyenne/comments/17wub87/",
+    "https://www.reddit.com/r/Cheyenne/comments/1hxzk7x/",
+    "https://www.reddit.com/r/Cheyenne/comments/1vgfw39/good_place_to_meet_people/",
+    "https://www.reddit.com/r/Cheyenne/comments/1rcnvi6/moving_to_the_area/",
+    "https://www.reddit.com/r/Cheyenne/comments/1mdnpv1/",
+    "https://www.reddit.com/r/Cheyenne/comments/1v4ynkg/planning_on_moving/",
+    "https://www.reddit.com/r/Cheyenne/comments/1etr44o/",
+    "https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/",
+    "https://www.reddit.com/r/Cheyenne/comments/1akibz1/",
+    "https://www.reddit.com/r/Cheyenne/comments/1vbbda8/outdoor_culture_in_cheyenne/",
+    "https://www.reddit.com/r/Cheyenne/comments/1cacezs/",
+    "https://www.reddit.com/r/wyoming/comments/1p07r5y/thinking_about_moving_to_cheyenne_what_should_i/",
+    "https://www.census.gov/quickfacts/fact/table/cheyennecitywyoming/AFN120222",
+    "https://www.bls.gov/regions/mountain-plains/news-release/occupationalemploymentandwages_cheyenne.htm",
+    "https://www.weather.gov/cys/",
+    "https://www.va.gov/cheyenne-health-care/",
+    "https://www.laramie1.org/",
+    "https://cfdrodeo.com/2025/02/report-to-our-community-released/"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions; the comparison falsified only 5 of 37 returned features — the best score yet, consistent with the propagation improving as the corpus grows — with the largest miss being va_hospital_access (0.23 predicted vs 1.00 researched; the app's own VA data sides with the dossier).",
+    "location_context": {
+      "county": "Laramie County",
+      "region": "southeast Wyoming high plains, northern edge of the Front Range corridor",
+      "setting": "state capital and railroad city on I-80/I-25, 45 minutes north of Fort Collins",
+      "nearby_geographic_feature": "Curt Gowdy State Park, Vedauwoo and the Snowy Range west of town; the Front Range metro corridor south",
+      "important_distinction": "Cheyenne functions partly as the northern edge of the Front Range orbit rather than a stand-alone Wyoming regional center — the structural opposite of Casper — but winter I-80/I-25 closures make that borrowed-amenity layer conditional."
+    },
+    "reddit_sentiment": "positive_conditional_on_wanting_quiet_practicality",
+    "city_archetype": "front_range_adjacent_state_capital_service_hub",
+    "strongest_positive_signals": [
+      "short_low_friction_car_trips",
+      "front_range_access_reduces_isolation",
+      "family_infrastructure_and_school_options",
+      "outdoor_recreation_west_of_town",
+      "high_perceived_everyday_safety",
+      "full_va_medical_center"
+    ],
+    "strongest_negative_signals": [
+      "persistent_wind",
+      "winter_makes_highway_access_conditional",
+      "thin_young_adult_social_and_dating_depth",
+      "eroding_relative_housing_affordability",
+      "specialist_care_often_goes_south",
+      "data_center_growth_anxiety"
+    ],
+    "best_for": [
+      "families",
+      "veterans_using_va_healthcare",
+      "government_and_healthcare_workers",
+      "people_who_prefer_a_10_to_15_minute_city_by_car",
+      "homebodies_valuing_low_congestion_over_cultural_variety",
+      "people_comfortable_treating_fort_collins_as_an_occasional_extension"
+    ],
+    "poor_fit_for": [
+      "young_singles_seeking_dating_nightlife_or_dense_walkability",
+      "specialized_professionals_without_a_verified_local_market",
+      "people_who_strongly_dislike_persistent_wind",
+      "daily_laramie_or_colorado_commuters_without_a_bad_weather_plan"
+    ],
+    "bottom_line": "Cheyenne is a practical, quiet, family-capable high-plains capital whose biggest advantages are short daily trips and borrowed access to the Front Range, while its biggest costs are wind, thin young-adult social depth, increasingly contested affordability and periodic dependence on other cities for specialized amenities."
+  }
+}

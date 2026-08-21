@@ -1,2 +1,9 @@
 tmp/smoke-county.zip filter=lfs diff=lfs merge=lfs -text
 tmp/smoke-county/** filter=lfs diff=lfs merge=lfs -text
+
+# Dossier narratives are deduped by sha256 in import-research-dossiers.ts, so
+# their working-tree bytes must match the LF blobs the DB was imported from.
+# A default Windows checkout (autocrlf=true) otherwise materializes CRLF and
+# every dossier looks like a pending new revision.
+city-profile-stack/data/dossiers/research-dossiers/*.md text eol=lf
+city-profile-stack/data/dossiers/research-dossiers/*.json text eol=lf

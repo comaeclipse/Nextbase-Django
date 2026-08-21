@@ -1,0 +1,213 @@
+{
+  "city": "Odessa",
+  "state": "TX",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Odessa, Texas — Nanogenre Classification Proposal v1",
+  "summary": "Third genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process (after Victorville and Gilbert): official/structural evidence (Census QuickFacts, BLS OES occupation and MSA tables, NOAA NCEI normals, NWS Midland summaries, flyMAF, EZ-Rider, Odessa planning documents, ECISD accountability ratings) reconciled against the same research pass's community-sentiment evidence into a multi-label broad/micro/nano proposal. Carries the taxonomy's strongest recurrence candidate to date: the interior energy/extraction regional service hub micro bundle shared with Casper.",
+  "narrative_file": "odessa-tx-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Companion to odessa-tx.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Odessa additionally carries the earlier odessa-tx-elko-calibration.json (elko_comparison_calibration_2026), a narrow Elko-comparison pass. Per KNOWLEDGE_MODEL.md L0 (append-only), all three are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_38_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "bls_odessa_service_unit_operator_figures_1980_operators_location_quotient_85_21_re_read_verbatim_on_the_live_bls_page",
+      "census_quickfacts_figures_re_read_verbatim_122707_pop_7_2_pct_growth_22_4_min_commute_1315_rent_223100_home_value",
+      "all_17_structural_urls_resolved_live_including_ecisd_pdf_noaa_normals_master_plan_pdf_flymaf_and_ez_rider",
+      "nine_question_reconciliation_table_with_divergences_held_not_averaged",
+      "zero_dead_links_in_this_pass"
+    ],
+    "limitations": [
+      "median_household_income_73472_not_re_verified_verbatim_quickfacts_row_label_differs_all_other_figures_matched_exactly",
+      "weather_gov_and_bls_pages_403_or_drop_scripted_clients_verified_in_a_real_browser_instead",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "prediction_baseline_borrowed_from_odessa_own_derived_structural_features_at_weight_1_0_so_the_falsification_comparison_tests_the_structural_formula_more_than_neighbor_propagation"
+    ],
+    "gaps": [
+      "one_more_independently_researched_energy_hub_city_needed_to_reach_the_micro_floor_of_3_for_the_interior_energy_extraction_regional_service_hub_candidate",
+      "official_specialist_supply_or_wait_time_metric_for_the_healthcare_component",
+      "winter_cold_and_snow_structurally_measurable_but_underrepresented_in_the_community_layer",
+      "whether_the_work_first_social_rhythm_recurs_across_comparison_cities"
+    ]
+  },
+  "source_urls": [
+    "https://www.flymaf.com/27/About-MAF",
+    "https://www.census.gov/quickfacts/fact/table/odessacitytexas/BZA115222",
+    "https://www.census.gov/quickfacts/fact/table/odessacitytexas/POP645223",
+    "https://www.census.gov/quickfacts/fact/table/odessacitytexas/SBO020222",
+    "https://www.odessa-tx.gov/DocumentCenter/View/940/2016-Envision-Odessa-Master-Plan-PDF",
+    "https://www.odessa-tx.gov/1287/Downtown-Odessa",
+    "https://www.bls.gov/oes/2023/may/oes475013.htm",
+    "https://www.bls.gov/oes/2023/may/oes470000.htm",
+    "https://www.bls.gov/oes/2023/may/oes_36220.htm",
+    "https://www.bls.gov/oes/2023/may/oes537073.htm",
+    "https://www.bls.gov/oes/2023/May/oes172171.htm",
+    "https://www.bls.gov/oes/2023/may/oes_33260.htm",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataTypes=MLY-TMAX-NORMAL&dataset=normals-monthly-1991-2020&format=pdf&stations=USC00416502",
+    "https://www.weather.gov/media/maf/climate/summaries/July22Summary.pdf",
+    "https://www.ez-rider.org/routes",
+    "https://www.ez-rider.org/services",
+    "https://resources.finalsite.net/images/v1786647801/ectorcountyisdorg/jg2vjzupvn42jkwgmmec/ECISD2026A-FAccountabilityRatingspressrelease.pdf",
+    "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+    "https://www.reddit.com/r/Midessa/comments/ff2woa/",
+    "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+    "https://www.reddit.com/r/Midessa/comments/1bwwp56/",
+    "https://www.reddit.com/r/Midessa/comments/1ljro3u",
+    "https://www.reddit.com/r/Midessa/comments/1r38o4s/moving_back_to_midlandodessa_after_11_years/",
+    "https://www.reddit.com/r/Midessa/comments/f8d8ej",
+    "https://www.reddit.com/r/Midessa/comments/11k5e8a/",
+    "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+    "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+    "https://www.reddit.com/r/Midessa/comments/1vryr4e/no_offense_but_midland_and_odessa_look_exactly/",
+    "https://www.reddit.com/r/Midessa/comments/1v5ws1q/what_are_some_things_to_do_in_midland_and_odessa/",
+    "https://www.reddit.com/r/Midessa/comments/1tt6u5h/18_places/",
+    "https://www.reddit.com/r/Midessa/comments/xcaraq",
+    "https://www.reddit.com/r/howislivingthere/comments/1swma9a/how_is_living_in_midland_texas/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Interior Energy/Industrial Regional Hub",
+        "Car-Dependent Sunbelt Service City"
+      ],
+      "micro_primary": "Boom-Cycle Energy/Trade Service Hub",
+      "micro_secondary": [
+        "Hot-Dry Car-Dependent Regional Hub",
+        "High-Wage Work-First Relocation City"
+      ],
+      "nano_primary": {
+        "label": "Hot-Dry Boom-Cycle Energy Hub with Thin Amenity Depth",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "High-Wage Trade City with Outbound Leisure",
+          "confidence": "high"
+        },
+        {
+          "label": "Short-Drive Car-Dependent Growth Hub",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "Odessa is a hot, dry, car-first Permian work hub where oil-linked wages and job depth are real, everyday drives are fairly short, but amenities, nearby nature and complex-care depth feel thinner than the city's population would suggest.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Per NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1, admission requires 2 independently-researched cities for nano, 3 for micro, 5 for broad. RECURRENCE CANDIDATE, the taxonomy's strongest to date: Odessa's primary micro bundle (energy-dominated economy, commodity-cycle exposure, regional service function, car-first mobility, wind exposure, isolation) is the same bundle family as Casper's 'Isolated Interior-West Regional Service Hub' + 'Legacy Energy / Extraction Small Metro' proposal — 2 of the 3 cities the micro floor requires for an interior energy/extraction regional service hub genre. The recurrence is at micro grain only: the two cities' nano genres genuinely differ, because Casper's defining doorstep mountain/outdoor access (a load-bearing trait in its nano label) is exactly what Odessa lacks (outbound leisure). Label unification across the two proposals is the reviewer's editorial call, not automatic."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Odessa genuinely isolated?",
+        "measured_evidence": "Midland International Air & Space Port sits between Midland and Odessa and reports more than 20 daily departures with nonstop service to Austin, both Dallas airports, both Houston airports, Denver, Las Vegas and Phoenix; the airport nevertheless describes Dallas as about 330 miles away and El Paso about 300 miles away. Source: https://www.flymaf.com/27/About-MAF",
+        "experienced_evidence": "Residents repeatedly describe Midland-Odessa as roughly four hours from the larger places or natural destinations they want to visit and frame Big Bend or New Mexico as trips rather than local recreation. Sources: https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/ and https://www.reddit.com/r/Midessa/comments/ff2woa/",
+        "resulting_trait": "Surface-geographically isolated but unusually well air-connected for an interior city of its size; air access does not erase the experienced isolation of ordinary leisure and driving."
+      },
+      {
+        "question": "Is Odessa a small stagnant town or a growing regional city?",
+        "measured_evidence": "Census QuickFacts estimates Odessa at 122,707 residents in 2025, up 7.2% from its 2020 estimates base. The city's comprehensive-planning materials explicitly address growth, infrastructure, infill and new residential development. Sources: https://www.census.gov/quickfacts/fact/table/odessacitytexas/BZA115222 and https://www.odessa-tx.gov/DocumentCenter/View/940/2016-Envision-Odessa-Master-Plan-PDF",
+        "experienced_evidence": "Residents identify east and north Odessa as the newer-growth portions of town with newer apartments, subdivisions and retail, while simultaneously complaining that infrastructure and amenities have not kept pace. Sources: https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/ and https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+        "resulting_trait": "A genuinely growing regional city whose population and development growth are experienced as outpacing parts of its quality-of-life and infrastructure ecosystem."
+      },
+      {
+        "question": "Is the economy really dominated by oil and industrial work?",
+        "measured_evidence": "BLS 2023 data show extraordinary oil-industry concentration: Odessa had 1,980 service-unit oil and gas operators with a location quotient of 85.21, while construction/extraction occupations represented 115.89 jobs per thousand local jobs. Sources: https://www.bls.gov/oes/2023/may/oes475013.htm and https://www.bls.gov/oes/2023/may/oes470000.htm",
+        "experienced_evidence": "Residents repeatedly describe people moving to the area because of oil-linked jobs and warn that when oil prices fall, local employment, housing and business confidence move with them. Sources: https://www.reddit.com/r/Midessa/comments/1bwwp56/ and https://www.reddit.com/r/Midessa/comments/1ljro3u",
+        "resulting_trait": "Measured and experienced evidence strongly converge on an unusually concentrated energy economy: job depth is a strength, while commodity-cycle exposure is part of the same bundle."
+      },
+      {
+        "question": "Do the high local wages compensate for Odessa's costs?",
+        "measured_evidence": "BLS reported a 2023 mean wage of $27.52 per hour or $57,240 annually across Odessa occupations; specific oil-linked roles were much higher, including wellhead pumpers at $74,320 and petroleum engineers at $146,690. Census 2020-2024 figures show median gross rent of $1,315, median owner-home value of $223,100 and median household income of $73,472. Sources: https://www.bls.gov/oes/2023/may/oes_36220.htm, https://www.bls.gov/oes/2023/may/oes537073.htm, https://www.bls.gov/oes/2023/May/oes172171.htm and https://www.census.gov/quickfacts/fact/table/odessacitytexas/SBO020222",
+        "experienced_evidence": "Oil and trade workers often describe the money as the reason to live here, while teachers and other non-oil workers describe the same housing market as expensive and local compensation as inadequate. Sources: https://www.reddit.com/r/Midessa/comments/1r38o4s/moving_back_to_midlandodessa_after_11_years/ and https://www.reddit.com/r/Midessa/comments/f8d8ej",
+        "resulting_trait": "A split wage economy: housing can be defensible against oilfield, engineering or industrial earnings while feeling expensive against ordinary public-sector and service wages."
+      },
+      {
+        "question": "Is Odessa simply hot, or is the climate bundle more distinctive?",
+        "measured_evidence": "NOAA's 1991-2020 Odessa station normal totals only 12.28 inches of precipitation annually. NWS Midland/Odessa climate summaries document extreme heat, severe hail, high winds and dust events; Midland International's normal July average temperature is cited as 84.4°F in the NWS regional summary. Sources: https://www.ncei.noaa.gov/access/services/data/v1?dataTypes=MLY-TMAX-NORMAL&dataset=normals-monthly-1991-2020&format=pdf&stations=USC00416502 and https://www.weather.gov/media/maf/climate/summaries/July22Summary.pdf",
+        "experienced_evidence": "Residents routinely describe Odessa as hot and dry, praise the lack of humidity in some threads, and complain about dust, wind and hail in others. Sources: https://www.reddit.com/r/Midessa/comments/11k5e8a/ and https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+        "resulting_trait": "Hot-dry rather than hot-humid, with wind, dust and episodic severe storms adding a meaningful second climate dimension."
+      },
+      {
+        "question": "Is Odessa's transportation problem long commutes or car dependence?",
+        "measured_evidence": "Census QuickFacts gives a mean commute of 22.4 minutes for Odessa workers, which is not characteristic of a long-commute mega-metro. EZ-Rider operates six Odessa routes plus Midland-Odessa commuter service, but regular service ends in the evening and does not operate Sundays. Sources: https://www.census.gov/quickfacts/fact/table/odessacitytexas/POP645223, https://www.ez-rider.org/routes and https://www.ez-rider.org/services",
+        "experienced_evidence": "Residents describe most trips within Odessa as relatively short while simultaneously calling the urban form car-dependent, noting missing sidewalks and stressful driving. Sources: https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/ and https://www.reddit.com/r/Midessa/comments/1vryr4e/no_offense_but_midland_and_odessa_look_exactly/",
+        "resulting_trait": "Short-drive car dependence: the defining mobility burden is needing a vehicle for nearly everything, not spending metropolitan-scale time commuting within the city."
+      },
+      {
+        "question": "Does Odessa actually have nothing to do?",
+        "measured_evidence": "Odessa is a city of more than 120,000 residents, and its planning documents identify downtown entertainment, parks, trails, mixed-use redevelopment and pedestrian improvements as active development goals. The city's Downtown Odessa program identifies civic, arts, nonprofit and medical destinations in the core. Sources: https://www.census.gov/quickfacts/fact/table/odessacitytexas/BZA115222, https://www.odessa-tx.gov/DocumentCenter/View/940/2016-Envision-Odessa-Master-Plan-PDF and https://www.odessa-tx.gov/1287/Downtown-Odessa",
+        "experienced_evidence": "Residents can name theaters, museums, hockey, baseball, Cinergy, bowling, go-karts, breweries, reading groups, markets and local restaurants, yet many still say the options repeat quickly and nightlife is thin. Sources: https://www.reddit.com/r/Midessa/comments/11k5e8a/, https://www.reddit.com/r/Midessa/comments/1v5ws1q/what_are_some_things_to_do_in_midland_and_odessa/ and https://www.reddit.com/r/Midessa/comments/1tt6u5h/18_places/",
+        "resulting_trait": "Not an amenity desert but an amenity-depth problem: measured institutions and activities exist, while residents experience insufficient variety and repetition."
+      },
+      {
+        "question": "Are Odessa schools simply 'bad'?",
+        "measured_evidence": "ECISD reported a 2026 district score of 77, a C, up from 72 in each of the prior two years; 7 campuses earned A ratings, 11 earned B ratings and 13 earned C ratings, meaning 74% of campuses were A-C. Source: https://resources.finalsite.net/images/v1786647801/ectorcountyisdorg/jg2vjzupvn42jkwgmmec/ECISD2026A-FAccountabilityRatingspressrelease.pdf",
+        "experienced_evidence": "Community discussion remains substantially more negative: teachers and parents criticize staffing, administration and school quality, although some Odessa parents say their own children are happy and their schools are fine. Sources: https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/, https://www.reddit.com/r/Midessa/comments/f8d8ej and https://www.reddit.com/r/Midessa/comments/xcaraq",
+        "resulting_trait": "Improving measured district performance coexists with a stubbornly weak community reputation and significant campus-to-campus variation; neither side should erase the other."
+      },
+      {
+        "question": "Is Midland simply a nicer version of Odessa?",
+        "measured_evidence": "BLS 2023 all-occupation mean wages were $67,370 in the Midland MSA versus $57,240 in Odessa, and Midland's employment structure has an especially large management and engineering presence alongside oilfield work. Sources: https://www.bls.gov/oes/2023/may/oes_33260.htm and https://www.bls.gov/oes/2023/may/oes_36220.htm",
+        "experienced_evidence": "Locals generally portray Midland as more polished, management-oriented and expensive, while Odessa is described as cheaper, more working-class and rougher around the edges. The two cities nevertheless function as one labor, shopping and social ecosystem. Sources: https://www.reddit.com/r/Midessa/comments/1bwwp56/, https://www.reddit.com/r/howislivingthere/comments/1swma9a/how_is_living_in_midland_texas/ and https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+        "resulting_trait": "A paired regional hierarchy rather than two interchangeable cities: Midland skews toward higher-paid office/management functions and polish, while Odessa retains the stronger working-class oilpatch identity and relative cost advantage."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "air_connectivity_vs_experienced_isolation",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Midland International offers 20+ daily departures with nonstop service to nine airports — unusually strong air connectivity for an interior city of this size.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents experience the region as isolated: every large-city amenity or serious outdoor destination is a multi-hour surface trip, and spontaneity is what's lost.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Scheduled air access and everyday surface-trip isolation measure different things; both poles hold. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "amenity_institutions_vs_experienced_depth",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "A 120,000+ city with theaters, museums, minor-league sports, an active downtown program and planning goals for entertainment and trails.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe the activity menu as quickly repetitive, nightlife as thin, and the commercial mix as chain-heavy for the population.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Institutional presence (availability-shaped) and variety/depth over time (experience-shaped) measure different things; both poles hold. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "school_ratings_vs_community_reputation",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "ECISD's 2026 accountability score rose to 77 (C) from 72 in the two prior years, with 74% of campuses rated A-C.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Teachers and parents continue to describe staffing, pay, administration and quality problems, with a minority of parents reporting their children's schools are fine.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "State accountability ratings and day-to-day staffing/administration experience measure different things, and the improvement is recent enough that reputation may simply lag. Of this pass's three divergences this is the closest to genuine_conflict and the one most worth revisiting when newer community evidence accumulates. Maps to board Divergence Flag = Minor for now."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-20",
+      "method": "All 38 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles. All 17 structural URLs resolved live: ECISD PDF, NOAA NCEI normals, Envision Odessa Master Plan PDF (14.5 MB), Downtown Odessa page, flyMAF, EZ-Rider routes/services and three Census QuickFacts pages directly; the six BLS OES pages and the NWS Midland PDF via a real browser (both sites block scripted clients). The headline BLS claim (Odessa: 1,980 service-unit operators, location quotient 85.21) was re-read verbatim from the live table, and five of six QuickFacts figures were re-read verbatim (122,707; 7.2%; 22.4 min; $1,315; $223,100).",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links in this pass. The Block 1 source list arrived with mangled link hrefs (a paste artifact concatenating all URLs into each link target); it was reconstructed from the per-link display texts, which were individually correct and all archive-verified."
+    }
+  }
+}

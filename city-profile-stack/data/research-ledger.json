@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
-  "updated_on": "2026-08-19",
-  "recent_change": "Added the North Platte ordinary-evening evidence pass (owner Packet 2): all four rhythm-calibration evidence-bar items satisfied, the event-led assignment corrected, and the calibration row graduated to complete. Also completed verification of the Elko marketing-pole pack (verbatim Reddit excerpts, Dotty's address).",
+  "updated_on": "2026-08-20",
+  "recent_change": "Recorded the taxonomy's first admission ruling (owner, 2026-08-20): the Casper+Cheyenne Wind-Exposed Hub nano candidate is ruled REDUNDANT per NANOGENRE_TAXONOMY.md section 3 #4 -- wind exposure is expressed as a hub genre plus a wind_exposure trait filter (>= ~0.85), not a genre component. Also recorded: reviewer sign-off on the Gilbert, Odessa, Cheyenne, North Platte and Grand Junction passes, and Savannah GA selected as city #8 for corpus diversification. Previous change: Added the Grand Junction research pass (owner-run Block 1-4 prompt, sixth city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 40 Reddit citations archive-verified, BLS wage figures re-read verbatim, the rotating NWS GJT product corroborated via the NCEI API, the ZHVI housing addendum spot-checked against live Zillow, and the wind negative control verified (windiest month 8.3 mph, below North Platte's calmest 9.7) -- the falsification table itself demonstrated the borrowed-wind bias (predicted 0.73 vs measured 0.32; 5 of 39 falsified overall). The interior-regional-service-hub family reaches FIVE cities, meeting the broad floor of 5 but tripping the 40% prevalence cap at 71% -- corpus diversification needed before admission. va.gov verification exposed a stale outpatient classification for Grand Junction's VA Medical Center in the app's own VA sync data (fix task filed). Previous change: Added the North Platte research pass (owner-run Block 1-4 prompt, fifth city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 16 Reddit citations archive-verified, NWS normals re-verified exactly via the NCEI API after the rotating CLM product URLs went stale, the BLS county figure corroborated within 0.3% via the QCEW API, and wind_exposure 0.80 supplied via the same-day calibration addendum (Weather Spark-confirmed). The held-out comparison falsified only 3 of 34 features -- the best score yet -- all three being lumpy institutional facts (VA hospital, regional-referral healthcare depth, shrinking-city growth). Extends the interior-regional-service-hub family to four cities (one short of the broad floor) and adds the corpus's first negative-reputation-vs-ordinary-lived divergence, cross-corroborated by the pre-existing ordinary-evening gold pack. Previous change: Applied the wind_exposure national calibration correction (owner-initiated, the program's first cross-city calibration): Victorville 0.75 -> 0.52, Cheyenne 0.95 -> 0.88, Casper 0.98 -> 0.90, grounded in cross-city hourly wind means (Weather Spark, independently re-verified; Victorville ~7-9 mph spring-peaked vs the Wyoming ~15 mph January regime). Victorville's Wind-Exposed secondary nanogenre withdrawn -- the Wind-Exposed Hub recurrence candidate drops from three proposals to two (Casper, Cheyenne), which still meets the nano floor and now discriminates. Both affected proposal dossiers re-imported as revision 2. Previous change: Added the Cheyenne research pass (owner-run Block 1-4 prompt, fourth city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 33 Reddit citations archive-verified, all six BLS figures and the Council Chronicle passage re-read verbatim, NWS normals corroborated exactly via the NCEI API after the rotating CLA product URL went stale, and the held-out comparison falsifying only 5 of 37 features -- the best score yet, with va_hospital_access (0.23 predicted vs 1.00 researched) the largest miss and the app's own VA data siding with the dossier. Raises the taxonomy's first admission-versus-redundancy decision: Wind-Exposed Hub nano vocabulary now appears in three independent proposals (Casper, Victorville, Cheyenne). Previous change: Added the Odessa research pass (owner-run Block 1-4 prompt, third city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 38 Reddit citations archive-verified, all 17 structural sources live (BLS LQ 85.21 and five QuickFacts figures re-read verbatim), zero dead links, and the held-out comparison falsifying 7 of 35 features -- this time primarily testing the derived_structural formula, which over-predicted Odessa outdoor access (0.82 vs 0.20) and under-predicted the energy signature. Records the taxonomy's strongest recurrence candidate: the Casper+Odessa interior energy/extraction regional service hub micro bundle (2 of the 3 cities the micro floor requires). Previous change: Added the Gilbert research pass (owner-run Block 1-4 prompt, second city through the standing process): reddit_sentiment_2026 dossier plus nanogenre proposal, with all 28 Reddit citations archive-verified, zero dead links, structural PDFs resolved (AZ DPS, NOAA NCEI, Gilbert planning documents), and the held-out prediction comparison falsifying 7 of 27 features in the opposite direction from Victorville. Gilbert's genre vocabulary shares nothing with Casper/Victorville — the method discriminates. Previous change: Added the Victorville research pass (owner-run Block 1-4 prompt): reddit_sentiment_2026 dossier plus the first nanogenre proposal produced through the standing PROMPT_TEMPLATE.md Block 4 process, with all 28 Reddit citations archive-verified, ACS/BLS figures re-verified, one dead city-planning link flagged and corroborated by a live substitute, and the held-out prediction comparison falsifying 11 of 31 returned features. Previous change: Added the Casper nanogenre prototype v0.1 (owner-provided research): first end-to-end test of the genre classification method from NANOGENRE_TAXONOMY.md against a real city, reconciling structural/official-statistic evidence against community sentiment into a multi-label broad/micro/nano assignment, with an explicit measured-vs-experienced divergence on event activity vs. nightlife depth.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -16,6 +16,262 @@
     "promotion_review": "Candidate for an explicitly approved R&D database import; never implies production approval."
   },
   "entries": [
+    {
+      "id": "wind_exposed_hub_nonredundancy_ruling_2026",
+      "city": "Casper",
+      "state": "WY",
+      "topic": "taxonomy_admission_ruling",
+      "claim": "RULING (owner as reviewer, 2026-08-20): the 'Wind-Exposed ... Hub' nano genre candidate (Casper primary, Cheyenne primary; Victorville's instance withdrawn earlier the same day by calibration; North Platte flagged as borderline) is ruled redundant under NANOGENRE_TAXONOMY.md section 3 #4 (nonredundancy) and is NOT a genre. The distinction it names is fully expressed by an existing hub genre plus a wind_exposure trait filter (approximately >= 0.85 on the nationally calibrated scale). Wind remains an unlimited-trait dimension; no wind vocabulary should appear in future genre labels unless a genuinely new co-occurring bundle emerges that a trait filter cannot express.",
+      "status": "locally_normalized",
+      "artifact": "data/dossiers/research-dossiers/cheyenne-wy-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/casper-wy-nanogenre-prototype-v0-1.md",
+        "data/dossiers/research-dossiers/victorville-ca-nanogenre-proposal-v1.md",
+        "data/dossiers/research-dossiers/north-platte-ne-nanogenre-proposal-v1.md",
+        "data/dossiers/research-dossiers/grand-junction-co-nanogenre-proposal-v1.md"
+      ],
+      "source_urls": [],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "None -- this is a governance ruling, not an evidence claim. The empirical basis is the nationally calibrated wind_exposure scale (Casper 0.90, Cheyenne 0.88, North Platte 0.80, Elko 0.55, Victorville 0.50, Grand Junction 0.32) and the Grand Junction negative control demonstrating that a trait filter cleanly separates the candidates.",
+      "limitations": [
+        "Per NANOGENRE_TAXONOMY.md section 12 convention, this ruling can be reopened by a card or issue citing a failing case -- e.g. a future city where wind co-occurs with hub function in a way a trait filter cannot express.",
+        "Casper's and Cheyenne's city-level nano labels remain their recorded per-city proposals; this ruling closes only the cross-city genre candidate."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "grand_junction_nanogenre_proposal_v1_2026",
+      "city": "Grand Junction",
+      "state": "CO",
+      "topic": "nanogenre_classification",
+      "claim": "Grand Junction is an isolated but unusually self-sufficient high-desert service city where enormous public-land access, short everyday trips and regional medical capacity coexist with shallow big-city amenities, hot summers and a pronounced local wage-to-housing mismatch. Primary microgenre: Isolated High-Desert Regional Service Hub. Primary nanogenre: High-Desert Regional Hub with Immediate Public-Land Access and Thin Urban Depth, plus two secondary nanogenre overlays. Serves as the wind negative control for the calibration set.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/grand-junction-co-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/grand-junction-co-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/grand-junction-co.md",
+        "data/dossiers/research-dossiers/grand-junction-co.json"
+      ],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/grandjunctioncitycolorado/INC110224",
+        "https://www.bls.gov/regions/mountain-plains/news-release/2026/occupationalemploymentandwages_grandjunction_20260805.htm",
+        "https://www.blm.gov/office/grand-junction-field-office",
+        "https://www.gjcity.org/DocumentCenter/View/16099/2025-Unhoused-Survey-Report-",
+        "https://www.va.gov/western-colorado-health-care/locations/",
+        "https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/",
+        "https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "The rotating NWS GJT CLA product URL did not resolve; normals corroborated via the NCEI API (the 107F record high rests on original retrieval). Block 2 source_urls arrived as markdown-wrapped links, normalized mechanically. St. Mary's staffing allegations are community accounts requiring independent verification. wind_exposure 0.32 was supplied by the calibration addendum (measured hourly means), not community sentiment.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "GOVERNANCE FLAG: the interior-regional-service-hub family now spans five cities, meeting the broad floor of 5 but at 71% prevalence versus the 40% cap -- substantially selection bias from deliberately chasing the recurrence. Diversify the corpus before any broad admission.",
+        "The wage-housing squeeze now appears in five of seven cities and is behaving like a trait, not a genre (reasonable-rarity failure) -- keep it out of labels.",
+        "Wind negative control validated empirically: propagation predicted 0.73 by borrowing from windy neighbors; measured 0.32. The Casper+Cheyenne Wind-Exposed Hub candidate now has a verified discriminating boundary.",
+        "ZHVI addendum ontology note preserved: absolute affordability level and price-pressure direction decouple (North Platte cheapest AND appreciating fastest at +7.1%)."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "north_platte_nanogenre_proposal_v1_2026",
+      "city": "North Platte",
+      "state": "NE",
+      "topic": "nanogenre_classification",
+      "claim": "North Platte is a small High Plains regional hub whose enormous railroad complex, unusually deep healthcare and regional-service role give it more functional weight than its population suggests, while metro-scale amenities, social depth and housing supply remain comparatively thin. Primary microgenre: Isolated Rail-Anchor Regional Service Hub. Primary nanogenre: Rail-Yard-Centered High-Plains Regional Hub, plus two secondary nanogenre overlays. Headline divergence: a loudly negative statewide reputation contradicted by resident accounts -- the mirror image of the Elko/Casper marketing-vs-lived divergences.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/north-platte-ne-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/north-platte-ne-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/north-platte-ne.md",
+        "data/dossiers/research-dossiers/north-platte-ne.json"
+      ],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/INC110223",
+        "https://www.up.com/train-town/north-platte-ne",
+        "https://www.gphealth.org/about-us/",
+        "https://data.bls.gov/cew/data/api/2025/1/area/31111.csv",
+        "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL,MLY-TAVG-NORMAL&stations=USW00024023&format=json",
+        "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+        "https://www.reddit.com/r/Nebraska/comments/1c67wec/serious_question_whats_wrong_with_north_platte/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "The two cited NWS CLM product URLs are rotating and had gone stale; every climate figure was re-verified via the NCEI normals API. The cited BLS TED article carries no county detail; the 14,719 figure reflects a preliminary vintage (current revised QCEW: 14,757, 0.3% difference). wind_exposure was supplied by the calibration addendum (measured hourly means), not community sentiment.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "The interior-regional-service-hub family now spans four cities across levels (Casper, Odessa, Cheyenne, North Platte) -- one short of the broad floor of 5.",
+        "Reviewer calls raised: whether rail-anchored and extraction-anchored single-employer hubs are one micro genre or siblings; whether North Platte (wind 0.80) joins a Wind-Exposed Hub genre if the Casper+Cheyenne candidate is admitted.",
+        "Cross-corroborated by the pre-existing north_platte_ordinary_evening_2026 gold pack on the event-vs-ordinary-night divergence."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "wind_exposure_calibration_2026",
+      "city": "Victorville",
+      "state": "CA",
+      "topic": "feature_calibration_correction",
+      "claim": "Victorville is locally windy, not Wyoming-level wind-exposed: it averages roughly 7-9 mph with a ~9 mph April peak, genuinely windier than the San Bernardino/Ontario basin (5.3-7.4 mph) but far below the Cheyenne/Casper winter regime (January ~14.7-15.0 mph, five months at or above ~11-12 mph). wind_exposure recalibrated nationally: Victorville 0.75 -> 0.52, Cheyenne 0.95 -> 0.88, Casper 0.98 -> 0.90. Victorville's 'Wind-Exposed High-Desert Regional Service Hub' secondary nanogenre is withdrawn; wind remains a moderate climate trait there, not a genre component.",
+      "status": "locally_normalized",
+      "artifact": "data/dossiers/research-dossiers/victorville-ca-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/victorville-ca-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/cheyenne-wy-nanogenre-proposal-v1.md",
+        "data/dossiers/research-dossiers/cheyenne-wy-nanogenre-proposal-v1.json",
+        "data/location-features.json"
+      ],
+      "source_urls": [
+        "https://weatherspark.com/compare/y/1975~145384~145413~145386~145385/Comparison-of-the-Average-Weather-in-Victorville-Southern-California-Logistics-Airport-Barstow-Daggett-County-Airport-San-Bernardino-International-Airport-and-Ontario-International-Airport",
+        "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-annualseasonal-1991-2020&dataTypes=ANN-TAVG-NORMAL,ANN-SNOW-NORMAL&stations=USW00024018&format=json"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "Weather Spark's Victorville-area comparison was independently re-fetched and matched the cited monthly means exactly; the Cheyenne/Casper monthly figures come from their Weather Spark pages and are consistent with the NWS 2025 Cheyenne annual average of 11.3 mph verified earlier, but were not re-fetched station-by-station.",
+      "limitations": [
+        "This is the program's first cross-city calibration correction: single-city dossiers scored wind against local expectations, and only the growing corpus exposed the scale inconsistency. Sensitive to the same failure mode on other intensity features (e.g. geographic_isolation, growth_pressure) -- worth a systematic cross-city calibration review once more cities accumulate.",
+        "The withdrawal strengthens rather than weakens the Wind-Exposed Hub candidate: it now discriminates against merely locally-windy cities, leaving Casper+Cheyenne (both 0.88-0.90) at the nano floor of 2 with the section 3 #4 nonredundancy decision still open."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "cheyenne_nanogenre_proposal_v1_2026",
+      "city": "Cheyenne",
+      "state": "WY",
+      "topic": "nanogenre_classification",
+      "claim": "Cheyenne is a wind-exposed high-plains state-capital service city whose everyday strengths are short commutes, family practicality and nearby outdoor access, while Fort Collins and Denver supply much of the metro-scale dining, nightlife, specialty-care and cultural layer. Primary microgenre: Front-Range-Adjacent State-Capital Service Hub. Primary nanogenre: Wind-Exposed Front-Range-Edge State-Capital Hub, plus two secondary nanogenre overlays.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/cheyenne-wy-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/cheyenne-wy-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/cheyenne-wy.md",
+        "data/dossiers/research-dossiers/cheyenne-wy.json"
+      ],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/cheyennecitywyoming/AFN120222",
+        "https://www.bls.gov/regions/mountain-plains/news-release/occupationalemploymentandwages_cheyenne.htm",
+        "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-annualseasonal-1991-2020&dataTypes=ANN-TAVG-NORMAL,ANN-SNOW-NORMAL&stations=USW00024018&format=json",
+        "https://cfdrodeo.com/2025/02/report-to-our-community-released/",
+        "https://www.va.gov/cheyenne-health-care/",
+        "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/",
+        "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "The NWS CLA product citation is a rotating URL that no longer served the cited annual report on verification; its two normals (46.9F, 62.9in) were re-verified exactly via the NCEI normals API, while the 2025-specific wind observations (11.3 mph average, 75 mph gust) rest on the original retrieval. Delivered blocks carried ChatGPT contentReference citation artifacts, stripped mechanically.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "ADMISSION DECISION RAISED: 'Wind-Exposed ... Hub' nano vocabulary now appears in three independent proposals (Casper primary, Victorville secondary, Cheyenne primary), numerically clearing the nano floor of 2 -- but section 3 #4 nonredundancy must be decided first: is it a genuine recurring bundle or a hub genre plus a wind_exposure trait filter? Reviewer's call.",
+        "Cheyenne's broad label 'Interior-West Regional Service Hub' is verbatim Casper's micro label -- a cross-level echo supporting the eventual broad-from-micro clustering.",
+        "Negative control passed: Cheyenne did not reproduce the Casper+Odessa energy/extraction bundle, which stays at 2 of the required 3 cities."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "odessa_nanogenre_proposal_v1_2026",
+      "city": "Odessa",
+      "state": "TX",
+      "topic": "nanogenre_classification",
+      "claim": "Odessa is a hot, dry, car-first Permian work hub where oil-linked wages and job depth are real, everyday drives are fairly short, but amenities, nearby nature and complex-care depth feel thinner than the city's population would suggest. Primary microgenre: Boom-Cycle Energy/Trade Service Hub. Primary nanogenre: Hot-Dry Boom-Cycle Energy Hub with Thin Amenity Depth, plus two secondary nanogenre overlays.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/odessa-tx-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/odessa-tx-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/odessa-tx.md",
+        "data/dossiers/research-dossiers/odessa-tx.json"
+      ],
+      "source_urls": [
+        "https://www.bls.gov/oes/2023/may/oes475013.htm",
+        "https://www.census.gov/quickfacts/fact/table/odessacitytexas/POP645223",
+        "https://www.flymaf.com/27/About-MAF",
+        "https://resources.finalsite.net/images/v1786647801/ectorcountyisdorg/jg2vjzupvn42jkwgmmec/ECISD2026A-FAccountabilityRatingspressrelease.pdf",
+        "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+        "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "Median household income ($73,472) was the one QuickFacts figure not re-read verbatim (row label differs); the other five matched exactly. The prediction baseline self-borrowed from Odessa's 26 derived_structural features at weight 1.0, so the falsification comparison tests the structural-derivation formula more than neighbor propagation.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro).",
+        "RECURRENCE CANDIDATE: the Casper+Odessa interior energy/extraction regional service hub micro bundle is the taxonomy's strongest recurrence to date (2 of the 3 cities the micro floor requires); the recurrence is at micro grain only, since Casper's doorstep outdoor access is exactly what Odessa lacks. Label unification is the reviewer's editorial call."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "gilbert_nanogenre_proposal_v1_2026",
+      "city": "Gilbert",
+      "state": "AZ",
+      "topic": "nanogenre_classification",
+      "claim": "Gilbert is a large, high-income East Valley family suburb where daily life runs by car and air conditioning, the Heritage District supplies a compact restaurant-and-evening node, and deeper urbanity is traded for parks, schools, safety and somewhat better housing value than Scottsdale. Primary microgenre: High-Income Family-Oriented Growth Suburb. Primary nanogenre: Heat-Managed Car-Dependent Family Suburb with a Compact Restaurant Core, plus two secondary nanogenre overlays.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/gilbert-az-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/gilbert-az-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/gilbert-az.md",
+        "data/dossiers/research-dossiers/gilbert-az.json"
+      ],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/gilberttownarizona/POP815223",
+        "https://azcrimestatistics.azdps.gov/tops/report/crime-overview/gilbert-pd/2024/pdf",
+        "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&startDate=0001-01-01&endDate=9996-12-31&stations=USW00023183&format=pdf",
+        "https://www.gilbertaz.gov/home/showpublisheddocument/41151/637607567171130000",
+        "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+        "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "Census QuickFacts was in a maintenance cycle on 2026-08-20, so its cited figures were corroborated via Census Reporter rather than re-read from the cited pages; gilbertaz.gov PDF contents were confirmed to load in a real browser but specific figures were not extracted verbatim.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro).",
+        "Gilbert's proposal shares no vocabulary with the Casper or Victorville proposals -- negative-control evidence that the classification method discriminates between city types; its Sunbelt/family-suburb broad candidates await future suburban dossiers for recurrence."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "victorville_nanogenre_proposal_v1_2026",
+      "city": "Victorville",
+      "state": "CA",
+      "topic": "nanogenre_classification",
+      "claim": "Victorville is a car-dependent high-desert regional center where comparatively attainable Southern California housing and logistics/retail functions coexist with thin local job and amenity depth, while Cajon Pass controls access to the larger metropolitan economy. Primary microgenre: Housing-Value High-Desert Commuter Hub. Primary nanogenre: Cajon-Pass-Dependent Housing-Value Logistics Exurb, plus one secondary nanogenre overlay.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/victorville-ca-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/victorville-ca-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/victorville-ca.md",
+        "data/dossiers/research-dossiers/victorville-ca.json"
+      ],
+      "source_urls": [
+        "https://censusreporter.org/profiles/16000US0682590-victorville-ca/",
+        "https://www.bls.gov/regions/west/news-release/occupationalemploymentandwages_riverside.htm",
+        "https://www.victorvilleca.gov/files/assets/city/v/1/planning/documents/land-use-plans-remediated/1775072100_scla_specific_plan_mar_2021__1_-remediated.pdf",
+        "https://www.reddit.com/r/highdesert/comments/1s9x3bk/do_you_want_to_move_to_the_high_desert_very_long/",
+        "https://www.reddit.com/r/highdesert/comments/1s9s2z8/how_do_you_get_a_job_here/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "The Land Use Element citation as delivered (victorvilleca.gov showpublisheddocument/13695) returned Page Not Found on 2026-08-20 verification; the planning-policy claim is corroborated by the live SCLA Specific Plan (March 2021). The aquatic-resources report's specific climate figures were checked for consistency with known NWS Victorville normals but not extracted verbatim from the PDF.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro).",
+        "Casper's proposal shares 'wind-exposed regional service hub' vocabulary with Victorville's secondary nanogenre -- a candidate recurrence for the next taxonomy review, not an admission."
+      ],
+      "embedding_ready": false
+    },
+    {
+      "id": "casper_nanogenre_prototype_v0_1_2026",
+      "city": "Casper",
+      "state": "WY",
+      "topic": "nanogenre_classification",
+      "claim": "Casper is a compact, car-oriented, wind-hardened high-plains regional hub with deep oil-and-extraction DNA, unusually immediate mountain recreation, short everyday travel times, an active organized community-event scene, but a comparatively thin spontaneous and late-night social ecosystem. Primary microgenre: Isolated Interior-West Regional Service Hub. Primary nanogenre: Wind-Exposed Mountain-Edge Energy Hub, plus three secondary nanogenre overlays.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/casper-wy-nanogenre-prototype-v0-1.md",
+      "supporting_artifacts": ["data/dossiers/research-dossiers/casper-wy-nanogenre-prototype-v0-1.json", "data/dossiers/research-dossiers/casper-wy.md", "data/dossiers/research-dossiers/casper-wy.json"],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/caspercitywyoming/PST040219",
+        "https://censusreporter.org/profiles/16000US5613150-casper-wy/",
+        "https://www.bls.gov/regions/mountain-plains/news-release/2026/occupationalemploymentandwages_casper_20260805.htm",
+        "https://www.weather.gov/media/riw/climate/toptens/kcpr.pdf",
+        "https://business.casperwyoming.org/events/calendar/"
+      ],
+      "retrieval_date": "2026-08-20",
+      "source_gap": "Several citation links resolve through chatgpt.com search redirects and have not been independently re-resolved to confirm they land on the stated primary source. Reddit evidence is three threads, not a representative sample.",
+      "limitations": ["Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.", "None of the proposed nano/micro/broad labels can be admitted to genre-ontology.ts on this evidence alone -- NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities (5 for broad, 3 for micro) before admission; Casper is currently the only one."],
+      "embedding_ready": false
+    },
     {
       "id": "elko_cultural_baseline_2026",
       "city": "Elko",

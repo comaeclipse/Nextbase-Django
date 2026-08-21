@@ -1,0 +1,112 @@
+{
+  "city": "Odessa",
+  "state": "TX",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Odessa, Texas — community sentiment synthesis",
+  "summary": "A work-first, car-first Permian Basin city where job opportunity and short local drives are real advantages, but isolation, boom-sensitive costs, limited outdoor access, shallow amenity depth, and effortful social life make the quality-of-life trade unusually dependent on why you moved there in the first place. The strongest fit is someone arriving with a concrete well-paying reason to be there; the mirror-image detractors are outdoor-oriented, walkability-seeking, nightlife-seeking movers.",
+  "narrative_file": "odessa-tx.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "First full community-sentiment dossier for Odessa. Complements, does not replace, odessa-tx-elko-calibration.json (dossier_key elko_comparison_calibration_2026), which was a narrow Elko-comparison calibration pass, not a standalone city reading. Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "work_economy_midland_comparisons_housing_isolation_outdoors_nightlife_friend_making_and_neighborhoods_recur_independently_across_thread_genres",
+      "explicit_midessa_vs_odessa_attribution_discipline_regional_claims_labeled_rather_than_silently_assigned_to_odessa",
+      "all_38_cited_reddit_threads_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "positive_counter_accounts_preserved_against_a_loud_negative_online_tone"
+    ],
+    "limitations": [
+      "subreddit_overrepresents_newcomers_oil_linked_workers_younger_adults_and_people_unhappy_enough_to_post",
+      "midland_and_odessa_frequently_blurred_regional_claims_labeled_as_such",
+      "boom_bust_conditions_change_rents_hiring_traffic_and_migration_faster_than_cultural_impressions",
+      "healthcare_discussion_richer_for_complaints_and_serious_cases_than_for_routine_care_that_works",
+      "school_discussion_polarized_and_campus_specific",
+      "safety_discourse_sometimes_collapses_property_crime_driving_drugs_and_violent_crime_into_one_feeling",
+      "race_threads_contain_both_thoughtful_first_person_accounts_and_inflammatory_stereotyping_disagreement_is_the_finding",
+      "lgbtq_discussion_establishes_existence_of_networks_not_a_uniform_climate_characterization",
+      "block_1_source_list_arrived_with_mangled_link_hrefs_a_paste_artifact_reconstructed_from_the_per_link_texts_which_were_individually_correct_and_all_archive_verified",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "winter_cold_snow_and_ice_too_thin_in_community_discussion_to_score",
+      "precipitation_seasonality_discussed_only_through_dryness_and_flood_anecdotes",
+      "va_outpatient_and_va_hospital_access_not_investigated_in_the_community_layer",
+      "remote_work_viability_not_investigated_closely_enough_to_score",
+      "public_land_and_water_recreation_access_not_independently_developed",
+      "odessa_municipal_lgbtq_policy_not_established",
+      "healthcare_navigability_not_cleanly_separable_from_perceived_doctor_quality"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/Midessa/comments/1u0bwlt/moving_to_midlandodessa_whats_it_like/",
+    "https://www.reddit.com/r/Midessa/comments/1s8owvx/moving_to_midland_odessa_need_advice_ty/",
+    "https://www.reddit.com/r/Midessa/comments/1vl0fcs/apartment_advice_in_odessa/",
+    "https://www.reddit.com/r/Midessa/comments/1bwwp56/",
+    "https://www.reddit.com/r/Midessa/comments/1ub5xo0/considering_moving_there_for_work/",
+    "https://www.reddit.com/r/Midessa/comments/1qs8bt8/moving_to_midlandodessa_area_in_couple_weeks/",
+    "https://www.reddit.com/r/Midessa/comments/1ruzh7b/safe_places_to_live/",
+    "https://www.reddit.com/r/Midessa/comments/1q5evze/no_dating_and_loneliness_venting_and_advice_if/",
+    "https://www.reddit.com/r/Midessa/comments/184t6n9/",
+    "https://www.reddit.com/r/Midessa/comments/1v5ws1q/what_are_some_things_to_do_in_midland_and_odessa/",
+    "https://www.reddit.com/r/Midessa/comments/ff2woa/",
+    "https://www.reddit.com/r/Midessa/comments/1ol3kt9/",
+    "https://www.reddit.com/r/Midessa/comments/1rpotte/where_can_i_meet_people/",
+    "https://www.reddit.com/r/Midessa/comments/1prxnnw/moving/",
+    "https://www.reddit.com/r/Midessa/comments/11k5e8a/",
+    "https://www.reddit.com/r/Midessa/comments/1v5ckup/relocating_to_odessa_for_a_new_job_need_local/",
+    "https://www.reddit.com/r/Midessa/comments/u3qduh/",
+    "https://www.reddit.com/r/Midessa/comments/1uwgogk/gastroenterologist_recommendations/",
+    "https://www.reddit.com/r/Midessa/comments/1jaowuo/female_physician_recommendations/",
+    "https://www.reddit.com/r/Midessa/comments/1jabf3v/",
+    "https://www.reddit.com/r/Midessa/comments/1vryr4e/no_offense_but_midland_and_odessa_look_exactly/",
+    "https://www.reddit.com/r/Midessa/comments/mus6tr/",
+    "https://www.reddit.com/r/Midessa/comments/yjr9w1/",
+    "https://www.reddit.com/r/Midessa/comments/1j89wv9/"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's predictions. Unlike Victorville and Gilbert, Odessa's held-out prediction baseline borrowed from Odessa's own 26 derived_structural features at weight 1.0, so the falsification comparison primarily tests the structural-derivation formula rather than pure neighbor propagation; it falsified 7 of 35 features, most sharply outdoor_recreation_access (0.82 predicted vs 0.20 researched) and natural_scenery (0.71 vs 0.15), while under-predicting the energy signature (economic_cycle_exposure 0.59 vs 0.90).",
+    "location_context": {
+      "county": "Ector County",
+      "region": "Permian Basin, West Texas",
+      "setting": "flat, arid oilpatch regional city paired with Midland twenty miles east",
+      "nearby_geographic_feature": "none locally salient; Big Bend, the Guadalupe Mountains and New Mexico destinations are multi-hour trips",
+      "important_distinction": "Reddit routinely treats 'Midland/Odessa' or 'Midessa' as one place; the two cities form one labor, shopping, healthcare and social system, so regional claims must be deliberately distinguished from municipal Odessa claims."
+    },
+    "reddit_sentiment": "loudly_negative_online_tone_with_persistent_work_first_defense",
+    "city_archetype": "boom_cycle_energy_trade_service_hub",
+    "strongest_positive_signals": [
+      "work_driven_relocation_and_oilfield_job_depth",
+      "high_wage_trade_opportunity",
+      "short_drives_inside_the_city",
+      "dry_air_for_those_who_prefer_it",
+      "recurring_activity_menu_for_those_who_look"
+    ],
+    "strongest_negative_signals": [
+      "geographic_isolation_and_outbound_leisure",
+      "oil_cycle_exposure_touching_jobs_housing_and_confidence",
+      "shallow_amenity_and_nightlife_depth_for_the_population",
+      "car_first_daily_life_with_road_and_driver_stress",
+      "effortful_social_integration_and_dating_friction",
+      "outbound_complex_healthcare"
+    ],
+    "best_for": [
+      "workers_moving_for_a_strong_salary",
+      "skilled_trade_and_industrial_workers",
+      "people_who_prefer_dry_air_to_humidity",
+      "households_comfortable_driving_everywhere",
+      "people_satisfied_with_recurring_local_activities",
+      "people_willing_to_build_friendships_through_work_church_sports_or_hobbies"
+    ],
+    "poor_fit_for": [
+      "avid_hikers_and_water_recreation_people",
+      "people_seeking_walkability_or_a_dense_downtown_lifestyle",
+      "young_singles_prioritizing_dating_and_nightlife_depth",
+      "people_without_reliable_cars",
+      "residents_requiring_frequent_complex_specialty_healthcare",
+      "people_needing_large_variety_of_cultural_or_commercial_choices_nearby"
+    ],
+    "bottom_line": "Odessa is a work-first, car-first Permian Basin city where job opportunity and short local drives are real advantages, but isolation, boom-sensitive costs, limited outdoor access, shallow amenity depth, and effortful social life make the quality-of-life trade unusually dependent on why you moved there in the first place."
+  }
+}
