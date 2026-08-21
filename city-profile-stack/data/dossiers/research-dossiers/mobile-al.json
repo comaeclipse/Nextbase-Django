@@ -1,0 +1,112 @@
+{
+  "city": "Mobile",
+  "state": "AL",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Mobile, Alabama — community sentiment synthesis",
+  "summary": "A culturally distinctive, water-oriented Gulf port city with a genuinely appealing historic core and manageable scale — Mardi Gras, seafood, the bay and Delta, and a Louisiana-leaning Gulf identity that residents explicitly separate from inland Alabama — whose main tradeoffs are oppressive humid summers, routine hurricane preparation, low-wage pressure, automobile dependence outside the core, unusually contentious school-choice geography, and a social/amenity scene that is real but shallower than a larger metro. The defining morphology is the walkable-historic-core/auto-oriented-outer-city split, with the Bayway crossing as the metro's concentrated commute chokepoint.",
+  "narrative_file": "mobile-al.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "source_base_spans_r_mobileal_r_alabama_r_howislivingthere_r_samegrassbutgreener_and_r_pensacola_rather_than_the_local_sub_alone",
+      "all_44_cited_reddit_threads_across_the_research_pass_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "neighborhood_school_storm_and_wage_detail_comes_from_threads_where_posters_claim_direct_experience",
+      "census_bls_port_hospital_va_and_climate_figures_verified_verbatim_in_the_companion_proposal_pass"
+    ],
+    "limitations": [
+      "reddit_overrepresents_younger_online_relocation_minded_residents_with_complaints_or_strong_recommendations",
+      "mobile_blurs_city_county_and_nearby_municipalities_and_eastern_shore_communities_are_a_separate_county_across_the_bay",
+      "housing_wages_and_restaurants_change_faster_than_cultural_themes",
+      "school_discussions_entangled_with_race_class_private_school_status_and_historic_segregation_cannot_become_blanket_claims",
+      "healthcare_unusually_under_sampled_from_the_patient_side_despite_a_large_healthcare_employment_footprint",
+      "nightlife_and_restaurant_judgments_are_highly_comparison_dependent_on_where_the_commenter_arrived_from",
+      "delivered_block_2_source_urls_arrived_as_markdown_wrapped_links_with_tracking_parameters_normalized_mechanically_to_bare_urls_flagged",
+      "signal_detail_texts_arrived_with_inline_citation_suffixes_stripped_mechanically_the_urls_are_preserved_in_source_urls_flagged",
+      "two_cited_threads_are_weak_topical_matches_181hjoo_is_titled_as_a_birmingham_huntsville_thread_and_iw4915_is_a_general_praise_thread_cited_for_hurricane_sally_both_kept_verbatim",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "patient_side_healthcare_experience_searched_but_not_found_routine_access_navigability_and_specialist_access_deliberately_unscored",
+      "allergy_season_searched_but_not_established",
+      "racial_inclusion_climate_and_religious_culture_prominence_discussed_but_too_entangled_or_inflammatory_to_score",
+      "municipal_lgbtq_protections_and_broader_political_climate_not_researched_this_pass",
+      "rental_availability_searched_but_too_thin_to_score_separately",
+      "va_features_intentionally_omitted_from_community_blocks_and_evaluated_structurally_in_block_4",
+      "remote_work_reliability_specialty_retail_depth_and_dating_pool_depth_not_investigated"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/MobileAL/comments/1q82v4t/moving_to_mobile_al_28m_where_to_live/",
+    "https://www.reddit.com/r/howislivingthere/comments/1rqje9q/whats_it_like_living_in_mobile_alabama/",
+    "https://www.reddit.com/r/Alabama/comments/1v5wnv7/regions_of_alabama_differences/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1ukqs1t/does_this_place_exist_in_the_usa/",
+    "https://www.reddit.com/r/Pensacola/comments/uebc4b/",
+    "https://www.reddit.com/r/MobileAL/comments/1vmnn2d/making_friends_in_this_city_is_too_difficult/",
+    "https://www.reddit.com/r/MobileAL/comments/1u0fhc8/friends_in_area/",
+    "https://www.reddit.com/r/MobileAL/comments/1fydc8t/",
+    "https://www.reddit.com/r/MobileAL/comments/1idyo67/",
+    "https://www.reddit.com/r/MobileAL/comments/1h5m2a1/school_systemsgood_schools/",
+    "https://www.reddit.com/r/MobileAL/comments/1jykpio/",
+    "https://www.reddit.com/r/MobileAL/comments/1ui9f3q/bayway_traffic/",
+    "https://www.reddit.com/r/MobileAL/comments/1bmdaw5/",
+    "https://www.reddit.com/r/Alabama/comments/1so71fg/comparing_birmingham_and_mobiles/",
+    "https://www.reddit.com/r/Alabama/comments/181hjoo/",
+    "https://www.reddit.com/r/MobileAL/comments/1s6ddxa/mobiles_in_a_housing_shortage_and_housing_prices/",
+    "https://www.reddit.com/r/MobileAL/comments/gs5y1v/",
+    "https://www.reddit.com/r/MobileAL/comments/1834mvx/whats_the_likelihood_we_actually_get_snow/",
+    "https://www.reddit.com/r/MobileAL/comments/1hhukry/which_alabama_city_is_the_most_walkable/",
+    "https://www.reddit.com/r/MobileAL/comments/1rmoxgz/moving_to_mobile_neighborhoods/",
+    "https://www.reddit.com/r/MobileAL/comments/1tt28cn/mobile_alabama/",
+    "https://www.reddit.com/r/MobileAL/comments/1k2b1sh/",
+    "https://www.reddit.com/r/MobileAL/comments/1k4xbpb/",
+    "https://www.reddit.com/r/Alabama/comments/1ucoaai/places_to_live_near_mobile/",
+    "https://www.reddit.com/r/MobileAL/comments/1uj8o1r/can_someone_please_please_please_be_my_friend/"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions (generated and stashed before import, after Savannah's import made Savannah the top borrow source at weight 0.836); the prediction comparison (criterion |diff| >= 0.30) falsified only 2 of 27 returned features — the best score of the nine passes, and direct evidence that the Savannah diversification improved propagation for a second humid coastal city: Mobile's humidity_burden prediction rose from the 0.33 the corpus gave Savannah to 0.41, and downtown_walkability's error shrank from Savannah's 0.38 miss to 0.13 here. Both remaining misses are pure borrowed-interior-climate residue: humidity_burden 0.41 predicted vs 0.95 (one humid city among fifteen cannot outvote the arid corpus) and winter_cold_severity 0.46 vs 0.14. Near-misses under the threshold: severe_storm_risk 0.62 vs 0.84 (the corpus's first hurricane coast), water_recreation_access 0.71 vs 0.94, snow_burden 0.33 vs 0.06. Notable confirmations: car_dependence 0.87 predicted vs 0.82 and lgbtq_scene_size 0.40 vs 0.32 (both all-sources-agree predictions), outdoor_comfort_season 0.56 vs 0.56 exact, commute_burden 0.46 vs 0.43, local_wage_adequacy 0.39 vs 0.34, social_integration_ease 0.41 vs 0.48. Healthcare features were deliberately not scored (patient-side evidence searched but not found) — an honest abstention, so the capacity-vs-navigability divergence family does not gain a city here despite structurally verified Level I trauma capacity.",
+    "location_context": {
+      "county": "Mobile County",
+      "region": "Alabama Gulf Coast / central Gulf Coast",
+      "setting": "historic Gulf port city at the head of Mobile Bay, with the Mobile-Tensaw Delta to the northeast and the Eastern Shore suburbs across the bay",
+      "nearby_geographic_feature": "Mobile Bay and the Bayway/tunnel crossing; Mobile-Tensaw Delta; Gulf beaches, Pensacola and New Orleans in regional day-trip range",
+      "important_distinction": "Mobile blurs the city, Mobile County and nearby municipalities; the Eastern Shore (Daphne, Spanish Fort, Fairhope) is a separate county whose cross-bay commute regime differs sharply from in-city driving. The defining internal split is walkable historic core (Downtown, Oakleigh, Midtown) versus auto-oriented outer city, and the dominant peer comparisons are Birmingham (in-state), Pensacola (Gulf neighbor) and New Orleans (cultural kin)."
+    },
+    "reddit_sentiment": "positive_on_identity_water_and_core_conditional_on_wages_heat_storms_and_depth_expectations",
+    "city_archetype": "humid_gulf_port_hub_with_walkable_historic_core_and_car_dependent_outer_fabric",
+    "strongest_positive_signals": [
+      "distinct_gulf_coast_louisiana_leaning_cultural_identity",
+      "walkable_historic_core_in_downtown_oakleigh_midtown",
+      "water_delta_and_bay_recreation_close_to_ordinary_life",
+      "strong_local_food_identity_and_downtown_bar_circuit",
+      "manageable_scale_with_real_city_services",
+      "mild_low_snow_winters"
+    ],
+    "strongest_negative_signals": [
+      "oppressive_summer_heat_and_humidity",
+      "routine_hurricane_preparation_and_storm_property_costs",
+      "low_local_pay_relative_to_rising_costs",
+      "car_dependence_outside_the_historic_core",
+      "bayway_cross_bay_commute_chokepoint",
+      "contentious_school_choice_geography",
+      "third_place_and_adult_friendmaking_friction"
+    ],
+    "best_for": [
+      "people_who_value_historic_neighborhoods_and_gulf_coast_culture",
+      "boaters_anglers_paddlers_and_water_oriented_households",
+      "workers_in_healthcare_shipbuilding_manufacturing_logistics_or_construction",
+      "people_wanting_real_city_services_without_atlanta_scale",
+      "mardi_gras_and_seafood_enthusiasts"
+    ],
+    "poor_fit_for": [
+      "people_needing_strong_transit_or_broad_citywide_walkability",
+      "heat_sensitive_households_and_those_avoiding_natural_hazard_exposure",
+      "workers_expecting_a_deep_generic_white_collar_market",
+      "people_wanting_a_huge_dating_social_pool_or_extensive_alternative_nightlife",
+      "families_unwilling_to_research_schools_individually"
+    ],
+    "bottom_line": "Mobile is a culturally distinctive, water-oriented Gulf port city with a genuinely appealing historic core and manageable scale, whose main tradeoffs are oppressive summers, storm exposure, low-wage pressure, automobile dependence outside the core, school-location complexity and a social/amenity scene that is real but shallower than a larger metro."
+  }
+}

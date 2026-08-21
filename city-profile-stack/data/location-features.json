@@ -4883,6 +4883,257 @@
         "discussed_but_unscoreable: Substance-problem visibility appears mainly in neighborhood/crime discourse that is too anecdotal and sometimes inflammatory to score responsibly.",
         "discussed_but_unscoreable: Trailing-spouse isolation risk is hinted at by newcomer friendship threads but was not discussed directly enough to separate it from ordinary adult social-integration difficulty."
       ]
+    },
+    {
+      "city": "Mobile",
+      "state": "AL",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.14,
+          "confidence": 0.63,
+          "evidence": "Residents describe chilly spells but generally mild winter afternoons, while significant snow is treated as an exceptional event rather than an annual condition.",
+          "signals": [
+            "mild_winter_relief",
+            "snow_is_exceptional_not_normal"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.06,
+          "confidence": 0.69,
+          "evidence": "Long-time residents describe decades between meaningful snow events; the notable 2025 snowfall stood out precisely because it was so unusual.",
+          "signals": [
+            "snow_is_exceptional_not_normal"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.88,
+          "confidence": 0.78,
+          "evidence": "Relocation accounts describe a multi-month period when heat materially restricts comfortable daytime outdoor activity.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.95,
+          "confidence": 0.8,
+          "evidence": "Humidity is repeatedly paired with summer heat as a defining warm-season condition rather than an occasional annoyance.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.56,
+          "confidence": 0.65,
+          "evidence": "Mild winters expand the pleasant outdoor season, but residents describe a substantial summer period when heat and humidity suppress daytime activity.",
+          "signals": [
+            "summer_heat_humidity_burden",
+            "mild_winter_relief"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.88,
+          "confidence": 0.63,
+          "evidence": "The reported duration and intensity of summer heat and humidity make dependable air conditioning central to normal warm-season comfort.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.84,
+          "confidence": 0.73,
+          "evidence": "Residents treat hurricane supplies, outages, evacuation decisions, flood exposure and storm-specific insurance terms as routine Gulf Coast planning.",
+          "signals": [
+            "hurricane_preparedness_is_routine"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.76,
+          "confidence": 0.7,
+          "evidence": "Residents repeatedly cite kayaking, fishing, parks, the Delta and other nearby outdoor opportunities as reasons to like the area.",
+          "signals": [
+            "water_and_outdoor_access"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.7,
+          "confidence": 0.58,
+          "evidence": "Bay, river, Delta and coastal landscapes appear repeatedly in resident recommendations, although scenery is less uniformly emphasized than access to water activities.",
+          "signals": [
+            "water_and_outdoor_access"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.94,
+          "confidence": 0.79,
+          "evidence": "Fishing, boating and paddling access are repeatedly described as close enough to form part of ordinary recreation rather than destination travel.",
+          "signals": [
+            "water_and_outdoor_access"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.61,
+          "confidence": 0.66,
+          "evidence": "Mobile supports a substantial independent restaurant and downtown bar/event scene, but comparisons with larger metros and Pensacola expose limits in music and overall variety.",
+          "signals": [
+            "food_scene_local_strength",
+            "downtown_nightlife_has_options",
+            "music_scene_thinner_than_pensacola",
+            "medium_city_scale_is_a_draw"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.82,
+          "confidence": 0.76,
+          "evidence": "Residents consistently separate walkable Downtown/Midtown pockets from the much larger portion of Mobile where ordinary errands and daily life require a vehicle.",
+          "signals": [
+            "historic_core_walkability",
+            "outer_city_car_dependence"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.77,
+          "confidence": 0.76,
+          "evidence": "Downtown, Oakleigh and adjacent historic neighborhoods receive repeated first-hand praise for walking between homes, architecture, restaurants and events.",
+          "signals": [
+            "historic_core_walkability"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.52,
+          "confidence": 0.63,
+          "evidence": "Residents identify multiple active sectors but repeatedly say opportunity becomes thinner outside healthcare, industry, logistics, construction and related fields.",
+          "signals": [
+            "jobs_cluster_in_industrial_health_sectors",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.58,
+          "confidence": 0.57,
+          "evidence": "Community discussions identify several meaningful employment pillars—healthcare, manufacturing, shipbuilding, logistics and construction—rather than a single dominant employer class, but professional breadth is described as limited.",
+          "signals": [
+            "jobs_cluster_in_industrial_health_sectors"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.66,
+          "confidence": 0.53,
+          "evidence": "Industrial, shipbuilding, specialty trade and manufacturing roles are repeatedly suggested as better-paying paths even while general local-wage discussions remain negative.",
+          "signals": [
+            "jobs_cluster_in_industrial_health_sectors",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.43,
+          "confidence": 0.69,
+          "evidence": "Routine Mobile driving is often treated as manageable for a city, but crossing Mobile Bay creates a sharply different commute regime with recurring Bayway and tunnel delays.",
+          "signals": [
+            "medium_city_scale_is_a_draw",
+            "bayway_is_regional_commute_chokepoint",
+            "eastern_shore_school_commute_tradeoff"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.34,
+          "confidence": 0.78,
+          "evidence": "Repeated wage threads distinguish plentiful low- or moderate-paying openings from jobs that residents consider sufficient for current housing and living costs.",
+          "signals": [
+            "local_pay_often_feels_low",
+            "housing_affordability_is_eroding"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.44,
+          "confidence": 0.42,
+          "evidence": "Residents report tightening housing conditions and some visible development momentum, but the community evidence does not support portraying Mobile as a uniformly rapid-growth city.",
+          "signals": [
+            "housing_affordability_is_eroding"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.67,
+          "confidence": 0.61,
+          "evidence": "Mobile retains a relatively affordable reputation, but renters at very low budgets and workers earning local wages increasingly describe the old cheap-city expectation as outdated.",
+          "signals": [
+            "housing_affordability_is_eroding",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.66,
+          "confidence": 0.56,
+          "evidence": "Residents still contrast Mobile favorably with more expensive Gulf alternatives, but rising prices and weak wage growth reduce the strength of its traditional small-city housing discount.",
+          "signals": [
+            "housing_affordability_is_eroding",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.48,
+          "confidence": 0.69,
+          "evidence": "Newcomers can identify many organized activities, but repeated first-hand accounts describe difficulty turning participation into lasting friendships and disagree over how socially open established circles are.",
+          "signals": [
+            "organized_social_groups_exist",
+            "adult_friendmaking_can_be_hard",
+            "newcomer_insularity_is_contested"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.47,
+          "confidence": 0.43,
+          "evidence": "Bars are a visible part of downtown social life, yet friend-making threads also surface running, sports, volunteering, gaming, museums and other non-drinking routes into community.",
+          "signals": [
+            "downtown_nightlife_has_options",
+            "organized_social_groups_exist"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.57,
+          "confidence": 0.62,
+          "evidence": "Recent threads identify a real downtown bar and lounge circuit, while direct comparison with Pensacola suggests thinner independent live-music depth.",
+          "signals": [
+            "downtown_nightlife_has_options",
+            "music_scene_thinner_than_pensacola"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.32,
+          "confidence": 0.31,
+          "evidence": "A recent nightlife thread establishes at least one dedicated gay venue, but the evidence is too sparse to support more than a low-confidence finding that dedicated infrastructure exists at small scale.",
+          "signals": [
+            "lgbtq_nightlife_is_present_but_small"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.93,
+          "confidence": 0.82,
+          "evidence": "Across local, statewide and broader relocation discussions, residents repeatedly identify Mardi Gras, port history, seafood, architecture and Gulf/Louisiana influence as a recognizable Mobile-specific cultural bundle.",
+          "signals": [
+            "gulf_coast_cultural_identity"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.6,
+          "confidence": 0.64,
+          "evidence": "Residents describe many ordinary safe-feeling residential areas but strongly resist citywide generalization, emphasizing block-level variation in parts of Midtown and other neighborhoods.",
+          "signals": [
+            "safety_varies_block_by_block",
+            "west_mobile_saraland_safety_reputation"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Targeted healthcare searches found abundant discussion of hospitals, residencies and healthcare employment but not enough first-hand patient discussion of primary-care waits, referrals, specialist access or leaving the region for complex care to score routine_healthcare_access, healthcare_navigability or specialist_healthcare_access from community sentiment.",
+        "searched_not_found: A targeted allergy-season search did not produce enough Mobile-specific resident evidence to establish a reliable community signal.",
+        "discussed_but_unscoreable: Race, private-school history and segregation are discussed in school threads, but much of the discourse is inflammatory or indirect and does not supply enough direct day-to-day resident-of-color accounts to score racial_inclusion_climate responsibly.",
+        "discussed_but_unscoreable: Religion appears inside private-school and cultural discussions but is too entangled with school choice, class and history to score religious_culture_prominence from this source base.",
+        "not_researched: Municipal LGBTQ protections and the broader political climate were not targeted deeply enough to score lgbtq_municipal_policy, lgbtq_social_acceptance, political_conservatism or political_heterogeneity.",
+        "searched_not_found: Rental-price discussions were plentiful, but evidence about how quickly ordinary rentals can actually be secured was too thin to score rental_availability separately.",
+        "not_researched: VA care was not evaluated through community sentiment in Blocks 1-3, so va_outpatient_access and va_hospital_access are intentionally omitted even though official facilities can be evaluated structurally in Block 4.",
+        "not_researched: Remote-work reliability, specialty-retail depth and dating-pool depth were not investigated sufficiently to score them."
+      ]
     }
   ]
 }
