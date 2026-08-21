@@ -4548,6 +4548,341 @@
         "not_researched: economic-cycle exposure and high-wage trade opportunity were not researched deeply enough to separate current conditions from the region's historical energy-cycle reputation.",
         "not_researched: remote-work viability was not technically verified; social discussions involving remote workers establish isolation risk, not broadband reliability."
       ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.16,
+          "confidence": 0.72,
+          "evidence": "Transplant discussions consistently treat winter warmth as an asset and do not describe sustained severe cold as part of ordinary winter life.",
+          "signals": [
+            "winter_is_mild_and_low_snow"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.03,
+          "confidence": 0.75,
+          "evidence": "Snow does not appear as a recurring planning burden in targeted climate and relocation discussion.",
+          "signals": [
+            "winter_is_mild_and_low_snow"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.88,
+          "confidence": 0.84,
+          "evidence": "Summer heat repeatedly alters outdoor routines, and a July 2026 thread describes recent conditions as brutal for outdoor workers.",
+          "signals": [
+            "summer_heat_humidity_defining"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.93,
+          "confidence": 0.84,
+          "evidence": "Residents distinguish oppressive, persistent humidity as the more defining summer burden than maximum temperature alone.",
+          "signals": [
+            "summer_heat_humidity_defining"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.58,
+          "confidence": 0.62,
+          "evidence": "Mild winters extend comfortable outdoor time, but sustained hot-humid summers materially reduce daytime comfort.",
+          "signals": [
+            "summer_heat_humidity_defining",
+            "winter_is_mild_and_low_snow"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.85,
+          "confidence": 0.65,
+          "evidence": "Summer accounts describe indoor cooling as central to ordinary comfort during prolonged hot and humid periods.",
+          "signals": [
+            "summer_heat_humidity_defining"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.7,
+          "confidence": 0.8,
+          "evidence": "Municipal flood guidance establishes coastal flooding as a property and insurance consideration even though exposure varies significantly by parcel.",
+          "signals": [
+            "coastal_flood_risk_is_property_constraint"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.73,
+          "confidence": 0.68,
+          "evidence": "Coastal paddling, beach trips and marsh access are repeatedly cited as ordinary regional recreation rather than distant weekend travel.",
+          "signals": [
+            "coastal_water_recreation_is_close"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.9,
+          "confidence": 0.78,
+          "evidence": "Historic streets, tree canopy, marshes and coastal scenery are among the most consistent reasons residents and transplants praise Savannah.",
+          "signals": [
+            "visual_identity_is_exceptionally_strong",
+            "coastal_water_recreation_is_close"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.9,
+          "confidence": 0.75,
+          "evidence": "Marsh, boating, paddling and beach access are close enough to be part of routine regional recreation.",
+          "signals": [
+            "coastal_water_recreation_is_close"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.7,
+          "confidence": 0.7,
+          "evidence": "Restaurants, bars, festivals, museums and arts activity are unusually visible for the city's size, although niche options repeat sooner than in a major metro.",
+          "signals": [
+            "amenities_punch_above_city_size",
+            "nightlife_has_breadth_not_metro_depth"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.72,
+          "confidence": 0.78,
+          "evidence": "Savannah has a nearby commercial airport with useful nonstop links to major markets, although it lacks the network depth of a true hub.",
+          "signals": [
+            "airport_is_close_with_useful_nonstops"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.76,
+          "confidence": 0.74,
+          "evidence": "The historic core supports substantial walking, but most wider-city errands, employment and suburban trips are described as vehicle-oriented.",
+          "signals": [
+            "walkability_drops_outside_core",
+            "public_transit_is_limited"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.93,
+          "confidence": 0.84,
+          "evidence": "Walking through the squares and central historic neighborhoods is one of the most consistently praised features across resident and relocation sources.",
+          "signals": [
+            "historic_core_walkability"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.58,
+          "confidence": 0.48,
+          "evidence": "Medical systems and primary-care services exist locally, but recent residents report enough scheduling and establishment difficulties to keep routine access from scoring high.",
+          "signals": [
+            "healthcare_navigation_draws_complaints"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.34,
+          "confidence": 0.72,
+          "evidence": "A dedicated 2026 discussion documents weeks of unanswered calls, referral delays and difficulty establishing primary care.",
+          "signals": [
+            "healthcare_navigation_draws_complaints"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.52,
+          "confidence": 0.5,
+          "evidence": "Savannah supports meaningful regional medical care, but community comparisons give larger centers an advantage for specialist and complex-care depth.",
+          "signals": [
+            "specialist_depth_is_not_big_metro_level",
+            "healthcare_navigation_draws_complaints"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.58,
+          "confidence": 0.58,
+          "evidence": "Several major employment sectors exist, but residents describe professional switching as constrained where only a few large employers dominate a specialty.",
+          "signals": [
+            "port_logistics_trade_jobs_are_visible",
+            "professional_job_market_can_feel_narrow"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.66,
+          "confidence": 0.62,
+          "evidence": "Community job discussions identify logistics, port work, aerospace, manufacturing, healthcare and hospitality rather than a single-industry economy.",
+          "signals": [
+            "port_logistics_trade_jobs_are_visible",
+            "professional_job_market_can_feel_narrow"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.7,
+          "confidence": 0.55,
+          "evidence": "Port, logistics, manufacturing and aerospace discussions identify several routes into comparatively well-paid operations and skilled work.",
+          "signals": [
+            "port_logistics_trade_jobs_are_visible"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.35,
+          "confidence": 0.62,
+          "evidence": "Savannah is repeatedly described as much easier to traverse than Atlanta, although Pooler and beach-bound corridors can develop substantial bottlenecks.",
+          "signals": [
+            "atlanta_comparison_is_pace_vs_depth",
+            "pooler_trades_character_for_suburban_convenience"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.33,
+          "confidence": 0.8,
+          "evidence": "The loudest affordability theme is that ordinary local wages have not kept pace with rent and housing costs.",
+          "signals": [
+            "rent_and_local_pay_feel_misaligned"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.88,
+          "confidence": 0.82,
+          "evidence": "Residents repeatedly describe visitor volume, weddings and seasonal beach traffic as forces that materially affect central-city rhythm.",
+          "signals": [
+            "tourism_shapes_downtown_daily_life"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.48,
+          "confidence": 0.72,
+          "evidence": "Savannah can still look moderate to newcomers from expensive metros, but local renters consistently describe housing as difficult relative to local earnings.",
+          "signals": [
+            "rent_and_local_pay_feel_misaligned",
+            "housing_cost_perception_is_split"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.46,
+          "confidence": 0.6,
+          "evidence": "The expected small-city discount is weakened by tourism demand, desirable historic neighborhoods and rent growth relative to local wages.",
+          "signals": [
+            "housing_cost_perception_is_split",
+            "rent_and_local_pay_feel_misaligned"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.52,
+          "confidence": 0.45,
+          "evidence": "A 2026 relocating renter reported listings appearing frequently enough to make short-term arrival feasible, while affordability and deposits remain persistent complaints.",
+          "signals": [
+            "housing_cost_perception_is_split"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.3,
+          "confidence": 0.5,
+          "evidence": "Savannah proper is repeatedly described by residents as more progressive than surrounding South Georgia, but this is a sensitive contextual measure and the city-region boundary matters.",
+          "signals": [
+            "city_feels_more_progressive_than_region"
+          ]
+        },
+        "lgbtq_municipal_policy": {
+          "value": 0.88,
+          "confidence": 0.9,
+          "evidence": "Savannah's municipal discrimination framework explicitly protects sexual orientation and gender identity in employment, housing and public accommodations.",
+          "signals": [
+            "municipal_lgbtq_protections_exist"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.76,
+          "confidence": 0.48,
+          "evidence": "The limited community evidence generally describes Savannah proper as accepting while distinguishing it from some surrounding areas.",
+          "signals": [
+            "lgbtq_social_climate_generally_positive_but_thin"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.47,
+          "confidence": 0.42,
+          "evidence": "Organized resources and social options exist, but dedicated scene and dating depth are described as modest for residents accustomed to larger metros.",
+          "signals": [
+            "lgbtq_social_climate_generally_positive_but_thin",
+            "dating_pool_feels_small"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.63,
+          "confidence": 0.44,
+          "evidence": "Community discussion repeatedly describes a more progressive central city embedded within a more conservative regional and state context; the disagreement across geography is itself the finding.",
+          "signals": [
+            "city_feels_more_progressive_than_region"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.58,
+          "confidence": 0.55,
+          "evidence": "Families have zoned, charter and choice options, but parent discussion shows that school quality and access to preferred programs are uneven enough to require active navigation.",
+          "signals": [
+            "schools_are_uneven_choice_matters"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.42,
+          "confidence": 0.76,
+          "evidence": "Multiple independent newcomer threads report difficulty forming adult friendships unless people deliberately join recurring groups or activities.",
+          "signals": [
+            "friendships_require_deliberate_repetition"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.7,
+          "confidence": 0.55,
+          "evidence": "Bars and drinking are conspicuous in the central entertainment scene, while nondrinking residents still identify hobby, arts, volunteering and activity-based alternatives.",
+          "signals": [
+            "alcohol_is_visible_in_core_social_scene",
+            "friendships_require_deliberate_repetition"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.58,
+          "confidence": 0.6,
+          "evidence": "Savannah has a real evening economy but lacks the specialized, continually renewing nightlife depth residents compare with larger metros.",
+          "signals": [
+            "nightlife_has_breadth_not_metro_depth",
+            "amenities_punch_above_city_size"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.4,
+          "confidence": 0.65,
+          "evidence": "Repeated local discussions describe a relatively small, repetitive resident dating pool despite substantial tourist volume.",
+          "signals": [
+            "dating_pool_feels_small"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.94,
+          "confidence": 0.84,
+          "evidence": "Historic urban form, squares, coastal setting, architecture and an arts-and-tourism culture give Savannah an identity that even critical residents rarely describe as generic.",
+          "signals": [
+            "visual_identity_is_exceptionally_strong",
+            "amenities_punch_above_city_size"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.55,
+          "confidence": 0.55,
+          "evidence": "Some residents describe ordinary daily life as comfortable while others emphasize sharp block-level changes and serious personal incidents; disagreement and micro-location sensitivity prevent a stronger score.",
+          "signals": [
+            "safety_is_block_sensitive"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Targeted climate searches produced extensive heat and humidity discussion but little community treatment of precipitation seasonality as a distinct lived feature.",
+        "searched_not_found: Persistent wind exposure did not emerge as a normal day-to-day Savannah condition in targeted weather searches.",
+        "not_researched: Public-land access for dispersed recreation was not investigated deeply enough to score.",
+        "not_researched: Specialty-retail access was not investigated deeply enough to score.",
+        "not_researched: Religious-culture prominence was not independently investigated in this pass.",
+        "discussed_but_unscoreable: Racial-inclusion climate appears in some relocation discussion, but the accounts are too thin, geographically blurred and sensitive to convert into a responsible numeric score.",
+        "discussed_but_unscoreable: Substance-problem visibility appears mainly in neighborhood/crime discourse that is too anecdotal and sometimes inflammatory to score responsibly.",
+        "discussed_but_unscoreable: Trailing-spouse isolation risk is hinted at by newcomer friendship threads but was not discussed directly enough to separate it from ordinary adult social-integration difficulty."
+      ]
     }
   ]
 }
