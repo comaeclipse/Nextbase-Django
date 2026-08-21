@@ -2,6 +2,11 @@
 
 **North star:** [PRODUCT.md](PRODUCT.md) — the goal in plain words.
 
+> **Status note (2026-08-21):** this roadmap predates the batch-of-10
+> review. For current program state (frozen discovery corpus, provisional
+> families, validation phase), read [docs/STATE.md](docs/STATE.md) first;
+> this file is the delivery plan, not the live status.
+
 **Status:** the two products (**"what's like Elko?"** and **"best city for this
 person?"**) already run against all ~114 cities via `scripts/tools/`. What is
 still R&D is the *evidence layer* underneath and the go/no-go on putting the
