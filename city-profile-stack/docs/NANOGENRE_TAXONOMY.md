@@ -342,3 +342,77 @@ cites a failing case.
    `Reviewed By` field. The only addition needed is separating drafting from
    review by person and by sitting, which the existing board fields already
    support without a schema change.
+
+### Resolved 2026-08-21 (batch-of-10 review, owner)
+
+Recorded from the owner's batch-of-10 review after the tenth classified city
+(Charleston). Same reopening convention as decisions 1-4: any of these can be
+reopened by a card or issue that cites a failing case.
+
+5. **The first ten cities are Discovery Corpus v1, and discovery prevalence
+   does not trigger prevalence-cap rejection.** The discovery corpus was
+   deliberately steered (recurrences were chased on purpose), so its
+   prevalence figures are selection artifacts, not population estimates —
+   finding 5/10 regional-service hubs does not mean 50% of American cities
+   are hubs, but it does mean the pattern has been observed enough times to
+   propose. The §3 maximum-prevalence caps therefore apply to the validation
+   corpus or a representative reference corpus, never to discovery
+   prevalence. No selection-adjusted denominator is introduced (that would
+   be a second modeling choice compensating for a deliberately biased
+   sample). The admission pipeline is: observed once → candidate →
+   recurrence → provisional family → out-of-sample validation → admitted
+   ontology. Discovery Corpus v1 (Casper, Victorville, Gilbert, Odessa,
+   Cheyenne, North Platte, Grand Junction, Savannah, Mobile, Charleston) is
+   frozen as of this review.
+6. **Two provisional families are admitted at the provisional-family stage**
+   (not the admitted-ontology stage — both await out-of-sample validation):
+   **Interior Regional Service Hub** (Casper, Odessa, Cheyenne, North
+   Platte, Grand Junction) — the class describes why the city exists in its
+   regional network (an isolated or semi-isolated city providing
+   disproportionately important services/employment/institutions to a
+   geographically broad hinterland), with per-city *anchor traits* (energy;
+   energy/trade boom-cycle; state government; rail/logistics;
+   healthcare/public-land gateway) explaining which version it is — North
+   Platte's rail anchor is evidence *for* the family, not a unification
+   problem. And **Historic Coastal Port City** (Savannah, Mobile,
+   Charleston) — one latent type whose members occupy different positions
+   along continuous structural axes (tourism intensity, institutional/
+   medical depth, blue-collar port orientation, historic-core walkability,
+   outer-fabric car dependence, growth pressure, beach access,
+   affordability, visitor/resident split). The three-city "discovery
+   gradient" is interpreted as positions on those axes, NOT as three
+   sibling nanogenres; sibling promotion waits until repeated clusters
+   separate out-of-sample (e.g. Charleston-like vs Savannah-like across
+   Wilmington, St. Augustine, Annapolis, Pensacola, Galveston, Norfolk).
+7. **Genres compress; traits describe. Labels should get shorter as the
+   model improves, not longer.** A sufficiently descriptive nanogenre
+   becomes a unique ID for one city and stops doing modeling work; if
+   knowing the class tells you nothing you didn't already read in the class
+   name, it isn't a class. Test: "would another city ever naturally inherit
+   this label?" If not, part of the phrase belongs in traits. Exemplar:
+   "Cajon-Pass-Dependent Housing-Value Logistics Exurb" decomposes into
+   micro "High-Desert Commuter/Logistics Exurb" + traits (housing-value
+   refuge, pass dependency, logistics employment, extreme heat, moderate
+   wind exposure), so Hesperia or Palmdale could meaningfully challenge or
+   reinforce the category. Applies to new labels going forward; existing
+   discovery-corpus labels are kept as-is (frozen with the corpus) and
+   compressed at validation time.
+8. **Falsification results are stratified by prediction domain, and
+   geographically similar cities do not inherit discrete institutions.**
+   The headline falsified-count trend (11/31 → ... → 4/33) must not be
+   summarized as a single error rate: predicting urban form, everyday
+   rhythm, navigability/friction, climate exposure, institutional capacity
+   and lumpy infrastructure are radically different tasks with radically
+   different observed performance (urban form and navigability generalize
+   strongly — healthcare_navigability's all-agree prediction confirmed
+   three consecutive passes; institutional capacity and discrete
+   infrastructure generalize worst — VA hospitals and tertiary-medicine
+   depth defeated propagation in four passes). The no-institutional-
+   inheritance rule is architectural for the propagation engine, not merely
+   an observed error: it defines what may be borrowed aggressively.
+   Divergence families (capacity-vs-navigability, existence-vs-depth,
+   commute-vs-car-dependence, and successors) are promoted to first-class
+   analytical objects; a schema on the shape
+   {measured_dimension, experienced_dimension, divergence_direction,
+   divergence_magnitude, confidence, mechanism} is queued as framework
+   work.
