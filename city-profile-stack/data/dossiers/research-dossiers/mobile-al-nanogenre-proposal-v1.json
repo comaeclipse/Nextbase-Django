@@ -1,0 +1,238 @@
+{
+  "city": "Mobile",
+  "state": "AL",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Mobile, Alabama — Nanogenre Classification Proposal v1",
+  "summary": "Eighth genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process, continuing the corpus diversification begun with Savannah: official/structural evidence (Census QuickFacts, BLS Mobile EAG, Alabama Port Authority 50-foot channel completion, USA Health Level I trauma and Level III NICU, va.gov Gulf Coast locations, NCEI normals, NWS 2026 summaries, city activity guide and Downtown Development Code, Mobile Airport Authority) reconciled against the same research pass's community-sentiment evidence. Produces the program's first nano-level recurrence outside the interior-West family — the Savannah+Mobile walkable-historic-core/car-dependent-outer coastal-port bundle now has two independently researched cities, meeting the nano floor — and the best falsification score yet (2 of 27), demonstrating that the Savannah diversification improved propagation.",
+  "narrative_file": "mobile-al-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Companion to mobile-al.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_44_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "census_quickfacts_figures_verified_verbatim_in_a_real_browser_pop_200824_change_minus_2_9_pct_income_53558_per_capita_33935_poverty_18_4_pct_rent_1068_commute_22_8_min_all_exact",
+      "bls_mobile_eag_verified_in_a_real_browser_june_2026_total_nonfarm_plus_0_4_pct_yoy_construction_plus_14_3_pct_yoy_matching_the_flat_payroll_construction_up_claim",
+      "port_50_foot_channel_completion_verified_october_3_2025_366m_project_deepest_gulf_container_port",
+      "usa_health_level_i_trauma_verified_verbatim_first_and_only_in_south_alabama_and_childrens_womens_only_level_iii_nicu_corroborated",
+      "va_gov_confirms_mobile_outpatient_clinic_and_biloxi_medical_center_and_the_apps_own_va_sync_data_for_location_9_agrees_no_fix_needed",
+      "nws_normal_july_high_about_91_corroborated_via_ncei_api_90_9_and_july_2026_93_2_74_2_reverified_on_the_live_nws_page",
+      "mobile_regional_airport_nonstops_verified_atlanta_charlotte_dfw_houston_washington_and_the_2027_terminal_delay_corroborated",
+      "nine_question_reconciliation_table_with_divergences_held_not_averaged"
+    ],
+    "limitations": [
+      "delivered_block_2_source_urls_arrived_as_markdown_wrapped_links_with_tracking_parameters_normalized_mechanically_flagged",
+      "signal_detail_texts_arrived_with_inline_citation_suffixes_stripped_mechanically_urls_preserved_in_source_urls_flagged",
+      "two_cited_threads_are_weak_topical_matches_181hjoo_titled_birmingham_huntsville_and_iw4915_general_praise_cited_for_hurricane_sally_kept_verbatim",
+      "january_2026_and_may_2026_climate_sub_figures_rest_on_original_retrieval_the_live_page_covers_july_only",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "patient_side_healthcare_evidence_searched_but_not_found_so_capacity_findings_have_no_lived_counterpart"
+    ],
+    "gaps": [
+      "the_savannah_mobile_nano_core_bundle_meets_the_nano_floor_of_2_but_admission_is_the_reviewers_call_under_section_3_4_nonredundancy_and_section_11",
+      "school_structure_not_reconciled_with_state_assessment_data_deserves_a_separate_pass",
+      "neighborhood_crime_statistics_not_reconciled_against_safety_perception",
+      "future_infrastructure_2027_airport_new_arena_must_not_be_treated_as_present_amenities"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/mobilecityalabama/POP010220",
+    "https://www.bls.gov/eag/eag.al_mobile_msa.htm",
+    "https://alports.com/news/alabama-port-authority-achieves-50-foot-channel-depth-first-vessel-departs-at-historic-draft/",
+    "https://www.usahealthsystem.com/specialties/trauma",
+    "https://www.usahealthsystem.com/services/neonatal-intensive-care",
+    "https://www.va.gov/gulf-coast-health-care/locations/",
+    "https://preview.weather.gov/mob/July2026climatesummaries",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL&stations=USW00013894&format=json",
+    "https://www.mobileairportauthority.com/mra/non-stop-cities/",
+    "https://www.cityofmobile.org/parks-rec/uploads/MPRDActivityGuide-Spring2025FINALPRINTREADY.pdf",
+    "https://www.cityofmobile.org/uploads/22100403511409UDCPCSept122approvedversionforCityCouncil.pdf",
+    "https://www.reddit.com/r/MobileAL/comments/1qxjbv9/moving_to_mobile/",
+    "https://www.reddit.com/r/MobileAL/comments/1fydc8t/",
+    "https://www.reddit.com/r/MobileAL/comments/1tt28cn/mobile_alabama/",
+    "https://www.reddit.com/r/MobileAL/comments/1k2b1sh/",
+    "https://www.reddit.com/r/MobileAL/comments/1hhukry/which_alabama_city_is_the_most_walkable/",
+    "https://www.reddit.com/r/MobileAL/comments/1q82v4t/moving_to_mobile_al_28m_where_to_live/",
+    "https://www.reddit.com/r/Alabama/comments/10baqu5/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Historic Gulf Coast Port City",
+        "Regional Industrial-and-Medical Service Hub"
+      ],
+      "micro_primary": "Blue-Collar Gulf Port and Medical Hub",
+      "micro_secondary": [
+        "Historic-Core / Auto-Outer City",
+        "Bay-Crossing Regional Commuter Hub"
+      ],
+      "nano_primary": {
+        "label": "Humid Gulf Port Hub with Walkable Historic Core and Car-Dependent Outer Fabric",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "Industrial-Healthcare Gulf City with Low-Cost / Low-Wage Tension",
+          "confidence": "high"
+        },
+        {
+          "label": "Historic Carnival Port with Bay-Crossing Commuter Tradeoff",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "Mobile is a culturally distinctive historic Gulf port whose walkable old core, industrial-and-medical employment base and relatively modest housing costs sit inside a humid, car-dependent regional system where wages and cross-bay commuting create sharper tradeoffs than the city's size alone suggests.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Per NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1, admission requires 2 independently-researched cities for nano, 3 for micro, 5 for broad. SEVEN RECURRENCE OBSERVATIONS for the next taxonomy review: (1) FIRST NANO-LEVEL RECURRENCE OUTSIDE THE INTERIOR-WEST FAMILY -- the nano floor of 2 is met: Savannah's and Mobile's nano-primary labels carry the same core bundle (historic coastal port + walkable historic core + car-dependent outer fabric + humid subtropical climate + port-logistics economy + strong cultural identity + wage-cost tension), while their micro labels diverge exactly where the cities structurally diverge (Savannah tourism/arts-dominated, Mobile blue-collar/medical with hurricane exposure and a bay-crossing chokepoint). The section 3 #4 nonredundancy call -- bundle versus decomposable traits -- is the reviewer's. (2) The Port-Logistics broad family reaches two cities (Savannah, Mobile). (3) Interior-regional-service-hub prevalence falls again: 5 of 9 = 56% (71% -> 63% -> 56%), still above the 40% cap -- keep diversifying. (4) The wage-housing squeeze appears in a SEVENTH of nine cities, here wage-side rather than price-side (rent $1,068, value $193,300 remain moderate) -- consistent with the ZHVI lesson that affordability level and pressure direction decouple. (5) Best falsification score of the program: 2 of 27 (|diff| >= 0.30), with Savannah entering the corpus one pass earlier and immediately becoming Mobile's top borrow source (0.836) -- diversification pays forward; both remaining misses are borrowed-interior-climate residue (humidity_burden 0.41->0.95, winter_cold_severity 0.46->0.14), and severe_storm_risk (0.62->0.84, the corpus's first hurricane coast) is the largest near-miss. (6) Healthcare abstention honestly held: structural Level I trauma / Level III NICU capacity verified, patient-side evidence searched-not-found, features unscored -- the capacity-vs-navigability family does NOT gain a city. (7) VA cross-check clean: va.gov and the app's own VA sync data agree Mobile is outpatient with the VAMC in Biloxi -- no Grand-Junction-style fix needed."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Mobile actually growing, or does it just feel like it is developing?",
+        "measured_evidence": "Census QuickFacts gives a July 1, 2025 population estimate of 200,824 and a -2.9% change from the 2020 estimates base, while June 2026 BLS data show roughly flat metropolitan payroll employment overall (+0.4% y/y) even as mining/logging/construction employment was up sharply (+14.3% y/y). Meanwhile, the Port of Mobile completed its 50-foot ship-channel project in October 2025 and major airport/arena investments are in progress. Sources: https://www.census.gov/quickfacts/fact/table/mobilecityalabama/POP010220 ; https://www.bls.gov/eag/eag.al_mobile_msa.htm ; https://alports.com/news/alabama-port-authority-achieves-50-foot-channel-depth-first-vessel-departs-at-historic-draft/",
+        "experienced_evidence": "Some residents describe Mobile as entering a 'glow up' period and point to development, port activity and housing pressure, while others still describe professional-job depth and economic momentum as limited. Source: https://www.reddit.com/r/MobileAL/comments/1qxjbv9/moving_to_mobile/",
+        "resulting_trait": "Investment-led modernization without a simple population-boom story: specific industrial, infrastructure and downtown projects are advancing faster than a blanket 'fast-growing city' label would imply."
+      },
+      {
+        "question": "Is Mobile genuinely affordable?",
+        "measured_evidence": "For 2020-2024, Census QuickFacts reports median household income of $53,558, per-capita income of $33,935 and 18.4% of residents below the poverty line; median gross rent is $1,068. Source: https://www.census.gov/quickfacts/fact/table/mobilecityalabama/POP010220",
+        "experienced_evidence": "Residents still compare Mobile favorably with more expensive Gulf alternatives, but wage threads repeatedly say local pay has not kept pace with costs, and renters searching around $750-$830 are told the market at that level is extremely constrained. Source: https://www.reddit.com/r/MobileAL/comments/1fydc8t/",
+        "resulting_trait": "Low-to-moderate absolute housing costs coexist with a real local-wage affordability problem; 'cheap nationally' and 'easy on a Mobile paycheck' are not the same claim."
+      },
+      {
+        "question": "Is traffic actually bad?",
+        "measured_evidence": "Census reports a mean travel time to work of 22.8 minutes for Mobile residents in 2020-2024, which does not describe an across-the-board extreme-commute city. Source: https://www.census.gov/quickfacts/fact/table/mobilecityalabama/POP010220",
+        "experienced_evidence": "Residents often describe ordinary Mobile trips as manageable while treating the Bayway and tunnel as a separate regime: rush hour, crashes and beach-weekend flows can produce severe cross-bay delays. Source: https://www.reddit.com/r/MobileAL/comments/1tt28cn/mobile_alabama/",
+        "resulting_trait": "Moderate ordinary commute burden with a geographically concentrated cross-bay choke point; a metro-wide average hides the Eastern Shore penalty."
+      },
+      {
+        "question": "Does Mobile really have much to do?",
+        "measured_evidence": "The city operates recurring ArtWalk and public cultural programming, Mobile's Mardi Gras calendar contains parades and events spanning multiple weeks, and the city is developing a replacement Civic Center arena intended for concerts, family shows and professional hockey. Source: https://www.cityofmobile.org/parks-rec/uploads/MPRDActivityGuide-Spring2025FINALPRINTREADY.pdf",
+        "experienced_evidence": "Residents can name numerous restaurants, bars, events and cultural activities, yet younger social threads complain about weak third-place depth and direct Pensacola comparisons give Pensacola the stronger independent music ecosystem. Source: https://www.reddit.com/r/MobileAL/comments/1k2b1sh/",
+        "resulting_trait": "Eventful and culturally active without big-city everyday depth: scheduled festivals, Mardi Gras and downtown activity are stronger than the inventory of recurring third places and niche nightlife."
+      },
+      {
+        "question": "Is healthcare structurally limited because Mobile is only a medium-sized city?",
+        "measured_evidence": "USA Health describes University Hospital as a regional referral center with the area's only Level I trauma center ('the first, and the only, in south Alabama to earn level I status') and advanced stroke, burn and cardiovascular services; Children's & Women's Hospital provides pediatric subspecialties and the region's only Level III NICU. The Mobile VA Clinic provides outpatient care, while the Gulf Coast VA system's medical center is in Biloxi. Sources: https://www.usahealthsystem.com/specialties/trauma ; https://www.usahealthsystem.com/services/neonatal-intensive-care ; https://www.va.gov/gulf-coast-health-care/locations/",
+        "experienced_evidence": "Targeted Reddit searches produced extensive healthcare-employment and residency discussion but surprisingly little first-hand evidence about patient wait times, specialist referrals or the ease of navigating complex care.",
+        "resulting_trait": "Strong regional hospital and specialty-care capacity is structurally established, but community evidence is insufficient to say whether that capacity translates into easy patient access."
+      },
+      {
+        "question": "Is Mobile walkable?",
+        "measured_evidence": "Mobile's Downtown Development Code explicitly identifies walkability, safe streets and public spaces as planning objectives, while the city as a whole covers a large, low-density footprint (139.5 square miles, ~1,341 people per square mile) rather than a compact continuous urban grid. Source: https://www.cityofmobile.org/uploads/22100403511409UDCPCSept122approvedversionforCityCouncil.pdf",
+        "experienced_evidence": "Residents consistently praise Downtown, Oakleigh and Midtown for walking while warning that the rest of the city quickly becomes car-oriented. Source: https://www.reddit.com/r/MobileAL/comments/1hhukry/which_alabama_city_is_the_most_walkable/",
+        "resulting_trait": "Walkable-core/car-dependent-outer-city is the accurate morphology; averaging those two environments into one citywide walkability score would erase the defining spatial split."
+      },
+      {
+        "question": "How dominant is climate in the lived experience?",
+        "measured_evidence": "NWS climate records show Mobile's normal July high is about 91F; July 2026 averaged a 93.2F high and 74.2F low. January 2026 averaged a 63.2F high, illustrating the mild-winter counterseason. May 2026 produced nearly 18 inches of rain, demonstrating how extreme rainfall can punctuate the warm season. Source: https://preview.weather.gov/mob/July2026climatesummaries (July 2026 figures re-verified live; normals corroborated at https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL&stations=USW00013894&format=json -- Jul 90.9/73.1, Jan 61.5/40.7; the January 2026 and May 2026 figures rest on original retrieval)",
+        "experienced_evidence": "Residents describe months of heat and humidity severe enough to suppress daytime outdoor activity, mild winters as a major benefit, and hurricane preparation as routine household knowledge. Source: https://www.reddit.com/r/MobileAL/comments/1q82v4t/moving_to_mobile_al_28m_where_to_live/",
+        "resulting_trait": "A long hot-humid season and mild winter are both central to Mobile's lifestyle, with tropical storms and extreme rainfall adding episodic but structurally important weather risk."
+      },
+      {
+        "question": "Is the port identity mostly heritage branding or a present-day economic structure?",
+        "measured_evidence": "The Alabama Port Authority completed the Mobile Ship Channel deepening to 50 feet in October 2025 (the $366M Mobile Harbor Modernization Project, making Mobile the deepest container port on the Gulf). BLS data for the Mobile metropolitan area continue to show substantial manufacturing (18.7K jobs) and trade/transportation/utilities (36.8K) employment alongside sharp construction growth (+14.3% y/y in June 2026). Sources: https://alports.com/news/alabama-port-authority-achieves-50-foot-channel-depth-first-vessel-departs-at-historic-draft/ ; https://www.bls.gov/eag/eag.al_mobile_msa.htm",
+        "experienced_evidence": "Statewide and local comparison threads repeatedly characterize Mobile as more blue-collar and port-industrial than Birmingham, with shipbuilding, logistics and manufacturing among the first sectors locals recommend to job seekers. Source: https://www.reddit.com/r/Alabama/comments/10baqu5/",
+        "resulting_trait": "The working-port identity is structural rather than nostalgic: maritime and industrial activity still materially shape the labor market and the city's self-conception."
+      },
+      {
+        "question": "Is Mobile isolated from larger-city services and travel?",
+        "measured_evidence": "Mobile Regional Airport currently lists daily nonstop service to Atlanta, Charlotte, Dallas/Fort Worth, Houston and Washington, while the new Mobile International Airport terminal at Brookley is now projected to open in spring 2027 (delayed from fall 2026). Source: https://www.mobileairportauthority.com/mra/non-stop-cities/",
+        "experienced_evidence": "Residents frequently frame New Orleans, Pensacola and Gulf beaches as reachable regional destinations, but they still discuss Mobile as a self-contained medium city rather than part of a larger continuous metropolis. Source: https://www.reddit.com/r/MobileAL/comments/1tt28cn/mobile_alabama/",
+        "resulting_trait": "Regionally connected but not metropolitanly absorbed: Mobile has meaningful air and road access while retaining the day-to-day independence and amenity limits of a medium-sized standalone hub."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "affordable_reputation_vs_local_wage_reality",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Median gross rent $1,068 and median house value $193,300 are genuinely moderate nationally, but median household income is $53,558 with 18.4% poverty, and BLS shows flat overall payrolls.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents distinguish 'jobs exist' from 'jobs pay enough,' describe once-low costs rising faster than the old wage expectations, and tell very-low-budget renters the market at their level is extremely constrained.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Absolute price and adequacy against local wages measure different things; both poles hold. The wage-housing squeeze now appears in seven of nine classified cities -- here wage-side rather than price-side, consistent with the ZHVI lesson that affordability level and pressure direction decouple. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "moderate_commute_vs_bayway_chokepoint_and_car_dependence",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Mean travel time to work is 22.8 minutes -- not an extreme-commute metro.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Ordinary driving is manageable, but life outside the historic core requires a car, and the Bayway/tunnel crossing is a concentrated chokepoint where rush hour, wrecks and beach weekends produce severe delays.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Average travel time, mode dependence and a geographically concentrated bottleneck measure different things -- the sixth city in the low-commute-vs-car-dependence family, with the Bayway adding a Mobile-specific chokepoint flavor (structurally akin to Victorville's Cajon Pass: one crossing controls access to the adjacent economy). Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "eventful_calendar_vs_third_place_depth",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Recurring ArtWalk programming, a multi-week Mardi Gras calendar, a real downtown bar circuit and a replacement arena under construction.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Younger adults say events do not reliably convert into friendships, describe sparse dependable third places, and give Pensacola the stronger DIY/live-music ecosystem.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Scheduled event richness and everyday social/amenity depth measure different things -- the sixth city in the amenity-existence-vs-depth family, expressed here as events-vs-third-places (the same shape as Casper's original event-rich-vs-ordinary-night divergence). Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "walkable_historic_core_vs_auto_oriented_outer_city",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "The Downtown Development Code plans explicitly for walkability while the city spans 139.5 low-density square miles.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Downtown, Oakleigh and Midtown are praised for genuine neighborhood walking; residents warn walkability falls off quickly everywhere else.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Core and outer city are different pedestrian environments; a citywide average would erase the defining split. This is the same core-vs-outer morphology that anchors Savannah's nano-primary -- the recurrence that gives the Savannah+Mobile bundle its second city. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "welcoming_vs_insular_social_reputation",
+        "poles": [
+          {
+            "perspective": "lived_positive",
+            "claim": "Some transplants call Mobile one of the friendliest places they have lived.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived_negative",
+            "claim": "Others say long-established school and family networks matter more in certain circles and that events do not convert into durable friendships.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Surface friendliness and network permeability measure different things; the contradiction recurs enough that neither 'welcoming' nor 'closed' is adequate citywide. Kindred to North Platte's negative-reputation-vs-ordinary-lived divergence in that the disagreement itself is the finding. Maps to board Divergence Flag = Minor."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-20",
+      "method": "All 44 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles (two weak topical matches flagged: 181hjoo is titled as a Birmingham/Huntsville relocation thread cited for insularity discussion, and iw4915 is a general praise thread cited as Hurricane Sally discussion -- both kept verbatim). Structural: Census QuickFacts loaded in a real browser with all seven cited figures re-read verbatim (200,824 pop; -2.9% change; $53,558 income; $33,935 per-capita; 18.4% poverty; $1,068 rent; 22.8-minute commute -- all exact); BLS Mobile Economy at a Glance verified June 2026 total nonfarm +0.4% y/y with mining/logging/construction +14.3% y/y, matching the 'roughly flat payroll, construction up sharply' claim; the Alabama Port Authority release confirmed the 50-foot channel completion on October 3, 2025 ($366M project, deepest Gulf container port); USA Health's trauma page loaded in a real browser confirming 'the region's only level I trauma center' and 'the first, and the only, in south Alabama'; the Children's & Women's Level III NICU ('the only level III neonatal intensive care unit in the region') corroborated; va.gov confirmed the Mobile clinic is outpatient with the system VAMC in Biloxi, and the app's own VA sync data for location 9 (has_va=true, nearest_va_kind=outpatient) AGREES -- no stale-classification fix needed this pass; NWS normals corroborated via the NCEI API (USW00013894: Jul 90.9/73.1, Jan 61.5/40.7, matching 'about 91F') and the July 2026 figures (93.2/74.2) re-read on the live NWS summary page (January 2026 and May 2026 figures rest on original retrieval); Mobile Regional Airport nonstops verified (Atlanta, Charlotte, DFW, Houston, Washington) and the new terminal's spring-2027 delay corroborated through multiple news sources; both cited city-of-Mobile PDFs resolve (301 redirect from cityofmobile.org to cityofmobile.gov, then 200 application/pdf) -- cited URLs retained verbatim. DELIVERY DEFECTS: Block 2 source_urls arrived as markdown-wrapped links with utm tracking parameters (normalized mechanically to bare URLs, one pl.reddit.com host with a sort parameter normalized to www.reddit.com), and signal detail texts carried inline '([Reddit](url))' citation suffixes (stripped mechanically; the URLs are preserved in source_urls).",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links; the two cityofmobile.org PDFs redirect to cityofmobile.gov and resolve, and the NCEI corroboration URL was added alongside the NWS summary page."
+    }
+  }
+}

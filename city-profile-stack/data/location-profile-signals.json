@@ -7176,6 +7176,844 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "Mobile",
+      "state": "AL",
+      "signals": [
+        {
+          "key": "gulf_coast_cultural_identity",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Distinct Gulf Coast identity",
+          "detail": "Residents repeatedly distinguish Mobile culturally from inland Alabama and compare its food, Mardi Gras, architecture and social character more readily with the Gulf Coast or southern Louisiana. This is one of the most consistent cross-subreddit themes.",
+          "audience": "People who value a strong local identity and regional culture.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Alabama/comments/1v5wnv7/regions_of_alabama_differences/",
+            "https://www.reddit.com/r/howislivingthere/comments/1rqje9q/whats_it_like_living_in_mobile_alabama/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "historic_core_walkability",
+          "dimension": "mobility",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Walkable historic core",
+          "detail": "Downtown, Oakleigh and portions of Midtown are repeatedly praised for walking, architecture and proximity to restaurants and events. Residents do not extend that assessment to most of the outer city.",
+          "audience": "People seeking an older, pedestrian-friendly neighborhood.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1hhukry/which_alabama_city_is_the_most_walkable/",
+            "https://www.reddit.com/r/MobileAL/comments/1q82v4t/moving_to_mobile_al_28m_where_to_live/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "outer_city_car_dependence",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Most of Mobile is car-dependent",
+          "detail": "Transplants and locals describe useful walkable pockets but say ordinary life outside the historic core generally requires driving. The urban form is therefore better understood as a pedestrian core inside a much more automobile-oriented city.",
+          "audience": "People hoping to live without a car or drive infrequently.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1q82v4t/moving_to_mobile_al_28m_where_to_live/",
+            "https://www.reddit.com/r/MobileAL/comments/sebtsc/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_heat_humidity_burden",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Long hot, humid summer",
+          "detail": "Residents describe summer heat and humidity as intense enough to change when and how they spend time outside. One transplant characterized roughly four months as unpleasant for outdoor activity, consistent with broader relocation discussions about heat, humidity and mosquitoes.",
+          "audience": "Anyone sensitive to heat, humidity or long cooling seasons.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1q82v4t/moving_to_mobile_al_28m_where_to_live/",
+            "https://www.reddit.com/r/MobileAL/comments/sebtsc/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "mild_winter_relief",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Winters are generally mild",
+          "detail": "Winter is commonly described as the pleasant counter-season to Mobile's summer, with chilly mornings but comparatively mild afternoons. Resident discussion does not portray sustained deep cold as a normal part of winter.",
+          "audience": "People trying to avoid prolonged cold winters.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1q82v4t/moving_to_mobile_al_28m_where_to_live/",
+            "https://www.reddit.com/r/Alabama/comments/ryj0dp/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "snow_is_exceptional_not_normal",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Snow is an exceptional event",
+          "detail": "Long-time residents describe measurable snow as extremely unusual. The significant January 2025 snow event was memorable precisely because decades could pass without a comparable occurrence.",
+          "audience": "People concerned about routine snow removal or snowy winters.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1834mvx/whats_the_likelihood_we_actually_get_snow/",
+            "https://www.reddit.com/r/MobileAL/comments/1i6ycb2/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "hurricane_preparedness_is_routine",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Hurricane preparation is part of life",
+          "detail": "Residents discuss generators, supplies, power outages, evacuation judgment, trees and helping neighbors as ordinary Gulf Coast preparedness topics. Home shoppers additionally mention flood insurance and hurricane deductibles as practical property considerations.",
+          "audience": "Homeowners and anyone uncomfortable with tropical-storm risk.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/gs5y1v/",
+            "https://www.reddit.com/r/MobileAL/comments/iw4915/",
+            "https://www.reddit.com/r/MobileAL/comments/1rmoxgz/moving_to_mobile_neighborhoods/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "water_and_outdoor_access",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Water recreation is close at hand",
+          "detail": "Kayaking, fishing, bay and Delta access, parks and nearby nature recur in relocation recommendations. The defining outdoor advantage is water-oriented access rather than mountain or federal-public-land recreation.",
+          "audience": "Boaters, anglers, paddlers and people who want frequent outdoor access.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1tc6jmn/moving_to_mobile_next_month/",
+            "https://www.reddit.com/r/MobileAL/comments/14xhn2v/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "food_scene_local_strength",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Strong local food identity",
+          "detail": "Restaurant discussions produce substantial lists of independent local options and repeatedly emphasize seafood and Gulf-oriented food. Residents disagree about whether the scene feels deep outside downtown or competitive with substantially larger food cities.",
+          "audience": "People who prioritize independent restaurants and regional food.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1k2b1sh/",
+            "https://www.reddit.com/r/MobileAL/comments/1czwpmq/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "downtown_nightlife_has_options",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Downtown has a real bar circuit",
+          "detail": "Recent recommendation threads name multiple cocktail bars, neighborhood bars, lounges and live-music options, particularly downtown. The evidence supports a functioning nightlife circuit but not the breadth associated with a large entertainment metro.",
+          "audience": "Adults who want casual bars, cocktails and occasional live entertainment.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1rom3k9/best_bars_in_mobile/",
+            "https://www.reddit.com/r/MobileAL/comments/1vbztry/barlounge_recommendations/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "music_scene_thinner_than_pensacola",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 2,
+          "label": "Music scene trails Pensacola",
+          "detail": "In a direct Mobile-versus-Pensacola discussion, commenters gave Pensacola the stronger DIY and live-music scene while describing Mobile's scene as smaller. This comparison is useful but under-sampled and should not be generalized into overall entertainment quality.",
+          "audience": "People for whom frequent independent live music is a major relocation factor.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1bmdaw5/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "organized_social_groups_exist",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Hobby and activity groups are available",
+          "detail": "When newcomers ask how to meet people, residents can identify running clubs, sports, gaming, volunteering, ArtWalk, museums and outdoor groups rather than only bars. The infrastructure exists even though participation does not guarantee rapid social integration.",
+          "audience": "Newcomers willing to build a network through recurring activities.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1uj8o1r/can_someone_please_please_please_be_my_friend/",
+            "https://www.reddit.com/r/MobileAL/comments/1vmnn2d/making_friends_in_this_city_is_too_difficult/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "adult_friendmaking_can_be_hard",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Adult social integration can take effort",
+          "detail": "Multiple recent posters report loneliness or difficulty converting events and casual interactions into stable friendships. Replies provide many avenues for meeting people, so the evidence describes friction rather than social impossibility.",
+          "audience": "Adults moving without an existing family, workplace or social network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1uj8o1r/can_someone_please_please_please_be_my_friend/",
+            "https://www.reddit.com/r/MobileAL/comments/1u0fhc8/friends_in_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "newcomer_insularity_is_contested",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Friendliness and insularity coexist",
+          "detail": "Some transplants call Mobile one of the friendliest places they have lived, while others say long-established school, family and social networks become noticeable in particular circles. The contradiction is persistent enough that neither 'welcoming' nor 'closed' is an adequate citywide description.",
+          "audience": "Newcomers concerned about breaking into established social networks.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Alabama/comments/181hjoo/",
+            "https://www.reddit.com/r/MobileAL/comments/rdualz/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_varies_block_by_block",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Safety is strongly neighborhood-specific",
+          "detail": "Residents repeatedly caution against making a citywide safety judgment and describe Midtown in particular as changing over short distances. Long-time residents also report many ordinary residential pockets where they walk with children or do not feel unsafe.",
+          "audience": "Homebuyers and renters comparing individual neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1jykpio/",
+            "https://www.reddit.com/r/MobileAL/comments/1sl1b8v/safe_neighborhood/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "west_mobile_saraland_safety_reputation",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "West Mobile and Saraland often read safer",
+          "detail": "In neighborhood-search threads, West Mobile and Saraland recur as places locals suggest to safety-conscious movers. This is resident perception, not an independently verified crime-rate comparison.",
+          "audience": "People prioritizing perceived residential safety.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1sl1b8v/safe_neighborhood/",
+            "https://www.reddit.com/r/MobileAL/comments/1dbl94p/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "public_school_reputation_is_family_friction",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "School choice drives relocation decisions",
+          "detail": "Family relocation threads repeatedly debate Mobile County schools, individual schools, magnet programs, private education and suburban systems. Accounts conflict strongly on individual schools, so the robust finding is the amount of geographic and social decision-making attached to school choice rather than a blanket quality verdict.",
+          "audience": "Households with school-age children.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1idyo67/",
+            "https://www.reddit.com/r/MobileAL/comments/1h5m2a1/school_systemsgood_schools/",
+            "https://www.reddit.com/r/MobileAL/comments/1locits/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "eastern_shore_school_commute_tradeoff",
+          "dimension": "commute",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Eastern Shore adds a commute tradeoff",
+          "detail": "Residents commonly recommend Baldwin County communities to school-focused movers but immediately warn that a Mobile job means crossing the bay. Bayway and tunnel discussions identify rush hours and beach traffic as a specific, recurrent bottleneck.",
+          "audience": "Families considering Daphne, Spanish Fort or Fairhope while working in Mobile.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1locits/",
+            "https://www.reddit.com/r/MobileAL/comments/1ui9f3q/bayway_traffic/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "jobs_cluster_in_industrial_health_sectors",
+          "dimension": "economy",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Hiring strength is sector-specific",
+          "detail": "Residents repeatedly identify healthcare, manufacturing, shipbuilding, logistics, construction and related industrial work as comparatively strong employment areas. They are less confident about broad professional or administrative opportunity outside those clusters.",
+          "audience": "Workers evaluating whether their occupation matches Mobile's employment base.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1k4xbpb/",
+            "https://www.reddit.com/r/MobileAL/comments/1lr5gxl/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "local_pay_often_feels_low",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Low pay is a loud resident complaint",
+          "detail": "Job and wage threads repeatedly contain examples of offered pay residents consider inadequate relative to present living costs. Several commenters explicitly distinguish the availability of work from the availability of adequately paid work.",
+          "audience": "Workers relying on ordinary local wages rather than outside income.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1fydc8t/",
+            "https://www.reddit.com/r/MobileAL/comments/1tkqvcp/livable_wages/",
+            "https://www.reddit.com/r/MobileAL/comments/1atenlh/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_affordability_is_eroding",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Cheap-housing reputation is weakening",
+          "detail": "Residents increasingly describe housing as less inexpensive than Mobile's old low-cost reputation implies, and very low rental budgets draw skeptical responses. A resident-produced housing-market analysis also argues that supply and prices have tightened, but its numerical claims require independent verification.",
+          "audience": "Lower-income renters and buyers expecting a deep small-city discount.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1th5p8x/apartments/",
+            "https://www.reddit.com/r/MobileAL/comments/1s6ddxa/mobiles_in_a_housing_shortage_and_housing_prices/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "bayway_is_regional_commute_chokepoint",
+          "dimension": "commute",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Bayway traffic is the metro outlier",
+          "detail": "Cross-bay traffic is described much more negatively than routine driving inside Mobile. Locals cite rush hour, tunnel constraints, wrecks and beach-weekend traffic as capable of turning the Eastern Shore connection into a major delay.",
+          "audience": "Anyone considering a daily Mobile-Eastern Shore commute.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1ui9f3q/bayway_traffic/",
+            "https://www.reddit.com/r/Alabama/comments/1ucoaai/places_to_live_near_mobile/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "mobile_more_blue_collar_than_birmingham",
+          "dimension": "economy",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "More port-industrial than Birmingham",
+          "detail": "In statewide comparison threads, Mobile is commonly framed as more blue-collar and port/industrial while Birmingham is treated as the larger business and medical metropolis. This is a comparative identity claim rather than a statement that one economy is universally stronger.",
+          "audience": "People choosing between Alabama's larger urban areas.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Alabama/comments/10baqu5/",
+            "https://www.reddit.com/r/Alabama/comments/1so71fg/comparing_birmingham_and_mobiles/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "medium_city_scale_is_a_draw",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Urban enough without huge-metro scale",
+          "detail": "Residents who like Mobile often contrast its manageable scale with Atlanta or other much larger metros while still citing restaurants, hospitals, events and nearby destinations. That preference is subjective but appears across more than one relocation discussion.",
+          "audience": "People seeking city services without large-metro intensity.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1tt28cn/mobile_alabama/",
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1ukqs1t/does_this_place_exist_in_the_usa/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_nightlife_is_present_but_small",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 1,
+          "label": "Visible but thin LGBTQ nightlife evidence",
+          "detail": "A recent nightlife recommendation thread names a dedicated gay bar alongside other downtown options, establishing that some dedicated scene exists. The source base is far too thin to infer broader social acceptance, dating-pool depth or the overall size of the LGBTQ community.",
+          "audience": "LGBTQ residents specifically interested in dedicated nightlife infrastructure.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/MobileAL/comments/1rom3k9/best_bars_in_mobile/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
+    },
+    {
+      "city": "Charleston",
+      "state": "SC",
+      "signals": [
+        {
+          "key": "strong_lowcountry_identity",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Strong historic Lowcountry identity",
+          "detail": "Historic architecture, water, food and Lowcountry character recur together as a reason people seek Charleston out. Even residents criticizing recent commercialization tend to frame the complaint as a loss of a distinctive older Charleston rather than absence of identity.",
+          "audience": "People who value a strong sense of place.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1qzab7a/is_there_anywhere_in_us_like_old_school_charleston/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "water_and_beach_lifestyle",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Water and beaches shape recreation",
+          "detail": "Beach access, boating, paddling and coastal scenery are repeatedly treated as real lifestyle advantages. This does not translate into equally strong trail, mountain or public-land access.",
+          "audience": "Beachgoers, boaters and water-oriented households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1s0x407/why_shouldnt_i_move_to_charleston_sc/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "walkable_core_not_walkable_metro",
+          "dimension": "mobility",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Walkable core, car-dependent metro",
+          "detail": "The historic peninsula provides a genuine pedestrian environment, but residents and relocation commenters warn against generalizing it to greater Charleston. Outside the core, ordinary errands and commuting are overwhelmingly automobile-oriented.",
+          "audience": "Anyone seeking walkable daily life.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1co96a3/so_hows_charleston_sc/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "bridge_corridor_commute_unpredictability",
+          "dimension": "commute",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Bridge corridors make commutes fragile",
+          "detail": "Local commute discussions repeatedly describe large swings between normal and bad-day travel times. Cross-river trips and I-26/I-526 exposure make workplace location unusually important when choosing a neighborhood.",
+          "audience": "Daily commuters and two-worker households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1m8hv04/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "housing_cost_pressure",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Housing cost is a dominant complaint",
+          "detail": "Residents, prospective employees and relocation shoppers repeatedly describe housing as expensive, including well outside the historic peninsula. Threads seeking Charleston alternatives commonly begin with affordability rather than dislike of Charleston itself.",
+          "audience": "Renters, first-time buyers and moderate-income households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/relocating/comments/1r4jgjo/alternative_to_charleston/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "local_wages_lag_costs",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Local pay often feels behind local costs",
+          "detail": "A particularly consistent complaint is not merely high prices but salaries that residents say still reflect an older, cheaper Charleston. Nurses, service workers and other local earners appear frequently in these discussions; remote or externally paid workers are often perceived as having an advantage.",
+          "audience": "People relying on Charleston-area wages.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/15of5hw/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "tourism_pressure_everyday_life",
+          "dimension": "growth",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Tourism affects ordinary daily life",
+          "detail": "Tourist congestion and the feeling of living in a visitor economy recur in both local and relocation discussions. Some long-term residents describe Charleston as increasingly oriented toward weddings, cruises, visitors and polished destination aesthetics.",
+          "audience": "People sensitive to crowds or resort-town rhythms.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1co96a3/so_hows_charleston_sc/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "growth_outpaces_infrastructure_feeling",
+          "dimension": "growth",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Growth feels faster than infrastructure",
+          "detail": "Population growth, development and newcomer volume are frequently linked by residents to traffic, housing pressure and loss of older local businesses. The strength of the sentiment is high even though individual residents disagree over how much Charleston has actually deteriorated.",
+          "audience": "Long-term residents and growth-sensitive movers.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1qzab7a/is_there_anywhere_in_us_like_old_school_charleston/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "summer_heat_humidity_burden",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Summer heat and humidity constrain activity",
+          "detail": "Dedicated weather discussions consistently describe the combination of high temperature, humidity and warm nights as a significant July-August burden. Some residents view it as normal Lowcountry summer rather than exceptional weather, but that does not reduce its lifestyle impact.",
+          "audience": "Heat-sensitive residents and outdoor enthusiasts.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1eaywx1/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "mild_winter_rare_disruption",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Mild winter; rare ice can disrupt",
+          "detail": "Snow is described as distinctly uncommon and prolonged winter burden is minimal. When snow or ice does occur, residents say bridge-heavy geography and limited winter-road infrastructure can produce disproportionate short-lived disruption.",
+          "audience": "Cold-climate movers and commuters.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1qpuii7/snow_in_charleston/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "pollen_season_noticeable",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Pollen season is noticeable",
+          "detail": "Targeted searches found multiple dedicated allergy threads, including transplants reporting much stronger seasonal symptoms than they previously experienced. This establishes a recurring lived-experience theme but not individual medical risk.",
+          "audience": "People sensitive to seasonal pollen.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1jdlxsc/pollen_allergies_help/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "tidal_flooding_and_storm_exposure",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Flood exposure is part of local geography",
+          "detail": "Residents distinguish tidal, rainfall and storm-driven flooding and repeatedly stress that exposure varies substantially by street and neighborhood. Flooding is discussed as something residents learn to account for, not solely as a rare hurricane scenario.",
+          "audience": "Homebuyers, renters and vehicle owners.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/166a6qx/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "specialist_healthcare_regional_strength",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Complex healthcare is a regional strength",
+          "detail": "Savannah comparison discussions specifically identify Charleston as having stronger healthcare and more complex-care options. The community perception is stronger for institutional depth than for ease of scheduling routine appointments.",
+          "audience": "People who value access to complex or specialist medicine.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1cyiyp0/savannah_vs_charleston/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "healthcare_scheduling_friction",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Routine care can involve long waits",
+          "detail": "Multiple MUSC and primary-care threads describe new-patient appointments several months out and frustration navigating scheduling. Some commenters say the problem extends beyond Charleston, so the evidence supports local friction but not uniqueness.",
+          "audience": "New residents establishing routine care.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1osldh0/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "newcomer_social_integration_requires_effort",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Friendship often requires deliberate effort",
+          "detail": "Several newcomers describe difficulty moving from activity acquaintances to deeper friendships. Others explicitly argue that this reflects adult relocation generally rather than Charleston specifically and point to sports, volunteering, running and outdoor groups as workable routes in.",
+          "audience": "Solo movers and adults arriving without a network.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1u4d2bb/trying_to_meet_people_in_charleston_but_mostly/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "bar_centered_social_scene",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Going out skews toward bars and drinking",
+          "detail": "Newcomer friendship discussions repeatedly mention bars and nightlife as prominent default social channels. Residents also identify substantial non-drinking alternatives, so the signal describes emphasis rather than exclusivity.",
+          "audience": "Nondrinkers and people seeking daytime social life.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1qc0m5i/new_in_town/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "nightlife_present_but_not_deep_big_city",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Nightlife is active but not big-city deep",
+          "detail": "Charleston has a substantial restaurant/bar circuit and enough evening activity to attract younger movers, but comparison discussions regularly give Savannah an edge for later, looser nightlife. The scene appears active rather than truly metropolitan in breadth.",
+          "audience": "Young adults and nightlife-oriented movers.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1cyiyp0/savannah_vs_charleston/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "lgbtq_accepting_pockets",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Visible LGBTQ-friendly social pockets",
+          "detail": "Recent local discussions repeatedly identify Park Circle and several dedicated venues or events as LGBTQ-friendly, while individual trans and queer residents describe generally comfortable day-to-day interactions. The sample is positive but too small for a sweeping metro-wide claim.",
+          "audience": "LGBTQ movers evaluating everyday social climate.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1l974i8/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "lgbtq_scene_relatively_small",
+          "dimension": "amenities",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "LGBTQ scene exists but is compact",
+          "detail": "Dedicated venues, drag events and queer groups exist, but some residents—particularly women seeking sapphic spaces—describe a limited circuit. Acceptance and scene size therefore should not be treated as the same variable.",
+          "audience": "People seeking a large dedicated queer social circuit.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1uhgs63/dudleys_sapphic_night_sucks/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "schools_highly_location_dependent",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "School experience depends heavily on address",
+          "detail": "School discussions range from severe criticism of public options to strong recommendations for particular Mount Pleasant, Daniel Island, magnet and Dorchester-area schools. The convergence is on unevenness and the importance of zoning/choice, not a uniform quality judgment.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1hoeu4r/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "safety_varies_by_block",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Safety perceptions vary sharply by neighborhood",
+          "detail": "North Charleston and Park Circle threads produce conflicting firsthand experiences even within small geographic areas. Property crime and a few visibly rougher corridors recur, but broad citywide labels are not supported by the community evidence.",
+          "audience": "Renters and buyers comparing neighborhoods.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/sd4btf/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "political_climate_mixed_with_red_state_context",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Mixed politics inside a conservative state",
+          "detail": "Community discussion contains both residents who regard Charleston as conspicuously progressive relative to South Carolina and residents who continue to experience a conservative social backdrop. Visible left-leaning organizing supports heterogeneity rather than a single ideological identity.",
+          "audience": "Movers for whom political climate affects quality of life.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1igb8hl/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "nearby_communities_are_tradeoffs",
+          "dimension": "housing",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Subareas trade cost for commute and walkability",
+          "detail": "Mount Pleasant, West Ashley, Park Circle, James Island and Summerville repeatedly emerge as different solutions to the same housing/commute/amenity problem. There is no universally superior suburb because workplace geography heavily changes the answer.",
+          "audience": "Households deciding where within the metro to live.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Charleston/comments/1b757zj/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "savannah_is_closest_lived_comparison",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Savannah is the closest lifestyle comparison",
+          "detail": "Residents who know both frequently treat Savannah as Charleston's closest peer. Charleston tends to receive the edge for healthcare, jobs, food breadth and beach access; Savannah is more often praised for arts, squares, social looseness and later nightlife, while Charleston is described as more expensive and polished.",
+          "audience": "People choosing among historic Southeastern coastal cities.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1cyiyp0/savannah_vs_charleston/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "greenville_is_in_state_counterfactual",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Greenville trades coast for inland access",
+          "detail": "South Carolina comparison threads frame Greenville as a lower-coastal-risk, mountain-access alternative with easier links to Atlanta and Charlotte, while Charleston supplies the beach, water, history and stronger destination-city identity. Charleston is usually perceived as the more expensive and tourist-pressured choice.",
+          "audience": "People committed to South Carolina but flexible on coast versus inland.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/greenville/comments/13z3upw/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        }
+      ]
     }
   ]
 }
