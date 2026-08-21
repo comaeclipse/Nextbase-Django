@@ -8014,6 +8014,431 @@
           "source_retrieved_on": "2026-08-21"
         }
       ]
+    },
+    {
+      "city": "Pensacola",
+      "state": "FL",
+      "signals": [
+        {
+          "key": "exceptional_beach_and_gulf_access",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Exceptional everyday Gulf access",
+          "detail": "Beaches, the National Seashore and Gulf recreation are among the most consistent positive themes in both local and relocation discussion. This is an everyday-access advantage rather than merely a tourism amenity.",
+          "audience": "Beachgoers, anglers, paddlers and outdoor-oriented households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/x47spk/",
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1r30h2k/dreaming_of_something_simpler/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "water_recreation_is_normal_daily_life",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Water recreation is unusually accessible",
+          "detail": "Residents discuss kayaking, fishing, snorkeling and multiple launches across bays, bayous and Gulf-side areas. The number and variety of nearby water bodies make this broader than simple beach access.",
+          "audience": "Boaters, anglers, kayakers and coastal recreation users.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/x47spk/",
+            "https://www.reddit.com/r/Pensacola/comments/1ka1q2i/are_the_man_made_reefs_safe_to_snorkel_to_without/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "walkable_downtown_not_walkable_city",
+          "dimension": "mobility",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Walkable downtown inside a driving city",
+          "detail": "Residents describe downtown as workable on foot or bike, while the city's own planning analysis says the broader urban core still contains car-oriented roads, missing bicycle links and barriers created by I-110. The compact core should not be generalized to the whole city.",
+          "audience": "People prioritizing pedestrian-oriented neighborhoods.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1sm47xg/moving_to_downtown/",
+            "https://www.cityofpensacola.com/DocumentCenter/View/27965"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "car_required_for_most_daily_life",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Most of Pensacola remains car-dependent",
+          "detail": "Outside the downtown node, discussions of schools, beaches, bases, suburbs and errands assume driving. The city is actively planning pedestrian and bicycle improvements precisely because current connections remain incomplete.",
+          "audience": "Car-free and one-car households.",
+          "geography_scope": "regional",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.cityofpensacola.com/3392/Active-Transportation-Plan"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "strong_air_service_for_city_scale",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Strong airport connectivity for its size",
+          "detail": "Pensacola International Airport reports more than three million annual passengers, seven airlines and 28 nonstop destinations. This is substantially stronger air access than many small coastal cities provide, although PNS is not itself a major national hub.",
+          "audience": "Frequent travelers, military households and remote professionals.",
+          "geography_scope": "regional",
+          "evidence_kind": "user_provided_facility_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.flypensacola.com/airport-statistics"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "summer_heat_and_humidity_dominate",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Long, hot and humid summer",
+          "detail": "Residents describe summer humidity and air-conditioning load as a major daily reality, not a minor annoyance. NOAA normals independently support very warm midsummer days and nights.",
+          "audience": "Anyone sensitive to heat, humidity or high cooling demand.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1lljhq9/",
+            "https://www.ncei.noaa.gov/access/services/data/v1?dataTypes=MLY-TMAX-NORMAL%2CMLY-TMIN-NORMAL%2CMLY-TAVG-NORMAL%2CMLY-PRCP-NORMAL%2CMLY-SNOW-NORMAL&dataset=normals-monthly-1991-2020&format=pdf&stations=USW00013899"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "winter_is_mild_with_occasional_freezes",
+          "dimension": "weather",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Mild winter with occasional cold snaps",
+          "detail": "NOAA normals show winter afternoons commonly in the 60s, with some freezing nights but essentially no meaningful snow burden. Winter cold is therefore episodic rather than season-defining.",
+          "audience": "People avoiding persistent cold or snow.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.ncei.noaa.gov/access/services/data/v1?dataTypes=MLY-TMAX-NORMAL%2CMLY-TMIN-NORMAL%2CMLY-TAVG-NORMAL%2CMLY-PRCP-NORMAL%2CMLY-SNOW-NORMAL&dataset=normals-monthly-1991-2020&format=pdf&stations=USW00013899"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "hurricane_risk_shapes_household_planning",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Hurricane exposure is a real planning cost",
+          "detail": "Local discussions treat evacuation, generators, insurance and storm preparation as routine coastal knowledge. Historical damage from Ivan independently confirms that major storms can materially disrupt the area.",
+          "audience": "Homeowners, renters and people uncomfortable with evacuation risk.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1v2hc5r/for_the_new_residents_the_reality_of_a_hurricane/",
+            "https://cnrse.cnic.navy.mil/Installations/NAS-Pensacola/About/History/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "local_wages_lag_costs",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Local wages lag the current cost base",
+          "detail": "Residents repeatedly distinguish Pensacola's problem from simple high cost: housing and other costs rose while local pay remained comparatively weak. BLS data showing an overall local mean wage below the national mean supports the direction of that perception.",
+          "audience": "People who need to earn their income locally.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1n2f5rl/cost_of_living/",
+            "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_pensacola.htm"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "professional_job_market_feels_narrow",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Professional job depth is limited",
+          "detail": "Residents frequently recommend arriving with employment already secured and identify military, healthcare, Navy Federal and remote work as stronger niches. The complaint is about breadth and advancement, not the total absence of jobs.",
+          "audience": "Career-driven newcomers and dual-income professional households.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1jyhsm3/moving_to_pensacola/",
+            "https://www.reddit.com/r/Pensacola/comments/zdkj0y/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "military_is_major_economic_anchor",
+          "dimension": "economy",
+          "polarity": "neutral",
+          "strength": 5,
+          "label": "Military presence materially shapes the city",
+          "detail": "NAS Pensacola reports more than 16,000 military and 7,400 civilian personnel, while community discussion repeatedly references military residents and transience. This is a structural economic and social anchor rather than a small specialized employer.",
+          "audience": "Military households and people evaluating economic stability or social churn.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://cnrse.cnic.navy.mil/Installations/NAS-Pensacola/",
+            "https://www.reddit.com/r/Pensacola/comments/1mmhyk0/where_are_girls_in_their_30s_meeting_men_in/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "housing_no_longer_feels_cheap",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Old low-cost reputation has eroded",
+          "detail": "Recent residents repeatedly describe housing as having risen sharply since the late 2010s. The city's own housing analysis confirms marked post-pandemic increases in ownership and rental costs.",
+          "audience": "Renters, first-time buyers and people moving on local salaries.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1ntrsne/housing_cost/",
+            "https://www.cityofpensacola.com/DocumentCenter/View/27900/City-of-Pensacola-2025-29-Consolidated-Plan-and-2025-26-Annual-Action-Plan"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "insurance_adds_hidden_housing_cost",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Insurance can change the housing math",
+          "detail": "Homeowners repeatedly report large premium increases and advise newcomers to quote coverage before purchasing. Experiences vary by roof, age, construction and location, so no single premium should be generalized citywide.",
+          "audience": "Prospective homeowners.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1b28ho1/homeowners_insurance_premiums_in_pensacola/",
+            "https://www.reddit.com/r/Pensacola/comments/1uvan2x/anyone_else_losing_their_mind_over_home_insurance/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "multiple_hospital_systems_available",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Several full-service hospital systems",
+          "detail": "Sacred Heart, Baptist and HCA Florida West provide substantial regional hospital capacity. Community discussions also identify local specialists rather than uniformly directing patients to another metro.",
+          "audience": "Households prioritizing routine and specialist healthcare access.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1mqdy6y/which_hospital_is_preferred_to_work_at/",
+            "https://healthcare.ascension.org/locations/florida/flpen/pensacola-ascension-sacred-heart-pensacola"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "healthcare_navigation_is_inconsistent",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Healthcare experiences vary sharply",
+          "detail": "Patients and staff report uneven experiences across systems, including staffing and emergency-room waits, while other residents praise specific providers. Facility presence is therefore better established than easy navigation.",
+          "audience": "People who use healthcare frequently or need continuity of care.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1l3bs7d/baptist_healthcare_andrews_needs_to_be_called_out/",
+            "https://www.reddit.com/r/Pensacola/comments/16u5oyf/new_baptist_er/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "va_outpatient_care_is_local",
+          "dimension": "healthcare",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Local VA ambulatory care",
+          "detail": "The VA Gulf Coast system operates the Joint Ambulatory Care Center in Pensacola. Full VA medical-center services remain outside Pensacola, with Biloxi serving as the regional VA medical center.",
+          "audience": "Veterans using VA healthcare.",
+          "geography_scope": "regional",
+          "evidence_kind": "user_provided_facility_verification",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.va.gov/gulf-coast-health-care/locations/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "school_reputation_pushes_some_families_outward",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "School concerns influence suburb choice",
+          "detail": "Family relocation threads repeatedly characterize Escambia schools as mixed and point toward Gulf Breeze, Pace and Milton in Santa Rosa County. Other residents push back against treating Escambia schools uniformly, so this is a school-by-school issue rather than proof that the whole district is poor.",
+          "audience": "Families with school-age children.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1extr25/couple_in_30s_with_young_children_which_area/",
+            "https://www.reddit.com/r/Pensacola/comments/t00ty2/public_schools_how_are_the_middle_high_schools/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "friendships_require_active_participation",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Friend-making is possible but proactive",
+          "detail": "Newcomers repeatedly ask how to make friends, and residents consistently respond with sports leagues, hobby groups, churches, volunteering, krewes and repeated attendance. Some transplants still report prolonged difficulty, so easy automatic integration is not established.",
+          "audience": "Newcomers arriving without an existing network.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1edud5f/",
+            "https://www.reddit.com/r/Pensacola/comments/1iw3mtb/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "nightlife_exists_but_lacks_big_city_depth",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Nightlife is real but shallow",
+          "detail": "Downtown has bars, music and evening activity, but late-night non-drinking options thin rapidly and relocation discussions describe the overall nightlife as slower. This is more 'small-city circuit' than 'no nightlife.'",
+          "audience": "Young adults and people who prioritize late-night variety.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1bd1arn/",
+            "https://www.reddit.com/r/SameGrassButGreener/comments/1ebrnrt/im_25_i_want_to_move_somewhere_warm_somewhat_near/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "dating_pool_feels_small_and_transient",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Dating pool feels thin and transient",
+          "detail": "Multiple independent threads from different years describe a small or frustrating dating pool, particularly for residents in their 30s. Commenters frequently connect the issue to city size and military/tourist transience, while some caution that dating-app frustration is widespread nationally.",
+          "audience": "Single adults, especially late-20s through 40s.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1uhj0v2/dating_scene/",
+            "https://www.reddit.com/r/Pensacola/comments/1lop3jr/why_is_dating_such_a_nightmare_here/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "seasonal_beach_traffic_is_noticeable",
+          "dimension": "commute",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Beach traffic spikes seasonally",
+          "detail": "Residents describe bridge and beach traffic becoming predictably heavy during warm weekends, holidays and spring-break periods. Tourism affects particular corridors much more strongly than the whole metro.",
+          "audience": "Beach commuters and residents crossing Three Mile Bridge regularly.",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1sces1s/beach_day_everyone/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "safety_is_highly_block_specific",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Neighborhood safety changes block by block",
+          "detail": "Residents repeatedly warn against treating large east/west sections as uniformly safe or unsafe and recommend evaluating individual neighborhoods and blocks. East Hill and northeast Pensacola receive many positive mentions, but even those accounts caution against sweeping rules.",
+          "audience": "Renters and buyers unfamiliar with the local neighborhood pattern.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/ks3jy3/",
+            "https://www.reddit.com/r/Pensacola/comments/g1lls5/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "lgbtq_scene_present_but_not_large",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "Visible but relatively small LGBTQ scene",
+          "detail": "A detailed resident account identifies longstanding gay bars, drag events, advocacy and an annual film festival while explicitly noting gaps such as lesbian/femme-specific space. The evidence is useful but under-sampled and older than several other dossier themes.",
+          "audience": "LGBTQ newcomers seeking dedicated social infrastructure.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/qscreh/gay_scene_in_pensacola/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "racial_climate_accounts_are_mixed",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 2,
+          "label": "First-person racial-climate accounts are mixed",
+          "detail": "Recent Black residents describe both ordinary positive experiences and episodes of staring, exclusion or explicit racism. The discourse is too small and sometimes inflammatory to generalize beyond reporting that experiences vary.",
+          "audience": "People evaluating day-to-day inclusion climate.",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1sxob0v/inquiry_about_the_quality_of_life_for_black/",
+            "https://www.reddit.com/r/Pensacola/comments/1prpoqn/are_there_a_lot_of_secretly_racist_people_here_am/"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        },
+        {
+          "key": "downtown_reinvestment_is_visible",
+          "dimension": "growth",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Downtown reinvestment is visible",
+          "detail": "Residents describe western downtown and nearby blocks as actively revitalizing or gentrifying. City plans document continued mixed-use, pedestrian and waterfront redevelopment, confirming that the urban core is still changing.",
+          "audience": "Urban-core renters, buyers and small-business owners.",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.reddit.com/r/Pensacola/comments/1sm47xg/moving_to_downtown/",
+            "https://www.cityofpensacola.com/DocumentCenter/View/27965"
+          ],
+          "source_retrieved_on": "2026-08-21"
+        }
+      ]
     }
   ]
 }
