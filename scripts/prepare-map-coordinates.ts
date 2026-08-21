@@ -34,13 +34,19 @@ interface MapCoordinate {
   longitude: number;
 }
 
-// The Gazetteer uses the official Census place labels for these three cities.
-// Retain product-facing names in locations_location and normalize only here.
-const PLACE_ALIASES: Record<LocationKey, LocationKey> = {
+const PLACE_ALIASES: Record<string, string> = {
+  "indianapolis|IN": "indianapolis city (balance)|IN",
   "Indianapolis|IN": "indianapolis city (balance)|IN",
+  "honolulu|HI": "urban honolulu|HI",
   "Honolulu|HI": "urban honolulu|HI",
+  "boise|ID": "boise city|ID",
   "Boise|ID": "boise city|ID",
+  "nashville|TN": "nashville-davidson metropolitan government (balance)|TN",
   "Nashville|TN": "nashville-davidson metropolitan government (balance)|TN",
+  "kāneʻohe|HI": "kaneohe|HI",
+  "Kāneʻohe|HI": "kaneohe|HI",
+  "kaneʻohe|HI": "kaneohe|HI",
+  "Kaneʻohe|HI": "kaneohe|HI",
 };
 
 const LEGACY_NON_PLACE_COORDINATES: Record<LocationKey, MapCoordinate> = {
@@ -78,7 +84,8 @@ function findPoint(
   state: string
 ): PacePlaceCentroid | undefined {
   const original = key(name, state);
-  return centroids[PLACE_ALIASES[`${name}|${state}`] ?? original];
+  const alias = PLACE_ALIASES[original] ?? PLACE_ALIASES[`${name}|${state}`];
+  return centroids[alias ?? original];
 }
 
 async function main() {
