@@ -1,0 +1,225 @@
+{
+  "city": "Savannah",
+  "state": "GA",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Savannah, Georgia — Nanogenre Classification Proposal v1",
+  "summary": "Seventh genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process, and the corpus's first deliberate diversification city (coastal, southeastern, tourism-intensive): official/structural evidence (Census QuickFacts, BLS Savannah OEWS, UGA/Georgia Ports economic-impact study, GHA/Memorial Level I trauma verification, NCEI normals, city code sec 2-3066, Chatham County 2024 results, SAV nonstop list, SCCPSS choice process) reconciled against the same research pass's community-sentiment evidence. Lowers the interior-service-hub family prevalence from 71% to 63%, adds a fifth city to two recurring divergence families and a third to the healthcare capacity-vs-navigability family, and introduces the visitor-core/resident-city split as a new candidate family testable against Charleston.",
+  "narrative_file": "savannah-ga-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Companion to savannah-ga.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_17_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "census_quickfacts_figures_verified_verbatim_in_a_real_browser_pop_149440_rent_1382_value_248900_income_57137_and_all_four_2022_economic_census_receipts_exact",
+      "bls_savannah_oews_verified_verbatim_in_a_real_browser_mean_wage_28_24_vs_33_54_transportation_13_1_pct_food_service_11_0_pct_exact",
+      "nws_sav_clm_rotating_url_corroborated_via_ncei_normals_api_jan_61_4_40_0_jul_92_3_73_7_jul_mean_83_0_all_exact",
+      "chatham_county_2024_results_verified_exactly_harris_82758_trump_57336",
+      "memorial_level_i_trauma_acs_verification_corroborated_via_gha_press_release_and_ports_55753_chatham_jobs_via_the_uga_study_coverage",
+      "municipal_sogi_ordinance_sec_2_3066_verified_in_the_city_code_with_hrc_corroboration",
+      "seven_question_reconciliation_table_with_divergences_held_not_averaged"
+    ],
+    "limitations": [
+      "delivered_block_2_source_urls_and_block_4_citations_arrived_entirely_as_contentreference_oaicite_artifacts_urls_reconstructed_from_independent_reverification_flagged",
+      "the_cited_nws_sav_clm_product_url_is_rotating_normals_corroborated_via_ncei_the_24_6_days_over_90_figure_rests_on_original_retrieval",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "scad_structural_effect_on_housing_employment_and_turnover_not_quantified_this_pass"
+    ],
+    "gaps": [
+      "charleston_the_most_important_genre_neighbor_comparison_remains_unresearched",
+      "the_visitor_core_resident_city_split_needs_testing_against_other_historic_tourism_cities_for_section_3_4_nonredundancy",
+      "the_service_hub_familys_prevalence_63_pct_still_exceeds_the_40_pct_cap_more_diversification_needed_before_broad_admission",
+      "no_second_city_yet_tests_whether_the_nano_primary_bundle_recurs_intact"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/savannahcitygeorgia/PST045224",
+    "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_savannah.htm",
+    "https://coastalcourier.com/news/study-ports-back-7k-jobs-liberty/",
+    "https://gaports.com/press-releases/georgia-ports-support-nearly-112000-jobs-in-coastal-region/",
+    "https://gha.org/Portals/0/Documents/Newsroom/Hospital%20Happenings/0914Press%20Release%20re%20Memorial%20Health%20Earns%20Level%201%20Trauma%20Center%20verification%20from%20ACS%2009-12-23%20-%20FINAL.pdf",
+    "https://forecast.weather.gov/product.php?format=txt&glossary=1&issuedby=SAV&product=CLM&site=FFC&version=1",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL&stations=USW00003822&format=json",
+    "https://online.encodeplus.com/regs/savannah-ga/doc-viewer.aspx?secid=590",
+    "https://www.hrc.org/resources/municipalities/savannah-ga",
+    "https://en.wikipedia.org/wiki/Chatham_County,_Georgia",
+    "https://savannahairport.com/flights/airlines-nonstop-destinations/",
+    "https://www.sccpss.com/departments/academics/occr/choice-programs/application",
+    "https://www.savannahga.gov/936/Flood-Protection-Information",
+    "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+    "https://www.reddit.com/r/savannah/comments/1qs751n/psa_fair_market_rents_2026_and_rental_help_2026/",
+    "https://np.reddit.com/r/savannah/comments/um7reb/top_employers_in_the_area/",
+    "https://www.reddit.com/r/savannah/comments/1udq25g/doctors_offices_is_it_just_me/",
+    "https://www.reddit.com/r/savannah/comments/x842px/",
+    "https://www.reddit.com/r/savannah/comments/1uttw0c/stay_cool_yall/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Coastal Historic Tourism City",
+        "Port-Logistics Regional Hub",
+        "Arts-College-Influenced Small City"
+      ],
+      "micro_primary": "Historic Coastal Port-and-Tourism Hub",
+      "micro_secondary": [
+        "Arts-School-Influenced Heritage City",
+        "Tourism-Intensive Small Regional Hub"
+      ],
+      "nano_primary": {
+        "label": "Walkable-Historic-Core, Car-Dependent Coastal Port-Tourism City",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "Visitor-Core / Resident-City Split Heritage Hub",
+          "confidence": "high"
+        },
+        {
+          "label": "Arts-College-Inflected Coastal Port City",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "Savannah is a historic coastal port city with an exceptionally walkable, tourism-and-arts-dense core embedded in a more car-dependent regional economy shaped by logistics, local-wage pressure and thinner big-metro service depth.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Per NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1, admission requires 2 independently-researched cities for nano, 3 for micro, 5 for broad; Savannah is the only city carrying these labels. SIX RECURRENCE OBSERVATIONS for the next taxonomy review: (1) Corpus diversification worked and is unfinished: none of the interior-regional-service-hub vocabulary applies here, dropping that family's prevalence from 5/7 (71%) to 5/8 (63%) -- still above the 40% broad cap, so diversify further before any broad admission. (2) The falsification table quantifies the diversification: 7 of 38 features falsified (|diff| >= 0.30), up from North Platte's 3 and Grand Junction's 5, because propagation had no coastal, humid or tourism-intensive neighbors -- the misses map the corpus's blind spots (humidity, tourism pressure, historic-core walkability, mild winters, Deep South urban politics, a single-source municipal-policy fact). Propagation also predicted wind_exposure 0.69 where the researcher found no lived wind at all -- the third borrowed-wind observation. (3) The wage-housing squeeze appears in a SIXTH of eight cities (local_wage_adequacy 0.33) -- reinforcing the trait-not-genre assessment; keep it out of labels. (4) The low-commute-vs-car-dependence and amenity-existence-vs-depth divergence families each gain a FIFTH city, in a city structurally alien to the prior four -- evidence these families are general, not interior-West artifacts. (5) The healthcare capacity-vs-navigability family gains a THIRD city (Level I trauma + $3.09B receipts vs healthcare_navigability 0.34). (6) New candidate family: the visitor-core/resident-city split (tourism_pressure 0.88, the corpus's first) -- its nonredundancy under section 3 #4 can only be tested against other historic tourism cities; Charleston is the obvious unresearched genre-neighbor."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Savannah actually a small city or does it function like a larger regional center?",
+        "measured_evidence": "The Census Bureau estimates 149,440 city residents in 2025, yet Savannah recorded about $4.57 billion in 2022 retail sales, $3.09 billion in healthcare and social-assistance receipts, $1.39 billion in accommodation/food sales and $1.33 billion in transportation/warehousing receipts. Source: https://www.census.gov/quickfacts/fact/table/savannahcitygeorgia/PST045224",
+        "experienced_evidence": "Residents repeatedly say Savannah has more restaurants, entertainment, visitors and activity than its population suggests, while also warning that specialized options repeat much faster than in Atlanta or another major metro. Source: https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+        "resulting_trait": "Small-city population with regional-service and visitor-facing amenity intensity above its size, but without major-metro depth."
+      },
+      {
+        "question": "Is Savannah affordable?",
+        "measured_evidence": "Census 2020-24 estimates put median gross rent at $1,382, median owner-occupied home value at $248,900 and median household income at $57,137. BLS reports a May 2025 Savannah-area mean wage of $28.24 per hour versus $33.54 nationally. Sources: https://www.census.gov/quickfacts/fact/table/savannahcitygeorgia/PST045224 ; https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_savannah.htm",
+        "experienced_evidence": "Local renters strongly describe a wage-rent mismatch, while some arrivals from high-cost metros continue to view Savannah as relatively affordable. Source: https://www.reddit.com/r/savannah/comments/1qs751n/psa_fair_market_rents_2026_and_rental_help_2026/",
+        "resulting_trait": "Moderate absolute housing costs paired with weak affordability relative to many locally earned wages; transplant affordability and resident affordability legitimately diverge."
+      },
+      {
+        "question": "Is Savannah primarily a tourist town or a working port city?",
+        "measured_evidence": "BLS reports transportation/material-moving occupations at 13.1% of Savannah-area employment and food-preparation/service at 11.0%. A University of Georgia study for Georgia Ports reports that port activity supports 55,753 jobs in Chatham County -- the most of any county -- and describes Savannah as one of the nation's busiest container gateways. Sources: https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_savannah.htm ; https://coastalcourier.com/news/study-ports-back-7k-jobs-liberty/ ; https://gaports.com/press-releases/georgia-ports-support-nearly-112000-jobs-in-coastal-region/",
+        "experienced_evidence": "Downtown discussions can make Savannah sound tourism-dominated, while job threads repeatedly name the port, logistics, Gulfstream, warehousing and manufacturing. Source: https://np.reddit.com/r/savannah/comments/um7reb/top_employers_in_the_area/",
+        "resulting_trait": "A dual city: heritage tourism and arts dominate the visible central-city experience while logistics, port activity, aerospace and industry anchor a less-visible working regional economy."
+      },
+      {
+        "question": "Does Savannah have enough healthcare?",
+        "measured_evidence": "Memorial Health University Medical Center operates the only American College of Surgeons-verified Level I trauma center in southeast Georgia, while Census data show more than $3.0 billion in local healthcare/social-assistance receipts in 2022. Sources: https://gha.org/Portals/0/Documents/Newsroom/Hospital%20Happenings/0914Press%20Release%20re%20Memorial%20Health%20Earns%20Level%201%20Trauma%20Center%20verification%20from%20ACS%2009-12-23%20-%20FINAL.pdf ; https://www.census.gov/quickfacts/fact/table/savannahcitygeorgia/PST045224",
+        "experienced_evidence": "Residents nevertheless describe trouble establishing primary care, getting offices to return calls and navigating referrals, while comparison discussions often give larger neighboring metros an advantage for specialty depth. Source: https://www.reddit.com/r/savannah/comments/1udq25g/doctors_offices_is_it_just_me/",
+        "resulting_trait": "Substantial regional acute-care capacity coexisting with frustrating outpatient navigability and thinner complex-specialty depth than a major metro."
+      },
+      {
+        "question": "Is the famous summer climate exaggerated?",
+        "measured_evidence": "NWS 1991-2020 normals for July show a 92.3F average maximum, 73.7F average minimum, 83.0F mean temperature and about 24.6 days per July reaching at least 90F. January normals are much milder at roughly 61.4F average maximum and 40.0F average minimum. Source: https://forecast.weather.gov/product.php?format=txt&glossary=1&issuedby=SAV&product=CLM&site=FFC&version=1 (rotating product URL; normals corroborated exactly at https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL&stations=USW00003822&format=json -- the 24.6-days figure is not exposed by that endpoint and rests on original retrieval)",
+        "experienced_evidence": "Residents often say thermometer heat is only part of the story: persistent humidity and mugginess are what force daily adaptation. Winter, by contrast, is commonly treated as a relocation advantage. Sources: https://www.reddit.com/r/savannah/comments/x842px/ ; https://www.reddit.com/r/savannah/comments/1uttw0c/stay_cool_yall/",
+        "resulting_trait": "A strongly summer-loaded climate burden: long hot conditions made more oppressive by lived humidity, balanced by mild winters."
+      },
+      {
+        "question": "Is Savannah socially progressive or traditionally Southern?",
+        "measured_evidence": "Savannah's municipal unlawful-discrimination ordinance (sec 2-3066) explicitly protects sexual orientation and gender identity in employment, housing and public accommodations. At the broader county scale, official 2024 presidential results show Chatham County voting 82,758 for Harris and 57,336 for Trump; county results should not be mistaken for the preferences of every Savannah resident. Sources: https://online.encodeplus.com/regs/savannah-ga/doc-viewer.aspx?secid=590 ; https://www.hrc.org/resources/municipalities/savannah-ga ; https://en.wikipedia.org/wiki/Chatham_County,_Georgia",
+        "experienced_evidence": "Community threads repeatedly describe Savannah proper as more progressive than surrounding South Georgia while warning that the cultural environment changes outside the urban core. Source: https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+        "resulting_trait": "A comparatively progressive municipal/county-centered civic environment embedded within a more politically and culturally mixed regional and state context; the geographic divergence is more accurate than either a simple 'liberal' or 'conservative' label."
+      },
+      {
+        "question": "Is Savannah easy to travel from despite its smaller size?",
+        "measured_evidence": "Savannah/Hilton Head International currently lists nonstop service to major markets including Atlanta, Baltimore, Boston, Charlotte, Chicago and Washington, with some routes seasonal. Source: https://savannahairport.com/flights/airlines-nonstop-destinations/",
+        "experienced_evidence": "Residents appreciate having a nearby airport but sometimes cite direct-flight limitations as a downside compared with a hub city.",
+        "resulting_trait": "Better air connectivity than the city's population might imply, but still regional-airport rather than hub-level access."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "transplant_affordability_vs_local_wage_reality",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Median gross rent $1,382 and home value $248,900 look moderate nationally, but the area mean wage is $28.24/hr against $33.54 nationally, and 2026 fair-market-rent discussion centers on the hourly income needed to qualify for a mid-$1,500s one-bedroom.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Local renters describe working full time while struggling with rent and deposits -- 'Savannah costs too much for Savannah wages' -- while transplants from higher-cost metros still perceive relative affordability.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Absolute price and price-relative-to-local-wages answer different questions; both poles hold. The wage-housing squeeze now appears in six of eight classified cities -- a trait, not a genre. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "medical_capacity_vs_navigability",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "The only ACS-verified Level I trauma center in southeast Georgia and more than $3.0 billion in 2022 healthcare receipts -- regional referral capacity well above city size.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "A dedicated 2026 thread documents weeks of unanswered calls, referral delays and difficulty establishing primary care; comparison threads give Charleston the specialty-depth advantage.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Facility capacity and patient-level access measure different things; both poles hold. The third city in the capacity-vs-navigability family, after North Platte and Grand Junction. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "visitor_facing_amenity_intensity_vs_resident_depth",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "$4.57B retail and $1.39B accommodation/food sales for 149,440 residents -- amenity and visitor-economy intensity far above city size.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents say specialized nightlife, dating pools, professional networks and cultural breadth thin out fast, and that the visitor-facing core can feel richer in activity than everyday resident life.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Existence/intensity and resident-experienced depth diverge -- the fifth city in the amenity-existence-vs-depth family, here amplified by tourism into a visitor-core/resident-city split (the corpus's first). Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "low_commute_burden_vs_car_dependence",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Census mean travel time to work is 20.7 minutes -- far below Atlanta-scale commuting.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents say walkability falls off quickly outside the historic core, transit does not replace a car citywide, and Pooler/beach corridors bottleneck seasonally.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Travel time and mode dependence measure different things -- the fifth city in this divergence family (after Casper, Cheyenne, North Platte, Grand Junction), recurring here in a structurally alien city. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "tourist_town_vs_working_port_city",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Transportation/material-moving is the largest occupational group at 13.1% of area employment, and port activity supports 55,753 Chatham County jobs -- a working logistics economy larger than the visitor economy.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Downtown-centered discussion portrays a tourism-dominated city; the port, Gulfstream, JCB and warehousing surface mainly in job threads.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "The visible central-city experience and the structural regional economy measure different things; both poles hold. This dual-economy shape is what the micro-primary label encodes. Maps to board Divergence Flag = Minor."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-20",
+      "method": "All 17 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles. Structural: Census QuickFacts loaded in a real browser with all eight cited figures re-read verbatim (149,440 pop; $1,382 rent; $248,900 value; $57,137 income; $4,567,019K retail; $3,085,822K healthcare; $1,386,611K accommodation/food; $1,325,299K transportation/warehousing -- all exact); the BLS Savannah OEWS release loaded in a real browser with $28.24/$33.54, 13.1% and 11.0% re-read verbatim; the rotating NWS SAV CLM product's normals were corroborated exactly via the NCEI API (USW00003822: Jan 61.4/40.0, Jul 92.3/73.7, Jul mean 83.0); Chatham County 2024 results verified exactly (Harris 82,758, Trump 57,336); the ports figure (55,753 Chatham jobs) corroborated via Coastal Courier's coverage of the UGA study plus the Georgia Ports press release; Memorial's ACS Level I verification corroborated via the GHA press release; city code sec 2-3066 confirmed to define sexual orientation and gender identity across employment, housing and public accommodations, with HRC corroboration; SAV nonstop list confirmed to include Atlanta, Baltimore, Boston, Charlotte, Chicago and Washington; the SCCPSS choice page confirmed application windows, arts-school auditions (Garrison, Savannah Arts) and a March 2026 lottery; the city's flood-protection pages confirmed the flood-zone framework behind the flood-risk signal. DELIVERY DEFECT: Block 2's source_urls and Block 4's citations arrived entirely as :contentReference[oaicite] placeholders with no URLs; signal source_urls were reconstructed topically from Block 1's per-theme citations and Block 4's citation URLs were reconstructed from the independent re-verification above. One Block 1 inline citation was a Reddit user-profile link, kept verbatim in the narrative but excluded from source_urls.",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links; one rotating NWS product URL flagged and corroborated via the stable NCEI API added to source_urls."
+    }
+  }
+}

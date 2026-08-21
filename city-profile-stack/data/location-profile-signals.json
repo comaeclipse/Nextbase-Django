@@ -6703,6 +6703,479 @@
           "source_retrieved_on": "2026-08-20"
         }
       ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "signals": [
+        {
+          "key": "historic_core_walkability",
+          "dimension": "mobility",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Historic core is genuinely walkable",
+          "detail": "Residents and transplants repeatedly describe the squares and central historic neighborhoods as unusually pleasant to explore on foot. This finding applies much more strongly to the central city than to Savannah as a whole.",
+          "audience": "People prioritizing pedestrian daily life or an urban neighborhood",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+            "https://www.reddit.com/r/savannah/comments/1ufmag6/moving_to_savannah/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "walkability_drops_outside_core",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Walkability drops quickly outside core",
+          "detail": "Community accounts distinguish the pedestrian-friendly historic districts from a much more car-oriented wider city. Living 'in Savannah' therefore does not imply a generally car-light lifestyle.",
+          "audience": "Car-free and one-car households",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "public_transit_is_limited",
+          "dimension": "mobility",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Transit does not replace a car citywide",
+          "detail": "Local relocation guidance regularly warns newcomers that public transportation is poor for many trips and that work location should shape neighborhood choice. Central living can reduce driving, but the broader city remains vehicle-oriented.",
+          "audience": "Residents unable or unwilling to drive",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+            "https://www.reddit.com/r/relocating/comments/1b360kk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "summer_heat_humidity_defining",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Summer humidity is a defining burden",
+          "detail": "Heat appears constantly, but residents disproportionately emphasize humidity, sweat and persistent mugginess rather than exceptional thermometer readings alone. The theme appears in both local and relocation-specific discussions.",
+          "audience": "Heat-sensitive newcomers and outdoor workers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/x842px/",
+            "https://www.reddit.com/r/savannah/comments/1uttw0c/stay_cool_yall/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "winter_is_mild_and_low_snow",
+          "dimension": "weather",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "Winter is mild and snow is exceptional",
+          "detail": "Warm-winter appeal shows up in transplant discussions, especially among people leaving colder or darker climates. Residents do not portray persistent snow or severe winter cold as an ordinary planning burden.",
+          "audience": "People seeking mild winters",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/x842px/",
+            "https://www.reddit.com/r/relocating/comments/1b360kk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "coastal_flood_risk_is_property_constraint",
+          "dimension": "weather",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Flood risk is a property-level constraint",
+          "detail": "Savannah formally maintains flood-risk zones and advises that even lower-risk properties can justify flood insurance. Flood exposure varies substantially by exact parcel, so this is not a claim that every Savannah property is high-risk.",
+          "audience": "Homebuyers, homeowners and renters comparing locations",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://www.savannahga.gov/936/Flood-Protection-Information"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "coastal_water_recreation_is_close",
+          "dimension": "outdoors",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Marsh, paddling and beach access are close",
+          "detail": "Residents repeatedly cite the coast, marshes, kayaking and Tybee as meaningful lifestyle assets. Seasonal Tybee traffic can make nominally short distances much slower.",
+          "audience": "Boaters, paddlers, beachgoers and coastal-outdoors users",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+            "https://www.reddit.com/r/relocating/comments/1b360kk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "visual_identity_is_exceptionally_strong",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "Architecture gives Savannah strong identity",
+          "detail": "Even highly critical commenters regularly praise the squares, homes, tree canopy and architectural character. The city's physical identity is one of the least contested themes in the source base.",
+          "audience": "People who value place character and historic urban form",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "tourism_shapes_downtown_daily_life",
+          "dimension": "amenities",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Tourism strongly shapes the central city",
+          "detail": "Large relocation discussions repeatedly describe downtown as tourist-heavy, with weddings and visitor traffic affecting the feel of central Savannah. Residents disagree over whether this keeps the city lively or makes it feel commercialized.",
+          "audience": "People considering downtown or near-downtown living",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "amenities_punch_above_city_size",
+          "dimension": "amenities",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Amenities outperform population size",
+          "detail": "Positive accounts cite restaurants, bars, museums, festivals, arts activity and a steady stream of things to do for a city of Savannah's size. Specialized options still repeat sooner than they would in a major metro.",
+          "audience": "People wanting small-city scale without minimal amenities",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+            "https://www.reddit.com/r/savannah/comments/1ufmag6/moving_to_savannah/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "nightlife_has_breadth_not_metro_depth",
+          "dimension": "amenities",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Nightlife exists but lacks metro depth",
+          "detail": "Savannah has a visible evening economy, bars and entertainment, but comparison threads expose gaps in niche dancing, larger scenes and continually refreshed options. Whether this feels adequate depends heavily on expectations.",
+          "audience": "Residents who prioritize nightlife",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "alcohol_is_visible_in_core_social_scene",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Drinking is conspicuous in core nightlife",
+          "detail": "Bars and Savannah's open-container culture make alcohol unusually visible in the central entertainment environment. Sober residents do identify alternatives, so the evidence does not support saying all social life revolves around drinking.",
+          "audience": "Nondrinkers and people evaluating nightlife culture",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+            "https://www.reddit.com/r/savannah/comments/1l2g1tk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "friendships_require_deliberate_repetition",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Newcomers often build friends deliberately",
+          "detail": "Multiple independent threads describe difficulty making adult friends after moving. The recurring advice is to join a repeated activity, class, sports league, volunteer group or hobby community rather than expect spontaneous integration.",
+          "audience": "Newcomers arriving without an existing network",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1ren6lt/does_anybody_else_have_trouble_making_friends/",
+            "https://www.reddit.com/r/savannah/comments/1lsq6tf/",
+            "https://www.reddit.com/r/SavannahFriends/comments/1irt1r7/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "dating_pool_feels_small",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Dating pool feels small and repetitive",
+          "detail": "Dating complaints describe a limited pool and difficulty converting the city's large visitor population into a stable resident dating scene. This is persistent enough to note but remains ordinary community sentiment rather than a measurable city fact.",
+          "audience": "Single adults prioritizing dating opportunities",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1l2g1tk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "rent_and_local_pay_feel_misaligned",
+          "dimension": "housing",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Rent is widely seen as high for local pay",
+          "detail": "Current threads repeatedly frame the affordability problem as rent rising faster than ordinary local earning power. This is stronger and more consistent than a simple claim that Savannah is nationally expensive.",
+          "audience": "Renters relying on locally earned wages",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1qs751n/psa_fair_market_rents_2026_and_rental_help_2026/",
+            "https://www.reddit.com/r/savannah/comments/1sbm612/just_trying_to_adult_here_why_is_renting_so_hard/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "housing_cost_perception_is_split",
+          "dimension": "housing",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "Housing looks different to locals and transplants",
+          "detail": "Locals frequently describe a severe affordability deterioration, while some newcomers from more expensive metros still regard Savannah as comparatively attainable. Both can be true because absolute price and price relative to local wages answer different questions.",
+          "audience": "People comparing Savannah with another housing market",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1qs751n/psa_fair_market_rents_2026_and_rental_help_2026/",
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "port_logistics_trade_jobs_are_visible",
+          "dimension": "economy",
+          "polarity": "positive",
+          "strength": 4,
+          "label": "Port and industrial work create real paths",
+          "detail": "Employment discussions repeatedly name the port, logistics, Gulfstream, JCB, warehouses and manufacturing. These paths are meaningful but do not imply equally deep opportunities across every professional field.",
+          "audience": "Trades, operations, manufacturing and logistics workers",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://np.reddit.com/r/savannah/comments/um7reb/top_employers_in_the_area/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "professional_job_market_can_feel_narrow",
+          "dimension": "economy",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Professional job switching can be limited",
+          "detail": "Longtime-resident accounts describe industries dominated by a small number of major employers, making lateral moves harder than in a large metro. Logistics, hospitality, healthcare and aerospace broaden the economy, but not uniformly across occupations.",
+          "audience": "Professionals who expect frequent employer switching",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://np.reddit.com/r/savannah/comments/um7reb/top_employers_in_the_area/",
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "healthcare_navigation_draws_complaints",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 4,
+          "label": "Healthcare navigation can be frustrating",
+          "detail": "A recent dedicated thread describes weeks of unanswered calls, referral difficulty and trouble establishing primary care. The evidence supports an access-and-navigation problem more strongly than a claim that Savannah lacks medical facilities.",
+          "audience": "People who need regular primary or specialty care",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1udq25g/doctors_offices_is_it_just_me/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "specialist_depth_is_not_big_metro_level",
+          "dimension": "healthcare",
+          "polarity": "caution",
+          "strength": 3,
+          "label": "Complex-care depth feels limited",
+          "detail": "Comparison discussions commonly give larger regional centers an advantage for specialist healthcare. Savannah still has substantial hospital infrastructure, so the finding is relative depth rather than absence of care.",
+          "audience": "Households requiring complex or uncommon specialties",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1udq25g/doctors_offices_is_it_just_me/",
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "schools_are_uneven_choice_matters",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "School experience varies sharply by option",
+          "detail": "Parent discussions distinguish zoned schools, island schools, charter and choice programs rather than describing one uniform school system. SCCPSS independently confirms a formal choice process with applications, auditions for certain programs and a lottery.",
+          "audience": "Families with school-age children",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1j62add/",
+            "https://www.reddit.com/r/savannah/comments/lmpl4h/",
+            "https://www.sccpss.com/departments/academics/occr/choice-programs/application"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "safety_is_block_sensitive",
+          "dimension": "community",
+          "polarity": "caution",
+          "strength": 5,
+          "label": "Safety judgments are very block-specific",
+          "detail": "Neighborhood-specific relocation threads repeatedly advise evaluating an exact street rather than treating a broad district as uniformly safe or unsafe. Other residents push back on catastrophic citywide crime narratives, so the disagreement itself is important.",
+          "audience": "Renters and buyers unfamiliar with Savannah neighborhoods",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/savannah/comments/1t4jr6h/moving_to_savannah_how_bad_of_an_idea_is_it_to/",
+            "https://www.reddit.com/r/savannah/comments/1corvme/thoughts_on_crime_safety/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "city_feels_more_progressive_than_region",
+          "dimension": "community",
+          "polarity": "neutral",
+          "strength": 3,
+          "label": "City is described as progressive for region",
+          "detail": "Multiple residents describe Savannah as noticeably more progressive than surrounding South Georgia while warning that the cultural climate changes outside the city. This is a description of perceived civic climate, not an assertion about individual residents.",
+          "audience": "People for whom local political climate affects relocation",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "municipal_lgbtq_protections_exist",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 5,
+          "label": "City has explicit LGBTQ protections",
+          "detail": "Savannah's municipal unlawful-discrimination framework explicitly includes sexual orientation and gender identity and covers employment, housing and public accommodations. This is a policy finding, not a claim that every social interaction is accepting.",
+          "audience": "LGBTQ residents and households",
+          "geography_scope": "city",
+          "evidence_kind": "municipal_policy_record",
+          "confidence": "high",
+          "source_urls": [
+            "https://online.encodeplus.com/regs/savannah-ga/doc-viewer.aspx?secid=590",
+            "https://www.hrc.org/resources/municipalities/savannah-ga"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "lgbtq_social_climate_generally_positive_but_thin",
+          "dimension": "community",
+          "polarity": "positive",
+          "strength": 3,
+          "label": "LGBTQ climate trends positive, scene is small",
+          "detail": "Local discussions generally describe Savannah proper as accepting and point to organized LGBTQ resources and activities. Separate dating/social discussions suggest the dedicated scene and dating pool are much smaller than in a large metro, so social acceptance and scene depth should not be conflated.",
+          "audience": "LGBTQ newcomers",
+          "geography_scope": "city",
+          "evidence_kind": "community_sentiment_under_sampled",
+          "confidence": "limited",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+            "https://www.reddit.com/r/savannah/comments/1l2g1tk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "pooler_trades_character_for_suburban_convenience",
+          "dimension": "access",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Pooler is the suburban counterpoint",
+          "detail": "Comparison threads repeatedly contrast Savannah's character and walkability with Pooler's newer housing, chain retail and proximity to west-side employment. Pooler is also frequently criticized for traffic and generic suburban form.",
+          "audience": "Households choosing between Savannah proper and western suburbs",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "atlanta_comparison_is_pace_vs_depth",
+          "dimension": "commute",
+          "polarity": "neutral",
+          "strength": 4,
+          "label": "Atlanta tradeoff is pace versus depth",
+          "detail": "Former Atlantans tend to praise Savannah's shorter, calmer scale and relative lack of major-metro traffic. The same comparison exposes Savannah's much thinner employment, transit, nightlife and specialist-service depth.",
+          "audience": "People considering leaving Atlanta for Savannah",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment",
+          "confidence": "medium",
+          "source_urls": [
+            "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        },
+        {
+          "key": "airport_is_close_with_useful_nonstops",
+          "dimension": "access",
+          "polarity": "positive",
+          "strength": 2,
+          "label": "Airport is convenient but not a hub",
+          "detail": "Residents sometimes complain about direct-flight depth, but Savannah/Hilton Head International has useful nonstop service to multiple major markets. It improves regional access substantially without functioning like ATL.",
+          "audience": "Frequent flyers and remote workers traveling for work",
+          "geography_scope": "regional",
+          "evidence_kind": "community_sentiment_requires_independent_verification",
+          "confidence": "medium",
+          "source_urls": [
+            "https://savannahairport.com/flights/airlines-nonstop-destinations/",
+            "https://www.reddit.com/r/relocating/comments/1b360kk/"
+          ],
+          "source_retrieved_on": "2026-08-20"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,107 @@
+{
+  "city": "Savannah",
+  "state": "GA",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Savannah, Georgia — community sentiment synthesis",
+  "summary": "A beautiful, unusually distinctive small coastal city whose walkable historic core, arts/tourism energy and marsh-and-beach access win devoted converts — set against oppressive summer humidity, tourism pressure on the central neighborhoods, car dependence outside the core, a local wage-housing squeeze, and thinner job, healthcare and social depth than larger metros. The defining structural fact is the visitor-core/resident-city split: the visitor-facing center can feel richer in activity than everyday resident life.",
+  "narrative_file": "savannah-ga.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "same_themes_reproduce_across_r_savannah_r_howislivingthere_r_samegrassbutgreener_r_relocating_and_local_friendship_threads",
+      "all_17_cited_reddit_threads_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "the_2026_howislivingthere_thread_provides_a_larger_and_harsher_discussion_than_typical_local_sub_relocation_posts",
+      "nws_sav_normals_corroborated_via_ncei_api_and_census_bls_figures_verified_verbatim_in_the_companion_proposal_pass"
+    ],
+    "limitations": [
+      "reddit_overrepresents_younger_adults_transplants_housing_or_dating_dissatisfied_and_downtown_scad_adjacent_perspectives",
+      "savannah_constantly_blurred_with_pooler_port_wentworth_wilmington_whitemarsh_islands_richmond_hill_tybee_and_the_chatham_labor_market",
+      "housing_rents_traffic_and_healthcare_availability_change_quickly_older_comments_are_weaker_evidence",
+      "crime_discussion_vulnerable_to_anecdote_and_block_level_overgeneralization",
+      "school_discussion_shaped_by_individual_zones_lotteries_and_choice_experiences_no_single_verdict_is_responsible",
+      "tourism_creates_an_unusual_selection_effect_visitors_who_want_to_move_and_residents_tired_of_visitors_enter_the_same_threads",
+      "delivered_block_2_source_urls_arrived_entirely_as_contentreference_oaicite_artifacts_reconstructed_topically_from_block_1_citations_flagged",
+      "one_block_1_inline_citation_was_a_reddit_user_profile_link_not_a_thread_kept_verbatim_in_the_narrative_excluded_from_source_urls",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "precipitation_seasonality_searched_but_not_established_as_a_distinct_lived_feature",
+      "persistent_wind_exposure_searched_and_did_not_emerge_as_an_ordinary_savannah_condition",
+      "public_land_access_and_specialty_retail_access_not_investigated_deeply_enough_to_score",
+      "religious_culture_prominence_not_independently_investigated_this_pass",
+      "racial_inclusion_climate_and_substance_problem_visibility_discussed_but_too_thin_blurred_or_inflammatory_to_score",
+      "trailing_spouse_isolation_risk_hinted_by_newcomer_friendship_threads_but_not_separable_from_ordinary_social_integration_difficulty"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/howislivingthere/comments/1tg46p6/how_is_living_in_savannah_ga_debating_on_moving/",
+    "https://www.reddit.com/r/relocating/comments/1b360kk/",
+    "https://www.reddit.com/r/savannah/comments/1ufmag6/moving_to_savannah/",
+    "https://www.reddit.com/r/savannah/comments/1t4jr6h/moving_to_savannah_how_bad_of_an_idea_is_it_to/",
+    "https://www.reddit.com/r/savannah/comments/1udq25g/doctors_offices_is_it_just_me/",
+    "https://www.reddit.com/r/savannah/comments/1qs751n/psa_fair_market_rents_2026_and_rental_help_2026/",
+    "https://www.reddit.com/r/savannah/comments/1sbm612/just_trying_to_adult_here_why_is_renting_so_hard/",
+    "https://www.reddit.com/r/savannah/comments/x842px/",
+    "https://www.reddit.com/r/savannah/comments/1uttw0c/stay_cool_yall/",
+    "https://www.reddit.com/r/savannah/comments/1ren6lt/does_anybody_else_have_trouble_making_friends/",
+    "https://www.reddit.com/r/savannah/comments/1lsq6tf/",
+    "https://www.reddit.com/r/SavannahFriends/comments/1irt1r7/",
+    "https://www.reddit.com/r/savannah/comments/1j62add/",
+    "https://www.reddit.com/r/savannah/comments/lmpl4h/",
+    "https://www.reddit.com/r/savannah/comments/1corvme/thoughts_on_crime_safety/",
+    "https://np.reddit.com/r/savannah/comments/um7reb/top_employers_in_the_area/",
+    "https://www.reddit.com/r/savannah/comments/1l2g1tk/",
+    "https://www.census.gov/quickfacts/fact/table/savannahcitygeorgia/PST045224",
+    "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_savannah.htm",
+    "https://forecast.weather.gov/product.php?format=txt&glossary=1&issuedby=SAV&product=CLM&site=FFC&version=1",
+    "https://www.sccpss.com/departments/academics/occr/choice-programs/application"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions, so it functions as an independent test of them; the prediction comparison (criterion |diff| >= 0.30) falsified 7 of 38 returned features — the expected cost, and the point, of corpus diversification: Savannah is the first coastal, southeastern, tourism-intensive city, so propagation borrowed from a structurally alien interior-West-heavy corpus. The misses: lgbtq_municipal_policy 0.20 predicted vs 0.88 (single-source lumpy institutional fact; ordinance sec 2-3066 independently verified), humidity_burden 0.33 vs 0.93 (borrowed dry-interior climate — the humidity mirror of the borrowed-wind bias Grand Junction demonstrated), tourism_pressure 0.45 vs 0.88 (first tourism-intensive corpus city), downtown_walkability 0.55 vs 0.93 (first historic-walkable-core city; Victorville's largest miss was the same feature in the opposite direction), snow_burden 0.39 vs 0.03 and winter_cold_severity 0.51 vs 0.16 (borrowed interior winters), political_conservatism 0.62 vs 0.30 (first Democratic-majority Deep South city). Propagation also predicted wind_exposure 0.69 for a city whose dossier explicitly could not find wind as a lived condition — the third borrowed-wind observation. Notable confirmations: healthcare_navigability 0.37 predicted vs 0.34 (an all-sources-agree prediction, confirmed), specialist_healthcare_access 0.51 vs 0.52, employment_opportunity_depth 0.57 vs 0.58, dating_pool_depth 0.37 vs 0.40, social_integration_ease 0.41 vs 0.42.",
+    "location_context": {
+      "county": "Chatham County",
+      "region": "Georgia Lowcountry / coastal southeast Georgia",
+      "setting": "historic coastal port city on the Savannah River, anchored by the square-grid historic district, with marsh and barrier-island geography east toward Tybee Island",
+      "nearby_geographic_feature": "Savannah River and the Port of Savannah; coastal marshes; Tybee Island roughly 20 minutes away in mileage but seasonally unpredictable in travel time",
+      "important_distinction": "Savannah is constantly blurred with Pooler, Port Wentworth, Wilmington/Whitemarsh Islands, Richmond Hill and Tybee Island; the defining internal split is visitor-facing historic core versus car-oriented everyday resident city, and the dominant peer comparisons are Atlanta (in-state) and Charleston (out-of-state)."
+    },
+    "reddit_sentiment": "positive_on_character_and_coast_conditional_on_wages_heat_and_depth_expectations",
+    "city_archetype": "walkable_historic_core_coastal_port_and_tourism_city",
+    "strongest_positive_signals": [
+      "genuinely_walkable_historic_core",
+      "exceptional_visual_and_architectural_identity",
+      "marsh_boating_and_beach_access_as_ordinary_recreation",
+      "amenities_that_outperform_city_size",
+      "real_port_logistics_aerospace_and_manufacturing_paths_behind_the_tourist_image",
+      "mild_low_snow_winters"
+    ],
+    "strongest_negative_signals": [
+      "oppressive_summer_humidity",
+      "rent_misaligned_with_ordinary_local_wages",
+      "tourism_pressure_on_central_neighborhoods",
+      "car_dependence_outside_the_core",
+      "healthcare_navigation_frustration_despite_major_infrastructure",
+      "deliberate_effort_required_for_adult_friendships_and_a_small_dating_pool",
+      "block_sensitive_safety_reputation"
+    ],
+    "best_for": [
+      "people_who_value_historic_urban_fabric_and_a_walkable_central_neighborhood",
+      "warm_winter_and_coastal_scenery_seekers",
+      "food_bars_and_arts_oriented_residents_content_with_small_city_depth",
+      "households_bringing_secure_income_remote_salary_military_or_retirement_income",
+      "healthcare_port_or_logistics_career_households"
+    ],
+    "poor_fit_for": [
+      "highly_heat_sensitive_people",
+      "car_free_households_outside_the_core",
+      "households_dependent_on_a_very_large_specialist_medical_ecosystem",
+      "people_needing_a_huge_white_collar_job_market",
+      "people_wanting_endless_nightlife_or_dating_options",
+      "service_wage_workers_expecting_low_southern_housing_costs"
+    ],
+    "bottom_line": "Savannah is a beautiful, unusually distinctive small coastal city whose walkable historic core, arts/tourism energy and marsh-and-beach access win devoted converts, but residents pay for that character through oppressive summer humidity, tourism pressure, car dependence outside the center, a local wage-housing squeeze and thinner job, healthcare and social depth than larger metros."
+  }
+}
