@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
     snow: sp.get("snow"),
     no_awb: sp.get("no_awb"),
     no_hcm: sp.get("no_hcm"),
+    gun_freedom_min: sp.get("gun_freedom_min"),
     state_filter: sp.get("state_filter"),
     lgbtq_friendly: sp.get("lgbtq_friendly"),
     climate: sp.get("climate"),
