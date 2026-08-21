@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose": "Local source-of-truth ledger for city-culture R&D. It preserves research from collaborative sessions before any optional database promotion or embedding work.",
   "updated_on": "2026-08-21",
-  "recent_change": "Latest change only -- the full change history lives in git (this field was previously an append-only chain and was truncated in the 2026-08-21 consolidation; see docs/STATE.md for current program state). Recorded the owner's BATCH-OF-10 REVIEW (2026-08-21) as NANOGENRE_TAXONOMY.md section 12 decisions 5-8: Discovery Corpus v1 frozen with discovery prevalence exempt from the caps (caps apply out-of-sample; pipeline observed -> candidate -> recurrence -> provisional family -> validation -> admitted); PROVISIONAL admission of the Interior Regional Service Hub family (five cities, anchor-trait pattern) and the Historic Coastal Port City family (three cities, one latent type with continuous-axis positions -- not sibling nanogenres); genres-compress/traits-describe label policy with the would-another-city-inherit-it test; falsification stratified by prediction domain with the architectural no-institutional-inheritance rule and divergence families promoted to first-class objects (schema queued). Defined Validation Corpus v1 (docs/VALIDATION_CORPUS_V1.md): two attack waves of six cities each with per-city pre-registered hypothesis questions; predictions pre-registered and committed for the five in-database out-of-sample targets (Pueblo, Amarillo, Bend, Pensacola -- Mobile similarity 0.892, the highest yet -- and Norfolk) before any research; five targets await DB ingest (Lubbock, Wilmington NC, St. Augustine, Galveston, Annapolis); Billings and Rapid City are genre-classification-only tests (already in the features corpus). Section 11 owner review recorded on the Savannah, Mobile and Charleston cards; the three-PR stack (#115, #117-closed-but-delivered, #123) is merged to master.",
+  "recent_change": "Latest change only -- history lives in git; program state lives in docs/STATE.md. Added the Pensacola research pass (owner-run Block 1-4 prompt): the FIRST Validation Corpus v1 pass, run against predictions and hypothesis questions pre-registered on master before research. Falsified 1 of 39 (best in program history, on the sharpest pre-registered test -- Mobile similarity 0.892). Military-as-anchor-trait CONFIRMED (the Regional Service Hub class crossed the coastline); humidity-under-threshold FAILED (error converging but still falsified); the walkable-core/car-dependent morphology appeared in a NON-port coastal city, evidence it is a trait pair rather than the port family's discriminator. All 42 Reddit citations archive-verified; Census, BLS, NCEI, airport and base figures verified exactly; the app's VA data for location 18 agrees with the measured va feature pair.",
   "storage_policy": {
     "canonical_location": "city-profile-stack/data",
     "neon_policy": "No ledger entry is imported to Neon by default.",
@@ -16,6 +16,38 @@
     "promotion_review": "Candidate for an explicitly approved R&D database import; never implies production approval."
   },
   "entries": [
+    {
+      "id": "pensacola_nanogenre_proposal_v1_2026",
+      "city": "Pensacola",
+      "state": "FL",
+      "topic": "nanogenre_classification",
+      "claim": "Pensacola is a small historic Gulf service city whose naval-training economy, unusually strong airport and real downtown support ordinary year-round life while an exceptional beach sits just across the bay, but whose old affordability bargain has been weakened by local wages, housing and insurance. Primary microgenre: Military-Anchored Gulf-Coast Regional Service Hub. Primary nanogenre: Naval-Training Gulf Hub with Historic Walkable Core, Immediate Beach Access, and Wage-Cost Squeeze, plus two secondary overlays. FIRST VALIDATION CORPUS V1 PASS: pre-registered predictions falsified 1 of 39 (best in program history, on the sharpest pre-registered test, Mobile 0.892); the military-as-anchor-trait hypothesis CONFIRMED (the hub class crossed the coastline); the humidity-under-threshold hypothesis FAILED (error converging 0.60 -> 0.54 -> 0.47 -> 0.41 but still falsified); Pensacola is NOT a Historic Coastal Port City member yet carries the walkable-core/car-dependent morphology -- evidence that morphology is a coastal-Southern trait pair, not the port family's discriminator. Full verdicts and per-domain falsification in the proposal; program state updated in docs/STATE.md.",
+      "status": "source_linked",
+      "artifact": "data/dossiers/research-dossiers/pensacola-fl-nanogenre-proposal-v1.md",
+      "supporting_artifacts": [
+        "data/dossiers/research-dossiers/pensacola-fl-nanogenre-proposal-v1.json",
+        "data/dossiers/research-dossiers/pensacola-fl.md",
+        "data/dossiers/research-dossiers/pensacola-fl.json",
+        "data/validation-corpus-v1/predictions/pensacola-fl.txt"
+      ],
+      "source_urls": [
+        "https://www.census.gov/quickfacts/fact/table/pensacolacityflorida/HSD410224",
+        "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_pensacola.htm",
+        "https://www.flypensacola.com/airport-statistics",
+        "https://cnrse.cnic.navy.mil/Installations/NAS-Pensacola/",
+        "https://www.va.gov/gulf-coast-health-care/locations/",
+        "https://www.reddit.com/r/Pensacola/comments/1n2f5rl/cost_of_living/",
+        "https://www.reddit.com/r/Destin/comments/13qurk9/destin_or_pensacola/"
+      ],
+      "retrieval_date": "2026-08-21",
+      "source_gap": "Block 2 source_urls arrived as markdown-wrapped links with tracking parameters (normalized mechanically); one NAS URL carried an fbclid-mangled path (normalized to the installation base URL). The NAS Ivan damage figure and Ascension's 547-bed count rest on original retrieval. Political-climate features remain unscored (discourse too polarized). Labels as delivered predate the section 12 decision 7 compression policy; a compressed form is noted in the proposal, not substituted.",
+      "limitations": [
+        "Genre labels are a single analyst's judgment call, not yet independently reviewed per NANOGENRE_TAXONOMY.md section 11's sign-off rule.",
+        "New candidate for out-of-sample testing: 'Resident Service City with a Resort Barrier-Island Edge' (resident city and resort island spatially distinct, unlike Savannah's in-core visitor split) -- test against Galveston, Wilmington, Corpus Christi.",
+        "The Military-Anchored variant boundary needs testing against Mobile, Norfolk-area and other defense-heavy coastal service centers."
+      ],
+      "embedding_ready": false
+    },
     {
       "id": "batch_of_10_review_2026",
       "city": "—",

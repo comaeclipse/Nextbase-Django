@@ -1,0 +1,109 @@
+{
+  "city": "Pensacola",
+  "state": "FL",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Pensacola, Florida — community sentiment synthesis",
+  "summary": "A genuine Gulf Coast small city — not merely a beach town — with unusually good water access, airport and military/service infrastructure for its scale: naval-training economy, three hospital systems, a 3.1M-passenger airport, a walkable Palafox core, and the National Seashore woven into ordinary life. The bargain has weakened because local wages, housing and insurance have moved out of alignment, and the social/dating scene rewards deliberate participation amid military and tourist churn.",
+  "narrative_file": "pensacola-fl.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-21",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "source_base_spans_r_pensacola_r_florida_r_samegrassbutgreener_r_relocating_r_mobileal_and_r_destin_rather_than_the_local_sub_alone",
+      "all_42_cited_reddit_threads_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "census_bls_ncei_airport_and_base_figures_verified_verbatim_in_the_companion_proposal_pass",
+      "first_pass_to_score_public_land_access_geographic_isolation_remote_work_viability_racial_inclusion_climate_and_both_va_features"
+    ],
+    "limitations": [
+      "reddit_overrepresents_younger_unhappy_relocation_minded_and_hobbyist_residents",
+      "pensacola_blurs_city_escambia_county_pensacola_beach_perdido_pace_milton_gulf_breeze_and_the_wider_metro",
+      "housing_insurance_airport_and_job_conditions_change_quickly_2025_26_threads_weighted",
+      "school_discourse_is_neighborhood_and_family_specific_escambia_vs_santa_rosa",
+      "healthcare_discussion_stronger_on_patient_staff_experience_than_systematic_specialty_availability",
+      "race_and_lgbtq_discussions_treated_as_limited_evidence_never_demographic_fact",
+      "delivered_block_2_source_urls_arrived_as_markdown_wrapped_links_with_tracking_parameters_normalized_mechanically_flagged",
+      "one_cited_nas_url_carried_an_fbclid_mangled_path_normalized_to_the_installation_base_url_in_source_urls_kept_verbatim_in_narrative",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "rental_availability_separate_from_rental_cost_searched_but_not_established",
+      "political_conservatism_and_political_heterogeneity_discussed_but_too_polarized_to_score",
+      "specialist_categories_requiring_out_of_town_travel_searched_but_not_established",
+      "religious_culture_prominence_substance_problem_visibility_social_anonymity_and_trailing_spouse_isolation_risk_not_established"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/Pensacola/comments/1n2f5rl/cost_of_living/",
+    "https://www.reddit.com/r/Pensacola/comments/1ntrsne/housing_cost/",
+    "https://www.reddit.com/r/Pensacola/comments/15qyo4b/is_it_just_me_or_do_jobs_around_here_just_do_not/",
+    "https://www.reddit.com/r/Pensacola/comments/1jo4mn1/",
+    "https://www.reddit.com/r/Pensacola/comments/1jyhsm3/moving_to_pensacola/",
+    "https://www.reddit.com/r/Pensacola/comments/11dm14e/what_does_summer_weather_look_like_here/",
+    "https://www.reddit.com/r/Pensacola/comments/1c118v0/hurricane_season_thoughts/",
+    "https://www.reddit.com/r/Pensacola/comments/1iw3mtb/",
+    "https://www.reddit.com/r/Pensacola/comments/1sb3ppn/how_are_people_meeting_others_in_pensacola_lately/",
+    "https://www.reddit.com/r/Pensacola/comments/1uhj0v2/dating_scene/",
+    "https://www.reddit.com/r/Pensacola/comments/1mmhyk0/where_are_girls_in_their_30s_meeting_men_in/",
+    "https://www.reddit.com/r/Pensacola/comments/qscreh/gay_scene_in_pensacola/",
+    "https://www.reddit.com/r/Pensacola/comments/1sxob0v/inquiry_about_the_quality_of_life_for_black/",
+    "https://www.reddit.com/r/Pensacola/comments/ks3jy3/",
+    "https://www.reddit.com/r/Pensacola/comments/x47spk/",
+    "https://www.reddit.com/r/Destin/comments/13qurk9/destin_or_pensacola/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1p5kfyw/what_are_your_opinions_on_these_locations/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1foif7b/looking_for_a_slower_pace_of_life_a_beach/",
+    "https://www.reddit.com/r/MobileAL/comments/16m59lz/mobile_vs_pensacola/",
+    "https://www.census.gov/quickfacts/fact/table/pensacolacityflorida/HSD410224",
+    "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_pensacola.htm",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataTypes=MLY-TMAX-NORMAL%2CMLY-TMIN-NORMAL%2CMLY-TAVG-NORMAL%2CMLY-PRCP-NORMAL%2CMLY-SNOW-NORMAL&dataset=normals-monthly-1991-2020&format=pdf&stations=USW00013899",
+    "https://www.flypensacola.com/airport-statistics",
+    "https://cnrse.cnic.navy.mil/Installations/NAS-Pensacola/",
+    "https://www.cityofpensacola.com/DocumentCenter/View/27900/City-of-Pensacola-2025-29-Consolidated-Plan-and-2025-26-Annual-Action-Plan",
+    "https://www.cityofpensacola.com/DocumentCenter/View/27965"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time. FIRST VALIDATION CORPUS V1 PASS: predictions were pre-registered and committed to the repo (data/validation-corpus-v1/predictions/pensacola-fl.txt) before research, with per-city hypothesis questions in docs/VALIDATION_CORPUS_V1.md. The comparison (criterion |diff| >= 0.30) falsified 1 of 39 returned features — the best score in program history, on the sharpest pre-registered test (top borrow: Mobile at 0.892). The sole miss: humidity_burden 0.51 predicted vs 0.92 — the prediction has now climbed 0.33 -> 0.41 -> 0.48 -> 0.51 across four humid-coastal passes and the error has shrunk 0.60 -> 0.54 -> 0.47 -> 0.41, so convergence is real but the pre-registered hypothesis that it would fall under threshold this pass FAILED. Near-misses: snow_burden 0.27 vs 0.01, geographic_isolation 0.61 vs 0.35. First-ever measurements confirming all-agree predictions: va_outpatient_access 0.93 vs 0.94, racial_inclusion_climate 0.44 vs 0.50 (first responsible score of this feature in any pass), lgbtq_scene_size 0.40 vs 0.46, car_dependence 0.86 vs 0.82. public_land_access hit exactly (0.78 vs 0.78). tourism_pressure — falsified in both prior tourism-adjacent passes — predicted within 0.04 (0.59 vs 0.55). healthcare_navigability measured 0.50 vs the standing ~0.36 all-agree prediction: under threshold, but the three-pass exact streak ends; Pensacola's three competing hospital systems are the working mechanism hypothesis. va_hospital_access 0.55 vs 0.40 stayed under threshold because Pensacola shares its actual VA system with top-neighbor Mobile (JACC outpatient in-city, VAMC in Biloxi) — institutional inheritance worked here because the institution is genuinely shared, not borrowed by analogy; the no-institutional-inheritance rule is unchallenged. Per-domain results are recorded in the companion proposal.",
+    "location_context": {
+      "county": "Escambia County",
+      "region": "Florida Panhandle / western Gulf Coast",
+      "setting": "historic small city on Pensacola Bay with the barrier-island beach (Santa Rosa Island / Gulf Islands National Seashore) across the bay, NAS Pensacola on the peninsula's southwest, and Mobile roughly an hour west",
+      "nearby_geographic_feature": "Pensacola Bay and Three Mile Bridge; Santa Rosa Island and Gulf Islands National Seashore; multiple bays, bayous and rivers (Perdido, Blackwater, Escambia)",
+      "important_distinction": "Pensacola blurs the city (pop ~54K), Escambia County, Pensacola Beach, Gulf Breeze/Pace/Milton (Santa Rosa County schools) and Navarre; the resident city and the resort barrier island are spatially distinct, and the defining comparisons are Mobile (closest functional cousin), Destin (tourism-dominated counterpoint) and Charleston/Savannah (deeper historic-tourism peers)."
+    },
+    "reddit_sentiment": "positive_on_water_scale_and_infrastructure_conditional_on_wages_insurance_heat_storms_and_social_depth_expectations",
+    "city_archetype": "naval_training_gulf_hub_with_historic_walkable_core_immediate_beach_access_and_wage_cost_squeeze",
+    "strongest_positive_signals": [
+      "exceptional_everyday_gulf_and_national_seashore_access",
+      "pervasive_water_recreation_across_bays_bayous_and_gulf",
+      "walkable_palafox_downtown_core",
+      "strong_airport_connectivity_for_city_scale",
+      "structural_military_anchor_and_economic_stability",
+      "three_full_service_hospital_systems_and_local_va_ambulatory_care"
+    ],
+    "strongest_negative_signals": [
+      "local_wages_lag_the_current_cost_base",
+      "housing_and_insurance_no_longer_cheap",
+      "narrow_professional_job_market_outside_anchors",
+      "oppressive_summer_heat_and_humidity",
+      "routine_hurricane_planning_and_insurance_exposure",
+      "thin_transient_dating_pool_and_deliberate_friendmaking",
+      "school_reputation_pushes_some_families_to_santa_rosa_county"
+    ],
+    "best_for": [
+      "remote_workers_and_externally_paid_households",
+      "military_connected_households",
+      "retirees_with_secure_income",
+      "water_and_outdoor_oriented_people",
+      "people_who_value_historic_small_city_scale_and_build_community_through_organizations"
+    ],
+    "poor_fit_for": [
+      "people_needing_a_deep_white_collar_labor_market",
+      "people_wanting_major_city_nightlife_or_effortless_dating",
+      "car_free_households_outside_the_downtown_core",
+      "buyers_who_price_the_listing_but_not_insurance_and_storm_exposure",
+      "families_unwilling_to_research_schools_district_by_district"
+    ],
+    "bottom_line": "Pensacola is a genuine Gulf Coast small city — not merely a beach town — with unusually good water access, airport and military/service infrastructure for its scale, but the bargain has weakened because local wages, housing and insurance have moved out of alignment."
+  }
+}
