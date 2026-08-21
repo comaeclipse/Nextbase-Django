@@ -66,14 +66,17 @@
         "label": "Cajon-Pass-Dependent Housing-Value Logistics Exurb",
         "confidence": "high"
       },
-      "nano_secondary": [
+      "nano_secondary": [],
+      "withdrawn_labels": [
         {
           "label": "Wind-Exposed High-Desert Regional Service Hub",
-          "confidence": "medium"
+          "level": "nano",
+          "withdrawn_on": "2026-08-20",
+          "reason": "Cross-city wind calibration (revision 2): Victorville averages ~7-9 mph with a ~9 mph April peak versus the Cheyenne/Casper winter regime of ~15 mph January means. Locally windier than the San Bernardino/Ontario basin, but not nationally wind-exposed. wind_exposure feature revised 0.75 -> 0.52; wind removed from the genre bundle, retained as a moderate climate trait."
         }
       ],
       "one_sentence_description": "Victorville is a car-dependent high-desert regional center where comparatively attainable Southern California housing and logistics/retail functions coexist with thin local job and amenity depth, while Cajon Pass controls access to the larger metropolitan economy.",
-      "admission_status": "NOT admitted to genre-ontology.ts. Victorville is the only independently-researched city carrying these exact labels; NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities before a nano genre is admitted (5 for broad, 3 for micro). These stay recorded here as this city's candidate rationale until another city's research independently produces the same bundle. Cross-city note for the next taxonomy review: Casper's proposal shares 'wind-exposed regional service hub' vocabulary with this one's secondary nanogenre — a candidate recurrence to examine, not yet an admission."
+      "admission_status": "NOT admitted to genre-ontology.ts. Victorville is the only independently-researched city carrying these exact labels; NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1 requires a minimum of 2 independently-researched cities before a nano genre is admitted (5 for broad, 3 for micro). These stay recorded here as this city's candidate rationale until another city's research independently produces the same bundle. REVISION 2 (2026-08-20): the earlier cross-city note flagging shared 'wind-exposed regional service hub' vocabulary with Casper is superseded — the wind-exposed secondary nanogenre was withdrawn after a national wind calibration (see withdrawn_labels); the 'Wind-Exposed ... Hub' recurrence candidate is now Casper+Cheyenne only."
     },
     "reconciliation": [
       {

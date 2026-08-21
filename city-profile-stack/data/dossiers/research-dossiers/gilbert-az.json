@@ -1,0 +1,103 @@
+{
+  "city": "Gilbert",
+  "state": "AZ",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Gilbert, Arizona — community sentiment synthesis",
+  "summary": "A safe-feeling, polished, family-first East Valley suburb with strong everyday amenities and a genuinely useful downtown restaurant core — paid for with car dependence, increasingly expensive housing, limited urban texture and a summer climate that dictates when outdoor life happens. Works best for people who actively want polished suburbia; the mirror-image detractors are young singles, urbanists and heat-averse movers.",
+  "narrative_file": "gilbert-az.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "family_life_housing_east_valley_comparisons_schools_and_suburban_vs_urban_tradeoff_all_generate_repeated_local_threads",
+      "safety_lds_visibility_summer_climate_and_gilbert_vs_scottsdale_each_have_multiple_independent_discussions",
+      "all_28_cited_reddit_threads_independently_verified_real_via_archive_lookup_with_matching_subreddits_and_titles",
+      "municipal_planning_documents_used_as_structural_evidence_alongside_community_sentiment"
+    ],
+    "limitations": [
+      "reddit_overrepresents_people_motivated_to_complain_relocate_compare_or_defend_their_city",
+      "gilbert_frequently_blurred_with_chandler_mesa_queen_creek_and_the_east_valley_generally",
+      "housing_costs_rents_utilities_traffic_and_individual_businesses_change_quickly",
+      "school_discussion_rich_but_highly_campus_specific",
+      "healthcare_facility_availability_verifiable_but_ease_of_care_and_specialist_waits_not_established_by_resident_discourse",
+      "race_politics_and_religion_sometimes_inflammatory_lds_visibility_reported_carefully_racial_and_partisan_climate_too_thin_to_score",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "gilbert_specific_healthcare_navigability_primary_care_waits_and_specialist_access_searched_but_not_established",
+      "humidity_allergy_season_wind_and_severe_storm_burden_too_sparse_in_community_discussion_to_score",
+      "political_climate_discussed_but_partisan_comparative_or_inflammatory_rather_than_stable_description",
+      "racial_inclusion_sample_too_thin_and_sensitive_to_generalize",
+      "lgbtq_related_questions_exist_but_insufficient_independent_firsthand_accounts_to_score",
+      "va_outpatient_and_va_hospital_access_outside_this_community_discussion_pass",
+      "water_recreation_access_and_substance_problem_visibility_not_investigated_deeply_enough_to_score"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/Gilbert/comments/1bhqjzv/why_do_you_live_in_gilbert_az/",
+    "https://www.reddit.com/r/Gilbert/comments/1jyl91o/thoughts_on_gilbert_vs_scottsdale/",
+    "https://www.reddit.com/r/Scottsdale/comments/1jyl748/thoughts_on_gilbert/",
+    "https://www.reddit.com/r/Gilbert/comments/1lq83ig/moving_to_gilbert/",
+    "https://www.reddit.com/r/Gilbert/comments/1si4c5q/considering_moving_here/",
+    "https://www.reddit.com/r/Gilbert/comments/1azz4bk/what_am_i_missing_with_this_cost_of_living_thing/",
+    "https://www.reddit.com/r/Gilbert/comments/vns0qr/what_are_the_issues_on_your_mind_in_gilbert/",
+    "https://www.reddit.com/r/Gilbert/comments/1ihlv5m/gilbert_schools_compared_to_other_states/",
+    "https://www.reddit.com/r/Gilbert/comments/1pa6pj0/gilbert_vs_chandlerschools_and_areas_to_live/",
+    "https://www.reddit.com/r/Gilbert/comments/1spinbd/is_gilbert_similar_to_provo_i_was_told_that/",
+    "https://www.reddit.com/r/Gilbert/comments/14rvr95/potentially_looking_to_move_to_gilbert/",
+    "https://www.reddit.com/r/Gilbert/comments/1u35utk/finding_friends/",
+    "https://www.reddit.com/r/Gilbert/comments/1la5omg/need_friends/",
+    "https://www.reddit.com/r/Gilbert/comments/tyyepv/what_are_the_best_places_for_a_hike_trail_run_in/",
+    "https://www.reddit.com/r/Gilbert/comments/uj4rct/downtown_gilbert_shops/",
+    "https://www.reddit.com/r/Gilbert/comments/zi9dzc/crime/",
+    "https://www.reddit.com/r/Gilbert/comments/1us5fg2/local_eats/",
+    "https://www.reddit.com/r/Gilbert/comments/1krg3c7/commute_dt_for_pv_vs_gilbert/",
+    "https://www.reddit.com/r/Gilbert/comments/1k8fdmh/gilbert_vs_chandler/",
+    "https://www.reddit.com/r/QueenCreek/comments/1nckv1m/gilbert_vs_queen_creek/",
+    "https://www.reddit.com/r/Gilbert/comments/1utzgav/looking_for_rental/",
+    "https://www.gilbertaz.gov/home/showpublisheddocument/31044/636710705294500000"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions; the prediction comparison falsified 7 of 27 returned features, in the opposite direction from Victorville's misses (predicted colder, more isolated, more distinctive and less safe than researched).",
+    "location_context": {
+      "county": "Maricopa County",
+      "region": "East Valley, Phoenix metropolitan area, Arizona",
+      "setting": "large master-planned family suburb southeast of Phoenix, incorporated as a town",
+      "nearby_geographic_feature": "flat valley floor; Usery, San Tan Mountain, the Superstitions and South Mountain within a 15-30 minute drive",
+      "important_distinction": "Gilbert is frequently blurred with Chandler, Mesa, Queen Creek and the East Valley generally; the lived comparison set is other East Valley suburbs and Scottsdale, not central Phoenix."
+    },
+    "reddit_sentiment": "positive_conditional_on_wanting_polished_family_suburbia",
+    "city_archetype": "high_income_family_oriented_growth_suburb",
+    "strongest_positive_signals": [
+      "family_orientation_and_school_choice",
+      "high_perceived_everyday_safety",
+      "east_valley_amenity_network_convenience",
+      "downtown_restaurant_core",
+      "mild_outdoor_winter_season"
+    ],
+    "strongest_negative_signals": [
+      "extreme_summer_heat_reorganizes_daily_life",
+      "housing_entry_costs_have_eroded_the_bargain",
+      "near_total_car_dependence_outside_downtown",
+      "suburban_blandness_and_thin_urban_texture",
+      "nightlife_concentrated_rather_than_deep"
+    ],
+    "best_for": [
+      "families_wanting_parks_schools_and_neighborhood_stability",
+      "people_who_like_detached_home_suburbia_and_drive_willingly",
+      "people_who_prefer_restaurants_to_clubs",
+      "movers_who_want_phoenix_metro_amenities_without_the_urban_core",
+      "people_escaping_snow_and_cold_winters"
+    ],
+    "poor_fit_for": [
+      "young_singles_prioritizing_dating_and_nightlife",
+      "car_light_or_car_free_households",
+      "people_wanting_old_urban_fabric_or_abundant_independent_culture",
+      "buyers_needing_inexpensive_starter_housing",
+      "people_who_experience_sustained_extreme_heat_as_worse_than_snow"
+    ],
+    "bottom_line": "Gilbert is a safe-feeling, polished, family-first East Valley suburb with strong everyday amenities and a genuinely useful restaurant core, but you pay for that stability with car dependence, increasingly expensive housing, limited urban texture and a summer climate that dictates when outdoor life happens."
+  }
+}

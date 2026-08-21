@@ -1,0 +1,211 @@
+{
+  "city": "Cheyenne",
+  "state": "WY",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Cheyenne, Wyoming — Nanogenre Classification Proposal v1",
+  "summary": "Fourth genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process: official/structural evidence (Census QuickFacts, BLS Cheyenne OEWS, NWS/NCEI climate normals, Cheyenne parks plan, LCSD1, Cheyenne Frontier Days economic report, city council communications, VA and airport pages) reconciled against the same research pass's community-sentiment evidence into a multi-label broad/micro/nano proposal. Raises the taxonomy's first admission-versus-redundancy decision: 'Wind-Exposed ... Hub' nano vocabulary now appears in three independent proposals (Casper, Victorville, Cheyenne).",
+  "narrative_file": "cheyenne-wy-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Companion to cheyenne-wy.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_33_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "all_six_bls_cheyenne_oews_figures_re_read_verbatim_on_the_live_page_30_33_33_54_10_7_10_6_8_6_55_50",
+      "council_chronicle_claim_re_read_verbatim_180_to_440_desperately_needed_affordable_units",
+      "nws_normals_46_9F_and_62_9_inches_re_verified_exactly_against_the_ncei_normals_api_for_station_USW00024018",
+      "va_medical_center_corroborated_by_va_gov_and_by_the_apps_own_va_facility_sync_data_has_va_true_nearest_va_kind_hospital",
+      "nine_question_reconciliation_table_with_divergences_held_not_averaged",
+      "zero_dead_links_one_rotating_product_url_flagged"
+    ],
+    "limitations": [
+      "the_nws_cla_product_citation_is_a_rotating_url_that_no_longer_served_the_cited_annual_report_on_verification_normals_corroborated_via_ncei_2025_wind_observations_rest_on_original_retrieval",
+      "delivered_blocks_carried_chatgpt_contentreference_citation_artifacts_stripped_mechanically_on_import",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "cheyenne_regional_airport_service_temporarily_paused_for_2026_construction_so_present_day_flight_convenience_understates_the_airports_normal_role"
+    ],
+    "gaps": [
+      "the_wind_exposed_hub_admission_versus_redundancy_decision_needs_the_reviewer_is_it_a_bundle_or_a_hub_genre_plus_wind_exposure_trait_filter",
+      "data_center_growth_effects_changing_too_quickly_to_classify_as_persistent",
+      "measured_restaurant_nightlife_and_cultural_venue_inventory_not_assembled",
+      "one_more_energy_hub_city_still_needed_for_the_casper_odessa_micro_candidate"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/cheyennecitywyoming/AFN120222",
+    "https://www.bls.gov/regions/mountain-plains/news-release/occupationalemploymentandwages_cheyenne.htm",
+    "https://forecast.weather.gov/product.php?format=CI&glossary=1&issuedby=CYS&product=CLA&site=NWS&version=1",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-annualseasonal-1991-2020&dataTypes=ANN-TAVG-NORMAL,ANN-SNOW-NORMAL&stations=USW00024018&format=json",
+    "https://www.cheyennecity.org/files/sharedassets/public/v/1/departments/planningdevelopment/website-documents/parks-plan-2025-reduced.pdf",
+    "https://www.cheyennecity.org/News-articles/The-Council-Chronicle-from-Council-President-Tom-Segrave-%E2%80%93-June-18-2026",
+    "https://www.cheyennecity.org/News-articles/The-Mayor%E2%80%99s-Minute-from-Mayor-Patrick-Collins-%E2%80%93-June-5-2026",
+    "https://cfdrodeo.com/2025/02/report-to-our-community-released/",
+    "https://www.laramie1.org/",
+    "https://www.cheyenneairport.com/",
+    "https://www.cheyenneairport.com/airline-ticketing",
+    "https://www.va.gov/cheyenne-health-care/",
+    "https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/",
+    "https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/",
+    "https://www.reddit.com/r/Cheyenne/comments/1vgfw39/good_place_to_meet_people/",
+    "https://www.reddit.com/r/Cheyenne/comments/16lzrat/",
+    "https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/",
+    "https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/",
+    "https://www.reddit.com/r/wyoming/comments/1p07r5y/thinking_about_moving_to_cheyenne_what_should_i/",
+    "https://www.reddit.com/r/FortCollins/comments/1lnpeu8/",
+    "https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/",
+    "https://www.reddit.com/r/Cheyenne/comments/1cacezs/",
+    "https://www.reddit.com/r/Cheyenne/comments/mtvmqy/",
+    "https://www.reddit.com/r/Cheyenne/comments/1etr44o/",
+    "https://www.reddit.com/r/Cheyenne/comments/1kk7nwr/",
+    "https://www.reddit.com/r/wyoming/comments/192kosw/",
+    "https://www.reddit.com/r/Cheyenne/comments/1h4auez/",
+    "https://www.reddit.com/r/Cheyenne/comments/1uyf33z/data_centers/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Interior-West Regional Service Hub",
+        "State-Capital Government Hub",
+        "Front-Range-Adjacent Small City"
+      ],
+      "micro_primary": "Front-Range-Adjacent State-Capital Service Hub",
+      "micro_secondary": [
+        "Weather-Exposed High-Plains Convenience City",
+        "Event-Peaked Western Civic Hub"
+      ],
+      "nano_primary": {
+        "label": "Wind-Exposed Front-Range-Edge State-Capital Hub",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "Quiet Family-Oriented Small City with Borrowed Metro Amenities",
+          "confidence": "medium"
+        },
+        {
+          "label": "Frontier-Event-Peaked High-Plains Service City",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "Cheyenne is a wind-exposed high-plains state-capital service city whose everyday strengths are short commutes, family practicality and nearby outdoor access, while Fort Collins and Denver supply much of the metro-scale dining, nightlife, specialty-care and cultural layer.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Per NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1, admission requires 2 independently-researched cities for nano, 3 for micro, 5 for broad. THREE RECURRENCE OBSERVATIONS for the next taxonomy review (revised 2026-08-20, revision 2): (1) 'Wind-Exposed ... Hub' nano vocabulary appears in two independent proposals (Casper primary, Cheyenne primary), meeting the nano floor of 2. Victorville briefly made it three, but its secondary wind-exposed label was withdrawn the same day after a national wind calibration (Victorville ~7-9 mph spring-peaked vs the Cheyenne/Casper ~15 mph January regime; its wind_exposure revised 0.75 -> 0.52) -- a withdrawal that sharpens the candidate, since it now discriminates against merely locally-windy cities. The section 3 #4 nonredundancy decision remains live: genuine recurring bundle, or hub genre plus wind_exposure trait filter (both remaining cities score 0.88-0.90)? The reviewer decides. (2) Cross-level echo: Cheyenne's broad label 'Interior-West Regional Service Hub' is verbatim Casper's micro label, supporting the eventual broad-from-micro clustering of section 12 decision 3. (3) Negative control passed: Cheyenne did not reproduce the Casper+Odessa energy/extraction bundle -- correctly, its economy is government/service -- so that micro candidate stays at 2 of the required 3 cities."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Cheyenne actually isolated?",
+        "measured_evidence": "The Census estimates 66,507 residents in 2025, while Cheyenne Regional Airport normally advertises daily United service to Denver; the airport also notes that scheduled flights are temporarily paused from April until September 2026 for construction. Sources: https://www.census.gov/quickfacts/fact/table/cheyennecitywyoming/AFN120222 ; https://www.cheyenneairport.com/airline-ticketing ; https://www.cheyenneairport.com/",
+        "experienced_evidence": "Residents repeatedly use Fort Collins and Denver for entertainment, shopping, dating and specialist care, and distinguish Cheyenne from more self-contained Casper. Winter highway closures, however, periodically break that connection. Sources: https://www.reddit.com/r/wyoming/comments/1gcmmtq/casper_vs_cheyenne/ ; https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/",
+        "resulting_trait": "Front-Range-connected rather than isolated, but weather-fragile: Cheyenne has access to a larger regional system without possessing that system inside city limits."
+      },
+      {
+        "question": "Is there really nothing to do?",
+        "measured_evidence": "The city's 2025 parks inventory lists about 46.9 miles of greenway and 11.5 miles of shared-use trails, while Cheyenne Frontier Days reports roughly 550,000 combined-event attendances during its ten-day celebration and 146,500 unique attendees in 2024. Sources: https://www.cheyennecity.org/files/sharedassets/public/v/1/departments/planningdevelopment/website-documents/parks-plan-2025-reduced.pdf ; https://cfdrodeo.com/2025/02/report-to-our-community-released/",
+        "experienced_evidence": "Residents still describe ordinary nightlife as thin, with bars, breweries and occasional downtown events repeating quickly and many people going to Fort Collins or Laramie for a deeper evening scene. Sources: https://www.reddit.com/r/Cheyenne/comments/1vgfw39/good_place_to_meet_people/ ; https://www.reddit.com/r/Cheyenne/comments/16lzrat/",
+        "resulting_trait": "Event-rich but ordinary-night thin: real recreation infrastructure and major programmed events coexist with a shallow spontaneous nightlife ecosystem."
+      },
+      {
+        "question": "Is housing affordable?",
+        "measured_evidence": "Census QuickFacts reports a 2020-2024 median gross rent of $1,118, median owner-occupied home value of $333,700 and median household income of $78,839. The city has simultaneously called new affordable housing 'desperately needed' and in 2026 expanded a planned project from roughly 180 to 440 units. Sources: https://www.census.gov/quickfacts/fact/table/cheyennecitywyoming/AFN120222 ; https://www.cheyennecity.org/News-articles/The-Council-Chronicle-from-Council-President-Tom-Segrave-%E2%80%93-June-18-2026",
+        "experienced_evidence": "Residents continue to call Cheyenne cheaper than Fort Collins and easier than Laramie, while newer threads say prices have risen enough that the traditional affordability advantage is eroding and no longer matches some local wages. Sources: https://www.reddit.com/r/Cheyenne/comments/1lnpe1h/cheyenne_vs_fort_collins/ ; https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/ ; https://www.reddit.com/r/wyoming/comments/1p07r5y/thinking_about_moving_to_cheyenne_what_should_i/",
+        "resulting_trait": "Relative affordability without cheapness: Cheyenne still undercuts nearby Front Range alternatives for many households while experiencing genuine local affordability pressure."
+      },
+      {
+        "question": "Is the wind just a local joke?",
+        "measured_evidence": "NWS's 2025 annual Cheyenne Airport climate report uses the 1991-2020 normal period, reports a normal annual mean temperature of 46.9F and normal annual snowfall of 62.9 inches, and recorded an 11.3 mph average wind speed with a 75 mph peak gust in 2025. Source: https://forecast.weather.gov/product.php?format=CI&glossary=1&issuedby=CYS&product=CLA&site=NWS&version=1 (rotating product URL; normals corroborated at https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-annualseasonal-1991-2020&dataTypes=ANN-TAVG-NORMAL,ANN-SNOW-NORMAL&stations=USW00024018&format=json)",
+        "experienced_evidence": "Wind appears independently in relocation, clothing, commuting, exercise and city-comparison threads and is described as affecting doors, roofs, snow drifting, running and highway travel. Sources: https://www.reddit.com/r/Cheyenne/comments/1tsz1lu/question_about_the_wind/ ; https://www.reddit.com/r/FortCollins/comments/1lnpeu8/",
+        "resulting_trait": "Weather exposure is structural rather than folkloric: the resident stereotype aligns with measured climate, while individual tolerance explains disagreement over how unpleasant it is."
+      },
+      {
+        "question": "Is Cheyenne meaningfully family-oriented?",
+        "measured_evidence": "Laramie County School District 1 reports 38 K-12 schools and 12,859 enrolled students in 2025-2026, and the city's parks plan documents an extensive greenway and shared-use-trail system. Sources: https://www.laramie1.org/ ; https://www.cheyennecity.org/files/sharedassets/public/v/1/departments/planningdevelopment/website-documents/parks-plan-2025-reduced.pdf",
+        "experienced_evidence": "Parents comparing Cheyenne with Laramie repeatedly cite more family-friendly parks, activities, practical housing and satisfactory school experiences, though school reviews vary by triad. Sources: https://www.reddit.com/r/wyoming/comments/1iy3ros/cheyenne_or_laramie_which_is_better/ ; https://www.reddit.com/r/Cheyenne/comments/1cacezs/",
+        "resulting_trait": "Family infrastructure is stronger than adult social depth: the city has a substantial institutional base for households with children even while young-single nightlife remains shallow."
+      },
+      {
+        "question": "Does Cheyenne have a broad job market?",
+        "measured_evidence": "BLS reports an average Cheyenne MSA wage of $30.33 per hour in May 2025 versus $33.54 nationally. Transportation/material moving accounted for 10.7% of employment, office/administrative support 10.6% and food service 8.6%; healthcare practitioners had comparatively high local pay at $55.50 per hour. Source: https://www.bls.gov/regions/mountain-plains/news-release/occupationalemploymentandwages_cheyenne.htm",
+        "experienced_evidence": "Residents describe recurring opportunities in state government, healthcare, schools, retail and logistics but complain that specialized professional careers outside those channels can be difficult to enter and may depend heavily on networking. Sources: https://www.reddit.com/r/Cheyenne/comments/mtvmqy/ ; https://www.reddit.com/r/Cheyenne/comments/1etr44o/",
+        "resulting_trait": "A stable regional service-and-government labor market with less specialist career depth than its capital-city status might imply."
+      },
+      {
+        "question": "Is Cheyenne a tourist town?",
+        "measured_evidence": "Cheyenne Frontier Days reports approximately 550,000 combined-event attendances during ten days, 263,640 tickets sold in 2024, 146,500 unique attendees and $50.4 million in direct visitor spending by people from outside Laramie County. Source: https://cfdrodeo.com/2025/02/report-to-our-community-released/",
+        "experienced_evidence": "Residents describe a conspicuous July/Frontier Days visitor surge, rental distortions and temporary inconvenience but say Cheyenne returns to its much quieter baseline afterward. Sources: https://www.reddit.com/r/Cheyenne/comments/1kk7nwr/ ; https://www.reddit.com/r/wyoming/comments/192kosw/",
+        "resulting_trait": "Event-peaked tourism rather than a tourism-dominated city: one enormous civic event briefly changes the urban rhythm without defining most ordinary weeks."
+      },
+      {
+        "question": "Is a small city like Cheyenne walkable?",
+        "measured_evidence": "Census data shows a mean work commute of only 16.0 minutes, while the 2025 city parks inventory records roughly 58 total miles of greenway and shared-use trails. Sources: https://www.census.gov/quickfacts/fact/table/cheyennecitywyoming/AFN120222 ; https://www.cheyennecity.org/files/sharedassets/public/v/1/departments/planningdevelopment/website-documents/parks-plan-2025-reduced.pdf",
+        "experienced_evidence": "Residents say almost everything is close but answer that reaching it is generally by car; weather and dispersed development further discourage routine walking. Source: https://www.reddit.com/r/Cheyenne/comments/1h4auez/",
+        "resulting_trait": "Short-trip car city with meaningful recreational trail infrastructure: low travel time should not be mistaken for low car dependence."
+      },
+      {
+        "question": "Is Cheyenne rapidly growing?",
+        "measured_evidence": "The Census estimates population rose from a 2020 base of 65,386 to 66,507 in 2025, a 1.7% increase - modest rather than explosive measured population growth. City officials are nevertheless pursuing hundreds of new affordable units and planning for continued development. Sources: https://www.census.gov/quickfacts/fact/table/cheyennecitywyoming/AFN120222 ; https://www.cheyennecity.org/News-articles/The-Mayor%E2%80%99s-Minute-from-Mayor-Patrick-Collins-%E2%80%93-June-5-2026 ; https://www.cheyennecity.org/News-articles/The-Council-Chronicle-from-Council-President-Tom-Segrave-%E2%80%93-June-18-2026",
+        "experienced_evidence": "Recent residents talk much more urgently about growth than the population number would suggest, particularly around data centers, temporary workers, housing and infrastructure. Sources: https://www.reddit.com/r/Cheyenne/comments/1tt84x8/vibes_of_cheyenne/ ; https://www.reddit.com/r/Cheyenne/comments/1uyf33z/data_centers/",
+        "resulting_trait": "Modest measured population growth paired with high prospective-growth anxiety: residents are reacting to development pipelines and expected demand, not merely the last five years of population counts."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "event_richness_vs_ordinary_night_depth",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "58 miles of greenway/shared-use trails and a ten-day civic event drawing ~550,000 combined attendances and $50.4M in outside visitor spending.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe ordinary nightlife as thin and repetitive, defaulting to bars/breweries, with Fort Collins and Laramie as the deeper evening circuits.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Programmed-event availability and spontaneous ordinary-night depth measure different things; both poles hold. This is the same divergence shape as Casper's event-active-but-late-night-thin finding — a recurring divergence pattern across high-plains hubs worth noting at the next taxonomy review. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "short_commutes_vs_car_dependence",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "A 16.0-minute mean commute — among the shortest of any researched city.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents answer 'Driving. 100%' when asked whether nearby amenities are walkable; low travel time coexists with near-total car reliance.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Travel time and mode dependence measure different things; both poles hold. Same structural pattern as Casper's car-dependent-but-not-traffic-burdened finding. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "measured_growth_vs_growth_anxiety",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Population grew only 1.7% from the 2020 base to 2025 — modest by Sunbelt standards.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents discuss data-center construction, temporary workers and housing demand with an urgency that far outruns the population counts.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Realized population change and anticipated development-pipeline impact measure different things; both poles hold. Contested environmental/utility claims within those threads are flagged requires-independent-verification. Maps to board Divergence Flag = Minor."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-20",
+      "method": "All 33 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles. Structural sources: cfdrodeo report, Census QuickFacts, both airport pages, laramie1.org and va.gov resolved directly; the BLS release, the parks-plan PDF and both cheyennecity.org news articles loaded in a real browser (the sites 403 scripted clients), with all six BLS figures and the Council Chronicle's '180 to 440 desperately needed' passage re-read verbatim. The NWS CLA product URL had rotated and no longer served the cited report; its two climate normals were re-verified exactly against the NCEI normals API (station USW00024018: 46.9F, 62.9in). The VA Medical Center claim is additionally corroborated by the app's own VA facility sync data (has_va true, nearest_va_kind hospital).",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links; one rotating product URL (NWS CLA) flagged, retained verbatim, and corroborated via the stable NCEI API added to source_urls. Delivered blocks carried ChatGPT contentReference citation artifacts, stripped mechanically; one zh.reddit.com narrative link normalized to www."
+    }
+  }
+}
