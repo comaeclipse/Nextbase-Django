@@ -89,3 +89,25 @@ export const STATE_GUN_FREEDOM_DATASET: StateGunFreedomDataset = {
 };
 
 export const GUN_FREEDOM_AGGREGATE = aggregate(STATE_GUN_FREEDOM_DATASET.data);
+
+/** Abbr -> Gun Freedom Index, built once from the dataset above. */
+const INDEX_BY_STATE: Map<string, number> = new Map(
+  STATE_GUN_FREEDOM_DATASET.data.map((d) => [d.state, d.value])
+);
+
+/**
+ * The 0-100 index for a USPS abbreviation, or null when the state isn't in the
+ * dataset. Callers treat null as "unknown, keep it" rather than as a zero, so
+ * a gap in the rubric never silently filters a place out.
+ */
+export function gunFreedomIndex(
+  stateAbbr: string | null | undefined
+): number | null {
+  if (!stateAbbr) return null;
+  return INDEX_BY_STATE.get(stateAbbr) ?? null;
+}
+
+/** States whose bans are enjoined or under active litigation (VA and NJ today). */
+export const UNSETTLED_GUN_LAW_STATES: string[] = STATE_GUN_FREEDOM_DATASET.data
+  .filter((d) => d.legalStatus === "Unsettled")
+  .map((d) => d.state);
