@@ -206,6 +206,13 @@
       "longitude": -86.579275
     },
     {
+      "name": "Jacksonville",
+      "state": "FL",
+      "census_place_geoid": "1235000",
+      "latitude": 30.336864,
+      "longitude": -81.661603
+    },
+    {
       "name": "Malabar",
       "state": "FL",
       "census_place_geoid": "1242625",
@@ -225,6 +232,13 @@
       "census_place_geoid": "1253725",
       "latitude": 30.616737,
       "longitude": -87.164733
+    },
+    {
+      "name": "Palm Bay",
+      "state": "FL",
+      "census_place_geoid": "1254000",
+      "latitude": 27.954802,
+      "longitude": -80.664962
     },
     {
       "name": "Pensacola",
@@ -262,11 +276,25 @@
       "longitude": -81.196492
     },
     {
+      "name": "Valdosta",
+      "state": "GA",
+      "census_place_geoid": "1378800",
+      "latitude": 30.850126,
+      "longitude": -83.278833
+    },
+    {
       "name": "Honolulu",
       "state": "HI",
       "census_place_geoid": "1571550",
       "latitude": 21.324347,
       "longitude": -157.84764
+    },
+    {
+      "name": "Kāneʻohe",
+      "state": "HI",
+      "census_place_geoid": "1528250",
+      "latitude": 21.409332,
+      "longitude": -157.789648
     },
     {
       "name": "Carroll",
@@ -323,6 +351,13 @@
       "census_place_geoid": "1718563",
       "latitude": 40.142628,
       "longitude": -87.610707
+    },
+    {
+      "name": "Peoria",
+      "state": "IL",
+      "census_place_geoid": "1759000",
+      "latitude": 40.751641,
+      "longitude": -89.617198
     },
     {
       "name": "Fort Wayne",
@@ -437,6 +472,13 @@
       "longitude": -70.185305
     },
     {
+      "name": "Battle Creek",
+      "state": "MI",
+      "census_place_geoid": "2605920",
+      "latitude": 42.299176,
+      "longitude": -85.229267
+    },
+    {
       "name": "Warren",
       "state": "MI",
       "census_place_geoid": "2684000",
@@ -491,6 +533,13 @@
       "census_place_geoid": "3006550",
       "latitude": 45.788538,
       "longitude": -108.552475
+    },
+    {
+      "name": "Bozeman",
+      "state": "MT",
+      "census_place_geoid": "3008950",
+      "latitude": 45.683155,
+      "longitude": -111.053782
     },
     {
       "name": "Great Falls",
@@ -647,6 +696,13 @@
       "longitude": -76.503055
     },
     {
+      "name": "Rochester",
+      "state": "NY",
+      "census_place_geoid": "3663000",
+      "latitude": 43.169927,
+      "longitude": -77.616891
+    },
+    {
       "name": "Rome",
       "state": "NY",
       "census_place_geoid": "3663418",
@@ -717,6 +773,13 @@
       "longitude": -121.307991
     },
     {
+      "name": "Medford",
+      "state": "OR",
+      "census_place_geoid": "4147000",
+      "latitude": 42.336006,
+      "longitude": -122.851762
+    },
+    {
       "name": "Portland",
       "state": "OR",
       "census_place_geoid": "4159000",
@@ -752,6 +815,13 @@
       "longitude": -75.665908
     },
     {
+      "name": "State College",
+      "state": "PA",
+      "census_place_geoid": "4273808",
+      "latitude": 40.791039,
+      "longitude": -77.856813
+    },
+    {
       "name": "Warren",
       "state": "PA",
       "census_place_geoid": "4281000",
@@ -771,6 +841,13 @@
       "census_place_geoid": "4459000",
       "latitude": 41.823056,
       "longitude": -71.418784
+    },
+    {
+      "name": "Charleston",
+      "state": "SC",
+      "census_place_geoid": "4513330",
+      "latitude": 32.828017,
+      "longitude": -79.972896
     },
     {
       "name": "Greenville",
@@ -855,6 +932,13 @@
       "census_place_geoid": "4826808",
       "latitude": 30.892574,
       "longitude": -102.88421
+    },
+    {
+      "name": "Greenville",
+      "state": "TX",
+      "census_place_geoid": "4830920",
+      "latitude": 33.111939,
+      "longitude": -96.110256
     },
     {
       "name": "Houston",
@@ -955,6 +1039,27 @@
       "longitude": -117.433322
     },
     {
+      "name": "Yakima",
+      "state": "WA",
+      "census_place_geoid": "5380010",
+      "latitude": 46.590938,
+      "longitude": -120.5494
+    },
+    {
+      "name": "Green Bay",
+      "state": "WI",
+      "census_place_geoid": "5531000",
+      "latitude": 44.521542,
+      "longitude": -87.986568
+    },
+    {
+      "name": "Kenosha",
+      "state": "WI",
+      "census_place_geoid": "5539225",
+      "latitude": 42.587526,
+      "longitude": -87.879996
+    },
+    {
       "name": "Milwaukee",
       "state": "WI",
       "census_place_geoid": "5553000",
@@ -967,6 +1072,13 @@
       "census_place_geoid": "5414600",
       "latitude": 38.348692,
       "longitude": -81.632324
+    },
+    {
+      "name": "Morgantown",
+      "state": "WV",
+      "census_place_geoid": "5455756",
+      "latitude": 39.637487,
+      "longitude": -79.946856
     },
     {
       "name": "Casper",
