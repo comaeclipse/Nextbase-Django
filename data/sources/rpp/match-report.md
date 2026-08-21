@@ -6,7 +6,7 @@
 - Housing RPP is stored for audit but is not used to price housing; rent and home value do that.
 - Statewide SARPP is never used as a fallback.
 
-MSA 139, state nonmetro 14, unmatched 0.
+MSA 143, state nonmetro 14, unmatched 0.
 
 ## Metropolitan statistical areas
 
@@ -46,8 +46,8 @@ MSA 139, state nonmetro 14, unmatched 0.
 | Chicago, IL | Chicago-Naperville-Elgin, IL-IN (Metropolitan Statistical Area) | 103.6 | 107.3 | 83.6 | 100.5 |
 | Cincinnati, OH | Cincinnati, OH-KY-IN (Metropolitan Statistical Area) | 95.4 | 93.8 | 91.0 | 99.0 |
 | Colorado Springs, CO | Colorado Springs, CO (Metropolitan Statistical Area) | 100.7 | 96.1 | 83.2 | 99.8 |
-| Columbus, GA | Columbus, GA-AL (Metropolitan Statistical Area) | 89.3 | 96.3 | 89.7 | 98.6 |
 | Columbus, OH | Columbus, OH (Metropolitan Statistical Area) | 95.5 | 93.6 | 95.5 | 98.9 |
+| Columbus, GA | Columbus, GA-AL (Metropolitan Statistical Area) | 89.3 | 96.3 | 89.7 | 98.6 |
 | Costa Mesa, CA | Los Angeles-Long Beach-Anaheim, CA (Metropolitan Statistical Area) | 113.6 | 106.6 | 158.6 | 104.4 |
 | Crestview, FL | Crestview-Fort Walton Beach-Destin, FL (Metropolitan Statistical Area) | 97.0 | 96.2 | 89.0 | 98.9 |
 | Dallas, TX | Dallas-Fort Worth-Arlington, TX (Metropolitan Statistical Area) | 103.1 | 102.8 | 90.7 | 99.7 |
@@ -66,6 +66,7 @@ MSA 139, state nonmetro 14, unmatched 0.
 | Great Falls, MT | Great Falls, MT (Metropolitan Statistical Area) | 96.8 | 96.0 | 73.0 | 98.7 |
 | Green Bay, WI | Green Bay, WI (Metropolitan Statistical Area) | 93.1 | 93.8 | 90.0 | 99.4 |
 | Greenville, SC | Greenville-Anderson-Greer, SC (Metropolitan Statistical Area) | 93.3 | 96.3 | 88.8 | 98.3 |
+| Greenville, TX | Dallas-Fort Worth-Arlington, TX (Metropolitan Statistical Area) | 103.1 | 102.8 | 90.7 | 99.7 |
 | Hamilton, WA | Mount Vernon-Anacortes, WA (Metropolitan Statistical Area) | 102.4 | 105.0 | 96.0 | 99.5 |
 | Hartford, CT | Hartford-West Hartford-East Hartford, CT (Metropolitan Statistical Area) | 102.7 | 97.3 | 144.9 | 102.7 |
 | Honolulu, HI | Urban Honolulu, HI (Metropolitan Statistical Area) | 111.0 | 111.6 | 187.3 | 102.9 |
@@ -112,20 +113,22 @@ MSA 139, state nonmetro 14, unmatched 0.
 | Orlando, FL | Orlando-Kissimmee-Sanford, FL (Metropolitan Statistical Area) | 101.4 | 96.2 | 87.2 | 98.9 |
 | Overland Park, KS | Kansas City, MO-KS (Metropolitan Statistical Area) | 92.5 | 94.1 | 89.0 | 93.4 |
 | Pace, FL | Pensacola-Ferry Pass-Brent, FL (Metropolitan Statistical Area) | 97.7 | 96.2 | 88.5 | 98.9 |
+| Palm Bay, FL | Palm Bay-Melbourne-Titusville, FL (Metropolitan Statistical Area) | 100.0 | 96.2 | 88.1 | 98.9 |
 | Paterson, NJ | New York-Newark-Jersey City, NY-NJ (Metropolitan Statistical Area) | 112.6 | 110.3 | 127.0 | 105.8 |
 | Pensacola, FL | Pensacola-Ferry Pass-Brent, FL (Metropolitan Statistical Area) | 97.7 | 96.2 | 88.5 | 98.9 |
 | Peoria, IL | Peoria, IL (Metropolitan Statistical Area) | 91.2 | 93.6 | 90.5 | 99.6 |
 | Philadelphia, PA | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD (Metropolitan Statistical Area) | 102.6 | 96.8 | 114.4 | 103.1 |
 | Phoenix, AZ | Phoenix-Mesa-Chandler, AZ (Metropolitan Statistical Area) | 103.3 | 95.0 | 93.3 | 104.0 |
 | Pittsburgh, PA | Pittsburgh, PA (Metropolitan Statistical Area) | 94.7 | 100.7 | 107.7 | 97.7 |
-| Portland, OR | Portland-Vancouver-Hillsboro, OR-WA (Metropolitan Statistical Area) | 105.4 | 105.2 | 107.0 | 100.1 |
 | Portland, ME | Portland-South Portland, ME (Metropolitan Statistical Area) | 101.9 | 97.2 | 134.6 | 103.2 |
+| Portland, OR | Portland-Vancouver-Hillsboro, OR-WA (Metropolitan Statistical Area) | 105.4 | 105.2 | 107.0 | 100.1 |
 | Providence, RI | Providence-Warwick, RI-MA (Metropolitan Statistical Area) | 101.8 | 97.1 | 148.8 | 102.3 |
 | Pueblo, CO | Pueblo, CO (Metropolitan Statistical Area) | 91.8 | 96.1 | 81.9 | 99.8 |
 | Quincy, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
 | Raleigh, NC | Raleigh-Cary, NC (Metropolitan Statistical Area) | 98.2 | 96.6 | 89.0 | 98.2 |
 | Rapid City, SD | Rapid City, SD (Metropolitan Statistical Area) | 89.2 | 95.5 | 79.1 | 91.9 |
 | Reno, NV | Reno, NV (Metropolitan Statistical Area) | 101.0 | 96.3 | 89.3 | 98.7 |
+| Rochester, NY | Rochester, NY (Metropolitan Statistical Area) | 97.0 | 99.7 | 133.2 | 97.8 |
 | Rome, NY | Utica-Rome, NY (Metropolitan Statistical Area) | 92.7 | 99.7 | 131.9 | 97.8 |
 | Salt Lake City, UT | Salt Lake City-Murray, UT (Metropolitan Statistical Area) | 100.9 | 96.4 | 79.0 | 99.0 |
 | San Antonio, TX | San Antonio-New Braunfels, TX (Metropolitan Statistical Area) | 94.7 | 93.8 | 82.2 | 96.2 |
@@ -138,6 +141,7 @@ MSA 139, state nonmetro 14, unmatched 0.
 | Spokane, WA | Spokane-Spokane Valley, WA (Metropolitan Statistical Area) | 100.3 | 105.0 | 91.2 | 99.5 |
 | St. Charles, MO | St. Louis, MO-IL (Metropolitan Statistical Area) | 95.1 | 100.0 | 69.9 | 98.6 |
 | St. George, UT | St. George, UT (Metropolitan Statistical Area) | 97.3 | 96.4 | 77.7 | 99.0 |
+| State College, PA | State College, PA (Metropolitan Statistical Area) | 96.8 | 100.7 | 109.5 | 97.7 |
 | Syracuse, NY | Syracuse, NY (Metropolitan Statistical Area) | 95.7 | 99.7 | 133.4 | 97.8 |
 | Tucson, AZ | Tucson, AZ (Metropolitan Statistical Area) | 96.9 | 96.2 | 89.5 | 99.8 |
 | Tulsa, OK | Tulsa, OK (Metropolitan Statistical Area) | 89.2 | 93.8 | 73.9 | 95.5 |

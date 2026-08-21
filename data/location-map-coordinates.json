@@ -234,6 +234,13 @@
       "longitude": -87.164733
     },
     {
+      "name": "Palm Bay",
+      "state": "FL",
+      "census_place_geoid": "1254000",
+      "latitude": 27.954802,
+      "longitude": -80.664962
+    },
+    {
       "name": "Pensacola",
       "state": "FL",
       "census_place_geoid": "1255925",
@@ -689,6 +696,13 @@
       "longitude": -76.503055
     },
     {
+      "name": "Rochester",
+      "state": "NY",
+      "census_place_geoid": "3663000",
+      "latitude": 43.169927,
+      "longitude": -77.616891
+    },
+    {
       "name": "Rome",
       "state": "NY",
       "census_place_geoid": "3663418",
@@ -801,6 +815,13 @@
       "longitude": -75.665908
     },
     {
+      "name": "State College",
+      "state": "PA",
+      "census_place_geoid": "4273808",
+      "latitude": 40.791039,
+      "longitude": -77.856813
+    },
+    {
       "name": "Warren",
       "state": "PA",
       "census_place_geoid": "4281000",
@@ -911,6 +932,13 @@
       "census_place_geoid": "4826808",
       "latitude": 30.892574,
       "longitude": -102.88421
+    },
+    {
+      "name": "Greenville",
+      "state": "TX",
+      "census_place_geoid": "4830920",
+      "latitude": 33.111939,
+      "longitude": -96.110256
     },
     {
       "name": "Houston",
