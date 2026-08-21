@@ -1,0 +1,226 @@
+{
+  "city": "Pensacola",
+  "state": "FL",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Pensacola, Florida — Nanogenre Classification Proposal v1",
+  "summary": "Tenth genre-classification proposal and the FIRST Validation Corpus v1 pass (Wave B): predictions and hypothesis questions were pre-registered on master before research. Result: 1 of 39 features falsified — the best score in program history on the sharpest pre-registered test (Mobile similarity 0.892). The military-as-anchor-trait hypothesis CONFIRMED (the researcher independently produced 'Military-Anchored Gulf-Coast Regional Service Hub' — the hub class crossed the coastline exactly as the section 12 decision 6 model predicts); the humidity-under-threshold hypothesis FAILED (error shrank again, 0.60 -> 0.54 -> 0.47 -> 0.41, but remains falsified); the no-institutional-inheritance rule was unchallenged for the informative reason that Pensacola genuinely shares its VA system with top-neighbor Mobile. Pensacola is NOT a Historic Coastal Port City member (no working port) yet carries the walkable-core/car-dependent morphology — evidence that morphology is a coastal-Southern trait pair, not the port family's discriminator.",
+  "narrative_file": "pensacola-fl-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-21",
+  "relationship_to_prior_dossier": "Companion to pensacola-fl.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "first_pass_with_predictions_and_hypotheses_pre_registered_on_master_before_research",
+      "all_42_reddit_threads_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "census_quickfacts_verified_verbatim_in_a_real_browser_pop_53817_minus_1_1_pct_rent_1322_value_314400_all_exact",
+      "bls_pensacola_oews_verified_verbatim_mean_wage_28_18_vs_33_54_admin_12_4_food_11_8_sales_10_6_all_exact",
+      "ncei_normals_verified_exactly_jul_91_6_75_3_jan_62_7_43_7_no_snow_normal",
+      "pns_airport_statistics_verified_3_12m_passengers_2025_vs_2_2m_2019_seven_airlines_28_nonstops_exact",
+      "nas_personnel_figures_16000_military_7400_civilian_independently_corroborated",
+      "app_va_sync_data_for_location_18_agrees_outpatient_jacc_in_city_vamc_in_biloxi",
+      "both_city_of_pensacola_pdfs_resolve_in_a_real_browser_bot_walled_to_scripted_clients",
+      "falsification_recorded_by_prediction_domain_per_section_12_decision_8"
+    ],
+    "limitations": [
+      "delivered_block_2_source_urls_arrived_as_markdown_wrapped_links_with_tracking_parameters_normalized_mechanically_flagged",
+      "one_nas_url_carried_an_fbclid_mangled_path_normalized_to_the_installation_base_url",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_section_11",
+      "labels_as_delivered_predate_the_section_12_decision_7_compression_policy_a_compressed_form_is_noted_not_substituted",
+      "nas_ivan_damage_figure_and_ascension_547_bed_count_rest_on_original_retrieval"
+    ],
+    "gaps": [
+      "military_anchored_variant_boundary_needs_testing_against_mobile_norfolk_area_and_other_defense_heavy_coastal_centers",
+      "resident_service_city_with_resort_barrier_island_edge_needs_testing_against_galveston_wilmington_corpus_christi",
+      "political_climate_features_remain_unscored_for_pensacola",
+      "specialist_categories_requiring_out_of_town_travel_not_established"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/pensacolacityflorida/HSD410224",
+    "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_pensacola.htm",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL,MLY-SNOW-NORMAL&stations=USW00013899&format=json",
+    "https://www.flypensacola.com/airport-statistics",
+    "https://cnrse.cnic.navy.mil/Installations/NAS-Pensacola/",
+    "https://www.va.gov/gulf-coast-health-care/locations/",
+    "https://healthcare.ascension.org/locations/florida/flpen/pensacola-ascension-sacred-heart-pensacola",
+    "https://www.cityofpensacola.com/DocumentCenter/View/27900/City-of-Pensacola-2025-29-Consolidated-Plan-and-2025-26-Annual-Action-Plan",
+    "https://www.cityofpensacola.com/DocumentCenter/View/27965",
+    "https://www.visitpensacola.com/events/",
+    "https://www.reddit.com/r/Pensacola/comments/1n2f5rl/cost_of_living/",
+    "https://www.reddit.com/r/Pensacola/comments/1sm47xg/moving_to_downtown/",
+    "https://www.reddit.com/r/Pensacola/comments/1bd1arn/",
+    "https://www.reddit.com/r/Pensacola/comments/1mqdy6y/which_hospital_is_preferred_to_work_at/",
+    "https://www.reddit.com/r/Pensacola/comments/vmmcdo/",
+    "https://www.reddit.com/r/Destin/comments/13qurk9/destin_or_pensacola/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1p5kfyw/what_are_your_opinions_on_these_locations/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Gulf-Coast Regional Service Hub",
+        "Military-Anchored Coastal City",
+        "Historic Coastal Amenity City"
+      ],
+      "micro_primary": "Military-Anchored Gulf-Coast Regional Service Hub",
+      "micro_secondary": [
+        "Historic Waterfront Small City with Immediate Beach Access",
+        "Coastal Amenity City with Local-Wage Affordability Squeeze"
+      ],
+      "nano_primary": {
+        "label": "Naval-Training Gulf Hub with Historic Walkable Core, Immediate Beach Access, and Wage-Cost Squeeze",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "Resident Service City with a Resort Barrier-Island Edge",
+          "confidence": "high"
+        },
+        {
+          "label": "Small Coastal Airport Hub with Military-Driven Social Churn",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "Pensacola feels like a small historic Gulf service city whose naval-training economy, unusually strong airport and real downtown support ordinary year-round life while an exceptional beach sits just across the bay, but whose old affordability bargain has been weakened by local wages, housing and insurance.",
+      "admission_status": "NOT admitted. FIRST VALIDATION CORPUS V1 PASS — pre-registered hypothesis verdicts: (1) military-as-anchor-trait CONFIRMED: the researcher independently produced 'Military-Anchored Gulf-Coast Regional Service Hub' — the Regional Service Hub class crossed the coastline with position and anchor traits, exactly the section 12 decision 6 model; (2) the sharpest pre-registered propagation test (Mobile 0.892) PASSED with 1 of 39 falsified, the best score in program history; (3) humidity-under-threshold FAILED — prediction climbed 0.33 -> 0.41 -> 0.48 -> 0.51 and error shrank 0.60 -> 0.54 -> 0.47 -> 0.41 but remains falsified; roughly two more humid-coastal cities are needed; (4) navigability ~0.36 held under threshold at 0.50 but the exact streak ends — mechanism hypothesis: three competing hospital systems improve patient-side navigability (test in Norfolk); (5) the no-institutional-inheritance rule unchallenged for an informative reason: Pensacola genuinely shares its VA system with Mobile (JACC outpatient in-city, VAMC Biloxi), so inheritance worked on a truly shared institution — the rule's scope is confirmed; (6) FAMILY BOUNDARY RESULT: Pensacola is NOT a Historic Coastal Port City member (no working-port function) yet carries the walkable-core/car-dependent morphology and the wage squeeze — evidence that morphology and squeeze are coastal-Southern TRAIT PAIRS, not the port family's discriminators; the port family's distinctive content is working-port economy plus heritage-tourism intensity; (7) new candidate: 'Resident Service City with a Resort Barrier-Island Edge' (resident city and resort island spatially distinct — unlike Savannah's in-core visitor split); test against Galveston, Wilmington, Corpus Christi. First-ever responsible scores: racial_inclusion_climate 0.50 (all-agree 0.44 confirmed) and public_land_access 0.78 (predicted 0.78, exact); tourism_pressure predicted within 0.04 after two prior falsifications. Labels preserved as delivered; per section 12 decision 7 a compressed form is micro 'Military-Anchored Gulf Service Hub' + traits."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Pensacola basically a beach town?",
+        "measured_evidence": "The city itself had an estimated 53,817 residents in 2025, PNS handled 3.12 million passengers in 2025 (up from 2.2 million in 2019), and NAS Pensacola reports more than 16,000 military and 7,400 civilian personnel. Sources: https://www.census.gov/quickfacts/fact/table/pensacolacityflorida/HSD410224 ; https://www.flypensacola.com/airport-statistics ; https://cnrse.cnic.navy.mil/Installations/NAS-Pensacola/",
+        "experienced_evidence": "Residents and relocation discussions repeatedly emphasize immediate beach access but distinguish Pensacola from Destin's much more tourism-dominated identity. Source: https://www.reddit.com/r/Destin/comments/13qurk9/destin_or_pensacola/",
+        "resulting_trait": "Resident regional-service city with a major beach amenity attached, rather than a resort town whose resident economy is subordinate to tourism."
+      },
+      {
+        "question": "Is Pensacola still affordable?",
+        "measured_evidence": "Census QuickFacts reports median gross rent of $1,322 and owner-occupied housing value of $314,400 for 2020-24, while BLS reports an average local hourly wage of $28.18 versus $33.54 nationally. The city's housing plan says post-pandemic ownership and rental costs increased markedly. Sources: https://www.census.gov/quickfacts/fact/table/pensacolacityflorida/HSD410224 ; https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_pensacola.htm ; https://www.cityofpensacola.com/DocumentCenter/View/27900/City-of-Pensacola-2025-29-Consolidated-Plan-and-2025-26-Annual-Action-Plan",
+        "experienced_evidence": "Community discussion overwhelmingly frames the problem as low local wages meeting medium or rising costs, with insurance and utilities amplifying the housing burden. Source: https://www.reddit.com/r/Pensacola/comments/1n2f5rl/cost_of_living/",
+        "resulting_trait": "Moderate absolute coastal prices but weak wage-adjusted affordability — the divergence between an outsider's 'cheap beach city' and a local worker's budget is itself a defining trait."
+      },
+      {
+        "question": "Does Pensacola have enough to do?",
+        "measured_evidence": "The region has a dense official events calendar, professional minor-league sports, historic attractions, waterfront parks, beaches and a defined downtown entertainment district. Source: https://www.visitpensacola.com/events/",
+        "experienced_evidence": "Residents can readily name restaurants, clubs, hobbies and outdoor activities, but late-night and non-drinking options thin quickly and outside relocation threads describe nightlife as slower. Source: https://www.reddit.com/r/Pensacola/comments/1bd1arn/",
+        "resulting_trait": "Activity-rich in outdoors, events and small-city daytime life but shallow in metropolitan late-night depth; the apparent contradiction comes from asking two different questions about 'things to do.'"
+      },
+      {
+        "question": "Is Pensacola walkable?",
+        "measured_evidence": "The 2025 Urban Core plan describes Palafox as a successful pedestrian street but says wide car-oriented roads, I-110, surface parking and incomplete bicycle infrastructure still disrupt mobility elsewhere in the core. Source: https://www.cityofpensacola.com/DocumentCenter/View/27965",
+        "experienced_evidence": "Residents moving downtown say walking and biking work well locally, while broader relocation discussion assumes driving for beaches, suburbs, work and errands. Source: https://www.reddit.com/r/Pensacola/comments/1sm47xg/moving_to_downtown/",
+        "resulting_trait": "A genuinely walkable historic node embedded in a car-dependent regional city — not meaningfully averaged into 'somewhat walkable.'"
+      },
+      {
+        "question": "Does Pensacola have big-city healthcare or small-city healthcare?",
+        "measured_evidence": "Three substantial hospital systems operate locally, and Ascension Sacred Heart identifies itself as a 547-bed full-service hospital (bed count rests on original retrieval). Pensacola also has a VA Joint Ambulatory Care Center, with the Gulf Coast system's full VA medical center in Biloxi. Sources: https://healthcare.ascension.org/locations/florida/flpen/pensacola-ascension-sacred-heart-pensacola ; https://www.va.gov/gulf-coast-health-care/locations/",
+        "experienced_evidence": "Patients and staff identify good specialists and individual providers while also reporting staffing problems, emergency waits and inconsistent experiences between systems. Source: https://www.reddit.com/r/Pensacola/comments/1mqdy6y/which_hospital_is_preferred_to_work_at/",
+        "resulting_trait": "Facility-rich regional healthcare with uneven navigability: more capacity than the city's size implies, but not uniformly easy access."
+      },
+      {
+        "question": "Is Pensacola booming?",
+        "measured_evidence": "City-proper population is slightly below its 2020 base (53,817 in 2025 vs a 54,398 base, -1.1%), yet PNS passengers rose from roughly 2.2 million in 2019 to 3.12 million in 2025, housing units increased between 2015 and 2023, and the city is actively pursuing downtown redevelopment. Sources: https://www.census.gov/quickfacts/fact/table/pensacolacityflorida/HSD410224 ; https://www.flypensacola.com/airport-statistics",
+        "experienced_evidence": "Residents describe more newcomers, higher housing costs, redevelopment and growing warm-season traffic even while others still experience Pensacola as a relatively slow city. Source: https://www.reddit.com/r/Pensacola/comments/vmmcdo/",
+        "resulting_trait": "Demand and amenity growth without a simple city-population boom: airport, housing and redevelopment pressure are growing faster than the municipal headcount suggests."
+      },
+      {
+        "question": "What makes Pensacola different from Mobile, Charleston and Savannah?",
+        "measured_evidence": "Pensacola combines a very large naval-training complex, a three-million-passenger airport, immediate Gulf beach access and a small historic urban core — anchors unusually concentrated for a city of roughly 54,000. Source: https://cnrse.cnic.navy.mil/Installations/NAS-Pensacola/",
+        "experienced_evidence": "Cross-city relocation discussions tend to grant Charleston and Savannah greater urban/social depth, while direct Mobile comparisons split between Mobile's larger port-city substance and Pensacola's beach access and more polished coastal-service feel. Source: https://www.reddit.com/r/SameGrassButGreener/comments/1p5kfyw/what_are_your_opinions_on_these_locations/",
+        "resulting_trait": "A distinctive naval-service-and-beach combination: less urban/tourism depth than Charleston or Savannah, less port-city weight than Mobile, but stronger immediate Gulf-beach integration and military identity than any of the three."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "coastal_amenity_value_vs_local_wage_reality",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Median gross rent $1,322 and home value $314,400 read as moderate coastal pricing, but the metro mean wage is $28.18/hr against $33.54 nationally with large food-service/sales/admin employment shares.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe Pensacola as low-wage but no longer low-cost, with insurance and utilities amplifying the burden beyond the listing price.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Absolute price and wage-adjusted affordability diverge; both poles hold. First validation-corpus squeeze data point (present, as pre-registered for a coastal amenity market). Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "facility_capacity_vs_navigability",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Three full-service hospital systems plus a VA ambulatory center — more capacity than a ~54K city implies.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Patients and staff report staffing problems, ER waits and sharply varying experiences between systems.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Fifth city in the capacity-vs-navigability family — but the mildest expression yet (navigability 0.50, not the ~0.35 of single-system peers); mechanism hypothesis: inter-system competition. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "walkable_downtown_node_vs_car_dependent_region",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "The city's own Urban Core plan names Palafox a successful pedestrian street while documenting car-oriented roads, I-110 severance and missing bicycle links elsewhere.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Downtown residents walk and bike comfortably; everyone else assumes driving for beaches, bases, schools and errands.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "The walkable-core/car-dependent-outer morphology appears in a NON-port coastal city — evidence it is a coastal-Southern trait pair rather than the port family's discriminator. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "resident_city_vs_resort_barrier_island",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "The resident city (54K, hub functions) and the resort economy (Pensacola Beach on Santa Rosa Island, National Seashore) are spatially separated by the bay and Three Mile Bridge.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Tourism concentrates on beach corridors and warm-season bridge traffic rather than saturating the downtown core; residents describe Destin, not Pensacola, as the tourism-dominated identity.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "A NEW spatial variant of tourism divergence: the visitor economy sits on a separate barrier island (tourism_pressure 0.55), unlike Savannah's in-core visitor/resident split (0.88). Candidate family 'Resident Service City with a Resort Barrier-Island Edge'; test against Galveston, Wilmington, Corpus Christi. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "population_flat_vs_demand_growth",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "City-proper population fell 1.1% from the 2020 base while airport passengers grew ~42% from 2019 and housing/redevelopment investment continued.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents perceive more newcomers, higher costs and busier warm seasons even as others still experience a slow city.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Headcount and demand pressure measure different things — same shape as Mobile's investment-without-population-boom finding; the metro (not city-proper) is where the growth lands. Maps to board Divergence Flag = Minor."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-21",
+      "method": "FIRST PASS UNDER THE PRE-REGISTRATION PROTOCOL: predictions were committed to master (data/validation-corpus-v1/predictions/pensacola-fl.txt) with hypothesis questions (docs/VALIDATION_CORPUS_V1.md) before research began; the falsification table was computed against that committed file. All 42 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles. Structural: Census QuickFacts loaded in a real browser with all cited figures re-read verbatim (53,817 pop 2025; -1.1% from the 54,398 base; $1,322 rent; $314,400 value — all exact); BLS Pensacola-Ferry Pass-Brent OEWS loaded in a real browser ($28.18 vs $33.54; office/admin 12.4%, food service 11.8%, sales 10.6% — matching the 'food service, sales and administrative support' claim); NCEI normals verified exactly via the API (USW00013899: Jul 91.6/75.3, Jan 62.7/43.7, no snow normal); PNS airport statistics page verified 3.12M passengers 2025 vs 2.2M in 2019, seven airlines, 28 nonstop destinations — all exact; NAS Pensacola personnel figures (16,000+ military, 7,400 civilian) corroborated across multiple independent sources after the navy.mil page bot-walled scripted clients; va.gov and the app's own VA sync data for location 18 AGREE (outpatient JACC in-city, VAMC in Biloxi) — consistent with the measured va_outpatient_access 0.94 / va_hospital_access 0.40 pair; both City of Pensacola PDFs (2025-29 Consolidated Plan, Urban Core CRA Plan Update 2025) resolve in a real browser (curl/WebFetch are bot-walled, returning 404/403). The NAS Ivan damage figure (>$500M) and Ascension's 547-bed count rest on original retrieval. DELIVERY DEFECTS: Block 2 source_urls arrived as markdown-wrapped links with utm tracking parameters (normalized mechanically to bare URLs; one pt.reddit.com host normalized to www.reddit.com; one NAS URL carried an fbclid-mangled path, normalized to the installation base URL and kept verbatim in the narrative).",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links; two bot-walled municipal PDFs and one bot-walled navy.mil page verified via a real browser or independent corroboration."
+    }
+  }
+}

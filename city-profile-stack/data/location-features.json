@@ -5433,6 +5433,350 @@
         "not_researched: major_airport_access was not established from community sentiment in Blocks 1-3; structural airport evidence is evaluated separately in Block 4.",
         "discussed_but_unscoreable: dating_pool_depth appears in several complaint threads but the evidence is too app-specific, anecdotal and contradictory to responsibly convert into a place-level score."
       ]
+    },
+    {
+      "city": "Pensacola",
+      "state": "FL",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.16,
+          "confidence": 0.88,
+          "evidence": "NOAA normals show winter afternoons generally in the 60s with only occasional freezing nights.",
+          "signals": [
+            "winter_is_mild_with_occasional_freezes"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.01,
+          "confidence": 0.88,
+          "evidence": "The climate normals show effectively no persistent or routine snow burden.",
+          "signals": [
+            "winter_is_mild_with_occasional_freezes"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.86,
+          "confidence": 0.85,
+          "evidence": "July normals are around 91.6°F by day and 75.3°F at night, while residents describe summer heat as materially constraining comfort.",
+          "signals": [
+            "summer_heat_and_humidity_dominate"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.92,
+          "confidence": 0.78,
+          "evidence": "Residents consistently describe warm-season humidity as a daily comfort and HVAC issue.",
+          "signals": [
+            "summer_heat_and_humidity_dominate"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.66,
+          "confidence": 0.67,
+          "evidence": "Outdoor life is a major local strength outside the hottest part of summer, while prolonged summer heat reduces comfortable midday use.",
+          "signals": [
+            "summer_heat_and_humidity_dominate",
+            "exceptional_beach_and_gulf_access"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.86,
+          "confidence": 0.72,
+          "evidence": "Local summer discussions treat functioning air conditioning as necessary for normal indoor comfort through a long hot-humid season.",
+          "signals": [
+            "summer_heat_and_humidity_dominate"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.88,
+          "confidence": 0.86,
+          "evidence": "Hurricane preparation, evacuation and historical storm damage are persistent and independently documented considerations.",
+          "signals": [
+            "hurricane_risk_shapes_household_planning"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.91,
+          "confidence": 0.78,
+          "evidence": "Residents repeatedly identify nearby beaches, National Seashore areas, trails, fishing and paddling as routine recreation.",
+          "signals": [
+            "exceptional_beach_and_gulf_access",
+            "water_recreation_is_normal_daily_life"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.78,
+          "confidence": 0.66,
+          "evidence": "Gulf Islands National Seashore and nearby public coastal recreation areas provide substantial undeveloped public shoreline close to the metro.",
+          "signals": [
+            "exceptional_beach_and_gulf_access"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.9,
+          "confidence": 0.74,
+          "evidence": "White-sand Gulf beaches, bays and undeveloped seashore repeatedly appear as reasons people enjoy or choose the area.",
+          "signals": [
+            "exceptional_beach_and_gulf_access"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.96,
+          "confidence": 0.8,
+          "evidence": "Multiple bays, bayous, launches, Gulf beaches and fishing areas make water access unusually pervasive.",
+          "signals": [
+            "water_recreation_is_normal_daily_life"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.35,
+          "confidence": 0.62,
+          "evidence": "Pensacola is far from Florida's major metros but has Mobile nearby and unusually strong regional air service for its size.",
+          "signals": [
+            "strong_air_service_for_city_scale"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.57,
+          "confidence": 0.63,
+          "evidence": "Downtown supports restaurants, events, sports and nightlife, but community comparisons repeatedly distinguish Pensacola from deeper major-city amenity markets.",
+          "signals": [
+            "nightlife_exists_but_lacks_big_city_depth",
+            "walkable_downtown_not_walkable_city"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.58,
+          "confidence": 0.88,
+          "evidence": "PNS is not a national hub, but 28 nonstop destinations and more than three million annual passengers provide strong regional connectivity.",
+          "signals": [
+            "strong_air_service_for_city_scale"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.82,
+          "confidence": 0.82,
+          "evidence": "The downtown core is an exception to an otherwise driving-oriented regional pattern, and city plans document major pedestrian and cycling gaps.",
+          "signals": [
+            "car_required_for_most_daily_life",
+            "walkable_downtown_not_walkable_city"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.77,
+          "confidence": 0.8,
+          "evidence": "Palafox and the waterfront form a genuine pedestrian core that both residents and municipal planning documents recognize.",
+          "signals": [
+            "walkable_downtown_not_walkable_city"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.78,
+          "confidence": 0.78,
+          "evidence": "Three major hospital systems and numerous primary-care options provide substantial routine-care capacity within the region.",
+          "signals": [
+            "multiple_hospital_systems_available"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.5,
+          "confidence": 0.47,
+          "evidence": "Residents can identify good providers but also report staffing problems, waits and sharply varying experiences between health systems.",
+          "signals": [
+            "healthcare_navigation_is_inconsistent"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.66,
+          "confidence": 0.57,
+          "evidence": "Community accounts identify locally available specialist practices and multiple hospital systems, though exhaustive specialty coverage was not established.",
+          "signals": [
+            "multiple_hospital_systems_available"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.94,
+          "confidence": 0.9,
+          "evidence": "The VA operates the Joint Ambulatory Care Center directly in Pensacola.",
+          "signals": [
+            "va_outpatient_care_is_local"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 0.4,
+          "confidence": 0.88,
+          "evidence": "Routine VA care is local, but the Gulf Coast system's full VA medical center is in Biloxi rather than Pensacola.",
+          "signals": [
+            "va_outpatient_care_is_local"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.44,
+          "confidence": 0.68,
+          "evidence": "Community discussions repeatedly identify a narrow professional market outside major anchors such as military, healthcare and Navy Federal.",
+          "signals": [
+            "professional_job_market_feels_narrow",
+            "military_is_major_economic_anchor"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.67,
+          "confidence": 0.72,
+          "evidence": "The regional economy has meaningful military, healthcare, retail, hospitality, administrative and service employment rather than a single commodity cycle.",
+          "signals": [
+            "military_is_major_economic_anchor",
+            "professional_job_market_feels_narrow"
+          ]
+        },
+        "remote_work_viability": {
+          "value": 0.8,
+          "confidence": 0.56,
+          "evidence": "Relocation discussions repeatedly identify Pensacola as more attractive when a newcomer brings a remote salary, while airport access supports outside connections.",
+          "signals": [
+            "strong_air_service_for_city_scale",
+            "local_wages_lag_costs"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.34,
+          "confidence": 0.66,
+          "evidence": "Typical trips are not described as major-metro commutes, but bridge, beach and base-related corridors can produce concentrated delays.",
+          "signals": [
+            "seasonal_beach_traffic_is_noticeable",
+            "car_required_for_most_daily_life"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.29,
+          "confidence": 0.8,
+          "evidence": "The dominant affordability complaint is that ordinary local compensation has not kept pace with housing, insurance and living costs.",
+          "signals": [
+            "local_wages_lag_costs",
+            "housing_no_longer_feels_cheap"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.55,
+          "confidence": 0.66,
+          "evidence": "Tourism strongly affects beaches, bridges and warm-season rhythms but does not dominate the entire city economy in the way it does in Destin.",
+          "signals": [
+            "seasonal_beach_traffic_is_noticeable",
+            "military_is_major_economic_anchor"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.57,
+          "confidence": 0.7,
+          "evidence": "Residents report rising housing demand and redevelopment while city documents show ongoing urban-core investment; the pressure is real despite relatively flat city-proper population.",
+          "signals": [
+            "housing_no_longer_feels_cheap",
+            "downtown_reinvestment_is_visible"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.52,
+          "confidence": 0.72,
+          "evidence": "Absolute housing costs remain below many high-cost coastal markets, but the community's wage-adjusted experience is substantially less affordable.",
+          "signals": [
+            "housing_no_longer_feels_cheap",
+            "local_wages_lag_costs",
+            "insurance_adds_hidden_housing_cost"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.4,
+          "confidence": 0.69,
+          "evidence": "Residents increasingly argue that Pensacola no longer delivers the housing discount they expect from a city of this scale, especially once insurance is included.",
+          "signals": [
+            "housing_no_longer_feels_cheap",
+            "insurance_adds_hidden_housing_cost"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.59,
+          "confidence": 0.4,
+          "evidence": "A detailed resident account describes visible organizations, drag events and longstanding gay venues, but the evidence base is too small for high confidence.",
+          "signals": [
+            "lgbtq_scene_present_but_not_large"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.46,
+          "confidence": 0.4,
+          "evidence": "Dedicated venues and recurring events exist, while residents also identify missing sub-scenes and limited breadth.",
+          "signals": [
+            "lgbtq_scene_present_but_not_large"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.58,
+          "confidence": 0.55,
+          "evidence": "The region offers substantial family infrastructure, but school quality is sufficiently uneven that families frequently choose neighborhoods or adjacent counties around it.",
+          "signals": [
+            "school_reputation_pushes_some_families_outward"
+          ]
+        },
+        "racial_inclusion_climate": {
+          "value": 0.5,
+          "confidence": 0.35,
+          "evidence": "Recent first-person accounts include both broadly ordinary daily experiences and explicit incidents of racism; the small and sometimes inflammatory discourse does not justify moving away from the midpoint.",
+          "signals": [
+            "racial_climate_accounts_are_mixed"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.5,
+          "confidence": 0.61,
+          "evidence": "Pensacola has many organized routes into community, but repeated newcomer threads show that friendships often require deliberate and sustained participation.",
+          "signals": [
+            "friendships_require_active_participation"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.53,
+          "confidence": 0.66,
+          "evidence": "Downtown offers a recognizable bar and music circuit, but choices diminish rapidly outside that circuit and after midnight.",
+          "signals": [
+            "nightlife_exists_but_lacks_big_city_depth"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.34,
+          "confidence": 0.67,
+          "evidence": "Independent threads repeatedly describe the local pool as small or transient, particularly among adults in their 30s.",
+          "signals": [
+            "dating_pool_feels_small_and_transient"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.82,
+          "confidence": 0.7,
+          "evidence": "Naval aviation, Gulf culture, the historic waterfront, beaches and a recognizable downtown produce a local identity that is not easily interchangeable with a generic suburb.",
+          "signals": [
+            "military_is_major_economic_anchor",
+            "exceptional_beach_and_gulf_access",
+            "walkable_downtown_not_walkable_city"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.63,
+          "confidence": 0.55,
+          "evidence": "Residents describe many comfortable neighborhoods but repeatedly stress that conditions can change sharply over short distances.",
+          "signals": [
+            "safety_is_highly_block_specific"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Community discussion did not establish a defensible citywide rental-availability score separate from rental cost.",
+        "discussed_but_unscoreable: Political climate appears frequently in local discourse, but the discussion sampled here was too polarized and contextual to assign political_conservatism or political_heterogeneity responsibly.",
+        "searched_not_found: The research did not produce sufficiently specific evidence on specialist categories that routinely require travel outside Pensacola.",
+        "discussed_but_unscoreable: Religious institutions are visibly part of some social networks, but the evidence does not establish how prominent religion is in ordinary citywide culture.",
+        "searched_not_found: Substance-problem visibility was not established through sufficiently focused community evidence.",
+        "searched_not_found: The pass did not establish a reliable citywide estimate of social_anonymity.",
+        "searched_not_found: Evidence was insufficient to score trailing_spouse_isolation_risk separately from general newcomer social-integration difficulty."
+      ]
     }
   ]
 }
