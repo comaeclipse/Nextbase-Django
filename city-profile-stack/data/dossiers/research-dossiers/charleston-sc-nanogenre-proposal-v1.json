@@ -1,0 +1,227 @@
+{
+  "city": "Charleston",
+  "state": "SC",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "Charleston, South Carolina — Nanogenre Classification Proposal v1",
+  "summary": "Ninth genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process, the tenth classified city overall (triggering the batch-of-10 review), and the flagged genre-neighbor test for the Savannah+Mobile coastal-port bundle — which it passes: the walkable-core/car-dependent coastal-port vocabulary appears in a third independent city, meeting the micro floor of 3 while simultaneously tripping the prevalence caps through deliberately correlated selection. Official/structural evidence (Census QuickFacts city+county, BLS Charleston OEWS, MUSC Level I trauma, Ralph H. Johnson 1A tertiary VA, city flood strategy and Water Plan, CHS airport operations) reconciled against the same research pass's community-sentiment evidence, with the three-city discovery-gradient hypothesis (Charleston polished/discovered, Savannah being discovered, Mobile less discovered) preserved and quantified.",
+  "narrative_file": "charleston-sc-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-21",
+  "relationship_to_prior_dossier": "Companion to charleston-sc.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Per KNOWLEDGE_MODEL.md L0 (append-only), both are preserved as separate dossier artifacts.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_23_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "census_quickfacts_city_and_county_verified_verbatim_in_a_real_browser_value_509700_rent_1722_income_92414_commute_24_2_pop_159423_plus_5_8_pct_county_436200_plus_6_8_pct_accommodation_food_1_55b_city_3_29b_county_all_exact",
+      "bls_charleston_oews_verified_verbatim_in_a_real_browser_mean_wage_30_89_vs_33_54_food_service_11_5_pct_at_15_85_all_exact",
+      "musc_only_acs_level_1_verified_trauma_center_in_the_lowcountry_and_va_1a_155_bed_tertiary_teaching_hospital_verified_verbatim",
+      "city_flood_strategy_13_inches_sea_level_rise_in_100_years_and_flooding_more_frequently_than_ever_verified_verbatim_water_plan_scope_confirmed",
+      "chs_airport_cy2025_passengers_verified_from_the_ops_summary_pdf_3167903_deplaned_plus_3173242_enplaned_equals_6341145_exact_nonstops_seattle_toronto_seasonal_cancun_confirmed",
+      "app_va_sync_data_for_location_160_agrees_nearest_va_kind_hospital_matching_the_in_city_tertiary_vamc",
+      "seven_question_reconciliation_table_with_divergences_held_not_averaged"
+    ],
+    "limitations": [
+      "delivered_block_2_source_urls_arrived_as_parenthesized_markdown_links_with_tracking_parameters_normalized_mechanically_flagged",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "charleston_vs_mobile_community_evidence_much_thinner_than_charleston_vs_savannah_three_city_hypothesis_explicitly_provisional",
+      "racial_inclusion_climate_unscored_across_all_three_coastal_family_cities_a_corpus_level_gap"
+    ],
+    "gaps": [
+      "the_coastal_family_meets_the_micro_floor_of_3_while_tripping_the_15_pct_nano_and_25_pct_micro_caps_at_30_pct_prevalence_a_selection_bias_artifact_for_the_batch_of_10_review",
+      "the_discovery_gradient_family_plus_stage_traits_vs_sibling_nanogenres_modeling_question_is_the_reviewers",
+      "greenville_the_in_state_inland_counterfactual_is_unresearched",
+      "school_performance_and_parcel_level_flood_insurance_evidence_outside_this_pass"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/charlestoncountysouthcarolina,charlestoncitysouthcarolina/PST045225",
+    "https://www.census.gov/quickfacts/fact/table/charlestoncitysouthcarolina/INC110223",
+    "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_charleston.htm",
+    "https://medicine.musc.edu/departments/surgery/divisions/acute-care-trauma-burn/trauma-center",
+    "https://www.va.gov/charleston-health-care/about-us/",
+    "https://www.charleston-sc.gov/2818/Charleston-Water-Plan-Comprehensive-Inte",
+    "https://charleston-sc.gov/1981/Flooding-Sea-Level-Rise-Strategy",
+    "https://iflychs.com/nonstopdestinations/",
+    "https://iflychs.com/wp-content/uploads/2026/01/Ops-Summary-DEC2025_508.pdf",
+    "https://www.reddit.com/r/Charleston/comments/15of5hw/",
+    "https://www.reddit.com/r/Charleston/comments/1m8hv04/",
+    "https://www.reddit.com/r/Charleston/comments/1osldh0/",
+    "https://www.reddit.com/r/Charleston/comments/166a6qx/",
+    "https://www.reddit.com/r/Charleston/comments/1qzab7a/is_there_anywhere_in_us_like_old_school_charleston/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1co96a3/so_hows_charleston_sc/",
+    "https://www.reddit.com/r/savannah/comments/1cyiyp0/savannah_vs_charleston/",
+    "https://www.reddit.com/r/MobileAL/comments/1rd3w0q/worth_it/"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Historic Coastal Regional Hub",
+        "Tourism-Pressured Lifestyle City",
+        "Growing Sunbelt Coastal Metro"
+      ],
+      "micro_primary": "Historic Coastal Regional Hub Under Tourism-and-Growth Pressure",
+      "micro_secondary": [
+        "Amenity-Rich Coastal Lifestyle City With Local-Wage Mismatch",
+        "Walkable-Core Car-Dependent Coastal Metro"
+      ],
+      "nano_primary": {
+        "label": "Polished Historic Coastal Hub With Beach Access, Medical Depth, and Growth Friction",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "Tourism-Pressured Coastal Lifestyle City With Local-Wage Housing Mismatch",
+          "confidence": "high"
+        },
+        {
+          "label": "Walkable-Core Car-Dependent Historic Port City",
+          "confidence": "high"
+        },
+        {
+          "label": "Water-Rich Summer-Limited Coastal City With Chronic Flood Adaptation",
+          "confidence": "high"
+        }
+      ],
+      "one_sentence_description": "Charleston is a highly distinctive historic coastal hub whose unusually deep food, medical, airport and water-access amenities increasingly collide with tourism, housing costs, summer climate, flood adaptation and transportation constraints.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Per NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1, admission requires 2 independently-researched cities for nano, 3 for micro, 5 for broad. EIGHT RECURRENCE OBSERVATIONS, doubling as the BATCH-OF-10 REVIEW AGENDA (Charleston is the tenth classified city): (1) The coastal walkable-core/car-dependent bundle reaches THREE cities (Savannah, Mobile, Charleston) -- micro floor of 3 met, but 30% prevalence trips both the 15% nano cap and the 25% micro cap, for the same reason the interior service-hub family tripped its cap: deliberately correlated selection in a tiny corpus. The review should treat both families' prevalence as selection-bias artifacts and either defer cap enforcement or use a selection-adjusted denominator. (2) The three coastal cities form a DISCOVERY GRADIENT, not copies: tourism_pressure 0.91/0.88/lower, housing_affordability 0.18/0.48/0.67, specialist care 0.86/0.52/abstained -- the modeling question for the reviewer is one family with position/stage traits versus three sibling nanogenres. (3) The wage-housing squeeze reaches EIGHT of ten cities; Charleston is its price-side extreme (local_wage_adequacy 0.24, housing_affordability 0.18), Mobile its wage-side extreme -- trait, not genre, is settled. (4) The healthcare capacity-vs-navigability family reaches FOUR cities with Charleston the sharpest (0.86 capacity vs 0.35 navigability); the all-agree navigability prediction confirmed for the THIRD consecutive pass -- navigability friction generalizes, capacity is lumpy. (5) Charleston INVERTS the low-commute family: first high-commute-burden metro (0.78 vs 0.48 predicted), shape = corridor fragility (moderate 24.2-min average, severe bridge-corridor tail risk) -- the metro-scale chokepoint pattern (Cajon Pass, Bayway). (6) Falsification 4 of 33; humidity prediction converging across humid-coastal passes (0.33 -> 0.41 -> 0.48) but still falsified at 0.95; tourism error shrinking; new misses are the MUSC/VA institutional lump and the commute inversion. (7) Interior service-hub prevalence falls to 50%. (8) VA cross-check clean: Ralph H. Johnson 1A 155-bed tertiary teaching hospital, and the app's VA data for location 160 already says nearest_va_kind=hospital."
+    },
+    "reconciliation": [
+      {
+        "question": "Is Charleston simply expensive, or specifically expensive relative to the people who work there?",
+        "measured_evidence": "Census QuickFacts reports a 2020-2024 median owner-occupied home value of $509,700, median gross rent of $1,722 and median household income of $92,414. BLS reports a May 2025 metro mean wage of $30.89 per hour versus $33.54 nationally; food preparation and serving accounts for 11.5% of local employment and averages $15.85 per hour. Sources: https://www.census.gov/quickfacts/fact/table/charlestoncitysouthcarolina/INC110223 ; https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_charleston.htm",
+        "experienced_evidence": "Residents repeatedly describe the central problem as local salaries failing to catch up with housing costs, including nurses and moderate-income workers rather than only downtown luxury buyers. Source: https://www.reddit.com/r/Charleston/comments/15of5hw/",
+        "resulting_trait": "High-amenity coastal housing market with a pronounced local-wage affordability mismatch."
+      },
+      {
+        "question": "Is traffic genuinely severe if the average commute is only moderate?",
+        "measured_evidence": "Census QuickFacts gives Charleston city workers a mean commute of 24.2 minutes for 2020-2024, which by itself does not look extreme. Source: https://www.census.gov/quickfacts/fact/table/charlestoncitysouthcarolina/POP715224",
+        "experienced_evidence": "Residents describe severe bad-day variability on bridge and interstate corridors and routinely advise movers to choose housing around workplace location. Source: https://www.reddit.com/r/Charleston/comments/1m8hv04/",
+        "resulting_trait": "Moderate average commute with high corridor-specific tail risk: transportation pain is more about bottleneck unpredictability than universally long distance."
+      },
+      {
+        "question": "Does Charleston have good healthcare if residents complain about getting appointments?",
+        "measured_evidence": "MUSC operates 'the only ACS Level 1 verified Trauma Center in the Lowcountry.' The Ralph H. Johnson VA system describes its Charleston facility as a '1A 155 bed tertiary care teaching hospital' serving 85,000 veterans across a 22-county South Carolina/Georgia coastal region. Sources: https://medicine.musc.edu/departments/surgery/divisions/acute-care-trauma-burn/trauma-center ; https://www.va.gov/charleston-health-care/about-us/",
+        "experienced_evidence": "Residents comparing Charleston with Savannah often identify healthcare depth as a Charleston advantage, while local primary-care threads describe waits of several months and difficult new-patient scheduling. Sources: https://www.reddit.com/r/savannah/comments/1cyiyp0/savannah_vs_charleston/ ; https://www.reddit.com/r/Charleston/comments/1osldh0/",
+        "resulting_trait": "High specialist and tertiary-care capacity paired with mediocre routine-care navigability; institutional depth and appointment accessibility diverge."
+      },
+      {
+        "question": "Is Charleston's flood reputation mostly hurricane anxiety?",
+        "measured_evidence": "The City Water Plan is explicitly designed to 'manage flood risks from tides, sea level rise, stormwater, storm surge & groundwater.' The city's flood strategy says Charleston 'is experiencing flooding more frequently than ever' and cites 13 inches of sea-level rise in the past 100 years (NOAA tide-gauge data), with roughly half of that in the last 20 years. Sources: https://www.charleston-sc.gov/2818/Charleston-Water-Plan-Comprehensive-Inte ; https://charleston-sc.gov/1981/Flooding-Sea-Level-Rise-Strategy",
+        "experienced_evidence": "Residents discuss ordinary high-tide and heavy-rain flooding separately from hurricanes and repeatedly emphasize that exposure changes block by block. Source: https://www.reddit.com/r/Charleston/comments/166a6qx/",
+        "resulting_trait": "Water is simultaneously a core amenity and a routine planning constraint; flood adaptation is structural to Charleston's identity rather than an occasional disaster overlay."
+      },
+      {
+        "question": "Is the perception of rapid growth supported by measured change?",
+        "measured_evidence": "Census estimates Charleston city's population at 159,423 in 2025, up 5.8% from its 2020 estimates base; the 2020 Census counted 150,227 residents versus 120,083 in 2010. Charleston County reached an estimated 436,200 in 2025, 6.8% above its 2020 base. Source: https://www.census.gov/quickfacts/fact/table/charlestoncountysouthcarolina,charlestoncitysouthcarolina/PST045225",
+        "experienced_evidence": "Long-term residents frequently connect growth with traffic, housing costs, crowded beaches and a more commercialized version of Charleston, although a minority explicitly disputes the idea that the city has substantially deteriorated. Source: https://www.reddit.com/r/Charleston/comments/1qzab7a/is_there_anywhere_in_us_like_old_school_charleston/",
+        "resulting_trait": "Objectively fast-growing metro with contested cultural interpretation: growth is real, while whether it constitutes decline is a lived-experience disagreement."
+      },
+      {
+        "question": "Is Charleston's visitor-city character large enough to shape the economy?",
+        "measured_evidence": "Census QuickFacts reports roughly $1.55 billion in accommodation and food-services sales inside Charleston city in 2022 ($1,549,699K) and about $3.29 billion across Charleston County ($3,294,991K). Source: https://www.census.gov/quickfacts/fact/table/charlestoncountysouthcarolina,charlestoncitysouthcarolina/PST045225",
+        "experienced_evidence": "Residents repeatedly complain that tourism shapes congestion, downtown rhythms and the city's increasingly polished destination aesthetic. Source: https://www.reddit.com/r/SameGrassButGreener/comments/1co96a3/so_hows_charleston_sc/",
+        "resulting_trait": "Tourism pressure is both structurally large and experientially visible; it is not merely a perception generated by living near a few attractions."
+      },
+      {
+        "question": "Does a city this size have unusually strong external access?",
+        "measured_evidence": "Charleston International handled 6,341,145 arriving and departing passengers in calendar 2025 (3,167,903 deplaned + 3,173,242 enplaned per the airport's December 2025 operations summary). Its current nonstop network spans 50+ destinations including Seattle (daily, Alaska), seasonal Toronto (Air Canada) and less-than-daily Cancun (Breeze); the airport is about 12 miles from downtown. Sources: https://iflychs.com/nonstopdestinations/ ; https://iflychs.com/wp-content/uploads/2026/01/Ops-Summary-DEC2025_508.pdf",
+        "experienced_evidence": "Air access is not a major complaint in the relocation discourse, which itself contrasts with the intense discussion of road congestion and housing.",
+        "resulting_trait": "Strong air connectivity for a midsize coastal city exists alongside weak everyday non-car mobility -- a notable access split rather than a uniformly accessible transportation system."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "amenity_wealth_vs_local_wage_reality",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Median home value $509,700 and rent $1,722 against a metro mean wage of $30.89/hr (below the $33.54 national mean), with food service at 11.5% of employment averaging $15.85/hr.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Nurses, families and moderate earners repeatedly question whether local salaries support ordinary housing; a dedicated relocation thread seeks 'affordable Charleston substitutes' out of love for the city, not dislike.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Amenity value and wage adequacy measure different things; both poles hold. The wage-housing squeeze now appears in eight of ten classified cities, with Charleston its price-side extreme (local_wage_adequacy 0.24) and Mobile its wage-side extreme. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "medical_capacity_vs_navigability",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "The Lowcountry's only ACS Level I trauma center plus a 1A 155-bed tertiary VA teaching hospital -- the deepest institutional medicine in the corpus's coastal family.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "A dedicated thread asks why MUSC's wait times are 'insane'; residents describe months-long new-patient waits and difficult scheduling.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Capacity and patient-level access measure different things; both poles hold. Fourth city in the capacity-vs-navigability family (after North Platte, Grand Junction, Savannah) and the sharpest expression (0.86 vs 0.35). The all-sources-agree navigability prediction has now been confirmed three passes running. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "moderate_average_commute_vs_corridor_fragility",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Mean travel time to work is an unremarkable 24.2 minutes.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Bridge and interstate corridors produce severe bad-day variability; movers are told to choose housing around workplace geometry because a wreck on a bridge can dominate the day.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Average and tail risk measure different things. Charleston inverts the corpus's low-commute-vs-car-dependence family (first high-commute-burden metro, 0.78) and generalizes the chokepoint pattern (Cajon Pass, Bayway) to metro scale. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "walkable_core_vs_car_dependent_metro",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "The historic peninsula is one of the clearest pedestrian cores among comparably sized Southeastern cities, inside a 114.76-square-mile city and a 918-square-mile county.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents explicitly limit walkability claims to parts of downtown and describe the wider metro as overwhelmingly car-oriented.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Core and metro are different pedestrian environments. This is the third independent city carrying the Savannah/Mobile walkable-core/car-dependent-outer coastal bundle -- the recurrence that takes the family to the micro floor. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "water_as_amenity_vs_water_as_hazard",
+        "poles": [
+          {
+            "perspective": "lived_amenity",
+            "claim": "Beaches, boating, fishing, paddling and marsh scenery are among the most consistent reasons people choose Charleston (water_recreation_access 0.95).",
+            "status": "present"
+          },
+          {
+            "perspective": "measured_hazard",
+            "claim": "The city's own strategy says flooding is more frequent than ever, with 13 inches of sea-level rise in a century and a Water Plan built around tides, surge, stormwater and groundwater (severe_storm_risk 0.84).",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "The same geography is simultaneously the city's core amenity and its structural planning constraint; neither pole reduces the other. Distinctively Charleston: no prior corpus city carries both poles this strongly. Maps to board Divergence Flag = Minor."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-21",
+      "method": "All 23 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles -- the cleanest Reddit set of the nine passes. Structural: Census QuickFacts (city+county table) loaded in a real browser with every cited figure re-read verbatim ($509,700 value; $1,722 rent; $92,414 income; 24.2-minute commute; 159,423 pop 2025; +5.8%; 150,227 in 2020; 120,083 in 2010; county 436,200 and +6.8%; accommodation/food $1,549,699K city and $3,294,991K county -- all exact); BLS Charleston-North Charleston OEWS loaded in a real browser ($30.89 vs $33.54; food service 11.5% at $15.85 -- all exact); MUSC's trauma page confirmed 'the only ACS Level 1 verified Trauma Center in the Lowcountry'; va.gov confirmed the Ralph H. Johnson facility as a '1A 155 bed tertiary care teaching hospital' serving 85,000 veterans across 22 SC/GA counties, and the app's own VA sync data for location 160 agrees (nearest_va_kind=hospital); the city flood strategy confirmed '13 inches of sea level rise in the past 100 years' and 'flooding more frequently than ever,' and the Water Plan page confirmed the tides/sea-level/stormwater/surge/groundwater scope; the CHS December 2025 operations summary PDF was parsed directly and its totals row (3,167,903 deplaned + 3,173,242 enplaned) sums exactly to the cited 6,341,145 CY2025 passengers, with the nonstop page confirming Seattle (daily, Alaska), seasonal Toronto (Air Canada) and less-than-daily Cancun (Breeze). DELIVERY DEFECT: Block 2 source_urls arrived as parenthesized markdown links with utm tracking parameters -- normalized mechanically to bare URLs; Block 2 signal details were otherwise clean this pass.",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links across the pass."
+    }
+  }
+}
