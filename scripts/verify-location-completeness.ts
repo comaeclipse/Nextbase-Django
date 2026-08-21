@@ -35,7 +35,12 @@ function hasValue(value: unknown): boolean {
 function allowsMissingMeiScore(row: Record<string, unknown>): boolean {
   const rating = String(row.lgbtq_rating ?? "").toLowerCase();
   const source = String(row.lgbtq_score_source ?? "").toLowerCase();
-  return rating.includes("not rated") || source.includes("not rated");
+  return (
+    rating.includes("not rated") ||
+    rating.includes("not hrc rated") ||
+    source.includes("not rated") ||
+    source.includes("did not rate")
+  );
 }
 
 async function main() {
