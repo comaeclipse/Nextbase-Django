@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import {
   getActiveEmployers,
   getAllLocations,
@@ -5,6 +6,7 @@ import {
   getEmployerIndex,
   getMilitaryProximityIndex,
 } from "@/lib/locations";
+import { PROFILE_COOKIE_NAME, decodePreferences } from "@/lib/profile";
 import { calculateBaselineScore } from "@/lib/scoring";
 import { computeStateCounts } from "@/lib/filters";
 import type { Location } from "@/lib/types";
@@ -19,15 +21,29 @@ export default async function ExplorePage({
 }: {
   searchParams: Promise<{ state_filter?: string | string[] }>;
 }) {
-  const [rows, stateInfos, employers, employerIndex, militaryIndex, params] =
-    await Promise.all([
+  const [
+    rows,
+    stateInfos,
+    employers,
+    employerIndex,
+    militaryIndex,
+    params,
+    cookieStore,
+  ] = await Promise.all([
     getAllLocations(),
     getAllStateInfo(),
     getActiveEmployers(),
     getEmployerIndex(),
     getMilitaryProximityIndex(),
     searchParams,
+    cookies(),
   ]);
+
+  // Saved dealbreakers from /profile. Decoded here so the grid is already
+  // personalized on first paint rather than flashing the unfiltered list.
+  const preferences = decodePreferences(
+    cookieStore.get(PROFILE_COOKIE_NAME)?.value
+  );
   const locations: Location[] = rows.map((r) => ({
     ...r,
     calculated_match_score: calculateBaselineScore(r),
@@ -61,6 +77,7 @@ export default async function ExplorePage({
       employers={employers}
       employerIndex={employerIndex}
       militaryIndex={militaryIndex}
+      preferences={preferences}
     />
   );
 }

@@ -1,10 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import type { DefenseEmployerRow, Location, StateInfoRow } from "@/lib/types";
 import type { EmployerIndex } from "@/lib/defense";
 import type { MilitaryProximityIndex } from "@/lib/military";
 import { filterAndSort, type FilterParams } from "@/lib/filters";
+import {
+  applyPreferenceFloor,
+  describePreferences,
+  hasActivePreferences,
+  type SitePreferences,
+} from "@/lib/profile";
 import ExploreFilterBar, {
   DEFAULT_FILTERS,
   type ChipKey,
@@ -33,6 +40,7 @@ export default function ExploreClient({
   employers,
   employerIndex,
   militaryIndex = {},
+  preferences = null,
 }: {
   initialLocations: Location[];
   stateInfos: StateInfoRow[];
@@ -41,6 +49,8 @@ export default function ExploreClient({
   employers: DefenseEmployerRow[];
   employerIndex: EmployerIndex;
   militaryIndex?: MilitaryProximityIndex;
+  /** Saved dealbreakers from /profile, applied as a floor under the filter bar. */
+  preferences?: SitePreferences | null;
 }) {
   const [filters, setFilters] = useState<ExploreFilters>({
     ...DEFAULT_FILTERS,
@@ -147,7 +157,7 @@ export default function ExploreClient({
     // Price inputs are free text elsewhere in the app, so scrape digits.
     const pmin = filters.priceMin.match(/\d+/);
     const pmax = filters.priceMax.match(/\d+/);
-    return {
+    const sessionParams: FilterParams = {
       snow: filters.snow || null,
       no_awb: filters.noAwb ? "true" : null,
       no_hcm: filters.noHcm ? "true" : null,
@@ -185,7 +195,20 @@ export default function ExploreClient({
       has_costco: filters.hasCostco ? "true" : null,
       sort: filters.sort === "headroom_desc" ? "best" : filters.sort,
     };
-  }, [filters]);
+    // Saved preferences are a floor, not a default: the filter bar can narrow
+    // further but can never widen past a dealbreaker the visitor saved.
+    return preferences
+      ? applyPreferenceFloor(sessionParams, preferences)
+      : sessionParams;
+  }, [filters, preferences]);
+
+  const profileConstraints = useMemo(
+    () =>
+      preferences && hasActivePreferences(preferences)
+        ? describePreferences(preferences)
+        : [],
+    [preferences]
+  );
 
   const filtered = useMemo(
     () =>
@@ -264,11 +287,25 @@ export default function ExploreClient({
             </p>
           </div>
 
+          {profileConstraints.length > 0 ? (
+            <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2 text-sm">
+              <span className="font-medium">Your profile is applied:</span>
+              <span className="text-muted-foreground">
+                {profileConstraints.join(" · ")}
+              </span>
+              <Link href="/profile" className="ml-auto underline">
+                Change
+              </Link>
+            </div>
+          ) : null}
+
           {annotated.length === 0 ? (
             <div className="grid place-items-center gap-2 rounded-2xl border border-dashed bg-background p-12 text-center">
               <p className="font-medium">No locations match those filters</p>
               <p className="text-sm text-muted-foreground">
-                Try clearing a filter or widening your budget.
+                {profileConstraints.length > 0
+                  ? "Try clearing a filter, widening your budget, or loosening your profile."
+                  : "Try clearing a filter or widening your budget."}
               </p>
             </div>
           ) : (

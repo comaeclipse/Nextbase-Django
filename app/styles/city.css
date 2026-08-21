@@ -82,6 +82,23 @@ body:has(> .city-page) { background: var(--bg); }
 .breadcrumb .icon { width: .9rem; height: .9rem; color: var(--fg-subtle); }
 .breadcrumb .current { color: var(--fg); font-weight: 600; }
 
+/* ── Saved-profile conflict notice ──
+   Additive to the ported sheet: shown only when /profile preferences rule this
+   city's state out. Bare class selector, matching the convention above — this
+   stylesheet is imported by the /city/[id] route only. */
+.profile-conflict {
+    max-width: 1200px; margin: 1rem auto 0; padding: .9rem 1.1rem;
+    width: calc(100% - 10%);
+    border: 1px solid var(--warn); border-radius: var(--radius-sm);
+    background: var(--warn-soft); color: var(--fg);
+    font-size: .875rem;
+}
+.profile-conflict strong { display: block; margin-bottom: .35rem; }
+.profile-conflict ul { margin: 0 0 .5rem 1.1rem; list-style: disc; }
+.profile-conflict li { margin: .15rem 0; color: var(--fg-muted); }
+.profile-conflict a { color: var(--primary); font-weight: 600; }
+.profile-conflict a:hover { text-decoration: underline; }
+
 /* ── Hero ── */
 .hero-wrap { max-width: 1200px; margin: 1rem auto 0; padding: 0 5%; }
 .hero {

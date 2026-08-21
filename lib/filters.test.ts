@@ -115,6 +115,44 @@ describe("retail access filters", () => {
   });
 });
 
+describe("gun_freedom_min filter", () => {
+  // Index values come from the curated rubric in lib/state-gun-freedom.ts:
+  // ID 99, TX 95, CO 51, CA 3. "ZZ" is absent from it on purpose.
+  const rows = [
+    loc({ id: 1, name: "Boise", state: "ID" }),
+    loc({ id: 2, name: "Austin", state: "TX" }),
+    loc({ id: 3, name: "Denver", state: "CO" }),
+    loc({ id: 4, name: "Fresno", state: "CA" }),
+    loc({ id: 5, name: "Nowhere", state: "ZZ" }),
+  ];
+
+  it("keeps only states at or above the floor", () => {
+    const result = filterAndSort(rows, [], { gun_freedom_min: "90" });
+    expect(result.map((l) => l.name).sort()).toEqual([
+      "Austin",
+      "Boise",
+      "Nowhere",
+    ]);
+  });
+
+  it("keeps a state the index has no entry for rather than dropping it", () => {
+    // Consistent with the three-valued DB columns: unknown is not "fails".
+    const result = filterAndSort(rows, [], { gun_freedom_min: "100" });
+    expect(result.map((l) => l.name)).toContain("Nowhere");
+  });
+
+  it("treats the exact floor as passing", () => {
+    const result = filterAndSort(rows, [], { gun_freedom_min: "95" });
+    expect(result.map((l) => l.name)).toContain("Austin");
+  });
+
+  it("ignores a missing or non-numeric value instead of filtering", () => {
+    expect(filterAndSort(rows, [], {})).toHaveLength(5);
+    expect(filterAndSort(rows, [], { gun_freedom_min: "abc" })).toHaveLength(5);
+    expect(filterAndSort(rows, [], { gun_freedom_min: "" })).toHaveLength(5);
+  });
+});
+
 describe("veteran-benefit filters (state-level)", () => {
   // TX: no income tax at all. VA: partial retired-pay exemption + disabled-vet
   // property tax. NE: retired pay fully exempt. CA: taxed, no property benefit.
