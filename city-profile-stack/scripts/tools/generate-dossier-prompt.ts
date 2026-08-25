@@ -16,6 +16,7 @@
  * Regenerating from FEATURES means the prompt cannot be wrong. Run it fresh for
  * every dossier request.
  */
+import { readFileSync } from "node:fs";
 import { FEATURES, type FeatureCategory } from "../../lib/ontology";
 
 const city = process.argv.slice(2).find((a) => !a.startsWith("--"));
@@ -58,6 +59,27 @@ function vocabulary(): string {
 
 const sensitive = FEATURES.filter((f) => f.sensitive).map((f) => `\`${f.key}\``).join(", ");
 
+// BLOCK 4 is governed by docs/NANOGENRE_TAXONOMY.md §1-3, but the external
+// research model cannot read this repo, so those sections travel inside the
+// prompt as an appendix. They are read from the doc at generation time, not
+// pasted here, for the same reason the vocabulary comes from FEATURES: a
+// hand-maintained copy drifts the moment the doc changes.
+const TAXONOMY_DOC = "city-profile-stack/docs/NANOGENRE_TAXONOMY.md";
+let taxonomyDoc: string;
+try {
+  taxonomyDoc = readFileSync(TAXONOMY_DOC, "utf8");
+} catch {
+  console.error(`Cannot read ${TAXONOMY_DOC} — Block 4 has no governing appendix without it. Run from the repo root, on a checkout that contains the taxonomy doc.`);
+  process.exit(1);
+}
+const excerptStart = taxonomyDoc.indexOf("## 1.");
+const excerptEnd = taxonomyDoc.indexOf("## 4.");
+if (excerptStart === -1 || excerptEnd <= excerptStart) {
+  console.error(`Could not locate sections 1-3 in ${TAXONOMY_DOC}; refusing to emit a prompt whose Block 4 has no governing appendix.`);
+  process.exit(1);
+}
+const taxonomyExcerpt = taxonomyDoc.slice(excerptStart, excerptEnd).trimEnd();
+
 console.log(`**TARGET CITY: ${city}**
 
 You are producing a research dossier on the target city for a relocation-analysis
@@ -70,7 +92,7 @@ subreddit, relocation threads, comparison threads), plus any first-hand resident
 you can locate. Where you use non-community sources (election results, a facility's own
 website, state tax policy, municipal ordinances), label them differently via evidence_kind.
 
-Return exactly three blocks, in this order, with nothing between them but the headings.
+Return exactly four blocks, in this order, with nothing between them but the headings.
 
 ---
 
@@ -239,4 +261,81 @@ research pass never asked about it; that was recorded as "the community does not
 climate", which was false and became a stored fact about the city. **Absence of a topic in
 your dossier is evidence about your research, not about the community.**
 
-The gaps list is as valuable as the features. Do not pad it and do not skip it.`);
+The gaps list is as valuable as the features. Do not pad it and do not skip it.
+
+---
+
+## BLOCK 4 — Genre classification proposal
+
+Blocks 1-3 are community-sentiment evidence. This block additionally requires
+**official/structural evidence** — Census/ACS, BLS, NWS climate normals, FAA/DOT where
+relevant, and the city's own planning documents — because the reconciliation table below
+only works if there is real measured evidence to check the community sentiment against.
+Cite every structural figure with a source URL, same as Blocks 1-3.
+
+This block is governed by the **appendix at the end of this prompt** — a verbatim excerpt
+of the project's taxonomy governance doc covering what a genre is (as opposed to a trait),
+the three-level hierarchy, and the six admission rules with their per-level thresholds.
+Read it before writing this block — do not invent a genre label without checking it
+against all six criteria.
+
+Emit a single JSON object:
+
+\`\`\`json
+{
+  "city": "<City>",
+  "state": "<Two-letter USPS abbreviation>",
+  "genre_classification_proposed": {
+    "broad": ["<0-4 broad-genre labels this city plausibly belongs to>"],
+    "micro_primary": "<the single best-fit microgenre label>",
+    "micro_secondary": ["<0-3 additional microgenre labels — multi-label membership is expected, not an error>"],
+    "nano_primary": { "label": "<the single best-fit nanogenre label>", "confidence": "very_high | high | medium | low" },
+    "nano_secondary": [
+      { "label": "<additional nanogenre label>", "confidence": "very_high | high | medium | low" }
+    ],
+    "one_sentence_description": "<the whole classification compressed into one sentence a resident would recognize>"
+  },
+  "reconciliation": [
+    {
+      "question": "<a plain-language question the classification depends on, e.g. 'Is there anything to do?'>",
+      "measured_evidence": "<what the official/structural sources say, with citation>",
+      "experienced_evidence": "<what community sentiment says, with citation>",
+      "resulting_trait": "<the reconciled trait — do NOT average or pick a winner if they diverge; name the divergence itself if there is one>"
+    }
+  ],
+  "gaps": [
+    "Anything the classification could not establish, same spirit and prefix discipline as Block 3's gaps list."
+  ]
+}
+\`\`\`
+
+Rules that matter most:
+
+1. **A genre label here is a proposal, not an admission.** Per the appendix's admission
+   rules (§3), a nanogenre needs 2 independently-researched cities before it enters the
+   real taxonomy (3 for microgenre, 5 for broad genre). Do not claim or imply this city's
+   labels are already part of an approved taxonomy — they are this city's evidence-based
+   candidate, to be compared against other cities' proposals later.
+2. **Hold divergence, don't average it.** If measured and experienced evidence disagree
+   (e.g. an active events calendar vs. residents calling nightlife thin), both sides of
+   \`reconciliation\` must stay visible in \`resulting_trait\` as a named divergence — never
+   collapse it into a single tidy score. This is the single most valuable output of this
+   block; do not smooth it away for a cleaner-looking table.
+3. **A genre bundle, not a checklist match.** A genre label is defensible only if it names
+   a *recurring co-occurring bundle* of traits with real explanatory value — "why this city
+   feels the way it does," not a restatement of one Block 3 feature. If a distinction is
+   real but doesn't rise to a bundle, it belongs in Block 3 as a feature, not here as a genre.
+4. **Confidence reflects evidence strength, same discipline as Block 3.** \`very_high\` needs
+   multiple independent measured *and* experienced sources agreeing; \`low\` means one thin
+   or contested source drove the label.
+
+---
+
+## APPENDIX — Taxonomy excerpt (governs Block 4)
+
+The following is reproduced verbatim from the project's taxonomy governance doc
+(\`${TAXONOMY_DOC}\`), sections 1-3. Where it cites material not included here
+(other sections, KNOWLEDGE_MODEL.md, the wiki, the project board), treat those as
+background references — everything Block 4 needs is in the text below.
+
+${taxonomyExcerpt}`);
