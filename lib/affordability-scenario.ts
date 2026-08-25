@@ -3,7 +3,13 @@
  * page, and the chat estimator so the same mix of income, tenure, and spending
  * profile drives every surface.
  */
-import type { HealthCoverage, Tenure, SpendingProfile } from "./affordability";
+import type {
+  HealthCoverage,
+  QuickCheck,
+  QuickVerdict,
+  SpendingProfile,
+  Tenure,
+} from "./affordability";
 import type { FilingStatus, IncomeKind, IncomeSource } from "./income";
 import { COST_CONSTANTS } from "./cost-constants";
 import { TAX_YEAR } from "./tax-constants";
@@ -186,6 +192,54 @@ export function bandVerdict(
   if (band === "over")
     return "This city costs more than your estimated take-home — the numbers don't work at this income.";
   return "We can't price this city yet, so there's no verdict.";
+}
+
+/** Chip/badge label for a quick-check verdict. */
+export function quickVerdictLabel(verdict: QuickVerdict): string {
+  switch (verdict) {
+    case "way_out_of_range":
+      return "Way out of range";
+    case "probably_too_expensive":
+      return "Probably too expensive";
+    case "very_tight":
+      return "Very tight";
+    case "in_the_ballpark":
+      return "In the ballpark";
+    case "comfortable":
+      return "Comfortable range";
+  }
+}
+
+/**
+ * One plain sentence per quick-check verdict. Like bandVerdict, presentation
+ * only — the metric lives in lib/affordability.ts. Magnitude (shortfall,
+ * distance to comfortable) is rendered separately by the caller so these
+ * sentences stay reusable across cities.
+ */
+export function quickVerdictCopy(verdict: QuickVerdict): string {
+  switch (verdict) {
+    case "way_out_of_range":
+      return "Your take-home isn't close to what our model estimates ordinary costs run here.";
+    case "probably_too_expensive":
+      return "A large ongoing shortfall looks likely — most months wouldn't balance.";
+    case "very_tight":
+      return "You'd be near basic costs with essentially no margin for anything unexpected.";
+    case "in_the_ballpark":
+      return "You appear able to cover normal estimated costs here, but your cushion would be smaller than our 20% comfort target.";
+    case "comfortable":
+      return "Your income meets our 20% uncommitted-income target for this city.";
+  }
+}
+
+/**
+ * Secondary personality line for genuinely absurd mismatches (coverage under
+ * 50%). Null otherwise — it decorates the way-out-of-range verdict, it never
+ * replaces it.
+ */
+export function wildestDreamsLine(check: QuickCheck): string | null {
+  if (!check.wildestDreams) return null;
+  const pct = Math.round(check.coverage * 100);
+  return `This one may be in "in your wildest dreams" territory — your take-home is about ${pct}% of what our model estimates ordinary costs run here.`;
 }
 
 export function tenureLabel(tenure: Tenure): string {

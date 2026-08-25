@@ -13,12 +13,17 @@ import {
   estimateMonthlyCost,
   assessAffordability,
   incomeTargets,
+  quickCheck,
   rankByHeadroom,
   type CostEstimate,
   type CostInputs,
   type Tenure,
 } from "./affordability";
-import { resolveCostConstants, type ResolvedConstants } from "./cost-constants";
+import {
+  coupleSliceMultipliers,
+  resolveCostConstants,
+  type ResolvedConstants,
+} from "./cost-constants";
 
 /**
  * Round synthetic constants chosen to make the arithmetic checkable by hand.
@@ -47,6 +52,21 @@ const C: ResolvedConstants = {
   insuranceBenchmarkDwelling: 300_000,
   structureShareOfValue: 0.7,
   nationalUtilitiesMonthly: 400,
+  // Couple interpolation anchors. Both base sizes sit at 1.5, the midpoint,
+  // so every interpolated base is the plain average of the one- and
+  // two-person sums and the multipliers are checkable by hand:
+  // goods 12000/9000 = 4/3, services 9000/7500 = 1.2,
+  // utilities 4500/3750 = 1.2, unscaled 8000/6000 = 4/3.
+  onePerson65GoodsAnnual: 6000,
+  twoPerson65GoodsAnnual: 12000,
+  onePerson65OtherServicesAnnual: 6000,
+  twoPerson65OtherServicesAnnual: 9000,
+  onePerson65UtilitiesAnnual: 3000,
+  twoPerson65UtilitiesAnnual: 4500,
+  onePerson65UnscaledAnnual: 4000,
+  twoPerson65UnscaledAnnual: 8000,
+  modestHouseholdSize: 1.5,
+  typicalHouseholdSize: 1.5,
 };
 
 /**
@@ -363,6 +383,7 @@ describe("assessAffordability", () => {
   const estimate = (cost: number | null): CostEstimate => ({
     spendingProfile: "modest",
     healthCoverage: "medicare_supplement",
+    household: "single",
     monthlyCost: cost,
     housing: 0,
     nonHousing: 0,
@@ -399,6 +420,7 @@ describe("incomeTargets", () => {
   const estimate = (cost: number | null): CostEstimate => ({
     spendingProfile: "modest",
     healthCoverage: "medicare_supplement",
+    household: "single",
     monthlyCost: cost,
     housing: 0,
     nonHousing: 0,
@@ -453,6 +475,220 @@ describe("incomeTargets", () => {
 
   it("returns null for an unpriceable city, mirroring monthlyCost", () => {
     expect(incomeTargets(estimate(null))).toBeNull();
+  });
+});
+
+describe("quickCheck", () => {
+  const estimate = (cost: number | null): CostEstimate => ({
+    spendingProfile: "modest",
+    healthCoverage: "medicare_supplement",
+    household: "single",
+    monthlyCost: cost,
+    housing: 0,
+    nonHousing: 0,
+    nationalFixed: 0,
+    nonHousingIndex: 100,
+    missing: [],
+    approximations: [],
+    missingContext: [],
+  });
+
+  it("assigns the five bands at the documented coverage boundaries", () => {
+    const e = estimate(1000);
+    expect(quickCheck(e, 699)!.verdict).toBe("way_out_of_range");
+    expect(quickCheck(e, 700)!.verdict).toBe("probably_too_expensive");
+    expect(quickCheck(e, 899)!.verdict).toBe("probably_too_expensive");
+    expect(quickCheck(e, 900)!.verdict).toBe("very_tight");
+    expect(quickCheck(e, 999)!.verdict).toBe("very_tight");
+    expect(quickCheck(e, 1000)!.verdict).toBe("in_the_ballpark");
+    expect(quickCheck(e, 1249)!.verdict).toBe("in_the_ballpark");
+    expect(quickCheck(e, 1250)!.verdict).toBe("comfortable");
+  });
+
+  it("REFINES the three-band system: verdict and band can never contradict", () => {
+    // comfortable <-> comfortable, in_the_ballpark <-> tight, and the three
+    // low bands partition over — including at non-round costs and incomes a
+    // hair under cost, where a rounded income/cost ratio would disagree.
+    const mapping: Record<string, string> = {
+      comfortable: "comfortable",
+      in_the_ballpark: "tight",
+      very_tight: "over",
+      probably_too_expensive: "over",
+      way_out_of_range: "over",
+    };
+    for (const cost of [1000, 500.04, 1878.1954, 2537.61]) {
+      const e = estimate(cost);
+      const incomes = [
+        cost * 0.4,
+        cost * 0.7,
+        cost * 0.95,
+        // The FP trap: the largest double strictly below cost. income/cost
+        // rounds to 1.0 here, but the band is unambiguously "over".
+        cost - Math.abs(cost) * Number.EPSILON,
+        cost,
+        cost * 1.1,
+        cost / COMFORT_COST_SHARE,
+        cost * 2,
+      ];
+      for (const income of incomes) {
+        const quick = quickCheck(e, income)!;
+        const band = assessAffordability(e, income).band;
+        expect(mapping[quick.verdict], `cost=${cost} income=${income}`).toBe(
+          band
+        );
+      }
+    }
+  });
+
+  it("reports remaining, cushion, and coverage consistently", () => {
+    const q = quickCheck(estimate(2538), 3000)!;
+    expect(q.remaining).toBe(462);
+    expect(q.cushion).toBeCloseTo(462 / 3000, 6);
+    expect(q.coverage).toBeCloseTo(3000 / 2538, 6);
+    expect(q.verdict).toBe("in_the_ballpark");
+    // Distance to comfortable matches the ceiled target the table displays.
+    expect(q.toComfortable).toBe(Math.ceil(2538 / COMFORT_COST_SHARE) - 3000);
+  });
+
+  it("reports a shortfall as negative remaining", () => {
+    const q = quickCheck(estimate(2538), 2000)!;
+    expect(q.remaining).toBe(-538);
+    expect(q.cushion).toBeLessThan(0);
+    expect(q.verdict).toBe("probably_too_expensive");
+  });
+
+  it("zeroes toComfortable for every comfortable verdict", () => {
+    // At the ceiled target itself.
+    const e = estimate(500.04);
+    const atTarget = quickCheck(e, incomeTargets(e)!.comfortable)!;
+    expect(atTarget.verdict).toBe("comfortable");
+    expect(atTarget.toComfortable).toBe(0);
+
+    // A cost where the band turns comfortable a hair BELOW the ceiled
+    // target (2400.5 / 0.8 = 3000.625, ceiled to 3001): the verdict is
+    // comfortable, so the copy must not say "you're $0.30 away".
+    const between = quickCheck(estimate(2400.5), 3000.7)!;
+    expect(between.verdict).toBe("comfortable");
+    expect(between.toComfortable).toBe(0);
+  });
+
+  it("flags wildest-dreams copy only under half coverage", () => {
+    const e = estimate(4000);
+    expect(quickCheck(e, 1900)!.wildestDreams).toBe(true);
+    expect(quickCheck(e, 1900)!.verdict).toBe("way_out_of_range");
+    expect(quickCheck(e, 2100)!.wildestDreams).toBe(false);
+    expect(quickCheck(e, 2100)!.verdict).toBe("way_out_of_range");
+  });
+
+  it("returns null for an unpriceable city or a non-positive income", () => {
+    expect(quickCheck(estimate(null), 3000)).toBeNull();
+    expect(quickCheck(estimate(2500), 0)).toBeNull();
+    expect(quickCheck(estimate(2500), -100)).toBeNull();
+    expect(quickCheck(estimate(2500), NaN)).toBeNull();
+  });
+});
+
+describe("household: couple", () => {
+  it("defaults to single with unchanged behavior", () => {
+    const explicit = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "single",
+    });
+    const implicit = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    expect(implicit.household).toBe("single");
+    expect(implicit.monthlyCost).toBe(explicit.monthlyCost);
+  });
+
+  it("interpolates each slice to the base household size instead of applying the raw 2/1 ratio", () => {
+    // coupleSliceMultipliers at size 1.5: goods and unscaled 4/3, services
+    // and utilities 1.2 (see the synthetic-constants comment). The raw 2/1
+    // ratios would be 2, 1.5, 1.5, and 2 — the double-count this guards
+    // against.
+    const scale = coupleSliceMultipliers("modest", C);
+    expect(scale.goodsMonthly).toBeCloseTo(4 / 3, 6);
+    expect(scale.otherServicesMonthly).toBeCloseTo(1.2, 6);
+    expect(scale.utilitiesMonthly).toBeCloseTo(1.2, 6);
+    expect(scale.unscaledMonthly).toBeCloseTo(4 / 3, 6);
+
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+    });
+    // 850 * 4/3 + 750 * 1.2 + 400 * 4/3 at RPP 100.
+    expect(couple.nonHousing).toBeCloseTo(
+      (850 * 4) / 3 + 750 * 1.2 + (400 * 4) / 3,
+      6
+    );
+    expect(couple.household).toBe("couple");
+  });
+
+  it("degenerates correctly at base sizes 1 and 2", () => {
+    // A base already at one person takes the full two-over-one ratio; a base
+    // already at two people needs no scaling at all.
+    const atOne = coupleSliceMultipliers("modest", { ...C, modestHouseholdSize: 1 });
+    expect(atOne.goodsMonthly).toBeCloseTo(2, 6);
+    const atTwo = coupleSliceMultipliers("modest", { ...C, modestHouseholdSize: 2 });
+    expect(atTwo.goodsMonthly).toBeCloseTo(1, 6);
+  });
+
+  it("reads each profile's OWN household size", () => {
+    // The synthetic constants deliberately set both sizes to 1.5, so this
+    // test splits them: swapping which size feeds which profile would pass
+    // every other test in this file.
+    const split = { ...C, modestHouseholdSize: 1, typicalHouseholdSize: 2 };
+    expect(coupleSliceMultipliers("modest", split).goodsMonthly).toBeCloseTo(2, 6);
+    expect(coupleSliceMultipliers("typical", split).goodsMonthly).toBeCloseTo(1, 6);
+  });
+
+  it("prices a typical-profile couple end to end", () => {
+    const split = { ...C, typicalHouseholdSize: 2 };
+    const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", split, {
+      spendingProfile: "typical",
+    });
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", split, {
+      spendingProfile: "typical",
+      household: "couple",
+    });
+    // At base size 2 every multiplier is 1: the couple pays the same
+    // consumption basket and only the premiums double.
+    expect(couple.nonHousing).toBeCloseTo(single.nonHousing!, 6);
+    expect(couple.nationalFixed).toBe(single.nationalFixed * 2);
+    expect(couple.monthlyCost).toBeCloseTo(
+      single.monthlyCost! + single.nationalFixed,
+      6
+    );
+  });
+
+  it("doubles per-person premiums for a couple, on both coverage paths", () => {
+    const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+    });
+    expect(couple.nationalFixed).toBe(single.nationalFixed * 2);
+
+    const coupleVa = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+      healthCoverage: "va_primary",
+    });
+    expect(coupleVa.nationalFixed).toBe(C.medicarePartBMonthly * 2);
+  });
+
+  it("scales owner utilities by the utilities multiplier, not the goods one", () => {
+    const single = estimateMonthlyCost(loc(), "own_outright", C).housing!;
+    const couple = estimateMonthlyCost(loc(), "own_outright", C, {
+      household: "couple",
+    }).housing!;
+    // Only the utilities term moves (400 -> 480); tax, insurance, and
+    // maintenance are per dwelling.
+    expect(couple - single).toBeCloseTo(400 * 0.2, 6);
+  });
+
+  it("keeps rent per dwelling and surfaces the proxy caveat as context", () => {
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+    });
+    expect(couple.housing).toBe(1500);
+    expect(couple.missingContext.some((m) => /two-person/i.test(m))).toBe(true);
+    const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    expect(single.missingContext.some((m) => /two-person/i.test(m))).toBe(false);
   });
 });
 
