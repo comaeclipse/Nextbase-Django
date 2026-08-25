@@ -191,6 +191,15 @@ value can support an assignment but never creates one automatically. Create the
 table with `city-profile-stack/scripts/migrations/migrate-location-genre-assignments.ts`;
 the migration does not alter `locations_location`.
 
+Import assignments with
+`city-profile-stack/scripts/import/import-location-genre-assignments.ts <source.json>`.
+The source file must declare `ontology_version`, `method_version`, and explicit
+city assignments. Each assignment cites existing feature, profile-signal,
+and/or dossier keys; prose notes alone are not evidence. The importer validates
+those references against the target city, rejects multiple primary genres at
+one level, and writes all supplied rows in one transaction. It never infers an
+assignment or confidence value.
+
 **Similarity is a profile, not a scalar, and ranking is conjunctive.** The first version averaged absolute differences across all features and ranked Sierra Vista AZ as the 3rd most similar city to Billings MT (0.854) — two places differing by ~56 inches of annual snow. One categorical mismatch was averaged against twenty near-matches and disappeared. Raising the norm did not help (Sierra Vista rose to 2nd at p=3): the aggregator's shape was never the problem. Compatibility between places is **conjunctive** — a city is "like" another only if nothing about it would blindside you — whereas a mean models the opposite, that abundance on one axis compensates for absence on another. Ranking therefore uses the **weakest category**, with overall as a tiebreak, and any feature diverging by ≥0.30 is reported outright. Sierra Vista now ranks 11th with `climate 0.71` and `snow_burden 0.61` named explicitly. Use `--explain "Other City, ST"` for a full pairwise profile.
 
 Order of operations:
