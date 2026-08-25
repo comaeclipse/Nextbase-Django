@@ -82,8 +82,19 @@ export type Tenure = "rent" | "own_outright" | "buying";
  * Medicare creditable prescription drug coverage. This is a household choice,
  * not something a city's VA access implies — carrying VA health care does not
  * by itself mean Medigap was dropped, so it is never inferred from geography.
+ *
+ * The TRICARE options (issue #108 Phase 3) price the Group A retiree
+ * enrollment fee (`tricare_prime`, `tricare_select`) or, for
+ * `tricare_for_life`, Medicare Part B per beneficiary — TFL itself has no
+ * enrollment fee. Copays, deductibles, and the catastrophic cap are
+ * disclosed via missingContext, never priced.
  */
-export type HealthCoverage = "medicare_supplement" | "va_primary";
+export type HealthCoverage =
+  | "medicare_supplement"
+  | "va_primary"
+  | "tricare_prime"
+  | "tricare_select"
+  | "tricare_for_life";
 
 /** Budget verdict band. `unknown` means we could not compute, not "bad". */
 export type Band = "comfortable" | "tight" | "over" | "unknown";
@@ -172,6 +183,24 @@ export interface EstimateOptions {
    * per-person Medicare premiums. Housing is one dwelling either way.
    */
   household?: Household;
+  /**
+   * Override the 30-year mortgage rate for `buying` (annual fraction, e.g.
+   * 0.055). Defaults to the sourced Freddie Mac PMMS constant.
+   */
+  mortgageRateOverride?: number;
+  /**
+   * Override the effective annual property tax rate (fraction of home value)
+   * for the ownership tenures. A user-supplied figure replaces both the
+   * city's rate and the national fallback — and suppresses the fallback's
+   * approximation note, since the number is theirs.
+   */
+  propertyTaxRateOverride?: number;
+  /**
+   * Monthly HOA/condo dues for the ownership tenures, in dollars. There is
+   * no data column or national constant for this — it exists only as a
+   * user-supplied figure, and defaults to 0.
+   */
+  hoaMonthly?: number;
 }
 
 /** Home value in dollars, reusing the parser the Fit score already uses. */
@@ -338,7 +367,7 @@ function housingCost(
     return null;
   }
 
-  let taxRate = loc.property_tax_rate ?? null;
+  let taxRate = opts.propertyTaxRateOverride ?? loc.property_tax_rate ?? null;
   if (taxRate === null) {
     taxRate = c.fallbackPropertyTaxRate;
     approximations.push("national average property tax rate");
@@ -362,15 +391,64 @@ function housingCost(
   }
   const monthlyUtilities =
     (spendingSlices(profile, c, household).utilitiesMonthly * utilitiesRpp) / 100;
+  // HOA has no data column and no national constant — it is user-supplied
+  // only (0 when not provided), so it never appears in `approximations`.
+  const monthlyHoa = opts.hoaMonthly ?? 0;
   const carrying =
-    monthlyTax + monthlyInsurance + monthlyMaintenance + monthlyUtilities;
+    monthlyTax + monthlyInsurance + monthlyMaintenance + monthlyUtilities + monthlyHoa;
 
   if (tenure === "own_outright") return carrying;
 
   // buying: carrying costs plus debt service on the financed portion.
   const down = opts.downPaymentFraction ?? c.defaultDownPaymentFraction;
   const principal = price * (1 - down);
-  return carrying + monthlyPrincipalAndInterest(principal, c.mortgageRate30yr);
+  return (
+    carrying +
+    monthlyPrincipalAndInterest(
+      principal,
+      opts.mortgageRateOverride ?? c.mortgageRate30yr
+    )
+  );
+}
+
+/**
+ * Location-invariant health premiums for a coverage stack and household.
+ *
+ * Two different scaling rules, both sourced:
+ * - Medicare-family premiums are PER ENROLLEE — Part B is set per beneficiary
+ *   (Federal Register 2025-20251), Medigap policies cover one person each,
+ *   Part D enrollment is individual — so a couple pays 2x each. Insurer
+ *   Medigap household discounts have no published magnitude and are not
+ *   modeled.
+ * - TRICARE Prime/Select enrollment fees are PER PLAN: a couple (two
+ *   enrolled beneficiaries) pays the FAMILY rate, never 2x the individual
+ *   fee (DHA family-rate rule). TRICARE For Life has no enrollment fee; its
+ *   cost IS Medicare Part B, per beneficiary.
+ */
+function healthPremiumsMonthly(
+  coverage: HealthCoverage,
+  household: Household,
+  c: ResolvedConstants
+): number {
+  const couple = household === "couple";
+  switch (coverage) {
+    case "medicare_supplement":
+      return (
+        (c.medicarePartBMonthly + c.medigapMonthly + c.partDMonthly) *
+        (couple ? 2 : 1)
+      );
+    case "va_primary":
+    case "tricare_for_life":
+      return c.medicarePartBMonthly * (couple ? 2 : 1);
+    case "tricare_prime":
+      return couple
+        ? c.tricarePrimeFamilyMonthly
+        : c.tricarePrimeIndividualMonthly;
+    case "tricare_select":
+      return couple
+        ? c.tricareSelectFamilyMonthly
+        : c.tricareSelectIndividualMonthly;
+  }
 }
 
 /**
@@ -421,17 +499,7 @@ export function estimateMonthlyCost(
     spendingProfile,
     household
   );
-  // Premiums are strictly per enrollee — Part B is set per beneficiary
-  // (Federal Register 2025-20251), Medigap policies cover one person each,
-  // and Part D enrollment is individual — so a couple pays twice each.
-  // Insurer-specific Medigap household discounts exist but have no
-  // officially published magnitude and are not modeled.
-  const premiumsPerPerson =
-    healthCoverage === "va_primary"
-      ? c.medicarePartBMonthly
-      : c.medicarePartBMonthly + c.medigapMonthly + c.partDMonthly;
-  const nationalFixed =
-    premiumsPerPerson * (household === "couple" ? 2 : 1);
+  const nationalFixed = healthPremiumsMonthly(healthCoverage, household, c);
 
   if (household === "couple") {
     missingContext.push(
@@ -450,6 +518,21 @@ export function estimateMonthlyCost(
     );
     missingContext.push(
       "VA outpatient copays and medication costs are not estimated — they vary by disability rating, priority group, and prescriptions"
+    );
+  }
+
+  if (healthCoverage === "tricare_prime" || healthCoverage === "tricare_select") {
+    missingContext.push(
+      "TRICARE Group A retiree fees are modeled — initial service in 2018 or later (Group B) pays a higher enrollment fee"
+    );
+    missingContext.push(
+      "TRICARE copays, deductibles, and the catastrophic cap are not estimated"
+    );
+  }
+
+  if (healthCoverage === "tricare_for_life") {
+    missingContext.push(
+      "TRICARE For Life has no enrollment fee — the health line is Medicare Part B per person; TFL wraparound cost-shares are not estimated"
     );
   }
 
@@ -511,12 +594,19 @@ export interface IncomeTargets {
  * large fraction of cost values, so the raw quotient can band as "tight" at
  * its own "comfortable" target. Rounding up guarantees a printed target
  * always satisfies the band it names.
+ *
+ * `comfortShare` parameterizes the cushion (issue #108 Phase 3): 0.9 for a
+ * 10% cushion, 0.8 (the default, = COMFORT_COST_SHARE) for 20%, 0.7 for 30%.
+ * Whatever share a caller bands with, it MUST pass the same one here.
  */
-export function incomeTargets(estimate: CostEstimate): IncomeTargets | null {
+export function incomeTargets(
+  estimate: CostEstimate,
+  comfortShare: number = COMFORT_COST_SHARE
+): IncomeTargets | null {
   if (estimate.monthlyCost === null) return null;
   return {
     breakEven: Math.ceil(estimate.monthlyCost),
-    comfortable: Math.ceil(estimate.monthlyCost / COMFORT_COST_SHARE),
+    comfortable: Math.ceil(estimate.monthlyCost / comfortShare),
   };
 }
 
@@ -594,9 +684,10 @@ export interface QuickCheck {
  */
 export function quickCheck(
   estimate: CostEstimate,
-  netMonthlyIncome: number
+  netMonthlyIncome: number,
+  comfortShare: number = COMFORT_COST_SHARE
 ): QuickCheck | null {
-  const targets = incomeTargets(estimate);
+  const targets = incomeTargets(estimate, comfortShare);
   if (targets === null || estimate.monthlyCost === null) return null;
   if (!Number.isFinite(netMonthlyIncome) || netMonthlyIncome <= 0) return null;
 
@@ -615,7 +706,7 @@ export function quickCheck(
         ? "probably_too_expensive"
         : cost > netMonthlyIncome
           ? "very_tight"
-          : cost <= netMonthlyIncome * COMFORT_COST_SHARE
+          : cost <= netMonthlyIncome * comfortShare
             ? "comfortable"
             : "in_the_ballpark";
 
@@ -643,14 +734,15 @@ export function quickCheck(
  */
 export function assessAffordability(
   estimate: CostEstimate,
-  monthlyIncome: number
+  monthlyIncome: number,
+  comfortShare: number = COMFORT_COST_SHARE
 ): Affordability {
   if (estimate.monthlyCost === null) {
     return { ...estimate, headroom: null, band: "unknown" };
   }
   const headroom = monthlyIncome - estimate.monthlyCost;
   const band: Band =
-    estimate.monthlyCost <= monthlyIncome * COMFORT_COST_SHARE
+    estimate.monthlyCost <= monthlyIncome * comfortShare
       ? "comfortable"
       : estimate.monthlyCost <= monthlyIncome
         ? "tight"
@@ -664,9 +756,14 @@ export function assessLocation(
   monthlyIncome: number,
   tenure: Tenure,
   c: ResolvedConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): Affordability {
-  return assessAffordability(estimateMonthlyCost(loc, tenure, c, opts), monthlyIncome);
+  return assessAffordability(
+    estimateMonthlyCost(loc, tenure, c, opts),
+    monthlyIncome,
+    comfortShare
+  );
 }
 
 /* ------------------------------------------------------------------ *
@@ -732,7 +829,8 @@ export function assessBudget(
   tenure: Tenure,
   costConstants: ResolvedConstants,
   taxConstants: ResolvedTaxConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): LocationBudget {
   const cost = estimateMonthlyCost(loc, tenure, costConstants, opts);
   const income = estimateNetMonthlyIncome(
@@ -752,7 +850,7 @@ export function assessBudget(
 
   const headroom = income.netMonthly - cost.monthlyCost;
   const band: Band =
-    cost.monthlyCost <= income.netMonthly * COMFORT_COST_SHARE
+    cost.monthlyCost <= income.netMonthly * comfortShare
       ? "comfortable"
       : cost.monthlyCost <= income.netMonthly
         ? "tight"
@@ -773,10 +871,13 @@ export function rankByBudget(
   tenure: Tenure,
   costConstants: ResolvedConstants,
   taxConstants: ResolvedTaxConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): LocationBudget[] {
   return locations
-    .map((loc) => assessBudget(loc, budget, tenure, costConstants, taxConstants, opts))
+    .map((loc) =>
+      assessBudget(loc, budget, tenure, costConstants, taxConstants, opts, comfortShare)
+    )
     .sort((a, b) => {
       if (a.headroom === null && b.headroom === null) return 0;
       if (a.headroom === null) return 1;
@@ -797,12 +898,13 @@ export function rankByHeadroom(
   monthlyIncome: number,
   tenure: Tenure,
   c: ResolvedConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): (Affordability & { location: CostInputs })[] {
   return locations
     .map((location) => ({
       location,
-      ...assessLocation(location, monthlyIncome, tenure, c, opts),
+      ...assessLocation(location, monthlyIncome, tenure, c, opts, comfortShare),
     }))
     .sort((a, b) => {
       if (a.headroom === null && b.headroom === null) return 0;
