@@ -5,7 +5,8 @@ Updated **in place** at the end of every pass and every governance decision;
 git history is the changelog. Do not re-narrate this state inside dossier
 notes or ledger entries — reference it.
 
-*As of: 2026-08-21 (Validation Corpus v1 pass 1 of 12 complete: Pensacola).*
+*As of: 2026-08-25 (genre ontology/schema implementation; Validation Corpus v1
+pass 1 of 12 complete: Pensacola).*
 
 ## Corpus status
 
@@ -28,11 +29,13 @@ notes or ledger entries — reference it.
 `observed once → candidate → recurrence → provisional family →
 out-of-sample validation → admitted ontology`
 
-- **Admitted ontology: none.** `genre-ontology.ts` does not exist yet (open
-  framework work).
+- **Admitted ontology: none.** `lib/genre-ontology.ts` now records the two
+  provisional micro families and their trait boundaries; neither has completed
+  out-of-sample validation, so neither is marked admitted.
 - **Provisional families (2):**
-  1. **Interior Regional Service Hub** — Casper, Odessa, Cheyenne, North
-     Platte, Grand Junction. Class = isolated/semi-isolated city providing
+  1. **Regional Service Hub** (formerly **Interior Regional Service Hub**) —
+     Casper, Odessa, Cheyenne, North Platte, Grand Junction; Pensacola is the
+     first validation member. Class = a relatively self-contained city providing
      disproportionate services to a broad hinterland; per-city **anchor
      traits** (energy · boom-cycle energy/trade · state government · rail ·
      healthcare/public-land gateway) say which version.
@@ -118,15 +121,13 @@ non-squeeze.
 
 ## Open framework work
 
-1. `genre-ontology.ts` + `location_genre_assignments` migration (provisional
-   families + trait filters). Board: Genre Assigned/Reviewed statuses are
-   gated on this.
-2. First-class divergence schema: {measured_dimension, experienced_dimension,
+1. First-class divergence schema: {measured_dimension, experienced_dimension,
    divergence_direction, divergence_magnitude, confidence, mechanism}.
-3. Per-domain falsification storage feeding borrow-aggressiveness tiers in
+2. Per-domain falsification storage feeding borrow-aggressiveness tiers in
    the propagation engine.
-4. Block 4 generator (PR #97, branch `city-profile-stack/dossier-prompt-block4`).
-5. Periodic cross-city calibration of remaining intensity features
+3. An evidence-backed assignment importer after assignment confidence and
+   rationale are reviewed; do not infer rows from board labels alone.
+4. Periodic cross-city calibration of remaining intensity features
    (geographic_isolation, growth_pressure) — wind was the template.
 
 ## Known data-side follow-ups

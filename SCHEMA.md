@@ -179,6 +179,18 @@ Qualitative city research lives in four layers. Each is a different kind of clai
 
 **L3 vectors** — built at query time from the resolved view, not stored. At ~110 cities a materialized vector table buys nothing. `city-profile-stack/scripts/tools/find-similar-locations.ts` compares only structurally derivable features, so a researched city is not judged unlike every unresearched one merely for having more data.
 
+**Genre registry and `location_genre_assignments`** — recurring bundles remain
+separate from individual features. `city-profile-stack/lib/genre-ontology.ts`
+is the versioned source of truth for genre keys, levels, lifecycle status,
+supporting features, and variable traits. The registry currently holds two
+**provisional micro** families and no admitted genres. The additive assignment
+table stores multi-label city membership with at most one primary assignment
+per `(location_id, level)`, plus confidence, rationale, non-empty evidence,
+ontology/method versions, assignment date, and paired review metadata. A feature
+value can support an assignment but never creates one automatically. Create the
+table with `city-profile-stack/scripts/migrations/migrate-location-genre-assignments.ts`;
+the migration does not alter `locations_location`.
+
 **Similarity is a profile, not a scalar, and ranking is conjunctive.** The first version averaged absolute differences across all features and ranked Sierra Vista AZ as the 3rd most similar city to Billings MT (0.854) — two places differing by ~56 inches of annual snow. One categorical mismatch was averaged against twenty near-matches and disappeared. Raising the norm did not help (Sierra Vista rose to 2nd at p=3): the aggregator's shape was never the problem. Compatibility between places is **conjunctive** — a city is "like" another only if nothing about it would blindside you — whereas a mean models the opposite, that abundance on one axis compensates for absence on another. Ranking therefore uses the **weakest category**, with overall as a tiebreak, and any feature diverging by ≥0.30 is reported outright. Sierra Vista now ranks 11th with `climate 0.71` and `snow_burden 0.61` named explicitly. Use `--explain "Other City, ST"` for a full pairwise profile.
 
 Order of operations:
@@ -188,6 +200,7 @@ node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/mi
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-profile-signals.ts
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-features.ts
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-texture-markers.ts
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/migrations/migrate-location-genre-assignments.ts
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-research-dossiers.ts
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-location-profile-signals.ts
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-location-features.ts
