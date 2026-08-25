@@ -23,6 +23,7 @@ const TOOL_LABEL: Record<string, string> = {
   "tool-match_person_to_cities": "Ranking cities for this person",
   "tool-estimate_cost_of_living": "Estimating monthly cost of living",
   "tool-compare_state_taxes_and_gas": "Comparing state taxes and gas prices",
+  "tool-compare_state_gun_freedom": "Comparing state gun-law protections",
 };
 
 const markdownComponents: Components = {
