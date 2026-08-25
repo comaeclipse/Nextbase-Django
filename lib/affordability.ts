@@ -52,13 +52,15 @@ import type { LocationRow } from "./types";
 import { resolveStateAbbr } from "./states";
 import { HOME_INSURANCE_DATASET } from "./insurance";
 import {
+  DEFAULT_HOUSEHOLD,
   DEFAULT_SPENDING_PROFILE,
   spendingSlices,
+  type Household,
   type ResolvedConstants,
   type SpendingProfile,
 } from "./cost-constants";
 
-export type { SpendingProfile };
+export type { Household, SpendingProfile };
 import { estimateNetMonthlyIncome } from "./income";
 import type {
   FilingStatus,
@@ -103,6 +105,8 @@ export interface CostEstimate {
   spendingProfile: SpendingProfile;
   /** Which health coverage stack fed `nationalFixed`. Never inferred from geography. */
   healthCoverage: HealthCoverage;
+  /** Who the estimate priced: one person (default) or a couple. */
+  household: Household;
   /** Total estimated monthly cost, or null when it could not be computed. */
   monthlyCost: number | null;
   /** The housing term, or null if the tenure's inputs were unavailable. */
@@ -161,6 +165,13 @@ export interface EstimateOptions {
    * retiree downsizing rarely buys the city average.
    */
   homePriceOverride?: number;
+  /**
+   * Who to price. Defaults to `single` (the pre-existing behavior: the
+   * profile's published basket plus one person's premiums). `couple` scales
+   * the consumption slices via coupleSliceMultipliers() and doubles the
+   * per-person Medicare premiums. Housing is one dwelling either way.
+   */
+  household?: Household;
 }
 
 /** Home value in dollars, reusing the parser the Fit score already uses. */
@@ -216,7 +227,8 @@ export function nonHousingIndex(
   c: ResolvedConstants,
   approximations: string[] = [],
   reasons: string[] = [],
-  profile: SpendingProfile = DEFAULT_SPENDING_PROFILE
+  profile: SpendingProfile = DEFAULT_SPENDING_PROFILE,
+  household: Household = DEFAULT_HOUSEHOLD
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -231,7 +243,7 @@ export function nonHousingIndex(
         : "BEA state nonmetropolitan portion, not a city-level price level"
     );
   }
-  const slices = spendingSlices(profile, c);
+  const slices = spendingSlices(profile, c, household);
   const total =
     slices.goodsMonthly + slices.otherServicesMonthly + slices.unscaledMonthly;
   if (total <= 0) {
@@ -251,7 +263,8 @@ function nonHousingDollars(
   c: ResolvedConstants,
   approximations: string[],
   reasons: string[],
-  profile: SpendingProfile
+  profile: SpendingProfile,
+  household: Household
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -269,7 +282,7 @@ function nonHousingDollars(
       );
     }
   }
-  const slices = spendingSlices(profile, c);
+  const slices = spendingSlices(profile, c, household);
   return (
     (slices.goodsMonthly * goods) / 100 +
     (slices.otherServicesMonthly * other) / 100 +
@@ -303,7 +316,8 @@ function housingCost(
   missing: string[],
   approximations: string[],
   opts: EstimateOptions,
-  profile: SpendingProfile
+  profile: SpendingProfile,
+  household: Household
 ): number | null {
   if (tenure === "rent") {
     // No national stand-in is offered here on purpose. Rent varies far too much
@@ -347,7 +361,7 @@ function housingCost(
     return null;
   }
   const monthlyUtilities =
-    (spendingSlices(profile, c).utilitiesMonthly * utilitiesRpp) / 100;
+    (spendingSlices(profile, c, household).utilitiesMonthly * utilitiesRpp) / 100;
   const carrying =
     monthlyTax + monthlyInsurance + monthlyMaintenance + monthlyUtilities;
 
@@ -378,14 +392,23 @@ export function estimateMonthlyCost(
   const missingContext: string[] = [];
   const spendingProfile = opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
   const healthCoverage = opts.healthCoverage ?? "medicare_supplement";
+  const household = opts.household ?? DEFAULT_HOUSEHOLD;
 
-  const nhi = nonHousingIndex(loc, c, approximations, [], spendingProfile);
+  const nhi = nonHousingIndex(
+    loc,
+    c,
+    approximations,
+    [],
+    spendingProfile,
+    household
+  );
   const nonHousing = nonHousingDollars(
     loc,
     c,
     approximations,
     missing,
-    spendingProfile
+    spendingProfile,
+    household
   );
 
   const housing = housingCost(
@@ -395,12 +418,26 @@ export function estimateMonthlyCost(
     missing,
     approximations,
     opts,
-    spendingProfile
+    spendingProfile,
+    household
   );
-  const nationalFixed =
+  // Premiums are strictly per enrollee — Part B is set per beneficiary
+  // (Federal Register 2025-20251), Medigap policies cover one person each,
+  // and Part D enrollment is individual — so a couple pays twice each.
+  // Insurer-specific Medigap household discounts exist but have no
+  // officially published magnitude and are not modeled.
+  const premiumsPerPerson =
     healthCoverage === "va_primary"
       ? c.medicarePartBMonthly
       : c.medicarePartBMonthly + c.medigapMonthly + c.partDMonthly;
+  const nationalFixed =
+    premiumsPerPerson * (household === "couple" ? 2 : 1);
+
+  if (household === "couple") {
+    missingContext.push(
+      "couple costs are scaled from BLS two-person 65+ households — a close proxy, but ~15% of those are not couples and they skew higher-income than singles"
+    );
+  }
 
   if (healthCoverage === "va_primary") {
     // Neither line blocks or approximates monthlyCost — see missingContext's
@@ -426,6 +463,7 @@ export function estimateMonthlyCost(
   return {
     spendingProfile,
     healthCoverage,
+    household,
     monthlyCost,
     housing,
     nonHousing,

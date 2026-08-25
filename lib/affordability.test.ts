@@ -19,7 +19,11 @@ import {
   type CostInputs,
   type Tenure,
 } from "./affordability";
-import { resolveCostConstants, type ResolvedConstants } from "./cost-constants";
+import {
+  coupleSliceMultipliers,
+  resolveCostConstants,
+  type ResolvedConstants,
+} from "./cost-constants";
 
 /**
  * Round synthetic constants chosen to make the arithmetic checkable by hand.
@@ -48,6 +52,21 @@ const C: ResolvedConstants = {
   insuranceBenchmarkDwelling: 300_000,
   structureShareOfValue: 0.7,
   nationalUtilitiesMonthly: 400,
+  // Couple interpolation anchors. Both base sizes sit at 1.5, the midpoint,
+  // so every interpolated base is the plain average of the one- and
+  // two-person sums and the multipliers are checkable by hand:
+  // goods 12000/9000 = 4/3, services 9000/7500 = 1.2,
+  // utilities 4500/3750 = 1.2, unscaled 8000/6000 = 4/3.
+  onePerson65GoodsAnnual: 6000,
+  twoPerson65GoodsAnnual: 12000,
+  onePerson65OtherServicesAnnual: 6000,
+  twoPerson65OtherServicesAnnual: 9000,
+  onePerson65UtilitiesAnnual: 3000,
+  twoPerson65UtilitiesAnnual: 4500,
+  onePerson65UnscaledAnnual: 4000,
+  twoPerson65UnscaledAnnual: 8000,
+  modestHouseholdSize: 1.5,
+  typicalHouseholdSize: 1.5,
 };
 
 /**
@@ -364,6 +383,7 @@ describe("assessAffordability", () => {
   const estimate = (cost: number | null): CostEstimate => ({
     spendingProfile: "modest",
     healthCoverage: "medicare_supplement",
+    household: "single",
     monthlyCost: cost,
     housing: 0,
     nonHousing: 0,
@@ -400,6 +420,7 @@ describe("incomeTargets", () => {
   const estimate = (cost: number | null): CostEstimate => ({
     spendingProfile: "modest",
     healthCoverage: "medicare_supplement",
+    household: "single",
     monthlyCost: cost,
     housing: 0,
     nonHousing: 0,
@@ -461,6 +482,7 @@ describe("quickCheck", () => {
   const estimate = (cost: number | null): CostEstimate => ({
     spendingProfile: "modest",
     healthCoverage: "medicare_supplement",
+    household: "single",
     monthlyCost: cost,
     housing: 0,
     nonHousing: 0,
@@ -563,6 +585,82 @@ describe("quickCheck", () => {
     expect(quickCheck(estimate(2500), 0)).toBeNull();
     expect(quickCheck(estimate(2500), -100)).toBeNull();
     expect(quickCheck(estimate(2500), NaN)).toBeNull();
+  });
+});
+
+describe("household: couple", () => {
+  it("defaults to single with unchanged behavior", () => {
+    const explicit = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "single",
+    });
+    const implicit = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    expect(implicit.household).toBe("single");
+    expect(implicit.monthlyCost).toBe(explicit.monthlyCost);
+  });
+
+  it("interpolates each slice to the base household size instead of applying the raw 2/1 ratio", () => {
+    // coupleSliceMultipliers at size 1.5: goods and unscaled 4/3, services
+    // and utilities 1.2 (see the synthetic-constants comment). The raw 2/1
+    // ratios would be 2, 1.5, 1.5, and 2 — the double-count this guards
+    // against.
+    const scale = coupleSliceMultipliers("modest", C);
+    expect(scale.goodsMonthly).toBeCloseTo(4 / 3, 6);
+    expect(scale.otherServicesMonthly).toBeCloseTo(1.2, 6);
+    expect(scale.utilitiesMonthly).toBeCloseTo(1.2, 6);
+    expect(scale.unscaledMonthly).toBeCloseTo(4 / 3, 6);
+
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+    });
+    // 850 * 4/3 + 750 * 1.2 + 400 * 4/3 at RPP 100.
+    expect(couple.nonHousing).toBeCloseTo(
+      (850 * 4) / 3 + 750 * 1.2 + (400 * 4) / 3,
+      6
+    );
+    expect(couple.household).toBe("couple");
+  });
+
+  it("degenerates correctly at base sizes 1 and 2", () => {
+    // A base already at one person takes the full two-over-one ratio; a base
+    // already at two people needs no scaling at all.
+    const atOne = coupleSliceMultipliers("modest", { ...C, modestHouseholdSize: 1 });
+    expect(atOne.goodsMonthly).toBeCloseTo(2, 6);
+    const atTwo = coupleSliceMultipliers("modest", { ...C, modestHouseholdSize: 2 });
+    expect(atTwo.goodsMonthly).toBeCloseTo(1, 6);
+  });
+
+  it("doubles per-person premiums for a couple, on both coverage paths", () => {
+    const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+    });
+    expect(couple.nationalFixed).toBe(single.nationalFixed * 2);
+
+    const coupleVa = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+      healthCoverage: "va_primary",
+    });
+    expect(coupleVa.nationalFixed).toBe(C.medicarePartBMonthly * 2);
+  });
+
+  it("scales owner utilities by the utilities multiplier, not the goods one", () => {
+    const single = estimateMonthlyCost(loc(), "own_outright", C).housing!;
+    const couple = estimateMonthlyCost(loc(), "own_outright", C, {
+      household: "couple",
+    }).housing!;
+    // Only the utilities term moves (400 -> 480); tax, insurance, and
+    // maintenance are per dwelling.
+    expect(couple - single).toBeCloseTo(400 * 0.2, 6);
+  });
+
+  it("keeps rent per dwelling and surfaces the proxy caveat as context", () => {
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+    });
+    expect(couple.housing).toBe(1500);
+    expect(couple.missingContext.some((m) => /two-person/i.test(m))).toBe(true);
+    const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    expect(single.missingContext.some((m) => /two-person/i.test(m))).toBe(false);
   });
 });
 
