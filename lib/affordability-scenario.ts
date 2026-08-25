@@ -23,7 +23,20 @@ import { TAX_YEAR } from "./tax-constants";
  */
 export type CushionChoice = "breathing_room" | "comfortable" | "strong";
 
+/**
+ * Which half of the calculator is in use. `quick` is the primary experience:
+ * one after-tax number, standardized baseline, five-band verdict. `detailed`
+ * is the income-composition model with every knob.
+ */
+export type AffordabilityMode = "quick" | "detailed";
+
 export interface AffordabilityScenario {
+  /** Which mode drives annotation on surfaces that honor it (/explore). */
+  mode: AffordabilityMode;
+  /** Quick-check take-home, monthly after-tax dollars, free text. */
+  quickIncome: string;
+  /** Quick-check household. Independent of `filing`, which is detailed-mode. */
+  quickHousehold: Household;
   vaDisability: string;
   militaryRetirement: string;
   socialSecurity: string;
@@ -50,6 +63,9 @@ export interface AffordabilityScenario {
 }
 
 export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
+  mode: "quick",
+  quickIncome: "",
+  quickHousehold: "single",
   vaDisability: "",
   militaryRetirement: "",
   socialSecurity: "",
@@ -204,8 +220,28 @@ export function scenarioGrossMonthly(scenario: AffordabilityScenario): number {
   return scenarioSources(scenario).reduce((sum, s) => sum + s.monthlyAmount, 0);
 }
 
+/**
+ * Detailed-mode activity: at least one income SOURCE entered. Mode-agnostic
+ * on purpose — the city card's detailed tab calls this regardless of its own
+ * quick state. For "should the current mode annotate?", use
+ * scenarioAnnotationActive.
+ */
 export function scenarioIsActive(scenario: AffordabilityScenario): boolean {
   return scenarioGrossMonthly(scenario) > 0;
+}
+
+/** Quick-mode activity: a positive take-home was typed. */
+export function quickScenarioIsActive(scenario: AffordabilityScenario): boolean {
+  return scenario.mode === "quick" && parseMonthlyAmount(scenario.quickIncome) > 0;
+}
+
+/** Whether the scenario's CURRENT mode has enough input to annotate cities. */
+export function scenarioAnnotationActive(
+  scenario: AffordabilityScenario
+): boolean {
+  return scenario.mode === "quick"
+    ? quickScenarioIsActive(scenario)
+    : scenarioIsActive(scenario);
 }
 
 export function formatUsd(n: number | null | undefined, digits = 0): string {
@@ -425,6 +461,9 @@ export function healthCoverageLabel(coverage: HealthCoverage): string {
 }
 
 export function scenarioChipLabel(scenario: AffordabilityScenario): string {
+  if (scenario.mode === "quick") {
+    return `Quick check · ${formatUsd(parseMonthlyAmount(scenario.quickIncome))}/mo take-home · ${tenureLabel(scenario.tenure)} · ${householdLabel(scenario.quickHousehold)}`;
+  }
   const gross = scenarioGrossMonthly(scenario);
   // Any non-default coverage changes the number the chip summarizes, so any
   // non-default coverage must appear in it — not just va_primary.
