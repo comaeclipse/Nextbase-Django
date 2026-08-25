@@ -114,6 +114,21 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
   },
 
   {
+    // Defense/IT integrator (Reston HQ). No public ATS feed we scrape; its
+    // nationwide site footprint is hand-sourced (source_kind = user_attested),
+    // and each row carries an attested onsite opening count, so presence promotes
+    // exactly like an RTX facility does — mirrors System High.
+    slug: "leidos",
+    display_name: "Leidos",
+    parent_company: "Leidos",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+
+  {
     // Defense-technology manufacturer. Its public Greenhouse board is used for
     // hand-sourced, dated facility snapshots until an ATS sync is added.
     slug: "anduril",
