@@ -5,6 +5,7 @@
  */
 import type {
   HealthCoverage,
+  Household,
   QuickCheck,
   QuickVerdict,
   SpendingProfile,
@@ -194,6 +195,36 @@ export function bandVerdict(
   return "We can't price this city yet, so there's no verdict.";
 }
 
+export const HOUSEHOLD_OPTIONS: {
+  id: Household;
+  label: string;
+  hint: string;
+}[] = [
+  { id: "single", label: "Single", hint: "One person" },
+  {
+    id: "couple",
+    label: "Couple",
+    hint: "Two people — Medicare premiums doubled, one dwelling",
+  },
+];
+
+export function householdLabel(household: Household): string {
+  return HOUSEHOLD_OPTIONS.find((o) => o.id === household)?.label ?? household;
+}
+
+/**
+ * Badge tone for a quick-check verdict, mapping the five bands onto the
+ * card's existing three badge classes. The finer color distinctions live in
+ * the .aff-verdict-* text classes, not the chip.
+ */
+export function quickVerdictBadgeClass(
+  verdict: QuickVerdict
+): "good" | "warn" | "bad" {
+  if (verdict === "comfortable") return "good";
+  if (verdict === "in_the_ballpark") return "warn";
+  return "bad";
+}
+
 /** Chip/badge label for a quick-check verdict. */
 export function quickVerdictLabel(verdict: QuickVerdict): string {
   switch (verdict) {
@@ -272,5 +303,5 @@ export function affordabilityVintage(): string {
   const modest = "BLS CE 2021–2022 65+ by income";
   const typical = "BLS CE 2024 65+ mean";
   const health = `CMS/KFF ${COST_CONSTANTS.medicarePartBMonthly.sourcedOn?.slice(0, 4) ?? "2026"} Medicare premiums`;
-  return `Sources: ${rent}; ${rpp}; ${modest} (getting by) / ${typical} (typical); ${health}; IRS tax year ${TAX_YEAR}.`;
+  return `Sources: ${rent}; ${rpp}; ${modest} (modest) / ${typical} (average); ${health}; IRS tax year ${TAX_YEAR}.`;
 }
