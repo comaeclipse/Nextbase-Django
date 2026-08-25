@@ -834,6 +834,9 @@ describe("TRICARE coverage", () => {
     expect(prime.missingContext.some((m) => /catastrophic cap/.test(m))).toBe(true);
     const tfl = rentAt({ healthCoverage: "tricare_for_life" });
     expect(tfl.missingContext.some((m) => /no enrollment fee/.test(m))).toBe(true);
+    // The default coverage carries NO TRICARE or VA disclosures.
+    const supplement = rentAt({ healthCoverage: "medicare_supplement" });
+    expect(supplement.missingContext).toHaveLength(0);
   });
 });
 

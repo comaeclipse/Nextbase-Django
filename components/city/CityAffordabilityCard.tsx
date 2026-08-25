@@ -180,7 +180,9 @@ export default function CityAffordabilityCard({ location }: { location: Location
   ];
   const ownershipCaveat =
     scenario.tenure !== "rent"
-      ? "Ownership uses this city's typical home value plus a 1% maintenance planning rule, not a downsized modest dwelling."
+      ? scenario.homePrice.trim()
+        ? "Ownership uses your home price plus a 1% maintenance planning rule."
+        : "Ownership uses this city's typical home value plus a 1% maintenance planning rule, not a downsized modest dwelling."
       : null;
 
   const cushionTargetPct = Math.round((1 - COMFORT_COST_SHARE) * 100);
@@ -424,7 +426,8 @@ export default function CityAffordabilityCard({ location }: { location: Location
                 Quick check said <strong>{quickVerdictLabel(quick.verdict)}</strong>{" "}
                 at {formatUsd(quickIncomeParsed)}/mo take-home ·{" "}
                 {tenureLabel(scenario.tenure)} · modest budget · Medicare with
-                supplement · {householdLabel(quickHousehold).toLowerCase()}.
+                supplement · {householdLabel(quickHousehold).toLowerCase()} ·{" "}
+                {cushionTargetPct}% cushion.
               </p>
             ) : null}
 

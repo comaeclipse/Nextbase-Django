@@ -380,6 +380,11 @@ export function quickVerdictLabel(verdict: QuickVerdict): string {
  * only — the metric lives in lib/affordability.ts. Magnitude (shortfall,
  * distance to comfortable) is rendered separately by the caller so these
  * sentences stay reusable across cities.
+ *
+ * The "20%" in these sentences is COMFORT_COST_SHARE's cushion, hardcoded:
+ * quickCheck is share-parameterized but every quick-check surface pins the
+ * default. A caller that ever pairs a non-default share with this copy must
+ * rework these sentences first, or the words will contradict the verdict.
  */
 export function quickVerdictCopy(verdict: QuickVerdict): string {
   switch (verdict) {
@@ -421,8 +426,10 @@ export function healthCoverageLabel(coverage: HealthCoverage): string {
 
 export function scenarioChipLabel(scenario: AffordabilityScenario): string {
   const gross = scenarioGrossMonthly(scenario);
+  // Any non-default coverage changes the number the chip summarizes, so any
+  // non-default coverage must appear in it — not just va_primary.
   const coverage =
-    scenario.healthCoverage === "va_primary"
+    scenario.healthCoverage !== "medicare_supplement"
       ? ` · ${healthCoverageLabel(scenario.healthCoverage)}`
       : "";
   return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)}${coverage} · ${formatUsd(gross)}/mo`;
