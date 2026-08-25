@@ -278,7 +278,7 @@ function writeReport(
     "",
     `- Generated: ${today}`,
     `- Source file: \`${source}\``,
-    `- Source: Tax Foundation, "Property Taxes by State and County, 2026" — Table 1, "Median Property Taxes Paid by County, 2024 (5-Year Estimate)" (ACS 2020–2024 5-year)`,
+    `- Source: Tax Foundation, "Property Taxes by State and County, 2026" - Table 1, "Median Property Taxes Paid by County, 2024 (5-Year Estimate)" (ACS 2020-2024 5-year)`,
     `- URL: https://taxfoundation.org/data/all/state/property-taxes-by-state-county/`,
     `- County join aliases: Anchorage \`Alaska\`->\`anchorage\`; CT Fairfield->Greater Bridgeport; CT Hartford->Capitol planning regions`,
     "",
