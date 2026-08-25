@@ -13,6 +13,7 @@ import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
 import { locationCsvCompletionProblems } from "../lib/location-completeness";
+import { deriveCostOfLivingCategory } from "../lib/cost-of-living";
 import { classifyAndPersist, classifyLocation } from "../lib/pace";
 import type { PaceDerivedBundle, PacePlaceCentroid } from "../lib/pace/types";
 
@@ -122,16 +123,8 @@ const parseTags = (v: string | undefined): string[] => {
   return [c];
 };
 
-const deriveCostOfLiving = (colIndex: number | null): string => {
-  if (colIndex === null) return "Moderate";
-  if (colIndex < 95) return "Low";
-  if (colIndex <= 115) return "Moderate";
-  return "High";
-};
-
 function parseRow(row: Row): Record<string, unknown> {
   const rawHomeValue = row["AvgHomeValue"] ?? "";
-  const colIndex = parseIntV(row["CostOfLiving"]);
   const city = cleanEmpty(row["City"] ?? "") ?? "";
   const state = cleanEmpty(row["State"] ?? "") ?? "";
   const coords = resolveCoordinates(city, state, row["Latitude"], row["Longitude"]);
@@ -143,7 +136,10 @@ function parseRow(row: Row): Record<string, unknown> {
     latitude: coords.latitude,
     longitude: coords.longitude,
     climate: cleanEmpty(row["Climate"] ?? "") ?? "",
-    cost_of_living: deriveCostOfLiving(colIndex),
+    // locations_location.cost_of_living is NOT NULL. We initialize it from
+    // the CSV or fallback, and then scripts/sync-col-index-from-rpp.ts standardizes
+    // it from BEA all_items_rpp.
+    cost_of_living: deriveCostOfLivingCategory(parseIntV(row["CostOfLiving"])),
     // State-owned CSV fields are intentionally ignored here. They belong in
     // locations_stateinfo after sourced adjudication, not on every city row.
     city_politics: cleanEmpty(row["CityPolitics"]),
@@ -155,7 +151,6 @@ function parseRow(row: Row): Record<string, unknown> {
     population: cleanEmpty(row["Population"]),
     density: parseIntV(row["Density"]),
     sales_tax: parseDecimalV(row["SalesTax"]),
-    col_index: colIndex,
     avg_home_value: parseHomeValue(rawHomeValue),
     avg_home_value_display: cleanEmpty(rawHomeValue),
     has_va: parseBoolV(row["VA"]),

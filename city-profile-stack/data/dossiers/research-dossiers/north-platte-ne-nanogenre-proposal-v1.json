@@ -1,0 +1,211 @@
+{
+  "city": "North Platte",
+  "state": "NE",
+  "dossier_key": "nanogenre_proposal_v1_2026",
+  "source_kind": "nanogenre_classification_proposal",
+  "title": "North Platte, Nebraska — Nanogenre Classification Proposal v1",
+  "summary": "Fifth genre-classification proposal produced through the PROMPT_TEMPLATE.md Block 4 process: official/structural evidence (Census QuickFacts, BLS/QCEW, Union Pacific, Great Plains Health, VA, city planning documents, NWS/NCEI normals, event calendars) reconciled against the same research pass's community-sentiment evidence. Extends the interior-regional-service-hub family to four cities and adds a rail-anchored sibling to the single-anchor legacy-industry hub shape; the headline divergence is a negative statewide reputation contradicted by resident accounts.",
+  "narrative_file": "north-platte-ne-nanogenre-proposal-v1.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "Companion to north-platte-ne.json (dossier_key reddit_sentiment_2026, same research pass, same retrieval date). Also cross-corroborated by the pre-existing north_platte_ordinary_evening_2026 gold pack in the research ledger, an independent evidence pass whose corrected finding (the ordinary venue layer is real; events amplify rather than constitute the evening) is consistent with this pass's event-rich-peaks-over-thin-baseline reconciliation. Per KNOWLEDGE_MODEL.md L0 (append-only), all artifacts are preserved separately.",
+  "coverage": {
+    "level": "strong_on_structural_data_strong_on_community_sentiment_from_companion_pass",
+    "strengths": [
+      "all_16_reddit_threads_across_the_research_pass_verified_real_with_matching_subreddits_and_titles_via_arctic_shift_archive",
+      "nws_normals_re_verified_exactly_against_the_ncei_api_for_station_USW00024023_after_the_rotating_clm_product_urls_went_stale",
+      "bls_lincoln_county_employment_corroborated_within_0_3_pct_via_the_qcew_open_data_api",
+      "va_clinic_and_gph_claims_corroborated_by_va_gov_gphealth_org_and_the_apps_own_va_sync_data_has_va_true_nearest_va_kind_outpatient",
+      "wind_exposure_supplied_by_the_same_day_cross_city_calibration_addendum_and_confirmed_against_weather_spark_hourly_means",
+      "independent_cross_corroboration_with_the_pre_existing_ordinary_evening_gold_pack",
+      "seven_question_reconciliation_table_with_divergences_held_not_averaged"
+    ],
+    "limitations": [
+      "the_two_cited_nws_clm_product_urls_are_rotating_and_had_gone_stale_on_verification_all_figures_re_verified_via_ncei",
+      "the_cited_bls_ted_article_carries_no_county_detail_the_14719_figure_reflects_a_preliminary_vintage_current_revised_qcew_reads_14757",
+      "genre_labels_are_a_single_analyst_judgment_call_not_yet_independently_reviewed_per_NANOGENRE_TAXONOMY_md_section_11_sign_off_rule",
+      "r_nebraska_skew_means_reputation_evidence_is_weaker_than_resident_accounts"
+    ],
+    "gaps": [
+      "one_more_city_needed_for_the_interior_regional_service_hub_broad_family_floor_of_5",
+      "reviewer_call_on_whether_rail_anchored_and_extraction_anchored_hubs_are_one_micro_genre_or_siblings",
+      "reviewer_call_on_whether_north_platte_wind_0_80_joins_a_wind_exposed_hub_genre_if_admitted",
+      "neighborhood_level_safety_and_school_quality_corpora_insufficient"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/INC110223",
+    "https://www.bls.gov/opub/ted/2025/employment-up-over-the-year-in-221-of-the-372-largest-u-s-counties-march-2025.htm",
+    "https://data.bls.gov/cew/data/api/2025/1/area/31111.csv",
+    "https://www.up.com/train-town/north-platte-ne",
+    "https://www.gphealth.org/about-us/",
+    "https://www.gphealth.org/clinics/",
+    "https://www.gphealth.org/provider-directory/",
+    "https://www.va.gov/nebraska-western-iowa-health-care/operating-status/",
+    "https://www.northplattene.gov/AgendaCenter/ViewFile/Minutes/_05282024-168",
+    "https://www.northplatteairport.com/flight-information/",
+    "https://www.visitnorthplatte.com/events/annual-events-festivals/nebraska-land-days/",
+    "https://www.visitnorthplatte.com/events/annual-events-festivals/north-platte-rail-days/",
+    "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL,MLY-TAVG-NORMAL&stations=USW00024023&format=json",
+    "https://weatherspark.com/y/5288/Average-Weather-in-North-Platte-Nebraska-United-States-Year-Round",
+    "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+    "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+    "https://www.reddit.com/r/Nebraska/comments/17ihms3/",
+    "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+    "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+    "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+    "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/",
+    "https://www.reddit.com/r/UnionPacific/comments/1gvktwk/",
+    "https://www.reddit.com/r/Nebraska/comments/1gw1wod/",
+    "https://www.city-data.com/forum/nebraska/3199780-how-north-platte-these-days-kearney.html"
+  ],
+  "structured": {
+    "genre_classification_proposed": {
+      "broad": [
+        "Interior Plains Regional Service Hub",
+        "Legacy Transportation Hub"
+      ],
+      "micro_primary": "Isolated Rail-Anchor Regional Service Hub",
+      "micro_secondary": [
+        "High-Plains Interstate Service City",
+        "Legacy Industrial Hub with Thin Amenity Depth"
+      ],
+      "nano_primary": {
+        "label": "Rail-Yard-Centered High-Plains Regional Hub",
+        "confidence": "high"
+      },
+      "nano_secondary": [
+        {
+          "label": "Low-Cost Regional Hub with Housing-Supply Friction",
+          "confidence": "medium"
+        },
+        {
+          "label": "Outdoor-Adjacent Rail City with Thin Nightlife",
+          "confidence": "medium"
+        }
+      ],
+      "one_sentence_description": "North Platte is a small High Plains regional hub whose enormous railroad complex, unusually deep healthcare and regional-service role give it more functional weight than its population suggests, while metro-scale amenities, social depth and housing supply remain comparatively thin.",
+      "admission_status": "NOT admitted to genre-ontology.ts. Per NANOGENRE_TAXONOMY.md section 3 / section 12 decision 1, admission requires 2 independently-researched cities for nano, 3 for micro, 5 for broad. FOUR RECURRENCE OBSERVATIONS for the next taxonomy review: (1) The 'isolated interior regional service hub' family now spans four cities across levels (Casper micro, Odessa micro, Cheyenne broad, North Platte micro+broad) -- one city short of the broad floor of 5, strong support for the eventual broad-from-micro clustering. (2) A 'single-anchor legacy-industry hub' shape recurs across industries: Casper+Odessa (energy/extraction, still 2 of 3 for micro) and North Platte (rail). Whether rail-anchored and extraction-anchored hubs are one micro genre or siblings under a broad family is a reviewer call -- the shared bundle is dominant employer, cycle exposure, wage-setting effects on housing and blue-collar identity. (3) Wind: Block 3 correctly omitted wind_exposure (community sample thin); the same-day calibration addendum supplied a measured 0.80 (April ~12.9 mph beats Cheyenne and Casper in spring; July ~9.7 mph floor). If the reviewer admits the Casper+Cheyenne Wind-Exposed Hub nano candidate, North Platte is a borderline third member pending a deliberate label revision -- flagged, not decided. (4) The 'event-rich peaks over thin ordinary-week baseline' divergence now recurs in three cities (Casper, Cheyenne, North Platte) and is independently corroborated for North Platte by the pre-existing ordinary-evening gold pack."
+    },
+    "reconciliation": [
+      {
+        "question": "Is North Platte simply a dying railroad town?",
+        "measured_evidence": "The Census estimates 22,524 residents in 2025, down 3.8% from the 2020 population-estimate base and below the 24,733 counted in 2010, confirming demographic contraction. Yet BLS reported Lincoln County employment at 14,719 in March 2025, up 1.9% year over year, and Union Pacific says Bailey Yard remains the world's largest classification yard at roughly 2,850 acres and about 10,000 rail cars handled daily. Sources: https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/INC110223 ; https://www.bls.gov/opub/ted/2025/employment-up-over-the-year-in-221-of-the-372-largest-u-s-counties-march-2025.htm ; https://www.up.com/train-town/north-platte-ne",
+        "experienced_evidence": "Residents frequently describe long-term stagnation, railroad dependence and a sense that Kearney passed North Platte economically, but they also point to hospital expansion, meatpacking and newer development as evidence that the city is still functioning and changing. Sources: https://www.reddit.com/r/Nebraska/comments/1euu9z1/ ; https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+        "resulting_trait": "Demographic decline without institutional collapse: North Platte is a shrinking or stagnant legacy hub whose railroad, healthcare and newer industrial functions remain regionally consequential."
+      },
+      {
+        "question": "Does a city this small actually function as a regional service center?",
+        "measured_evidence": "Census QuickFacts reports $795.8 million in 2022 retail sales and $463.7 million in health-care and social-assistance receipts for a city of about 23,000 people. Great Plains Health describes itself as a 116-bed regional referral center and lists primary care plus a broad specialist roster serving a multi-county region. Sources: https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/INC110223 ; https://www.gphealth.org/about-us/ ; https://www.gphealth.org/clinics/",
+        "experienced_evidence": "Western-Nebraska residents describe North Platte as a place people travel to for doctors, shopping, work and other services, even while North Platte residents themselves complain about having to travel for higher-order amenities. Sources: https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/ ; https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+        "resulting_trait": "A hub from below but isolated from above: North Platte offers substantial service depth relative to its rural hinterland while still lacking the breadth residents associate with a larger metro."
+      },
+      {
+        "question": "Is housing genuinely cheap, or is there a housing problem?",
+        "measured_evidence": "For 2020-2024 the Census reports a median owner-occupied home value of $169,100 and median gross rent of $921, which are low in absolute national terms. At the same time, North Platte's Comprehensive Plan explicitly calls for sufficient housing stock, more affordable and safe units, multifamily rentals, workforce housing and redevelopment of substandard stock. Sources: https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/INC110223 ; https://www.northplattene.gov/AgendaCenter/ViewFile/Minutes/_05282024-168",
+        "experienced_evidence": "Residents simultaneously call North Platte affordable and complain of a housing crisis, limited rental inventory, railroad-influenced rents and disappointing value in portions of the older stock. Sources: https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/ ; https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/ ; https://www.city-data.com/forum/nebraska/3199780-how-north-platte-these-days-kearney.html",
+        "resulting_trait": "Low absolute housing cost with real supply friction: North Platte can be inexpensive compared with national markets while still being frustratingly tight or poor-value relative to local wages and expectations for a city its size."
+      },
+      {
+        "question": "Is there anything to do?",
+        "measured_evidence": "The 2026 NEBRASKAland Days calendar documents a ten-day June celebration with four nights of PRCA rodeo, major concerts, a parade and additional community events; North Platte also hosts annual Rail Days centered on Bailey Yard. Sources: https://www.visitnorthplatte.com/events/annual-events-festivals/nebraska-land-days/ ; https://www.visitnorthplatte.com/events/annual-events-festivals/north-platte-rail-days/",
+        "experienced_evidence": "Residents repeatedly praise NEBRASKAland Days, breweries, fishing and camping while simultaneously describing ordinary nightlife as sparse and saying there is not much to do outside a limited set of activities. Sources: https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/ ; https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/",
+        "resulting_trait": "Event-rich peaks over a thin ordinary-week baseline: North Platte has genuine signature events and outdoor recreation without possessing deep day-to-day urban entertainment."
+      },
+      {
+        "question": "How isolated is North Platte if it has its own airport?",
+        "measured_evidence": "North Platte Regional Airport currently provides daily United Express jet service to Denver, allowing one-stop connections to many destinations rather than requiring every traveler to drive to a hub airport. Census data also show a very short 13.3-minute mean journey to work within the city. Sources: https://www.northplatteairport.com/flight-information/ ; https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/INC110223",
+        "experienced_evidence": "Residents nevertheless describe Denver, Omaha and many major-city amenities in multi-hour terms and explicitly cite major-airport access as a disadvantage. Sources: https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/ ; https://www.reddit.com/r/UnionPacific/comments/1gvktwk/",
+        "resulting_trait": "Locally convenient but regionally isolated: everyday commutes are short and a feeder airport softens air-travel isolation, yet access to a true metropolitan service ecosystem remains a trip rather than an errand."
+      },
+      {
+        "question": "Does North Platte have unexpectedly strong healthcare for its size?",
+        "measured_evidence": "Great Plains Health is a 116-bed regional referral center and currently lists family medicine, internal medicine, pediatrics, urgent care and specialties including cancer care, cardiology, neurology, endocrinology, gastroenterology, nephrology, pulmonology, rheumatology, orthopaedic surgery and urology. Its provider directory lists 161 providers. Sources: https://www.gphealth.org/about-us/ ; https://www.gphealth.org/clinics/ ; https://www.gphealth.org/provider-directory/",
+        "experienced_evidence": "Residents repeatedly cite the hospital as one of North Platte's strongest institutions, although one locums worker reported a very negative personal hospital experience. Source: https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+        "resulting_trait": "Structurally deep regional healthcare with under-sampled user experience: facility capacity is clearly strong for city size, while the community corpus cannot establish whether navigation, wait times and patient experience are equally strong."
+      },
+      {
+        "question": "Is the climate more Great Plains Midwest or High Plains West?",
+        "measured_evidence": "NWS 1991-2020 normals for North Platte put the January mean at about 26.3F, with a normal January average high of 40.7F and low of 11.9F. July normals are about 89.7F for the average high and 61.4F for the average low, with roughly 14.4 July days reaching at least 90F. Sources: https://forecast.weather.gov/product.php?format=CI&glossary=1&issuedby=LBF&product=CLM&site=EWX&version=4 ; https://forecast.weather.gov/product.php?format=CI&glossary=1&issuedby=LBF&product=CLM&site=DMX&version=9 ; https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals",
+        "experienced_evidence": "Residents describe western and southwest Nebraska as cold and relatively dry in winter and hot but generally drier in summer than eastern Nebraska, often comparing the climate culturally and meteorologically with eastern Colorado or Wyoming. Sources: https://www.reddit.com/r/Nebraska/comments/17ihms3/how_is_southwest_nebraska_planning_to_move_there/ ; https://www.reddit.com/r/Nebraska/comments/1gw1wod/",
+        "resulting_trait": "High-Plains seasonal exposure: genuinely cold winters and hot summers occur in a drier western-Nebraska regime, supporting the High-Plains component of the proposed genre without requiring a wind-centered label."
+      }
+    ],
+    "divergences": [
+      {
+        "topic": "statewide_reputation_vs_lived_everyday_safety",
+        "poles": [
+          {
+            "perspective": "lived",
+            "claim": "Residents, frequent visitors and a visibly LGBTQ+ area worker describe ordinary daily life as substantially safer and more livable than the caricature, disputing pervasive violence.",
+            "status": "present"
+          },
+          {
+            "perspective": "measured",
+            "claim": "North Platte's statewide online reputation is loudly negative -- drugs, decline and drive-through jokes recur for years across r/Nebraska, and the discourse volume itself is a measurable fact about the city's civic image.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Reputation discourse and lived everyday experience measure different things; both poles hold. This is the corpus's first divergence in this direction -- a NEGATIVE reputation contradicted by ordinary lived experience, the mirror image of the marketing-vs-lived divergences documented for Elko and Casper. Worth naming at the next taxonomy review as a divergence family. Maps to board Divergence Flag = Minor per NANOGENRE_TAXONOMY.md section 8."
+      },
+      {
+        "topic": "event_richness_vs_ordinary_night_depth",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "A ten-day NEBRASKAland Days celebration with PRCA rodeo nights, major concerts and a parade, plus annual Rail Days -- documented signature events.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe ordinary-week nightlife as sparse and repetitive outside bars, with the ordinary venue layer real but thin.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Third city with this divergence shape (after Casper and Cheyenne), and for North Platte it is independently corroborated by the pre-existing ordinary-evening gold pack (north_platte_ordinary_evening_2026): the ordinary venue layer is real; events amplify rather than constitute the evening. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "cheap_sticker_prices_vs_supply_friction",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "Median home value $169,100 and median gross rent $921 -- among the lowest of any researched city -- while the city's own Comprehensive Plan calls for more affordable units, multifamily rentals and workforce housing.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe a housing crisis, limited rental inventory, railroad-calibrated rents and disappointing older stock.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "Absolute price level and supply/value-for-wage friction measure different things; both poles hold, and the municipal planning record sides with the friction pole. Maps to board Divergence Flag = Minor."
+      },
+      {
+        "topic": "local_convenience_vs_regional_isolation",
+        "poles": [
+          {
+            "perspective": "measured",
+            "claim": "A 13.3-minute mean commute and daily United Express jet service to Denver from the local airport.",
+            "status": "present"
+          },
+          {
+            "perspective": "lived",
+            "claim": "Residents describe Denver, Omaha and metro-scale amenities in multi-hour terms and cite hub-airport access as a disadvantage.",
+            "status": "present"
+          }
+        ],
+        "stance": "co_true_different_measures",
+        "note": "In-city convenience and metro-ecosystem access measure different things; both poles hold. Same structural pattern as Odessa's air-connected-but-isolated finding and Cheyenne's short-commute-but-car-dependent finding. Maps to board Divergence Flag = Minor."
+      }
+    ],
+    "verification": {
+      "verified_on": "2026-08-20",
+      "method": "All 16 distinct Reddit thread URLs across the research pass resolved via the Arctic Shift archive with matching subreddits and on-topic titles. Structural sources: Census QuickFacts, City-Data forum, all three gphealth.org pages, NCEI normals page, airport, city minutes PDF, up.com, va.gov and both visitnorthplatte pages resolved directly; the BLS TED article loaded in a real browser but carries no county detail, so the Lincoln County figure was corroborated via the QCEW open-data API (March 2025 revised: 14,757 vs cited 14,719, a 0.3% vintage difference); the two cited NWS CLM product URLs had rotated, and every climate figure was re-verified exactly against the NCEI normals API for station USW00024023 (Jan 40.7/11.9/26.3; Jul 89.7/61.4). The wind calibration addendum was confirmed against Weather Spark (April ~12.9 mph windiest, July ~9.7 mph calmest). VA and hospital claims additionally match the app's own VA sync data (has_va true, nearest_va_kind outpatient).",
+      "dead_links": [],
+      "dead_link_disposition": "No dead links; two rotating NWS CLM product URLs flagged, retained verbatim in the reconciliation, and corroborated via the stable NCEI API added to source_urls."
+    }
+  }
+}

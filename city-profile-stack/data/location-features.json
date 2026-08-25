@@ -254,9 +254,9 @@
       "dossier_key": "reddit_sentiment_2026",
       "features": {
         "wind_exposure": {
-          "value": 0.98,
+          "value": 0.9,
           "confidence": 0.85,
-          "evidence": "The clearest consensus in the dossier and the highest-confidence value in it. Wind reaches driving, heating, building upkeep, recreation, gardening, road visibility and climate tolerance; even residents who love Casper do not dispute the severity.",
+          "evidence": "The clearest consensus in the dossier and the highest-confidence value in it. Wind reaches driving, heating, building upkeep, recreation, gardening, road visibility and climate tolerance; even residents who love Casper do not dispute the severity. Recalibrated 2026-08-20 against cross-city hourly wind means (owner calibration pass, Weather Spark station data independently re-verified): January ~15.0 mph, the strongest winter wind regime of the researched cities; value trimmed from 0.98 to 0.90 to anchor the top of the national scale.",
           "signals": [
             "relentless_wind"
           ]
@@ -2722,6 +2722,2716 @@
         "discussed_but_unscoreable: whether homelessness is primarily a public-order problem or a housing-and-healthcare failure — residents disagree fundamentally",
         "searched_not_found: consistent closing-hour evidence; the refrain is thin redundancy rather than a hard citywide closing time",
         "not_researched: whether the 'small city' classification should become a fifth pace category alongside urban/suburban/small_town/rural"
+      ]
+    },
+    {
+      "city": "Victorville",
+      "state": "CA",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.45,
+          "confidence": 0.55,
+          "evidence": "Residents explicitly warn newcomers about freezing nights and a distinctly colder high-desert winter than lower-elevation Southern California.",
+          "signals": [
+            "winter_cold_and_occasional_snow"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.25,
+          "confidence": 0.45,
+          "evidence": "Snow occurs and can disrupt Cajon Pass travel, but residents do not describe persistent snow cover as a normal daily winter burden.",
+          "signals": [
+            "winter_cold_and_occasional_snow"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.85,
+          "confidence": 0.78,
+          "evidence": "Multiple independent threads describe summer heat as intense enough to constrain daytime outdoor activity.",
+          "signals": [
+            "dry_extreme_summer_heat"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.15,
+          "confidence": 0.62,
+          "evidence": "Residents consistently characterize the summer heat as dry rather than muggy.",
+          "signals": [
+            "dry_extreme_summer_heat"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.55,
+          "confidence": 0.57,
+          "evidence": "Spring and other shoulder seasons receive favorable comments, while intense summer heat and cold/wind reduce year-round comfort.",
+          "signals": [
+            "dry_extreme_summer_heat",
+            "persistent_wind_and_cool_nights",
+            "winter_cold_and_occasional_snow"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.85,
+          "confidence": 0.67,
+          "evidence": "Residents treat air conditioning as necessary during summer and report potentially substantial cooling costs.",
+          "signals": [
+            "dry_extreme_summer_heat",
+            "high_ac_dependence"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.5,
+          "confidence": 0.65,
+          "evidence": "Recalibrated 2026-08-20 against cross-city hourly wind means (owner calibration pass, Weather Spark station data independently re-verified): Victorville averages roughly 7-9 mph with a spring peak near 9 mph in April - genuinely windier than the San Bernardino/Ontario basin (5.3-7.4 mph), so residents' wind complaints are real, but far below the Cheyenne/Casper winter regime (January ~15 mph). Locally windy, not Wyoming-level wind-exposed. Aligned to the calibration addendum's published scale (0.50); original community-sentiment value was 0.75.",
+          "signals": [
+            "persistent_wind_and_cool_nights"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.75,
+          "confidence": 0.72,
+          "evidence": "Residents identify local desert recreation plus nearby hiking, Mojave Narrows, Silverwood, Wrightwood and mountain destinations.",
+          "signals": [
+            "nearby_outdoor_recreation"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.6,
+          "confidence": 0.58,
+          "evidence": "Quiet desert views, stars and sunsets are repeatedly cited as positive reasons to enjoy living in the High Desert.",
+          "signals": [
+            "desert_scenery_and_quiet"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.5,
+          "confidence": 0.48,
+          "evidence": "Residents regularly include Silverwood-area recreation among nearby outdoor options, although water recreation is not a dominant Victorville theme.",
+          "signals": [
+            "nearby_outdoor_recreation"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.62,
+          "confidence": 0.72,
+          "evidence": "Major employment, higher-level healthcare, airport access and deeper entertainment frequently require a trip down Cajon Pass.",
+          "signals": [
+            "cajon_pass_commute_penalty",
+            "basic_care_local_specialty_care_leaks",
+            "passenger_airport_access_is_awkward"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.4,
+          "confidence": 0.72,
+          "evidence": "Victorville supplies ordinary restaurants, shopping and activities but residents repeatedly describe limited variety and travel elsewhere for deeper options.",
+          "signals": [
+            "amenities_exist_but_repeat",
+            "regional_service_center_role"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.45,
+          "confidence": 0.5,
+          "evidence": "Victorville acts as a regional shopping hub, yet scarce destinations such as Costco serve a very large catchment and some residents travel down hill for broader selection.",
+          "signals": [
+            "regional_service_center_role"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.3,
+          "confidence": 0.58,
+          "evidence": "Community discussions of Ontario Airport describe the connection as inconvenient without a car and very slow by public transit.",
+          "signals": [
+            "passenger_airport_access_is_awkward"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.9,
+          "confidence": 0.82,
+          "evidence": "Multiple independent transit discussions agree that dispersed destinations and hourly buses make a reliable car the practical default.",
+          "signals": [
+            "strong_car_dependence",
+            "transit_usable_but_slow"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.2,
+          "confidence": 0.76,
+          "evidence": "Residents explicitly describe Victorville as car-oriented and complain that Old Town has not yet developed into the walkable center they want.",
+          "signals": [
+            "weak_walkable_core"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.5,
+          "confidence": 0.48,
+          "evidence": "Community accounts describe basic healthcare, Kaiser facilities and hospitals as available locally, despite substantial criticism of the hospital environment.",
+          "signals": [
+            "basic_care_local_specialty_care_leaks"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.35,
+          "confidence": 0.52,
+          "evidence": "Network-specific accounts describe repeated travel down hill for services that were not available or convenient locally.",
+          "signals": [
+            "basic_care_local_specialty_care_leaks"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.3,
+          "confidence": 0.66,
+          "evidence": "Residents repeatedly distinguish adequate basic care from specialist, complex or higher-acuity care that often requires Ontario or Loma Linda.",
+          "signals": [
+            "basic_care_local_specialty_care_leaks"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.3,
+          "confidence": 0.76,
+          "evidence": "Independent job-search threads repeatedly report difficulty finding work locally and recommend searching down hill.",
+          "signals": [
+            "local_job_search_difficulty"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.9,
+          "confidence": 0.83,
+          "evidence": "The Cajon Pass is repeatedly described as a major daily cost whose congestion, accidents and weather can turn ordinary commutes into multi-hour trips.",
+          "signals": [
+            "cajon_pass_commute_penalty"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.4,
+          "confidence": 0.48,
+          "evidence": "Community accounts describe rising housing costs alongside a local labor market many residents consider too thin, but direct wage-to-cost evidence is under-sampled.",
+          "signals": [
+            "local_cost_wage_mismatch"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.65,
+          "confidence": 0.47,
+          "evidence": "Long-time residents associate recent in-migration with higher housing prices and greater pressure on local systems, although community accounts do not quantify the effect.",
+          "signals": [
+            "growth_strain_is_visible_in_discourse",
+            "housing_bargain_eroding"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.65,
+          "confidence": 0.73,
+          "evidence": "Residents still choose Victorville because ownership is attainable relative to much of Southern California, while emphasizing that prices are no longer historically cheap.",
+          "signals": [
+            "california_relative_housing_value",
+            "housing_bargain_eroding"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.8,
+          "confidence": 0.73,
+          "evidence": "Recent buyers describe obtaining newer multi-bedroom detached homes and yards at prices that would buy substantially less house down hill.",
+          "signals": [
+            "california_relative_housing_value"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.45,
+          "confidence": 0.45,
+          "evidence": "Families can identify parks, recreation and schools, but community threads complain about limited children's activities and often prefer particular nearby communities or school areas.",
+          "signals": [
+            "family_location_preferences_are_uneven",
+            "school_reputation_uneven",
+            "amenities_exist_but_repeat"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.45,
+          "confidence": 0.57,
+          "evidence": "Newcomers seeking friends are routinely directed toward hobby groups, sports, hiking, libraries and organized events rather than a naturally dense social circuit.",
+          "signals": [
+            "hobby_based_social_entry"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.6,
+          "confidence": 0.52,
+          "evidence": "When residents ask about conventional adult nightlife, the limited recommendations disproportionately center on bars and breweries.",
+          "signals": [
+            "thin_nightlife_depth"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.3,
+          "confidence": 0.7,
+          "evidence": "Young-adult threads repeatedly characterize evening choices as limited and frequently suggest going down hill for more variety.",
+          "signals": [
+            "thin_nightlife_depth"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.45,
+          "confidence": 0.57,
+          "evidence": "Resident accounts vary dramatically by neighborhood: some specific areas generate recurring warnings while other residents report long periods without serious problems.",
+          "signals": [
+            "safety_varies_block_by_block"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.6,
+          "confidence": 0.35,
+          "evidence": "Drug problems are a conspicuous part of Victorville's community discourse, but that discourse is frequently inflammatory and too stereotype-heavy to justify an extreme value or strong confidence.",
+          "signals": [
+            "substance_problem_discourse_is_loud"
+          ]
+        }
+      },
+      "gaps": [
+        "not_researched: political conservatism, political heterogeneity, religious-culture prominence and municipal LGBTQ policy were outside this research pass.",
+        "discussed_but_unscoreable: LGBTQ social acceptance, racial inclusion and related interpersonal-climate claims appeared too thinly or inflammatory to score responsibly.",
+        "not_researched: remote-work infrastructure, tourism pressure, economic-cycle exposure, precipitation seasonality, winter daylight deficit and severe-storm risk were not independently developed in the community-source pass.",
+        "searched_not_found: targeted apartment discussions produced useful property-level safety recommendations but did not establish citywide rental vacancy, wait-list or competition conditions strongly enough to score rental_availability."
+      ]
+    },
+    {
+      "city": "Gilbert",
+      "state": "AZ",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.06,
+          "confidence": 0.68,
+          "evidence": "Cold-climate transplants repeatedly contrast Gilbert with sustained northern winter and describe the cooler season as comfortable outdoor weather.",
+          "signals": [
+            "winter_is_mild_and_snow_is_not_a_burden"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.01,
+          "confidence": 0.7,
+          "evidence": "Resident comparisons explicitly treat living without recurring snow as a major contrast with the Midwest and other cold climates.",
+          "signals": [
+            "winter_is_mild_and_snow_is_not_a_burden"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.97,
+          "confidence": 0.82,
+          "evidence": "Multiple independent accounts describe the hottest months as severely limiting ordinary daytime outdoor activity and shifting life toward pools, air conditioning and off-hour schedules.",
+          "signals": [
+            "extreme_summer_heat_controls_schedule",
+            "outdoor_life_is_strongly_seasonal"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.61,
+          "confidence": 0.63,
+          "evidence": "Residents describe many excellent fall-through-spring outdoor months but substantial summer restrictions, producing a strong seasonal split rather than year-round comfort.",
+          "signals": [
+            "outdoor_life_is_strongly_seasonal",
+            "extreme_summer_heat_controls_schedule"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.96,
+          "confidence": 0.74,
+          "evidence": "Community accounts consistently treat air conditioning as fundamental to normal summer life rather than an optional comfort.",
+          "signals": [
+            "extreme_summer_heat_controls_schedule"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.67,
+          "confidence": 0.68,
+          "evidence": "Gilbert has canals, parks and the Riparian Preserve locally, while residents report substantial hiking terrain roughly 15 to 30 minutes away.",
+          "signals": [
+            "serious_trails_are_close_not_in_town",
+            "outdoor_life_is_strongly_seasonal"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.12,
+          "confidence": 0.72,
+          "evidence": "Residents treat Chandler, Mesa, Tempe and Scottsdale as routine drive-to destinations rather than separate trips, placing Gilbert firmly inside a large metro amenity network.",
+          "signals": [
+            "east_valley_access_is_convenient",
+            "chandler_is_a_close_peer"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.64,
+          "confidence": 0.66,
+          "evidence": "Gilbert has strong routine retail and a substantial restaurant core, but residents still travel to Scottsdale, Tempe or Phoenix for deeper nightlife and urban culture.",
+          "signals": [
+            "downtown_restaurant_core_is_real",
+            "nightlife_depth_is_limited",
+            "routine_retail_is_abundant"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.7,
+          "confidence": 0.55,
+          "evidence": "Residents describe broad retail access and major shopping nodes locally while noting that Scottsdale retains the deepest luxury and specialty shopping.",
+          "signals": [
+            "routine_retail_is_abundant",
+            "east_valley_access_is_convenient"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.76,
+          "confidence": 0.48,
+          "evidence": "Residents near central and northern Gilbert describe Phoenix Sky Harbor as a routine drive rather than a distant trip, although exact time varies materially across the town.",
+          "signals": [
+            "east_valley_access_is_convenient"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.92,
+          "confidence": 0.88,
+          "evidence": "Residents organize routine life in drive-time terms, and Gilbert's own engineering standards explicitly document very low transit, cycling and walking modal shares.",
+          "signals": [
+            "car_dependence_is_experienced_norm",
+            "car_dependence_is_structurally_documented"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.58,
+          "confidence": 0.62,
+          "evidence": "The Heritage District functions as a compact area where restaurants, bars and events can be circulated on foot, but that pattern does not extend to most of Gilbert.",
+          "signals": [
+            "downtown_restaurant_core_is_real",
+            "car_dependence_is_experienced_norm"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.67,
+          "confidence": 0.42,
+          "evidence": "Resident accounts emphasize employment options across the wider Phoenix Valley rather than a self-contained Gilbert labor market.",
+          "signals": [
+            "valley_job_market_broadens_options",
+            "east_valley_access_is_convenient"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.49,
+          "confidence": 0.46,
+          "evidence": "Cross-East-Valley trips are often manageable, but commuting to central Phoenix introduces materially longer and more variable travel times.",
+          "signals": [
+            "downtown_phoenix_commute_can_be_costly",
+            "east_valley_access_is_convenient"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.38,
+          "confidence": 0.61,
+          "evidence": "Housing discussions repeatedly describe younger or non-equity households struggling to translate ordinary earnings into homeownership despite Gilbert's high-income reputation.",
+          "signals": [
+            "local_income_does_not_erase_cost_pressure",
+            "housing_affordability_has_eroded"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.78,
+          "confidence": 0.66,
+          "evidence": "Apartment construction, traffic, utility costs and development pace are recurring local discussion topics, indicating that ongoing growth remains visible in daily life.",
+          "signals": [
+            "growth_pressure_is_visible"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.26,
+          "confidence": 0.69,
+          "evidence": "Residents widely describe current purchase prices and rents as much harder to enter than Gilbert's earlier suburban price point.",
+          "signals": [
+            "housing_affordability_has_eroded",
+            "local_income_does_not_erase_cost_pressure"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.43,
+          "confidence": 0.62,
+          "evidence": "Gilbert no longer delivers a strong generic suburban discount, but residents still see noticeably better house value than Scottsdale or North Scottsdale.",
+          "signals": [
+            "gilbert_retains_relative_value_vs_scottsdale",
+            "housing_affordability_has_eroded"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.39,
+          "confidence": 0.4,
+          "evidence": "Recent lower-budget rental searches describe limited options and fast-moving listings; evidence is thinner for higher-priced rentals.",
+          "signals": [
+            "lower_cost_rentals_are_competitive"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.87,
+          "confidence": 0.8,
+          "evidence": "Independent threads converge strongly on parks, youth activities, school options and neighborhoods oriented around children and families.",
+          "signals": [
+            "family_orientation_is_core",
+            "school_choice_is_a_family_asset"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.64,
+          "confidence": 0.56,
+          "evidence": "Residents repeatedly identify a visible LDS presence, temple and neighborhood church activity while also saying non-LDS daily life is generally ordinary and not dominated by religion.",
+          "signals": [
+            "lds_presence_is_visible_not_totalizing"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.59,
+          "confidence": 0.43,
+          "evidence": "Newcomers report successful friendship-building through pickleball, gyms, clubs and organized events, but the evidence suggests deliberate participation rather than effortless spontaneous integration.",
+          "signals": [
+            "friend_making_is_activity_based"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.4,
+          "confidence": 0.4,
+          "evidence": "Bars and breweries are visible in the downtown evening scene, but family activities, sports, clubs, parks and church-based networks provide substantial non-drinking social routes.",
+          "signals": [
+            "nightlife_depth_is_limited",
+            "friend_making_is_activity_based",
+            "family_orientation_is_core"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.37,
+          "confidence": 0.68,
+          "evidence": "Downtown Gilbert offers usable bars and evening activity, but young-single threads consistently identify Scottsdale, Tempe and Phoenix as deeper nightlife markets.",
+          "signals": [
+            "nightlife_depth_is_limited",
+            "downtown_restaurant_core_is_real"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.42,
+          "confidence": 0.49,
+          "evidence": "The community repeatedly characterizes Gilbert as family-weighted and redirects singles seeking a larger adult social scene toward Scottsdale, Tempe or Phoenix.",
+          "signals": [
+            "family_orientation_is_core",
+            "nightlife_depth_is_limited"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.38,
+          "confidence": 0.6,
+          "evidence": "Residents repeatedly criticize generic subdivisions, chains and strip-mall development, although downtown, Agritopia and older agricultural remnants provide recognizable local identity.",
+          "signals": [
+            "suburban_blandness_is_a_recurring_critique",
+            "downtown_restaurant_core_is_real"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.86,
+          "confidence": 0.78,
+          "evidence": "Many independent resident accounts describe unusually low everyday safety anxiety, while property-crime anecdotes and the Gilbert Goons controversy prevent a perfect score.",
+          "signals": [
+            "everyday_safety_feels_high",
+            "safety_image_has_real_caveats"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Targeted Gilbert-specific healthcare searches did not produce enough independent resident discussion about primary-care wait times, referral friction or specialist access to score routine_healthcare_access, healthcare_navigability or specialist_healthcare_access responsibly.",
+        "searched_not_found: Gilbert-specific community discussion of humidity, allergy season, wind and severe-storm burden was too sparse in this pass to score those climate features from community sentiment.",
+        "discussed_but_unscoreable: Political climate is discussed, but much of the material is partisan, comparative or inflammatory rather than a stable description of the local civic environment; political_conservatism and political_heterogeneity are omitted.",
+        "discussed_but_unscoreable: Race and inclusion appear in some anecdotes, but the sample is too thin and sensitive to generalize into racial_inclusion_climate.",
+        "discussed_but_unscoreable: LGBTQ-related relocation questions exist, but this pass did not establish enough independent firsthand accounts to score lgbtq_social_acceptance, lgbtq_scene_size or lgbtq_municipal_policy.",
+        "not_researched: VA outpatient and VA hospital access were outside the community-discussion evidence developed in this pass.",
+        "not_researched: Water-recreation access and substance-problem visibility were not investigated deeply enough to score."
+      ]
+    },
+    {
+      "city": "Odessa",
+      "state": "TX",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "summer_heat_severity": {
+          "value": 0.9,
+          "confidence": 0.8,
+          "evidence": "Recent relocation threads consistently describe Odessa as extremely hot in summer and tell newcomers to prepare for sustained heat.",
+          "signals": [
+            "summer_hot_dry"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.25,
+          "confidence": 0.55,
+          "evidence": "Residents explicitly praise the dry air and contrast it with humid parts of Texas, although the topic is not discussed as often as heat.",
+          "signals": [
+            "low_humidity_relief"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.45,
+          "confidence": 0.6,
+          "evidence": "Summer heat materially constrains outdoor comfort, while the evidence does not show similarly severe year-round cold limitations.",
+          "signals": [
+            "summer_hot_dry",
+            "low_humidity_relief"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.75,
+          "confidence": 0.55,
+          "evidence": "Dust, wind and blowing conditions recur in relocation descriptions strongly enough to be part of the experienced climate.",
+          "signals": [
+            "wind_dust_hail"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.7,
+          "confidence": 0.5,
+          "evidence": "Residents mention hail and damaging storms as meaningful property and driving concerns, though the community evidence does not quantify frequency.",
+          "signals": [
+            "wind_dust_hail"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.2,
+          "confidence": 0.75,
+          "evidence": "Local biking and disc-golf options exist, but residents repeatedly send hikers and nature seekers hours toward Big Bend or New Mexico.",
+          "signals": [
+            "outdoor_recreation_requires_driving"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.15,
+          "confidence": 0.65,
+          "evidence": "The surrounding landscape is more often described as bleak, dusty or something to leave for recreation than as a reason residents stay.",
+          "signals": [
+            "outdoor_recreation_requires_driving",
+            "geographic_isolation"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.85,
+          "confidence": 0.8,
+          "evidence": "Multiple independent relocation and outdoor threads describe major-city amenities and significant natural recreation as several-hour trips.",
+          "signals": [
+            "geographic_isolation",
+            "outdoor_recreation_requires_driving"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.4,
+          "confidence": 0.8,
+          "evidence": "Residents can name entertainment, food, museums, sports and retail, but repeatedly say the choices become repetitive for a region of this size.",
+          "signals": [
+            "amenities_exist_but_repeat",
+            "local_food_bright_spot"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.9,
+          "confidence": 0.75,
+          "evidence": "Community discussion describes everyday Midessa life as strongly car-first, with incomplete sidewalks and driving assumed for normal errands.",
+          "signals": [
+            "car_first_daily_life",
+            "short_local_drive_times"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.6,
+          "confidence": 0.45,
+          "evidence": "Residents identify local hospitals and recommend individual Odessa primary and maternity providers, indicating meaningful routine-care capacity despite mixed satisfaction.",
+          "signals": [
+            "routine_care_options_exist"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.25,
+          "confidence": 0.7,
+          "evidence": "Recent specialist discussions repeatedly recommend traveling to Lubbock or Dallas for serious or complex medical problems.",
+          "signals": [
+            "complex_care_often_outbound"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.85,
+          "confidence": 0.8,
+          "evidence": "Work-driven relocation is one of the dominant local thread genres, with newcomers repeatedly arriving because regional job offers are materially attractive.",
+          "signals": [
+            "oilfield_job_depth"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.2,
+          "confidence": 0.75,
+          "evidence": "Residents consistently describe oil and gas as the economic engine whose movements affect employment, housing and local confidence.",
+          "signals": [
+            "oil_cycle_dependence",
+            "oilfield_job_depth"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.9,
+          "confidence": 0.8,
+          "evidence": "Oilfield, mechanical and industrial workers repeatedly describe earnings as the central reason the region is worth living in.",
+          "signals": [
+            "high_wage_trade_opportunity"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.35,
+          "confidence": 0.55,
+          "evidence": "Trips within Odessa are described as short, but work locations elsewhere in the basin and I-20 construction can create materially longer regional commutes.",
+          "signals": [
+            "short_local_drive_times",
+            "road_driver_stress"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.55,
+          "confidence": 0.55,
+          "evidence": "Oil-linked wages can support local costs well, while teachers and other non-oil workers describe a much less favorable wage-to-cost relationship.",
+          "signals": [
+            "high_wage_trade_opportunity",
+            "non_oil_wage_squeeze",
+            "housing_cost_pressure"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.65,
+          "confidence": 0.5,
+          "evidence": "Residents identify expanding north and east Odessa development while simultaneously complaining about housing costs and infrastructure lag.",
+          "signals": [
+            "east_north_growth",
+            "housing_cost_pressure"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.9,
+          "confidence": 0.8,
+          "evidence": "Community accounts explicitly tie housing, jobs and local activity to oil booms and downturns.",
+          "signals": [
+            "oil_cycle_dependence"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.45,
+          "confidence": 0.7,
+          "evidence": "Housing is repeatedly called expensive, especially by newcomers and non-oil workers, even though Odessa is commonly cheaper than Midland.",
+          "signals": [
+            "housing_cost_pressure",
+            "odessa_cost_edge_over_midland"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.4,
+          "confidence": 0.65,
+          "evidence": "Residents often complain that housing costs are high relative to the city's amenity depth and isolated setting.",
+          "signals": [
+            "housing_cost_pressure",
+            "amenities_exist_but_repeat"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.55,
+          "confidence": 0.4,
+          "evidence": "Relocation threads routinely compare numerous apartment complexes, suggesting meaningful inventory, but the source base speaks much more clearly about price than vacancy or wait times.",
+          "signals": [
+            "housing_cost_pressure",
+            "east_north_growth"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.8,
+          "confidence": 0.7,
+          "evidence": "Residents routinely describe the public culture as strongly conservative, while visible progressive residents and organizing prevent a near-1.0 score.",
+          "signals": [
+            "conservative_public_climate"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.55,
+          "confidence": 0.4,
+          "evidence": "LGBTQ residents and movers describe a conservative broader climate but also point to a Pride organization, friendly churches and people able to find compatible circles.",
+          "signals": [
+            "lgbtq_network_small_present",
+            "conservative_public_climate"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.35,
+          "confidence": 0.5,
+          "evidence": "A discoverable Odessa LGBTQ network and recurring events exist, but the discussion does not describe a large dedicated venue, nightlife or dating ecosystem.",
+          "signals": [
+            "lgbtq_network_small_present"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.45,
+          "confidence": 0.4,
+          "evidence": "Conservative culture appears dominant, but local threads also show open progressive organizing and residents publicly dissenting from that majority climate.",
+          "signals": [
+            "conservative_public_climate"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.55,
+          "confidence": 0.5,
+          "evidence": "Families can find sports, entertainment, museums and activities, but substantial disagreement over school quality prevents a stronger score.",
+          "signals": [
+            "family_activities_exist",
+            "schools_negative_reputation_mixed"
+          ]
+        },
+        "religious_culture_prominence": {
+          "value": 0.7,
+          "confidence": 0.55,
+          "evidence": "Church and church events repeatedly appear as default recommendations for meeting people and building community.",
+          "signals": [
+            "church_sports_social_channels",
+            "conservative_public_climate"
+          ]
+        },
+        "racial_inclusion_climate": {
+          "value": 0.5,
+          "confidence": 0.35,
+          "evidence": "First-hand accounts directly conflict: some residents describe race as largely unremarkable in daily life while another Black resident reports explicit recurring harassment. The discussion itself becomes inflammatory, so disagreement is retained rather than resolved.",
+          "signals": [
+            "racial_climate_conflicted"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.4,
+          "confidence": 0.7,
+          "evidence": "Newcomers report that transient workers, long schedules and existing circles make passive friend-making difficult, although structured activities provide routes in.",
+          "signals": [
+            "social_integration_effort",
+            "church_sports_social_channels"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.35,
+          "confidence": 0.75,
+          "evidence": "Bars, breweries, karaoke and dancing exist, but multiple independent threads characterize the circuit as limited and repetitive.",
+          "signals": [
+            "nightlife_thin",
+            "amenities_exist_but_repeat"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.3,
+          "confidence": 0.6,
+          "evidence": "Repeated young-adult threads describe loneliness, difficulty finding dates and frustration with the local dating environment.",
+          "signals": [
+            "dating_pool_friction"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.65,
+          "confidence": 0.6,
+          "evidence": "The work-first oilfield identity, Odessa-versus-Midland distinction, local sports culture and strong shared vocabulary around the Permian Basin give the place a recognizable character despite chain-heavy development.",
+          "signals": [
+            "oilfield_job_depth",
+            "amenities_exist_but_repeat",
+            "local_food_bright_spot"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.55,
+          "confidence": 0.55,
+          "evidence": "Many residents say ordinary life in decent neighborhoods is uneventful, while others emphasize theft, risky driving and neighborhood-specific problems.",
+          "signals": [
+            "safety_neighborhood_dependent",
+            "road_driver_stress"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.5,
+          "confidence": 0.3,
+          "evidence": "Drug use and treatment needs appear in West Odessa and rehabilitation discussions, but the evidence is thin and sometimes inflammatory. A mid-range value with low confidence preserves visibility without generalizing isolated accounts to the city.",
+          "signals": [
+            "safety_neighborhood_dependent"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Targeted community searches produced too little Odessa-specific discussion of normal winter cold, snow and ice to score winter_cold_severity or snow_burden responsibly.",
+        "discussed_but_unscoreable: Rain is described mainly through dryness, rare storms and flooding anecdotes, not with enough seasonal detail to score precipitation_seasonality.",
+        "not_researched: VA outpatient and VA hospital access were not investigated in the community-sentiment layer.",
+        "not_researched: Remote-work viability was not investigated closely enough to score.",
+        "not_researched: Public-land access and water-recreation access were not independently developed beyond the broader finding that significant outdoor recreation often requires travel.",
+        "discussed_but_unscoreable: The community material establishes the existence of an LGBTQ social network but does not establish Odessa municipal LGBTQ policy, so lgbtq_municipal_policy is omitted.",
+        "discussed_but_unscoreable: Community healthcare discussion does not cleanly separate appointment availability and referral administration from perceived doctor quality, so healthcare_navigability is omitted."
+      ]
+    },
+    {
+      "city": "Cheyenne",
+      "state": "WY",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.72,
+          "confidence": 0.72,
+          "evidence": "Winter threads consistently describe genuinely cold weather, periodic deep-cold outbreaks and the need for serious winter clothing, while residents also say outsiders sometimes exaggerate it.",
+          "signals": [
+            "wind_is_daily_life",
+            "winter_disrupts_regional_travel"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.68,
+          "confidence": 0.7,
+          "evidence": "Residents describe recurring snow, occasional major dumps and snow-plus-wind conditions that affect roads and daily planning, without portraying the city as continuously snowbound.",
+          "signals": [
+            "winter_disrupts_regional_travel",
+            "wind_is_daily_life"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.32,
+          "confidence": 0.48,
+          "evidence": "Residents describe warm and occasionally hot summers but generally contrast them favorably with hotter southern climates.",
+          "signals": [
+            "summer_is_mildish_and_dry"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.12,
+          "confidence": 0.45,
+          "evidence": "Community descriptions explicitly characterize summer as low-humidity and dry.",
+          "signals": [
+            "summer_is_mildish_and_dry"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.48,
+          "confidence": 0.52,
+          "evidence": "Residents praise spring, summer and fall stretches but repeatedly describe winter cold and persistent wind as materially reducing comfortable outdoor time.",
+          "signals": [
+            "summer_is_mildish_and_dry",
+            "wind_is_daily_life"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.88,
+          "confidence": 0.85,
+          "evidence": "Recalibrated 2026-08-20 against cross-city hourly wind means (owner calibration pass, Weather Spark station data independently re-verified): wind is a defining climatic feature especially fall through spring (January ~14.7 mph, five months at or above ~11-12 mph; NWS 2025 annual average 11.3 mph), but slightly below Casper's regime. Original value was 0.95.",
+          "signals": [
+            "wind_is_daily_life"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.63,
+          "confidence": 0.48,
+          "evidence": "Residents repeatedly mention damaging hail and high-wind events as property and vehicle considerations.",
+          "signals": [
+            "hail_is_property_cost",
+            "wind_is_daily_life"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.78,
+          "confidence": 0.72,
+          "evidence": "Curt Gowdy, Vedauwoo and the Snowy Range are repeatedly named for hiking, mountain biking, fishing and day trips close enough for regular use.",
+          "signals": [
+            "outdoor_access_west_of_town"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.76,
+          "confidence": 0.58,
+          "evidence": "Residents direct campers and hikers toward Medicine Bow National Forest and dispersed-use areas west of Cheyenne.",
+          "signals": [
+            "outdoor_access_west_of_town"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.58,
+          "confidence": 0.5,
+          "evidence": "Curt Gowdy and nearby reservoirs are repeatedly mentioned for fishing and lake-oriented recreation, although water recreation is not described as an in-city amenity.",
+          "signals": [
+            "outdoor_access_west_of_town"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.3,
+          "confidence": 0.72,
+          "evidence": "Fort Collins and Denver are routinely used as extensions of Cheyenne's amenity and service network, making it far less isolated than interior Wyoming hubs such as Casper.",
+          "signals": [
+            "front_range_access_reduces_isolation",
+            "casper_tradeoff_identity_vs_connectivity"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.43,
+          "confidence": 0.72,
+          "evidence": "Residents describe adequate basics but repeatedly leave town for deeper restaurants, entertainment, nightlife and specialty options.",
+          "signals": [
+            "amenities_basic_colorado_fills_gap",
+            "nightlife_is_thin"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.46,
+          "confidence": 0.52,
+          "evidence": "Everyday shopping is described as convenient, while unusual or higher-end choices are often obtained in northern Colorado or online.",
+          "signals": [
+            "amenities_basic_colorado_fills_gap"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.73,
+          "confidence": 0.58,
+          "evidence": "Residents treat Denver and the Front Range as reasonably reachable rather than a major expedition, giving Cheyenne much stronger hub-airport access than interior Wyoming cities.",
+          "signals": [
+            "front_range_access_reduces_isolation"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.83,
+          "confidence": 0.65,
+          "evidence": "Residents praise 10-15-minute driving convenience but explicitly describe ordinary mobility as driving rather than walking.",
+          "signals": [
+            "city_is_car_convenient"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.48,
+          "confidence": 0.48,
+          "evidence": "Downtown contains bars, breweries and events that can be combined on foot, but community discussions describe the city as a whole as strongly car-oriented.",
+          "signals": [
+            "city_is_car_convenient",
+            "nightlife_is_thin"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.57,
+          "confidence": 0.42,
+          "evidence": "Local doctors, hospital care and routine services clearly exist, but resident experiences with finding and keeping satisfactory physicians vary substantially.",
+          "signals": [
+            "healthcare_quality_is_mixed"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.46,
+          "confidence": 0.4,
+          "evidence": "Reports of good local care coexist with complaints about physician quality, turnover and needing to seek alternatives outside town.",
+          "signals": [
+            "healthcare_quality_is_mixed",
+            "specialty_care_often_goes_south"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.38,
+          "confidence": 0.62,
+          "evidence": "Residents routinely name Fort Collins or Denver when discussing neurological or difficult-to-source specialty care, despite some successful local specialist experiences.",
+          "signals": [
+            "specialty_care_often_goes_south",
+            "healthcare_quality_is_mixed"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.95,
+          "confidence": 0.88,
+          "evidence": "The local VA Medical Center provides an in-city VA healthcare anchor and is specifically cited by veterans as a relocation advantage.",
+          "signals": [
+            "va_medical_center_is_local_asset"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 1.0,
+          "confidence": 0.9,
+          "evidence": "Cheyenne has a VA Medical Center rather than only an outpatient clinic.",
+          "signals": [
+            "va_medical_center_is_local_asset"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.53,
+          "confidence": 0.48,
+          "evidence": "Residents identify recurring government, healthcare, education, retail and logistics work but specialized professionals describe a much shallower market.",
+          "signals": [
+            "job_market_concentrated"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.18,
+          "confidence": 0.68,
+          "evidence": "Within Cheyenne, residents repeatedly describe short trips and little traffic; the burden rises sharply only when a household depends on a regional interstate commute.",
+          "signals": [
+            "city_is_car_convenient",
+            "winter_disrupts_regional_travel"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.42,
+          "confidence": 0.58,
+          "evidence": "Several residents describe ordinary wages struggling against current rents and living costs, although unusually low-cost housing situations produce counterexamples.",
+          "signals": [
+            "local_wages_feel_thin_against_costs"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.4,
+          "confidence": 0.62,
+          "evidence": "Frontier Days produces a major temporary visitor and rental-market surge, but community accounts portray the rest of the year as comparatively quiet.",
+          "signals": [
+            "frontier_days_distorts_short_term_housing"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.6,
+          "confidence": 0.55,
+          "evidence": "Recent residents are increasingly concerned about data-center construction, temporary workers, housing demand and whether infrastructure will keep pace.",
+          "signals": [
+            "growth_and_data_centers_raise_anxiety",
+            "housing_relative_advantage_eroding"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.55,
+          "confidence": 0.63,
+          "evidence": "Cheyenne remains cheaper than Fort Collins in many resident comparisons, but newer accounts no longer describe local housing as broadly cheap.",
+          "signals": [
+            "housing_relative_advantage_eroding",
+            "local_wages_feel_thin_against_costs"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.48,
+          "confidence": 0.58,
+          "evidence": "Residents increasingly question whether current prices still deliver the expected small-city discount, even though Cheyenne compares favorably with nearby Colorado.",
+          "signals": [
+            "housing_relative_advantage_eroding"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.47,
+          "confidence": 0.5,
+          "evidence": "Cheyenne is described as having better rental choice than Laramie, but individual renters report difficult searches and event-season distortions.",
+          "signals": [
+            "housing_relative_advantage_eroding",
+            "frontier_days_distorts_short_term_housing"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.76,
+          "confidence": 0.52,
+          "evidence": "Residents consistently describe a conservative political center of gravity, including in otherwise nonpolitical city-comparison threads.",
+          "signals": [
+            "political_climate_conservative_not_uniform"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.48,
+          "confidence": 0.42,
+          "evidence": "A conservative majority climate coexists with identifiable progressive organizations and residents who publicly organize around finding one another.",
+          "signals": [
+            "political_climate_conservative_not_uniform"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.77,
+          "confidence": 0.63,
+          "evidence": "Parents repeatedly cite parks, activities, school options and practical convenience, with family-oriented evaluations substantially stronger than young-single evaluations.",
+          "signals": [
+            "family_life_gets_better_reviews",
+            "schools_vary_but_often_positive"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.43,
+          "confidence": 0.58,
+          "evidence": "Newcomers commonly report that friendship requires deliberate participation in clubs, volunteering, gyms, events or workplace networks.",
+          "signals": [
+            "making_friends_requires_intent",
+            "social_scene_skews_to_bars"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.7,
+          "confidence": 0.62,
+          "evidence": "Bars and breweries dominate answers to questions about adult hangouts, while non-drinking alternatives exist but are less immediately visible.",
+          "signals": [
+            "social_scene_skews_to_bars",
+            "nightlife_is_thin"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.34,
+          "confidence": 0.72,
+          "evidence": "Residents across several threads explicitly contrast Cheyenne's limited nightlife with Fort Collins and Laramie.",
+          "signals": [
+            "nightlife_is_thin"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.31,
+          "confidence": 0.52,
+          "evidence": "Young-adult discussions describe a small local dating and social pool and sometimes extend dating into northern Colorado.",
+          "signals": [
+            "nightlife_is_thin",
+            "making_friends_requires_intent"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.81,
+          "confidence": 0.65,
+          "evidence": "Residents repeatedly describe ordinary daily life as safe, while narrowing most neighborhood cautions to property crime and localized disorder.",
+          "signals": [
+            "everyday_safety_feels_high",
+            "property_crime_more_salient"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: A Cheyenne-specific community discussion of allergy-season severity was not found in the targeted search.",
+        "discussed_but_unscoreable: LGBTQ day-to-day social acceptance and scene size appeared only thinly or in broader Wyoming discussions, not enough to score Cheyenne responsibly.",
+        "searched_not_found: Cheyenne-specific first-hand accounts from residents of color were too sparse in the targeted relocation material to establish racial_inclusion_climate.",
+        "not_researched: religious_culture_prominence was not independently investigated in enough depth for a feature score.",
+        "not_researched: remote_work_viability was not investigated beyond incidental mentions and therefore is omitted.",
+        "not_researched: high_wage_trade_opportunity was not investigated with enough occupation-specific community evidence.",
+        "discussed_but_unscoreable: substance_problem_visibility appears in neighborhood and nightlife threads, but the language is frequently inflammatory and localized; converting it to a citywide numeric score would overstate the evidence."
+      ]
+    },
+    {
+      "city": "North Platte",
+      "state": "NE",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.78,
+          "confidence": 0.62,
+          "evidence": "Regional relocation accounts consistently describe western/southwest Nebraska winters as cold and dry, with blizzard episodes, and a North Platte resident explicitly contrasted difficult winters with Arizona summers.",
+          "signals": [
+            "winter_is_cold_and_relatively_dry"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.55,
+          "confidence": 0.5,
+          "evidence": "Residents discuss snow and occasional blizzard conditions as meaningful winter concerns, but do not describe persistent deep snow as the defining everyday winter condition.",
+          "signals": [
+            "winter_is_cold_and_relatively_dry"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.7,
+          "confidence": 0.58,
+          "evidence": "Western Nebraska residents consistently describe summers as hot, while distinguishing the region from the more humid eastern part of the state.",
+          "signals": [
+            "summer_is_hot_but_drier_than_east"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.35,
+          "confidence": 0.48,
+          "evidence": "Community accounts explicitly contrast western Nebraska with the more humid eastern portion of the state and describe southwest Nebraska summers as generally dry.",
+          "signals": [
+            "summer_is_hot_but_drier_than_east"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.63,
+          "confidence": 0.46,
+          "evidence": "North Platte weather discussion emphasizes unstable High Plains thunderstorms and rapid changes, while regional accounts add blizzard and severe-weather concerns.",
+          "signals": [
+            "storms_are_variable_and_salient"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.8,
+          "confidence": 0.6,
+          "evidence": "Added via the same-day cross-city wind calibration addendum (measured hourly means), not from community sentiment, which was too thin to score (see gaps): North Platte averages ~11.7 mph in January and ~12.9 mph in April - beating Cheyenne and Casper in spring - with its calmest month (July) still ~9.7 mph. Genuinely Plains-windy, spring-peaked and evenly distributed, one notch below the Wyoming winter regime (January ~15 mph).",
+          "signals": [
+            "storms_are_variable_and_salient"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.72,
+          "confidence": 0.72,
+          "evidence": "Independent relocation and resident accounts repeatedly identify fishing, hunting, camping, reservoirs, Buffalo Bill SRA and western-Nebraska open country as close-to-home recreation assets.",
+          "signals": [
+            "camping_fishing_and_water_are_close"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.55,
+          "confidence": 0.5,
+          "evidence": "The river, open skies and western landscapes receive genuine praise, but other residents and a SameGrassButGreener comparison find more dramatic western-Nebraska settings such as Scottsbluff preferable.",
+          "signals": [
+            "scenery_is_genuinely_mixed"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.76,
+          "confidence": 0.7,
+          "evidence": "Lake Maloney, Buffalo Bill SRA and multiple nearby reservoirs repeatedly appear in first-hand accounts of fishing, boating and camping.",
+          "signals": [
+            "camping_fishing_and_water_are_close"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.8,
+          "confidence": 0.73,
+          "evidence": "Community accounts routinely measure access to larger metros and many higher-order services in hours, even though North Platte itself serves as the hub for smaller surrounding communities.",
+          "signals": [
+            "regional_service_hub_role",
+            "large_metro_access_is_a_trip"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.35,
+          "confidence": 0.7,
+          "evidence": "Residents describe adequate basics and some good restaurants and events, but repeatedly favor Kearney for variety and characterize North Platte's ordinary entertainment choices as limited.",
+          "signals": [
+            "nightlife_is_thin",
+            "annual_events_add_civic_energy",
+            "kearney_is_preferred_amenity_comparison"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.42,
+          "confidence": 0.64,
+          "evidence": "Residents identify hub-airport access as a weakness, while current facility verification shows local daily commercial service to Denver, making air access better than the long-drive stereotype but still connection-dependent.",
+          "signals": [
+            "major_airport_access_is_indirect"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.8,
+          "confidence": 0.82,
+          "evidence": "Great Plains Health documents local family medicine, internal medicine, pediatrics and urgent care alongside its regional hospital, matching community descriptions of North Platte as a medical hub.",
+          "signals": [
+            "great_plains_health_has_unusual_depth"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.79,
+          "confidence": 0.84,
+          "evidence": "Great Plains Health lists a broad local specialty roster including cardiology, oncology, neurology, endocrinology, gastroenterology, nephrology, pulmonology, rheumatology and surgery at a 116-bed regional referral center.",
+          "signals": [
+            "great_plains_health_has_unusual_depth"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.93,
+          "confidence": 0.88,
+          "evidence": "The VA system currently lists a North Platte VA Clinic, establishing local routine outpatient VA access.",
+          "signals": [
+            "va_outpatient_clinic_is_local"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 0.22,
+          "confidence": 0.83,
+          "evidence": "North Platte has a VA clinic rather than a VA medical center; the system's Grand Island VA Medical Center is outside the city and itself lacks an emergency room or urgent care.",
+          "signals": [
+            "va_outpatient_clinic_is_local"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.57,
+          "confidence": 0.58,
+          "evidence": "The community identifies several substantial employment anchors, especially Union Pacific and Great Plains Health, but repeatedly warns that the broader professional market is much thinner than in Kearney, Lincoln or Omaha.",
+          "signals": [
+            "railroad_is_core_economic_anchor",
+            "decent_job_changes_livability",
+            "hospital_and_meatpacking_add_diversity"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.46,
+          "confidence": 0.5,
+          "evidence": "Hospital and meatpacking growth broaden the base, but resident accounts still describe Union Pacific as unusually influential in employment and local wage setting.",
+          "signals": [
+            "railroad_is_core_economic_anchor",
+            "hospital_and_meatpacking_add_diversity"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.75,
+          "confidence": 0.66,
+          "evidence": "Railroad work is repeatedly presented as a comparatively well-paid local path and as strong enough to affect rents and competition for blue-collar labor.",
+          "signals": [
+            "railroad_is_core_economic_anchor"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.5,
+          "confidence": 0.5,
+          "evidence": "Residents say North Platte can work financially with a decent railroad, healthcare or similar job, while lower-paid workers may experience a mismatch between rents and local wages.",
+          "signals": [
+            "decent_job_changes_livability",
+            "housing_cost_value_is_mixed"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.35,
+          "confidence": 0.34,
+          "evidence": "Some residents attribute housing shortages to incoming workers and Colorado migrants, but the discourse simultaneously describes long-term population stagnation or decline; this is localized development pressure rather than a clear boom.",
+          "signals": [
+            "housing_supply_feels_tight",
+            "hospital_and_meatpacking_add_diversity"
+          ]
+        },
+        "economic_cycle_exposure": {
+          "value": 0.64,
+          "confidence": 0.46,
+          "evidence": "Older resident accounts connect local weakness to Union Pacific layoffs, and newer discussions still describe the railroad as the dominant wage-setting employer.",
+          "signals": [
+            "railroad_is_core_economic_anchor",
+            "rail_dependency_creates_cycle_risk"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.65,
+          "confidence": 0.54,
+          "evidence": "Some movers describe housing as affordable compared with outside markets, but residents also report high-feeling rents relative to non-railroad wages and a current supply shortage.",
+          "signals": [
+            "housing_cost_value_is_mixed",
+            "housing_supply_feels_tight"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.52,
+          "confidence": 0.43,
+          "evidence": "Low prices are offset in some accounts by older housing, limited apartment inventory and concern that rents are high for a city of North Platte's size.",
+          "signals": [
+            "housing_cost_value_is_mixed"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.34,
+          "confidence": 0.68,
+          "evidence": "Recent community discussion explicitly reports insufficient housing for incoming residents, and municipal planning continues to prioritize multifamily and workforce housing production.",
+          "signals": [
+            "housing_supply_feels_tight"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.8,
+          "confidence": 0.4,
+          "evidence": "A former resident directly contrasts North Platte as strongly conservative with more progressive Kearney, consistent with broader western-Nebraska discussion; city-specific political testimony remains limited.",
+          "signals": [
+            "political_climate_read_as_conservative"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.45,
+          "confidence": 0.34,
+          "evidence": "One visibly LGBTQ+ resident reports some social harassment and ideological pushback while also rejecting the idea that physical danger is typical; the account is valuable but insufficient for a confident citywide score.",
+          "signals": [
+            "lgbtq_day_to_day_climate_is_mixed"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.4,
+          "confidence": 0.62,
+          "evidence": "Several newcomers describe established or reserved social circles and difficulty building community, while one fresh Union Pacific newcomer made friends quickly through a built-in work cohort.",
+          "signals": [
+            "social_integration_can_be_slow",
+            "work_cohort_can_ease_friendmaking"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.65,
+          "confidence": 0.44,
+          "evidence": "Adult social-life accounts repeatedly identify bars as one of the easiest established outlets and say alternatives can be harder to find, although annual events and outdoor hobbies provide non-drinking options.",
+          "signals": [
+            "bars_and_churches_are_social_anchors",
+            "nightlife_is_thin",
+            "annual_events_add_civic_energy"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.25,
+          "confidence": 0.7,
+          "evidence": "Multiple relocation discussions explicitly characterize nightlife as sparse even while acknowledging breweries, bars and major annual events.",
+          "signals": [
+            "nightlife_is_thin",
+            "annual_events_add_civic_energy"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.76,
+          "confidence": 0.7,
+          "evidence": "Railroad heritage, Bailey Yard, Buffalo Bill history, ranching, rodeo and NEBRASKAland Days form a coherent local identity repeatedly recognized by residents.",
+          "signals": [
+            "rail_western_identity_is_distinctive",
+            "annual_events_add_civic_energy"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.64,
+          "confidence": 0.56,
+          "evidence": "Actual residents and frequent visitors commonly say ordinary life feels substantially safer than North Platte's statewide reputation implies, but drug-related concern and a few location-specific warnings keep the evidence mixed.",
+          "signals": [
+            "reputation_harsher_than_lived_safety",
+            "neighborhood_safety_evidence_thin"
+          ]
+        },
+        "trailing_spouse_isolation_risk": {
+          "value": 0.67,
+          "confidence": 0.48,
+          "evidence": "The combination of a thinner job market and slow social integration creates a credible isolation risk for someone relocating because of a partner's job without their own built-in workplace network.",
+          "signals": [
+            "decent_job_changes_livability",
+            "social_integration_can_be_slow",
+            "work_cohort_can_ease_friendmaking"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.62,
+          "confidence": 0.42,
+          "evidence": "Meth is exceptionally prominent in North Platte's online civic reputation, but several residents explicitly say everyday exposure is much lower than the stereotype; inflammatory joking keeps confidence capped.",
+          "signals": [
+            "drug_problem_highly_visible_in_discourse",
+            "reputation_harsher_than_lived_safety"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: city-specific wind exposure was explicitly searched; western-Nebraska wind is discussed, but the North Platte-specific community sample was too thin to establish persistent wind as a lived city trait. (A wind_exposure value of 0.80 was subsequently supplied via the same-day cross-city wind calibration addendum, grounded in measured hourly means rather than community sentiment.)",
+        "searched_not_found: targeted North Platte allergy-season searches did not produce usable city-specific resident discussion.",
+        "searched_not_found: targeted healthcare searches found strong evidence about facility breadth but little community evidence on appointment waits, referral friction or how easy it is for a newcomer to establish care, so healthcare_navigability is omitted.",
+        "discussed_but_unscoreable: neighborhood-level safety produced one older warning about the area north of the tracks but not enough independent accounts for neighborhood scoring.",
+        "discussed_but_unscoreable: current school quality is mentioned both positively and negatively, but the targeted search did not produce enough recent parent-level evidence to score family_infrastructure responsibly.",
+        "not_researched: daily car dependence and downtown walkability were not separately investigated closely enough to support feature scores.",
+        "not_researched: public-land ownership and dispersed-access patterns were not separately investigated; outdoor access here refers to recreation opportunities, not public-land acreage.",
+        "not_researched: LGBTQ municipal ordinances and formal municipal protections were not investigated, so lgbtq_municipal_policy is omitted.",
+        "discussed_but_unscoreable: racial-inclusion discussion consisted of a few strong but thin and sometimes inflammatory first-hand claims; that is insufficient for a responsible racial_inclusion_climate score.",
+        "discussed_but_unscoreable: religious visibility appears indirectly through references to churches as social institutions, but that does not establish the prominence of religious norms citywide.",
+        "discussed_but_unscoreable: dating-pool complaints were too sparse and anecdotal to score dating_pool_depth."
+      ]
+    },
+    {
+      "city": "Grand Junction",
+      "state": "CO",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.34,
+          "confidence": 0.62,
+          "evidence": "Residents describe valley winters as comparatively mild and sunny, while acknowledging periodic cold, snow and icy travel conditions.",
+          "signals": [
+            "winter_valley_milder"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.27,
+          "confidence": 0.6,
+          "evidence": "Snow occurs and can affect roads, but community comparisons consistently distinguish the Grand Valley from persistently snowy mountain Colorado.",
+          "signals": [
+            "winter_valley_milder"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.79,
+          "confidence": 0.78,
+          "evidence": "Dedicated summer threads describe midday heat as materially limiting outdoor activity and shifting recreation to early mornings or higher elevations.",
+          "signals": [
+            "summer_heat_limits_daytime"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.08,
+          "confidence": 0.74,
+          "evidence": "Transplants from humid regions consistently describe Grand Junction's heat as distinctly dry, and evaporative cooling remains practical locally.",
+          "signals": [
+            "dry_heat_low_humidity"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.73,
+          "confidence": 0.68,
+          "evidence": "Residents praise a long usable outdoor season and relatively mild valley winters, but midsummer heat noticeably reduces daytime comfort.",
+          "signals": [
+            "winter_valley_milder",
+            "summer_heat_limits_daytime"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.68,
+          "confidence": 0.61,
+          "evidence": "Summer discussions treat air-conditioning or effective evaporative cooling as important during hot spells, while winters still require normal heating.",
+          "signals": [
+            "summer_heat_limits_daytime",
+            "dry_heat_low_humidity"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.21,
+          "confidence": 0.42,
+          "evidence": "A localized severe-storm discussion shows damaging wind can occur, but residents characterized such episodes as unusual rather than a defining property concern.",
+          "signals": [
+            "severe_storms_not_defining"
+          ]
+        },
+        "wind_exposure": {
+          "value": 0.32,
+          "confidence": 0.6,
+          "evidence": "Added via the same-day cross-city wind calibration addendum (measured hourly means), designating Grand Junction the wind negative control: its windiest month averages only ~8.3 mph and its calmest ~6.2 mph - the calmest part of North Platte's year (~9.7 mph) is windier than the windiest part of Grand Junction's. Sheltered valley topography produces a dramatically calmer wind environment than the otherwise structurally similar Wyoming and Nebraska hubs. The community corpus correspondingly lacks a persistent-wind theme (see gaps).",
+          "signals": [
+            "severe_storms_not_defining"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.98,
+          "confidence": 0.86,
+          "evidence": "Independent community threads consistently place hiking, mountain biking, rafting and other outdoor recreation within minutes of ordinary city life.",
+          "signals": [
+            "outdoor_access_immediate"
+          ]
+        },
+        "public_land_access": {
+          "value": 0.97,
+          "confidence": 0.82,
+          "evidence": "Resident recreation recommendations overwhelmingly use surrounding open desert, canyon and federal-land systems rather than requiring distant trips.",
+          "signals": [
+            "public_land_everyday"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.95,
+          "confidence": 0.84,
+          "evidence": "The Monument, Grand Mesa, canyon country and broad Western Slope scenery are repeatedly stated reasons residents enjoy or remain in the area.",
+          "signals": [
+            "scenery_and_daytrip_range"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.76,
+          "confidence": 0.7,
+          "evidence": "Residents repeatedly mention rafting, floating, paddling and river access as nearby activities, although water recreation is less dominant than biking and hiking.",
+          "signals": [
+            "outdoor_access_immediate"
+          ]
+        },
+        "geographic_isolation": {
+          "value": 0.74,
+          "confidence": 0.71,
+          "evidence": "Residents treat Denver, Salt Lake City and larger urban systems as trips rather than errands, while the local airport partially mitigates that isolation.",
+          "signals": [
+            "regional_air_travel_connection",
+            "scenery_and_daytrip_range"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.45,
+          "confidence": 0.75,
+          "evidence": "Grand Junction has a real restaurant, shopping and entertainment base, but relocation threads repeatedly say choices become repetitive compared with larger Colorado cities.",
+          "signals": [
+            "urban_amenity_depth_thin"
+          ]
+        },
+        "specialty_retail_access": {
+          "value": 0.54,
+          "confidence": 0.58,
+          "evidence": "Residents describe sufficient regional shopping for ordinary needs while simultaneously calling the retail selection limited or marginal for a city of regional importance.",
+          "signals": [
+            "urban_amenity_depth_thin"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.34,
+          "confidence": 0.69,
+          "evidence": "A local commercial airport significantly improves connectivity, but residents still describe many trips as beginning with an added connecting flight rather than easy access to a hub airport.",
+          "signals": [
+            "regional_air_travel_connection"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.79,
+          "confidence": 0.78,
+          "evidence": "Residents explicitly describe a car as necessary for most households outside downtown or CMU, and existing transit has limited evening and Sunday coverage.",
+          "signals": [
+            "car_default_outside_core",
+            "transit_service_limited"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.72,
+          "confidence": 0.7,
+          "evidence": "Downtown Main Street is repeatedly described as a compact cluster where restaurants, bars and shops can be reached on foot, unlike most of the broader city.",
+          "signals": [
+            "downtown_walkable_cluster"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.63,
+          "confidence": 0.56,
+          "evidence": "The community describes substantial local medical capacity, but reports of practices closed to new patients and waits prevent a higher routine-access score.",
+          "signals": [
+            "healthcare_regional_capacity",
+            "healthcare_provider_waits"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.43,
+          "confidence": 0.65,
+          "evidence": "New residents repeatedly warn that establishing primary care and specialists can require advance planning even when the underlying services exist.",
+          "signals": [
+            "healthcare_provider_waits"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.69,
+          "confidence": 0.58,
+          "evidence": "Healthcare workers and medically complex transplants describe meaningful specialist and high-acuity capacity locally, tempered by long lead times for some providers.",
+          "signals": [
+            "healthcare_regional_capacity",
+            "healthcare_provider_waits"
+          ]
+        },
+        "va_outpatient_access": {
+          "value": 0.96,
+          "confidence": 0.61,
+          "evidence": "Veteran community discussions consistently identify local VA healthcare rather than requiring routine travel to another metro.",
+          "signals": [
+            "va_hospital_present"
+          ]
+        },
+        "va_hospital_access": {
+          "value": 0.97,
+          "confidence": 0.61,
+          "evidence": "Local veteran accounts identify a full VA hospital in Grand Junction, not merely an outpatient clinic; Block 4 independently confirms the facility.",
+          "signals": [
+            "va_hospital_present"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.44,
+          "confidence": 0.75,
+          "evidence": "Residents repeatedly distinguish having jobs from having many equivalent employers and advancement paths, with healthcare standing out as a stronger sector.",
+          "signals": [
+            "job_market_shallow"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.48,
+          "confidence": 0.55,
+          "evidence": "The local economy supports multiple service sectors, but resident accounts repeatedly emphasize healthcare and a relatively narrow professional labor market.",
+          "signals": [
+            "job_market_shallow",
+            "healthcare_regional_capacity"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.19,
+          "confidence": 0.8,
+          "evidence": "Residents consistently describe local driving as short and predictable compared with Front Range commuting, even from nearby Grand Valley communities.",
+          "signals": [
+            "short_local_driving"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.32,
+          "confidence": 0.82,
+          "evidence": "The loudest recent economic theme is that ordinary local wages have not kept pace with rents and purchase prices.",
+          "signals": [
+            "housing_wage_squeeze",
+            "housing_pressure_official"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.69,
+          "confidence": 0.8,
+          "evidence": "City planning records show sustained housing and infrastructure expansion while residents describe a place changing noticeably from its lower-cost past.",
+          "signals": [
+            "growth_pressure_official",
+            "housing_wage_squeeze"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.36,
+          "confidence": 0.84,
+          "evidence": "Grand Junction remains cheaper than several highly desirable Colorado markets, but both residents and city records describe substantial absolute housing costs and affordability gaps.",
+          "signals": [
+            "housing_wage_squeeze",
+            "housing_pressure_official"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.34,
+          "confidence": 0.8,
+          "evidence": "Community discussion repeatedly argues that current prices are high for a city of Grand Junction's size and local wage base, weakening the expected small-city discount.",
+          "signals": [
+            "housing_wage_squeeze",
+            "housing_pressure_official"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.38,
+          "confidence": 0.66,
+          "evidence": "Recent newcomers report landlord-response delays and difficulty securing appropriately priced rentals, although the evidence does not establish universal shortages at every price point.",
+          "signals": [
+            "rental_search_friction",
+            "housing_pressure_official"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.67,
+          "confidence": 0.4,
+          "evidence": "Community comparisons consistently place Grand Junction to the conservative side of Fort Collins and Denver, while other residents distinguish the city from the more conservative surrounding county; inflammatory political language keeps confidence low.",
+          "signals": [
+            "political_climate_conservative_mixed"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.62,
+          "confidence": 0.38,
+          "evidence": "Recent LGBTQ discussions identify welcoming venues and community resources, but the sample is too small to infer a uniformly accepting day-to-day climate.",
+          "signals": [
+            "lgbtq_scene_present_small"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.34,
+          "confidence": 0.48,
+          "evidence": "Residents identify dedicated queer social events and at least one central gathering venue while explicitly noting that the scene is small compared with Denver.",
+          "signals": [
+            "lgbtq_scene_present_small"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.54,
+          "confidence": 0.68,
+          "evidence": "Newcomers can build community through recurring hobbies and groups, but repeated friend-seeking threads show that social connection rarely happens automatically.",
+          "signals": [
+            "social_hobby_networks"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.35,
+          "confidence": 0.77,
+          "evidence": "Dedicated nightlife threads describe limited late-night variety dominated by bars, despite genuine concerts, breweries and downtown activity.",
+          "signals": [
+            "nightlife_daytime_town"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.35,
+          "confidence": 0.66,
+          "evidence": "Young-adult accounts disagree on ease of dating but consistently reveal a smaller and less redundant pool than large metropolitan areas.",
+          "signals": [
+            "dating_pool_small"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.74,
+          "confidence": 0.61,
+          "evidence": "Multiple residents and transplants describe ordinary daily life as safe while acknowledging area-specific property crime and visible street disorder.",
+          "signals": [
+            "safety_mostly_area_specific"
+          ]
+        },
+        "substance_problem_visibility": {
+          "value": 0.53,
+          "confidence": 0.38,
+          "evidence": "Residents do raise addiction and visible drug use as local concerns, but accounts differ sharply on scale and sometimes use inflammatory language, so the score is deliberately mid-range and low-confidence.",
+          "signals": [
+            "substance_homelessness_visible_contested"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: targeted weather searches found references to windblown dust and individual storms but not enough evidence that persistent wind materially shapes daily life, so wind_exposure is omitted. (A wind_exposure value of 0.32 was subsequently supplied via the same-day cross-city wind calibration addendum, which designates Grand Junction the wind negative control: measured hourly means show its windiest month is calmer than North Platte's calmest.)",
+        "not_researched: winter daylight deficit was not separately investigated in this pass.",
+        "searched_not_found: dedicated community evidence on precipitation seasonality was not strong enough to score that feature from lived experience.",
+        "discussed_but_unscoreable: school experiences were too campus-specific and thin to convert into a broad citywide family-infrastructure score.",
+        "searched_not_found: a dedicated community discussion establishing Grand Junction's municipal LGBTQ policy was not located, so lgbtq_municipal_policy is omitted.",
+        "not_researched: racial inclusion climate was not independently targeted in this pass and is therefore omitted rather than inferred from demographics.",
+        "discussed_but_unscoreable: religious visibility appears in broader Western Slope discussion but was too generalized and region-wide to score Grand Junction itself.",
+        "not_researched: economic-cycle exposure and high-wage trade opportunity were not researched deeply enough to separate current conditions from the region's historical energy-cycle reputation.",
+        "not_researched: remote-work viability was not technically verified; social discussions involving remote workers establish isolation risk, not broadband reliability."
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.16,
+          "confidence": 0.72,
+          "evidence": "Transplant discussions consistently treat winter warmth as an asset and do not describe sustained severe cold as part of ordinary winter life.",
+          "signals": [
+            "winter_is_mild_and_low_snow"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.03,
+          "confidence": 0.75,
+          "evidence": "Snow does not appear as a recurring planning burden in targeted climate and relocation discussion.",
+          "signals": [
+            "winter_is_mild_and_low_snow"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.88,
+          "confidence": 0.84,
+          "evidence": "Summer heat repeatedly alters outdoor routines, and a July 2026 thread describes recent conditions as brutal for outdoor workers.",
+          "signals": [
+            "summer_heat_humidity_defining"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.93,
+          "confidence": 0.84,
+          "evidence": "Residents distinguish oppressive, persistent humidity as the more defining summer burden than maximum temperature alone.",
+          "signals": [
+            "summer_heat_humidity_defining"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.58,
+          "confidence": 0.62,
+          "evidence": "Mild winters extend comfortable outdoor time, but sustained hot-humid summers materially reduce daytime comfort.",
+          "signals": [
+            "summer_heat_humidity_defining",
+            "winter_is_mild_and_low_snow"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.85,
+          "confidence": 0.65,
+          "evidence": "Summer accounts describe indoor cooling as central to ordinary comfort during prolonged hot and humid periods.",
+          "signals": [
+            "summer_heat_humidity_defining"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.7,
+          "confidence": 0.8,
+          "evidence": "Municipal flood guidance establishes coastal flooding as a property and insurance consideration even though exposure varies significantly by parcel.",
+          "signals": [
+            "coastal_flood_risk_is_property_constraint"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.73,
+          "confidence": 0.68,
+          "evidence": "Coastal paddling, beach trips and marsh access are repeatedly cited as ordinary regional recreation rather than distant weekend travel.",
+          "signals": [
+            "coastal_water_recreation_is_close"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.9,
+          "confidence": 0.78,
+          "evidence": "Historic streets, tree canopy, marshes and coastal scenery are among the most consistent reasons residents and transplants praise Savannah.",
+          "signals": [
+            "visual_identity_is_exceptionally_strong",
+            "coastal_water_recreation_is_close"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.9,
+          "confidence": 0.75,
+          "evidence": "Marsh, boating, paddling and beach access are close enough to be part of routine regional recreation.",
+          "signals": [
+            "coastal_water_recreation_is_close"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.7,
+          "confidence": 0.7,
+          "evidence": "Restaurants, bars, festivals, museums and arts activity are unusually visible for the city's size, although niche options repeat sooner than in a major metro.",
+          "signals": [
+            "amenities_punch_above_city_size",
+            "nightlife_has_breadth_not_metro_depth"
+          ]
+        },
+        "major_airport_access": {
+          "value": 0.72,
+          "confidence": 0.78,
+          "evidence": "Savannah has a nearby commercial airport with useful nonstop links to major markets, although it lacks the network depth of a true hub.",
+          "signals": [
+            "airport_is_close_with_useful_nonstops"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.76,
+          "confidence": 0.74,
+          "evidence": "The historic core supports substantial walking, but most wider-city errands, employment and suburban trips are described as vehicle-oriented.",
+          "signals": [
+            "walkability_drops_outside_core",
+            "public_transit_is_limited"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.93,
+          "confidence": 0.84,
+          "evidence": "Walking through the squares and central historic neighborhoods is one of the most consistently praised features across resident and relocation sources.",
+          "signals": [
+            "historic_core_walkability"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.58,
+          "confidence": 0.48,
+          "evidence": "Medical systems and primary-care services exist locally, but recent residents report enough scheduling and establishment difficulties to keep routine access from scoring high.",
+          "signals": [
+            "healthcare_navigation_draws_complaints"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.34,
+          "confidence": 0.72,
+          "evidence": "A dedicated 2026 discussion documents weeks of unanswered calls, referral delays and difficulty establishing primary care.",
+          "signals": [
+            "healthcare_navigation_draws_complaints"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.52,
+          "confidence": 0.5,
+          "evidence": "Savannah supports meaningful regional medical care, but community comparisons give larger centers an advantage for specialist and complex-care depth.",
+          "signals": [
+            "specialist_depth_is_not_big_metro_level",
+            "healthcare_navigation_draws_complaints"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.58,
+          "confidence": 0.58,
+          "evidence": "Several major employment sectors exist, but residents describe professional switching as constrained where only a few large employers dominate a specialty.",
+          "signals": [
+            "port_logistics_trade_jobs_are_visible",
+            "professional_job_market_can_feel_narrow"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.66,
+          "confidence": 0.62,
+          "evidence": "Community job discussions identify logistics, port work, aerospace, manufacturing, healthcare and hospitality rather than a single-industry economy.",
+          "signals": [
+            "port_logistics_trade_jobs_are_visible",
+            "professional_job_market_can_feel_narrow"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.7,
+          "confidence": 0.55,
+          "evidence": "Port, logistics, manufacturing and aerospace discussions identify several routes into comparatively well-paid operations and skilled work.",
+          "signals": [
+            "port_logistics_trade_jobs_are_visible"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.35,
+          "confidence": 0.62,
+          "evidence": "Savannah is repeatedly described as much easier to traverse than Atlanta, although Pooler and beach-bound corridors can develop substantial bottlenecks.",
+          "signals": [
+            "atlanta_comparison_is_pace_vs_depth",
+            "pooler_trades_character_for_suburban_convenience"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.33,
+          "confidence": 0.8,
+          "evidence": "The loudest affordability theme is that ordinary local wages have not kept pace with rent and housing costs.",
+          "signals": [
+            "rent_and_local_pay_feel_misaligned"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.88,
+          "confidence": 0.82,
+          "evidence": "Residents repeatedly describe visitor volume, weddings and seasonal beach traffic as forces that materially affect central-city rhythm.",
+          "signals": [
+            "tourism_shapes_downtown_daily_life"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.48,
+          "confidence": 0.72,
+          "evidence": "Savannah can still look moderate to newcomers from expensive metros, but local renters consistently describe housing as difficult relative to local earnings.",
+          "signals": [
+            "rent_and_local_pay_feel_misaligned",
+            "housing_cost_perception_is_split"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.46,
+          "confidence": 0.6,
+          "evidence": "The expected small-city discount is weakened by tourism demand, desirable historic neighborhoods and rent growth relative to local wages.",
+          "signals": [
+            "housing_cost_perception_is_split",
+            "rent_and_local_pay_feel_misaligned"
+          ]
+        },
+        "rental_availability": {
+          "value": 0.52,
+          "confidence": 0.45,
+          "evidence": "A 2026 relocating renter reported listings appearing frequently enough to make short-term arrival feasible, while affordability and deposits remain persistent complaints.",
+          "signals": [
+            "housing_cost_perception_is_split"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.3,
+          "confidence": 0.5,
+          "evidence": "Savannah proper is repeatedly described by residents as more progressive than surrounding South Georgia, but this is a sensitive contextual measure and the city-region boundary matters.",
+          "signals": [
+            "city_feels_more_progressive_than_region"
+          ]
+        },
+        "lgbtq_municipal_policy": {
+          "value": 0.88,
+          "confidence": 0.9,
+          "evidence": "Savannah's municipal discrimination framework explicitly protects sexual orientation and gender identity in employment, housing and public accommodations.",
+          "signals": [
+            "municipal_lgbtq_protections_exist"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.76,
+          "confidence": 0.48,
+          "evidence": "The limited community evidence generally describes Savannah proper as accepting while distinguishing it from some surrounding areas.",
+          "signals": [
+            "lgbtq_social_climate_generally_positive_but_thin"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.47,
+          "confidence": 0.42,
+          "evidence": "Organized resources and social options exist, but dedicated scene and dating depth are described as modest for residents accustomed to larger metros.",
+          "signals": [
+            "lgbtq_social_climate_generally_positive_but_thin",
+            "dating_pool_feels_small"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.63,
+          "confidence": 0.44,
+          "evidence": "Community discussion repeatedly describes a more progressive central city embedded within a more conservative regional and state context; the disagreement across geography is itself the finding.",
+          "signals": [
+            "city_feels_more_progressive_than_region"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.58,
+          "confidence": 0.55,
+          "evidence": "Families have zoned, charter and choice options, but parent discussion shows that school quality and access to preferred programs are uneven enough to require active navigation.",
+          "signals": [
+            "schools_are_uneven_choice_matters"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.42,
+          "confidence": 0.76,
+          "evidence": "Multiple independent newcomer threads report difficulty forming adult friendships unless people deliberately join recurring groups or activities.",
+          "signals": [
+            "friendships_require_deliberate_repetition"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.7,
+          "confidence": 0.55,
+          "evidence": "Bars and drinking are conspicuous in the central entertainment scene, while nondrinking residents still identify hobby, arts, volunteering and activity-based alternatives.",
+          "signals": [
+            "alcohol_is_visible_in_core_social_scene",
+            "friendships_require_deliberate_repetition"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.58,
+          "confidence": 0.6,
+          "evidence": "Savannah has a real evening economy but lacks the specialized, continually renewing nightlife depth residents compare with larger metros.",
+          "signals": [
+            "nightlife_has_breadth_not_metro_depth",
+            "amenities_punch_above_city_size"
+          ]
+        },
+        "dating_pool_depth": {
+          "value": 0.4,
+          "confidence": 0.65,
+          "evidence": "Repeated local discussions describe a relatively small, repetitive resident dating pool despite substantial tourist volume.",
+          "signals": [
+            "dating_pool_feels_small"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.94,
+          "confidence": 0.84,
+          "evidence": "Historic urban form, squares, coastal setting, architecture and an arts-and-tourism culture give Savannah an identity that even critical residents rarely describe as generic.",
+          "signals": [
+            "visual_identity_is_exceptionally_strong",
+            "amenities_punch_above_city_size"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.55,
+          "confidence": 0.55,
+          "evidence": "Some residents describe ordinary daily life as comfortable while others emphasize sharp block-level changes and serious personal incidents; disagreement and micro-location sensitivity prevent a stronger score.",
+          "signals": [
+            "safety_is_block_sensitive"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Targeted climate searches produced extensive heat and humidity discussion but little community treatment of precipitation seasonality as a distinct lived feature.",
+        "searched_not_found: Persistent wind exposure did not emerge as a normal day-to-day Savannah condition in targeted weather searches.",
+        "not_researched: Public-land access for dispersed recreation was not investigated deeply enough to score.",
+        "not_researched: Specialty-retail access was not investigated deeply enough to score.",
+        "not_researched: Religious-culture prominence was not independently investigated in this pass.",
+        "discussed_but_unscoreable: Racial-inclusion climate appears in some relocation discussion, but the accounts are too thin, geographically blurred and sensitive to convert into a responsible numeric score.",
+        "discussed_but_unscoreable: Substance-problem visibility appears mainly in neighborhood/crime discourse that is too anecdotal and sometimes inflammatory to score responsibly.",
+        "discussed_but_unscoreable: Trailing-spouse isolation risk is hinted at by newcomer friendship threads but was not discussed directly enough to separate it from ordinary adult social-integration difficulty."
+      ]
+    },
+    {
+      "city": "Mobile",
+      "state": "AL",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.14,
+          "confidence": 0.63,
+          "evidence": "Residents describe chilly spells but generally mild winter afternoons, while significant snow is treated as an exceptional event rather than an annual condition.",
+          "signals": [
+            "mild_winter_relief",
+            "snow_is_exceptional_not_normal"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.06,
+          "confidence": 0.69,
+          "evidence": "Long-time residents describe decades between meaningful snow events; the notable 2025 snowfall stood out precisely because it was so unusual.",
+          "signals": [
+            "snow_is_exceptional_not_normal"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.88,
+          "confidence": 0.78,
+          "evidence": "Relocation accounts describe a multi-month period when heat materially restricts comfortable daytime outdoor activity.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.95,
+          "confidence": 0.8,
+          "evidence": "Humidity is repeatedly paired with summer heat as a defining warm-season condition rather than an occasional annoyance.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.56,
+          "confidence": 0.65,
+          "evidence": "Mild winters expand the pleasant outdoor season, but residents describe a substantial summer period when heat and humidity suppress daytime activity.",
+          "signals": [
+            "summer_heat_humidity_burden",
+            "mild_winter_relief"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.88,
+          "confidence": 0.63,
+          "evidence": "The reported duration and intensity of summer heat and humidity make dependable air conditioning central to normal warm-season comfort.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.84,
+          "confidence": 0.73,
+          "evidence": "Residents treat hurricane supplies, outages, evacuation decisions, flood exposure and storm-specific insurance terms as routine Gulf Coast planning.",
+          "signals": [
+            "hurricane_preparedness_is_routine"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.76,
+          "confidence": 0.7,
+          "evidence": "Residents repeatedly cite kayaking, fishing, parks, the Delta and other nearby outdoor opportunities as reasons to like the area.",
+          "signals": [
+            "water_and_outdoor_access"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.7,
+          "confidence": 0.58,
+          "evidence": "Bay, river, Delta and coastal landscapes appear repeatedly in resident recommendations, although scenery is less uniformly emphasized than access to water activities.",
+          "signals": [
+            "water_and_outdoor_access"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.94,
+          "confidence": 0.79,
+          "evidence": "Fishing, boating and paddling access are repeatedly described as close enough to form part of ordinary recreation rather than destination travel.",
+          "signals": [
+            "water_and_outdoor_access"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.61,
+          "confidence": 0.66,
+          "evidence": "Mobile supports a substantial independent restaurant and downtown bar/event scene, but comparisons with larger metros and Pensacola expose limits in music and overall variety.",
+          "signals": [
+            "food_scene_local_strength",
+            "downtown_nightlife_has_options",
+            "music_scene_thinner_than_pensacola",
+            "medium_city_scale_is_a_draw"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.82,
+          "confidence": 0.76,
+          "evidence": "Residents consistently separate walkable Downtown/Midtown pockets from the much larger portion of Mobile where ordinary errands and daily life require a vehicle.",
+          "signals": [
+            "historic_core_walkability",
+            "outer_city_car_dependence"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.77,
+          "confidence": 0.76,
+          "evidence": "Downtown, Oakleigh and adjacent historic neighborhoods receive repeated first-hand praise for walking between homes, architecture, restaurants and events.",
+          "signals": [
+            "historic_core_walkability"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.52,
+          "confidence": 0.63,
+          "evidence": "Residents identify multiple active sectors but repeatedly say opportunity becomes thinner outside healthcare, industry, logistics, construction and related fields.",
+          "signals": [
+            "jobs_cluster_in_industrial_health_sectors",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "employment_diversity": {
+          "value": 0.58,
+          "confidence": 0.57,
+          "evidence": "Community discussions identify several meaningful employment pillars—healthcare, manufacturing, shipbuilding, logistics and construction—rather than a single dominant employer class, but professional breadth is described as limited.",
+          "signals": [
+            "jobs_cluster_in_industrial_health_sectors"
+          ]
+        },
+        "high_wage_trade_opportunity": {
+          "value": 0.66,
+          "confidence": 0.53,
+          "evidence": "Industrial, shipbuilding, specialty trade and manufacturing roles are repeatedly suggested as better-paying paths even while general local-wage discussions remain negative.",
+          "signals": [
+            "jobs_cluster_in_industrial_health_sectors",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.43,
+          "confidence": 0.69,
+          "evidence": "Routine Mobile driving is often treated as manageable for a city, but crossing Mobile Bay creates a sharply different commute regime with recurring Bayway and tunnel delays.",
+          "signals": [
+            "medium_city_scale_is_a_draw",
+            "bayway_is_regional_commute_chokepoint",
+            "eastern_shore_school_commute_tradeoff"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.34,
+          "confidence": 0.78,
+          "evidence": "Repeated wage threads distinguish plentiful low- or moderate-paying openings from jobs that residents consider sufficient for current housing and living costs.",
+          "signals": [
+            "local_pay_often_feels_low",
+            "housing_affordability_is_eroding"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.44,
+          "confidence": 0.42,
+          "evidence": "Residents report tightening housing conditions and some visible development momentum, but the community evidence does not support portraying Mobile as a uniformly rapid-growth city.",
+          "signals": [
+            "housing_affordability_is_eroding"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.67,
+          "confidence": 0.61,
+          "evidence": "Mobile retains a relatively affordable reputation, but renters at very low budgets and workers earning local wages increasingly describe the old cheap-city expectation as outdated.",
+          "signals": [
+            "housing_affordability_is_eroding",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.66,
+          "confidence": 0.56,
+          "evidence": "Residents still contrast Mobile favorably with more expensive Gulf alternatives, but rising prices and weak wage growth reduce the strength of its traditional small-city housing discount.",
+          "signals": [
+            "housing_affordability_is_eroding",
+            "local_pay_often_feels_low"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.48,
+          "confidence": 0.69,
+          "evidence": "Newcomers can identify many organized activities, but repeated first-hand accounts describe difficulty turning participation into lasting friendships and disagree over how socially open established circles are.",
+          "signals": [
+            "organized_social_groups_exist",
+            "adult_friendmaking_can_be_hard",
+            "newcomer_insularity_is_contested"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.47,
+          "confidence": 0.43,
+          "evidence": "Bars are a visible part of downtown social life, yet friend-making threads also surface running, sports, volunteering, gaming, museums and other non-drinking routes into community.",
+          "signals": [
+            "downtown_nightlife_has_options",
+            "organized_social_groups_exist"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.57,
+          "confidence": 0.62,
+          "evidence": "Recent threads identify a real downtown bar and lounge circuit, while direct comparison with Pensacola suggests thinner independent live-music depth.",
+          "signals": [
+            "downtown_nightlife_has_options",
+            "music_scene_thinner_than_pensacola"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.32,
+          "confidence": 0.31,
+          "evidence": "A recent nightlife thread establishes at least one dedicated gay venue, but the evidence is too sparse to support more than a low-confidence finding that dedicated infrastructure exists at small scale.",
+          "signals": [
+            "lgbtq_nightlife_is_present_but_small"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.93,
+          "confidence": 0.82,
+          "evidence": "Across local, statewide and broader relocation discussions, residents repeatedly identify Mardi Gras, port history, seafood, architecture and Gulf/Louisiana influence as a recognizable Mobile-specific cultural bundle.",
+          "signals": [
+            "gulf_coast_cultural_identity"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.6,
+          "confidence": 0.64,
+          "evidence": "Residents describe many ordinary safe-feeling residential areas but strongly resist citywide generalization, emphasizing block-level variation in parts of Midtown and other neighborhoods.",
+          "signals": [
+            "safety_varies_block_by_block",
+            "west_mobile_saraland_safety_reputation"
+          ]
+        }
+      },
+      "gaps": [
+        "searched_not_found: Targeted healthcare searches found abundant discussion of hospitals, residencies and healthcare employment but not enough first-hand patient discussion of primary-care waits, referrals, specialist access or leaving the region for complex care to score routine_healthcare_access, healthcare_navigability or specialist_healthcare_access from community sentiment.",
+        "searched_not_found: A targeted allergy-season search did not produce enough Mobile-specific resident evidence to establish a reliable community signal.",
+        "discussed_but_unscoreable: Race, private-school history and segregation are discussed in school threads, but much of the discourse is inflammatory or indirect and does not supply enough direct day-to-day resident-of-color accounts to score racial_inclusion_climate responsibly.",
+        "discussed_but_unscoreable: Religion appears inside private-school and cultural discussions but is too entangled with school choice, class and history to score religious_culture_prominence from this source base.",
+        "not_researched: Municipal LGBTQ protections and the broader political climate were not targeted deeply enough to score lgbtq_municipal_policy, lgbtq_social_acceptance, political_conservatism or political_heterogeneity.",
+        "searched_not_found: Rental-price discussions were plentiful, but evidence about how quickly ordinary rentals can actually be secured was too thin to score rental_availability separately.",
+        "not_researched: VA care was not evaluated through community sentiment in Blocks 1-3, so va_outpatient_access and va_hospital_access are intentionally omitted even though official facilities can be evaluated structurally in Block 4.",
+        "not_researched: Remote-work reliability, specialty-retail depth and dating-pool depth were not investigated sufficiently to score them."
+      ]
+    },
+    {
+      "city": "Charleston",
+      "state": "SC",
+      "dossier_key": "reddit_sentiment_2026",
+      "features": {
+        "winter_cold_severity": {
+          "value": 0.15,
+          "confidence": 0.68,
+          "evidence": "Dedicated winter threads treat prolonged cold as unusual and snow as distinctly rare rather than a normal seasonal burden.",
+          "signals": [
+            "mild_winter_rare_disruption"
+          ]
+        },
+        "snow_burden": {
+          "value": 0.05,
+          "confidence": 0.75,
+          "evidence": "Residents describe snow as exceptional; its main consequence is short-lived disruption when it does happen rather than persistent accumulation.",
+          "signals": [
+            "mild_winter_rare_disruption"
+          ]
+        },
+        "summer_heat_severity": {
+          "value": 0.92,
+          "confidence": 0.82,
+          "evidence": "Multiple dedicated weather threads describe midsummer heat as materially limiting outdoor activity, especially in July and August.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "humidity_burden": {
+          "value": 0.95,
+          "confidence": 0.84,
+          "evidence": "Humidity is one of the most consistent climate complaints and is frequently emphasized more than raw temperature.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "outdoor_comfort_season": {
+          "value": 0.62,
+          "confidence": 0.58,
+          "evidence": "Mild winters and shoulder seasons allow substantial outdoor use, but the most humid part of summer materially reduces comfort.",
+          "signals": [
+            "summer_heat_humidity_burden",
+            "mild_winter_rare_disruption"
+          ]
+        },
+        "climate_control_dependence": {
+          "value": 0.88,
+          "confidence": 0.68,
+          "evidence": "Resident descriptions of midsummer heat and humidity imply heavy dependence on air conditioning for normal indoor comfort.",
+          "signals": [
+            "summer_heat_humidity_burden"
+          ]
+        },
+        "severe_storm_risk": {
+          "value": 0.84,
+          "confidence": 0.7,
+          "evidence": "Flood and storm discussions treat tropical systems, intense rainfall and coastal surge as recurring property and planning considerations.",
+          "signals": [
+            "tidal_flooding_and_storm_exposure"
+          ]
+        },
+        "outdoor_recreation_access": {
+          "value": 0.72,
+          "confidence": 0.61,
+          "evidence": "Water recreation and beaches are close and heavily used, while residents seeking substantial trail or mountain recreation describe the offering as thinner.",
+          "signals": [
+            "water_and_beach_lifestyle"
+          ]
+        },
+        "natural_scenery": {
+          "value": 0.85,
+          "confidence": 0.66,
+          "evidence": "Marshes, harbor views, coastal vegetation and beaches repeatedly appear as reasons people value living in the region.",
+          "signals": [
+            "water_and_beach_lifestyle",
+            "strong_lowcountry_identity"
+          ]
+        },
+        "water_recreation_access": {
+          "value": 0.95,
+          "confidence": 0.82,
+          "evidence": "Beachgoing, boating, fishing and paddling are repeatedly described as readily accessible parts of Charleston life.",
+          "signals": [
+            "water_and_beach_lifestyle"
+          ]
+        },
+        "urban_amenity_depth": {
+          "value": 0.78,
+          "confidence": 0.62,
+          "evidence": "Residents and comparison threads describe strong restaurants, bars and events for the city's size, though the overall variety remains below that of a large metro.",
+          "signals": [
+            "nightlife_present_but_not_deep_big_city",
+            "strong_lowcountry_identity"
+          ]
+        },
+        "car_dependence": {
+          "value": 0.88,
+          "confidence": 0.8,
+          "evidence": "The walkable peninsula is repeatedly contrasted with a regional pattern in which commuting and most ordinary errands require driving.",
+          "signals": [
+            "walkable_core_not_walkable_metro",
+            "bridge_corridor_commute_unpredictability"
+          ]
+        },
+        "downtown_walkability": {
+          "value": 0.87,
+          "confidence": 0.74,
+          "evidence": "The historic peninsula provides a compact pedestrian core, while the research explicitly limits this score to downtown rather than greater Charleston.",
+          "signals": [
+            "walkable_core_not_walkable_metro"
+          ]
+        },
+        "routine_healthcare_access": {
+          "value": 0.58,
+          "confidence": 0.48,
+          "evidence": "Charleston has extensive healthcare infrastructure, but local threads repeatedly report difficulty obtaining timely new-patient primary-care appointments.",
+          "signals": [
+            "specialist_healthcare_regional_strength",
+            "healthcare_scheduling_friction"
+          ]
+        },
+        "healthcare_navigability": {
+          "value": 0.35,
+          "confidence": 0.72,
+          "evidence": "Multiple independent threads describe months-long waits, limited new-patient availability and scheduling frustration despite the presence of major institutions.",
+          "signals": [
+            "healthcare_scheduling_friction"
+          ]
+        },
+        "specialist_healthcare_access": {
+          "value": 0.86,
+          "confidence": 0.62,
+          "evidence": "Residents comparing Charleston with Savannah repeatedly treat complex and specialist medicine as one of Charleston's clearest regional advantages.",
+          "signals": [
+            "specialist_healthcare_regional_strength"
+          ]
+        },
+        "employment_opportunity_depth": {
+          "value": 0.67,
+          "confidence": 0.45,
+          "evidence": "Comparison discussions describe Charleston as offering materially more employment depth than smaller coastal peers, while affordability threads show that opportunity is uneven by occupation.",
+          "signals": [
+            "savannah_is_closest_lived_comparison",
+            "local_wages_lag_costs"
+          ]
+        },
+        "commute_burden": {
+          "value": 0.78,
+          "confidence": 0.84,
+          "evidence": "Residents repeatedly describe bridge and corridor bottlenecks that can turn otherwise moderate trips into long and unpredictable commutes.",
+          "signals": [
+            "bridge_corridor_commute_unpredictability",
+            "nearby_communities_are_tradeoffs"
+          ]
+        },
+        "local_wage_adequacy": {
+          "value": 0.24,
+          "confidence": 0.84,
+          "evidence": "Housing-versus-wage mismatch is one of the most consistent themes across nurses, moderate earners and general cost-of-living threads.",
+          "signals": [
+            "local_wages_lag_costs",
+            "housing_cost_pressure"
+          ]
+        },
+        "tourism_pressure": {
+          "value": 0.91,
+          "confidence": 0.84,
+          "evidence": "Residents repeatedly connect visitor volume with congestion, downtown rhythm, commercialization and the perception that everyday Charleston increasingly serves visitors.",
+          "signals": [
+            "tourism_pressure_everyday_life",
+            "strong_lowcountry_identity"
+          ]
+        },
+        "growth_pressure": {
+          "value": 0.88,
+          "confidence": 0.83,
+          "evidence": "Development and in-migration are repeatedly linked to traffic, housing costs and perceived cultural change, although residents disagree over how much quality has actually declined.",
+          "signals": [
+            "growth_outpaces_infrastructure_feeling",
+            "housing_cost_pressure",
+            "bridge_corridor_commute_unpredictability"
+          ]
+        },
+        "housing_affordability": {
+          "value": 0.18,
+          "confidence": 0.85,
+          "evidence": "High housing cost appears across local and relocation discussions strongly enough that prospective movers frequently seek cheaper Charleston substitutes.",
+          "signals": [
+            "housing_cost_pressure",
+            "local_wages_lag_costs"
+          ]
+        },
+        "housing_value_for_size": {
+          "value": 0.16,
+          "confidence": 0.78,
+          "evidence": "Residents repeatedly describe Charleston as costing substantially more than they expect from a metro of its size, particularly relative to locally available wages.",
+          "signals": [
+            "housing_cost_pressure",
+            "local_wages_lag_costs"
+          ]
+        },
+        "political_conservatism": {
+          "value": 0.48,
+          "confidence": 0.42,
+          "evidence": "Some residents experience Charleston as comparatively progressive within South Carolina while others emphasize a persistent conservative backdrop; the disagreement itself supports a near-middle position with low confidence.",
+          "signals": [
+            "political_climate_mixed_with_red_state_context"
+          ]
+        },
+        "lgbtq_social_acceptance": {
+          "value": 0.7,
+          "confidence": 0.5,
+          "evidence": "Several queer and trans resident accounts describe generally comfortable everyday interactions and identifiable welcoming areas, but the sample remains limited.",
+          "signals": [
+            "lgbtq_accepting_pockets"
+          ]
+        },
+        "lgbtq_scene_size": {
+          "value": 0.45,
+          "confidence": 0.55,
+          "evidence": "Dedicated venues, groups and events exist, while residents seeking a larger queer or specifically sapphic circuit describe the scene as comparatively compact.",
+          "signals": [
+            "lgbtq_scene_relatively_small",
+            "lgbtq_accepting_pockets"
+          ]
+        },
+        "political_heterogeneity": {
+          "value": 0.68,
+          "confidence": 0.5,
+          "evidence": "Visible progressive organizing coexists with residents who perceive a conservative regional culture, producing a genuinely mixed civic arena rather than a uniformly aligned one.",
+          "signals": [
+            "political_climate_mixed_with_red_state_context"
+          ]
+        },
+        "family_infrastructure": {
+          "value": 0.56,
+          "confidence": 0.47,
+          "evidence": "Families can find schools, sports and activities, but school access is sufficiently uneven that address, magnet/choice programs and sometimes private-school costs materially affect the experience.",
+          "signals": [
+            "schools_highly_location_dependent",
+            "nearby_communities_are_tradeoffs"
+          ]
+        },
+        "social_integration_ease": {
+          "value": 0.42,
+          "confidence": 0.65,
+          "evidence": "Several newcomers report difficulty developing deep friendships, while others argue that deliberate participation in hobbies, sports and volunteering works and that the problem is not unique to Charleston.",
+          "signals": [
+            "newcomer_social_integration_requires_effort"
+          ]
+        },
+        "alcohol_centered_social_scene": {
+          "value": 0.72,
+          "confidence": 0.61,
+          "evidence": "Bars, breweries and going out recur as default social channels in newcomer threads, although substantial sports, outdoor and hobby alternatives also exist.",
+          "signals": [
+            "bar_centered_social_scene",
+            "nightlife_present_but_not_deep_big_city"
+          ]
+        },
+        "nightlife_depth": {
+          "value": 0.68,
+          "confidence": 0.55,
+          "evidence": "Charleston supports a meaningful evening restaurant-and-bar circuit but comparison discussions suggest less late-night breadth and looseness than Savannah.",
+          "signals": [
+            "nightlife_present_but_not_deep_big_city",
+            "savannah_is_closest_lived_comparison"
+          ]
+        },
+        "cultural_distinctiveness": {
+          "value": 0.95,
+          "confidence": 0.84,
+          "evidence": "Historic urban form, Lowcountry culture, water, food and coastal identity form an unusually coherent sense of place recognized even by critics.",
+          "signals": [
+            "strong_lowcountry_identity",
+            "water_and_beach_lifestyle"
+          ]
+        },
+        "perceived_everyday_safety": {
+          "value": 0.64,
+          "confidence": 0.45,
+          "evidence": "Residents often report comfortable ordinary life but safety descriptions change sharply by neighborhood and sometimes by block, making a high-confidence citywide score inappropriate.",
+          "signals": [
+            "safety_varies_by_block"
+          ]
+        }
+      },
+      "gaps": [
+        "discussed_but_unscoreable: racial_inclusion_climate appears in a small number of relocation accounts, including a POC resident describing social spaces as insufficiently diverse, but the sample is too thin and sensitive to generalize responsibly.",
+        "not_researched: religious_culture_prominence was not investigated deeply enough in this pass to distinguish Charleston from generic regional assumptions.",
+        "not_researched: substance_problem_visibility was not investigated and cannot be inferred from safety or homelessness discussion.",
+        "not_researched: public_land_access was not separately researched; coastal recreation evidence cannot be repurposed as evidence of public-land availability.",
+        "not_researched: specialty_retail_access was not directly investigated.",
+        "not_researched: rental_availability as distinct from rental price was not directly established.",
+        "not_researched: major_airport_access was not established from community sentiment in Blocks 1-3; structural airport evidence is evaluated separately in Block 4.",
+        "discussed_but_unscoreable: dating_pool_depth appears in several complaint threads but the evidence is too app-specific, anecdotal and contradictory to responsibly convert into a place-level score."
       ]
     }
   ]

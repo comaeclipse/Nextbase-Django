@@ -1,0 +1,109 @@
+{
+  "city": "North Platte",
+  "state": "NE",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "North Platte, Nebraska — community sentiment synthesis",
+  "summary": "A rough-edged but functional railroad-and-healthcare regional hub whose real weaknesses are isolation, social and amenity thinness, housing friction and economic legacy — not the near-apocalyptic caricature that Nebraska Reddit often turns it into. Works best for someone arriving with a stable railroad, healthcare or trades job and the ability to make their own entertainment; the headline finding is that the statewide reputation is substantially harsher than resident accounts.",
+  "narrative_file": "north-platte-ne.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "relationship_to_prior_dossier": "First full community-sentiment dossier for North Platte. Complements the pre-existing gold-pack evidence in the research ledger (north_platte_ordinary_evening_2026, north_platte precinct and demographic rows), which independently documented the ordinary-evening venue layer; this dossier's 'nightlife thin but present' reading is consistent with that gold pack's corrected finding that the ordinary venue layer is real and events amplify rather than constitute the evening.",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "several_explicit_what_is_it_like_and_why_does_everyone_hate_it_threads_producing_both_hostile_commentary_and_detailed_resident_pushback",
+      "relocation_threads_spanning_2018_2026_railroad_worker_discussion_and_a_direct_kearney_comparison",
+      "all_16_cited_reddit_threads_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "facility_claims_va_clinic_and_great_plains_health_corroborated_by_va_gov_gphealth_org_and_the_apps_own_va_sync_data",
+      "consistent_with_the_pre_existing_north_platte_ordinary_evening_gold_pack"
+    ],
+    "limitations": [
+      "r_nebraska_dominates_and_skews_omaha_lincoln_making_reputation_jokes_weaker_evidence_than_resident_accounts",
+      "little_usable_local_subreddit_material",
+      "r_samegrassbutgreener_very_thin_one_useful_comparison_only",
+      "some_of_the_best_relocation_threads_are_from_2018_and_2022",
+      "meth_discourse_mixes_jokes_civic_insults_and_first_hand_observation",
+      "neighborhood_safety_under_sampled_one_older_north_of_the_tracks_warning",
+      "school_discussion_thin_and_contradictory",
+      "lgbtq_and_racial_experience_accounts_sparse_and_sometimes_inflammatory",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "city_specific_wind_community_sample_too_thin_wind_exposure_supplied_via_the_same_day_cross_city_calibration_addendum",
+      "allergy_season_searched_not_found",
+      "healthcare_navigability_waits_and_referral_friction_not_established",
+      "neighborhood_level_safety_corpus_insufficient",
+      "current_school_quality_insufficient_for_family_infrastructure",
+      "car_dependence_and_downtown_walkability_not_separately_investigated",
+      "public_land_ownership_patterns_not_separately_investigated",
+      "lgbtq_municipal_policy_not_investigated",
+      "racial_inclusion_climate_sample_too_thin",
+      "religious_culture_prominence_only_indirect",
+      "dating_pool_depth_too_sparse_to_score"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/Nebraska/comments/1j8xdr6/what_do_folks_think_of_north_platte/",
+    "https://www.reddit.com/r/Nebraska/comments/1c67wec/serious_question_whats_wrong_with_north_platte/",
+    "https://www.reddit.com/r/Nebraska/comments/1756516/til_nobody_likes_north_platte/",
+    "https://www.reddit.com/r/Nebraska/comments/rv5irz/moving_to_north_platte/",
+    "https://www.reddit.com/r/Nebraska/comments/9fdtgt/considering_moving_to_north_platte_very_soon/",
+    "https://www.reddit.com/r/Nebraska/comments/1euu9z1/",
+    "https://www.reddit.com/r/Nebraska/comments/1s0oc8f/",
+    "https://www.reddit.com/r/Nebraska/comments/vhl8oh/",
+    "https://www.reddit.com/r/Nebraska/comments/17ihms3/",
+    "https://www.reddit.com/r/UnionPacific/comments/1qg3nd2/north_platte/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1hgokfq/",
+    "https://www.city-data.com/forum/nebraska/3199780-how-north-platte-these-days-kearney.html",
+    "https://www.gphealth.org/clinics/",
+    "https://www.gphealth.org/about-us/",
+    "https://www.census.gov/quickfacts/fact/table/northplattecitynebraska/INC110223",
+    "https://www.up.com/train-town/north-platte-ne",
+    "https://www.northplatteairport.com/flight-information/",
+    "https://www.northplattene.gov/AgendaCenter/ViewFile/Minutes/_05282024-168",
+    "https://www.visitnorthplatte.com/events/annual-events-festivals/nebraska-land-days/"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions; the comparison falsified only 3 of 34 returned features — the best score yet — with all three misses being lumpy institutional facts propagation cannot know (va_hospital_access 0.61 predicted vs 0.22, specialist_healthcare_access 0.40 vs 0.79, growth_pressure 0.67 vs 0.35).",
+    "location_context": {
+      "county": "Lincoln County",
+      "region": "west-central Nebraska, High Plains, I-80 corridor",
+      "setting": "railroad city on the Platte River forks, home of Union Pacific's Bailey Yard",
+      "nearby_geographic_feature": "Lake Maloney and Buffalo Bill SRA close by; Sandhills north; Denver, Omaha and the mountains all multi-hour trips",
+      "important_distinction": "North Platte is a hub from below but isolated from above: it is the service center for a large rural hinterland while itself lacking metro access, and its statewide online reputation is substantially harsher than resident accounts."
+    },
+    "reddit_sentiment": "hostile_statewide_reputation_disputed_by_resident_accounts",
+    "city_archetype": "isolated_rail_anchor_regional_service_hub",
+    "strongest_positive_signals": [
+      "railroad_employment_and_identity_anchor",
+      "great_plains_health_regional_referral_depth",
+      "fishing_camping_and_water_recreation_close",
+      "distinctive_rail_western_civic_identity",
+      "lived_safety_better_than_reputation"
+    ],
+    "strongest_negative_signals": [
+      "geographic_isolation_from_metro_services",
+      "thin_ordinary_week_nightlife_and_amenity_depth",
+      "housing_supply_friction_despite_low_sticker_prices",
+      "slow_social_integration_without_a_work_cohort",
+      "loud_drug_reputation_theme",
+      "railroad_cycle_exposure"
+    ],
+    "best_for": [
+      "workers_with_a_secure_railroad_healthcare_or_trades_job",
+      "people_tolerant_of_driving",
+      "hunters_anglers_and_campers",
+      "people_with_little_need_for_nightlife",
+      "people_comfortable_building_social_life_around_work_family_or_institutions"
+    ],
+    "poor_fit_for": [
+      "single_newcomers_without_a_workplace_cohort",
+      "trailing_partners_needing_a_broad_professional_market",
+      "people_expecting_frequent_new_restaurants_or_cultural_events",
+      "people_valuing_anonymity_and_a_deep_social_dating_pool",
+      "people_needing_highly_specialized_services_beyond_the_regional_hospital"
+    ],
+    "bottom_line": "North Platte is a rough-edged but functional railroad-and-healthcare regional hub whose real weaknesses are isolation, social and amenity thinness, housing friction and economic legacy — not the near-apocalyptic caricature that Nebraska Reddit often turns it into."
+  }
+}

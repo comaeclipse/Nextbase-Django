@@ -1,0 +1,108 @@
+{
+  "city": "Grand Junction",
+  "state": "CO",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Grand Junction, Colorado — community sentiment synthesis",
+  "summary": "An unusually capable, easy-moving high-desert regional city whose spectacular everyday outdoor access and relative freedom from Front Range congestion are offset by thin urban depth, a constrained labor market, increasingly poor wage-to-housing value and genuinely hot summers. Works best for outdoor-oriented movers who want a small regional city rather than a miniature Denver; the loudest structural complaint is that local wages and housing have become poorly matched.",
+  "narrative_file": "grand-junction-co.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-20",
+  "coverage": {
+    "level": "strong",
+    "strengths": [
+      "local_subreddit_relocation_climate_housing_healthcare_school_social_and_neighborhood_threads_plus_outside_comparison_communities",
+      "recent_2025_26_threads_capture_fast_changing_housing_and_hospital_conditions",
+      "all_40_cited_reddit_threads_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "va_medical_center_claim_verified_against_va_gov_which_exposed_a_stale_classification_in_the_apps_own_va_sync_data",
+      "wind_negative_control_established_by_the_same_day_cross_city_calibration_addendum"
+    ],
+    "limitations": [
+      "reddit_overrepresents_people_actively_evaluating_the_city",
+      "grand_junction_often_means_the_grand_valley_fruita_clifton_palisade_folded_in",
+      "housing_wages_hospital_staffing_and_air_service_change_fast",
+      "schools_under_sampled_relative_to_housing_recreation_and_safety",
+      "healthcare_capacity_and_navigability_diverge_and_staffing_allegations_require_independent_verification",
+      "politics_homelessness_addiction_and_neighborhood_reputation_generate_inflammatory_language",
+      "delivered_block_2_source_urls_arrived_as_markdown_wrapped_links_normalized_mechanically_to_bare_urls_on_import",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "wind_exposure_community_sample_thin_value_supplied_via_the_same_day_calibration_addendum_as_the_wind_negative_control",
+      "winter_daylight_deficit_not_separately_investigated",
+      "precipitation_seasonality_community_evidence_insufficient",
+      "school_experiences_too_campus_specific_for_family_infrastructure",
+      "lgbtq_municipal_policy_not_located",
+      "racial_inclusion_climate_not_independently_targeted",
+      "religious_culture_prominence_too_region_generalized",
+      "economic_cycle_exposure_and_high_wage_trade_opportunity_not_researched_deeply_enough",
+      "remote_work_viability_not_technically_verified"
+    ]
+  },
+  "source_urls": [
+    "https://www.reddit.com/r/grandjunction/comments/1rgmor1/for_those_of_you_here_that_moved_out_of_gj_or_the/",
+    "https://www.reddit.com/r/grandjunction/comments/1s6k1qk/potential_transplant_advice_needed/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1i3flx5/should_we_move_to_san_diego_or_grand_junction_co/",
+    "https://www.reddit.com/r/grandjunction/comments/1k7t9ym/thinking_of_moving_to_gj/",
+    "https://www.reddit.com/r/grandjunction/comments/1trlsde/grand_junction_has_lowest_median_wages_in_the/",
+    "https://www.reddit.com/r/grandjunction/comments/1uvsxkb/first_summer_this_heat_is_brutal_help/",
+    "https://www.reddit.com/r/grandjunction/comments/1sxqfw9/best_quick_food_options/",
+    "https://www.reddit.com/r/grandjunction/comments/10ruk2o/",
+    "https://www.reddit.com/r/grandjunction/comments/15grd7h/crime_in_grand_junction/",
+    "https://www.reddit.com/r/grandjunction/comments/1o5268l/affordable_safe_areas_to_live/",
+    "https://www.reddit.com/r/grandjunction/comments/1k3ddy0/",
+    "https://www.reddit.com/r/grandjunction/comments/1fepqgf/",
+    "https://www.reddit.com/r/grandjunction/comments/1t58v29/st_mary_hospital_increase_medical_errors/",
+    "https://www.reddit.com/r/grandjunction/comments/1oytaug/what_are_your_thoughts_on_area_schools/",
+    "https://www.reddit.com/r/grandjunction/comments/1vnn5v4/trying_to_meet_other_gay_men_gj/",
+    "https://www.reddit.com/r/grandjunction/comments/1czzy5w/",
+    "https://www.census.gov/quickfacts/fact/table/grandjunctioncitycolorado/INC110224",
+    "https://www.bls.gov/regions/mountain-plains/news-release/2026/occupationalemploymentandwages_grandjunction_20260805.htm",
+    "https://www.gjcity.org/DocumentCenter/View/16099/2025-Unhoused-Survey-Report-",
+    "https://www.blm.gov/office/grand-junction-field-office"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions; the comparison falsified 5 of 39 returned features, and the wind negative control was empirically demonstrated inside the falsification table itself: the propagation predicted wind_exposure 0.73 (borrowed from windy interior-West neighbors) versus the measured 0.32 — exactly the 'every open western city is windy' bias the calibration addendum warned about.",
+    "location_context": {
+      "county": "Mesa County",
+      "region": "Western Slope, Grand Valley, Colorado high desert",
+      "setting": "the Western Slope's largest city, at the junction of the Colorado and Gunnison rivers between the Colorado National Monument, the Book Cliffs and Grand Mesa",
+      "nearby_geographic_feature": "Colorado National Monument at the city's edge; over one million BLM acres surrounding; Grand Mesa and Powderhorn skiing about an hour; Moab and Utah canyon country within day-trip range",
+      "important_distinction": "Grand Junction usually means the Grand Valley: Fruita (bike town), Palisade (wineries/orchards) and Clifton (contested rougher reputation) are distinct lived environments folded into city discussions. Sheltered valley topography also makes it the wind negative control among the researched interior-West hubs."
+    },
+    "reddit_sentiment": "enthusiastic_outdoor_transplants_versus_wage_housing_squeeze_frustration",
+    "city_archetype": "isolated_high_desert_regional_service_hub_with_immediate_public_land_access",
+    "strongest_positive_signals": [
+      "immediate_everyday_outdoor_and_public_land_access",
+      "human_scale_city_with_short_trips",
+      "real_downtown_walkable_cluster",
+      "regional_medical_capacity_including_a_va_medical_center",
+      "long_outdoor_season_with_mild_valley_winters"
+    ],
+    "strongest_negative_signals": [
+      "wage_to_housing_mismatch",
+      "thin_urban_amenity_and_nightlife_depth",
+      "shallow_professional_job_ladders",
+      "healthcare_navigability_and_staffing_concerns",
+      "hot_midsummer_afternoons",
+      "activity_mediated_social_integration"
+    ],
+    "best_for": [
+      "mountain_bikers_hikers_rafters_skiers_and_public_land_users",
+      "households_valuing_short_routine_drives",
+      "remote_workers_with_outside_income_who_join_activity_communities",
+      "healthcare_workers",
+      "veterans_valuing_an_in_town_va_medical_center",
+      "people_wanting_colorado_scenery_without_front_range_scale"
+    ],
+    "poor_fit_for": [
+      "people_needing_a_deep_professional_labor_market",
+      "people_needing_effortless_specialist_scheduling",
+      "people_wanting_dense_transit_oriented_living",
+      "people_prioritizing_a_large_dating_pool_or_late_night_culture",
+      "people_expecting_truly_inexpensive_housing_relative_to_local_wages",
+      "heat_sensitive_residents_in_july_and_august"
+    ],
+    "bottom_line": "Grand Junction is an unusually capable, easy-moving high-desert regional city whose spectacular everyday outdoor access and relative freedom from Front Range congestion are offset by thin urban depth, a constrained labor market, increasingly poor wage-to-housing value and genuinely hot summers."
+  }
+}

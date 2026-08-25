@@ -21,11 +21,19 @@ import {
   parseLgbtqScore,
   calculateBaselineScore,
 } from "./scoring";
+import { gunFreedomIndex } from "./state-gun-freedom";
 
 export interface FilterParams {
   snow?: string | null;
   no_awb?: string | null;
   no_hcm?: string | null;
+  /**
+   * Minimum Gun Freedom Index (0-100) from lib/state-gun-freedom.ts — a
+   * curated policy rubric, not a DB column. A state missing from that dataset
+   * is kept rather than dropped, matching how the three-valued `no_awb` /
+   * `no_hcm` columns treat an unrecorded law.
+   */
+  gun_freedom_min?: string | null;
   state_filter?: string | null;
   lgbtq_friendly?: string | null;
   climate?: string | null;
@@ -272,6 +280,16 @@ export function filterAndSort(
   // AWB / High-Cap Mag exclusions
   if (p.no_awb === "true") list = list.filter((l) => !awbStates.has(l.state));
   if (p.no_hcm === "true") list = list.filter((l) => !hcmStates.has(l.state));
+
+  // Gun Freedom Index floor. Non-numeric values are ignored rather than
+  // treated as 0, so a junk query param can't silently filter nothing.
+  if (p.gun_freedom_min && /^\d+$/.test(p.gun_freedom_min)) {
+    const minIndex = parseInt(p.gun_freedom_min, 10);
+    list = list.filter((l) => {
+      const index = gunFreedomIndex(l.state);
+      return index === null || index >= minIndex;
+    });
+  }
 
   // Map state filter
   if (p.state_filter) list = list.filter((l) => l.state === p.state_filter);

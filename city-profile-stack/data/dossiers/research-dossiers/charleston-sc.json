@@ -1,0 +1,100 @@
+{
+  "city": "Charleston",
+  "state": "SC",
+  "dossier_key": "reddit_sentiment_2026",
+  "source_kind": "community_sentiment_synthesis",
+  "title": "Charleston, South Carolina — community sentiment synthesis",
+  "summary": "A remarkably distinctive, amenity-rich coastal regional hub — historic core, marsh and harbor scenery, beach and boating access, a strong food-and-bar economy, a sizable airport, and major medical institutions — whose bundle is increasingly purchased with high housing costs detached from local wages, oppressive summer humidity, tourism and growth pressure, routine flood adaptation, and a transportation system in which bridge-corridor geography can dominate everyday life. The defining economics are the local-wage/housing mismatch (the sharpest in the corpus) and the defining morphology is the walkable-peninsula/car-dependent-metro split.",
+  "narrative_file": "charleston-sc.md",
+  "analyst": "llm_research_synthesis",
+  "retrieved_on": "2026-08-21",
+  "coverage": {
+    "level": "moderate_to_strong",
+    "strengths": [
+      "evidence_base_unusually_good_on_housing_wages_traffic_heat_flooding_tourism_and_neighborhood_tradeoffs",
+      "relocation_sample_deliberately_widened_beyond_r_charleston_to_samegrassbutgreener_relocating_savannah_comparisons_and_teacher_threads",
+      "all_23_cited_reddit_threads_independently_verified_real_via_arctic_shift_archive_with_matching_subreddits_and_titles",
+      "census_bls_musc_va_flood_and_airport_figures_verified_verbatim_in_the_companion_proposal_pass"
+    ],
+    "limitations": [
+      "reddit_overrepresents_younger_online_professionally_mobile_residents_and_people_considering_moving",
+      "charleston_blurs_the_peninsula_west_ashley_james_island_mount_pleasant_north_charleston_summerville_and_the_tri_county_region",
+      "housing_rents_restaurants_and_commutes_change_quickly_in_a_rapidly_growing_metro",
+      "schools_depend_on_zoning_magnets_charter_private_enrollment_and_district_boundaries_more_than_citywide_reputation",
+      "political_racial_and_lgbtq_discussions_vulnerable_to_small_samples_and_ideological_framing_race_too_thin_for_a_citywide_score",
+      "charleston_vs_savannah_comparisons_abundant_but_charleston_vs_mobile_evidence_much_thinner_three_city_juxtaposition_explicitly_provisional",
+      "delivered_block_2_source_urls_arrived_as_parenthesized_markdown_links_with_tracking_parameters_normalized_mechanically_to_bare_urls_flagged",
+      "inline_narrative_links_originally_carried_chatgpt_com_utm_parameters_stripped_mechanically_on_import_text_otherwise_verbatim"
+    ],
+    "gaps": [
+      "racial_inclusion_climate_discussed_but_too_thin_and_sensitive_to_generalize",
+      "religious_culture_prominence_substance_problem_visibility_public_land_access_specialty_retail_access_and_rental_availability_not_researched",
+      "major_airport_access_not_established_from_community_sentiment_evaluated_structurally_in_block_4",
+      "dating_pool_depth_discussed_but_too_app_specific_anecdotal_and_contradictory_to_score"
+    ]
+  },
+  "source_urls": [
+    "https://www.census.gov/quickfacts/fact/table/charlestoncitysouthcarolina/INC110223",
+    "https://www.bls.gov/regions/southeast/news-release/occupationalemploymentandwages_charleston.htm",
+    "https://www.charleston-sc.gov/2818/Charleston-Water-Plan-Comprehensive-Inte",
+    "https://charleston-sc.gov/1981/Flooding-Sea-Level-Rise-Strategy",
+    "https://medicine.musc.edu/departments/surgery/divisions/acute-care-trauma-burn/trauma-center",
+    "https://www.va.gov/charleston-health-care/about-us/",
+    "https://iflychs.com/nonstopdestinations/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1s0x407/why_shouldnt_i_move_to_charleston_sc/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1co96a3/so_hows_charleston_sc/",
+    "https://www.reddit.com/r/SameGrassButGreener/comments/1io35yj/",
+    "https://www.reddit.com/r/relocating/comments/1r4jgjo/alternative_to_charleston/",
+    "https://www.reddit.com/r/Charleston/comments/1jdlxsc/pollen_allergies_help/",
+    "https://www.reddit.com/r/Charleston/comments/1qpuii7/snow_in_charleston/",
+    "https://www.reddit.com/r/Charleston/comments/1qzab7a/is_there_anywhere_in_us_like_old_school_charleston/",
+    "https://www.reddit.com/r/savannah/comments/1cyiyp0/savannah_vs_charleston/",
+    "https://www.reddit.com/r/MobileAL/comments/1rd3w0q/worth_it/"
+  ],
+  "structured": {
+    "note": "Distilled fit assessment as delivered. Persona lists are archived here as source material only — the app derives personas from features at read time rather than storing them as facts about people. This dossier was produced with the researcher deliberately not shown the model's propagated predictions (generated and stashed before import); the prediction comparison (criterion |diff| >= 0.30) falsified 4 of 33 returned features. The misses tell a coherent story: humidity_burden 0.48 predicted vs 0.95 (still the arid-corpus residue, but the prediction has climbed 0.33 -> 0.41 -> 0.48 across the three humid-coastal passes as the corpus diversifies), tourism_pressure 0.56 vs 0.91 (error shrinking from Savannah's 0.43 gap as tourism cities accumulate), specialist_healthcare_access 0.51 vs 0.86 (the recurring lumpy institutional fact — MUSC plus a tertiary VA teaching hospital, the fourth pass where a healthcare/VA institution defeats propagation), and commute_burden 0.48 vs 0.78 (Charleston INVERTS the corpus's low-commute-vs-car-dependence pattern: it is the first congested-corridor metro researched, so propagation borrowed easy-driving from interior hubs). Near-misses just under threshold: housing_affordability 0.47 vs 0.18 and housing_value_for_size 0.45 vs 0.16 — Charleston is the most expensive city yet researched. Notable confirmations: healthcare_navigability 0.36 predicted vs 0.35 (the all-sources-agree prediction confirmed for the THIRD consecutive pass — navigability friction generalizes even as capacity does not), car_dependence 0.86 vs 0.88 and lgbtq_scene_size 0.39 vs 0.45 (all-agree, confirmed), social_integration_ease 0.43 vs 0.42, perceived_everyday_safety 0.63 vs 0.64, outdoor_comfort_season 0.56 vs 0.62.",
+    "location_context": {
+      "county": "Charleston County",
+      "region": "South Carolina Lowcountry / southeastern Atlantic coast",
+      "setting": "historic peninsula city between the Ashley and Cooper rivers at Charleston Harbor, center of a fast-growing tri-county metro spanning bridge-linked suburbs",
+      "nearby_geographic_feature": "Charleston Harbor and the Ashley/Cooper rivers; barrier-island beaches (Folly, Sullivan's, Isle of Palms); tidal marshes; bridge corridors (Ravenel, I-526) that structure commuting",
+      "important_distinction": "Charleston routinely means the peninsula, West Ashley, James Island, Mount Pleasant, North Charleston, Summerville or the whole tri-county region — places with radically different housing, school, walkability and commute experiences. The defining internal split is walkable historic peninsula versus car-dependent metro, and the dominant peer comparisons are Savannah (closest lifestyle peer) and Greenville (in-state inland counterfactual)."
+    },
+    "reddit_sentiment": "positive_on_identity_water_amenities_and_institutions_conditional_on_wages_housing_heat_flooding_and_traffic",
+    "city_archetype": "polished_historic_coastal_hub_with_beach_access_medical_depth_and_growth_friction",
+    "strongest_positive_signals": [
+      "strong_historic_lowcountry_identity",
+      "water_beach_and_boating_lifestyle",
+      "genuinely_walkable_historic_peninsula",
+      "amenity_and_restaurant_depth_above_city_size",
+      "regional_specialist_and_va_medical_depth",
+      "strong_air_connectivity_for_a_midsize_city",
+      "mild_winters"
+    ],
+    "strongest_negative_signals": [
+      "housing_costs_detached_from_local_wages",
+      "bridge_corridor_commute_unpredictability",
+      "tourism_and_growth_pressure_on_everyday_life",
+      "oppressive_summer_heat_and_humidity",
+      "routine_tidal_and_rainfall_flood_adaptation",
+      "bar_skewed_social_scene_and_deliberate_friendmaking",
+      "school_and_safety_experience_highly_address_dependent"
+    ],
+    "best_for": [
+      "people_who_genuinely_use_water_beaches_and_restaurants",
+      "people_who_value_historic_character_enough_to_pay_for_proximity",
+      "households_needing_strong_specialist_or_va_medical_infrastructure",
+      "remote_workers_and_incomes_comfortably_above_local_service_wages",
+      "movers_willing_to_choose_neighborhoods_around_commute_geometry"
+    ],
+    "poor_fit_for": [
+      "households_stretching_financially_to_buy_into_the_lifestyle",
+      "people_expecting_cheap_southern_housing",
+      "heat_humidity_or_flood_risk_averse_movers",
+      "households_wanting_big_city_transit_without_driving",
+      "mountain_and_hiking_oriented_outdoor_enthusiasts",
+      "newcomers_expecting_passive_friendship_formation"
+    ],
+    "bottom_line": "Charleston is a remarkably distinctive, amenity-rich coastal regional hub whose beaches, history, food and institutional depth are increasingly purchased with high housing costs, summer discomfort, tourism/growth pressure and a transportation system in which geography can dominate everyday life."
+  }
+}

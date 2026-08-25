@@ -1,0 +1,75 @@
+Predicted dossier features for Pueblo, CO
+Borrowed from: Billings, MT (0.856), North Platte, NE (0.814), Savannah, GA (0.811), Casper, WY (0.795), Cheyenne, WY (0.795), Sierra Vista, AZ (0.776), Mobile, AL (0.776), Grand Junction, CO (0.767), Gilbert, AZ (0.767), Rapid City, SD (0.760), Victorville, CA (0.756), Bangor, ME (0.755), Charleston, SC (0.750), Nashville, TN (0.738), Elko, NV (0.730), Odessa, TX (0.729), Atlanta, GA (0.723)
+
+These are PREDICTIONS, not stored values. Nothing was written to the database.
+A dossier that contradicts them is the useful outcome.
+
+feature                          predicted  conf   sources agree?
+precipitation_seasonality             0.90  0.34   single source
+winter_daylight_deficit               0.80  0.34   single source
+va_outpatient_access                  0.93  0.33   yes
+lgbtq_scene_size                      0.40  0.31   yes
+racial_inclusion_climate              0.42  0.31   yes
+healthcare_navigability               0.36  0.31   yes
+religious_culture_prominence          0.70  0.31   yes
+car_dependence                        0.87  0.30   yes
+winter_severity                       0.70  0.30   partly
+substance_problem_visibility          0.64  0.29   partly
+climate_control_dependence            0.84  0.29   partly
+neighborliness                        0.59  0.29   partly
+civic_identity_intensity              0.81  0.29   partly
+remote_work_viability                 0.74  0.28   partly
+outdoor_comfort_season                0.56  0.28   partly
+political_heterogeneity               0.62  0.28   partly
+rental_availability                   0.40  0.27   partly
+independent_business_character        0.65  0.27   partly
+local_wage_adequacy                   0.38  0.27   partly
+routine_healthcare_access             0.70  0.27   partly
+population_rootedness                 0.64  0.26   partly
+social_integration_ease               0.41  0.26   partly
+quirk_embrace                         0.64  0.26   partly
+trailing_spouse_isolation_risk        0.65  0.26   partly
+family_infrastructure                 0.69  0.26   partly
+perceived_everyday_safety             0.62  0.26   partly
+political_conservatism                0.63  0.25   partly
+alcohol_centered_social_scene         0.65  0.25   partly
+water_recreation_access               0.76  0.25   partly
+housing_affordability                 0.45  0.24   NO — low value
+lgbtq_social_acceptance               0.60  0.24   NO — low value
+high_wage_trade_opportunity           0.74  0.23   NO — low value
+late_night_availability               0.34  0.23   NO — low value
+employment_opportunity_depth          0.56  0.23   NO — low value
+urban_amenity_depth                   0.55  0.23   NO — low value
+cultural_distinctiveness              0.77  0.23   NO — low value
+specialty_retail_access               0.49  0.23   NO — low value
+social_anonymity                      0.53  0.22   NO — low value
+wind_exposure                         0.70  0.22   NO — low value
+growth_pressure                       0.67  0.22   NO — low value
+creative_participation                0.64  0.22   NO — low value
+dating_pool_depth                     0.35  0.22   NO — low value
+street_life_vibrancy                  0.49  0.22   NO — low value
+summer_heat_severity                  0.79  0.22   NO — low value
+employment_diversity                  0.50  0.22   NO — low value
+status_performance                    0.45  0.22   NO — low value
+severe_storm_risk                     0.66  0.21   NO — low value
+subculture_depth                      0.57  0.21   NO — low value
+housing_value_for_size                0.43  0.21   NO — low value
+nightlife_depth                       0.44  0.21   NO — low value
+lgbtq_municipal_policy                0.52  0.20   NO — low value
+major_airport_access                  0.54  0.20   NO — low value
+economic_cycle_exposure               0.63  0.19   NO — low value
+winter_cold_severity                  0.45  0.19   NO — low value
+public_land_access                    0.79  0.19   NO — low value
+downtown_walkability                  0.69  0.19   NO — low value
+commute_burden                        0.45  0.19   NO — low value
+specialist_healthcare_access          0.53  0.19   NO — low value
+tourism_pressure                      0.54  0.19   NO — low value
+outdoor_recreation_access             0.78  0.18   NO — low value
+va_hospital_access                    0.55  0.18   NO — low value
+snow_burden                           0.33  0.18   NO — low value
+natural_scenery                       0.71  0.18   NO — low value
+geographic_isolation                  0.62  0.17   NO — low value
+humidity_burden                       0.45  0.16   NO — low value
+
+6 feature(s) where all researched cities agree — these are the real predictions.
+36 where they disagree outright — the dossier is the only way to settle those.

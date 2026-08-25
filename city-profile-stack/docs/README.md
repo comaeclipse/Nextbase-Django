@@ -4,8 +4,23 @@ Two kinds of file live here: **living docs** (kept current) and **point-in-time
 reports** (dated snapshots, never edited after the fact). Don't mistake a dated
 report for current state.
 
+## Start here (the two-document contextualization contract)
+
+- **[STATE.md](STATE.md)** — where the nanogenre program is *right now*:
+  corpus status, provisional families, trait rulings, falsification record.
+  Updated in place every pass; the one doc to load for current state.
+- **[OPERATIONS.md](OPERATIONS.md)** — how to *run* a research pass: the
+  loop, verification methods, falsification criterion, defect playbook,
+  artifact contract, merge rules.
+
 ## Living docs
 
+- **[NANOGENRE_TAXONOMY.md](NANOGENRE_TAXONOMY.md)** — what a genre is, the
+  hierarchy, admission rules, and the §12 decision log.
+- **[KNOWLEDGE_MODEL.md](KNOWLEDGE_MODEL.md)** — the four-layer knowledge
+  model (dossiers → signals → features → vectors), stances, evidence classes.
+- **[VALIDATION_CORPUS_V1.md](VALIDATION_CORPUS_V1.md)** — the second-phase
+  attack plan with pre-registered hypotheses and predictions.
 - **[METHODOLOGY.md](METHODOLOGY.md)** — the research + derivation rules (how a
   score is allowed to be set).
 - **[DATABASE.md](DATABASE.md)** — table and view definitions for the stack.

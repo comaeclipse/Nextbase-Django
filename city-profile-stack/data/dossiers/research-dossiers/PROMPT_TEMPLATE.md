@@ -8,12 +8,19 @@ the **TARGET CITY** line. Output maps directly onto `city-profile-stack/scripts/
 `city-profile-stack/scripts/tools/rank-dossier-candidates.ts --predict` exist to be falsified by the returned
 dossier; showing them to the research model destroys the test.
 
+**Block 4 is new** (added after the Casper nanogenre prototype, `casper-wy-nanogenre-prototype-v0-1.md`):
+a genre-classification proposal governed by `city-profile-stack/docs/NANOGENRE_TAXONOMY.md`. It asks
+for a broader source base than Blocks 1-3 (official statistics and institutional sources, not just
+community discussion) because the reconciliation table it produces only works if there is real
+*measured* evidence to reconcile *against* the community sentiment already gathered in Blocks 1-3.
+
 ---
 
 **TARGET CITY: Billings, Montana**
 
 You are producing a research dossier on the target city for a relocation-analysis
-database. The database already holds dossiers for Elko NV, Casper WY and Rapid City SD.
+database. The database already holds dossiers for Atlanta GA, Bangor ME, Billings MT,
+Casper WY, Elko NV, Nashville TN, Rapid City SD, and Sierra Vista AZ.
 Do not consult, imitate, or anchor on those cities — this dossier must stand alone, and
 its value depends on it being an independent reading. Do not assume the target resembles
 other cities in its state or region.
@@ -23,7 +30,7 @@ subreddit, relocation threads, comparison threads), plus any first-hand resident
 you can locate. Where you use non-community sources (election results, a facility's own
 website, state tax policy), label them differently — see `evidence_kind` below.
 
-Return exactly three blocks, in this order, with nothing between them but the headings.
+Return exactly four blocks, in this order, with nothing between them but the headings.
 
 ---
 
@@ -227,3 +234,67 @@ End Block 3 with a `gaps` array naming everything the research could not establi
 neighborhood-level detail, school quality, current housing prices, any theme that was
 under-sampled, and any topic where the discourse was too unreliable to score. The gaps
 list is as valuable as the features; do not pad it and do not skip it.
+
+---
+
+## BLOCK 4 — Genre classification proposal
+
+Blocks 1-3 are community-sentiment evidence. This block additionally requires
+**official/structural evidence** — Census/ACS, BLS, NWS climate normals, FAA/DOT where
+relevant, and the city's own planning documents — because the reconciliation table below
+only works if there is real measured evidence to check the community sentiment against.
+Cite every structural figure with a source URL, same as Blocks 1-3.
+
+Governed by `city-profile-stack/docs/NANOGENRE_TAXONOMY.md`. Read that document's §1-3
+(what a genre is, the three-level hierarchy, and the six admission rules) before writing
+this block — do not invent a genre label without checking it against all six criteria.
+
+Emit a single JSON object:
+
+```json
+{
+  "city": "<City>",
+  "state": "<Two-letter USPS abbreviation>",
+  "genre_classification_proposed": {
+    "broad": ["<0-4 broad-genre labels this city plausibly belongs to>"],
+    "micro_primary": "<the single best-fit microgenre label>",
+    "micro_secondary": ["<0-3 additional microgenre labels — multi-label membership is expected, not an error>"],
+    "nano_primary": { "label": "<the single best-fit nanogenre label>", "confidence": "very_high | high | medium | low" },
+    "nano_secondary": [
+      { "label": "<additional nanogenre label>", "confidence": "very_high | high | medium | low" }
+    ],
+    "one_sentence_description": "<the whole classification compressed into one sentence a resident would recognize>"
+  },
+  "reconciliation": [
+    {
+      "question": "<a plain-language question the classification depends on, e.g. 'Is there anything to do?'>",
+      "measured_evidence": "<what the official/structural sources say, with citation>",
+      "experienced_evidence": "<what community sentiment says, with citation>",
+      "resulting_trait": "<the reconciled trait — do NOT average or pick a winner if they diverge; name the divergence itself if there is one>"
+    }
+  ],
+  "gaps": [
+    "Anything the classification could not establish, same spirit as Block 3's gaps list."
+  ]
+}
+```
+
+Rules that matter most:
+
+1. **A genre label here is a proposal, not an admission.** Per NANOGENRE_TAXONOMY.md §3 /
+   §12 decision 1, a nanogenre needs 2 independently-researched cities before it enters
+   the real taxonomy (3 for microgenre, 5 for broad genre). Do not claim or imply this
+   city's labels are already part of an approved taxonomy — they are this city's evidence-based
+   candidate, to be compared against other cities' proposals later.
+2. **Hold divergence, don't average it.** If measured and experienced evidence disagree
+   (e.g. an active events calendar vs. residents calling nightlife thin), both sides of
+   `reconciliation` must stay visible in `resulting_trait` as a named divergence — never
+   collapse it into a single tidy score. This is the single most valuable output of this
+   block; do not smooth it away for a cleaner-looking table.
+3. **A genre bundle, not a checklist match.** A genre label is defensible only if it names
+   a *recurring co-occurring bundle* of traits with real explanatory value — "why this city
+   feels the way it does," not a restatement of one Block 3 feature. If a distinction is
+   real but doesn't rise to a bundle, it belongs in Block 3 as a feature, not here as a genre.
+4. **Confidence reflects evidence strength, same discipline as Block 3.** `very_high` needs
+   multiple independent measured *and* experienced sources agreeing; `low` means one thin
+   or contested source drove the label.
