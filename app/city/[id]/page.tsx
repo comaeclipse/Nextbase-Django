@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import {
   getEmployerIndex,
   getLatestAirQuality,
@@ -15,6 +16,11 @@ import {
   crimeGradeMeta,
 } from "@/lib/scoring";
 import { resolveStateAbbr } from "@/lib/states";
+import {
+  PROFILE_COOKIE_NAME,
+  blockedByPreferences,
+  decodePreferences,
+} from "@/lib/profile";
 import type { Location } from "@/lib/types";
 import PublicNav from "@/components/PublicNav";
 import HousingMarketCard from "@/components/HousingMarketCard";
@@ -114,6 +120,15 @@ export default async function CityDetailPage({
     getLatestAirQuality(location.id),
     getMilitaryProximityIndex(),
   ]);
+  // Saved dealbreakers from /profile. `stateInfo` is already loaded above, so
+  // this costs one cookie read and no extra query.
+  const preferences = decodePreferences(
+    (await cookies()).get(PROFILE_COOKIE_NAME)?.value
+  );
+  const profileConflicts = preferences
+    ? blockedByPreferences(preferences, stateInfo, stateAbbr)
+    : [];
+
   const employersHere = employerIndex[location.id] ?? [];
   const nearestBase = militaryIndex[location.id]?.nearest ?? null;
   const similar: Location[] = similarRows.map((r) => ({
@@ -143,6 +158,20 @@ export default async function CityDetailPage({
         </svg>
         <span className="current">{location.name}</span>
       </div>
+
+      {/* Saved-profile incompatibility. Arriving here by direct link should say
+          so plainly rather than let the page read as a recommendation. */}
+      {profileConflicts.length > 0 ? (
+        <div className="profile-conflict" role="status">
+          <strong>This city is ruled out by your profile.</strong>
+          <ul>
+            {profileConflicts.map((reason) => (
+              <li key={reason}>{reason}</li>
+            ))}
+          </ul>
+          <Link href="/profile">Change your preferences</Link>
+        </div>
+      ) : null}
 
       {/* Hero */}
       <div className="hero-wrap">

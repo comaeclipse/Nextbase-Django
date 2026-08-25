@@ -14,6 +14,7 @@ type NavKey =
   | "explore"
   | "map"
   | "quiz"
+  | "profile"
   | "weather"
   | "uv"
   | "gas"
@@ -31,6 +32,7 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "explore", href: "/explore", label: "Explore" },
   { key: "map", href: "/map", label: "Map" },
   { key: "quiz", href: "/quiz", label: "Take the Quiz" },
+  { key: "profile", href: "/profile", label: "Profile" },
 ];
 
 const DATA_LINKS: { key: NavKey; href: string; label: string; description: string }[] = [
