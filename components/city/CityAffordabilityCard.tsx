@@ -14,6 +14,7 @@ import { resolveCostConstants } from "@/lib/cost-constants";
 import { resolveTaxConstants } from "@/lib/tax-constants";
 import {
   AFFORDABILITY_DISCLAIMER,
+  CUSHION_OPTIONS,
   DEFAULT_AFFORDABILITY_SCENARIO,
   HEALTH_COVERAGE_OPTIONS,
   HOUSEHOLD_OPTIONS,
@@ -23,17 +24,22 @@ import {
   affordabilityVintage,
   bandLabel,
   bandVerdict,
+  cushionShare,
   formatUsd,
+  householdLabel,
   parseMonthlyAmount,
   profileLabel,
+  healthLineLabel,
   quickVerdictBadgeClass,
   quickVerdictCopy,
   quickVerdictLabel,
+  scenarioEstimateOptions,
   scenarioIsActive,
   scenarioSources,
   tenureLabel,
   wildestDreamsLine,
   type AffordabilityScenario,
+  type CushionChoice,
 } from "@/lib/affordability-scenario";
 import type { FilingStatus } from "@/lib/income";
 import type {
@@ -146,14 +152,11 @@ export default function CityAffordabilityCard({ location }: { location: Location
       scenario.tenure,
       cost.constants,
       tax.constants,
-      {
-        spendingProfile: scenario.spendingProfile,
-        healthCoverage: scenario.healthCoverage,
-        // Married filing is an explicit two-person declaration, so the cost
-        // side prices a couple basket to match — a mapping of the user's own
-        // choice, not an inference about them.
-        household: scenario.filing === "married" ? "couple" : "single",
-      }
+      // One source of truth for scenario -> options (couple basket for
+      // married filing, housing overrides); /explore uses the same helper so
+      // the two surfaces can never price the same scenario differently.
+      scenarioEstimateOptions(scenario),
+      cushionShare(scenario.cushion)
     );
   }, [location, scenario]);
 
@@ -309,14 +312,19 @@ export default function CityAffordabilityCard({ location }: { location: Location
                   Enter your take-home above for a verdict on {location.name}.
                 </p>
               </>
-            ) : quick === null || quickEstimate?.monthlyCost === null ? (
+            ) : !quickEstimate ? (
+              <p className="aff-notes aff-missing">
+                Estimates are unavailable right now — the model&rsquo;s
+                national constants could not be loaded.
+              </p>
+            ) : quick === null || quickEstimate.monthlyCost === null ? (
               <div className="aff-notes aff-missing">
                 <p>
                   <strong>Not enough data</strong> to price this city for{" "}
                   {tenureLabel(scenario.tenure).toLowerCase()}.
                 </p>
                 <ul>
-                  {(quickEstimate?.missing ?? []).map((item) => (
+                  {quickEstimate.missing.map((item) => (
                     <li key={item}>Missing: {item}</li>
                   ))}
                 </ul>
@@ -328,7 +336,9 @@ export default function CityAffordabilityCard({ location }: { location: Location
                     {quickVerdictLabel(quick.verdict)}
                   </span>
                 </p>
-                <p className="aff-quick-copy">{quickVerdictCopy(quick.verdict)}</p>
+                <p className={`aff-quick-copy aff-verdict-${quick.verdict}`}>
+                  {quickVerdictCopy(quick.verdict)}
+                </p>
                 {wildestDreamsLine(quick) ? (
                   <p className="aff-notes aff-wildest">
                     {wildestDreamsLine(quick)}
@@ -413,7 +423,8 @@ export default function CityAffordabilityCard({ location }: { location: Location
               <p className="aff-notes">
                 Quick check said <strong>{quickVerdictLabel(quick.verdict)}</strong>{" "}
                 at {formatUsd(quickIncomeParsed)}/mo take-home ·{" "}
-                {tenureLabel(scenario.tenure)}.
+                {tenureLabel(scenario.tenure)} · modest budget · Medicare with
+                supplement · {householdLabel(quickHousehold).toLowerCase()}.
               </p>
             ) : null}
 
@@ -513,7 +524,73 @@ export default function CityAffordabilityCard({ location }: { location: Location
                   ))}
                 </div>
               </div>
+              <div>
+                <span className="aff-legend">Financial cushion</span>
+                <div className="aff-toggles" role="group" aria-label="Financial cushion">
+                  {CUSHION_OPTIONS.map((option) => (
+                    <button
+                      key={option.id}
+                      type="button"
+                      className="aff-toggle"
+                      aria-pressed={scenario.cushion === option.id}
+                      onClick={() => set("cushion", option.id as CushionChoice)}
+                      title={option.hint}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
+
+            {scenario.tenure !== "rent" ? (
+              <div className="aff-housing-details">
+                <span className="aff-legend">
+                  Housing details <small>(optional — blank uses this city&rsquo;s defaults)</small>
+                </span>
+                <div className="aff-fields">
+                  <Field
+                    id="city-aff-homePrice"
+                    label="Home price"
+                    hint={`Blank = this city's typical home value`}
+                    value={scenario.homePrice}
+                    onChange={(value) => set("homePrice", value)}
+                  />
+                  <Field
+                    id="city-aff-propertyTaxPct"
+                    label="Property tax % / yr"
+                    hint="Blank = this city's effective rate"
+                    value={scenario.propertyTaxPct}
+                    onChange={(value) => set("propertyTaxPct", value)}
+                  />
+                  <Field
+                    id="city-aff-hoaMonthly"
+                    label="HOA / mo"
+                    hint="Blank = none"
+                    value={scenario.hoaMonthly}
+                    onChange={(value) => set("hoaMonthly", value)}
+                  />
+                  {scenario.tenure === "buying" ? (
+                    <>
+                      <Field
+                        id="city-aff-downPaymentPct"
+                        label="Down payment %"
+                        hint="Blank = 20%"
+                        value={scenario.downPaymentPct}
+                        onChange={(value) => set("downPaymentPct", value)}
+                      />
+                      <Field
+                        id="city-aff-mortgageRatePct"
+                        label="Mortgage rate %"
+                        hint="Blank = current 30-year average"
+                        value={scenario.mortgageRatePct}
+                        onChange={(value) => set("mortgageRatePct", value)}
+                      />
+                    </>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
 
             {!budget ? (
               <p className="aff-empty">
@@ -571,11 +648,7 @@ export default function CityAffordabilityCard({ location }: { location: Location
                     <dd>{formatUsd(cost?.nonHousing)}</dd>
                   </div>
                   <div>
-                    <dt>
-                      {scenario.healthCoverage === "va_primary"
-                        ? "Medicare Part B"
-                        : "Medicare / supplement"}
-                    </dt>
+                    <dt>{healthLineLabel(scenario.healthCoverage)}</dt>
                     <dd>{formatUsd(cost?.nationalFixed)}</dd>
                   </div>
                   <div>

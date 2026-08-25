@@ -67,6 +67,12 @@ const C: ResolvedConstants = {
   twoPerson65UnscaledAnnual: 8000,
   modestHouseholdSize: 1.5,
   typicalHouseholdSize: 1.5,
+  // Family deliberately NOT 2x individual, so a test can prove the couple
+  // path takes the family rate rather than doubling.
+  tricarePrimeIndividualMonthly: 30,
+  tricarePrimeFamilyMonthly: 55,
+  tricareSelectIndividualMonthly: 15,
+  tricareSelectFamilyMonthly: 28,
 };
 
 /**
@@ -689,6 +695,145 @@ describe("household: couple", () => {
     expect(couple.missingContext.some((m) => /two-person/i.test(m))).toBe(true);
     const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
     expect(single.missingContext.some((m) => /two-person/i.test(m))).toBe(false);
+  });
+});
+
+describe("cushion parameterization", () => {
+  const estimate = (cost: number | null): CostEstimate => ({
+    spendingProfile: "modest",
+    healthCoverage: "medicare_supplement",
+    household: "single",
+    monthlyCost: cost,
+    housing: 0,
+    nonHousing: 0,
+    nationalFixed: 0,
+    nonHousingIndex: 100,
+    missing: [],
+    approximations: [],
+    missingContext: [],
+  });
+
+  it("keeps targets and bands in lockstep at every cushion", () => {
+    for (const share of [0.9, 0.8, 0.7]) {
+      for (const cost of [2400, 500.04, 1878.1954]) {
+        const e = estimate(cost);
+        const targets = incomeTargets(e, share)!;
+        expect(assessAffordability(e, targets.comfortable, share).band).toBe(
+          "comfortable"
+        );
+        expect(
+          assessAffordability(e, targets.comfortable - 1, share).band
+        ).toBe("tight");
+        const q = quickCheck(e, targets.comfortable, share)!;
+        expect(q.verdict).toBe("comfortable");
+        expect(q.toComfortable).toBe(0);
+      }
+    }
+  });
+
+  it("raises the comfortable target as the cushion grows", () => {
+    const e = estimate(2400);
+    const at10 = incomeTargets(e, 0.9)!.comfortable;
+    const at20 = incomeTargets(e, 0.8)!.comfortable;
+    const at30 = incomeTargets(e, 0.7)!.comfortable;
+    expect(at10).toBeLessThan(at20);
+    expect(at20).toBeLessThan(at30);
+    // Break-even is cushion-independent.
+    expect(incomeTargets(e, 0.9)!.breakEven).toBe(incomeTargets(e, 0.7)!.breakEven);
+  });
+
+  it("defaults to COMFORT_COST_SHARE everywhere a share is omitted", () => {
+    const e = estimate(2400);
+    expect(incomeTargets(e)!.comfortable).toBe(
+      incomeTargets(e, COMFORT_COST_SHARE)!.comfortable
+    );
+    expect(assessAffordability(e, 2900).band).toBe(
+      assessAffordability(e, 2900, COMFORT_COST_SHARE).band
+    );
+  });
+});
+
+describe("housing overrides", () => {
+  it("prices a lower mortgage rate below the default", () => {
+    const base = estimateMonthlyCost(loc(), "buying", C).monthlyCost!;
+    const cheaper = estimateMonthlyCost(loc(), "buying", C, {
+      mortgageRateOverride: 0.03,
+    }).monthlyCost!;
+    expect(cheaper).toBeLessThan(base);
+    // own_outright never reads the rate.
+    expect(
+      estimateMonthlyCost(loc(), "own_outright", C, { mortgageRateOverride: 0.03 })
+        .monthlyCost
+    ).toBe(estimateMonthlyCost(loc(), "own_outright", C).monthlyCost);
+  });
+
+  it("uses a supplied property tax rate and suppresses the fallback note", () => {
+    // loc() has no property_tax_rate, so without an override the national
+    // fallback applies and is flagged.
+    const fallback = estimateMonthlyCost(loc(), "own_outright", C);
+    expect(fallback.approximations.some((a) => /property tax/.test(a))).toBe(true);
+
+    const overridden = estimateMonthlyCost(loc(), "own_outright", C, {
+      propertyTaxRateOverride: 0.02,
+    });
+    expect(overridden.approximations.some((a) => /property tax/.test(a))).toBe(false);
+    // 2% vs the 1% fallback on a $400k home: +$333.33/mo of tax.
+    expect(overridden.housing! - fallback.housing!).toBeCloseTo(
+      (400_000 * 0.01) / 12,
+      2
+    );
+  });
+
+  it("adds HOA dues to ownership carrying costs only", () => {
+    const base = estimateMonthlyCost(loc(), "own_outright", C).housing!;
+    const withHoa = estimateMonthlyCost(loc(), "own_outright", C, {
+      hoaMonthly: 250,
+    }).housing!;
+    expect(withHoa - base).toBeCloseTo(250, 6);
+
+    const rent = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      hoaMonthly: 250,
+    });
+    expect(rent.housing).toBe(1500);
+  });
+});
+
+describe("TRICARE coverage", () => {
+  const rentAt = (opts: Parameters<typeof estimateMonthlyCost>[3]) =>
+    estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, opts);
+
+  it("prices Prime and Select at the plan fee, single", () => {
+    expect(rentAt({ healthCoverage: "tricare_prime" }).nationalFixed).toBe(30);
+    expect(rentAt({ healthCoverage: "tricare_select" }).nationalFixed).toBe(15);
+  });
+
+  it("charges a couple the FAMILY rate, never 2x the individual fee", () => {
+    expect(
+      rentAt({ healthCoverage: "tricare_prime", household: "couple" })
+        .nationalFixed
+    ).toBe(55); // not 60
+    expect(
+      rentAt({ healthCoverage: "tricare_select", household: "couple" })
+        .nationalFixed
+    ).toBe(28); // not 30
+  });
+
+  it("prices TFL as Medicare Part B per beneficiary", () => {
+    expect(rentAt({ healthCoverage: "tricare_for_life" }).nationalFixed).toBe(
+      C.medicarePartBMonthly
+    );
+    expect(
+      rentAt({ healthCoverage: "tricare_for_life", household: "couple" })
+        .nationalFixed
+    ).toBe(C.medicarePartBMonthly * 2);
+  });
+
+  it("discloses what is not priced via missingContext", () => {
+    const prime = rentAt({ healthCoverage: "tricare_prime" });
+    expect(prime.missingContext.some((m) => /Group B/.test(m))).toBe(true);
+    expect(prime.missingContext.some((m) => /catastrophic cap/.test(m))).toBe(true);
+    const tfl = rentAt({ healthCoverage: "tricare_for_life" });
+    expect(tfl.missingContext.some((m) => /no enrollment fee/.test(m))).toBe(true);
   });
 });
 

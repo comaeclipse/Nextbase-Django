@@ -27,6 +27,8 @@ import { resolveCostConstants } from "@/lib/cost-constants";
 import { resolveTaxConstants } from "@/lib/tax-constants";
 import {
   DEFAULT_AFFORDABILITY_SCENARIO,
+  cushionShare,
+  scenarioEstimateOptions,
   scenarioIsActive,
   scenarioSources,
   type AffordabilityScenario,
@@ -229,6 +231,8 @@ export default function ExploreClient({
     if (!cost.ok || !tax.ok) {
       return filtered.map((location) => ({ location, budget: null as LocationBudget | null }));
     }
+    // scenarioEstimateOptions keeps this surface pricing-identical to the
+    // city card: same couple basket for married filing, same overrides.
     const ranked = rankByBudget(
       filtered,
       {
@@ -240,7 +244,8 @@ export default function ExploreClient({
       scenario.tenure,
       cost.constants,
       tax.constants,
-      { spendingProfile: scenario.spendingProfile, healthCoverage: scenario.healthCoverage }
+      scenarioEstimateOptions(scenario),
+      cushionShare(scenario.cushion)
     );
     if (filters.sort !== "headroom_desc") {
       const byId = new Map(ranked.map((row) => [row.location.id, row]));
