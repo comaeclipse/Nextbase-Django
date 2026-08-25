@@ -629,6 +629,34 @@ describe("household: couple", () => {
     expect(atTwo.goodsMonthly).toBeCloseTo(1, 6);
   });
 
+  it("reads each profile's OWN household size", () => {
+    // The synthetic constants deliberately set both sizes to 1.5, so this
+    // test splits them: swapping which size feeds which profile would pass
+    // every other test in this file.
+    const split = { ...C, modestHouseholdSize: 1, typicalHouseholdSize: 2 };
+    expect(coupleSliceMultipliers("modest", split).goodsMonthly).toBeCloseTo(2, 6);
+    expect(coupleSliceMultipliers("typical", split).goodsMonthly).toBeCloseTo(1, 6);
+  });
+
+  it("prices a typical-profile couple end to end", () => {
+    const split = { ...C, typicalHouseholdSize: 2 };
+    const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", split, {
+      spendingProfile: "typical",
+    });
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", split, {
+      spendingProfile: "typical",
+      household: "couple",
+    });
+    // At base size 2 every multiplier is 1: the couple pays the same
+    // consumption basket and only the premiums double.
+    expect(couple.nonHousing).toBeCloseTo(single.nonHousing!, 6);
+    expect(couple.nationalFixed).toBe(single.nationalFixed * 2);
+    expect(couple.monthlyCost).toBeCloseTo(
+      single.monthlyCost! + single.nationalFixed,
+      6
+    );
+  });
+
   it("doubles per-person premiums for a couple, on both coverage paths", () => {
     const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
     const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {

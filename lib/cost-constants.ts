@@ -835,6 +835,10 @@ export function coupleSliceMultipliers(
 ): SpendingSlices {
   const size =
     profile === "typical" ? c.typicalHouseholdSize : c.modestHouseholdSize;
+  // Sizes are expected in [1, 2]. A future refresh above 2.0 would
+  // extrapolate multipliers below 1 (a couple priced cheaper than the base)
+  // — if the published average ever crosses 2, this construction needs a
+  // rethink, not a clamp.
   const m = (onePerson: number, twoPerson: number): number => {
     const baseEquivalent = onePerson + (size - 1) * (twoPerson - onePerson);
     return baseEquivalent > 0 ? twoPerson / baseEquivalent : 1;
