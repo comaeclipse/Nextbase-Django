@@ -248,6 +248,13 @@
       "longitude": -87.191242
     },
     {
+      "name": "Tallahassee",
+      "state": "FL",
+      "census_place_geoid": "1270600",
+      "latitude": 30.453529,
+      "longitude": -84.252272
+    },
+    {
       "name": "Atlanta",
       "state": "GA",
       "census_place_geoid": "1304000",
@@ -374,6 +381,13 @@
       "longitude": -86.145935
     },
     {
+      "name": "Lawrence",
+      "state": "KS",
+      "census_place_geoid": "2038900",
+      "latitude": 38.959551,
+      "longitude": -95.265468
+    },
+    {
       "name": "Overland Park",
       "state": "KS",
       "census_place_geoid": "2053775",
@@ -400,6 +414,13 @@
       "census_place_geoid": "2148000",
       "latitude": 38.224728,
       "longitude": -85.740614
+    },
+    {
+      "name": "Alexandria",
+      "state": "LA",
+      "census_place_geoid": "2200975",
+      "latitude": 31.293449,
+      "longitude": -92.470189
     },
     {
       "name": "New Orleans",
@@ -612,6 +633,13 @@
       "longitude": -98.693579
     },
     {
+      "name": "Grand Island",
+      "state": "NE",
+      "census_place_geoid": "3119595",
+      "latitude": 40.921352,
+      "longitude": -98.358559
+    },
+    {
       "name": "North Platte",
       "state": "NE",
       "census_place_geoid": "3135000",
@@ -638,6 +666,13 @@
       "census_place_geoid": "3345140",
       "latitude": 42.984941,
       "longitude": -71.444131
+    },
+    {
+      "name": "Camden",
+      "state": "NJ",
+      "census_place_geoid": "3410000",
+      "latitude": 39.936787,
+      "longitude": -75.106644
     },
     {
       "name": "Paterson",
@@ -694,6 +729,13 @@
       "census_place_geoid": "3638077",
       "latitude": 42.443937,
       "longitude": -76.503055
+    },
+    {
+      "name": "Jamestown",
+      "state": "NY",
+      "census_place_geoid": "3638264",
+      "latitude": 42.097603,
+      "longitude": -79.236135
     },
     {
       "name": "Rochester",
@@ -785,6 +827,13 @@
       "census_place_geoid": "4159000",
       "latitude": 45.536951,
       "longitude": -122.649971
+    },
+    {
+      "name": "Erie",
+      "state": "PA",
+      "census_place_geoid": "4224000",
+      "latitude": 42.116594,
+      "longitude": -80.073503
     },
     {
       "name": "King of Prussia",
