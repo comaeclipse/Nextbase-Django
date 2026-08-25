@@ -8,9 +8,11 @@
  */
 import { describe, it, expect } from "vitest";
 import {
+  COMFORT_COST_SHARE,
   nonHousingIndex,
   estimateMonthlyCost,
   assessAffordability,
+  incomeTargets,
   rankByHeadroom,
   type CostEstimate,
   type CostInputs,
@@ -390,6 +392,67 @@ describe("assessAffordability", () => {
     );
     expect(unknown.band).toBe("unknown");
     expect(unknown.headroom).toBeNull();
+  });
+});
+
+describe("incomeTargets", () => {
+  const estimate = (cost: number | null): CostEstimate => ({
+    spendingProfile: "modest",
+    healthCoverage: "medicare_supplement",
+    monthlyCost: cost,
+    housing: 0,
+    nonHousing: 0,
+    nationalFixed: 0,
+    nonHousingIndex: 100,
+    missing: [],
+    approximations: [],
+    missingContext: [],
+  });
+
+  it("is the exact inverse of the banding thresholds", () => {
+    const e = estimate(2400);
+    const targets = incomeTargets(e)!;
+
+    // At the comfortable target the band is comfortable; a dollar under, tight.
+    expect(assessAffordability(e, targets.comfortable).band).toBe("comfortable");
+    expect(assessAffordability(e, targets.comfortable - 1).band).toBe("tight");
+
+    // At break-even the band is tight; a dollar under, over.
+    expect(assessAffordability(e, targets.breakEven).band).toBe("tight");
+    expect(assessAffordability(e, targets.breakEven - 1).band).toBe("over");
+  });
+
+  it("holds at non-round costs where the naive quotient would band tight", () => {
+    // For these costs `c <= (c / 0.8) * 0.8` is FALSE in doubles — without
+    // the whole-dollar ceiling the "comfortable" target bands as tight at its
+    // own number. Real monthlyCost values are arbitrary sums of index
+    // products, so the FP-friendly 2400 above is the exception, not the rule.
+    for (const cost of [500.04, 1878.1954]) {
+      const e = estimate(cost);
+      const targets = incomeTargets(e)!;
+      expect(Number.isInteger(targets.breakEven)).toBe(true);
+      expect(Number.isInteger(targets.comfortable)).toBe(true);
+      expect(assessAffordability(e, targets.comfortable).band).toBe(
+        "comfortable"
+      );
+      expect(assessAffordability(e, targets.breakEven).band).toBe("tight");
+      expect(assessAffordability(e, targets.breakEven - 1).band).toBe("over");
+    }
+  });
+
+  it("keeps the comfortable cushion at 1 - COMFORT_COST_SHARE of income", () => {
+    const targets = incomeTargets(estimate(2400))!;
+    expect(targets.breakEven).toBe(2400);
+    // 2400 / 0.8 = 3000 exactly, so the ceiling is a no-op here.
+    expect(targets.comfortable).toBe(2400 / COMFORT_COST_SHARE);
+    // The cushion at the comfortable target is exactly the advertised share.
+    expect(
+      (targets.comfortable - 2400) / targets.comfortable
+    ).toBeCloseTo(1 - COMFORT_COST_SHARE, 6);
+  });
+
+  it("returns null for an unpriceable city, mirroring monthlyCost", () => {
+    expect(incomeTargets(estimate(null))).toBeNull();
   });
 });
 
