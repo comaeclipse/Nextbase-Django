@@ -1,8 +1,9 @@
 # City Nanogenre Taxonomy (governance doc)
 
-**Status: design for review — no migration has been run, no `genre-ontology.ts`
-exists, and nothing here touches `locations_location` or
-`locations_stateinfo`.** This document governs one thing specifically: how a
+**Status: v1 governance approved; the provisional registry and additive
+assignment migration are implemented. The migration has not been run, and
+nothing here touches `locations_location` or `locations_stateinfo`.** This
+document governs one thing specifically: how a
 city gets classified into the broad-genre / microgenre / nanogenre hierarchy
 proposed in the wiki source doc. It does **not** re-derive the evidence,
 claim, corroboration, or confidence model — those already have an owner (§0)
@@ -137,8 +138,15 @@ fields; secondary memberships are real but not shown by default.
 
 ## 5. Storage
 
-Proposed table, additive, following the same shape as `location_features`
-(see [`migrate-location-features.ts`](../scripts/migrations/migrate-location-features.ts)):
+The registry is [`lib/genre-ontology.ts`](../lib/genre-ontology.ts). It contains
+only the two owner-approved provisional micro families; no broad or nano genre
+has cleared the admission process. Assignment drafts are validated against the
+registry before write, including their level, evidence feature keys, ontology
+version, and paired review fields.
+
+The additive table is implemented by
+[`migrate-location-genre-assignments.ts`](../scripts/migrations/migrate-location-genre-assignments.ts),
+following the same boundary as `location_features`:
 
 ```sql
 CREATE TABLE location_genre_assignments (
@@ -148,19 +156,24 @@ CREATE TABLE location_genre_assignments (
   -- References the registry in genre-ontology.ts, same pattern as
   -- location_features.feature_key referencing lib/ontology.ts: the TS file
   -- is the source of truth, not a DB foreign key.
-  genre_key text NOT NULL,
+  genre_key text NOT NULL CHECK (btrim(genre_key) <> ''),
   is_primary boolean NOT NULL DEFAULT false,
   confidence numeric(4, 3) NOT NULL CHECK (confidence BETWEEN 0 AND 1),
   -- Verbatim: which claims/features/divergences justified this assignment.
   -- Same "verbatim survives structuring" rule as KNOWLEDGE_MODEL principle 3.
-  rationale text NOT NULL,
+  rationale text NOT NULL CHECK (btrim(rationale) <> ''),
   -- claim_ids / feature_keys / divergence_ids cited, once cps_* exists;
   -- source_signal_keys in the interim (location_profile_signals only).
-  evidence jsonb NOT NULL DEFAULT '{}'::jsonb,
-  method_version text NOT NULL,
+  evidence jsonb NOT NULL CHECK (
+    jsonb_typeof(evidence) = 'object' AND evidence <> '{}'::jsonb
+  ),
+  ontology_version text NOT NULL CHECK (btrim(ontology_version) <> ''),
+  method_version text NOT NULL CHECK (btrim(method_version) <> ''),
   assigned_on date NOT NULL DEFAULT current_date,
   reviewed_by text,
   reviewed_at timestamptz,
+  CHECK ((reviewed_by IS NULL) = (reviewed_at IS NULL)),
+  CHECK (reviewed_by IS NULL OR btrim(reviewed_by) <> ''),
   UNIQUE (location_id, level, genre_key)
 );
 
@@ -175,8 +188,8 @@ CREATE INDEX location_genre_assignments_genre_key_idx
   ON location_genre_assignments(genre_key);
 ```
 
-No migration has been run. This is the design the `[Framework] Migrate
-location_genre_assignments table` board card implements.
+No production migration or assignment import has been run. Assignments remain
+an explicit editorial act; the registry does not infer them from feature scores.
 
 ## 6. Corroboration (adopted, not reinvented)
 
