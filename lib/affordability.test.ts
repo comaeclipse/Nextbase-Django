@@ -13,6 +13,7 @@ import {
   estimateMonthlyCost,
   assessAffordability,
   incomeTargets,
+  quickCheck,
   rankByHeadroom,
   type CostEstimate,
   type CostInputs,
@@ -453,6 +454,115 @@ describe("incomeTargets", () => {
 
   it("returns null for an unpriceable city, mirroring monthlyCost", () => {
     expect(incomeTargets(estimate(null))).toBeNull();
+  });
+});
+
+describe("quickCheck", () => {
+  const estimate = (cost: number | null): CostEstimate => ({
+    spendingProfile: "modest",
+    healthCoverage: "medicare_supplement",
+    monthlyCost: cost,
+    housing: 0,
+    nonHousing: 0,
+    nationalFixed: 0,
+    nonHousingIndex: 100,
+    missing: [],
+    approximations: [],
+    missingContext: [],
+  });
+
+  it("assigns the five bands at the documented coverage boundaries", () => {
+    const e = estimate(1000);
+    expect(quickCheck(e, 699)!.verdict).toBe("way_out_of_range");
+    expect(quickCheck(e, 700)!.verdict).toBe("probably_too_expensive");
+    expect(quickCheck(e, 899)!.verdict).toBe("probably_too_expensive");
+    expect(quickCheck(e, 900)!.verdict).toBe("very_tight");
+    expect(quickCheck(e, 999)!.verdict).toBe("very_tight");
+    expect(quickCheck(e, 1000)!.verdict).toBe("in_the_ballpark");
+    expect(quickCheck(e, 1249)!.verdict).toBe("in_the_ballpark");
+    expect(quickCheck(e, 1250)!.verdict).toBe("comfortable");
+  });
+
+  it("REFINES the three-band system: verdict and band can never contradict", () => {
+    // comfortable <-> comfortable, in_the_ballpark <-> tight, and the three
+    // low bands partition over — including at non-round costs and incomes a
+    // hair under cost, where a rounded income/cost ratio would disagree.
+    const mapping: Record<string, string> = {
+      comfortable: "comfortable",
+      in_the_ballpark: "tight",
+      very_tight: "over",
+      probably_too_expensive: "over",
+      way_out_of_range: "over",
+    };
+    for (const cost of [1000, 500.04, 1878.1954, 2537.61]) {
+      const e = estimate(cost);
+      const incomes = [
+        cost * 0.4,
+        cost * 0.7,
+        cost * 0.95,
+        // The FP trap: the largest double strictly below cost. income/cost
+        // rounds to 1.0 here, but the band is unambiguously "over".
+        cost - Math.abs(cost) * Number.EPSILON,
+        cost,
+        cost * 1.1,
+        cost / COMFORT_COST_SHARE,
+        cost * 2,
+      ];
+      for (const income of incomes) {
+        const quick = quickCheck(e, income)!;
+        const band = assessAffordability(e, income).band;
+        expect(mapping[quick.verdict], `cost=${cost} income=${income}`).toBe(
+          band
+        );
+      }
+    }
+  });
+
+  it("reports remaining, cushion, and coverage consistently", () => {
+    const q = quickCheck(estimate(2538), 3000)!;
+    expect(q.remaining).toBe(462);
+    expect(q.cushion).toBeCloseTo(462 / 3000, 6);
+    expect(q.coverage).toBeCloseTo(3000 / 2538, 6);
+    expect(q.verdict).toBe("in_the_ballpark");
+    // Distance to comfortable matches the ceiled target the table displays.
+    expect(q.toComfortable).toBe(Math.ceil(2538 / COMFORT_COST_SHARE) - 3000);
+  });
+
+  it("reports a shortfall as negative remaining", () => {
+    const q = quickCheck(estimate(2538), 2000)!;
+    expect(q.remaining).toBe(-538);
+    expect(q.cushion).toBeLessThan(0);
+    expect(q.verdict).toBe("probably_too_expensive");
+  });
+
+  it("zeroes toComfortable for every comfortable verdict", () => {
+    // At the ceiled target itself.
+    const e = estimate(500.04);
+    const atTarget = quickCheck(e, incomeTargets(e)!.comfortable)!;
+    expect(atTarget.verdict).toBe("comfortable");
+    expect(atTarget.toComfortable).toBe(0);
+
+    // A cost where the band turns comfortable a hair BELOW the ceiled
+    // target (2400.5 / 0.8 = 3000.625, ceiled to 3001): the verdict is
+    // comfortable, so the copy must not say "you're $0.30 away".
+    const between = quickCheck(estimate(2400.5), 3000.7)!;
+    expect(between.verdict).toBe("comfortable");
+    expect(between.toComfortable).toBe(0);
+  });
+
+  it("flags wildest-dreams copy only under half coverage", () => {
+    const e = estimate(4000);
+    expect(quickCheck(e, 1900)!.wildestDreams).toBe(true);
+    expect(quickCheck(e, 1900)!.verdict).toBe("way_out_of_range");
+    expect(quickCheck(e, 2100)!.wildestDreams).toBe(false);
+    expect(quickCheck(e, 2100)!.verdict).toBe("way_out_of_range");
+  });
+
+  it("returns null for an unpriceable city or a non-positive income", () => {
+    expect(quickCheck(estimate(null), 3000)).toBeNull();
+    expect(quickCheck(estimate(2500), 0)).toBeNull();
+    expect(quickCheck(estimate(2500), -100)).toBeNull();
+    expect(quickCheck(estimate(2500), NaN)).toBeNull();
   });
 });
 

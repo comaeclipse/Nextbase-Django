@@ -482,6 +482,119 @@ export function incomeTargets(estimate: CostEstimate): IncomeTargets | null {
   };
 }
 
+/* ------------------------------------------------------------------ *
+ * Quick check: one net take-home number in, one verdict out.
+ *
+ * This answers a different question from assessBudget: not "given my exact
+ * income mix, what's my monthly picture?" but "is this city even realistically
+ * in my price range?" It deliberately takes a single AFTER-TAX number — $4,000
+ * spendable is $4,000 spendable whether it came from wages, retired pay, VA
+ * disability, or Social Security. The composition (and its radically
+ * different tax treatment) is advanced-mode territory.
+ * ------------------------------------------------------------------ */
+
+/**
+ * Coverage-ratio boundaries for the quick-check bands, where coverage is
+ * income / cost. The FIVE bands refine the THREE in `Band` rather than
+ * replacing them: `comfortable` maps to comfortable, `in_the_ballpark` to
+ * tight, and the three low bands partition over — quickCheck's verdict and
+ * assessAffordability's band can never contradict each other. The top
+ * boundary is NOT here on purpose: it is `incomeTargets().comfortable`
+ * (1 / COMFORT_COST_SHARE = 1.25x cost, ceiled), never a separately-written
+ * 1.25.
+ */
+export const QUICK_COVERAGE_BANDS = {
+  /** Below this share of cost covered: "way out of range". */
+  wayOutOfRange: 0.7,
+  /** Below this: "probably too expensive". */
+  probablyTooExpensive: 0.9,
+  /**
+   * Below this, secondary "in your wildest dreams" copy may be shown on top
+   * of the way-out-of-range verdict. A copy flag, never a sixth band.
+   */
+  wildestDreams: 0.5,
+} as const;
+
+export type QuickVerdict =
+  | "way_out_of_range"
+  | "probably_too_expensive"
+  | "very_tight"
+  | "in_the_ballpark"
+  | "comfortable";
+
+export interface QuickCheck {
+  verdict: QuickVerdict;
+  /** income / cost. Above 1 means estimated costs are covered. */
+  coverage: number;
+  /**
+   * (income - cost) / income: the share of take-home left after estimated
+   * costs. Negative when short. At the comfortable target this is at least
+   * 1 - COMFORT_COST_SHARE.
+   */
+  cushion: number;
+  /**
+   * income - cost, signed monthly dollars. Positive is money remaining,
+   * negative is an estimated shortfall. Surfacing magnitude is the point:
+   * "$180 short" and "$4,300 short" are different conversations.
+   */
+  remaining: number;
+  /**
+   * Additional monthly take-home needed to reach the comfortable target.
+   * 0 when already there.
+   */
+  toComfortable: number;
+  /** Copy flag: coverage is under QUICK_COVERAGE_BANDS.wildestDreams. */
+  wildestDreams: boolean;
+  /** The same targets the no-input table shows, for display alongside. */
+  targets: IncomeTargets;
+}
+
+/**
+ * Null when the city could not be priced (mirroring `monthlyCost`) or the
+ * income is not a positive number — a null verdict must render as "not enough
+ * data", never as unaffordable.
+ */
+export function quickCheck(
+  estimate: CostEstimate,
+  netMonthlyIncome: number
+): QuickCheck | null {
+  const targets = incomeTargets(estimate);
+  if (targets === null || estimate.monthlyCost === null) return null;
+  if (!Number.isFinite(netMonthlyIncome) || netMonthlyIncome <= 0) return null;
+
+  const cost = estimate.monthlyCost;
+  const coverage = netMonthlyIncome / cost;
+  // The two boundaries shared with the 3-band system reuse ITS comparisons
+  // (`cost > income`, `cost <= income * COMFORT_COST_SHARE`) rather than the
+  // rounded `coverage` ratio, so the refinement mapping in the
+  // QUICK_COVERAGE_BANDS doc comment holds exactly — division can round
+  // income/cost to 1.0 when income is a hair under cost, which would call a
+  // city "in the ballpark" that assessAffordability bands as over.
+  const verdict: QuickVerdict =
+    coverage < QUICK_COVERAGE_BANDS.wayOutOfRange
+      ? "way_out_of_range"
+      : coverage < QUICK_COVERAGE_BANDS.probablyTooExpensive
+        ? "probably_too_expensive"
+        : cost > netMonthlyIncome
+          ? "very_tight"
+          : cost <= netMonthlyIncome * COMFORT_COST_SHARE
+            ? "comfortable"
+            : "in_the_ballpark";
+
+  return {
+    verdict,
+    coverage,
+    cushion: (netMonthlyIncome - cost) / netMonthlyIncome,
+    remaining: netMonthlyIncome - cost,
+    toComfortable:
+      verdict === "comfortable"
+        ? 0
+        : Math.max(0, targets.comfortable - netMonthlyIncome),
+    wildestDreams: coverage < QUICK_COVERAGE_BANDS.wildestDreams,
+    targets,
+  };
+}
+
 /**
  * Attach headroom and a budget band to an estimate.
  *
