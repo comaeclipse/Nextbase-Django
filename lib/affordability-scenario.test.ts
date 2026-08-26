@@ -7,6 +7,7 @@ import {
   parseMonthlyAmount,
   parseOptionalAmount,
   parseOptionalPercent,
+  scenarioAnnotationActive,
   scenarioChipLabel,
   scenarioEstimateOptions,
   scenarioGrossMonthly,
@@ -46,24 +47,70 @@ describe("affordability scenario", () => {
   });
 
   it("only surfaces health coverage in the chip label when it isn't the default", () => {
-    const defaultChip = scenarioChipLabel(DEFAULT_AFFORDABILITY_SCENARIO);
-    expect(defaultChip).not.toMatch(/medicare|va primary/i);
+    // Coverage lives on the DETAILED chip; quick mode has its own label.
+    const detailed = {
+      ...DEFAULT_AFFORDABILITY_SCENARIO,
+      mode: "detailed" as const,
+    };
+    expect(scenarioChipLabel(detailed)).not.toMatch(/medicare|va primary/i);
 
-    const vaScenario = {
-      ...DEFAULT_AFFORDABILITY_SCENARIO,
-      healthCoverage: "va_primary" as const,
-    };
-    expect(scenarioChipLabel(vaScenario)).toContain(
-      healthCoverageLabel("va_primary")
-    );
+    expect(
+      scenarioChipLabel({ ...detailed, healthCoverage: "va_primary" as const })
+    ).toContain(healthCoverageLabel("va_primary"));
     // Every non-default coverage appears — TRICARE included, not just VA.
-    const tricareScenario = {
+    expect(
+      scenarioChipLabel({
+        ...detailed,
+        healthCoverage: "tricare_select" as const,
+      })
+    ).toContain(healthCoverageLabel("tricare_select"));
+  });
+
+  it("labels a quick-mode scenario by its take-home, tenure, and household", () => {
+    const chip = scenarioChipLabel({
       ...DEFAULT_AFFORDABILITY_SCENARIO,
-      healthCoverage: "tricare_select" as const,
-    };
-    expect(scenarioChipLabel(tricareScenario)).toContain(
-      healthCoverageLabel("tricare_select")
-    );
+      quickIncome: "3000",
+      quickHousehold: "couple",
+      tenure: "rent",
+    });
+    expect(chip).toContain("Quick check");
+    expect(chip).toContain("$3,000/mo take-home");
+    expect(chip).toContain("Rent");
+    expect(chip).toContain("Couple");
+  });
+
+  it("gates annotation on the CURRENT mode's input", () => {
+    // Quick mode default, nothing typed: inactive.
+    expect(scenarioAnnotationActive(DEFAULT_AFFORDABILITY_SCENARIO)).toBe(false);
+    // Quick income typed: active — even with no detailed sources.
+    expect(
+      scenarioAnnotationActive({
+        ...DEFAULT_AFFORDABILITY_SCENARIO,
+        quickIncome: "2500",
+      })
+    ).toBe(true);
+    // Detailed mode ignores quick income and requires sources.
+    expect(
+      scenarioAnnotationActive({
+        ...DEFAULT_AFFORDABILITY_SCENARIO,
+        mode: "detailed",
+        quickIncome: "2500",
+      })
+    ).toBe(false);
+    expect(
+      scenarioAnnotationActive({
+        ...DEFAULT_AFFORDABILITY_SCENARIO,
+        mode: "detailed",
+        socialSecurity: "2500",
+      })
+    ).toBe(true);
+    // scenarioIsActive keeps its detailed-only meaning for the city card.
+    expect(
+      scenarioIsActive({
+        ...DEFAULT_AFFORDABILITY_SCENARIO,
+        quickIncome: "2500",
+      })
+    ).toBe(false);
   });
 });
 
