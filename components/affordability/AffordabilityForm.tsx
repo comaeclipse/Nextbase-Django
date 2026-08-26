@@ -7,14 +7,21 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   AFFORDABILITY_DISCLAIMER,
   HEALTH_COVERAGE_OPTIONS,
+  HOUSEHOLD_OPTIONS,
   INCOME_FIELDS,
   PROFILE_OPTIONS,
   TENURE_OPTIONS,
   affordabilityVintage,
+  type AffordabilityMode,
   type AffordabilityScenario,
 } from "@/lib/affordability-scenario";
 import type { FilingStatus } from "@/lib/income";
-import type { HealthCoverage, SpendingProfile, Tenure } from "@/lib/affordability";
+import type {
+  HealthCoverage,
+  Household,
+  SpendingProfile,
+  Tenure,
+} from "@/lib/affordability";
 
 export default function AffordabilityForm({
   scenario,
@@ -30,14 +37,76 @@ export default function AffordabilityForm({
     onChange({ ...scenario, [key]: value });
   }
 
+  const quick = scenario.mode === "quick";
+
   return (
     <div className="grid gap-4">
-      <section className="grid gap-2">
-        <p className="text-sm font-medium">Monthly income by source</p>
-        <p className="text-xs text-muted-foreground">
-          A mix is better than a single number — VA disability is untaxed
-          everywhere, retired pay is not.
-        </p>
+      <ToggleGroup
+        value={[scenario.mode]}
+        onValueChange={(values: string[]) =>
+          set("mode", (values[0] as AffordabilityMode) ?? "quick")
+        }
+        variant="outline"
+        spacing={0}
+        aria-label="Estimate mode"
+        className="grid grid-cols-2"
+      >
+        <ToggleGroupItem value="quick">Quick check</ToggleGroupItem>
+        <ToggleGroupItem value="detailed">Detailed estimate</ToggleGroupItem>
+      </ToggleGroup>
+
+      {quick ? (
+        <>
+          <section className="grid gap-2">
+            <div className="grid gap-1">
+              <Label htmlFor="aff-quickIncome" className="text-xs">
+                Monthly take-home income
+              </Label>
+              <Input
+                id="aff-quickIncome"
+                inputMode="decimal"
+                placeholder="0"
+                value={scenario.quickIncome}
+                onChange={(e) => set("quickIncome", e.target.value)}
+                aria-describedby="aff-quickIncome-hint"
+              />
+              <p
+                id="aff-quickIncome-hint"
+                className="text-[11px] text-muted-foreground"
+              >
+                After taxes — any mix of sources counts the same here.
+              </p>
+            </div>
+          </section>
+
+          <section className="grid gap-2">
+            <p className="text-sm font-medium">Household</p>
+            <ToggleGroup
+              value={[scenario.quickHousehold]}
+              onValueChange={(values: string[]) =>
+                set("quickHousehold", (values[0] as Household) ?? "single")
+              }
+              variant="outline"
+              spacing={0}
+              aria-label="Household"
+              className="grid grid-cols-2"
+            >
+              {HOUSEHOLD_OPTIONS.map((option) => (
+                <ToggleGroupItem key={option.id} value={option.id}>
+                  {option.label}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </section>
+        </>
+      ) : (
+        <>
+        <section className="grid gap-2">
+          <p className="text-sm font-medium">Monthly income by source</p>
+          <p className="text-xs text-muted-foreground">
+            A mix is better than a single number — VA disability is untaxed
+            everywhere, retired pay is not.
+          </p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {INCOME_FIELDS.map((field) => (
             <div key={field.key} className="grid gap-1">
@@ -95,6 +164,8 @@ export default function AffordabilityForm({
           </label>
         ) : null}
       </section>
+        </>
+      )}
 
       <section className="grid gap-2">
         <p className="text-sm font-medium">Housing</p>
@@ -119,6 +190,14 @@ export default function AffordabilityForm({
         </p>
       </section>
 
+      {quick ? (
+        <p className="text-[11px] leading-snug text-muted-foreground">
+          Quick check uses one standardized baseline — a modest budget and
+          Medicare with supplement. Switch to Detailed estimate to change
+          spending, coverage, cushion, or your income mix.
+        </p>
+      ) : (
+        <>
       <section className="grid gap-2">
         <p className="text-sm font-medium">Spending</p>
         <ToggleGroup
@@ -170,6 +249,8 @@ export default function AffordabilityForm({
           }
         </p>
       </section>
+        </>
+      )}
 
       <p className="text-[11px] leading-snug text-muted-foreground">
         {AFFORDABILITY_DISCLAIMER} {affordabilityVintage()}

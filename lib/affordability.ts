@@ -52,13 +52,15 @@ import type { LocationRow } from "./types";
 import { resolveStateAbbr } from "./states";
 import { HOME_INSURANCE_DATASET } from "./insurance";
 import {
+  DEFAULT_HOUSEHOLD,
   DEFAULT_SPENDING_PROFILE,
   spendingSlices,
+  type Household,
   type ResolvedConstants,
   type SpendingProfile,
 } from "./cost-constants";
 
-export type { SpendingProfile };
+export type { Household, SpendingProfile };
 import { estimateNetMonthlyIncome } from "./income";
 import type {
   FilingStatus,
@@ -80,8 +82,19 @@ export type Tenure = "rent" | "own_outright" | "buying";
  * Medicare creditable prescription drug coverage. This is a household choice,
  * not something a city's VA access implies — carrying VA health care does not
  * by itself mean Medigap was dropped, so it is never inferred from geography.
+ *
+ * The TRICARE options (issue #108 Phase 3) price the Group A retiree
+ * enrollment fee (`tricare_prime`, `tricare_select`) or, for
+ * `tricare_for_life`, Medicare Part B per beneficiary — TFL itself has no
+ * enrollment fee. Copays, deductibles, and the catastrophic cap are
+ * disclosed via missingContext, never priced.
  */
-export type HealthCoverage = "medicare_supplement" | "va_primary";
+export type HealthCoverage =
+  | "medicare_supplement"
+  | "va_primary"
+  | "tricare_prime"
+  | "tricare_select"
+  | "tricare_for_life";
 
 /** Budget verdict band. `unknown` means we could not compute, not "bad". */
 export type Band = "comfortable" | "tight" | "over" | "unknown";
@@ -103,6 +116,8 @@ export interface CostEstimate {
   spendingProfile: SpendingProfile;
   /** Which health coverage stack fed `nationalFixed`. Never inferred from geography. */
   healthCoverage: HealthCoverage;
+  /** Who the estimate priced: one person (default) or a couple. */
+  household: Household;
   /** Total estimated monthly cost, or null when it could not be computed. */
   monthlyCost: number | null;
   /** The housing term, or null if the tenure's inputs were unavailable. */
@@ -161,6 +176,31 @@ export interface EstimateOptions {
    * retiree downsizing rarely buys the city average.
    */
   homePriceOverride?: number;
+  /**
+   * Who to price. Defaults to `single` (the pre-existing behavior: the
+   * profile's published basket plus one person's premiums). `couple` scales
+   * the consumption slices via coupleSliceMultipliers() and doubles the
+   * per-person Medicare premiums. Housing is one dwelling either way.
+   */
+  household?: Household;
+  /**
+   * Override the 30-year mortgage rate for `buying` (annual fraction, e.g.
+   * 0.055). Defaults to the sourced Freddie Mac PMMS constant.
+   */
+  mortgageRateOverride?: number;
+  /**
+   * Override the effective annual property tax rate (fraction of home value)
+   * for the ownership tenures. A user-supplied figure replaces both the
+   * city's rate and the national fallback — and suppresses the fallback's
+   * approximation note, since the number is theirs.
+   */
+  propertyTaxRateOverride?: number;
+  /**
+   * Monthly HOA/condo dues for the ownership tenures, in dollars. There is
+   * no data column or national constant for this — it exists only as a
+   * user-supplied figure, and defaults to 0.
+   */
+  hoaMonthly?: number;
 }
 
 /** Home value in dollars, reusing the parser the Fit score already uses. */
@@ -216,7 +256,8 @@ export function nonHousingIndex(
   c: ResolvedConstants,
   approximations: string[] = [],
   reasons: string[] = [],
-  profile: SpendingProfile = DEFAULT_SPENDING_PROFILE
+  profile: SpendingProfile = DEFAULT_SPENDING_PROFILE,
+  household: Household = DEFAULT_HOUSEHOLD
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -231,7 +272,7 @@ export function nonHousingIndex(
         : "BEA state nonmetropolitan portion, not a city-level price level"
     );
   }
-  const slices = spendingSlices(profile, c);
+  const slices = spendingSlices(profile, c, household);
   const total =
     slices.goodsMonthly + slices.otherServicesMonthly + slices.unscaledMonthly;
   if (total <= 0) {
@@ -251,7 +292,8 @@ function nonHousingDollars(
   c: ResolvedConstants,
   approximations: string[],
   reasons: string[],
-  profile: SpendingProfile
+  profile: SpendingProfile,
+  household: Household
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -269,7 +311,7 @@ function nonHousingDollars(
       );
     }
   }
-  const slices = spendingSlices(profile, c);
+  const slices = spendingSlices(profile, c, household);
   return (
     (slices.goodsMonthly * goods) / 100 +
     (slices.otherServicesMonthly * other) / 100 +
@@ -303,7 +345,8 @@ function housingCost(
   missing: string[],
   approximations: string[],
   opts: EstimateOptions,
-  profile: SpendingProfile
+  profile: SpendingProfile,
+  household: Household
 ): number | null {
   if (tenure === "rent") {
     // No national stand-in is offered here on purpose. Rent varies far too much
@@ -324,7 +367,7 @@ function housingCost(
     return null;
   }
 
-  let taxRate = loc.property_tax_rate ?? null;
+  let taxRate = opts.propertyTaxRateOverride ?? loc.property_tax_rate ?? null;
   if (taxRate === null) {
     taxRate = c.fallbackPropertyTaxRate;
     approximations.push("national average property tax rate");
@@ -347,16 +390,65 @@ function housingCost(
     return null;
   }
   const monthlyUtilities =
-    (spendingSlices(profile, c).utilitiesMonthly * utilitiesRpp) / 100;
+    (spendingSlices(profile, c, household).utilitiesMonthly * utilitiesRpp) / 100;
+  // HOA has no data column and no national constant — it is user-supplied
+  // only (0 when not provided), so it never appears in `approximations`.
+  const monthlyHoa = opts.hoaMonthly ?? 0;
   const carrying =
-    monthlyTax + monthlyInsurance + monthlyMaintenance + monthlyUtilities;
+    monthlyTax + monthlyInsurance + monthlyMaintenance + monthlyUtilities + monthlyHoa;
 
   if (tenure === "own_outright") return carrying;
 
   // buying: carrying costs plus debt service on the financed portion.
   const down = opts.downPaymentFraction ?? c.defaultDownPaymentFraction;
   const principal = price * (1 - down);
-  return carrying + monthlyPrincipalAndInterest(principal, c.mortgageRate30yr);
+  return (
+    carrying +
+    monthlyPrincipalAndInterest(
+      principal,
+      opts.mortgageRateOverride ?? c.mortgageRate30yr
+    )
+  );
+}
+
+/**
+ * Location-invariant health premiums for a coverage stack and household.
+ *
+ * Two different scaling rules, both sourced:
+ * - Medicare-family premiums are PER ENROLLEE — Part B is set per beneficiary
+ *   (Federal Register 2025-20251), Medigap policies cover one person each,
+ *   Part D enrollment is individual — so a couple pays 2x each. Insurer
+ *   Medigap household discounts have no published magnitude and are not
+ *   modeled.
+ * - TRICARE Prime/Select enrollment fees are PER PLAN: a couple (two
+ *   enrolled beneficiaries) pays the FAMILY rate, never 2x the individual
+ *   fee (DHA family-rate rule). TRICARE For Life has no enrollment fee; its
+ *   cost IS Medicare Part B, per beneficiary.
+ */
+function healthPremiumsMonthly(
+  coverage: HealthCoverage,
+  household: Household,
+  c: ResolvedConstants
+): number {
+  const couple = household === "couple";
+  switch (coverage) {
+    case "medicare_supplement":
+      return (
+        (c.medicarePartBMonthly + c.medigapMonthly + c.partDMonthly) *
+        (couple ? 2 : 1)
+      );
+    case "va_primary":
+    case "tricare_for_life":
+      return c.medicarePartBMonthly * (couple ? 2 : 1);
+    case "tricare_prime":
+      return couple
+        ? c.tricarePrimeFamilyMonthly
+        : c.tricarePrimeIndividualMonthly;
+    case "tricare_select":
+      return couple
+        ? c.tricareSelectFamilyMonthly
+        : c.tricareSelectIndividualMonthly;
+  }
 }
 
 /**
@@ -378,14 +470,23 @@ export function estimateMonthlyCost(
   const missingContext: string[] = [];
   const spendingProfile = opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
   const healthCoverage = opts.healthCoverage ?? "medicare_supplement";
+  const household = opts.household ?? DEFAULT_HOUSEHOLD;
 
-  const nhi = nonHousingIndex(loc, c, approximations, [], spendingProfile);
+  const nhi = nonHousingIndex(
+    loc,
+    c,
+    approximations,
+    [],
+    spendingProfile,
+    household
+  );
   const nonHousing = nonHousingDollars(
     loc,
     c,
     approximations,
     missing,
-    spendingProfile
+    spendingProfile,
+    household
   );
 
   const housing = housingCost(
@@ -395,12 +496,16 @@ export function estimateMonthlyCost(
     missing,
     approximations,
     opts,
-    spendingProfile
+    spendingProfile,
+    household
   );
-  const nationalFixed =
-    healthCoverage === "va_primary"
-      ? c.medicarePartBMonthly
-      : c.medicarePartBMonthly + c.medigapMonthly + c.partDMonthly;
+  const nationalFixed = healthPremiumsMonthly(healthCoverage, household, c);
+
+  if (household === "couple") {
+    missingContext.push(
+      "couple costs are scaled from BLS two-person 65+ households — a close proxy, but ~15% of those are not couples and they skew higher-income than singles"
+    );
+  }
 
   if (healthCoverage === "va_primary") {
     // Neither line blocks or approximates monthlyCost — see missingContext's
@@ -416,6 +521,21 @@ export function estimateMonthlyCost(
     );
   }
 
+  if (healthCoverage === "tricare_prime" || healthCoverage === "tricare_select") {
+    missingContext.push(
+      "TRICARE Group A retiree fees are modeled — initial service in 2018 or later (Group B) pays a higher enrollment fee"
+    );
+    missingContext.push(
+      "TRICARE copays, deductibles, and the catastrophic cap are not estimated"
+    );
+  }
+
+  if (healthCoverage === "tricare_for_life") {
+    missingContext.push(
+      "TRICARE For Life has no enrollment fee — the health line is Medicare Part B per person; TFL wraparound cost-shares are not estimated"
+    );
+  }
+
   // Any missing component means no total. Never substitute a default and
   // present the result as if it were complete.
   const monthlyCost =
@@ -426,6 +546,7 @@ export function estimateMonthlyCost(
   return {
     spendingProfile,
     healthCoverage,
+    household,
     monthlyCost,
     housing,
     nonHousing,
@@ -473,12 +594,133 @@ export interface IncomeTargets {
  * large fraction of cost values, so the raw quotient can band as "tight" at
  * its own "comfortable" target. Rounding up guarantees a printed target
  * always satisfies the band it names.
+ *
+ * `comfortShare` parameterizes the cushion (issue #108 Phase 3): 0.9 for a
+ * 10% cushion, 0.8 (the default, = COMFORT_COST_SHARE) for 20%, 0.7 for 30%.
+ * Whatever share a caller bands with, it MUST pass the same one here.
  */
-export function incomeTargets(estimate: CostEstimate): IncomeTargets | null {
+export function incomeTargets(
+  estimate: CostEstimate,
+  comfortShare: number = COMFORT_COST_SHARE
+): IncomeTargets | null {
   if (estimate.monthlyCost === null) return null;
   return {
     breakEven: Math.ceil(estimate.monthlyCost),
-    comfortable: Math.ceil(estimate.monthlyCost / COMFORT_COST_SHARE),
+    comfortable: Math.ceil(estimate.monthlyCost / comfortShare),
+  };
+}
+
+/* ------------------------------------------------------------------ *
+ * Quick check: one net take-home number in, one verdict out.
+ *
+ * This answers a different question from assessBudget: not "given my exact
+ * income mix, what's my monthly picture?" but "is this city even realistically
+ * in my price range?" It deliberately takes a single AFTER-TAX number — $4,000
+ * spendable is $4,000 spendable whether it came from wages, retired pay, VA
+ * disability, or Social Security. The composition (and its radically
+ * different tax treatment) is advanced-mode territory.
+ * ------------------------------------------------------------------ */
+
+/**
+ * Coverage-ratio boundaries for the quick-check bands, where coverage is
+ * income / cost. The FIVE bands refine the THREE in `Band` rather than
+ * replacing them: `comfortable` maps to comfortable, `in_the_ballpark` to
+ * tight, and the three low bands partition over — quickCheck's verdict and
+ * assessAffordability's band can never contradict each other. The top
+ * boundary is NOT here on purpose: it is `incomeTargets().comfortable`
+ * (1 / COMFORT_COST_SHARE = 1.25x cost, ceiled), never a separately-written
+ * 1.25.
+ */
+export const QUICK_COVERAGE_BANDS = {
+  /** Below this share of cost covered: "way out of range". */
+  wayOutOfRange: 0.7,
+  /** Below this: "probably too expensive". */
+  probablyTooExpensive: 0.9,
+  /**
+   * Below this, secondary "in your wildest dreams" copy may be shown on top
+   * of the way-out-of-range verdict. A copy flag, never a sixth band.
+   */
+  wildestDreams: 0.5,
+} as const;
+
+export type QuickVerdict =
+  | "way_out_of_range"
+  | "probably_too_expensive"
+  | "very_tight"
+  | "in_the_ballpark"
+  | "comfortable";
+
+export interface QuickCheck {
+  verdict: QuickVerdict;
+  /** income / cost. Above 1 means estimated costs are covered. */
+  coverage: number;
+  /**
+   * (income - cost) / income: the share of take-home left after estimated
+   * costs. Negative when short. At the comfortable target this is at least
+   * 1 - COMFORT_COST_SHARE.
+   */
+  cushion: number;
+  /**
+   * income - cost, signed monthly dollars. Positive is money remaining,
+   * negative is an estimated shortfall. Surfacing magnitude is the point:
+   * "$180 short" and "$4,300 short" are different conversations.
+   */
+  remaining: number;
+  /**
+   * Additional monthly take-home needed to reach the comfortable target.
+   * 0 when already there.
+   */
+  toComfortable: number;
+  /** Copy flag: coverage is under QUICK_COVERAGE_BANDS.wildestDreams. */
+  wildestDreams: boolean;
+  /** The same targets the no-input table shows, for display alongside. */
+  targets: IncomeTargets;
+}
+
+/**
+ * Null when the city could not be priced (mirroring `monthlyCost`) or the
+ * income is not a positive number — a null verdict must render as "not enough
+ * data", never as unaffordable.
+ */
+export function quickCheck(
+  estimate: CostEstimate,
+  netMonthlyIncome: number,
+  comfortShare: number = COMFORT_COST_SHARE
+): QuickCheck | null {
+  const targets = incomeTargets(estimate, comfortShare);
+  if (targets === null || estimate.monthlyCost === null) return null;
+  if (!Number.isFinite(netMonthlyIncome) || netMonthlyIncome <= 0) return null;
+
+  const cost = estimate.monthlyCost;
+  const coverage = netMonthlyIncome / cost;
+  // The two boundaries shared with the 3-band system reuse ITS comparisons
+  // (`cost > income`, `cost <= income * COMFORT_COST_SHARE`) rather than the
+  // rounded `coverage` ratio, so the refinement mapping in the
+  // QUICK_COVERAGE_BANDS doc comment holds exactly — division can round
+  // income/cost to 1.0 when income is a hair under cost, which would call a
+  // city "in the ballpark" that assessAffordability bands as over.
+  const verdict: QuickVerdict =
+    coverage < QUICK_COVERAGE_BANDS.wayOutOfRange
+      ? "way_out_of_range"
+      : coverage < QUICK_COVERAGE_BANDS.probablyTooExpensive
+        ? "probably_too_expensive"
+        : cost > netMonthlyIncome
+          ? "very_tight"
+          : cost <= netMonthlyIncome * comfortShare
+            ? "comfortable"
+            : "in_the_ballpark";
+
+  return {
+    verdict,
+    coverage,
+    cushion: (netMonthlyIncome - cost) / netMonthlyIncome,
+    remaining: netMonthlyIncome - cost,
+    toComfortable:
+      verdict === "comfortable"
+        ? 0
+        : Math.max(0, targets.comfortable - netMonthlyIncome),
+    wildestDreams: coverage < QUICK_COVERAGE_BANDS.wildestDreams,
+    targets,
   };
 }
 
@@ -492,14 +734,15 @@ export function incomeTargets(estimate: CostEstimate): IncomeTargets | null {
  */
 export function assessAffordability(
   estimate: CostEstimate,
-  monthlyIncome: number
+  monthlyIncome: number,
+  comfortShare: number = COMFORT_COST_SHARE
 ): Affordability {
   if (estimate.monthlyCost === null) {
     return { ...estimate, headroom: null, band: "unknown" };
   }
   const headroom = monthlyIncome - estimate.monthlyCost;
   const band: Band =
-    estimate.monthlyCost <= monthlyIncome * COMFORT_COST_SHARE
+    estimate.monthlyCost <= monthlyIncome * comfortShare
       ? "comfortable"
       : estimate.monthlyCost <= monthlyIncome
         ? "tight"
@@ -513,9 +756,14 @@ export function assessLocation(
   monthlyIncome: number,
   tenure: Tenure,
   c: ResolvedConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): Affordability {
-  return assessAffordability(estimateMonthlyCost(loc, tenure, c, opts), monthlyIncome);
+  return assessAffordability(
+    estimateMonthlyCost(loc, tenure, c, opts),
+    monthlyIncome,
+    comfortShare
+  );
 }
 
 /* ------------------------------------------------------------------ *
@@ -581,7 +829,8 @@ export function assessBudget(
   tenure: Tenure,
   costConstants: ResolvedConstants,
   taxConstants: ResolvedTaxConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): LocationBudget {
   const cost = estimateMonthlyCost(loc, tenure, costConstants, opts);
   const income = estimateNetMonthlyIncome(
@@ -601,7 +850,7 @@ export function assessBudget(
 
   const headroom = income.netMonthly - cost.monthlyCost;
   const band: Band =
-    cost.monthlyCost <= income.netMonthly * COMFORT_COST_SHARE
+    cost.monthlyCost <= income.netMonthly * comfortShare
       ? "comfortable"
       : cost.monthlyCost <= income.netMonthly
         ? "tight"
@@ -622,10 +871,13 @@ export function rankByBudget(
   tenure: Tenure,
   costConstants: ResolvedConstants,
   taxConstants: ResolvedTaxConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): LocationBudget[] {
   return locations
-    .map((loc) => assessBudget(loc, budget, tenure, costConstants, taxConstants, opts))
+    .map((loc) =>
+      assessBudget(loc, budget, tenure, costConstants, taxConstants, opts, comfortShare)
+    )
     .sort((a, b) => {
       if (a.headroom === null && b.headroom === null) return 0;
       if (a.headroom === null) return 1;
@@ -646,12 +898,13 @@ export function rankByHeadroom(
   monthlyIncome: number,
   tenure: Tenure,
   c: ResolvedConstants,
-  opts: EstimateOptions = {}
+  opts: EstimateOptions = {},
+  comfortShare: number = COMFORT_COST_SHARE
 ): (Affordability & { location: CostInputs })[] {
   return locations
     .map((location) => ({
       location,
-      ...assessLocation(location, monthlyIncome, tenure, c, opts),
+      ...assessLocation(location, monthlyIncome, tenure, c, opts, comfortShare),
     }))
     .sort((a, b) => {
       if (a.headroom === null && b.headroom === null) return 0;
