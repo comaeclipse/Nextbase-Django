@@ -233,6 +233,30 @@ export default function ExploreClient({
     [employerIndex, filterParams, initialLocations, militaryIndex, stateInfos]
   );
 
+  // Per-state survivor counts for the map's "filtered out" hatch. The state
+  // selection is stripped first — otherwise clicking a state would hatch every
+  // other state — so this answers "which states still have a city that matches
+  // my climate/budget/lifestyle/veteran/profile criteria?". Null when nothing
+  // is filtering, so the map falls back to raw totals (its original behavior).
+  const matchStateCounts = useMemo(() => {
+    const anyFilter = Object.entries(filterParams).some(
+      ([key, value]) =>
+        key !== "state_filter" && key !== "sort" && value != null
+    );
+    if (!anyFilter) return null;
+    const rows = filterAndSort(
+      initialLocations,
+      stateInfos,
+      { ...filterParams, state_filter: null },
+      { employerIndex, militaryIndex }
+    );
+    const counts: Record<string, number> = {};
+    for (const loc of rows) {
+      counts[loc.state] = (counts[loc.state] ?? 0) + 1;
+    }
+    return counts;
+  }, [employerIndex, filterParams, initialLocations, militaryIndex, stateInfos]);
+
   const annotated = useMemo(() => {
     const empty = (location: Location) => ({
       location,
@@ -370,6 +394,7 @@ export default function ExploreClient({
           <div className="sticky top-[200px] rounded-2xl border bg-background p-4">
             <StateMap
               stateCounts={stateCounts}
+              matchCounts={matchStateCounts}
               selected={filters.state || null}
               onSelect={(next) => update("state", next ?? "")}
             />
