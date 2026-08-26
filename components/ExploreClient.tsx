@@ -20,19 +20,31 @@ import ExploreFilterBar, {
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
 import {
+  quickCheck,
   rankByBudget,
+  rankByHeadroom,
+  type Affordability,
   type LocationBudget,
+  type QuickCheck,
 } from "@/lib/affordability";
 import { resolveCostConstants } from "@/lib/cost-constants";
 import { resolveTaxConstants } from "@/lib/tax-constants";
 import {
   DEFAULT_AFFORDABILITY_SCENARIO,
   cushionShare,
+  parseMonthlyAmount,
+  scenarioAnnotationActive,
   scenarioEstimateOptions,
-  scenarioIsActive,
   scenarioSources,
   type AffordabilityScenario,
 } from "@/lib/affordability-scenario";
+
+/** Per-city quick-check annotation: the priced estimate plus its verdict. */
+export type QuickAnnotation = {
+  affordability: Affordability;
+  /** Null when the city could not be priced — "not enough data", never "no". */
+  check: QuickCheck | null;
+};
 
 export default function ExploreClient({
   initialLocations,
@@ -75,8 +87,8 @@ export default function ExploreClient({
   }
 
   function updateScenario(next: AffordabilityScenario) {
-    const wasActive = scenarioIsActive(scenario);
-    const nowActive = scenarioIsActive(next);
+    const wasActive = scenarioAnnotationActive(scenario);
+    const nowActive = scenarioAnnotationActive(next);
     setScenario(next);
     if (!wasActive && nowActive) {
       setFilters((current) => ({ ...current, sort: "headroom_desc" }));
@@ -246,15 +258,39 @@ export default function ExploreClient({
   }, [employerIndex, filterParams, initialLocations, militaryIndex, stateInfos]);
 
   const annotated = useMemo(() => {
-    const active = scenarioIsActive(scenario);
-    if (!active) {
-      return filtered.map((location) => ({ location, budget: null as LocationBudget | null }));
-    }
+    const empty = (location: Location) => ({
+      location,
+      budget: null as LocationBudget | null,
+      quick: null as QuickAnnotation | null,
+    });
+    if (!scenarioAnnotationActive(scenario)) return filtered.map(empty);
     const cost = resolveCostConstants();
-    const tax = resolveTaxConstants();
-    if (!cost.ok || !tax.ok) {
-      return filtered.map((location) => ({ location, budget: null as LocationBudget | null }));
+    if (!cost.ok) return filtered.map(empty);
+
+    if (scenario.mode === "quick") {
+      // One scalar take-home, the standardized quick baseline — the same
+      // pinned modest + Medicare-with-supplement the city card's quick tab
+      // uses, so a city reads identically on both surfaces.
+      const income = parseMonthlyAmount(scenario.quickIncome);
+      const ranked = rankByHeadroom(filtered, income, scenario.tenure, cost.constants, {
+        spendingProfile: "modest",
+        healthCoverage: "medicare_supplement",
+        household: scenario.quickHousehold,
+      });
+      const rows = ranked.map((row) => ({
+        location: row.location as Location,
+        budget: null as LocationBudget | null,
+        quick: { affordability: row, check: quickCheck(row, income) } as QuickAnnotation,
+      }));
+      if (filters.sort !== "headroom_desc") {
+        const byId = new Map(rows.map((r) => [r.location.id, r]));
+        return filtered.map((location) => byId.get(location.id) ?? empty(location));
+      }
+      return rows;
     }
+
+    const tax = resolveTaxConstants();
+    if (!tax.ok) return filtered.map(empty);
     // scenarioEstimateOptions keeps this surface pricing-identical to the
     // city card: same couple basket for married filing, same overrides.
     const ranked = rankByBudget(
@@ -275,12 +311,13 @@ export default function ExploreClient({
       const byId = new Map(ranked.map((row) => [row.location.id, row]));
       return filtered.map((location) => {
         const row = byId.get(location.id);
-        return { location, budget: row ?? null };
+        return { location, budget: row ?? null, quick: null as QuickAnnotation | null };
       });
     }
     return ranked.map((row) => ({
       location: row.location as Location,
       budget: row,
+      quick: null as QuickAnnotation | null,
     }));
   }, [filtered, filters.sort, scenario]);
 
@@ -310,9 +347,9 @@ export default function ExploreClient({
               Explore retirement locations
             </h1>
             <p className="text-muted-foreground">
-              {scenarioIsActive(scenario)
+              {scenarioAnnotationActive(scenario)
                 ? "Filter as usual, then rank by money left over. Cities without enough data stay in the list."
-                : "Filter by climate, budget, lifestyle, and veteran benefits. Open On my income to estimate leftover by city."}
+                : "Filter by climate, budget, lifestyle, and veteran benefits. Open On my income for a quick affordability check by city."}
             </p>
           </div>
 
@@ -339,11 +376,12 @@ export default function ExploreClient({
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
-              {annotated.map(({ location, budget }) => (
+              {annotated.map(({ location, budget, quick }) => (
                 <LocationCard
                   key={location.id}
                   location={location}
                   budget={budget}
+                  quick={quick}
                   tenure={scenario.tenure}
                 />
               ))}
