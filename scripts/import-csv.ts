@@ -235,8 +235,7 @@ function parseRow(row: Row): Record<string, unknown> {
   };
 }
 
-async function upsert(data: Record<string, unknown>, parent: ParentGeo | null, source: string): Promise<{ status: "created" | "updated"; id: number }> {
-  const query = buildLocationUpsert(data, parent, source);
+async function upsert(query: ReturnType<typeof buildLocationUpsert>): Promise<{ status: "created" | "updated"; id: number }> {
   const rows = await getSql().query(query.text, query.params) as { id: number; created: boolean }[];
   if (rows.length !== 1) throw new Error("Parent changed or disappeared before import; no child written");
   return { status: rows[0].created ? "created" : "updated", id: Number(rows[0].id) };
@@ -416,6 +415,8 @@ async function main() {
       const parentSlug = parentSlugOf(rows[i]);
       const parent = parentSlug ? await resolveParent(parentSlug) : null;
       if (parent && (parent.state !== data.state || data.geo_type === "city")) throw new Error("Invalid child/parent geography");
+      // Build the exact write query during dry-run too; validation must not diverge.
+      const query = buildLocationUpsert(data, parent, cleanEmpty(rows[i]["ParentSource"]) ?? "CSV import");
       if (dryRun) {
         console.log(
           `  = Would upsert: ${data.name}, ${data.state}` +
@@ -425,7 +426,7 @@ async function main() {
         );
         continue;
       }
-      const result = await upsert(data, parent, cleanEmpty(rows[i]["ParentSource"]) ?? "CSV import");
+      const result = await upsert(query);
       const label = `${data.name}, ${data.state}` +
         (data.geo_type === "city" ? "" : ` [${data.geo_type}]`);
       if (result.status === "created") {
