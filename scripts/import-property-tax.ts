@@ -37,6 +37,18 @@ const fileArg = argValue("--file") ?? DEFAULT_SOURCE;
 const onlyId = argValue("--location-id");
 
 /**
+ * When `locations_location.county` does not match the Tax Foundation /
+ * ACS county-equivalent spelling, map `state|normalizeCounty(county)` onto
+ * the normalized source key. Connecticut replaced counties with COG planning
+ * regions in ACS products; Anchorage's legacy county label is "Alaska".
+ */
+const COUNTY_JOIN_ALIASES: Record<string, string> = {
+  "ak|alaska": "anchorage", // Anchorage Municipality
+  "ct|fairfield": "greater bridgeport", // Greater Bridgeport Planning Region
+  "ct|hartford": "capitol", // Capitol Planning Region
+};
+
+/**
  * Plausible bounds for a US effective property tax rate, as a fraction.
  * Real county rates run roughly 0.2% to 2.6%; anything outside this is a unit
  * error (a percent read as a fraction, or a dollar amount) rather than a real
@@ -199,7 +211,9 @@ async function main() {
       unmatched.push({ label, county: "(no county on file)" });
       continue;
     }
-    const base = normalizeCounty(loc.county);
+    const base =
+      COUNTY_JOIN_ALIASES[geoKey(loc.state, normalizeCounty(loc.county))] ??
+      normalizeCounty(loc.county);
     // Independent cities (VA/MD/MO) are their own county-equivalent, recorded
     // in locations_location.county as their own name (e.g. Baltimore, MD has
     // county="Baltimore") and spelled "<name> city" in the source. "city"
@@ -264,8 +278,9 @@ function writeReport(
     "",
     `- Generated: ${today}`,
     `- Source file: \`${source}\``,
-    "- Source: Tax Foundation county-level effective property tax rates",
-    "- **Fill in the exact source URL and publication year here.**",
+    `- Source: Tax Foundation, "Property Taxes by State and County, 2026" - Table 1, "Median Property Taxes Paid by County, 2024 (5-Year Estimate)" (ACS 2020-2024 5-year)`,
+    `- URL: https://taxfoundation.org/data/all/state/property-taxes-by-state-county/`,
+    `- County join aliases: Anchorage \`Alaska\`->\`anchorage\`; CT Fairfield->Greater Bridgeport; CT Hartford->Capitol planning regions`,
     "",
     `Matched ${matched.length}, unmatched ${unmatched.length}.`,
     "",

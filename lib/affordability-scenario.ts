@@ -3,19 +3,40 @@
  * page, and the chat estimator so the same mix of income, tenure, and spending
  * profile drives every surface.
  */
-import type {
-  HealthCoverage,
-  Household,
-  QuickCheck,
-  QuickVerdict,
-  SpendingProfile,
-  Tenure,
+import {
+  COMFORT_COST_SHARE,
+  type EstimateOptions,
+  type HealthCoverage,
+  type Household,
+  type QuickCheck,
+  type QuickVerdict,
+  type SpendingProfile,
+  type Tenure,
 } from "./affordability";
 import type { FilingStatus, IncomeKind, IncomeSource } from "./income";
 import { COST_CONSTANTS } from "./cost-constants";
 import { TAX_YEAR } from "./tax-constants";
 
+/**
+ * How much of take-home income may go to estimated costs and still count as
+ * comfortable — the user's chosen cushion, named by the cushion size.
+ */
+export type CushionChoice = "breathing_room" | "comfortable" | "strong";
+
+/**
+ * Which half of the calculator is in use. `quick` is the primary experience:
+ * one after-tax number, standardized baseline, five-band verdict. `detailed`
+ * is the income-composition model with every knob.
+ */
+export type AffordabilityMode = "quick" | "detailed";
+
 export interface AffordabilityScenario {
+  /** Which mode drives annotation on surfaces that honor it (/explore). */
+  mode: AffordabilityMode;
+  /** Quick-check take-home, monthly after-tax dollars, free text. */
+  quickIncome: string;
+  /** Quick-check household. Independent of `filing`, which is detailed-mode. */
+  quickHousehold: Household;
   vaDisability: string;
   militaryRetirement: string;
   socialSecurity: string;
@@ -27,9 +48,24 @@ export interface AffordabilityScenario {
   tenure: Tenure;
   spendingProfile: SpendingProfile;
   healthCoverage: HealthCoverage;
+  cushion: CushionChoice;
+  /*
+   * Housing overrides (detailed mode, ownership tenures). Free-text like the
+   * income fields; blank means "use the model's default" — the city's typical
+   * home value, the sourced 20% down / Freddie Mac rate, the city's property
+   * tax rate, and no HOA.
+   */
+  homePrice: string;
+  downPaymentPct: string;
+  mortgageRatePct: string;
+  propertyTaxPct: string;
+  hoaMonthly: string;
 }
 
 export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
+  mode: "quick",
+  quickIncome: "",
+  quickHousehold: "single",
   vaDisability: "",
   militaryRetirement: "",
   socialSecurity: "",
@@ -41,6 +77,12 @@ export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
   tenure: "own_outright",
   spendingProfile: "modest",
   healthCoverage: "medicare_supplement",
+  cushion: "comfortable",
+  homePrice: "",
+  downPaymentPct: "",
+  mortgageRatePct: "",
+  propertyTaxPct: "",
+  hoaMonthly: "",
 };
 
 export const INCOME_FIELDS: {
@@ -137,7 +179,30 @@ export const HEALTH_COVERAGE_OPTIONS: {
     label: "VA primary care",
     hint: "Part B only — Medigap and Part D dropped, copays not estimated",
   },
+  {
+    id: "tricare_prime",
+    label: "TRICARE Prime",
+    hint: "Group A retiree enrollment fee — copays not estimated",
+  },
+  {
+    id: "tricare_select",
+    label: "TRICARE Select",
+    hint: "Group A retiree enrollment fee — deductible and cost-shares not estimated",
+  },
+  {
+    id: "tricare_for_life",
+    label: "TFL + Medicare",
+    hint: "No TRICARE fee — Medicare Part B per person",
+  },
 ];
+
+/** Breakdown-row label for the health line, by coverage stack. */
+export function healthLineLabel(coverage: HealthCoverage): string {
+  if (coverage === "medicare_supplement") return "Medicare / supplement";
+  if (coverage === "va_primary") return "Medicare Part B";
+  if (coverage === "tricare_for_life") return "Medicare Part B (TFL)";
+  return "TRICARE enrollment";
+}
 
 export function parseMonthlyAmount(raw: string): number {
   const n = Number(String(raw).replace(/[^0-9.]/g, ""));
@@ -155,8 +220,28 @@ export function scenarioGrossMonthly(scenario: AffordabilityScenario): number {
   return scenarioSources(scenario).reduce((sum, s) => sum + s.monthlyAmount, 0);
 }
 
+/**
+ * Detailed-mode activity: at least one income SOURCE entered. Mode-agnostic
+ * on purpose — the city card's detailed tab calls this regardless of its own
+ * quick state. For "should the current mode annotate?", use
+ * scenarioAnnotationActive.
+ */
 export function scenarioIsActive(scenario: AffordabilityScenario): boolean {
   return scenarioGrossMonthly(scenario) > 0;
+}
+
+/** Quick-mode activity: a positive take-home was typed. */
+export function quickScenarioIsActive(scenario: AffordabilityScenario): boolean {
+  return scenario.mode === "quick" && parseMonthlyAmount(scenario.quickIncome) > 0;
+}
+
+/** Whether the scenario's CURRENT mode has enough input to annotate cities. */
+export function scenarioAnnotationActive(
+  scenario: AffordabilityScenario
+): boolean {
+  return scenario.mode === "quick"
+    ? quickScenarioIsActive(scenario)
+    : scenarioIsActive(scenario);
 }
 
 export function formatUsd(n: number | null | undefined, digits = 0): string {
@@ -193,6 +278,91 @@ export function bandVerdict(
   if (band === "over")
     return "This city costs more than your estimated take-home — the numbers don't work at this income.";
   return "We can't price this city yet, so there's no verdict.";
+}
+
+/**
+ * Cushion choices, labeled by the budget property (share of income left
+ * unspent at the comfortable boundary), never by the person. The default MUST
+ * stay in lockstep with COMFORT_COST_SHARE so an untouched scenario bands
+ * exactly like every surface that never passes a share.
+ */
+export const CUSHION_OPTIONS: {
+  id: CushionChoice;
+  label: string;
+  hint: string;
+  /** Share of take-home costs may reach: 1 - cushion. */
+  share: number;
+}[] = [
+  {
+    id: "breathing_room",
+    label: "10% cushion",
+    hint: "Some breathing room",
+    share: 0.9,
+  },
+  {
+    id: "comfortable",
+    label: "20% cushion",
+    hint: "The standard comfortable benchmark",
+    share: COMFORT_COST_SHARE,
+  },
+  {
+    id: "strong",
+    label: "30% cushion",
+    hint: "Strong cushion — savings, travel, surprises",
+    share: 0.7,
+  },
+];
+
+export function cushionShare(choice: CushionChoice): number {
+  return (
+    CUSHION_OPTIONS.find((o) => o.id === choice)?.share ?? COMFORT_COST_SHARE
+  );
+}
+
+/**
+ * The cost-side household for a scenario. Married filing is an explicit
+ * two-person declaration, so the couple basket is a mapping of the user's own
+ * choice, not an inference about them. ONE definition on purpose: the city
+ * card and /explore must price the same scenario identically.
+ */
+export function scenarioHousehold(scenario: AffordabilityScenario): Household {
+  return scenario.filing === "married" ? "couple" : "single";
+}
+
+/** A positive dollar amount, or undefined to take the model's default. */
+export function parseOptionalAmount(raw: string): number | undefined {
+  const n = parseMonthlyAmount(raw);
+  return n > 0 ? n : undefined;
+}
+
+/**
+ * A human percentage ("6.5", "20") as a fraction, or undefined for the
+ * model's default. Values outside (0, 100) are treated as unset rather than
+ * fed to the model as a nonsense rate.
+ */
+export function parseOptionalPercent(raw: string): number | undefined {
+  const n = parseMonthlyAmount(raw);
+  return n > 0 && n < 100 ? n / 100 : undefined;
+}
+
+/**
+ * The EstimateOptions a scenario implies — basket, coverage, household, and
+ * any housing overrides the user typed. The single source of truth for
+ * turning scenario state into model options.
+ */
+export function scenarioEstimateOptions(
+  scenario: AffordabilityScenario
+): EstimateOptions {
+  return {
+    spendingProfile: scenario.spendingProfile,
+    healthCoverage: scenario.healthCoverage,
+    household: scenarioHousehold(scenario),
+    homePriceOverride: parseOptionalAmount(scenario.homePrice),
+    downPaymentFraction: parseOptionalPercent(scenario.downPaymentPct),
+    mortgageRateOverride: parseOptionalPercent(scenario.mortgageRatePct),
+    propertyTaxRateOverride: parseOptionalPercent(scenario.propertyTaxPct),
+    hoaMonthly: parseOptionalAmount(scenario.hoaMonthly),
+  };
 }
 
 export const HOUSEHOLD_OPTIONS: {
@@ -246,6 +416,11 @@ export function quickVerdictLabel(verdict: QuickVerdict): string {
  * only — the metric lives in lib/affordability.ts. Magnitude (shortfall,
  * distance to comfortable) is rendered separately by the caller so these
  * sentences stay reusable across cities.
+ *
+ * The "20%" in these sentences is COMFORT_COST_SHARE's cushion, hardcoded:
+ * quickCheck is share-parameterized but every quick-check surface pins the
+ * default. A caller that ever pairs a non-default share with this copy must
+ * rework these sentences first, or the words will contradict the verdict.
  */
 export function quickVerdictCopy(verdict: QuickVerdict): string {
   switch (verdict) {
@@ -286,9 +461,14 @@ export function healthCoverageLabel(coverage: HealthCoverage): string {
 }
 
 export function scenarioChipLabel(scenario: AffordabilityScenario): string {
+  if (scenario.mode === "quick") {
+    return `Quick check · ${formatUsd(parseMonthlyAmount(scenario.quickIncome))}/mo take-home · ${tenureLabel(scenario.tenure)} · ${householdLabel(scenario.quickHousehold)}`;
+  }
   const gross = scenarioGrossMonthly(scenario);
+  // Any non-default coverage changes the number the chip summarizes, so any
+  // non-default coverage must appear in it — not just va_primary.
   const coverage =
-    scenario.healthCoverage === "va_primary"
+    scenario.healthCoverage !== "medicare_supplement"
       ? ` · ${healthCoverageLabel(scenario.healthCoverage)}`
       : "";
   return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)}${coverage} · ${formatUsd(gross)}/mo`;

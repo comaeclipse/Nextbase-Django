@@ -377,6 +377,91 @@ export const COST_CONSTANTS = {
       "continues.",
   }),
 
+  /*
+   * TRICARE retiree enrollment fees, CY2026 (issue #108 Phase 3). Modeled at
+   * GROUP A (initial service before 2018-01-01): in 2026 essentially every
+   * already-retired 20-year retiree is Group A — the earliest 20-year Group B
+   * retirees appear around 2038. Group B pays more; that is disclosed via
+   * missingContext, not priced.
+   *
+   * These are PER-PLAN fees, not per-person: a couple (two enrolled
+   * beneficiaries) pays the FAMILY rate, never 2x the individual rate (DHA
+   * TRICARE For Life Program Manager, DVIDS Q&A 2026-02-26,
+   * https://www.dvidshub.net/news/558968/). TRICARE For Life needs no
+   * constant here: no enrollment fee, each beneficiary pays Medicare Part B
+   * (medicarePartBMonthly).
+   *
+   * Fact sheets publish ANNUAL fees; monthly = annual / 12, which is faithful
+   * because TRICARE bills monthly by allotment.
+   */
+
+  /** TRICARE Prime, Group A retiree, individual: $381.96/yr. */
+  tricarePrimeIndividualMonthly: constant({
+    value: 31.83,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet (May 2026, FS410G260526WP): " +
+      "Prime Group A retiree $381.96 per individual per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Group B (service on/after 2018-01-01) pays $462.96/yr — not modeled. " +
+      "Prime copays (e.g. $26 primary care, Group A) and the catastrophic cap " +
+      "are not estimated; disclosed via missingContext.",
+  }),
+
+  /** TRICARE Prime, Group A retiree, family: $765.00/yr. */
+  tricarePrimeFamilyMonthly: constant({
+    value: 63.75,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet: Prime Group A retiree " +
+      "$765.00 per family per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "One fee per enrolled family of two or more, per the DHA family-rate " +
+      "rule — the couple path uses this, never 2x the individual fee.",
+  }),
+
+  /** TRICARE Select, Group A retiree, individual: $186.96/yr. */
+  tricareSelectIndividualMonthly: constant({
+    value: 15.58,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet: Select Group A retiree " +
+      "$186.96 per individual per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Group B pays $594.96/yr — not modeled. Select also carries an annual " +
+      "deductible ($150/$300 Group A) and per-visit cost-shares (e.g. $38 " +
+      "network primary care); disclosed via missingContext, not priced.",
+  }),
+
+  /** TRICARE Select, Group A retiree, family: $375.00/yr. */
+  tricareSelectFamilyMonthly: constant({
+    value: 31.25,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet: Select Group A retiree " +
+      "$375.00 per family per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+  }),
+
   /**
    * FALLBACK effective property tax rate, used only when a city has no
    * `property_tax_rate` of its own. Per-city data is a P0 ingestion task; until
