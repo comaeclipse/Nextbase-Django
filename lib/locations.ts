@@ -445,21 +445,54 @@ export const getActiveEmployers = unstable_cache(
 export const getEmployerIndex = unstable_cache(
   async (): Promise<EmployerIndex> => {
     const sql = getSql();
+    /*
+     * Employer presence rolls UP: a facility inside a neighborhood is also
+     * employment in the city that contains it, however the job posting spells
+     * the location. `self_and_descendants` pairs each geography with itself
+     * and everything inside it, so one join covers both. With no containment
+     * rows recorded it degenerates to `l.id = l.id` and this is exactly the
+     * query it was before.
+     *
+     * Counts are summed across the group; `member_id <> geo_id` rows are also
+     * listed individually so the page can attribute them.
+     */
     const rows = (await sql`
+      WITH self_and_descendants AS (
+        SELECT l.id AS geo_id, l.id AS member_id FROM locations_location l
+        UNION
+        SELECT c.ancestor_id, c.descendant_id
+        FROM geo_closure c
+        WHERE c.relationship_type = 'municipal_containment'
+      )
       SELECT
-        d.location_id,
+        sd.geo_id AS location_id,
         e.slug,
         e.display_name,
         e.parent_company,
         e.counts_as_defense,
-        COALESCE(d.onsite_posting_count, 0) AS onsite,
-        COALESCE(d.hybrid_posting_count, 0) AS hybrid,
-        COALESCE(d.remote_posting_count, 0) AS remote,
-        COALESCE(d.total_posting_count, 0)  AS total
-      FROM defense_employer_locations d
+        SUM(COALESCE(d.onsite_posting_count, 0))::int AS onsite,
+        SUM(COALESCE(d.hybrid_posting_count, 0))::int AS hybrid,
+        SUM(COALESCE(d.remote_posting_count, 0))::int AS remote,
+        SUM(COALESCE(d.total_posting_count, 0))::int  AS total,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'geo_id', m.id, 'name', m.name, 'state', m.state,
+              'onsite', COALESCE(d.onsite_posting_count, 0),
+              'hybrid', COALESCE(d.hybrid_posting_count, 0),
+              'remote', COALESCE(d.remote_posting_count, 0),
+              'total',  COALESCE(d.total_posting_count, 0)
+            ) ORDER BY COALESCE(d.total_posting_count, 0) DESC
+          ) FILTER (WHERE sd.member_id <> sd.geo_id),
+          '[]'::json
+        ) AS rolled_up_from
+      FROM self_and_descendants sd
+      JOIN defense_employer_locations d ON d.location_id = sd.member_id
       JOIN defense_employers e ON e.id = d.employer_id
-      WHERE d.location_id IS NOT NULL AND e.active
-      ORDER BY d.location_id, COALESCE(d.total_posting_count, 0) DESC, e.display_name`) as Record<
+      JOIN locations_location m ON m.id = sd.member_id
+      WHERE e.active
+      GROUP BY sd.geo_id, e.slug, e.display_name, e.parent_company, e.counts_as_defense
+      ORDER BY sd.geo_id, SUM(COALESCE(d.total_posting_count, 0)) DESC, e.display_name`) as Record<
       string,
       unknown
     >[];
@@ -477,6 +510,10 @@ export const getEmployerIndex = unstable_cache(
         remote: Number(row.remote),
         total: Number(row.total),
       };
+      const rolled = row.rolled_up_from as EmployerPresence["rolled_up_from"];
+      // Left undefined rather than [] so the common case serializes unchanged
+      // across the server/client boundary.
+      if (rolled && rolled.length > 0) presence.rolled_up_from = rolled;
       (index[id] ??= []).push(presence);
     }
     return index;

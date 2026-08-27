@@ -845,6 +845,11 @@ export default async function CityDetailPage({
                         {e.total.toLocaleString()}{" "}
                         {e.total === 1 ? "opening" : "openings"}
                         {e.remote === e.total ? " (remote)" : ""}
+                        {e.rolled_up_from?.length ? (
+                          <span className="spec-src">
+                            incl. {e.rolled_up_from.map((r) => r.name).join(", ")}
+                          </span>
+                        ) : null}
                       </span>
                     </div>
                   ))}

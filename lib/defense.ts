@@ -209,6 +209,24 @@ export interface EmployerPresence {
   hybrid: number;
   remote: number;
   total: number;
+  /**
+   * Contained geographies whose postings are folded into the counts above.
+   * Present only when a facility sits in a neighborhood rather than being
+   * posted against the city itself, so the page can say "incl. Canoga Park".
+   *
+   * The counts are summed INTO onsite/hybrid/remote/total rather than kept
+   * separate, so hasDefenseEmployerSignal and matchesEmployers below need no
+   * changes and the defense_ecosystem filter comes out right automatically.
+   */
+  rolled_up_from?: {
+    geo_id: number;
+    name: string;
+    state: string;
+    onsite: number;
+    hybrid: number;
+    remote: number;
+    total: number;
+  }[];
 }
 
 /**
