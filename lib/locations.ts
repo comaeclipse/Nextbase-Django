@@ -1,6 +1,11 @@
 import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
-import type { EmployerIndex, EmployerPresence } from "./defense";
+import type {
+  EmployerIndex,
+  EmployerPresence,
+  MetroEmployerIndex,
+  MetroEmployment,
+} from "./defense";
 import {
   resolveLocationFields,
   type GeoNode,
@@ -519,6 +524,87 @@ export const getEmployerIndex = unstable_cache(
     return index;
   },
   ["locations:getEmployerIndex"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [EMPLOYERS_TAG] }
+);
+
+/**
+ * Defense employment elsewhere in each city's metro.
+ *
+ * A city sees the facilities of its metro siblings -- the other geographies
+ * sharing its CBSA -- with itself and anything inside it excluded, because
+ * those are already counted by getEmployerIndex. So Lexington MA sees
+ * Tewksbury and Andover; it does not see itself twice.
+ *
+ * Keyed the same way as getEmployerIndex so a page can read both with one
+ * lookup. Cities with no metro membership simply have no entry.
+ */
+export const getMetroEmployerIndex = unstable_cache(
+  async (): Promise<MetroEmployerIndex> => {
+    const sql = getSql();
+    const rows = (await sql`
+      WITH membership AS (
+        SELECT r.child_geo_id AS member_id, r.parent_geo_id AS metro_id
+        FROM geo_relationships r
+        WHERE r.relationship_type = 'metro_membership' AND r.valid_to IS NULL
+      ),
+      -- Everything a city already counts as its own, so it is not counted twice.
+      own AS (
+        SELECT l.id AS geo_id, l.id AS member_id FROM locations_location l
+        UNION
+        SELECT c.ancestor_id, c.descendant_id
+        FROM geo_closure c
+        WHERE c.relationship_type = 'municipal_containment'
+      ),
+      siblings AS (
+        SELECT me.member_id AS city_id, sib.member_id AS sibling_id, me.metro_id
+        FROM membership me
+        JOIN membership sib ON sib.metro_id = me.metro_id
+        WHERE sib.member_id <> me.member_id
+          AND NOT EXISTS (
+            SELECT 1 FROM own o
+            WHERE o.geo_id = me.member_id AND o.member_id = sib.member_id
+          )
+      )
+      SELECT
+        s.city_id,
+        m.name AS metro_name,
+        e.slug,
+        e.display_name,
+        e.counts_as_defense,
+        SUM(COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0))::int AS onsite_hybrid,
+        json_agg(
+          json_build_object(
+            'name', p.name, 'state', p.state,
+            'onsiteHybrid', COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0)
+          )
+          ORDER BY COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0) DESC
+        ) AS places
+      FROM siblings s
+      JOIN defense_employer_locations d ON d.location_id = s.sibling_id
+      JOIN defense_employers e ON e.id = d.employer_id
+      JOIN locations_location p ON p.id = s.sibling_id
+      JOIN locations_location m ON m.id = s.metro_id
+      WHERE e.active
+        AND COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0) >= 1
+      GROUP BY s.city_id, m.name, e.slug, e.display_name, e.counts_as_defense
+      ORDER BY s.city_id, 6 DESC, e.display_name` ) as Record<string, unknown>[];
+
+    const index: MetroEmployerIndex = {};
+    for (const row of rows) {
+      const id = Number(row.city_id);
+      const entry: MetroEmployment =
+        (index[id] ??= { metroName: String(row.metro_name), employers: [] });
+      entry.employers.push({
+        slug: String(row.slug),
+        display_name: String(row.display_name),
+        counts_as_defense: Boolean(row.counts_as_defense),
+        onsiteHybrid: Number(row.onsite_hybrid),
+        places: (row.places as MetroEmployment["employers"][number]["places"]) ?? [],
+      });
+    }
+    return index;
+  },
+  ["locations:getMetroEmployerIndex"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [EMPLOYERS_TAG] }
 );
 

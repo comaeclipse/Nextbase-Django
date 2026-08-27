@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import {
   getEmployerIndex,
+  getMetroEmployerIndex,
   getLatestAirQuality,
   getLocationById,
   getResolvedLocation,
@@ -141,11 +142,19 @@ export default async function CityDetailPage({
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
   // instead of two sequential Neon round trips.
-  const [stateInfo, similarRows, employerIndex, airQualityResolved, militaryIndex] =
+  const [
+    stateInfo,
+    similarRows,
+    employerIndex,
+    metroEmployerIndex,
+    airQualityResolved,
+    militaryIndex,
+  ] =
     await Promise.all([
     stateAbbr ? getStateInfo(stateAbbr) : Promise.resolve(null),
     getSimilarLocations(location.state, location.id),
     getEmployerIndex(),
+    getMetroEmployerIndex(),
     resolveFromAncestry(location.id, chain, getLatestAirQuality),
     getMilitaryProximityIndex(),
   ]);
@@ -168,6 +177,16 @@ export default async function CityDetailPage({
     : [];
 
   const employersHere = employerIndex[location.id] ?? [];
+  /*
+   * Employment elsewhere in the metro, shown as its own thing rather than added
+   * to the counts above. A facility 40 miles away in the same CBSA is a fact
+   * about the region, not about this city -- merging them would make Greenville
+   * TX read McKinney's openings as its own. Only defense employers are shown,
+   * matching what the Defense Hub card is about.
+   */
+  const metroEmployment = metroEmployerIndex[location.id] ?? null;
+  const metroEmployers =
+    metroEmployment?.employers.filter((e) => e.counts_as_defense) ?? [];
   const nearestBase = militaryIndex[location.id]?.nearest ?? null;
   const similar: Location[] = similarRows.map((r) => ({
     ...r,
@@ -853,6 +872,31 @@ export default async function CityDetailPage({
                       </span>
                     </div>
                   ))}
+                </div>
+              )}
+              {metroEmployers.length > 0 && (
+                <div className="metro-employment">
+                  <div className="metro-employment-head">
+                    Elsewhere in {metroEmployment!.metroName}
+                  </div>
+                  {metroEmployers.slice(0, 5).map((e) => (
+                    <div className="spec" key={`metro-${e.slug}`}>
+                      <span className="spec-key">{e.display_name}</span>
+                      <span className="spec-val">
+                        {e.onsiteHybrid.toLocaleString()}{" "}
+                        {e.onsiteHybrid === 1 ? "opening" : "openings"}
+                        <span className="spec-src">
+                          {e.places.slice(0, 3).map((pl) => pl.name).join(", ")}
+                          {e.places.length > 3 ? ` +${e.places.length - 3} more` : ""}
+                        </span>
+                      </span>
+                    </div>
+                  ))}
+                  <p className="metro-employment-note">
+                    Onsite and hybrid openings at other places in the same metro
+                    area — commuting distance varies, and these are not counted
+                    as {location.name}&apos;s own.
+                  </p>
                 </div>
               )}
             </div>

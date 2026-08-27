@@ -233,6 +233,35 @@ export interface EmployerPresence {
  * location_id -> employers present. A plain object (not a Map) so it survives
  * the server -> client component boundary.
  */
+/**
+ * Defense employment elsewhere in a city's metro.
+ *
+ * Deliberately separate from EmployerPresence rather than folded into it. A
+ * facility in the city (or in a geography inside it, like Canoga Park) is a
+ * fact about that city; a facility 40 miles away in the same CBSA is a fact
+ * about the region. Merging the two would have made Greenville TX read 258
+ * openings from McKinney, and four Boston-area cities read an identical 599.
+ *
+ * This is also why metro presence never feeds defense_hub -- see
+ * scripts/recompute-defense-hub.ts, which walks municipal_containment only.
+ */
+export interface MetroEmployerPresence {
+  slug: string;
+  display_name: string;
+  counts_as_defense: boolean;
+  /** onsite + hybrid only: a remote posting is not a facility. */
+  onsiteHybrid: number;
+  /** The places inside the metro that contribute, largest first. */
+  places: { name: string; state: string; onsiteHybrid: number }[];
+}
+
+export interface MetroEmployment {
+  metroName: string;
+  employers: MetroEmployerPresence[];
+}
+
+export type MetroEmployerIndex = Record<number, MetroEmployment>;
+
 export type EmployerIndex = Record<number, EmployerPresence[]>;
 
 /**
