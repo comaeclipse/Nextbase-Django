@@ -275,6 +275,9 @@ body:has(> .city-page) { background: var(--bg); }
     font-size: .85rem; font-weight: 600; margin-top: .85rem; padding: .45rem .9rem;
 }
 .aff-finetune:hover { text-decoration: underline; text-underline-offset: .2rem; }
+.aff-housing-details { border-top: 1px dashed var(--border); margin-bottom: 1rem; padding-top: .85rem; }
+.aff-housing-details > .aff-legend small { color: var(--fg-subtle); font-weight: 400; text-transform: none; }
+.aff-housing-details .aff-fields { margin: .35rem 0 0; }
 
 /* ── Data rows / spec grid ── */
 .spec-grid {
