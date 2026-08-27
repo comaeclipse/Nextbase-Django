@@ -455,3 +455,28 @@ body:has(> .city-page) { background: var(--bg); }
     line-height: 1.5;
     color: var(--fg-muted);
 }
+
+/* ── Metro-level employment (candidate cities that share a CBSA with a
+   defense employer). Separated from the city's own employer rows on purpose:
+   these openings are in the region, not in the city, and merging them would
+   overstate. Renders only when metro siblings exist, so a city with none emits
+   exactly the DOM it did before. ── */
+.metro-employment {
+    margin-top: 1rem;
+    padding-top: .85rem;
+    border-top: 1px dashed var(--border);
+}
+.metro-employment-head {
+    margin-bottom: .35rem;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+}
+.metro-employment-note {
+    margin: .6rem 0 0;
+    font-size: .78rem;
+    line-height: 1.5;
+    color: var(--fg-muted);
+}
