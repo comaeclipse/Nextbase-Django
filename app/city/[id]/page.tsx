@@ -41,6 +41,7 @@ const GEO_TYPE_LABEL: Record<GeoType, string> = {
 };
 import PublicNav from "@/components/PublicNav";
 import HousingMarketCard from "@/components/HousingMarketCard";
+import CityHousingBurdenCard from "@/components/city/CityHousingBurdenCard";
 import CityAffordabilityCard from "@/components/city/CityAffordabilityCard";
 import { getHousingMarket } from "@/lib/housing-market";
 import { formatNearestBase } from "@/lib/military";
@@ -485,6 +486,8 @@ export default async function CityDetailPage({
           {housingMarket && (
             <HousingMarketCard city={location.name} market={housingMarket} />
           )}
+
+          <CityHousingBurdenCard location={location} />
 
           {/* Climate & Weather */}
           <div className="card">
