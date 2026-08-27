@@ -69,11 +69,28 @@ Two things made it hard to see:
 - **When recovering files from an old branch, diff both directions.** Confirm the branch
   version is a strict superset before taking it, or you re-introduce the bug you are fixing.
 - **Verify against the DB, not the file diff**, when deciding what is actually missing.
+- **Adding a geography is not the same as adding a candidate.** `locations_location`
+  holds places, not just retirement cities. `geo_type` says what a place is;
+  `is_candidate` says whether it gets ranked. A structural parent (Los Angeles, so
+  Canoga Park has a municipality to inherit from) or a neighborhood is
+  `is_candidate=false`. Setting it true puts the row into `/explore`, the quiz and
+  the map, and it must not be true until that place's cost, safety and housing data
+  is measured for it rather than inherited. Run `scripts/verify-geo-hierarchy.ts`
+  after any geography change — it checks cycles, `parent_geo_id` against
+  `geo_relationships`, and shadowed aliases, and exits non-zero.
+- **Inserting a location silently links employer postings.** `locations_location`
+  carries an `AFTER INSERT` trigger, `trg_link_city_to_employer_locations`, which
+  back-links `defense_employer_locations` rows by exact `(city, state)`. Adding a
+  place can therefore change defense figures with no importer run; re-run
+  `scripts/recompute-defense-hub.ts --dry-run` and read the flips before going live.
 
 ## Scratch files
 
 Keep them out of the repo root — `.gitignore` covers `/.check_*`, `/*_tmp.js`, `/*.tmp`,
 `/*.png`, `/*.csv`. Ingest CSVs belong in `data/<city>_<st>.csv`, never at the root.
+A geography below city level uses its parent in the name — `data/<parent>_<st>_<place>.csv`,
+e.g. `data/los_angeles_ca_canoga_park.csv` — because `<place>_<st>` is not unique
+("Downtown, CA" exists many times over) and the file name should match the slug.
 
 ## Before opening a PR
 
