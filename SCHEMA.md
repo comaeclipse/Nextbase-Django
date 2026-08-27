@@ -65,12 +65,100 @@ Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudi
 
 ---
 
+## Geographic identity and hierarchy
+
+A row in `locations_location` is a **place**, not necessarily an incorporated
+city and not necessarily a retirement candidate. Two independent columns say
+which is which, and conflating them breaks immediately.
+
+- **`geo_type`**: what the place *is* — `city` | `neighborhood` | `cdp` | `county` | `metro`.
+- **`is_candidate`**: whether it is one of the curated retirement locations that
+  `/explore`, `/quiz`, `/map`, `/profile`, `/weather` and `/api/locations` rank.
+  Every ranked surface filters on **this**, never on `geo_type`.
+
+Los Angeles is `geo_type='city', is_candidate=false`: unambiguously a city, and
+it must exist so Canoga Park has a municipality to inherit sales tax and RPP
+from — but it is not somewhere you retire to. The same is true of the ~410 other
+places that carry defense-employer postings but were never curated.
+
+- **`slug`**: stable external key, `UNIQUE`. `ca-los-angeles`, `ca-los-angeles-canoga-park`.
+- **`parent_geo_id`**: canonical containment, `ON DELETE RESTRICT`. Null for a top-level place.
+- **`population_source` / `population_vintage` / `boundary_source` / `boundary_geoid`**:
+  geography provenance. A neighborhood population is an ACS tract aggregation or a
+  boundary project, not a Census Place count, and which one it is changes how much
+  weight the number carries. `boundary_geoid` is null exactly when no Census
+  geography exists for the place.
+
+`UNIQUE NULLS NOT DISTINCT (name, state, parent_geo_id)` closes a long-standing
+hole: `import-csv.ts` upserted on `(name, state)` with nothing enforcing it, so a
+second "Downtown, CA" silently overwrote the first.
+
+### `geo_relationships`
+
+The typed, multi-parent, time-bounded containment graph. Types:
+`municipal_containment`, `county_containment`, `metro_membership`,
+`precinct_containment`, `historical_annexation`.
+
+Both this table **and** `parent_geo_id` exist on purpose: the column is the
+canonical containment and the fast path, the table is the graph. Canoga Park is
+in LA city **and** LA County **and** the LA–Long Beach–Anaheim CBSA, and **each
+is the correct fallback geography for a different field**. One parent pointer
+cannot express that.
+
+The duplication means drift, so `scripts/verify-geo-hierarchy.ts` checks the
+column against the table (plus cycles, orphan and shadowed aliases, and slug
+well-formedness) and exits non-zero. Run it after any geography change.
+
+### `geo_aliases`
+
+Raw location strings that should resolve to a geography — employer feeds, USPS
+place names, former names. `normalized_key` is byte-identical to `locKey()` in
+`scripts/lib/defense-db.ts`.
+
+Mostly **not needed for exact matches**: production carries an `AFTER INSERT`
+trigger on `locations_location`, `trg_link_city_to_employer_locations`, which
+back-links `defense_employer_locations` rows by exact
+`lower(city)`/`upper(state)` whenever a location is inserted. Aliases are for
+strings that genuinely differ.
+
+### Views
+
+- **`geo_entities`** — the conceptual identity layer over `locations_location`.
+- **`geo_closure`** — transitive closure of the active graph, depth-capped at 6
+  as a cycle guard (plain SQL cannot express acyclicity; the verifier detects
+  the cycle itself).
+
+### Field inheritance (`lib/geo-inheritance.ts`)
+
+A geography that does not report a fact may inherit it, but **which geography it
+may inherit from is per-field**, and every resolved value carries provenance
+(`direct` | `inherited` | `derived` | `absent`).
+
+| field group | fallback | note |
+|---|---|---|
+| `sales_tax`, `lgbtq_rating`, `lgbtq_mei_score` | municipality | levied/scored per municipality |
+| `property_tax_rate` | county, then municipality | set by the assessing county |
+| `crime`, `tci`, `election_*`, `city_politics` | county/precinct → municipality, **`context_only`** | reported by a wider jurisdiction; must never render without a source label |
+| `climate`, `snow_annual`, `rain_annual`, `sun_days`, `alw`, `avg_high_summer`, `humidity_summer` | nearest station | normals travel 20–50 mi |
+| `col_index`, `cost_of_living`, `*_rpp`, `bea_geo_*` | metro (CBSA) | BEA publishes RPP per MSA by construction |
+| `has_va`, `nearest_va*`, `distance_to_va*` | **recompute** | run `sync-va-facilities.ts`; never inherit a 25-mile access gate |
+| `population`, `density`, `median_rent`, `avg_home_value*`, `has_walmart`, `has_costco`, `near_*`, `vibes`, `tags` | **none** | inheriting a 3.8M city population onto a 60k neighborhood is the worst failure this prevents |
+
+The registry is `satisfies Record<InheritableField, FieldRule>`, so **adding a
+column to `LocationRow` without declaring a policy for it is a compile error.**
+
+`cost_of_living` and `climate` are nullable for this reason — a metro has no
+climate of its own, and forcing a placeholder makes it indistinguishable from a
+researched value.
+
 ## Location Model Fields
 
 ### Basic Location Information
 - **State**: Two-letter state abbreviation (e.g., "FL", "CA")
 - **City**: City name
 - **County**: County name
+- See [Geographic identity and hierarchy](#geographic-identity-and-hierarchy) for
+  `geo_type`, `is_candidate`, `slug` and `parent_geo_id`
 
 ### Political Information
 - **StateParty**: Political party controlling the state (R/D)
@@ -132,6 +220,15 @@ The affordability engine scales a named national basket, not a single leftover `
 - **TechHub**: Whether location is a technology hub (Y/N)
 - **DefenseHub**: Whether location has significant defense/military presence (Y/N). **Derived** — see [Defense hub (derived)](#defense-hub-derived); edit `defense_hub_manual`, never this column
 - **DefenseHubManual**: The hand-curated input to `DefenseHub`. Three-valued: `null` means "never researched", which is not `false`
+- **Employer presence rolls up the containment graph.** A facility inside a
+  neighborhood counts for that neighborhood *and* for every geography containing
+  it — a plant inside Los Angeles city limits is Los Angeles employment however
+  the job posting spells the location. It never rolls down. `getEmployerIndex`
+  sums descendant counts into the totals and names the contributors in
+  `rolled_up_from`, so the city page can say "incl. Canoga Park".
+- **Posting counts are a presence signal, never a job count.** They already sum
+  to more than an employer's job total because one posting can list several
+  cities; roll-up widens that.
 
 ### Retail Access
 - **HasWalmart** / **HasCostco**: Whether the city has an in-city Walmart or Costco location, sourced from official store/warehouse pages or another durable source. Stored as nullable booleans: `null` means unresearched or not yet backfilled, not a confirmed `false`.

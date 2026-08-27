@@ -152,6 +152,10 @@ Fields:
 - `population_raw`
 - `population`
 - `density`
+- `geo_type` — `city` | `neighborhood` | `cdp` | `county` | `metro`
+- `is_candidate` — whether the place is a **ranked retirement candidate**
+- `slug`, `parent_geo_id`
+- `population_source`, `population_vintage`, `boundary_source`, `boundary_geoid`
 
 Recommended sources:
 
@@ -160,7 +164,26 @@ Recommended sources:
 
 Retrieval notes:
 
-- Decide whether each row represents a city/place, county, or metro area before fetching data.
+- Decide what the row **is** (`geo_type`) and, separately, whether it is a **ranked
+  candidate** (`is_candidate`) before fetching anything. These are independent: Los
+  Angeles is `geo_type='city', is_candidate=false` — a real city that exists so Canoga
+  Park has a municipality to inherit sales tax and RPP from, and which must never appear
+  in `/explore`. Default `is_candidate` to false for anything that is not a curated
+  retirement city.
+- Identity is the `slug`, plus `UNIQUE (name, state, parent_geo_id)`. `(name, state)`
+  alone is **not** unique below city level — "Downtown, CA" exists many times over.
+- A child geography needs its parent row **and** a `geo_relationships` row; setting
+  `parent_geo_id` alone leaves the graph inconsistent and `scripts/verify-geo-hierarchy.ts`
+  will fail.
+- Population for a non-Census place (a neighborhood) has no Census Place count behind it.
+  Record `population_source` and `population_vintage` — an ACS tract aggregation and a
+  newspaper boundary project are not the same claim, and `boundary_geoid` is null exactly
+  when no Census geography exists for the place.
+- **Research only what the place owns.** `sales_tax`, property tax, climate, and
+  `col_index`/RPP resolve at read time from the municipality, county, station and metro
+  respectively; VA access is recomputed from the row's own coordinates. Writing any of
+  them by hand stores a placeholder that is indistinguishable from a researched value.
+  See `lib/geo-inheritance.ts` and SCHEMA.md.
 - If the app row is a city but current data is a metro population, document that choice.
 - For city/place populations, use Census place geographies.
 - For metro populations, use CBSA/MSA geographies.
