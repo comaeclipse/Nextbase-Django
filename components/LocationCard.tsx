@@ -133,10 +133,12 @@ export default function LocationCard({
                 <p className="text-sm text-muted-foreground">Not priced</p>
               )}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Est. {formatUsd(quick.affordability.monthlyCost)}/mo
-              {` · Modest · ${tenureLabel(tenure)} · ${householdLabel(quick.affordability.household)}`}
-            </p>
+            {quick.affordability.monthlyCost !== null ? (
+              <p className="text-xs text-muted-foreground">
+                Est. {formatUsd(quick.affordability.monthlyCost)}/mo
+                {` · Modest · ${tenureLabel(tenure)} · ${householdLabel(quick.affordability.household)}`}
+              </p>
+            ) : null}
             {quick.affordability.missing.length > 0 ? (
               <p className="text-[11px] text-amber-800">
                 Missing: {quick.affordability.missing.join("; ")}
