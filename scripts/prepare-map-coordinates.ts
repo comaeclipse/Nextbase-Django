@@ -95,7 +95,13 @@ async function main() {
   }
   const sql = getSql();
   const locations = (await sql.query(
-    "SELECT name, state FROM locations_location ORDER BY state, name"
+    /*
+     * Candidates only. /map renders getAllLocations(), which is candidate-gated,
+     * so geocoding the ~376 employer-anchor geographies would bloat the file
+     * with places the map never draws -- and most of them are not Census places
+     * at all, so they would land in the "missing" list and look like failures.
+     */
+    "SELECT name, state FROM locations_location WHERE is_candidate ORDER BY state, name"
   )) as { name: string; state: string }[];
 
   const coordinates: MapCoordinate[] = [];

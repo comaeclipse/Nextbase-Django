@@ -29,9 +29,11 @@ async function main() {
 
   const [coverage] = (await sql.query(
     `SELECT
-       (SELECT count(*)::int FROM locations_location) AS locations,
        (SELECT count(*)::int FROM locations_location
-         WHERE latitude IS NOT NULL AND longitude IS NOT NULL) AS geocoded_locations,
+         WHERE is_candidate OR parent_geo_id IS NOT NULL) AS locations,
+       (SELECT count(*)::int FROM locations_location
+         WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+           AND (is_candidate OR parent_geo_id IS NOT NULL)) AS geocoded_locations,
        (SELECT count(*)::int FROM military_installations
          WHERE operational_status = 'active') AS active_installations,
        (SELECT count(*)::int FROM military_installations
@@ -76,6 +78,7 @@ async function main() {
        ON m.operational_status = 'active'
       AND m.latitude IS NOT NULL AND m.longitude IS NOT NULL
      WHERE l.latitude IS NOT NULL AND l.longitude IS NOT NULL
+       AND (l.is_candidate OR l.parent_geo_id IS NOT NULL)
        AND l.name IN ('Pensacola', 'Norfolk', 'Fayetteville', 'Colorado Springs')
      ORDER BY l.name, distance_miles, m.command_name`
   )) as {
