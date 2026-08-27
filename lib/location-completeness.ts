@@ -190,6 +190,23 @@ const BOOLEAN_COLUMNS = ["VA", "TechHub", "DefenseHub", "HasWalmart", "HasCostco
 const BOOLEAN_VALUES = new Set(["y", "yes", "true", "t", "1", "n", "no", "false", "f", "0"]);
 const NOT_RATED_VALUES = new Set(["not rated", "not-rated", "not hrc rated"]);
 
+/** Safety rules cannot be waived by --allow-incomplete. CSV is not a promotion workflow. */
+export function locationCsvSafetyProblems(row: LocationCsvRow): string[] {
+  const problems: string[] = [];
+  const declared = row.GeoType?.trim().toLowerCase() || "city";
+  if (!Object.hasOwn(REQUIRED_COLUMNS_BY_GEO_TYPE, declared)) {
+    problems.push(`Unrecognized GeoType: ${declared}`);
+  }
+  const candidate = row.IsCandidate?.trim() || null;
+  if (candidate !== null && !BOOLEAN_VALUES.has(candidate.toLowerCase())) {
+    problems.push("IsCandidate must be an explicit Yes/No value");
+  }
+  if (declared !== "city" && isCandidateOf(row, geoTypeOf(row))) {
+    problems.push("Non-city candidates require reviewed promotion; CSV import cannot set IsCandidate=Yes");
+  }
+  return problems;
+}
+
 /**
  * Whether the row is a ranked retirement candidate.
  *

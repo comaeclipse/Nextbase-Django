@@ -4,21 +4,20 @@
  *
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-location-completeness.ts --name "City, ST"
+ *   ... --id 617 --mode structural
+ *   ... --slug ca-los-angeles-canoga-park --mode profile
+ *
+ * Default mode is profile. Neighborhood structural success is not profile
+ * completion. Profile/candidate checks fail until evidence review is supported;
+ * candidate mode additionally requires the editorial flag for existing cities.
  */
 import { getSql } from "../lib/db";
 import {
   formatCompletionProblem,
   hasCompletionValue,
 } from "../lib/location-completeness";
-
-const nameIndex = process.argv.indexOf("--name");
-const cityKey = nameIndex >= 0 ? process.argv[nameIndex + 1] : undefined;
-if (!cityKey || !cityKey.includes(",")) {
-  throw new Error('Usage: verify-location-completeness.ts --name "City, ST"');
-}
-
-const [name, state] = cityKey.split(",").map((part) => part.trim());
-const sql = getSql();
+import { parseLocationVerificationOptions, requireUniqueLocation } from "../lib/location-targets";
+import { inspectNeighborhoodReadiness } from "../lib/neighborhood-readiness";
 
 /*
  * A geography below city level owns a different set of facts; the rest resolve
@@ -59,17 +58,50 @@ function allowsMissingMeiScore(row: Record<string, unknown>): boolean {
 }
 
 async function main() {
-  const [row] = await sql.query(
+  const options = parseLocationVerificationOptions(process.argv.slice(2));
+  const sql = getSql();
+  const rows = await sql.query(
     `SELECT l.*, p.category AS pace_category,
       (SELECT count(*)::int FROM location_weather_monthly w WHERE w.location_id = l.id) AS monthly_weather_rows,
       (SELECT count(*)::int FROM location_hourly_normals h WHERE h.location_id = l.id) AS hourly_normal_rows,
-      (SELECT count(*)::int FROM location_features f WHERE f.location_id = l.id) AS feature_rows
+      (SELECT count(*)::int FROM location_features f WHERE f.location_id = l.id) AS feature_rows,
+      EXISTS (
+        SELECT 1 FROM geo_relationships r
+        JOIN locations_location parent ON parent.id = r.parent_geo_id
+        WHERE r.child_geo_id = l.id AND r.parent_geo_id = l.parent_geo_id
+          AND r.relationship_type = 'municipal_containment'
+          AND r.valid_from <= CURRENT_DATE AND (r.valid_to IS NULL OR r.valid_to > CURRENT_DATE)
+          AND NULLIF(trim(r.source), '') IS NOT NULL
+          AND parent.geo_type = 'city' AND parent.state = l.state
+      ) AS has_valid_municipal_parent
      FROM locations_location l
      LEFT JOIN location_pace_current p ON p.location_id = l.id
-     WHERE l.name = $1 AND l.state = $2`,
-    [name, state]
+     WHERE ${options.where}`,
+    options.params
   ) as Record<string, unknown>[];
-  if (!row) throw new Error(`Location not found: ${name}, ${state}`);
+  const row = requireUniqueLocation(rows, options.label);
+  const name = String(row.name), state = String(row.state);
+
+  if (row.geo_type === "neighborhood") {
+    const readiness = inspectNeighborhoodReadiness(row);
+    const problems = options.mode === "structural"
+      ? readiness.structuralProblems
+      : [...readiness.structuralProblems, ...readiness.profileDataProblems, ...readiness.reviewProblems];
+    console.log(name + ", " + state + " [" + row.slug + "] — " + options.mode + " check");
+    if (problems.length) {
+      for (const problem of problems) console.error("  - " + problem);
+      process.exitCode = 1;
+    } else {
+      console.log("Neighborhood structure verified. This does not certify a complete profile or ranking eligibility.");
+    }
+    return;
+  }
+  if (options.mode === "structural") {
+    throw new Error("--mode structural currently supports neighborhoods only; use --mode profile for cities");
+  }
+  if (options.mode === "candidate" && (row.geo_type !== "city" || row.is_candidate !== true)) {
+    throw new Error("Not an eligible city candidate; non-city promotion remains disabled");
+  }
 
   const geoType = String(row.geo_type ?? "city");
   const isCity = geoType === "city";
@@ -115,8 +147,7 @@ async function main() {
   console.log(
     isCity
       ? `${name}, ${state} is complete: curated fields, VA hospital, climate, pace, and derived features verified.`
-      : `${name}, ${state} is complete for a ${geoType}: identity, coordinates, population provenance or documented unavailability, containment and pace verified. ` +
-          `Climate, cost and tax figures resolve from its containing geographies.`
+      : `${name}, ${state}: legacy ${geoType} field checks passed; profile evidence and ranking eligibility are not certified.`
   );
 }
 
