@@ -42,3 +42,14 @@ it("keeps rejected geography out of replay and rejects ambiguous status", () => 
   expect(isUnresolvedMetroRow(row)).toBe(true);
   expect(() => isUnresolvedMetroRow({ ...row, CbsaGeoid: "35620" })).toThrow();
 });
+
+it("accepts actual numbered election columns but refuses unsafe identifiers", () => {
+  const data = { name: "Midland", election_2016: null, election_2016_percent: null,
+    election_2024: null, election_2024_percent: null, tags: ["community"] };
+  const query = buildLocationUpsert(data, null, "CSV import");
+  expect(query.text).toContain("election_2016, election_2016_percent, election_2024, election_2024_percent");
+  expect(query.params).toEqual(["Midland", null, null, null, null, '["community"]']);
+  for (const column of ["2016_election", "name;drop", "name--", 'name"', "Name", "name field", ""]) {
+    expect(() => buildLocationUpsert({ [column]: null }, null, "")).toThrow("Invalid import column");
+  }
+});

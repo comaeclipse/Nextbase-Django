@@ -6,7 +6,7 @@ export interface ImportParent {
 export function buildLocationUpsert(data: Record<string, unknown>, parent: ImportParent | null, source: string) {
   const values: Record<string, unknown> = { ...data, ...(parent ? { parent_geo_id: parent.id } : {}) };
   const columns = Object.keys(values);
-  if (columns.some((column) => !/^[a-z_]+$/.test(column))) throw new Error("Invalid import column");
+  if (columns.some((column) => !/^[a-z_][a-z0-9_]*$/.test(column))) throw new Error("Invalid import column");
   const params: unknown[] = columns.map((column) => column === "tags" ? JSON.stringify(values[column]) : values[column]);
   const slots = columns.map((column, i) => `$${i + 1}${column === "tags" ? "::jsonb" : ""}`);
   const add = (value: unknown) => { params.push(value); return `$${params.length}`; };
