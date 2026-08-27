@@ -221,7 +221,11 @@ function sortList(list: Location[], sort: string): void {
     // (same-named, same-cost cities) keep their original order — exactly as
     // Python's stable reverse sort does.
     const costOrder: Record<string, number> = { Low: 0, Moderate: 1, High: 2 };
-    const co = (l: Location) => costOrder[l.cost_of_living] ?? 1;
+    // A null cost_of_living (a geography that inherits its cost band rather
+    // than owning one) sorts as Moderate, the same slot an unrecognized
+    // value has always taken -- so no curated city changes position.
+    const co = (l: Location) =>
+      (l.cost_of_living ? costOrder[l.cost_of_living] : undefined) ?? 1;
     const dir = sort === "cost_desc" ? -1 : 1;
     list.sort(
       (a, b) => dir * (co(a) - co(b)) || dir * strCmp(a.name, b.name)
