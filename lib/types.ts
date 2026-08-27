@@ -190,6 +190,17 @@ export interface LocationRow {
 
   /** Monthly median gross rent, dollars. ACS 5-year B25064. */
   median_rent?: number | null;
+  /**
+   * Entry-level home value, dollars: ACS 5-year B25076, the lower value
+   * quartile (25th percentile) of the owner-occupied stock's self-reported
+   * value. A formal percentile, not "cheapest listing" — and stock value,
+   * not sale price (issue #170).
+   */
+  entry_home_value?: number | null;
+  /** Monthly median gross rent for 2-bedroom units, dollars. ACS B25031. */
+  median_rent_2br?: number | null;
+  /** Monthly median gross rent for 3-bedroom units, dollars. ACS B25031. */
+  median_rent_3br?: number | null;
   /** Effective annual property tax as a fraction of home value. */
   property_tax_rate?: number | null;
   /** BEA RPP components (100 = US average). Joined from location_cost_rpp. */

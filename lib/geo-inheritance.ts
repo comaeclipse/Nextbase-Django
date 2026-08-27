@@ -327,7 +327,12 @@ export const FIELD_RESOLUTION = {
   ),
   density: own("Density is the whole point of distinguishing a neighborhood from the city average."),
   median_rent: own("A neighborhood rent that is really the citywide median would mislead on the one number people check first."),
+  median_rent_2br: own("See median_rent — bedroom-specific, but the same within-city resolution argument."),
+  median_rent_3br: own("See median_rent."),
   avg_home_value: own("See median_rent."),
+  entry_home_value: own(
+    "A percentile of the SUBJECT's own housing stock. Inheriting a city's 25th percentile onto a neighborhood erases exactly the entry-market difference the column exists to capture."
+  ),
   avg_home_value_display: own("Travels with avg_home_value."),
   has_walmart: own("Store presence is a within-city fact; the existing ingest rule already refuses to infer it from an adjacent town."),
   has_costco: own("See has_walmart."),
