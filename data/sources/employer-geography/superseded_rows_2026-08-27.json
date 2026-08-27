@@ -1,0 +1,234 @@
+[
+  {
+    "location": {
+      "City": "Santa Isabel",
+      "State": "PR",
+      "County": "Isabela",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "18.492779486247",
+      "Longitude": "-67.027535985763",
+      "BoundaryGeoid": "7236478"
+    }
+  },
+  {
+    "location": {
+      "City": "Bedford",
+      "State": "MA",
+      "County": "Middlesex",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "42.414454279292",
+      "Longitude": "-71.11055778907",
+      "BoundaryGeoid": "2539835"
+    }
+  },
+  {
+    "location": {
+      "City": "Carson City",
+      "State": "NV",
+      "County": "El Paso",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "38.558899",
+      "Longitude": "-104.826739",
+      "BoundaryGeoid": ""
+    }
+  },
+  {
+    "location": {
+      "City": "Egg Harbor Township",
+      "State": "NJ",
+      "County": "Ocean",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "39.603090038619",
+      "Longitude": "-74.341463850907",
+      "BoundaryGeoid": "3474210"
+    }
+  },
+  {
+    "location": {
+      "City": "Fort Johnson",
+      "State": "LA",
+      "County": "Wayne",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "35.347902",
+      "Longitude": "-77.962578",
+      "BoundaryGeoid": "3726880"
+    }
+  },
+  {
+    "location": {
+      "City": "Harrison Township",
+      "State": "MI",
+      "County": "Clare",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "44.030831972981",
+      "Longitude": "-85.031385482199",
+      "BoundaryGeoid": ""
+    }
+  },
+  {
+    "location": {
+      "City": "Kennedy Space Center",
+      "State": "FL",
+      "County": "Metcalfe",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "37.140875062529",
+      "Longitude": "-85.695457107322",
+      "BoundaryGeoid": ""
+    }
+  },
+  {
+    "location": {
+      "City": "Lake Suzy",
+      "State": "FL",
+      "County": "Lake",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "42.313449",
+      "Longitude": "-87.837631",
+      "BoundaryGeoid": "1753559"
+    }
+  },
+  {
+    "location": {
+      "City": "Marine Corps Base Kaneohe Bay",
+      "State": "HI",
+      "County": "Camden",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "30.790448",
+      "Longitude": "-81.538052",
+      "BoundaryGeoid": ""
+    }
+  },
+  {
+    "location": {
+      "City": "Nimitz Hill",
+      "State": "GU",
+      "County": "Johnson",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "41.554301833085",
+      "Longitude": "-91.535957104478",
+      "BoundaryGeoid": "1936345"
+    }
+  },
+  {
+    "location": {
+      "City": "Schriever Afb",
+      "State": "CO",
+      "County": "Terrebonne",
+      "GeoType": "city",
+      "IsCandidate": "No",
+      "Latitude": "29.743025552357",
+      "Longitude": "-90.811076417544",
+      "BoundaryGeoid": "2268300"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "pr-santa-isabel",
+      "City": "Santa Isabel",
+      "State": "PR",
+      "CbsaGeoid": "10380",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "20"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "ma-bedford",
+      "City": "Bedford",
+      "State": "MA",
+      "CbsaGeoid": "14460",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "2"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "nv-carson-city",
+      "City": "Carson City",
+      "State": "NV",
+      "CbsaGeoid": "17820",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "nj-egg-harbor-township",
+      "City": "Egg Harbor Township",
+      "State": "NJ",
+      "CbsaGeoid": "35620",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "la-fort-johnson",
+      "City": "Fort Johnson",
+      "State": "LA",
+      "CbsaGeoid": "24140",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "fl-kennedy-space-center",
+      "City": "Kennedy Space Center",
+      "State": "FL",
+      "CbsaGeoid": "23980",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "fl-lake-suzy",
+      "City": "Lake Suzy",
+      "State": "FL",
+      "CbsaGeoid": "16980",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "hi-marine-corps-base-kaneohe-bay",
+      "City": "Marine Corps Base Kaneohe Bay",
+      "State": "HI",
+      "CbsaGeoid": "41220",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "gu-nimitz-hill",
+      "City": "Nimitz Hill",
+      "State": "GU",
+      "CbsaGeoid": "26980",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  },
+  {
+    "metro": {
+      "Slug": "co-schriever-afb",
+      "City": "Schriever Afb",
+      "State": "CO",
+      "CbsaGeoid": "26380",
+      "CbsaSource": "county_crosswalk",
+      "OnsiteHybrid": "1"
+    }
+  }
+]

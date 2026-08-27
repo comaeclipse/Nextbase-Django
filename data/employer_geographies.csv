@@ -1,377 +1,377 @@
-City,State,County,GeoType,IsCandidate,Latitude,Longitude,BoundaryGeoid
-Cedar Rapids,IA,Linn,city,No,41.96419,-91.67917,1912000
-Tewksbury,MA,Middlesex,city,No,42.626732613783,-71.269707434838,
-Andover,MA,Essex,city,No,42.655672,-71.142244,2501430
-Mckinney,TX,Collin,city,No,33.201125,-96.664161,4845744
-East Hartford,CT,Capitol,city,No,41.760695,-72.607646,0922700
-Marlborough,MA,Middlesex,city,No,42.349617,-71.547214,2538715
-Woburn,MA,Middlesex,city,No,42.488703,-71.154383,2581035
-Aurora,CO,Arapahoe,city,No,39.709537,-104.720509,0804000
-El Segundo,CA,Los Angeles,city,No,33.910367,-118.425079,0622412
-Aguadilla,PR,Aguadilla,city,No,18.453719479399,-67.155458526964,7200745
-Middletown,CT,Lower Connecticut River Valley,city,No,41.548611,-72.656784,0947290
-North Berwick,ME,York,city,No,43.296215,-70.730953,2350290
-Richardson,TX,Dallas,city,No,32.972291,-96.708069,4861796
-Windsor Locks,CT,Capitol,city,No,41.92779,-72.651616,0987140
-Clayville,NY,Oneida,city,No,42.977963,-75.250681,3616111
-Largo,FL,Pinellas,city,No,27.908685,-82.774174,1239425
-Portsmouth,RI,Newport,city,No,41.516932469651,-71.299789973457,4450140
-Melbourne,FL,Brevard,city,No,28.110438,-80.662717,1243975
-Plano,TX,Collin,city,No,33.050769,-96.747944,4858016
-Jupiter,FL,Palm Beach,city,No,26.918551,-80.11694,1235875
-Rockford,IL,Winnebago,city,No,42.2593,-89.063478,1765000
-Santa Isabel,PR,Isabela,city,No,18.492779486247,-67.027535985763,7236478
-Sterling,VA,Loudoun,city,No,39.004733,-77.405368,5175376
-Winston-Salem,NC,Forsyth,city,No,36.102863,-80.260829,3775000
-Fullerton,CA,Orange,city,No,33.885716,-117.928025,0628000
-Lenexa,KS,Johnson,city,No,38.965268,-94.803937,2039350
-Springdale,AR,Washington,city,No,36.191438,-94.155062,0566080
-Foley,AL,Baldwin,city,No,30.397068,-87.66846,0126992
-York,NE,York,city,No,40.869389,-97.592739,3154045
-Fulton,MD,Howard,city,No,39.15311,-76.911629,2431025
-Chesapeake,VA,Chesapeake,city,No,36.679376,-76.301788,5116000
-Carlsbad,CA,San Diego,city,No,33.129284,-117.284183,0611194
-Miramar,FL,Broward,city,No,25.972529,-80.338582,1245975
-West Des Moines,IA,Polk,city,No,41.549937,-93.781351,1983910
-Arlington,VA,Arlington,city,No,38.878337,-77.100703,5103000
-Middletown,PA,Dauphin,city,No,40.200888,-76.729183,4249128
-Westford,MA,Middlesex,city,No,42.579388895018,-71.447864336435,
-Wilson,NC,Wilson,city,No,35.731488,-77.93075,3774540
-Charlotte,NC,Mecklenburg,city,No,35.209045,-80.83099,3712000
-Chula Vista,CA,San Diego,city,No,32.62767,-117.01517,0613392
-Riverside,CA,Riverside,city,No,33.938143,-117.393168,0662000
-San Marcos,TX,Hays,city,No,29.87361,-97.936725,4865600
-Troy,OH,Miami,city,No,40.041012,-84.222355,3977588
-Coralville,IA,Johnson,city,No,41.698795,-91.5968,1916230
-Everett,WA,Snohomish,city,No,47.965413,-122.189895,5322640
-Fairfield,CA,Solano,city,No,38.26206,-122.032386,0623182
-Farmington,NM,San Juan,city,No,36.753833,-108.18053,3525800
-Irving,TX,Dallas,city,No,32.857748,-96.970022,4837000
-Pelham,NH,Hillsborough,city,No,42.733805303821,-71.322344264469,
-Columbia,MD,Howard,city,No,39.201146,-76.85905,2419125
-St Petersburg,FL,Pinellas,city,No,27.771280680565,-82.633931880156,1263000
-Holt,MI,Ingham,city,No,42.642061,-84.530768,2638780
-Langley Afb,VA,Hampton,city,No,37.083336,-76.362868,5135000
-West Valley City,UT,Salt Lake,city,No,40.688493,-112.011759,4983470
-Alexandria,VA,Alexandria,city,No,38.819251,-77.08367,5101000
-Bridgeport,WV,Harrison,city,No,39.303356,-80.242901,5410180
-Cheshire,CT,Naugatuck Valley,city,No,41.498930302764,-72.901497172066,0914200
-Ft George G Meade,MD,Anne Arundel,city,No,39.108811,-76.744744,2429400
-Lawton,OK,Comanche,city,No,34.617172,-98.4214,4041850
-Middletown,NY,Orange,city,No,41.444922,-74.423573,3647042
-Santa Fe Springs,CA,Los Angeles,city,No,33.933565,-118.062611,0669154
-South Burlington,VT,Chittenden,city,No,44.436469,-73.182623,5066175
-Springfield,VA,Fairfax,city,No,38.781571,-77.183921,5174592
-Anaheim,CA,Orange,city,No,33.855502,-117.758657,0602000
-Annapolis,MD,Anne Arundel,city,No,38.972152,-76.505332,2401600
-Chambersburg,PA,Franklin,city,No,39.931433,-77.655642,4212536
-Lansing,MI,Ingham,city,No,42.714341,-84.560889,2646000
-Lompoc,CA,Santa Barbara,city,No,34.662689,-120.470837,0642524
-Manchester,IA,Delaware,city,No,42.485339,-91.456086,1948810
-Sacramento,CA,Sacramento,city,No,38.567694,-121.468161,0664000
-Union,WV,Monroe,city,No,37.590736,-80.540015,5481940
-Wichita Falls,TX,Wichita,city,No,33.906654,-98.525848,4879000
-Wilsonville,OR,Clackamas,city,No,45.311262,-122.77092,4182800
-Aberdeen,MD,Harford,city,No,39.516403,-76.174518,2400125
-Annapolis Junction,MD,Anne Arundel,city,No,38.977289051351,-76.487119665729,2401600
-Bellevue,IA,Jackson,city,No,42.259626,-90.4311,1905635
-College Park,GA,Fulton,city,No,33.64145,-84.463489,1317776
-Denver,CO,Denver,city,No,39.76185,-104.881105,0820000
-Fort Bliss,TX,El Paso,city,No,31.839666,-106.374652,4826664
-Fort Worth,TX,Tarrant,city,No,32.781954,-97.348573,4827000
-Las Cruces,NM,Doña Ana,city,No,32.326444,-106.789695,3539380
-Poulsbo,WA,Kitsap,city,No,47.741078,-122.642151,5355995
-San Jose,CA,Santa Clara,city,No,37.296011,-121.814552,0668000
-Springfield,IL,Sangamon,city,No,39.791063,-89.644572,1772000
-Tinker Afb,OK,Oklahoma,city,No,35.415403,-97.390454,4055000
-Virgin,UT,Washington,city,No,37.194738,-113.205539,4980530
-Washington,DC,District of Columbia,city,No,38.904247,-77.016517,1150000
-White Sands,NM,Doña Ana,city,No,32.38044,-106.479113,3584845
-Andrews Afb,MD,Prince George's,city,No,38.809803,-76.869158,2401450
-Ashburn,VA,Loudoun,city,No,39.027296,-77.471322,5103320
-Beale Afb,CA,Yuba,city,No,39.108061,-121.351215,0604576
-Bedford,MA,Middlesex,city,No,42.414454279292,-71.11055778907,2539835
-Bothell,WA,King,city,No,47.773531,-122.204376,5307380
-Cape Canaveral,FL,Brevard,city,No,28.393226,-80.604791,1210250
-Charlottesville,VA,Charlottesville,city,No,38.037658,-78.485381,5114968
-Dahlgren,VA,King George,city,No,38.341976,-77.064267,5121008
-Des Plaines,IL,Cook,city,No,42.034398,-87.901136,1719642
-Edwards Afb,CA,Kern,city,No,34.902408,-117.921869,0621600
-Fort Belvoir,VA,Fairfax,city,No,38.713075,-77.144497,5129008
-Grand Prairie,TX,Dallas,city,No,32.686108,-97.020804,4830464
-Hurlburt Field,FL,Okaloosa,city,No,30.426372,-86.719287,1232975
-Livermore,CA,Alameda,city,No,37.686977,-121.759781,0641992
-Marana,AZ,Pima,city,No,32.465939,-111.135401,0444270
-Medley,FL,Miami-Dade,city,No,25.864855,-80.357618,1243900
-Miamisburg,OH,Montgomery,city,No,39.630938,-84.270742,3949434
-Monroe,NC,Union,city,No,35.001591,-80.561277,3743920
-Moorestown,NJ,Burlington,city,No,39.963848806185,-74.946837666053,3447895
-North Charleston,SC,Charleston,city,No,32.917881,-80.065,4550875
-Pascagoula,MS,Jackson,city,No,30.360067,-88.556327,2855360
-Pittsfield,MA,Berkshire,city,No,42.45184,-73.260685,2553960
-Richmond,VA,Richmond,city,No,37.531399,-77.476009,5167000
-San Miguel,CA,Contra Costa,city,No,37.886699,-122.036833,0668263
-Simpsonville,SC,Greenville,city,No,34.728538,-82.256377,4566580
-Warner Robins,GA,Houston,city,No,32.597096,-83.653936,1380508
-West Palm Beach,FL,Palm Beach,city,No,26.745114,-80.127038,1276600
-Abingdon,MD,Harford,city,No,39.463472,-76.27314,2400200
-Adelphi,MD,Prince George's,city,No,38.997067,-76.966783,2400400
-Aiea,HI,Honolulu,city,No,21.385262,-157.92475,1500550
-Albany,OR,Linn,city,No,44.626928,-123.096741,4101000
-Allentown,PA,Lehigh,city,No,40.593648,-75.478393,4202000
-Alpharetta,GA,Fulton,city,No,34.070866,-84.27265,1301696
-Ann Arbor,MI,Washtenaw,city,No,42.276147,-83.73086,2603000
-Anniston,AL,Calhoun,city,No,33.673469,-85.810891,0101852
-Arnold,MO,Jefferson,city,No,38.42601,-90.36931,2901972
-Ashaway,RI,Washington,city,No,41.428019,-71.786214,4403520
-Auburn,WA,King,city,No,47.303773,-122.21,5303180
-Augusta,GA,Richmond,city,No,33.469330838749,-81.947874776653,1304204
-Aurora,IL,Kane,city,No,41.763455,-88.290099,1703012
-Austin,TX,Travis,city,No,30.298622,-97.754134,4805000
-Barstow,CA,San Bernardino,city,No,34.866987,-117.043035,0604030
-Baton Rouge,LA,East Baton Rouge,city,No,30.440443,-91.133166,2205000
-Beaufort,SC,Beaufort,city,No,32.458085,-80.722543,4504690
-Beavercreek,OH,Greene,city,No,39.733155,-84.059615,3904720
-Bethesda,MD,Montgomery,city,No,38.987292,-77.118612,2407125
-Bethlehem,PA,Northampton,city,No,40.626424,-75.367898,4206088
-Big Rapids,MI,Mecosta,city,No,43.699671,-85.48125,2608300
-Bohemia,NY,Suffolk,city,No,40.777011,-73.13509,3607157
-Bristol,PA,Bucks,city,No,40.102767,-74.852347,4208760
-Buckhannon,WV,Upshur,city,No,38.992734,-80.228243,5411188
-California,MD,St. Mary's,city,No,38.297599,-76.492143,2412150
-Cambridge,MA,Middlesex,city,No,42.376043,-71.11868,2511000
-Camp Springs,MD,Prince George's,city,No,38.805072,-76.918565,2412600
-Carbondale,IL,Jackson,city,No,37.722062,-89.223664,1711163
-Carlisle,PA,Cumberland,city,No,40.199994,-77.204149,4211272
-Carlstadt,NJ,Bergen,city,No,40.826431,-74.062335,3410480
-Carson City,NV,El Paso,city,No,38.558899,-104.826739,
-Centennial,CO,Arapahoe,city,No,39.590864,-104.863808,0812815
-Chandler,AZ,Maricopa,city,No,33.282765,-111.851819,0412000
-Charleston AFB,SC,Charleston,city,No,32.776780114065,-79.927070883981,4513330
-Cherry Point,NC,Craven,city,No,34.909518,-76.878533,3730120
-Clarksburg,WV,Harrison,city,No,39.270296,-80.361787,5415628
-Cleveland,OH,Cuyahoga,city,No,41.478462,-81.679435,3916000
-Clifton,NJ,Passaic,city,No,40.862137,-74.160393,3413690
-Clinton,MD,Prince George's,city,No,38.750917,-76.902669,2417900
-Clovis,NM,Curry,city,No,34.438569,-103.194194,3516420
-Collinsville,IL,Madison,city,No,38.675747,-90.005757,1715599
-Concord,MA,Middlesex,city,No,42.460079631115,-71.349365528688,
-Corpus Christi,TX,Nueces,city,No,27.754252,-97.173385,4817000
-Cypress,CA,Orange,city,No,33.818477,-118.038307,0617750
-Dayton,OH,Montgomery,city,No,39.784743,-84.199632,3921000
-Daytona Beach,FL,Volusia,city,No,29.19071,-81.097083,1216525
-Dearborn,MI,Wayne,city,No,42.313057,-83.211488,2621000
-Del Rio,TX,Val Verde,city,No,29.373045,-100.881851,4819792
-Des Moines,WA,King,city,No,47.388708,-122.317581,5317635
-Detroit,MI,Wayne,city,No,42.383037,-83.102237,2622000
-Duluth,MN,St. Louis,city,No,46.774458,-92.134135,2717000
-Durham,NH,Strafford,city,No,43.142752,-70.925002,3319620
-Durham,NC,Durham,city,No,35.977928,-78.898109,3719000
-Eagan,MN,Dakota,city,No,44.815217,-93.162816,2717288
-East Pensacola Heights,FL,Escambia,city,No,30.407559313017,-87.214206758866,1255925
-Easton,PA,Northampton,city,No,40.685971,-75.218548,4221648
-Egg Harbor City,NJ,Atlantic,city,No,39.563687,-74.595865,3420350
-Egg Harbor Township,NJ,Ocean,city,No,39.603090038619,-74.341463850907,3474210
-Eglin Air Force Base,FL,Walton,city,No,30.607122,-86.326377,
-Eielson Afb,AK,Fairbanks North Star,city,No,64.673393,-147.059673,0221370
-El Dorado Hills,CA,El Dorado,city,No,38.676082,-121.0477,0621880
-Ellsworth AFB,SD,Meade,city,No,44.157084,-103.094008,
-Englewood,CO,Arapahoe,city,No,39.646979,-104.994465,0824785
-Fairbanks,AK,Fairbanks North Star,city,No,64.836531,-147.651745,0224230
-Fall River,MA,Bristol,city,No,41.725351,-71.094162,2523000
-Farmington,MN,Dakota,city,No,44.659163,-93.168705,2720618
-Farmington,CT,Capitol,city,No,41.726439668967,-72.824933646537,
-Federal Way,WA,King,city,No,47.311596,-122.337757,5323515
-Forest,VA,Bedford,city,No,37.374934,-79.277149,5128688
-Fort Benning,GA,Chattahoochee,city,No,32.399965,-84.800504,1321017
-Fort Campbell,KY,Montgomery,city,No,36.596508,-87.599049,
-Fort George G Meade,MD,Anne Arundel,city,No,39.108811,-76.744744,2429400
-Fort Greely,AK,Southeast Fairbanks,city,No,63.967834,-145.714882,0226100
-Fort Johnson,LA,Wayne,city,No,35.347902,-77.962578,3726880
-Fort Lauderdale,FL,Broward,city,No,26.141227,-80.146731,1224000
-Fort Lewis,WA,Pierce,city,No,47.095512,-122.567439,5324915
-Fort Meade,MD,Anne Arundel,city,No,39.1057,-76.743278,2429400
-Fort Riley,KS,Riley,city,No,39.106344,-96.812547,2023975
-Fort Walton Beach,FL,Okaloosa,city,No,30.424904,-86.621762,1224475
-Framingham,MA,Middlesex,city,No,42.307905,-71.436196,2524960
-Frankfort,KY,Franklin,city,No,38.194966,-84.865877,2128900
-Frederick,MD,Frederick,city,No,39.434089,-77.414539,2430325
-Freer,TX,Duval,city,No,27.882178,-98.617385,4827432
-Fremont,CA,Alameda,city,No,37.49446,-121.94115,0626000
-Gainesville,FL,Alachua,city,No,29.679537,-82.346793,1225175
-Gaithersburg,MD,Montgomery,city,No,39.148601,-77.195131,2431175
-Gardena,CA,Los Angeles,city,No,33.894417,-118.307522,0628168
-Gibsonia,PA,Allegheny,city,No,40.63223,-79.968348,4229040
-Glastonbury,CT,Capitol,city,No,41.636030935402,-72.605133875131,
-Glendale,AZ,Maricopa,city,No,33.533111,-112.189901,0427820
-Goodfellow AFB,TX,Tom Green,city,No,31.432118,-100.404486,4864472
-Goose Creek,SC,Berkeley,city,No,32.994906,-80.009245,4529815
-Grand Rapids,MI,Kent,city,No,42.961156,-85.65557,2634000
-Great Lakes,IL,Lake,city,No,42.313449,-87.837631,1753559
-Greenbelt,MD,Prince George's,city,No,38.99467,-76.885399,2434775
-Groton,CT,Southeastern Connecticut,city,No,41.325054,-72.066862,0934180
-Haltom City,TX,Tarrant,city,No,32.817698,-97.271152,4831928
-Hammond,LA,Tangipahoa,city,No,30.50565,-90.456493,2232755
-Hampton,VA,Hampton,city,No,37.047961,-76.297293,5135000
-Harrisburg,PA,Dauphin,city,No,40.275891,-76.88502,4232800
-Harrison Township,MI,Clare,city,No,44.030831972981,-85.031385482199,
-Hazel Green,AL,Madison,city,No,34.923656,-86.567392,0133808
-Herndon,VA,Fairfax,city,No,38.970412,-77.387073,5136648
-Hertford,NC,Perquimans,city,No,36.176849,-76.466552,3730900
-Hickam AFB,HI,Honolulu,city,No,21.338853,-157.949498,1514200
-Hill Air Force Base,UT,Davis,city,No,41.101547,-111.956101,
-Hilliard,FL,Nassau,city,No,30.686551,-81.921197,1230750
-Hilton Head Island,SC,Beaufort,city,No,32.190307,-80.738434,4534045
-Homestead,FL,Miami-Dade,city,No,25.466694,-80.444342,1232275
-Huntington,WV,Cabell,city,No,38.410651,-82.434689,5439460
-Independence,MO,Jackson,city,No,39.085469,-94.352082,2935000
-Indian Springs,NV,Clark,city,No,36.571844,-115.720313,3235300
-Iuka,MS,Tishomingo,city,No,34.807384,-88.19692,2835300
-Jackson,MI,Jackson,city,No,42.243441,-84.404858,2641420
-Jamaica,NY,Queens,city,No,40.657652723187,-73.829862516829,3651000
-John C Stennis Space Center,MS,Hancock,city,No,30.310362060566,-89.325805093973,2803980
-Johnston,IA,Polk,city,No,41.69195,-93.724456,1939765
-Junction City,KS,Geary,city,No,39.02722,-96.852271,2035750
-Kahului,HI,Maui,city,No,20.868471,-156.465616,1522700
-Kalamazoo,MI,Kalamazoo,city,No,42.275163,-85.588501,2642160
-Kansas City,MO,Jackson,city,No,39.125155,-94.550313,2938000
-Kennedy Space Center,FL,Metcalfe,city,No,37.140875062529,-85.695457107322,
-Keyport,WA,Kitsap,city,No,47.700204,-122.624293,5335625
-Killeen,TX,Bell,city,No,31.077669,-97.731952,4839148
-Kingsville,TX,Kleberg,city,No,27.509201,-97.861028,4839352
-Lafayette,CO,Boulder,city,No,39.994814,-105.099676,0841835
-Lafayette,LA,Lafayette,city,No,30.2056,-92.028058,2240735
-Lake Suzy,FL,Lake,city,No,42.313449,-87.837631,1753559
-Lakewood,CA,Los Angeles,city,No,33.847135,-118.121894,0639892
-Lancaster,PA,Lancaster,city,No,40.042061,-76.30099,4241216
-Laurel,MD,Prince George's,city,No,39.095075,-76.861245,2445900
-Lexington,KY,Fayette,city,No,38.046382080539,-84.497142662246,2146027
-Lexington Park,MD,St. Mary's,city,No,38.249403,-76.443556,2446725
-Linthicum,MD,Anne Arundel,city,No,39.209567,-76.664741,2447125
-Londonderry,NH,Rockingham,city,No,42.853398,-71.362425,3343140
-Long Beach,MS,Harrison,city,No,30.354468,-89.162678,2841680
-Longmont,CO,Boulder,city,No,40.168199,-105.100522,0845970
-Lorton,VA,Fairfax,city,No,38.698722,-77.216649,5147064
-Loveland,CO,Larimer,city,No,40.416905,-105.063111,0846465
-Lubbock,TX,Lubbock,city,No,33.561901,-101.888883,4845000
-Lynnwood,WA,Snohomish,city,No,47.828979,-122.300672,5340840
-Madison,WI,Dane,city,No,43.087815,-89.429856,5548000
-Marine Corps Base Kaneohe Bay,HI,Camden,city,No,30.790448,-81.538052,
-Marysville,CA,Yuba,city,No,39.151535,-121.583374,0646170
-Mason,OH,Warren,city,No,39.360722,-84.295867,3948188
-Mcalester,OK,Pittsburg,city,No,34.926128,-95.773619,4044800
-McLean,VA,Fairfax,city,No,38.943545,-77.192913,5148376
-Mechanicsburg,PA,Cumberland,city,No,40.211404,-77.00593,4248376
-Meridian,ID,Ada,city,No,43.61149,-116.400662,1652120
-Merritt Island,FL,Brevard,city,No,28.309239,-80.675956,1244275
-Milford,MI,Oakland,city,No,42.588539,-83.601648,2653960
-Millington,TN,Shelby,city,No,35.333714,-89.899539,4749060
-Minot,ND,Ward,city,No,48.236125,-101.277533,3853380
-Muskegon,MI,Muskegon,city,No,43.22654,-86.257247,2656320
-Natick,MA,Middlesex,city,No,42.284497562347,-71.347508905322,
-Nellis Afb,NV,Clark,city,No,36.246585,-115.0571,3250400
-New Kent,VA,New Kent,city,No,37.509481,-76.986249,5155800
-New York,NY,Kings,city,No,40.662712,-73.938677,3651000
-Newark,NJ,Essex,city,No,40.72422,-74.172574,3451000
-Newport,RI,Newport,city,No,41.476681,-71.319627,4449960
-Newport News,VA,Newport News,city,No,37.076136,-76.52198,5156000
-Nimitz Hill,GU,Johnson,city,No,41.554301833085,-91.535957104478,1936345
-Norco,CA,Riverside,city,No,33.925519,-117.551958,0651560
-North Amityville,NY,Suffolk,city,No,40.700525,-73.411884,3651396
-North Fort Lewis,WA,Pierce,city,No,47.1213,-122.594551,5349765
-North Las Vegas,NV,Clark,city,No,36.289865,-115.089181,3251800
-North Logan,UT,Cache,city,No,41.775541,-111.806654,4954990
-Northampton,MA,Hampshire,city,No,42.327044,-72.67463,2546330
-Norton Shores,MI,Muskegon,city,No,43.169538,-86.235405,2659140
-Oak Ridge,TN,Anderson,city,No,35.966483,-84.290549,4755120
-Oakland,CA,Alameda,city,No,37.769846,-122.22569,0653000
-Oceanside,CA,San Diego,city,No,33.224601,-117.306291,0653322
-Odenton,MD,Anne Arundel,city,No,39.06614,-76.693788,2458300
-Offutt Air Force Base,NE,Sarpy,city,No,41.131363,-95.915609,3135875
-Ogden,UT,Weber,city,No,41.228391,-111.968147,4955980
-Olathe,KS,Johnson,city,No,38.882031,-94.820054,2052575
-Olympia,WA,Thurston,city,No,47.040604,-122.895,5351300
-Ontario,CA,San Bernardino,city,No,34.037648,-117.604433,0653896
-Orange,VA,Orange,city,No,38.247845,-78.113187,5159496
-Oxnard,CA,Ventura,city,No,34.199436,-119.207515,0654652
-Palmdale,CA,Los Angeles,city,No,34.591038,-118.105403,0655156
-Parkersburg,WV,Wood,city,No,39.261278,-81.54335,5462140
-Pasadena,CA,Los Angeles,city,No,34.160602,-118.137954,0656000
-Patuxent River,MD,St. Mary's,city,No,38.281991,-76.420256,
-Pearl Harbor,HI,Honolulu,city,No,21.338853,-157.949498,1514200
-Picatinny Arsenal,NJ,Morris,city,No,40.954337,-74.544607,
-Plymouth,MI,Wayne,city,No,42.371246,-83.467617,2665060
-Pontiac,MI,Oakland,city,No,42.649228,-83.287363,2665440
-Port Hueneme,CA,Ventura,city,No,34.162143,-119.204177,0658296
-Port Huron,MI,St. Clair,city,No,42.993766,-82.433743,2665820
-Portsmouth,VA,Portsmouth,city,No,36.859339,-76.356973,5164000
-Premont,TX,Jim Wells,city,No,27.358516,-98.12443,4859384
-Princeton,NJ,Mercer,city,No,40.358244,-74.666728,3460900
-Rancho Cordova,CA,Sacramento,city,No,38.577079,-121.236187,0659444
-Reading,PA,Berks,city,No,40.33922,-75.926277,4263624
-Redmond,WA,King,city,No,47.677924,-122.115336,5357535
-Reston,VA,Fairfax,city,No,38.949762,-77.346244,5166672
-Ridgecrest,CA,Kern,city,No,35.628542,-117.663992,0660704
-Robins AFB,GA,Houston,city,No,32.610005,-83.582946,1365968
-Rock Island,IL,Rock Island,city,No,41.469444,-90.585307,1765078
-Rockville,MD,Montgomery,city,No,39.083666,-77.155585,2467675
-Rockwall,TX,Rockwall,city,No,32.918056,-96.43805,4862828
-Saginaw,MI,Saginaw,city,No,43.419945,-83.950172,2670520
-San Angelo,TX,Tom Green,city,No,31.441078,-100.450499,4864472
-San Dimas,CA,Los Angeles,city,No,34.107957,-117.808529,0666070
-San Francisco,CA,San Francisco,city,No,37.727239,-123.032229,0667000
-San Juan,PR,San Juan,city,No,18.366974695599,-66.089775306936,7276770
-Santa Ana,CA,Orange,city,No,33.736332,-117.8829,0669000
-Schriever Afb,CO,Terrebonne,city,No,29.743025552357,-90.811076417544,2268300
-Scott AFB,IL,St. Clair,city,No,38.542974,-89.852127,1768328
-Scott Air Force Base,IL,St. Clair,city,No,38.544631,-89.852834,1768328
-Scottsdale,AZ,Maricopa,city,No,33.684272,-111.861448,0465000
-Seaside,CA,Monterey,city,No,36.625058,-121.817804,0670742
-Seattle,WA,King,city,No,47.619335,-122.351538,5363000
-Seven Fields,PA,Butler,city,No,40.68673,-80.063904,4269309
-Shalimar,FL,Okaloosa,city,No,30.443266,-86.582989,1265425
-Silverdale,WA,Kitsap,city,No,47.667733,-122.681851,5364365
-South Plainfield,NJ,Middlesex,city,No,40.574413,-74.4148,3469390
-Southfield,MI,Oakland,city,No,42.47464,-83.259509,2674900
-Sparks,NV,Washoe,city,No,39.574341,-119.715154,3268400
-Spokane Valley,WA,Spokane,city,No,47.663353,-117.23278,5367167
-St. Augustine,FL,St. Johns,city,No,29.896152,-81.311128,1262500
-St. Louis,MO,St. Louis,city,No,38.635699,-90.244582,2965000
-St. Paul,MN,Ramsey,city,No,44.948901,-93.104063,2758000
-Stafford,VA,Stafford,city,No,38.370731922732,-77.307690754725,
-Stamford,CT,Western Connecticut,city,No,41.079611,-73.54608,0973000
-Stennis Space Center,MS,Hancock,city,No,30.310362060566,-89.325805093973,2803980
-Sterling Heights,MI,Macomb,city,No,42.581206,-83.030316,2676460
-Suffolk,VA,Suffolk,city,No,36.697157,-76.634781,5176432
-Suitland,MD,Prince George's,city,No,38.848615,-76.92252,2475725
-Sunrise,FL,Broward,city,No,26.171601,-80.261633,1269700
-Tacoma,WA,Pierce,city,No,47.252199,-122.459832,5370000
-Tampa,FL,Hillsborough,city,No,27.970086,-82.479673,1271000
-Tempe,AZ,Maricopa,city,No,33.388414,-111.931782,0473000
-Terre Haute,IN,Vigo,city,No,39.464152,-87.376036,1875428
-The Woodlands,TX,Montgomery,city,No,30.172562,-95.509813,4872656
-Toledo,OH,Lucas,city,No,41.664071,-83.581861,3977000
-Traverse City,MI,Grand Traverse,city,No,44.754309,-85.603011,2680340
-Twentynine Palms,CA,San Bernardino,city,No,34.147817,-116.065959,0680994
-Uniontown,OH,Stark,city,No,40.959366,-81.403701,3978736
-Vancouver,WA,Clark,city,No,45.637156,-122.596567,5374060
-Vienna,VA,Fairfax,city,No,38.898576,-77.258323,5181072
-Vista,CA,San Diego,city,No,33.189528,-117.238582,0682996
-Waco,TX,McLennan,city,No,31.557994,-97.18975,4876000
-Wahiawa,HI,Honolulu,city,No,21.500665,-158.017964,1572650
-Walled Lake,MI,Oakland,city,No,42.537199,-83.473713,2683060
-Warrenton,VA,Fauquier,city,No,38.717817,-77.797316,5183136
-Washington D.C.,DC,District of Columbia,city,No,38.973771522619,-77.033918184879,1150000
-Washington Navy Yard,DC,District of Columbia,city,No,38.973771522619,-77.033918184879,1150000
-Webster,TX,Harris,city,No,29.532072,-95.116478,4876948
-Whitehall,OH,Franklin,city,No,39.968968,-82.883948,3984742
-Whiteman AFB,MO,Johnson,city,No,38.733116,-93.553158,2979432
-Williamsport,PA,Lycoming,city,No,41.240019,-77.035591,4285312
-Wilmington,MA,Middlesex,city,No,42.564647,-71.164516,2580195
-Worcester,MA,Worcester,city,No,42.269478,-71.807783,2582000
-Wright-Patterson Afb,OH,Greene,city,No,39.822834,-84.048504,3986660
-Wrightstown,NJ,Burlington,city,No,40.025589,-74.631908,3482960
-Yorba Linda,CA,Orange,city,No,33.889038,-117.77207,0686832
-York,PA,York,city,No,39.964798,-76.73184,4287048
-Yorktown,VA,York,city,No,37.234015,-76.518202,5188240
-Youngstown,OH,Mahoning,city,No,41.099095,-80.645902,3988000
+City,State,County,GeoType,IsCandidate,Latitude,Longitude,BoundaryGeoid,BoundarySource,GeoResolutionStatus,GeoResolutionNote
+Cedar Rapids,IA,Linn,city,No,41.96419,-91.67917,1912000,,,
+Tewksbury,MA,Middlesex,city,No,42.626732613783,-71.269707434838,,,,
+Andover,MA,Essex,city,No,42.655672,-71.142244,2501430,,,
+Mckinney,TX,Collin,city,No,33.201125,-96.664161,4845744,,,
+East Hartford,CT,Capitol,city,No,41.760695,-72.607646,0922700,,,
+Marlborough,MA,Middlesex,city,No,42.349617,-71.547214,2538715,,,
+Woburn,MA,Middlesex,city,No,42.488703,-71.154383,2581035,,,
+Aurora,CO,Arapahoe,city,No,39.709537,-104.720509,0804000,,,
+El Segundo,CA,Los Angeles,city,No,33.910367,-118.425079,0622412,,,
+Aguadilla,PR,Aguadilla,city,No,18.453719479399,-67.155458526964,7200745,,,
+Middletown,CT,Lower Connecticut River Valley,city,No,41.548611,-72.656784,0947290,,,
+North Berwick,ME,York,city,No,43.296215,-70.730953,2350290,,,
+Richardson,TX,Dallas,city,No,32.972291,-96.708069,4861796,,,
+Windsor Locks,CT,Capitol,city,No,41.92779,-72.651616,0987140,,,
+Clayville,NY,Oneida,city,No,42.977963,-75.250681,3616111,,,
+Largo,FL,Pinellas,city,No,27.908685,-82.774174,1239425,,,
+Portsmouth,RI,Newport,city,No,41.516932469651,-71.299789973457,4450140,,,
+Melbourne,FL,Brevard,city,No,28.110438,-80.662717,1243975,,,
+Plano,TX,Collin,city,No,33.050769,-96.747944,4858016,,,
+Jupiter,FL,Palm Beach,city,No,26.918551,-80.11694,1235875,,,
+Rockford,IL,Winnebago,city,No,42.2593,-89.063478,1765000,,,
+Santa Isabel,PR,Santa Isabel,city,No,17.9691494,-66.4050513,7278145,US Census TIGERweb current Santa Isabel zona urbana centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/5/query?where=GEOID%3D%277278145%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json,resolved,"Identity adjudicated to Santa Isabel zona urbana using Census centroid and point-in-polygon, 2026-08-27"
+Sterling,VA,Loudoun,city,No,39.004733,-77.405368,5175376,,,
+Winston-Salem,NC,Forsyth,city,No,36.102863,-80.260829,3775000,,,
+Fullerton,CA,Orange,city,No,33.885716,-117.928025,0628000,,,
+Lenexa,KS,Johnson,city,No,38.965268,-94.803937,2039350,,,
+Springdale,AR,Washington,city,No,36.191438,-94.155062,0566080,,,
+Foley,AL,Baldwin,city,No,30.397068,-87.66846,0126992,,,
+York,NE,York,city,No,40.869389,-97.592739,3154045,,,
+Fulton,MD,Howard,city,No,39.15311,-76.911629,2431025,,,
+Chesapeake,VA,Chesapeake,city,No,36.679376,-76.301788,5116000,,,
+Carlsbad,CA,San Diego,city,No,33.129284,-117.284183,0611194,,,
+Miramar,FL,Broward,city,No,25.972529,-80.338582,1245975,,,
+West Des Moines,IA,Polk,city,No,41.549937,-93.781351,1983910,,,
+Arlington,VA,Arlington,city,No,38.878337,-77.100703,5103000,,,
+Middletown,PA,Dauphin,city,No,40.200888,-76.729183,4249128,,,
+Westford,MA,Middlesex,city,No,42.579388895018,-71.447864336435,,,,
+Wilson,NC,Wilson,city,No,35.731488,-77.93075,3774540,,,
+Charlotte,NC,Mecklenburg,city,No,35.209045,-80.83099,3712000,,,
+Chula Vista,CA,San Diego,city,No,32.62767,-117.01517,0613392,,,
+Riverside,CA,Riverside,city,No,33.938143,-117.393168,0662000,,,
+San Marcos,TX,Hays,city,No,29.87361,-97.936725,4865600,,,
+Troy,OH,Miami,city,No,40.041012,-84.222355,3977588,,,
+Coralville,IA,Johnson,city,No,41.698795,-91.5968,1916230,,,
+Everett,WA,Snohomish,city,No,47.965413,-122.189895,5322640,,,
+Fairfield,CA,Solano,city,No,38.26206,-122.032386,0623182,,,
+Farmington,NM,San Juan,city,No,36.753833,-108.18053,3525800,,,
+Irving,TX,Dallas,city,No,32.857748,-96.970022,4837000,,,
+Pelham,NH,Hillsborough,city,No,42.733805303821,-71.322344264469,,,,
+Columbia,MD,Howard,city,No,39.201146,-76.85905,2419125,,,
+St Petersburg,FL,Pinellas,city,No,27.771280680565,-82.633931880156,1263000,,,
+Holt,MI,Ingham,city,No,42.642061,-84.530768,2638780,,,
+Langley Afb,VA,Hampton,city,No,37.083336,-76.362868,5135000,,,
+West Valley City,UT,Salt Lake,city,No,40.688493,-112.011759,4983470,,,
+Alexandria,VA,Alexandria,city,No,38.819251,-77.08367,5101000,,,
+Bridgeport,WV,Harrison,city,No,39.303356,-80.242901,5410180,,,
+Cheshire,CT,Naugatuck Valley,city,No,41.498930302764,-72.901497172066,0914200,,,
+Ft George G Meade,MD,Anne Arundel,city,No,39.108811,-76.744744,2429400,,,
+Lawton,OK,Comanche,city,No,34.617172,-98.4214,4041850,,,
+Middletown,NY,Orange,city,No,41.444922,-74.423573,3647042,,,
+Santa Fe Springs,CA,Los Angeles,city,No,33.933565,-118.062611,0669154,,,
+South Burlington,VT,Chittenden,city,No,44.436469,-73.182623,5066175,,,
+Springfield,VA,Fairfax,city,No,38.781571,-77.183921,5174592,,,
+Anaheim,CA,Orange,city,No,33.855502,-117.758657,0602000,,,
+Annapolis,MD,Anne Arundel,city,No,38.972152,-76.505332,2401600,,,
+Chambersburg,PA,Franklin,city,No,39.931433,-77.655642,4212536,,,
+Lansing,MI,Ingham,city,No,42.714341,-84.560889,2646000,,,
+Lompoc,CA,Santa Barbara,city,No,34.662689,-120.470837,0642524,,,
+Manchester,IA,Delaware,city,No,42.485339,-91.456086,1948810,,,
+Sacramento,CA,Sacramento,city,No,38.567694,-121.468161,0664000,,,
+Union,WV,Monroe,city,No,37.590736,-80.540015,5481940,,,
+Wichita Falls,TX,Wichita,city,No,33.906654,-98.525848,4879000,,,
+Wilsonville,OR,Clackamas,city,No,45.311262,-122.77092,4182800,,,
+Aberdeen,MD,Harford,city,No,39.516403,-76.174518,2400125,,,
+Annapolis Junction,MD,Anne Arundel,city,No,38.977289051351,-76.487119665729,2401600,,,
+Bellevue,IA,Jackson,city,No,42.259626,-90.4311,1905635,,,
+College Park,GA,Fulton,city,No,33.64145,-84.463489,1317776,,,
+Denver,CO,Denver,city,No,39.76185,-104.881105,0820000,,,
+Fort Bliss,TX,El Paso,city,No,31.839666,-106.374652,4826664,,,
+Fort Worth,TX,Tarrant,city,No,32.781954,-97.348573,4827000,,,
+Las Cruces,NM,Doña Ana,city,No,32.326444,-106.789695,3539380,,,
+Poulsbo,WA,Kitsap,city,No,47.741078,-122.642151,5355995,,,
+San Jose,CA,Santa Clara,city,No,37.296011,-121.814552,0668000,,,
+Springfield,IL,Sangamon,city,No,39.791063,-89.644572,1772000,,,
+Tinker Afb,OK,Oklahoma,city,No,35.415403,-97.390454,4055000,,,
+Virgin,UT,Washington,city,No,37.194738,-113.205539,4980530,,,
+Washington,DC,District of Columbia,city,No,38.904247,-77.016517,1150000,,,
+White Sands,NM,Doña Ana,city,No,32.38044,-106.479113,3584845,,,
+Andrews Afb,MD,Prince George's,city,No,38.809803,-76.869158,2401450,,,
+Ashburn,VA,Loudoun,city,No,39.027296,-77.471322,5103320,,,
+Beale Afb,CA,Yuba,city,No,39.108061,-121.351215,0604576,,,
+Bedford,MA,Middlesex,city,No,42.4969409,-71.2782954,2501704615,US Census TIGERweb current Bedford town centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272501704615%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json,resolved,"Identity adjudicated to Bedford town using Census centroid and point-in-polygon, 2026-08-27"
+Bothell,WA,King,city,No,47.773531,-122.204376,5307380,,,
+Cape Canaveral,FL,Brevard,city,No,28.393226,-80.604791,1210250,,,
+Charlottesville,VA,Charlottesville,city,No,38.037658,-78.485381,5114968,,,
+Dahlgren,VA,King George,city,No,38.341976,-77.064267,5121008,,,
+Des Plaines,IL,Cook,city,No,42.034398,-87.901136,1719642,,,
+Edwards Afb,CA,Kern,city,No,34.902408,-117.921869,0621600,,,
+Fort Belvoir,VA,Fairfax,city,No,38.713075,-77.144497,5129008,,,
+Grand Prairie,TX,Dallas,city,No,32.686108,-97.020804,4830464,,,
+Hurlburt Field,FL,Okaloosa,city,No,30.426372,-86.719287,1232975,,,
+Livermore,CA,Alameda,city,No,37.686977,-121.759781,0641992,,,
+Marana,AZ,Pima,city,No,32.465939,-111.135401,0444270,,,
+Medley,FL,Miami-Dade,city,No,25.864855,-80.357618,1243900,,,
+Miamisburg,OH,Montgomery,city,No,39.630938,-84.270742,3949434,,,
+Monroe,NC,Union,city,No,35.001591,-80.561277,3743920,,,
+Moorestown,NJ,Burlington,city,No,39.963848806185,-74.946837666053,3447895,,,
+North Charleston,SC,Charleston,city,No,32.917881,-80.065,4550875,,,
+Pascagoula,MS,Jackson,city,No,30.360067,-88.556327,2855360,,,
+Pittsfield,MA,Berkshire,city,No,42.45184,-73.260685,2553960,,,
+Richmond,VA,Richmond,city,No,37.531399,-77.476009,5167000,,,
+San Miguel,CA,Contra Costa,city,No,37.886699,-122.036833,0668263,,,
+Simpsonville,SC,Greenville,city,No,34.728538,-82.256377,4566580,,,
+Warner Robins,GA,Houston,city,No,32.597096,-83.653936,1380508,,,
+West Palm Beach,FL,Palm Beach,city,No,26.745114,-80.127038,1276600,,,
+Abingdon,MD,Harford,city,No,39.463472,-76.27314,2400200,,,
+Adelphi,MD,Prince George's,city,No,38.997067,-76.966783,2400400,,,
+Aiea,HI,Honolulu,city,No,21.385262,-157.92475,1500550,,,
+Albany,OR,Linn,city,No,44.626928,-123.096741,4101000,,,
+Allentown,PA,Lehigh,city,No,40.593648,-75.478393,4202000,,,
+Alpharetta,GA,Fulton,city,No,34.070866,-84.27265,1301696,,,
+Ann Arbor,MI,Washtenaw,city,No,42.276147,-83.73086,2603000,,,
+Anniston,AL,Calhoun,city,No,33.673469,-85.810891,0101852,,,
+Arnold,MO,Jefferson,city,No,38.42601,-90.36931,2901972,,,
+Ashaway,RI,Washington,city,No,41.428019,-71.786214,4403520,,,
+Auburn,WA,King,city,No,47.303773,-122.21,5303180,,,
+Augusta,GA,Richmond,city,No,33.469330838749,-81.947874776653,1304204,,,
+Aurora,IL,Kane,city,No,41.763455,-88.290099,1703012,,,
+Austin,TX,Travis,city,No,30.298622,-97.754134,4805000,,,
+Barstow,CA,San Bernardino,city,No,34.866987,-117.043035,0604030,,,
+Baton Rouge,LA,East Baton Rouge,city,No,30.440443,-91.133166,2205000,,,
+Beaufort,SC,Beaufort,city,No,32.458085,-80.722543,4504690,,,
+Beavercreek,OH,Greene,city,No,39.733155,-84.059615,3904720,,,
+Bethesda,MD,Montgomery,city,No,38.987292,-77.118612,2407125,,,
+Bethlehem,PA,Northampton,city,No,40.626424,-75.367898,4206088,,,
+Big Rapids,MI,Mecosta,city,No,43.699671,-85.48125,2608300,,,
+Bohemia,NY,Suffolk,city,No,40.777011,-73.13509,3607157,,,
+Bristol,PA,Bucks,city,No,40.102767,-74.852347,4208760,,,
+Buckhannon,WV,Upshur,city,No,38.992734,-80.228243,5411188,,,
+California,MD,St. Mary's,city,No,38.297599,-76.492143,2412150,,,
+Cambridge,MA,Middlesex,city,No,42.376043,-71.11868,2511000,,,
+Camp Springs,MD,Prince George's,city,No,38.805072,-76.918565,2412600,,,
+Carbondale,IL,Jackson,city,No,37.722062,-89.223664,1711163,,,
+Carlisle,PA,Cumberland,city,No,40.199994,-77.204149,4211272,,,
+Carlstadt,NJ,Bergen,city,No,40.826431,-74.062335,3410480,,,
+Carson City,NV,,city,No,,,,,unresolved,Cross-state resolution rejected in #156; preserve unresolved identity and postings; do not replay rejected geography
+Centennial,CO,Arapahoe,city,No,39.590864,-104.863808,0812815,,,
+Chandler,AZ,Maricopa,city,No,33.282765,-111.851819,0412000,,,
+Charleston AFB,SC,Charleston,city,No,32.776780114065,-79.927070883981,4513330,,,
+Cherry Point,NC,Craven,city,No,34.909518,-76.878533,3730120,,,
+Clarksburg,WV,Harrison,city,No,39.270296,-80.361787,5415628,,,
+Cleveland,OH,Cuyahoga,city,No,41.478462,-81.679435,3916000,,,
+Clifton,NJ,Passaic,city,No,40.862137,-74.160393,3413690,,,
+Clinton,MD,Prince George's,city,No,38.750917,-76.902669,2417900,,,
+Clovis,NM,Curry,city,No,34.438569,-103.194194,3516420,,,
+Collinsville,IL,Madison,city,No,38.675747,-90.005757,1715599,,,
+Concord,MA,Middlesex,city,No,42.460079631115,-71.349365528688,,,,
+Corpus Christi,TX,Nueces,city,No,27.754252,-97.173385,4817000,,,
+Cypress,CA,Orange,city,No,33.818477,-118.038307,0617750,,,
+Dayton,OH,Montgomery,city,No,39.784743,-84.199632,3921000,,,
+Daytona Beach,FL,Volusia,city,No,29.19071,-81.097083,1216525,,,
+Dearborn,MI,Wayne,city,No,42.313057,-83.211488,2621000,,,
+Del Rio,TX,Val Verde,city,No,29.373045,-100.881851,4819792,,,
+Des Moines,WA,King,city,No,47.388708,-122.317581,5317635,,,
+Detroit,MI,Wayne,city,No,42.383037,-83.102237,2622000,,,
+Duluth,MN,St. Louis,city,No,46.774458,-92.134135,2717000,,,
+Durham,NH,Strafford,city,No,43.142752,-70.925002,3319620,,,
+Durham,NC,Durham,city,No,35.977928,-78.898109,3719000,,,
+Eagan,MN,Dakota,city,No,44.815217,-93.162816,2717288,,,
+East Pensacola Heights,FL,Escambia,city,No,30.407559313017,-87.214206758866,1255925,,,
+Easton,PA,Northampton,city,No,40.685971,-75.218548,4221648,,,
+Egg Harbor City,NJ,Atlantic,city,No,39.563687,-74.595865,3420350,,,
+Egg Harbor Township,NJ,Atlantic,city,No,39.3786565,-74.6101758,3400120290,US Census TIGERweb current Egg Harbor township centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%273400120290%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json,resolved,"Identity adjudicated to Egg Harbor township using Census centroid and point-in-polygon, 2026-08-27"
+Eglin Air Force Base,FL,Walton,city,No,30.607122,-86.326377,,,,
+Eielson Afb,AK,Fairbanks North Star,city,No,64.673393,-147.059673,0221370,,,
+El Dorado Hills,CA,El Dorado,city,No,38.676082,-121.0477,0621880,,,
+Ellsworth AFB,SD,Meade,city,No,44.157084,-103.094008,,,,
+Englewood,CO,Arapahoe,city,No,39.646979,-104.994465,0824785,,,
+Fairbanks,AK,Fairbanks North Star,city,No,64.836531,-147.651745,0224230,,,
+Fall River,MA,Bristol,city,No,41.725351,-71.094162,2523000,,,
+Farmington,MN,Dakota,city,No,44.659163,-93.168705,2720618,,,
+Farmington,CT,Capitol,city,No,41.726439668967,-72.824933646537,,,,
+Federal Way,WA,King,city,No,47.311596,-122.337757,5323515,,,
+Forest,VA,Bedford,city,No,37.374934,-79.277149,5128688,,,
+Fort Benning,GA,Chattahoochee,city,No,32.399965,-84.800504,1321017,,,
+Fort Campbell,KY,Montgomery,city,No,36.596508,-87.599049,,,,
+Fort George G Meade,MD,Anne Arundel,city,No,39.108811,-76.744744,2429400,,,
+Fort Greely,AK,Southeast Fairbanks,city,No,63.967834,-145.714882,0226100,,,
+Fort Johnson,LA,,city,No,,,,,unresolved,Cross-state resolution rejected in #156; preserve unresolved identity and postings; do not replay rejected geography
+Fort Lauderdale,FL,Broward,city,No,26.141227,-80.146731,1224000,,,
+Fort Lewis,WA,Pierce,city,No,47.095512,-122.567439,5324915,,,
+Fort Meade,MD,Anne Arundel,city,No,39.1057,-76.743278,2429400,,,
+Fort Riley,KS,Riley,city,No,39.106344,-96.812547,2023975,,,
+Fort Walton Beach,FL,Okaloosa,city,No,30.424904,-86.621762,1224475,,,
+Framingham,MA,Middlesex,city,No,42.307905,-71.436196,2524960,,,
+Frankfort,KY,Franklin,city,No,38.194966,-84.865877,2128900,,,
+Frederick,MD,Frederick,city,No,39.434089,-77.414539,2430325,,,
+Freer,TX,Duval,city,No,27.882178,-98.617385,4827432,,,
+Fremont,CA,Alameda,city,No,37.49446,-121.94115,0626000,,,
+Gainesville,FL,Alachua,city,No,29.679537,-82.346793,1225175,,,
+Gaithersburg,MD,Montgomery,city,No,39.148601,-77.195131,2431175,,,
+Gardena,CA,Los Angeles,city,No,33.894417,-118.307522,0628168,,,
+Gibsonia,PA,Allegheny,city,No,40.63223,-79.968348,4229040,,,
+Glastonbury,CT,Capitol,city,No,41.636030935402,-72.605133875131,,,,
+Glendale,AZ,Maricopa,city,No,33.533111,-112.189901,0427820,,,
+Goodfellow AFB,TX,Tom Green,city,No,31.432118,-100.404486,4864472,,,
+Goose Creek,SC,Berkeley,city,No,32.994906,-80.009245,4529815,,,
+Grand Rapids,MI,Kent,city,No,42.961156,-85.65557,2634000,,,
+Great Lakes,IL,Lake,city,No,42.313449,-87.837631,1753559,,,
+Greenbelt,MD,Prince George's,city,No,38.99467,-76.885399,2434775,,,
+Groton,CT,Southeastern Connecticut,city,No,41.325054,-72.066862,0934180,,,
+Haltom City,TX,Tarrant,city,No,32.817698,-97.271152,4831928,,,
+Hammond,LA,Tangipahoa,city,No,30.50565,-90.456493,2232755,,,
+Hampton,VA,Hampton,city,No,37.047961,-76.297293,5135000,,,
+Harrisburg,PA,Dauphin,city,No,40.275891,-76.88502,4232800,,,
+Harrison Township,MI,Macomb,city,No,42.5880711,-82.8178312,2609936820,US Census TIGERweb current Harrison charter township centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272609936820%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json,resolved,"Identity adjudicated to Harrison charter township using Census centroid and point-in-polygon, 2026-08-27"
+Hazel Green,AL,Madison,city,No,34.923656,-86.567392,0133808,,,
+Herndon,VA,Fairfax,city,No,38.970412,-77.387073,5136648,,,
+Hertford,NC,Perquimans,city,No,36.176849,-76.466552,3730900,,,
+Hickam AFB,HI,Honolulu,city,No,21.338853,-157.949498,1514200,,,
+Hill Air Force Base,UT,Davis,city,No,41.101547,-111.956101,,,,
+Hilliard,FL,Nassau,city,No,30.686551,-81.921197,1230750,,,
+Hilton Head Island,SC,Beaufort,city,No,32.190307,-80.738434,4534045,,,
+Homestead,FL,Miami-Dade,city,No,25.466694,-80.444342,1232275,,,
+Huntington,WV,Cabell,city,No,38.410651,-82.434689,5439460,,,
+Independence,MO,Jackson,city,No,39.085469,-94.352082,2935000,,,
+Indian Springs,NV,Clark,city,No,36.571844,-115.720313,3235300,,,
+Iuka,MS,Tishomingo,city,No,34.807384,-88.19692,2835300,,,
+Jackson,MI,Jackson,city,No,42.243441,-84.404858,2641420,,,
+Jamaica,NY,Queens,city,No,40.657652723187,-73.829862516829,3651000,,,
+John C Stennis Space Center,MS,Hancock,city,No,30.310362060566,-89.325805093973,2803980,,,
+Johnston,IA,Polk,city,No,41.69195,-93.724456,1939765,,,
+Junction City,KS,Geary,city,No,39.02722,-96.852271,2035750,,,
+Kahului,HI,Maui,city,No,20.868471,-156.465616,1522700,,,
+Kalamazoo,MI,Kalamazoo,city,No,42.275163,-85.588501,2642160,,,
+Kansas City,MO,Jackson,city,No,39.125155,-94.550313,2938000,,,
+Kennedy Space Center,FL,,city,No,,,,,unresolved,Cross-state resolution rejected in #156; preserve unresolved identity and postings; do not replay rejected geography
+Keyport,WA,Kitsap,city,No,47.700204,-122.624293,5335625,,,
+Killeen,TX,Bell,city,No,31.077669,-97.731952,4839148,,,
+Kingsville,TX,Kleberg,city,No,27.509201,-97.861028,4839352,,,
+Lafayette,CO,Boulder,city,No,39.994814,-105.099676,0841835,,,
+Lafayette,LA,Lafayette,city,No,30.2056,-92.028058,2240735,,,
+Lake Suzy,FL,,city,No,,,,,unresolved,Cross-state resolution rejected in #156; preserve unresolved identity and postings; do not replay rejected geography
+Lakewood,CA,Los Angeles,city,No,33.847135,-118.121894,0639892,,,
+Lancaster,PA,Lancaster,city,No,40.042061,-76.30099,4241216,,,
+Laurel,MD,Prince George's,city,No,39.095075,-76.861245,2445900,,,
+Lexington,KY,Fayette,city,No,38.046382080539,-84.497142662246,2146027,,,
+Lexington Park,MD,St. Mary's,city,No,38.249403,-76.443556,2446725,,,
+Linthicum,MD,Anne Arundel,city,No,39.209567,-76.664741,2447125,,,
+Londonderry,NH,Rockingham,city,No,42.853398,-71.362425,3343140,,,
+Long Beach,MS,Harrison,city,No,30.354468,-89.162678,2841680,,,
+Longmont,CO,Boulder,city,No,40.168199,-105.100522,0845970,,,
+Lorton,VA,Fairfax,city,No,38.698722,-77.216649,5147064,,,
+Loveland,CO,Larimer,city,No,40.416905,-105.063111,0846465,,,
+Lubbock,TX,Lubbock,city,No,33.561901,-101.888883,4845000,,,
+Lynnwood,WA,Snohomish,city,No,47.828979,-122.300672,5340840,,,
+Madison,WI,Dane,city,No,43.087815,-89.429856,5548000,,,
+Marine Corps Base Kaneohe Bay,HI,,city,No,,,,,unresolved,Cross-state resolution rejected in #156; preserve unresolved identity and postings; do not replay rejected geography
+Marysville,CA,Yuba,city,No,39.151535,-121.583374,0646170,,,
+Mason,OH,Warren,city,No,39.360722,-84.295867,3948188,,,
+Mcalester,OK,Pittsburg,city,No,34.926128,-95.773619,4044800,,,
+McLean,VA,Fairfax,city,No,38.943545,-77.192913,5148376,,,
+Mechanicsburg,PA,Cumberland,city,No,40.211404,-77.00593,4248376,,,
+Meridian,ID,Ada,city,No,43.61149,-116.400662,1652120,,,
+Merritt Island,FL,Brevard,city,No,28.309239,-80.675956,1244275,,,
+Milford,MI,Oakland,city,No,42.588539,-83.601648,2653960,,,
+Millington,TN,Shelby,city,No,35.333714,-89.899539,4749060,,,
+Minot,ND,Ward,city,No,48.236125,-101.277533,3853380,,,
+Muskegon,MI,Muskegon,city,No,43.22654,-86.257247,2656320,,,
+Natick,MA,Middlesex,city,No,42.284497562347,-71.347508905322,,,,
+Nellis Afb,NV,Clark,city,No,36.246585,-115.0571,3250400,,,
+New Kent,VA,New Kent,city,No,37.509481,-76.986249,5155800,,,
+New York,NY,Kings,city,No,40.662712,-73.938677,3651000,,,
+Newark,NJ,Essex,city,No,40.72422,-74.172574,3451000,,,
+Newport,RI,Newport,city,No,41.476681,-71.319627,4449960,,,
+Newport News,VA,Newport News,city,No,37.076136,-76.52198,5156000,,,
+Nimitz Hill,GU,,city,No,,,,,unresolved,Cross-state resolution rejected in #156; preserve unresolved identity and postings; do not replay rejected geography
+Norco,CA,Riverside,city,No,33.925519,-117.551958,0651560,,,
+North Amityville,NY,Suffolk,city,No,40.700525,-73.411884,3651396,,,
+North Fort Lewis,WA,Pierce,city,No,47.1213,-122.594551,5349765,,,
+North Las Vegas,NV,Clark,city,No,36.289865,-115.089181,3251800,,,
+North Logan,UT,Cache,city,No,41.775541,-111.806654,4954990,,,
+Northampton,MA,Hampshire,city,No,42.327044,-72.67463,2546330,,,
+Norton Shores,MI,Muskegon,city,No,43.169538,-86.235405,2659140,,,
+Oak Ridge,TN,Anderson,city,No,35.966483,-84.290549,4755120,,,
+Oakland,CA,Alameda,city,No,37.769846,-122.22569,0653000,,,
+Oceanside,CA,San Diego,city,No,33.224601,-117.306291,0653322,,,
+Odenton,MD,Anne Arundel,city,No,39.06614,-76.693788,2458300,,,
+Offutt Air Force Base,NE,Sarpy,city,No,41.131363,-95.915609,3135875,,,
+Ogden,UT,Weber,city,No,41.228391,-111.968147,4955980,,,
+Olathe,KS,Johnson,city,No,38.882031,-94.820054,2052575,,,
+Olympia,WA,Thurston,city,No,47.040604,-122.895,5351300,,,
+Ontario,CA,San Bernardino,city,No,34.037648,-117.604433,0653896,,,
+Orange,VA,Orange,city,No,38.247845,-78.113187,5159496,,,
+Oxnard,CA,Ventura,city,No,34.199436,-119.207515,0654652,,,
+Palmdale,CA,Los Angeles,city,No,34.591038,-118.105403,0655156,,,
+Parkersburg,WV,Wood,city,No,39.261278,-81.54335,5462140,,,
+Pasadena,CA,Los Angeles,city,No,34.160602,-118.137954,0656000,,,
+Patuxent River,MD,St. Mary's,city,No,38.281991,-76.420256,,,,
+Pearl Harbor,HI,Honolulu,city,No,21.338853,-157.949498,1514200,,,
+Picatinny Arsenal,NJ,Morris,city,No,40.954337,-74.544607,,,,
+Plymouth,MI,Wayne,city,No,42.371246,-83.467617,2665060,,,
+Pontiac,MI,Oakland,city,No,42.649228,-83.287363,2665440,,,
+Port Hueneme,CA,Ventura,city,No,34.162143,-119.204177,0658296,,,
+Port Huron,MI,St. Clair,city,No,42.993766,-82.433743,2665820,,,
+Portsmouth,VA,Portsmouth,city,No,36.859339,-76.356973,5164000,,,
+Premont,TX,Jim Wells,city,No,27.358516,-98.12443,4859384,,,
+Princeton,NJ,Mercer,city,No,40.358244,-74.666728,3460900,,,
+Rancho Cordova,CA,Sacramento,city,No,38.577079,-121.236187,0659444,,,
+Reading,PA,Berks,city,No,40.33922,-75.926277,4263624,,,
+Redmond,WA,King,city,No,47.677924,-122.115336,5357535,,,
+Reston,VA,Fairfax,city,No,38.949762,-77.346244,5166672,,,
+Ridgecrest,CA,Kern,city,No,35.628542,-117.663992,0660704,,,
+Robins AFB,GA,Houston,city,No,32.610005,-83.582946,1365968,,,
+Rock Island,IL,Rock Island,city,No,41.469444,-90.585307,1765078,,,
+Rockville,MD,Montgomery,city,No,39.083666,-77.155585,2467675,,,
+Rockwall,TX,Rockwall,city,No,32.918056,-96.43805,4862828,,,
+Saginaw,MI,Saginaw,city,No,43.419945,-83.950172,2670520,,,
+San Angelo,TX,Tom Green,city,No,31.441078,-100.450499,4864472,,,
+San Dimas,CA,Los Angeles,city,No,34.107957,-117.808529,0666070,,,
+San Francisco,CA,San Francisco,city,No,37.727239,-123.032229,0667000,,,
+San Juan,PR,San Juan,city,No,18.366974695599,-66.089775306936,7276770,,,
+Santa Ana,CA,Orange,city,No,33.736332,-117.8829,0669000,,,
+Schriever Afb,CO,,city,No,,,,,unresolved,Cross-state resolution rejected in #156; preserve unresolved identity and postings; do not replay rejected geography
+Scott AFB,IL,St. Clair,city,No,38.542974,-89.852127,1768328,,,
+Scott Air Force Base,IL,St. Clair,city,No,38.544631,-89.852834,1768328,,,
+Scottsdale,AZ,Maricopa,city,No,33.684272,-111.861448,0465000,,,
+Seaside,CA,Monterey,city,No,36.625058,-121.817804,0670742,,,
+Seattle,WA,King,city,No,47.619335,-122.351538,5363000,,,
+Seven Fields,PA,Butler,city,No,40.68673,-80.063904,4269309,,,
+Shalimar,FL,Okaloosa,city,No,30.443266,-86.582989,1265425,,,
+Silverdale,WA,Kitsap,city,No,47.667733,-122.681851,5364365,,,
+South Plainfield,NJ,Middlesex,city,No,40.574413,-74.4148,3469390,,,
+Southfield,MI,Oakland,city,No,42.47464,-83.259509,2674900,,,
+Sparks,NV,Washoe,city,No,39.574341,-119.715154,3268400,,,
+Spokane Valley,WA,Spokane,city,No,47.663353,-117.23278,5367167,,,
+St. Augustine,FL,St. Johns,city,No,29.896152,-81.311128,1262500,,,
+St. Louis,MO,St. Louis,city,No,38.635699,-90.244582,2965000,,,
+St. Paul,MN,Ramsey,city,No,44.948901,-93.104063,2758000,,,
+Stafford,VA,Stafford,city,No,38.370731922732,-77.307690754725,,,,
+Stamford,CT,Western Connecticut,city,No,41.079611,-73.54608,0973000,,,
+Stennis Space Center,MS,Hancock,city,No,30.310362060566,-89.325805093973,2803980,,,
+Sterling Heights,MI,Macomb,city,No,42.581206,-83.030316,2676460,,,
+Suffolk,VA,Suffolk,city,No,36.697157,-76.634781,5176432,,,
+Suitland,MD,Prince George's,city,No,38.848615,-76.92252,2475725,,,
+Sunrise,FL,Broward,city,No,26.171601,-80.261633,1269700,,,
+Tacoma,WA,Pierce,city,No,47.252199,-122.459832,5370000,,,
+Tampa,FL,Hillsborough,city,No,27.970086,-82.479673,1271000,,,
+Tempe,AZ,Maricopa,city,No,33.388414,-111.931782,0473000,,,
+Terre Haute,IN,Vigo,city,No,39.464152,-87.376036,1875428,,,
+The Woodlands,TX,Montgomery,city,No,30.172562,-95.509813,4872656,,,
+Toledo,OH,Lucas,city,No,41.664071,-83.581861,3977000,,,
+Traverse City,MI,Grand Traverse,city,No,44.754309,-85.603011,2680340,,,
+Twentynine Palms,CA,San Bernardino,city,No,34.147817,-116.065959,0680994,,,
+Uniontown,OH,Stark,city,No,40.959366,-81.403701,3978736,,,
+Vancouver,WA,Clark,city,No,45.637156,-122.596567,5374060,,,
+Vienna,VA,Fairfax,city,No,38.898576,-77.258323,5181072,,,
+Vista,CA,San Diego,city,No,33.189528,-117.238582,0682996,,,
+Waco,TX,McLennan,city,No,31.557994,-97.18975,4876000,,,
+Wahiawa,HI,Honolulu,city,No,21.500665,-158.017964,1572650,,,
+Walled Lake,MI,Oakland,city,No,42.537199,-83.473713,2683060,,,
+Warrenton,VA,Fauquier,city,No,38.717817,-77.797316,5183136,,,
+Washington D.C.,DC,District of Columbia,city,No,38.973771522619,-77.033918184879,1150000,,,
+Washington Navy Yard,DC,District of Columbia,city,No,38.973771522619,-77.033918184879,1150000,,,
+Webster,TX,Harris,city,No,29.532072,-95.116478,4876948,,,
+Whitehall,OH,Franklin,city,No,39.968968,-82.883948,3984742,,,
+Whiteman AFB,MO,Johnson,city,No,38.733116,-93.553158,2979432,,,
+Williamsport,PA,Lycoming,city,No,41.240019,-77.035591,4285312,,,
+Wilmington,MA,Middlesex,city,No,42.564647,-71.164516,2580195,,,
+Worcester,MA,Worcester,city,No,42.269478,-71.807783,2582000,,,
+Wright-Patterson Afb,OH,Greene,city,No,39.822834,-84.048504,3986660,,,
+Wrightstown,NJ,Burlington,city,No,40.025589,-74.631908,3482960,,,
+Yorba Linda,CA,Orange,city,No,33.889038,-117.77207,0686832,,,
+York,PA,York,city,No,39.964798,-76.73184,4287048,,,
+Yorktown,VA,York,city,No,37.234015,-76.518202,5188240,,,
+Youngstown,OH,Mahoning,city,No,41.099095,-80.645902,3988000,,,
