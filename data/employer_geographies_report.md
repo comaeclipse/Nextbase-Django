@@ -1,4 +1,6 @@
-# Employer geographies — resolution report
+# Employer geographies — historical resolution report
+
+**Correction notice (2026-08-27):** This report preserves the original resolver output, including rejected geography. The current import CSVs supersede its affected rows. See `employer_geography_corrections_2026-08-27_sources.md` and `sources/employer-geography/superseded_rows_2026-08-27.json`; do not use the historical wrong-place coordinates or metro assignments as current facts.
 
 **Generated:** by `scripts/resolve-employer-geographies.ts`
 **Source:** Census Geocoder (Public_AR_Current/Current_Current) + county→CBSA crosswalk from `pace_derived.json`
