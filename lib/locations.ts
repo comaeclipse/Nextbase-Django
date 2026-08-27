@@ -2,11 +2,18 @@ import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
 import type { EmployerIndex, EmployerPresence } from "./defense";
 import {
+  resolveLocationFields,
+  type GeoNode,
+  type ResolvedLocation,
+} from "./geo-inheritance";
+import {
   buildMilitaryProximityIndex,
   type MilitaryProximityIndex,
 } from "./military";
 import type {
   AirQualityAnnualRow,
+  GeoRelationshipType,
+  GeoType,
   DefenseEmployerRow,
   HourlyWeatherNormalRow,
   LocationRow,
@@ -157,6 +164,99 @@ export const getLocationById = unstable_cache(
   ["locations:getLocationById"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );
+
+/**
+ * Every active containing geography of `geoId`, nearest first.
+ *
+ * Selects each ancestor's OWN columns rather than LOCATION_SELECT's join
+ * output, because the resolver reads raw values -- pulling the parent's
+ * state-info join here would make a state-owned field look locally inherited.
+ *
+ * The depth cap matches geo_closure's; scripts/verify-geo-hierarchy.ts is what
+ * actually detects a cycle.
+ */
+export const getLocationAncestry = unstable_cache(
+  async (geoId: number): Promise<GeoNode[]> => {
+    const sql = getSql();
+    const rows = (await sql.query(
+      `WITH RECURSIVE chain AS (
+         SELECT r.parent_geo_id AS ancestor_id, r.relationship_type, 1 AS depth
+         FROM geo_relationships r
+         WHERE r.child_geo_id = $1 AND r.valid_to IS NULL
+         UNION ALL
+         SELECT r.parent_geo_id, r.relationship_type, c.depth + 1
+         FROM chain c
+         JOIN geo_relationships r
+           ON r.child_geo_id = c.ancestor_id AND r.valid_to IS NULL
+         WHERE c.depth < 6
+       )
+       SELECT c.relationship_type, c.depth, l.*
+       FROM chain c
+       JOIN locations_location l ON l.id = c.ancestor_id
+       ORDER BY c.depth ASC, l.name ASC`,
+      [geoId]
+    )) as Record<string, unknown>[];
+
+    return rows.map((row) => ({
+      geo_id: Number(row.id),
+      slug: String(row.slug),
+      name: String(row.name),
+      state: String(row.state),
+      geo_type: row.geo_type as GeoType,
+      relationship: row.relationship_type as GeoRelationshipType,
+      depth: Number(row.depth),
+      row: normalizeLocation(row),
+    }));
+  },
+  ["locations:getLocationAncestry"],
+  { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
+);
+
+/**
+ * A location plus its resolved fields and provenance.
+ *
+ * A curated city has no ancestry, so this costs it exactly one extra query
+ * that returns no rows, and the resolver short-circuits.
+ */
+export async function getResolvedLocation(
+  id: number
+): Promise<ResolvedLocation | null> {
+  const row = await getLocationById(id);
+  if (!row) return null;
+  if (row.parent_geo_id == null) {
+    return { row, resolution: {}, chain: [] };
+  }
+  return resolveLocationFields(row, await getLocationAncestry(id));
+}
+
+/**
+ * Walk `id` then its ancestors, returning the first that `load` answers for.
+ *
+ * Weather normals and EPA air quality are keyed by station and monitor, not by
+ * containment: a neighborhood has no rows of its own, and the right answer is
+ * the containing city's station rather than a duplicated copy of it. Returns
+ * the source geography so the page can say whose station it is.
+ */
+export async function resolveFromAncestry<T>(
+  id: number,
+  chain: readonly GeoNode[],
+  load: (geoId: number) => Promise<T | null>
+): Promise<{ value: T; sourceGeoId: number; sourceLabel: string | null } | null> {
+  const direct = await load(id);
+  if (direct) return { value: direct, sourceGeoId: id, sourceLabel: null };
+
+  for (const node of chain) {
+    const value = await load(node.geo_id);
+    if (value) {
+      return {
+        value,
+        sourceGeoId: node.geo_id,
+        sourceLabel: `${node.name}, ${node.state}`,
+      };
+    }
+  }
+  return null;
+}
 
 /** Latest EPA annual AQI summary matched to a location's source geography. */
 export const getLatestAirQuality = unstable_cache(
