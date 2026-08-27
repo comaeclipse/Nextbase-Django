@@ -25,6 +25,8 @@ import {
   isCandidateOf,
   locationCsvCompletionProblems,
 } from "../lib/location-completeness";
+import { buildLocationUpsert, type ImportParent as ParentGeo } from "../lib/location-import";
+import { isUnresolvedGeographyRow } from "../lib/geography-import-status";
 import { geoSlug } from "../lib/geo-slug";
 import { deriveCostOfLivingCategory } from "../lib/cost-of-living";
 import { classifyAndPersist, classifyLocation } from "../lib/pace";
@@ -163,6 +165,7 @@ function parseRow(row: Row): Record<string, unknown> {
     geo_type: geoType,
     is_candidate: isCandidateOf(row, geoType),
     population_source: cleanEmpty(row["PopulationSource"]),
+    ...("PopulationUnavailableReason" in row ? { population_unavailable_reason: cleanEmpty(row["PopulationUnavailableReason"]) } : {}),
     population_vintage: cleanEmpty(row["PopulationVintage"]),
     boundary_source: cleanEmpty(row["BoundarySource"]),
     boundary_geoid: cleanEmpty(row["BoundaryGeoid"]),
@@ -232,51 +235,11 @@ function parseRow(row: Row): Record<string, unknown> {
   };
 }
 
-async function upsert(
-  data: Record<string, unknown>
-): Promise<{ status: "created" | "updated"; id: number }> {
-  const sql = getSql();
-  const cols = Object.keys(data);
-  // jsonb column needs a text param cast; everything else coerces fine.
-  const value = (c: string) => (c === "tags" ? JSON.stringify(data[c]) : data[c]);
-  const placeholder = (c: string, i: number) =>
-    c === "tags" ? `$${i + 1}::jsonb` : `$${i + 1}`;
-
-  /*
-   * Keyed on slug, not (name, state). Below city level the old key is not
-   * unique -- a second "Downtown, CA" silently overwrote the first, with
-   * nothing in the database to stop it.
-   */
-  const existing = (await sql.query(
-    "SELECT id FROM locations_location WHERE slug = $1",
-    [data.slug]
-  )) as { id: number }[];
-
-  if (existing.length) {
-    const setClause = cols.map((c, i) => `${c} = ${placeholder(c, i)}`).join(", ");
-    await sql.query(
-      `UPDATE locations_location SET ${setClause}, updated_at = now() WHERE id = $${cols.length + 1}`,
-      [...cols.map(value), existing[0].id]
-    );
-    return { status: "updated", id: Number(existing[0].id) };
-  }
-  const colList = cols.join(", ");
-  const placeholders = cols.map((c, i) => placeholder(c, i)).join(", ");
-  const inserted = (await sql.query(
-    `INSERT INTO locations_location (${colList}, created_at, updated_at)
-     VALUES (${placeholders}, now(), now())
-     RETURNING id`,
-    cols.map(value)
-  )) as { id: number }[];
-  return { status: "created", id: Number(inserted[0].id) };
-}
-
-interface ParentGeo {
-  id: number;
-  name: string;
-  state: string;
-  geo_type: string;
-  relationship: string;
+async function upsert(data: Record<string, unknown>, parent: ParentGeo | null, source: string): Promise<{ status: "created" | "updated"; id: number }> {
+  const query = buildLocationUpsert(data, parent, source);
+  const rows = await getSql().query(query.text, query.params) as { id: number; created: boolean }[];
+  if (rows.length !== 1) throw new Error("Parent changed or disappeared before import; no child written");
+  return { status: rows[0].created ? "created" : "updated", id: Number(rows[0].id) };
 }
 
 /**
@@ -299,43 +262,13 @@ async function resolveParent(parentSlug: string): Promise<ParentGeo> {
     );
   }
   const parent = found[0];
+  if (!["city", "county"].includes(parent.geo_type)) throw new Error("Parent must be a city or county");
   return {
     ...parent,
     id: Number(parent.id),
     relationship:
       parent.geo_type === "county" ? "county_containment" : "municipal_containment",
   };
-}
-
-/**
- * Record the containment, both as the canonical parent_geo_id column and as the
- * typed geo_relationships row.
- *
- * Both are written because they mean different things: the column is the
- * canonical containment and the fast path, the table is the typed,
- * multi-parent graph. Writing only one leaves the graph inconsistent.
- *
- * Only municipal/county containment is written here. Metro membership is a
- * different relationship with a different source (OMB delineations), so it is
- * not inferred from a CSV column.
- */
-async function recordContainment(
-  childId: number,
-  parent: ParentGeo,
-  sourceLabel: string
-): Promise<string> {
-  const sql = getSql();
-  await sql.query(
-    "UPDATE locations_location SET parent_geo_id = $1, updated_at = now() WHERE id = $2",
-    [parent.id, childId]
-  );
-  await sql.query(
-    `INSERT INTO geo_relationships (parent_geo_id, child_geo_id, relationship_type, source)
-     VALUES ($1, $2, $3, $4)
-     ON CONFLICT (parent_geo_id, child_geo_id, relationship_type, valid_from) DO NOTHING`,
-    [parent.id, childId, parent.relationship, sourceLabel]
-  );
-  return `${parent.name}, ${parent.state} (${parent.relationship})`;
 }
 
 /** Classify pace after upsert; never blocks the city import on failure. */
@@ -393,7 +326,13 @@ async function main() {
   }
 
   const text = readFileSync(csvPath, "utf-8");
-  const rows: Row[] = parse(text, { columns: true, skip_empty_lines: true });
+  const parsed: Row[] = parse(text, { columns: true, skip_empty_lines: true });
+  const rows = parsed.filter((row) => {
+    if (!isUnresolvedGeographyRow(row)) return true;
+    console.log(`Skipped unresolved geography: ${row.City}, ${row.State}: ${row.GeoResolutionNote}`);
+    return false;
+  });
+  if (clear && rows.length !== parsed.length) throw new Error("--clear cannot be combined with unresolved audit rows");
   console.log(`Importing locations from: ${csvPath}${dryRun ? " (dry run)" : ""}`);
 
   /*
@@ -474,6 +413,9 @@ async function main() {
   for (let i = 0; i < rows.length; i++) {
     try {
       const data = parseRow(rows[i]);
+      const parentSlug = parentSlugOf(rows[i]);
+      const parent = parentSlug ? await resolveParent(parentSlug) : null;
+      if (parent && (parent.state !== data.state || data.geo_type === "city")) throw new Error("Invalid child/parent geography");
       if (dryRun) {
         console.log(
           `  = Would upsert: ${data.name}, ${data.state}` +
@@ -483,11 +425,7 @@ async function main() {
         );
         continue;
       }
-      // Resolved before the upsert so a bad ParentSlug writes nothing at all.
-      const parentSlug = parentSlugOf(rows[i]);
-      const parent = parentSlug ? await resolveParent(parentSlug) : null;
-
-      const result = await upsert(data);
+      const result = await upsert(data, parent, cleanEmpty(rows[i]["ParentSource"]) ?? "CSV import");
       const label = `${data.name}, ${data.state}` +
         (data.geo_type === "city" ? "" : ` [${data.geo_type}]`);
       if (result.status === "created") {
@@ -498,14 +436,7 @@ async function main() {
         console.log(`  ~ Updated: ${label}`);
       }
 
-      if (parent) {
-        const linked = await recordContainment(
-          result.id,
-          parent,
-          cleanEmpty(rows[i]["ParentSource"] ?? "") ?? "CSV import"
-        );
-        console.log(`    contained by: ${linked}`);
-      }
+      if (parent) console.log(`    contained by: ${parent.name}, ${parent.state} (${parent.relationship})`);
 
       /*
        * A county or metro has no settlement pace of its own -- it exists to be
@@ -535,6 +466,7 @@ async function main() {
     }
   }
 
+  if (errors) process.exitCode = 1;
   console.log(
     dryRun
       ? `\nDry run complete. ${rows.length} row(s) parsed, ${errors} error(s).`
@@ -542,4 +474,4 @@ async function main() {
   );
 }
 
-main();
+main().catch((error) => { console.error(error); process.exitCode = 1; });

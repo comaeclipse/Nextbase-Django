@@ -69,7 +69,11 @@ async function main() {
 
   const geoType = String(row.geo_type ?? "city");
   const isCity = geoType === "city";
-  const columns: readonly string[] = isCity ? requiredColumns : requiredNonCityColumns;
+  const populationUnavailable = geoType === "neighborhood" && row.is_candidate === false &&
+    !hasValue(row.population) && hasValue(row.population_unavailable_reason);
+  const columns: readonly string[] = isCity ? requiredColumns : populationUnavailable
+    ? requiredNonCityColumns.filter((c) => !["population", "population_source", "population_vintage"].includes(c))
+    : requiredNonCityColumns;
 
   const missing: string[] = columns.filter((column) => {
     const value = row[column];
@@ -107,7 +111,7 @@ async function main() {
   console.log(
     isCity
       ? `${name}, ${state} is complete: curated fields, VA hospital, climate, pace, and derived features verified.`
-      : `${name}, ${state} is complete for a ${geoType}: identity, coordinates, population provenance, containment and pace verified. ` +
+      : `${name}, ${state} is complete for a ${geoType}: identity, coordinates, population provenance or documented unavailability, containment and pace verified. ` +
           `Climate, cost and tax figures resolve from its containing geographies.`
   );
 }

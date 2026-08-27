@@ -12,6 +12,25 @@ Object.assign(completeRow, {
 });
 
 describe("locationCsvCompletionProblems", () => {
+  const community = {
+    City: "Midland", State: "GA", County: "Muscogee", GeoType: "neighborhood", IsCandidate: "No",
+    ParentSlug: "ga-columbus", ParentSource: "Census point-in-polygon evidence",
+    Latitude: "32.574867", Longitude: "-84.827156", BoundarySource: "USGS GNIS 318098",
+    Description: "Named community within Columbus.", Tags: '["community"]',
+    PopulationUnavailableReason: "GNIS point has no defined population boundary; ZCTA is not the community.",
+  };
+  it("allows documented unavailable population only for a non-candidate neighborhood", () => {
+    expect(locationCsvCompletionProblems(community, "neighborhood", false)).toEqual([]);
+    expect(locationCsvCompletionProblems(community, "neighborhood", true)).toContain("Population is blank");
+    expect(locationCsvCompletionProblems(community, "cdp", false)).toContain("Population is blank");
+    expect(locationCsvCompletionProblems({ ...community, ParentSource: "" }, "neighborhood", false)).toContain("ParentSource is blank");
+    expect(locationCsvCompletionProblems({ ...community, PopulationUnavailableReason: "" }, "neighborhood", false)).toContain("Population is blank");
+  });
+  it("still requires provenance for a supplied neighborhood population", () => {
+    const errors = locationCsvCompletionProblems({ ...community, Population: "100", PopulationUnavailableReason: "" }, "neighborhood", false);
+    expect(errors).toContain("Population is set but PopulationSource is blank");
+    expect(errors).toContain("Population is set but PopulationVintage is blank");
+  });
   it("accepts a complete row with explicit negative booleans", () => {
     expect(locationCsvCompletionProblems(completeRow)).toEqual([]);
   });
