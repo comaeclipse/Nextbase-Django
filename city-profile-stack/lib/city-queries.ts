@@ -117,7 +117,10 @@ export async function findSimilarCities(
   const sql = getSql();
 
   const locations = (await sql.query(
-    "SELECT id, name, state, population FROM locations_location"
+    // Candidates only: the similarity corpus is the set of places you could
+    // actually move to. A structural parent (Los Angeles) or a neighborhood
+    // would otherwise become both a comparison target and a result.
+    "SELECT id, name, state, population FROM locations_location WHERE is_candidate"
   )) as { id: string; name: string; state: string; population: string | null }[];
   const info = new Map(
     locations.map((l) => [l.id, { label: `${l.name}, ${l.state}`, population: parsePopulation(l.population) }])
@@ -360,7 +363,8 @@ export async function matchProfileToCities(
   const sql = getSql();
 
   const locations = (await sql.query(
-    "SELECT id, name, state FROM locations_location"
+    // Candidates only -- see findSimilarCities.
+    "SELECT id, name, state FROM locations_location WHERE is_candidate"
   )) as { id: string; name: string; state: string }[];
   const info = new Map(locations.map((l) => [l.id, `${l.name}, ${l.state}`]));
 
@@ -550,7 +554,8 @@ export async function estimateCostForCities(opts: {
             rpp.vintage_year AS rpp_vintage_year
      FROM locations_location l
      LEFT JOIN locations_stateinfo s ON s.state = l.state
-     LEFT JOIN location_cost_rpp rpp ON rpp.location_id = l.id`
+     LEFT JOIN location_cost_rpp rpp ON rpp.location_id = l.id
+     WHERE l.is_candidate`
   )) as Record<string, unknown>[];
 
   const locations = rows.map(
@@ -813,7 +818,7 @@ export async function compareStateTaxesAndGas(
   } = {}
 ): Promise<StateTaxGasResult> {
   const sql = getSql();
-  const rows = (await sql.query(`SELECT state, name, sales_tax, income_tax FROM locations_location`)) as {
+  const rows = (await sql.query(`SELECT state, name, sales_tax, income_tax FROM locations_location WHERE is_candidate`)) as {
     state: string;
     name: string;
     sales_tax: string | null;
@@ -927,7 +932,7 @@ export async function compareStateGunFreedom(
   } = {}
 ): Promise<StateGunFreedomResult> {
   const sql = getSql();
-  const rows = (await sql.query(`SELECT state, name FROM locations_location`)) as {
+  const rows = (await sql.query(`SELECT state, name FROM locations_location WHERE is_candidate`)) as {
     state: string;
     name: string;
   }[];

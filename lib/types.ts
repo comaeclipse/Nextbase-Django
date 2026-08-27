@@ -7,6 +7,20 @@
  * typed as `string | null` and parsed where needed.
  */
 
+/**
+ * What a place *is*. Independent of whether it is ranked -- see
+ * `LocationRow.is_candidate`.
+ */
+export type GeoType = "city" | "neighborhood" | "cdp" | "county" | "metro";
+
+/** How one geography contains or belongs to another. */
+export type GeoRelationshipType =
+  | "municipal_containment"
+  | "county_containment"
+  | "metro_membership"
+  | "precinct_containment"
+  | "historical_annexation";
+
 export interface LocationRow {
   id: number;
   name: string;
@@ -15,9 +29,39 @@ export interface LocationRow {
   latitude?: number | null;
   longitude?: number | null;
 
+  // Geographic identity
+  /** Stable external key, e.g. "ca-los-angeles", "ca-los-angeles-canoga-park". */
+  slug: string;
+  geo_type: GeoType;
+  /**
+   * Whether this is one of the curated retirement locations that /explore,
+   * /quiz, /map and the API rank. Deliberately separate from `geo_type`: Los
+   * Angeles is unambiguously a city, has to exist so Canoga Park has a
+   * municipality to inherit sales tax and RPP from, and must never appear as a
+   * retirement candidate.
+   */
+  is_candidate: boolean;
+  /** Canonical containment. Null for a top-level place. */
+  parent_geo_id: number | null;
+
+  /*
+   * Geography provenance. A neighborhood population is an ACS tract
+   * aggregation or a boundary project, not a Census Place count, and which one
+   * it is changes how much weight the number carries.
+   */
+  population_source: string | null;
+  population_vintage: string | null;
+  boundary_source: string | null;
+  /** Null exactly when no Census geography exists for the place. */
+  boundary_geoid: string | null;
+
   // Metrics / display
   climate: string | null;
-  cost_of_living: string;
+  /**
+   * Nullable since the geo-hierarchy migration: a neighborhood has no cost
+   * category of its own, because BEA publishes RPP per metro.
+   */
+  cost_of_living: string | null;
   tags: string[] | null; // jsonb
   emoji: string;
   gradient: string;

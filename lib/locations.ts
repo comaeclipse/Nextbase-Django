@@ -118,9 +118,18 @@ export async function fetchAllLocations(): Promise<LocationRow[]> {
   // base order is identical. This matters as the stable-sort tie-break when
   // two rows share a sort key (e.g. same-named cities), keeping filter/sort
   // results byte-for-byte with the Django views.
+  //
+  // `is_candidate` is the ranking gate for every surface fed by this function
+  // (/explore, /quiz, /quiz2, /map, /profile, /weather, /api/locations). It is
+  // deliberately not `geo_type = 'city'`: Los Angeles is a city, and it exists
+  // only so Canoga Park has a municipality to inherit sales tax and RPP from —
+  // ranking it as a retirement destination would be wrong. Neighborhoods sit
+  // behind the same gate until their cost, safety and housing data is
+  // genuinely neighborhood-scoped rather than inherited.
   const rows = await sql.query(
     `SELECT ${LOCATION_SELECT}
      ${LOCATION_FROM}
+     WHERE l.is_candidate
      ORDER BY l.featured DESC, l.name ASC`
   );
   return (rows as Record<string, unknown>[]).map(normalizeLocation);
@@ -169,14 +178,26 @@ export const getLatestAirQuality = unstable_cache(
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [LOCATIONS_TAG] }
 );
 
-/** "More like this" — up to 3 other locations from the same state. */
+/**
+ * "More like this" — up to 3 other locations from the same state.
+ *
+ * Candidates only: a structural parent like Los Angeles is not somewhere you
+ * would relocate to, and a neighborhood would otherwise surface as a peer of
+ * the very city that contains it.
+ *
+ * The ORDER BY is required, not cosmetic. Without it Postgres picks whichever
+ * three rows it likes, so the cards under a city page could change between two
+ * identical requests. Matching fetchAllLocations' ordering makes the choice
+ * deterministic and consistent with every other list in the app.
+ */
 export const getSimilarLocations = unstable_cache(
   async (state: string, excludeId: number): Promise<LocationRow[]> => {
     const sql = getSql();
     const rows = await sql.query(
       `SELECT ${LOCATION_SELECT}
        ${LOCATION_FROM}
-       WHERE l.state = $1 AND l.id <> $2
+       WHERE l.state = $1 AND l.id <> $2 AND l.is_candidate
+       ORDER BY l.featured DESC, l.name ASC
        LIMIT 3`,
       [state, excludeId]
     );
