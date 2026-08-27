@@ -204,7 +204,7 @@ export interface EstimateOptions {
 }
 
 /** Home value in dollars, reusing the parser the Fit score already uses. */
-function homeValue(loc: CostInputs): number | null {
+export function homeValue(loc: CostInputs): number | null {
   if (loc.avg_home_value !== null && loc.avg_home_value !== undefined) {
     const parsed = parseFloat(loc.avg_home_value);
     return Number.isFinite(parsed) ? parsed : null;
@@ -409,6 +409,65 @@ function housingCost(
       opts.mortgageRateOverride ?? c.mortgageRate30yr
     )
   );
+}
+
+/**
+ * Monthly PITI(+HOA) breakdown for buying a specific home: principal and
+ * interest, property tax, insurance, HOA — and NOTHING else. Maintenance and
+ * utilities are deliberately excluded (issue #170 decision 2): the 30%-rule
+ * literature is PITI-shaped, and lib/housing-burden.ts discloses the
+ * exclusion rather than folding it in. This is the housing-burden metric's
+ * cost base, NOT the residual model's — estimateMonthlyCost keeps pricing
+ * the full carrying cost.
+ */
+export interface PitiEstimate {
+  /** Sum of the four parts, or null when insurance could not be priced. */
+  total: number | null;
+  principalAndInterest: number;
+  tax: number;
+  /** Null when the state is unknown to the insurance dataset. */
+  insurance: number | null;
+  hoa: number;
+  missing: string[];
+  approximations: string[];
+}
+
+export function estimatePitiMonthly(
+  loc: CostInputs,
+  price: number,
+  c: ResolvedConstants,
+  opts: EstimateOptions = {}
+): PitiEstimate {
+  const missing: string[] = [];
+  const approximations: string[] = [];
+
+  let taxRate = opts.propertyTaxRateOverride ?? loc.property_tax_rate ?? null;
+  if (taxRate === null) {
+    taxRate = c.fallbackPropertyTaxRate;
+    approximations.push("national average property tax rate");
+  }
+
+  const insuranceAnnual = annualHomeInsurance(loc, price, c);
+  if (insuranceAnnual === null) missing.push("homeowners insurance for this state");
+
+  const down = opts.downPaymentFraction ?? c.defaultDownPaymentFraction;
+  const principalAndInterest = monthlyPrincipalAndInterest(
+    price * (1 - down),
+    opts.mortgageRateOverride ?? c.mortgageRate30yr
+  );
+  const tax = (price * taxRate) / 12;
+  const hoa = opts.hoaMonthly ?? 0;
+  const insurance = insuranceAnnual === null ? null : insuranceAnnual / 12;
+
+  return {
+    total: insurance === null ? null : principalAndInterest + tax + insurance + hoa,
+    principalAndInterest,
+    tax,
+    insurance,
+    hoa,
+    missing,
+    approximations,
+  };
 }
 
 /**
