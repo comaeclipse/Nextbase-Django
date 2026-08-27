@@ -71,11 +71,29 @@ async function main() {
     "parent_geo_id points somewhere geo_relationships does not confirm. Add the relationship row or correct the column."
   );
 
+  /*
+   * Only geographies that are *contained by something* need a parent. A county
+   * or a metro is a container -- it sits at the top and exists to be inherited
+   * FROM, so requiring a parent for it is wrong. This check originally said
+   * "every non-city", which was true while neighborhoods were the only non-city
+   * type and became false the moment metros were added.
+   */
   await check(
-    "every non-city has a parent",
+    "every contained geography has a parent",
     `SELECT id, name, state, geo_type FROM locations_location
-     WHERE geo_type <> 'city' AND parent_geo_id IS NULL`,
+     WHERE geo_type IN ('neighborhood', 'cdp') AND parent_geo_id IS NULL`,
     "A neighborhood/CDP with no parent has nothing to inherit from; its page would render mostly empty."
+  );
+
+  /*
+   * The mirror of the above: a container with a parent is either mis-typed or
+   * has been given a containment that does not exist.
+   */
+  await check(
+    "no container geography is contained",
+    `SELECT id, name, state, geo_type, parent_geo_id FROM locations_location
+     WHERE geo_type IN ('county', 'metro') AND parent_geo_id IS NOT NULL`,
+    "A county or metro is a top-level container. Retype the row, or clear parent_geo_id."
   );
 
   await check(
