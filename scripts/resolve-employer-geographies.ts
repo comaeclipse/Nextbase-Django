@@ -26,9 +26,9 @@
  * Writes files only. No database writes.
  *
  * Usage:
- *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/resolve-employer-geographies.ts [--limit N]
+ *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/resolve-employer-geographies.ts [--limit N] [--out-dir NEW_DIRECTORY]
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { getSql } from "../lib/db";
 import { DEFENSE_HUB_MIN_POSTINGS } from "../lib/defense";
@@ -38,6 +38,14 @@ const args = process.argv.slice(2);
 const limitIdx = args.indexOf("--limit");
 const LIMIT = limitIdx >= 0 ? Number(args[limitIdx + 1]) : Infinity;
 
+if ((!Number.isInteger(LIMIT) && LIMIT !== Infinity) || LIMIT <= 0) throw new Error("--limit requires a positive integer");
+const outIdx = args.indexOf("--out-dir");
+if (outIdx >= 0 && (!args[outIdx + 1] || args[outIdx + 1].startsWith("--"))) throw new Error("--out-dir requires a directory");
+const outputDir = outIdx >= 0 ? args[outIdx + 1] : path.join("data", "employer-geography-runs", new Date().toISOString().replace(/[:.]/g, "-"));
+for (const file of ["employer_geographies.csv", "employer_geographies_aliases.csv", "employer_geographies_metro.csv", "employer_geographies_report.md"]) {
+  if (existsSync(path.join(outputDir, file))) throw new Error(`Refusing to overwrite ${path.join(outputDir, file)}; choose a new --out-dir`);
+}
+mkdirSync(outputDir, { recursive: true });
 const BENCHMARK = "Public_AR_Current";
 const VINTAGE = "Current_Current";
 const COORDS = "https://geocoding.geo.census.gov/geocoder/geographies/coordinates";
@@ -363,14 +371,14 @@ async function main() {
       r.lat ?? "", r.lon ?? "", r.placeGeoid ?? "",
     ].join(",")
   )].join("\n") + "\n";
-  writeFileSync(path.join("data", "employer_geographies.csv"), csv);
+  writeFileSync(path.join(outputDir, "employer_geographies.csv"), csv);
 
   const aliasCsv = ["RawCity,RawState,CanonicalCity,AliasKind,Source,OnsiteHybrid",
     ...aliases.map((a) => [
       esc(a.alias.city), a.alias.state, esc(a.canonicalCity), "employer_location",
       "defense employer feed spelling variant", a.alias.onsiteHybrid,
     ].join(","))].join("\n") + "\n";
-  writeFileSync(path.join("data", "employer_geographies_aliases.csv"), aliasCsv);
+  writeFileSync(path.join(outputDir, "employer_geographies_aliases.csv"), aliasCsv);
 
   const canonicalSet = new Set(canonical);
   const memb = ["Slug,City,State,CbsaGeoid,CbsaSource,OnsiteHybrid",
@@ -378,7 +386,7 @@ async function main() {
       `${r.state.toLowerCase()}-${r.city.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
       esc(r.city), r.state, r.cbsaGeoid, r.cbsaSource, r.onsiteHybrid,
     ].join(","))].join("\n") + "\n";
-  writeFileSync(path.join("data", "employer_geographies_metro.csv"), memb);
+  writeFileSync(path.join(outputDir, "employer_geographies_metro.csv"), memb);
 
   const nameMismatch = resolved.filter(
     (r) => r.censusName && r.censusName.split(",")[0].trim().toLowerCase() !== r.city.trim().toLowerCase()
@@ -429,14 +437,11 @@ async function main() {
     ),
     "",
   ].join("\n");
-  writeFileSync(path.join("data", "employer_geographies_report.md"), md);
+  writeFileSync(path.join(outputDir, "employer_geographies_report.md"), md);
 
   console.log(`\nresolved ${resolved.length}/${targets.length}; ${withCbsa.length} with a CBSA; ${failed.length} unresolved`);
   console.log(`${canonical.length} geographies + ${aliases.length} spelling alias(es)`);
-  console.log("wrote data/employer_geographies.csv");
-  console.log("wrote data/employer_geographies_aliases.csv");
-  console.log("wrote data/employer_geographies_metro.csv");
-  console.log("wrote data/employer_geographies_report.md");
+  console.log(`Wrote a new resolution batch in ${outputDir}; canonical artifacts were not overwritten.`);
 }
 
 main().catch((error) => {

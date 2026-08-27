@@ -27,12 +27,13 @@
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
+import { isUnresolvedMetroRow } from "../lib/geography-import-status";
 
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
 const csvPath = args.find((a) => !a.startsWith("--")) ?? "data/employer_geographies_metro.csv";
 
-interface MetroRow { Slug: string; City: string; State: string; CbsaGeoid: string }
+interface MetroRow { [key: string]: string; Slug: string; City: string; State: string; CbsaGeoid: string }
 
 /** "Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area)" -> name + lead state. */
 function splitCbsaName(raw: string): { name: string; state: string } {
@@ -65,9 +66,10 @@ async function main() {
   // Employer anchors, resolved to a location row by (name, state).
   const anchorIds = new Map<string, { id: number; name: string; state: string }[]>();
   for (const a of anchors) {
+    if (isUnresolvedMetroRow(a)) { console.log(`Skipped unresolved metro mapping: ${a.Slug}`); continue; }
     const found = (await sql.query(
-      "SELECT id, name, state FROM locations_location WHERE lower(btrim(name)) = lower(btrim($1)) AND upper(btrim(state)) = $2 AND NOT is_candidate",
-      [a.City, a.State]
+      "SELECT id, name, state FROM locations_location WHERE slug = $1 AND lower(btrim(name)) = lower(btrim($2)) AND upper(btrim(state)) = $3 AND NOT is_candidate AND latitude IS NOT NULL AND longitude IS NOT NULL",
+      [a.Slug, a.City, a.State]
     )) as { id: number; name: string; state: string }[];
     if (!found.length) continue;
     const key = String(a.CbsaGeoid);

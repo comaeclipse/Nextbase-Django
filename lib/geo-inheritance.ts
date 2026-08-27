@@ -122,6 +122,7 @@ type NonInheritableField =
   | "is_candidate"
   | "parent_geo_id"
   | "population_source"
+  | "population_unavailable_reason"
   | "population_vintage"
   | "boundary_source"
   | "boundary_geoid";

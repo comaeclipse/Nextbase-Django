@@ -50,6 +50,7 @@ export interface LocationRow {
    * it is changes how much weight the number carries.
    */
   population_source: string | null;
+  population_unavailable_reason?: string | null;
   population_vintage: string | null;
   boundary_source: string | null;
   /** Null exactly when no Census geography exists for the place. */

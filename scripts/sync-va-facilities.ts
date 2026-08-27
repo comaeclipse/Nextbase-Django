@@ -22,6 +22,8 @@
  */
 import { writeFileSync } from "node:fs";
 import { getSql } from "../lib/db";
+import { assertTargetsExist, parseLocationIds } from "../lib/location-targets";
+const ids = parseLocationIds(process.argv.slice(2), ["--dry-run", "--missing-only"]);
 
 const dryRun = process.argv.includes("--dry-run");
 const missingOnly = process.argv.includes("--missing-only");
@@ -178,13 +180,16 @@ async function main() {
   );
 
   const sql = getSql();
+  if (ids) assertTargetsExist(ids, await sql.query("SELECT id FROM locations_location WHERE id = ANY($1::bigint[])", [ids]) as { id: number }[]);
   const cities = (await sql.query(
     `SELECT id, name, state, latitude, longitude, nearest_va, distance_to_va
      FROM locations_location
      WHERE latitude IS NOT NULL AND longitude IS NOT NULL
-     ORDER BY name, state`
+       AND ($1::bigint[] IS NULL OR id = ANY($1::bigint[]))
+     ORDER BY name, state`, [ids]
   )) as CityRow[];
 
+  if (ids) assertTargetsExist(ids, cities);
   const targets = missingOnly
     ? cities.filter((c) => !c.nearest_va || !c.distance_to_va)
     : cities;
@@ -251,7 +256,7 @@ async function main() {
     updated++;
   }
 
-  const notePath = `data/va_facilities_sync_${retrievedOn}.md`;
+  const notePath = `data/va_facilities_sync_${retrievedOn}${ids ? `_ids-${[...ids].sort((a,b) => a-b).join("-")}` : ""}.md`;
   if (!dryRun) {
     writeFileSync(notePath, notes.join("\n") + "\n", "utf8");
     console.log(`\nWrote source note ${notePath}`);

@@ -36,6 +36,8 @@
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts [--dry-run]
  */
 import { getSql } from "../lib/db";
+import { assertTargetsExist, parseLocationIds } from "../lib/location-targets";
+const targetIds = parseLocationIds(process.argv.slice(2));
 import { DEFENSE_HUB_MIN_POSTINGS } from "../lib/defense";
 
 const dryRun = process.argv.includes("--dry-run");
@@ -52,6 +54,7 @@ interface Candidate {
 
 async function main() {
   const sql = getSql();
+  if (targetIds) assertTargetsExist(targetIds, await sql.query("SELECT id FROM locations_location WHERE id = ANY($1::bigint[])", [targetIds]) as { id: number }[]);
   console.log(
     `Recompute defense_hub${dryRun ? " (dry run)" : ""} — presence = ≥${DEFENSE_HUB_MIN_POSTINGS} onsite+hybrid; defense_hub_manual=false vetoes\n`
   );
@@ -103,8 +106,9 @@ async function main() {
        p.evidence
      FROM locations_location l
      LEFT JOIN presence p ON p.geo_id = l.id
+     WHERE $2::bigint[] IS NULL OR l.id = ANY($2::bigint[])
      ORDER BY l.name`,
-    [DEFENSE_HUB_MIN_POSTINGS]
+    [DEFENSE_HUB_MIN_POSTINGS, targetIds]
   )) as Candidate[];
 
   /** Veto wins; else a physical presence promotes; else the curated value stands (NULL included). */
@@ -160,8 +164,8 @@ async function main() {
        END
        FROM (SELECT l2.id AS geo_id FROM locations_location l2) ids
        LEFT JOIN presence p ON p.geo_id = ids.geo_id
-       WHERE ids.geo_id = l.id`,
-      [DEFENSE_HUB_MIN_POSTINGS]
+       WHERE ids.geo_id = l.id AND l.id = ANY($2::bigint[])`,
+      [DEFENSE_HUB_MIN_POSTINGS, flips.map((f) => Number(f.id))]
     );
   }
 

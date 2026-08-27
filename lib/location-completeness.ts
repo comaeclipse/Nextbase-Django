@@ -144,10 +144,15 @@ export function locationCsvCompletionProblems(
   geoType: GeoType = "city",
   isCandidate: boolean = geoType === "city"
 ): string[] {
-  const required =
+  const populationUnavailable = geoType === "neighborhood" && !isCandidate &&
+    value(row, "Population") === null && value(row, "PopulationUnavailableReason") !== null;
+  const baseRequired =
     geoType === "city" && !isCandidate
       ? REQUIRED_PARENT_CITY_CSV_COLUMNS
       : REQUIRED_COLUMNS_BY_GEO_TYPE[geoType];
+  const required: readonly string[] = populationUnavailable
+    ? [...baseRequired.filter((column) => !["Population", "PopulationSource", "PopulationVintage"].includes(column)), "ParentSource"]
+    : baseRequired;
   const problems = required
     .filter((column) => value(row, column) === null)
     .map((column) => `${column} is blank`);
@@ -169,10 +174,14 @@ export function locationCsvCompletionProblems(
   for (const [column, sources] of Object.entries(PROVENANCE_REQUIRED)) {
     if (value(row, column) === null) continue;
     for (const source of sources) {
-      if (required.includes(source) && value(row, source) === null) {
+      if ((baseRequired.includes(source) || geoType !== "city") && value(row, source) === null) {
         problems.push(`${column} is set but ${source} is blank`);
       }
     }
+  }
+
+  if (value(row, "Population") !== null && value(row, "PopulationUnavailableReason") !== null) {
+    problems.push("Population and PopulationUnavailableReason must not both be set");
   }
 
   for (const column of BOOLEAN_COLUMNS) {
