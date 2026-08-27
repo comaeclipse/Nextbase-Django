@@ -88,6 +88,16 @@ places that carry defense-employer postings but were never curated.
   boundary project, not a Census Place count, and which one it is changes how much
   weight the number carries. `boundary_geoid` is null exactly when no Census
   geography exists for the place.
+- **`population_unavailable_reason`**: nullable text added by
+  `scripts/migrate-population-unavailable-reason.ts`. Only a non-candidate
+  neighborhood may omit population/source/vintage with an explicit reason and
+  sourced containment. This is not inherited. A supplied population still needs
+  source and vintage; ZIP population is not a substitute for a community boundary.
+  Candidate and CDP completeness requirements are unchanged.
+
+`import-csv.ts` resolves `ParentSlug` during dry-run and requires a same-state
+city/county parent. The live child upsert and containment edge use one SQL
+statement, so an edge failure also rolls back insertion-trigger employer links.
 
 `UNIQUE NULLS NOT DISTINCT (name, state, parent_geo_id)` closes a long-standing
 hole: `import-csv.ts` upserted on `(name, state)` with nothing enforcing it, so a
