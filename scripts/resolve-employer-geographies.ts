@@ -32,6 +32,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { getSql } from "../lib/db";
 import { DEFENSE_HUB_MIN_POSTINGS } from "../lib/defense";
+import { nameAgrees, findInstallation } from "../lib/employer-geography";
 
 const args = process.argv.slice(2);
 const limitIdx = args.indexOf("--limit");
@@ -80,7 +81,7 @@ interface Resolved {
 async function getJson(url: string): Promise<{ result?: Record<string, unknown> } | null> {
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
       if (res.ok) return (await res.json()) as { result?: Record<string, unknown> };
       // 5xx is worth retrying; a 4xx will not improve.
       if (res.status < 500) return null;
@@ -109,47 +110,6 @@ function coordsFrom(body: unknown): { lat: number; lon: number } | null {
 }
 
 const first = (l?: Layer[]) => (l && l.length ? l[0] : null);
-
-/*
- * Does the geography the geocoder returned actually correspond to the place we
- * asked for?
- *
- * The street-guess and installation fallbacks can both answer with a DIFFERENT
- * place in the SAME state, which the state guard cannot see: "Bedford, MA"
- * came back as Medford, "Harrison Township, MI" as Redding, "Annapolis
- * Junction, MD" as Annapolis (19 miles away, and a different place).
- *
- * The rule: every significant word of the requested name must appear in the
- * returned name. That admits the legitimate renamings, which are all
- * elaborations --
- *     Lexington, KY   -> Lexington-Fayette
- *     Augusta, GA     -> Augusta-Richmond County consolidated government
- *     Moorestown, NJ  -> Moorestown-Lenola
- *     Tewksbury, MA   -> Tewksbury (county subdivision)
- * -- while rejecting substitutions (Bedford -> Medford) and truncations
- * (Annapolis Junction -> Annapolis), where a word of the request goes missing.
- */
-const NAME_NOISE = new Set([
-  "city", "town", "township", "village", "borough", "county", "subdivision",
-  "the", "of", "and", "base", "station", "afb", "sfb", "fort", "ft", "saint",
-  "st", "air", "force", "joint", "naval", "marine", "corps", "army", "camp",
-]);
-
-function nameTokens(value: string): string[] {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .split(/\s+/)
-    .filter((t) => t.length > 2 && !NAME_NOISE.has(t));
-}
-
-function nameAgrees(requested: string, returned: string | null): boolean {
-  if (!returned) return false;
-  const want = nameTokens(requested);
-  if (!want.length) return true; // nothing distinctive to check against
-  const got = new Set(nameTokens(returned));
-  return want.every((t) => got.has(t));
-}
 
 async function main() {
   const sql = getSql();
@@ -197,30 +157,6 @@ async function main() {
     `SELECT command_name, state, latitude, longitude FROM military_installations
      WHERE latitude IS NOT NULL AND longitude IS NOT NULL`
   )) as { command_name: string; state: string; latitude: number; longitude: number }[];
-
-  const NOISE = new Set([
-    "fort", "ft", "afb", "sfb", "afs", "nas", "mcas", "ans", "jb",
-    "air", "force", "base", "station", "joint", "naval", "marine", "corps",
-    "army", "camp", "support", "activity", "facility", "field",
-  ]);
-  const distinctiveTokens = (name: string) =>
-    name.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/)
-      .filter((t) => t.length > 2 && !NOISE.has(t));
-
-  function findInstallation(city: string, state: string) {
-    const tokens = distinctiveTokens(city);
-    if (!tokens.length) return null;
-    const inState = installations.filter(
-      (i) => (i.state ?? "").toUpperCase().includes(state.toUpperCase())
-    );
-    for (const pool of [inState, installations]) {
-      for (const token of tokens) {
-        const hit = pool.find((i) => i.command_name.toLowerCase().includes(token));
-        if (hit) return hit;
-      }
-    }
-    return null;
-  }
 
   const places = (await sql.query(
     `SELECT d.city, d.state,
@@ -288,7 +224,7 @@ async function main() {
     }
 
     if (!geo) {
-      const inst = findInstallation(p.city, p.state);
+      const inst = findInstallation(p.city, p.state, installations);
       if (inst) {
         const q = new URLSearchParams({
           benchmark: BENCHMARK, vintage: VINTAGE, format: "json",
