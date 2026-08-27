@@ -113,6 +113,11 @@ const OVERRIDES: Record<string, Override> = {
     source: "DoD MIRTA DoD Sites, SITENAME 'Joint Base Elmendorf-Richardson', ISJOINTBASE=yes",
     note: "GNIS answers 'Fort Richardson' for this point, which is one of the two merged installations rather than the joint base.",
   },
+  "east granby|CT": {
+    county: "Capitol", lat: 41.9300568, lon: -72.7453747, cbsa: "25540",
+    source: "Census TIGERweb county subdivision 0911022070 internal point",
+    note: "A Connecticut town is a county subdivision, not a populated place, so GNIS has no feature for it -- the same class of miss as Cranberry Township PA. County is the Capitol Planning Region, which replaced Hartford County in 2022; CBSA 25540 Hartford-West Hartford-East Hartford confirmed from the Census CBSA layer at this point.",
+  },
   "hanover|MD": {
     county: "Anne Arundel", lat: 39.1714186, lon: -76.7233284, cbsa: "12580",
     source: "Census TIGERweb ZCTA 21076 internal point",
@@ -137,6 +142,10 @@ const NAME_ALIASES: Record<string, string[]> = {
   "merrimack|NH": ["Merrimack"],
   "linthicum heights|MD": ["Linthicum Heights", "Linthicum"],
   "santa rita|GU": ["Santa Rita", "Santa Rita-Sumay"],
+  // The feed abbreviates; GNIS spells it out.
+  "st louis park|MN": ["Saint Louis Park", "St. Louis Park"],
+  "middletown|RI": ["Middletown"],
+  "east granby|CT": ["East Granby"],
 };
 
 interface GnisHit {
@@ -175,6 +184,33 @@ async function getJson(url: string): Promise<unknown> {
     await new Promise((r) => setTimeout(r, 400 * (i + 1)));
   }
   return null;
+}
+
+const TIGER_CBSA =
+  "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer/93/query";
+
+/*
+ * CBSA straight from the Census CBSA layer at a point.
+ *
+ * The county -> CBSA crosswalk in pace_derived.json is keyed on county FIPS,
+ * and Connecticut replaced its eight counties with nine PLANNING REGIONS in
+ * 2022. The crosswalk still holds 09001-09015, so every Connecticut place
+ * reverse-geocodes to something like "Capitol (09110)" and finds no entry --
+ * which is why all eight CT employer anchors currently have no metro, East
+ * Hartford's 153 onsite/hybrid postings included.
+ *
+ * Asking the CBSA layer directly sidesteps the crosswalk's vintage entirely and
+ * fixes any future boundary change the same way.
+ */
+async function cbsaAtPoint(lat: number, lon: number): Promise<string | null> {
+  const url =
+    `${TIGER_CBSA}?geometry=${lon},${lat}&geometryType=esriGeometryPoint&inSR=4326` +
+    `&spatialRel=esriSpatialRelIntersects&outFields=NAME,GEOID&returnGeometry=false&f=json`;
+  const body = (await getJson(url)) as
+    | { features?: { attributes?: { GEOID?: string } }[] }
+    | null;
+  const geoid = body?.features?.[0]?.attributes?.GEOID;
+  return geoid ? String(geoid) : null;
 }
 
 async function gnisLookup(name: string, state: string): Promise<GnisHit | null> {
@@ -224,6 +260,20 @@ async function main() {
   // Guam has no entry in the place gazetteer, so seed its FIPS explicitly.
   stateFips["66"] = "GU";
 
+  /*
+   * Note this does NOT filter on counts_as_defense, unlike
+   * scripts/recompute-defense-hub.ts.
+   *
+   * Those are different questions. counts_as_defense governs whether a
+   * facility is evidence of a DEFENSE cluster, which is a scoring judgement.
+   * Whether a place exists is a question about geography. An RTX Corporate
+   * office in Middletown RI is a real office in a real town; resolving it makes
+   * the employer data complete, and because the employer is flagged
+   * counts_as_defense=false it still contributes nothing to defense_hub.
+   *
+   * The onsite/hybrid threshold is the filter that matters here: a remote-only
+   * posting is not a facility and must never create a geography.
+   */
   const places = (await sql.query(
     `SELECT d.city, d.state,
             SUM(COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0))::int AS oh,
@@ -231,7 +281,7 @@ async function main() {
      FROM defense_employer_locations d
      JOIN defense_employers e ON e.id = d.employer_id
      WHERE d.location_id IS NULL AND d.country = 'US'
-       AND e.active AND e.counts_as_defense
+       AND e.active
      GROUP BY 1, 2
      HAVING SUM(COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0)) >= 1
      ORDER BY 3 DESC, 1`
@@ -306,7 +356,7 @@ async function main() {
       }
       row.countyFips = fips;
       row.countyName = (county.BASENAME ?? county.NAME ?? "").replace(/\s+County$/i, "").trim() || null;
-      row.cbsaGeoid = countyCbsa[fips] ?? null;
+      row.cbsaGeoid = countyCbsa[fips] ?? (await cbsaAtPoint(row.gnis.lat, row.gnis.lon));
     } else if (row.gnis.county) {
       // Guam and some territories return no Counties layer; GNIS still names one.
       row.countyName = row.gnis.county;
