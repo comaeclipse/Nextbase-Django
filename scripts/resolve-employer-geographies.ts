@@ -32,6 +32,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { getSql } from "../lib/db";
 import { DEFENSE_HUB_MIN_POSTINGS } from "../lib/defense";
+import { nameAgrees, findInstallation } from "../lib/employer-geography";
 
 const args = process.argv.slice(2);
 const limitIdx = args.indexOf("--limit");
@@ -80,7 +81,7 @@ interface Resolved {
 async function getJson(url: string): Promise<{ result?: Record<string, unknown> } | null> {
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
       if (res.ok) return (await res.json()) as { result?: Record<string, unknown> };
       // 5xx is worth retrying; a 4xx will not improve.
       if (res.status < 500) return null;
@@ -157,30 +158,6 @@ async function main() {
      WHERE latitude IS NOT NULL AND longitude IS NOT NULL`
   )) as { command_name: string; state: string; latitude: number; longitude: number }[];
 
-  const NOISE = new Set([
-    "fort", "ft", "afb", "sfb", "afs", "nas", "mcas", "ans", "jb",
-    "air", "force", "base", "station", "joint", "naval", "marine", "corps",
-    "army", "camp", "support", "activity", "facility", "field",
-  ]);
-  const distinctiveTokens = (name: string) =>
-    name.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/)
-      .filter((t) => t.length > 2 && !NOISE.has(t));
-
-  function findInstallation(city: string, state: string) {
-    const tokens = distinctiveTokens(city);
-    if (!tokens.length) return null;
-    const inState = installations.filter(
-      (i) => (i.state ?? "").toUpperCase().includes(state.toUpperCase())
-    );
-    for (const pool of [inState, installations]) {
-      for (const token of tokens) {
-        const hit = pool.find((i) => i.command_name.toLowerCase().includes(token));
-        if (hit) return hit;
-      }
-    }
-    return null;
-  }
-
   const places = (await sql.query(
     `SELECT d.city, d.state,
             SUM(COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0))::int AS oh,
@@ -247,7 +224,7 @@ async function main() {
     }
 
     if (!geo) {
-      const inst = findInstallation(p.city, p.state);
+      const inst = findInstallation(p.city, p.state, installations);
       if (inst) {
         const q = new URLSearchParams({
           benchmark: BENCHMARK, vintage: VINTAGE, format: "json",
@@ -291,6 +268,24 @@ async function main() {
     if (!base.censusName) {
       const sub = first(geo["County Subdivisions"]);
       if (sub) base.censusName = `${sub.BASENAME ?? sub.NAME} (county subdivision)`;
+    }
+
+    /*
+     * The gazetteer path found the place BY name, so it cannot have substituted
+     * one. The street-guess and installation paths can, and did.
+     */
+    if (base.method !== "gazetteer_centroid" && !nameAgrees(p.city, base.censusName)) {
+      base.method = "unresolved";
+      base.lat = null;
+      base.lon = null;
+      base.countyFips = null;
+      base.countyName = null;
+      base.placeGeoid = null;
+      base.note =
+        `resolved to "${base.censusName}", which is not "${p.city}" — refused ` +
+        `(a same-state substitution puts the place in the wrong county and metro)`;
+      base.censusName = null;
+      return base;
     }
 
     const cbsa = first(geo["Metropolitan Statistical Areas/Micropolitan Statistical Areas"]);
