@@ -16,6 +16,17 @@ if (!cityKey || !cityKey.includes(",")) {
 const [name, state] = cityKey.split(",").map((part) => part.trim());
 const sql = getSql();
 
+/*
+ * A geography below city level owns a different set of facts; the rest resolve
+ * at read time from a containing geography (lib/geo-inheritance.ts). Checking
+ * it against the city list would report every neighborhood as broken.
+ */
+const requiredNonCityColumns = [
+  "county", "population", "population_source", "population_vintage",
+  "boundary_source", "description", "tags", "latitude", "longitude",
+  "slug", "geo_type", "parent_geo_id",
+] as const;
+
 const requiredColumns = [
   "county", "city_politics", "election_2016",
   "election_2016_percent", "election_2024", "election_2024_percent", "election_change",
@@ -56,7 +67,11 @@ async function main() {
   ) as Record<string, unknown>[];
   if (!row) throw new Error(`Location not found: ${name}, ${state}`);
 
-  const missing: string[] = requiredColumns.filter((column) => {
+  const geoType = String(row.geo_type ?? "city");
+  const isCity = geoType === "city";
+  const columns: readonly string[] = isCity ? requiredColumns : requiredNonCityColumns;
+
+  const missing: string[] = columns.filter((column) => {
     const value = row[column];
     if (column === "lgbtq_mei_score" && !hasValue(value) && allowsMissingMeiScore(row)) {
       return false;
@@ -64,9 +79,24 @@ async function main() {
     return value === null || value === undefined || value === "" || (column === "tags" && (!Array.isArray(value) || value.length === 0));
   });
   if (!row.pace_category) missing.push("pace_category");
-  if (Number(row.monthly_weather_rows) !== 12) missing.push("12 monthly weather rows");
-  if (Number(row.hourly_normal_rows) !== 288) missing.push("288 hourly normal rows");
-  if (Number(row.feature_rows) === 0) missing.push("derived location features");
+
+  /*
+   * Weather and hourly normals are keyed by station, not containment, so a
+   * contained geography has no rows of its own by design -- the page resolves
+   * them from the nearest ancestor that does. Requiring them here would report
+   * a correctly-imported neighborhood as broken.
+   */
+  if (isCity) {
+    if (Number(row.monthly_weather_rows) !== 12) missing.push("12 monthly weather rows");
+    if (Number(row.hourly_normal_rows) !== 288) missing.push("288 hourly normal rows");
+    if (Number(row.feature_rows) === 0) missing.push("derived location features");
+  }
+
+  // Containment is the one thing a non-city geography must have; without it
+  // there is nothing to inherit from and its page renders mostly empty.
+  if (!isCity && !hasValue(row.parent_geo_id)) {
+    missing.push("parent_geo_id (no containing geography)");
+  }
 
   if (missing.length) {
     console.error(`${name}, ${state} is incomplete:`);
@@ -74,7 +104,12 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  console.log(`${name}, ${state} is complete: curated fields, VA hospital, climate, pace, and derived features verified.`);
+  console.log(
+    isCity
+      ? `${name}, ${state} is complete: curated fields, VA hospital, climate, pace, and derived features verified.`
+      : `${name}, ${state} is complete for a ${geoType}: identity, coordinates, population provenance, containment and pace verified. ` +
+          `Climate, cost and tax figures resolve from its containing geographies.`
+  );
 }
 
 main().catch((error) => {
