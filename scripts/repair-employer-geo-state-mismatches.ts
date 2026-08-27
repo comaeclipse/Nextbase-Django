@@ -1,6 +1,15 @@
 /*
- * Removes the false geography from employer-anchor rows that were resolved into
- * the wrong state, without removing the rows themselves.
+ * Removes the false geography from employer-anchor rows that were resolved to
+ * the wrong place, without removing the rows themselves.
+ *
+ * Two independent checks, because the two failure modes are different:
+ *   1. cross-state -- geometric. The coordinates are nowhere near any place in
+ *      the state the feed named.
+ *   2. same-state substitution -- by name. The coordinates are in the right
+ *      state but belong to a DIFFERENT place: "Bedford, MA" was resolved to
+ *      Medford, "Harrison Township, MI" to Redding 146 miles away. Geometry
+ *      cannot see this, so the stored coordinates are reverse-geocoded and the
+ *      returned name is checked against the row name.
  *
  * Two fallbacks in scripts/resolve-employer-geographies.ts could answer with a
  * place in a different state than the employer feed named:
@@ -31,6 +40,55 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { getSql } from "../lib/db";
 
+const COORDS = "https://geocoding.geo.census.gov/geocoder/geographies/coordinates";
+const BENCHMARK = "Public_AR_Current";
+const VINTAGE = "Current_Current";
+
+/* Same rule as scripts/resolve-employer-geographies.ts; see the note there. */
+const NAME_NOISE = new Set([
+  "city", "town", "township", "village", "borough", "county", "subdivision",
+  "the", "of", "and", "base", "station", "afb", "sfb", "fort", "ft", "saint",
+  "st", "air", "force", "joint", "naval", "marine", "corps", "army", "camp",
+]);
+const nameTokens = (v: string) =>
+  v.toLowerCase().replace(/[^a-z0-9]+/g, " ").split(/\s+/)
+    .filter((t) => t.length > 2 && !NAME_NOISE.has(t));
+function nameAgrees(requested: string, returned: string | null): boolean {
+  if (!returned) return false;
+  const want = nameTokens(requested);
+  if (!want.length) return true;
+  const got = new Set(nameTokens(returned));
+  return want.every((t) => got.has(t));
+}
+
+/** Reverse-geocode: what does the Census say is actually at these coordinates? */
+async function placeAt(lat: number, lon: number): Promise<string | null> {
+  const q = new URLSearchParams({
+    benchmark: BENCHMARK, vintage: VINTAGE, format: "json",
+    x: String(lon), y: String(lat),
+  });
+  for (let i = 0; i < 3; i++) {
+    try {
+      const res = await fetch(`${COORDS}?${q}`);
+      if (res.ok) {
+        const body = (await res.json()) as {
+          result?: { geographies?: Record<string, { NAME?: string; BASENAME?: string }[]> };
+        };
+        const g = body.result?.geographies;
+        if (!g) return null;
+        const layer =
+          g["Incorporated Places"]?.[0] ??
+          g["Census Designated Places"]?.[0] ??
+          g["County Subdivisions"]?.[0];
+        return layer ? (layer.BASENAME ?? layer.NAME ?? null) : null;
+      }
+      if (res.status < 500) return null;
+    } catch { /* retry */ }
+    await new Promise((r) => setTimeout(r, 400 * (i + 1)));
+  }
+  return null;
+}
+
 const dryRun = process.argv.includes("--dry-run");
 
 /*
@@ -39,6 +97,13 @@ const dryRun = process.argv.includes("--dry-run");
  * Generous on purpose: a false positive here would erase a correct geography.
  */
 const BORDER_TOLERANCE_MI = 25;
+
+/*
+ * How far a row's coordinates may sit from a same-state place of the same name
+ * before it is treated as a substitution rather than a place-within-a-place.
+ * An installation inside a town is a few miles from it; Bedford/Medford is ten.
+ */
+const SUBSTITUTION_TOLERANCE_MI = 8;
 
 interface Centroid { geoid: string; name: string; state: string; lat: number; lon: number }
 
@@ -109,17 +174,91 @@ async function main() {
     });
   }
 
+  console.log(`  cross-state: ${suspect.length}`);
+
+  /*
+   * Same-state name mismatches are REPORTED, never auto-cleared.
+   *
+   * A mismatch is weak evidence on its own: an installation or a neighbourhood
+   * legitimately sits inside a differently-named Census place -- Langley AFB is
+   * in Hampton, Fort Benning in Cusseta-Chattahoochee County, Jamaica in New
+   * York City. An earlier version of this check flagged 27 rows, of which most
+   * were correct, and clearing them would have destroyed real geography.
+   * Adding a distance test cut it to six, and two of those (Eglin AFB,
+   * Fort Campbell) were still correct -- a reservation genuinely spans miles.
+   *
+   * So the automatic action stops at the unambiguous cross-state case, and a
+   * human reads the rest.
+   */
+  const review: string[] = [];
+
+  /*
+   * Second pass: same-state substitutions. Only rows the first pass cleared,
+   * and only those still carrying coordinates.
+   */
+  const flagged = new Set(suspect.map((s) => s.id));
+  const remaining = rows.filter((r) => !flagged.has(Number(r.id)));
+  console.log(`  reverse-geocoding ${remaining.length} row(s) to check the name...`);
+
+  const queue = [...remaining];
+  let checked = 0;
+  await Promise.all(
+    Array.from({ length: 4 }, async () => {
+      for (;;) {
+        const row = queue.shift();
+        if (!row) return;
+        const actual = await placeAt(Number(row.latitude), Number(row.longitude));
+        checked++;
+        if (checked % 50 === 0) console.log(`    ${checked}/${remaining.length}`);
+        if (!actual || nameAgrees(row.name, actual)) continue;
+
+        /*
+         * A name mismatch alone is not evidence. An installation or a
+         * neighbourhood legitimately sits inside a differently-named Census
+         * place: Langley AFB is in Hampton, Fort Benning in
+         * Cusseta-Chattahoochee County, Jamaica in New York City. Clearing
+         * those would delete correct geography.
+         *
+         * What distinguishes a substitution is that the place we asked for
+         * exists elsewhere: there IS a "Bedford" in Massachusetts, ten miles
+         * from where this row was placed, and a "Harrison Township" in
+         * Michigan 146 miles away. So require a same-state namesake AND real
+         * distance from it.
+         */
+        let away: number | null = null;
+        for (const pt of points) {
+          if (pt.state.toUpperCase() !== row.state.trim().toUpperCase()) continue;
+          if (!nameAgrees(row.name, pt.name)) continue;
+          const d = milesBetween(Number(row.latitude), Number(row.longitude), pt.lat, pt.lon);
+          if (away === null || d < away) away = d;
+        }
+        if (away === null || away <= SUBSTITUTION_TOLERANCE_MI) continue;
+
+        review.push(
+          `- ${row.name}, ${row.state} (#${row.id}) — coordinates are in ` +
+            `"${actual}"; the nearest ${row.state} place matching the name is ` +
+            `${away.toFixed(0)} mi away`
+        );
+      }
+    })
+  );
+
   if (!suspect.length) {
-    console.log("No cross-state geographies found. Nothing to repair.");
+    console.log("\nNo cross-state geographies to clear.");
+    reportReview(review);
     return;
   }
 
   console.log(`${suspect.length} row(s) resolved into the wrong state:\n`);
   for (const s of suspect) {
-    console.log(
-      `  ${s.label.padEnd(36)} sits ${s.miles.toFixed(0)} mi from ${s.nearest}; ` +
-        `nearest ${s.label.split(", ")[1]} place is ${s.sameStateMiles === null ? "none" : s.sameStateMiles.toFixed(0) + " mi"} away`
-    );
+    if (s.sameStateMiles === null && s.miles === 0) {
+      console.log(`  ${s.label.padEnd(36)} ${s.nearest}`);
+    } else {
+      console.log(
+        `  ${s.label.padEnd(36)} sits ${s.miles.toFixed(0)} mi from ${s.nearest}; ` +
+          `nearest ${s.label.split(", ")[1]} place is ${s.sameStateMiles === null ? "none" : s.sameStateMiles.toFixed(0) + " mi"} away`
+      );
+    }
   }
 
   if (dryRun) {
@@ -148,6 +287,17 @@ async function main() {
     `\nCleared the geography on ${ids.length} row(s) and removed ${unlinked.length} metro membership(s).`
   );
   console.log("The rows and their employer postings are kept; only the false geography is gone.");
+}
+
+/** Same-state mismatches need a person, so print them rather than acting. */
+function reportReview(review: string[]) {
+  if (!review.length) {
+    console.log("\nNo same-state name mismatches to review.");
+    return;
+  }
+  console.log(`\n${review.length} row(s) FOR REVIEW — not changed automatically:`);
+  console.log("(a name mismatch can be legitimate: an installation inside a town reads this way)");
+  for (const line of review) console.log(`  ${line.slice(2)}`);
 }
 
 main().catch((error) => {

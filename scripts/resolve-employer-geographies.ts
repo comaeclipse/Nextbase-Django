@@ -110,6 +110,47 @@ function coordsFrom(body: unknown): { lat: number; lon: number } | null {
 
 const first = (l?: Layer[]) => (l && l.length ? l[0] : null);
 
+/*
+ * Does the geography the geocoder returned actually correspond to the place we
+ * asked for?
+ *
+ * The street-guess and installation fallbacks can both answer with a DIFFERENT
+ * place in the SAME state, which the state guard cannot see: "Bedford, MA"
+ * came back as Medford, "Harrison Township, MI" as Redding, "Annapolis
+ * Junction, MD" as Annapolis (19 miles away, and a different place).
+ *
+ * The rule: every significant word of the requested name must appear in the
+ * returned name. That admits the legitimate renamings, which are all
+ * elaborations --
+ *     Lexington, KY   -> Lexington-Fayette
+ *     Augusta, GA     -> Augusta-Richmond County consolidated government
+ *     Moorestown, NJ  -> Moorestown-Lenola
+ *     Tewksbury, MA   -> Tewksbury (county subdivision)
+ * -- while rejecting substitutions (Bedford -> Medford) and truncations
+ * (Annapolis Junction -> Annapolis), where a word of the request goes missing.
+ */
+const NAME_NOISE = new Set([
+  "city", "town", "township", "village", "borough", "county", "subdivision",
+  "the", "of", "and", "base", "station", "afb", "sfb", "fort", "ft", "saint",
+  "st", "air", "force", "joint", "naval", "marine", "corps", "army", "camp",
+]);
+
+function nameTokens(value: string): string[] {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .split(/\s+/)
+    .filter((t) => t.length > 2 && !NAME_NOISE.has(t));
+}
+
+function nameAgrees(requested: string, returned: string | null): boolean {
+  if (!returned) return false;
+  const want = nameTokens(requested);
+  if (!want.length) return true; // nothing distinctive to check against
+  const got = new Set(nameTokens(returned));
+  return want.every((t) => got.has(t));
+}
+
 async function main() {
   const sql = getSql();
   const derivedPath = path.join(
@@ -291,6 +332,24 @@ async function main() {
     if (!base.censusName) {
       const sub = first(geo["County Subdivisions"]);
       if (sub) base.censusName = `${sub.BASENAME ?? sub.NAME} (county subdivision)`;
+    }
+
+    /*
+     * The gazetteer path found the place BY name, so it cannot have substituted
+     * one. The street-guess and installation paths can, and did.
+     */
+    if (base.method !== "gazetteer_centroid" && !nameAgrees(p.city, base.censusName)) {
+      base.method = "unresolved";
+      base.lat = null;
+      base.lon = null;
+      base.countyFips = null;
+      base.countyName = null;
+      base.placeGeoid = null;
+      base.note =
+        `resolved to "${base.censusName}", which is not "${p.city}" — refused ` +
+        `(a same-state substitution puts the place in the wrong county and metro)`;
+      base.censusName = null;
+      return base;
     }
 
     const cbsa = first(geo["Metropolitan Statistical Areas/Micropolitan Statistical Areas"]);
