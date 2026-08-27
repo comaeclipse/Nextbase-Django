@@ -512,8 +512,16 @@ async function main() {
        * inherited from. A neighborhood does, and classify-pace resolves it from
        * its own tract, so it is classified like a city.
        */
-      if (data.geo_type === "county" || data.geo_type === "metro") {
-        console.log("    pace: skipped (container geography)");
+      if (
+        data.geo_type === "county" ||
+        data.geo_type === "metro" ||
+        (data.geo_type === "city" && data.is_candidate === false)
+      ) {
+        // A container, or a city that exists only to anchor employer postings.
+        // Pace describes what living somewhere feels like; nothing ranks these,
+        // and classifying ~400 of them would cost a geocoder round trip each
+        // for a value no surface reads.
+        console.log("    pace: skipped (not a ranked candidate)");
       } else {
         await classifyImportedLocation(
           result.id,
