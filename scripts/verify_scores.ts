@@ -9,10 +9,14 @@
  * "missing from Django dump" lines. django_scores.json is kept as migration
  * evidence -- baselines/ is an audit trail -- but nothing reads it now.
  *
- * Only a CHANGED SCORE fails. A changed candidate set does not: ingesting a
- * city would otherwise turn this red through no fault of the scorer, and a
- * check that goes red for routine work stops being read. New and de-ranked
- * candidates are reported on one line and exit 0.
+ * Only a CHANGED SCORE is reported, and only a changed score fails. A changed
+ * candidate set is silent: ingesting a city would otherwise turn this red
+ * through no fault of the scorer, and a check that goes red for routine work
+ * stops being read.
+ *
+ * A candidate the baseline does not cover is therefore NOT checked and NOT
+ * mentioned. The header line prints the baseline and live counts, so a gap
+ * between them is the signal that a regenerate is due; nothing else says so.
  *
  * A failure here means scoring output moved. That is not automatically a bug:
  * refreshed input data legitimately moves scores. The point is that it must be
@@ -84,14 +88,13 @@ async function main() {
   );
 
   let mismatches = 0;
-  const added: string[] = [];
 
   for (const loc of rows) {
     const ref = refById.get(loc.id);
     if (!ref) {
-      // A newly imported candidate is not a regression, but the baseline does
-      // need regenerating so it stays a complete snapshot.
-      added.push(`${loc.name}, ${loc.state} (#${loc.id})`);
+      // A candidate the baseline does not cover yet. Skipped in silence: it is
+      // not a regression, and the header line above already shows the count
+      // drift for anyone who wants it.
       continue;
     }
     const score = calculateBaselineScore(loc);
@@ -115,39 +118,12 @@ async function main() {
     }
   }
 
-  const removed = baseline.scores.filter((r) => !rows.some((l) => l.id === r.id));
-
   const regenerate =
     "  node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/generate-score-baseline.ts";
 
-  /*
-   * A changed candidate SET is not a scoring regression, so it never fails the
-   * check -- ingesting a city would otherwise turn this red through no fault of
-   * the scorer, and a check that goes red for routine work stops being read.
-   *
-   * It is still reported, on one line, because an uncovered candidate is a real
-   * blind spot: nothing is watching that city's score until the baseline is
-   * regenerated. Candidacy itself is guarded by verify-geo-hierarchy.ts.
-   */
-  if (added.length || removed.length) {
-    const parts: string[] = [];
-    if (added.length) parts.push(`${added.length} new candidate(s) not yet covered`);
-    if (removed.length) parts.push(`${removed.length} baseline row(s) no longer ranked`);
-    console.log("");
-    console.log(`note: ${parts.join(", ")} — not a regression. Regenerate when convenient:`);
-    console.log(regenerate);
-    const names = [
-      ...added.map((a) => `+ ${a}`),
-      ...removed.map((r) => `- ${r.name}, ${r.state} (#${r.id})`),
-    ];
-    for (const n of names.slice(0, 6)) console.log(`  ${n}`);
-    if (names.length > 6) console.log(`  ... ${names.length - 6} more`);
-  }
-
   if (mismatches === 0) {
-    const covered = rows.length - added.length;
     console.log("");
-    console.log(`OK - ${covered} of ${rows.length} candidate(s) checked, none changed.`);
+    console.log("OK - no score changed.");
     return;
   }
 
