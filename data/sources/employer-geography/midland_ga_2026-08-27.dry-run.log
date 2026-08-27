@@ -1,0 +1,4 @@
+Importing locations from: data\columbus_ga_midland.csv (dry run)
+  = Would upsert: Midland, GA [neighborhood] -> slug ga-columbus-midland under ga-columbus
+
+Dry run complete. 1 row(s) parsed, 0 error(s).
