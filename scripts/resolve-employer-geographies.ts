@@ -121,6 +121,23 @@ async function main() {
   };
   const centroids = derived.place_centroids;
   const countyCbsa = derived.county_cbsa;
+
+  /*
+   * State FIPS -> USPS, derived from the gazetteer (a place GEOID is
+   * SSPPPPP, so its first two digits are the state).
+   *
+   * This exists because both fallbacks can silently answer with the wrong
+   * state. The installation lookup matched "Carson City, NV" to Fort Carson in
+   * Colorado on the token "carson", and "Fort Johnson, LA" to Seymour Johnson
+   * AFB in North Carolina on "johnson". The Census street guess put
+   * "Schriever Afb, CO" in Schriever, Louisiana. A wrong-state answer is worse
+   * than no answer: it assigns a real place to the wrong metro, where it then
+   * shows up on some other city's metro employment line.
+   */
+  const stateFips: Record<string, string> = {};
+  for (const c of Object.values(centroids)) {
+    stateFips[String(c.geoid).slice(0, 2)] = c.state.toUpperCase();
+  }
   const centKey = (c: string, s: string) =>
     `${c.trim().toLowerCase().replace(/\s+/g, " ")}|${s.trim().toUpperCase()}`;
 
@@ -249,6 +266,21 @@ async function main() {
     if (!geo) { base.note = "geocoder returned nothing"; return base; }
 
     const county = first(geo.Counties);
+
+    // Refuse a resolution that landed in a different state than the feed says.
+    if (county?.GEOID) {
+      const resolvedState = stateFips[String(county.GEOID).slice(0, 2)];
+      if (resolvedState && resolvedState !== p.state.trim().toUpperCase()) {
+        base.method = "unresolved";
+        base.lat = null;
+        base.lon = null;
+        base.note =
+          `resolved to ${resolvedState} but the feed says ${p.state} — refused ` +
+          `(a wrong-state match assigns the place to the wrong metro)`;
+        return base;
+      }
+    }
+
     if (county?.GEOID) {
       base.countyFips = String(county.GEOID);
       base.countyName = (county.BASENAME ?? county.NAME ?? "").replace(/\s+County$/i, "").trim() || null;
