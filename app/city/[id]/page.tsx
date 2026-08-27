@@ -6,6 +6,8 @@ import {
   getEmployerIndex,
   getLatestAirQuality,
   getLocationById,
+  getResolvedLocation,
+  resolveFromAncestry,
   getMilitaryProximityIndex,
   getSimilarLocations,
   getStateInfo,
@@ -21,7 +23,21 @@ import {
   blockedByPreferences,
   decodePreferences,
 } from "@/lib/profile";
-import type { Location } from "@/lib/types";
+import type { GeoType, Location } from "@/lib/types";
+import type { GeoNode } from "@/lib/geo-inheritance";
+import {
+  GeoScopeNote,
+  InheritedTag,
+} from "@/components/city/InheritedTag";
+
+/** How a non-city geography names itself in the hero and the scope note. */
+const GEO_TYPE_LABEL: Record<GeoType, string> = {
+  city: "City",
+  neighborhood: "Neighborhood",
+  cdp: "Census-designated place",
+  county: "County",
+  metro: "Metro area",
+};
 import PublicNav from "@/components/PublicNav";
 import HousingMarketCard from "@/components/HousingMarketCard";
 import CityAffordabilityCard from "@/components/city/CityAffordabilityCard";
@@ -92,8 +108,21 @@ export default async function CityDetailPage({
   const pk = parseId(id);
   if (pk === null) notFound();
 
-  const row = await getLocationById(pk);
-  if (!row) notFound();
+  const resolved = await getResolvedLocation(pk);
+  if (!resolved) notFound();
+  const { row, resolution, chain } = resolved;
+
+  /*
+   * A geography that inherits most of its facts is not a curated retirement
+   * candidate, and the Fit Score is the page's single most prominent number.
+   * Three of its five factors (cost of living, safety, LGBTQ) would be the
+   * containing city's values and a fourth (home affordability) would be a hole,
+   * so the composite would look authoritative while measuring somewhere else.
+   * Suppress it until the underlying data is genuinely place-scoped;
+   * calculateBaselineScore is untouched, so it returns on its own once it is.
+   */
+  const isCandidate = row.is_candidate;
+  const parent = chain.find((n: GeoNode) => n.relationship === "municipal_containment") ?? chain[0] ?? null;
 
   const location: Location = {
     ...row,
@@ -112,14 +141,23 @@ export default async function CityDetailPage({
   const stateAbbr = resolveStateAbbr(location.state);
   // Independent of each other once we have `location`, so run in parallel
   // instead of two sequential Neon round trips.
-  const [stateInfo, similarRows, employerIndex, airQuality, militaryIndex] =
+  const [stateInfo, similarRows, employerIndex, airQualityResolved, militaryIndex] =
     await Promise.all([
     stateAbbr ? getStateInfo(stateAbbr) : Promise.resolve(null),
     getSimilarLocations(location.state, location.id),
     getEmployerIndex(),
-    getLatestAirQuality(location.id),
+    resolveFromAncestry(location.id, chain, getLatestAirQuality),
     getMilitaryProximityIndex(),
   ]);
+  /*
+   * EPA monitors and NOAA stations are keyed by geography, not by containment,
+   * so a neighborhood has no rows of its own. The right answer is the
+   * containing city's monitor rather than a duplicated copy of it -- the page
+   * says whose it is via airQualitySourceLabel.
+   */
+  const airQuality = airQualityResolved?.value ?? null;
+  const airQualitySourceLabel = airQualityResolved?.sourceLabel ?? null;
+
   // Saved dealbreakers from /profile. `stateInfo` is already loaded above, so
   // this costs one cookie read and no extra query.
   const preferences = decodePreferences(
@@ -186,6 +224,7 @@ export default async function CityDetailPage({
                   <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
+                {parent ? `${GEO_TYPE_LABEL[row.geo_type]} of ${parent.name} · ` : ""}
                 {location.state}
                 {location.county ? ` · ${location.county}` : ""}
               </div>
@@ -233,10 +272,12 @@ export default async function CityDetailPage({
                 )}
               </div>
             </div>
-            <div className="hero-fit">
-              <span className="hero-fit-num">{location.calculated_match_score}</span>
-              <span className="hero-fit-label">Fit Score</span>
-            </div>
+            {isCandidate ? (
+              <div className="hero-fit">
+                <span className="hero-fit-num">{location.calculated_match_score}</span>
+                <span className="hero-fit-label">Fit Score</span>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -245,6 +286,12 @@ export default async function CityDetailPage({
       <div className="layout">
         <div className="main-col">
           {/* KPI Row */}
+          {parent ? (
+            <GeoScopeNote
+              geoTypeLabel={GEO_TYPE_LABEL[row.geo_type].toLowerCase()}
+              parentLabel={`${parent.name}, ${parent.state}`}
+            />
+          ) : null}
           <div className="kpi-grid">
             <div className="kpi">
               <div className="kpi-label">
@@ -350,7 +397,10 @@ export default async function CityDetailPage({
                     </svg>{" "}
                     Cost of Living Index
                   </span>
-                  <span className="spec-val">{location.col_index || "—"}</span>
+                  <span className="spec-val">
+                    {location.col_index || "—"}
+                    <InheritedTag field={resolution.col_index} />
+                  </span>
                 </div>
                 <div className="spec">
                   <span className="spec-key">
@@ -363,6 +413,7 @@ export default async function CityDetailPage({
                   </span>
                   <span className="spec-val">
                     {location.sales_tax != null ? `${location.sales_tax}%` : "—"}
+                    <InheritedTag field={resolution.sales_tax} />
                   </span>
                 </div>
                 <div className="spec">
@@ -388,7 +439,10 @@ export default async function CityDetailPage({
                     </svg>{" "}
                     Avg. Gas Price
                   </span>
-                  <span className="spec-val">{location.gas_price || "—"}</span>
+                  <span className="spec-val">
+                    {location.gas_price || "—"}
+                    <InheritedTag field={resolution.gas_price} />
+                  </span>
                 </div>
                 <div className="spec">
                   <span className="spec-key">
@@ -398,7 +452,10 @@ export default async function CityDetailPage({
                     </svg>{" "}
                     Cost Category
                   </span>
-                  <span className="spec-val">{location.cost_of_living}</span>
+                  <span className="spec-val">
+                    {location.cost_of_living || "—"}
+                    <InheritedTag field={resolution.cost_of_living} />
+                  </span>
                 </div>
               </div>
             </div>
@@ -545,7 +602,8 @@ export default async function CityDetailPage({
                   {airQuality.unhealthy_sensitive_days + airQuality.unhealthy_days +
                     airQuality.very_unhealthy_days + airQuality.hazardous_days}{" "}
                   unhealthy days. EPA annual AQI summary for {airQuality.source_geo_name}{" "}
-                  {airQuality.source_geo_type === "county" ? "County" : airQuality.source_geo_type}.
+                  {airQuality.source_geo_type === "county" ? "County" : airQuality.source_geo_type}
+                  {airQualitySourceLabel ? `, matched via ${airQualitySourceLabel}` : ""}.
                 </p>
               ) : null}
             </div>
@@ -883,6 +941,7 @@ export default async function CityDetailPage({
 
         {/* Right rail */}
         <aside className="rail">
+          {isCandidate ? (
           <div className="fit-card">
             <div className="fit-ring-wrap">
               <div
@@ -924,6 +983,21 @@ export default async function CityDetailPage({
               ))}
             </div>
 
+            </div>
+          ) : (
+            <div className="fit-card">
+              <div className="fit-head-txt">
+                <h3>No Veteran Fit Score</h3>
+                <p>
+                  {location.name} is scored as part of {parent ? parent.name : "its containing city"}.
+                  A Fit Score needs cost of living, safety and home affordability measured for this
+                  place specifically; three of those five factors would otherwise just be the wider
+                  city&apos;s numbers.
+                </p>
+              </div>
+            </div>
+          )}
+          <div className="fit-card">
             <div className="rail-actions">
               <button className="btn btn-primary" type="button">
                 <svg className="icon" viewBox="0 0 24 24">

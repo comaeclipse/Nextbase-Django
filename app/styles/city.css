@@ -428,3 +428,30 @@ body:has(> .city-page) { background: var(--bg); }
     .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .kpi { padding: .9rem; }
 }
+
+/* ── Geo provenance (contained geographies only) ──
+   These class names appear only when a value was inherited from a containing
+   geography, which is never true for a row without a parent. Every curated
+   city page therefore emits exactly the DOM it did before, so pixel parity is
+   unreachable rather than merely preserved. New class names only -- no element
+   or document-wide selectors, per the cascade note in CLAUDE.md. */
+.spec-src {
+    display: inline;
+    margin-left: .4rem;
+    font-weight: 400;
+    font-size: .72rem;
+    color: var(--fg-subtle);
+    white-space: nowrap;
+}
+.spec-src::before { content: "· "; }
+
+.geo-note {
+    margin: 0 0 1.25rem;
+    padding: .7rem .9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--primary-soft);
+    font-size: .84rem;
+    line-height: 1.5;
+    color: var(--fg-muted);
+}
