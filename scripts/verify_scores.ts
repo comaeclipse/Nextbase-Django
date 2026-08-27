@@ -9,6 +9,11 @@
  * "missing from Django dump" lines. django_scores.json is kept as migration
  * evidence -- baselines/ is an audit trail -- but nothing reads it now.
  *
+ * Only a CHANGED SCORE fails. A changed candidate set does not: ingesting a
+ * city would otherwise turn this red through no fault of the scorer, and a
+ * check that goes red for routine work stops being read. New and de-ranked
+ * candidates are reported on one line and exit 0.
+ *
  * A failure here means scoring output moved. That is not automatically a bug:
  * refreshed input data legitimately moves scores. The point is that it must be
  * DELIBERATE, so regenerate the baseline in the same commit as the change and
@@ -112,31 +117,45 @@ async function main() {
 
   const removed = baseline.scores.filter((r) => !rows.some((l) => l.id === r.id));
 
-  if (added.length) {
-    console.log(`\n${added.length} candidate(s) not in the baseline:`);
-    for (const a of added.slice(0, 10)) console.log(`  + ${a}`);
-    if (added.length > 10) console.log(`  ... ${added.length - 10} more`);
-  }
-  if (removed.length) {
-    console.log(`\n${removed.length} baseline row(s) no longer ranked:`);
-    for (const r of removed.slice(0, 10)) console.log(`  - ${r.name}, ${r.state} (#${r.id})`);
-    if (removed.length > 10) console.log(`  ... ${removed.length - 10} more`);
-  }
-
   const regenerate =
     "  node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/generate-score-baseline.ts";
 
-  if (mismatches === 0 && added.length === 0 && removed.length === 0) {
-    console.log(`\nOK - all ${rows.length} candidates match the baseline.`);
+  /*
+   * A changed candidate SET is not a scoring regression, so it never fails the
+   * check -- ingesting a city would otherwise turn this red through no fault of
+   * the scorer, and a check that goes red for routine work stops being read.
+   *
+   * It is still reported, on one line, because an uncovered candidate is a real
+   * blind spot: nothing is watching that city's score until the baseline is
+   * regenerated. Candidacy itself is guarded by verify-geo-hierarchy.ts.
+   */
+  if (added.length || removed.length) {
+    const parts: string[] = [];
+    if (added.length) parts.push(`${added.length} new candidate(s) not yet covered`);
+    if (removed.length) parts.push(`${removed.length} baseline row(s) no longer ranked`);
+    console.log("");
+    console.log(`note: ${parts.join(", ")} — not a regression. Regenerate when convenient:`);
+    console.log(regenerate);
+    const names = [
+      ...added.map((a) => `+ ${a}`),
+      ...removed.map((r) => `- ${r.name}, ${r.state} (#${r.id})`),
+    ];
+    for (const n of names.slice(0, 6)) console.log(`  ${n}`);
+    if (names.length > 6) console.log(`  ... ${names.length - 6} more`);
+  }
+
+  if (mismatches === 0) {
+    const covered = rows.length - added.length;
+    console.log("");
+    console.log(`OK - ${covered} of ${rows.length} candidate(s) checked, none changed.`);
     return;
   }
-  if (mismatches === 0) {
-    console.log(`\nNo score changed, but the candidate set did. Regenerate:\n${regenerate}`);
-    process.exit(1);
-  }
+
+  console.log("");
   console.log(
-    `\n${mismatches} score(s) changed. If deliberate, regenerate in the same commit:\n${regenerate}`
+    `${mismatches} score(s) changed. If deliberate, regenerate in the same commit:`
   );
+  console.log(regenerate);
   process.exit(1);
 }
 
