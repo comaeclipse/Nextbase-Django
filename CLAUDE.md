@@ -98,7 +98,7 @@ components/
   city-climate/         # CityClimateDashboard
   mosques/              # MosquesMap + MosqueDotLayer (unclustered MapLibre circle layers)
   ui/                   # shadcn primitives on @base-ui/react
-lib/                    # 33 modules; the load-bearing ones:
+lib/                    # the load-bearing modules:
   db.ts                 # lazy Neon client (getSql)
   types.ts              # LocationRow/StateInfoRow (snake_case, mirrors DB)
   locations.ts          # read-only queries (ORDER BY featured DESC, name ASC)

@@ -400,6 +400,9 @@ function housingCost(
   if (tenure === "own_outright") return carrying;
 
   // buying: carrying costs plus debt service on the financed portion.
+  // NOTE: estimatePitiMonthly below duplicates this path's tax/insurance/
+  // P&I/HOA algebra (minus maintenance and utilities). A drift-pinning test
+  // asserts the identity — keep the twins in step.
   const down = opts.downPaymentFraction ?? c.defaultDownPaymentFraction;
   const principal = price * (1 - down);
   return (
@@ -412,13 +415,26 @@ function housingCost(
 }
 
 /**
+ * The subset of EstimateOptions that PITI actually reads. Narrowed on
+ * purpose: `homePriceOverride` is meaningless here (price is an explicit
+ * parameter), so accepting the full options type would let a caller set it
+ * and silently get nothing — this makes that a compile error instead.
+ */
+export type PitiOptions = Pick<
+  EstimateOptions,
+  "propertyTaxRateOverride" | "mortgageRateOverride" | "downPaymentFraction" | "hoaMonthly"
+>;
+
+/**
  * Monthly PITI(+HOA) breakdown for buying a specific home: principal and
  * interest, property tax, insurance, HOA — and NOTHING else. Maintenance and
  * utilities are deliberately excluded (issue #170 decision 2): the 30%-rule
  * literature is PITI-shaped, and lib/housing-burden.ts discloses the
  * exclusion rather than folding it in. This is the housing-burden metric's
  * cost base, NOT the residual model's — estimateMonthlyCost keeps pricing
- * the full carrying cost.
+ * the full carrying cost. The component algebra is housingCost's buying path
+ * minus maintenance and utilities, and a drift-pinning test holds the two
+ * together — change one, change both.
  */
 export interface PitiEstimate {
   /** Sum of the four parts, or null when insurance could not be priced. */
@@ -436,7 +452,7 @@ export function estimatePitiMonthly(
   loc: CostInputs,
   price: number,
   c: ResolvedConstants,
-  opts: EstimateOptions = {}
+  opts: PitiOptions = {}
 ): PitiEstimate {
   const missing: string[] = [];
   const approximations: string[] = [];
