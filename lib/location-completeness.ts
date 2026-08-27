@@ -72,9 +72,16 @@ export const REQUIRED_COLUMNS_BY_GEO_TYPE: Record<GeoType, readonly string[]> = 
  * What it does need is identity, and the values its children will inherit. Those
  * are listed rather than required, because a parent may legitimately lack one
  * and the resolver reports `absent` rather than inventing a number.
+ *
+ * Description and Tags are NOT required either. They are editorial copy written
+ * for a place someone is choosing between, and a non-candidate appears in no
+ * listing -- requiring them for the ~400 places that exist only to anchor
+ * employer postings would mean writing 400 descriptions nobody reads, and the
+ * pressure to generate rather than source them is exactly how invented data
+ * gets in. Supplying them is still allowed; Los Angeles has both.
  */
 export const REQUIRED_PARENT_CITY_CSV_COLUMNS = [
-  "City", "State", "County", "GeoType", "Description", "Tags",
+  "City", "State", "County", "GeoType",
 ] as const;
 
 /** Columns a parent city supplies to the geographies it contains. */

@@ -166,6 +166,22 @@ describe("locationCsvCompletionProblems", () => {
     ).toBeGreaterThan(10);
   });
 
+  it("accepts an employer-anchor city with identity only", () => {
+    // The ~400 places that exist solely to anchor defense-employer postings.
+    // Requiring a description for a row that appears in no listing would mean
+    // writing 400 of them, and that pressure is how invented data gets in.
+    const anchor = {
+      City: "Tewksbury",
+      State: "MA",
+      County: "Middlesex",
+      GeoType: "city",
+      IsCandidate: "No",
+    };
+    expect(locationCsvCompletionProblems(anchor, "city", false)).toEqual([]);
+    // Still rejected as a candidate, so the curated bar is untouched.
+    expect(locationCsvCompletionProblems(anchor, "city", true).length).toBeGreaterThan(10);
+  });
+
   it("treats silence as candidacy for a city, so existing CSVs are unchanged", () => {
     expect(isCandidateOf({ City: "Trenton" }, "city")).toBe(true);
     expect(isCandidateOf({ IsCandidate: "No" }, "city")).toBe(false);
