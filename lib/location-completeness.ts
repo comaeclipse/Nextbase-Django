@@ -12,6 +12,84 @@ export type LocationCsvRow = Record<string, string | undefined>;
 
 const MISSING_VALUES = new Set(["", "?", "na", "n/a", "unknown"]);
 
+export type CompletionRequirement = {
+  field: string;
+  label: string;
+  nextAction: string;
+};
+
+export const CITY_COMPLETION_REQUIREMENTS = [
+  { field: "county", label: "county", nextAction: "source the Census-compatible county name for the city row" },
+  { field: "city_politics", label: "city political lean", nextAction: "record the sourced local or county political characterization" },
+  { field: "election_2016", label: "2016 presidential winner", nextAction: "source the 2016 county or city election result used for the row" },
+  { field: "election_2016_percent", label: "2016 presidential winner share", nextAction: "source the 2016 two-party or documented winner percentage" },
+  { field: "election_2024", label: "2024 presidential winner", nextAction: "source the 2024 county or city election result used for the row" },
+  { field: "election_2024_percent", label: "2024 presidential winner share", nextAction: "source the 2024 two-party or documented winner percentage" },
+  { field: "election_change", label: "election trend summary", nextAction: "derive and document the 2016-to-2024 trend text" },
+  { field: "rep_vote_share_change_pp", label: "Republican vote-share change", nextAction: "derive the Republican percentage-point delta from the sourced election returns" },
+  { field: "dem_vote_share_change_pp", label: "Democratic vote-share change", nextAction: "derive the Democratic percentage-point delta from the sourced election returns" },
+  { field: "population", label: "population", nextAction: "source the city/place population and vintage" },
+  { field: "density", label: "population density", nextAction: "source or calculate density from sourced population and land area" },
+  { field: "sales_tax", label: "sales tax", nextAction: "source the city or documented combined sales-tax rate" },
+  { field: "col_index", label: "cost-of-living index", nextAction: "run import-bea-rpp.ts, then sync-col-index-from-rpp.ts; do not hand-source this field" },
+  { field: "avg_home_value", label: "typical home value", nextAction: "source the current ZHVI or documented housing-value source" },
+  { field: "has_va", label: "nearby outpatient VA access flag", nextAction: "run sync-va-facilities.ts from the city centroid" },
+  { field: "nearest_va", label: "nearest outpatient-capable VA facility", nextAction: "run sync-va-facilities.ts and verify the outpatient facility label" },
+  { field: "distance_to_va", label: "nearest outpatient-capable VA distance", nextAction: "run sync-va-facilities.ts; do not guess this distance in the CSV" },
+  { field: "nearest_va_hospital", label: "nearest VA medical center", nextAction: "run sync-va-facilities.ts and verify the hospital facility label" },
+  { field: "distance_to_va_hospital", label: "nearest VA medical center distance", nextAction: "run sync-va-facilities.ts and verify the hospital distance" },
+  { field: "tci", label: "Total Crime Index", nextAction: "source a compatible TCI value or keep the city blocked until the safety methodology is resolved" },
+  { field: "crime", label: "crime rating", nextAction: "derive the crime label from the documented safety methodology" },
+  { field: "lgbtq_rating", label: "LGBTQ friendliness rating", nextAction: "source the local LGBTQ/community rating or document the not-rated state" },
+  { field: "lgbtq_mei_score", label: "HRC MEI score", nextAction: "source the HRC MEI score or record an accepted Not Rated explanation" },
+  { field: "lgbtq_score_source", label: "LGBTQ score source", nextAction: "record the score/rating source URL or not-rated source note" },
+  { field: "tech_hub", label: "tech hub decision", nextAction: "record an explicit Yes/No tech-hub review decision" },
+  { field: "defense_hub_manual", label: "manual defense-hub decision", nextAction: "research and set defense_hub_manual true or false, then run recompute-defense-hub.ts" },
+  { field: "defense_hub", label: "derived defense-hub value", nextAction: "run recompute-defense-hub.ts after employer linking and manual curation" },
+  { field: "snow_annual", label: "annual snow", nextAction: "source annual snow from NOAA normals or a documented climate source" },
+  { field: "rain_annual", label: "annual rainfall", nextAction: "source annual precipitation from NOAA normals or a documented climate source" },
+  { field: "sun_days", label: "annual sunny days", nextAction: "source annual sunny-days data or record the weather-card backfill gap" },
+  { field: "alw", label: "average winter low", nextAction: "source winter low from NOAA normals" },
+  { field: "avg_high_summer", label: "average summer high", nextAction: "source summer high from NOAA normals" },
+  { field: "humidity_summer", label: "summer humidity", nextAction: "derive summer humidity from hourly normals or a documented source" },
+  { field: "climate", label: "climate summary", nextAction: "record the sourced climate display summary" },
+  { field: "climate_category", label: "climate category", nextAction: "run categorize-climate.ts or apply the documented one-city category rule" },
+  { field: "gas_price", label: "regular gas price", nextAction: "source a dated geography-compatible AAA or EIA regular-gas price" },
+  { field: "description", label: "city description", nextAction: "write sourced city summary copy with explicit caveats" },
+  { field: "tags", label: "tags", nextAction: "record a non-empty JSON tag array from the sourced profile" },
+  { field: "latitude", label: "latitude", nextAction: "source or derive the city centroid coordinates" },
+  { field: "longitude", label: "longitude", nextAction: "source or derive the city centroid coordinates" },
+] as const satisfies readonly CompletionRequirement[];
+
+export const LEGACY_CORE_GAP_REQUIREMENTS = CITY_COMPLETION_REQUIREMENTS.filter((requirement) =>
+  ["tci", "crime", "gas_price", "defense_hub_manual"].includes(requirement.field)
+);
+
+export function completionRequirementFor(field: string): CompletionRequirement {
+  return CITY_COMPLETION_REQUIREMENTS.find((requirement) => requirement.field === field) ?? {
+    field,
+    label: field,
+    nextAction: "inspect the relevant importer or verifier and complete the missing post-import step",
+  };
+}
+
+export function formatCompletionProblem(field: string): string {
+  const requirement = completionRequirementFor(field);
+  return `${requirement.field} (${requirement.label}) is missing; next: ${requirement.nextAction}`;
+}
+
+export function hasCompletionValue(field: string, candidate: unknown): boolean {
+  if (candidate === null || candidate === undefined || candidate === "") return false;
+  if (field === "tags") return Array.isArray(candidate) && candidate.length > 0;
+  return true;
+}
+
+export function missingLegacyCoreFields(row: Record<string, unknown>): CompletionRequirement[] {
+  return LEGACY_CORE_GAP_REQUIREMENTS.filter((requirement) =>
+    !hasCompletionValue(requirement.field, row[requirement.field])
+  );
+}
+
 function value(row: LocationCsvRow, column: string): string | null {
   const raw = row[column];
   if (raw == null) return null;
