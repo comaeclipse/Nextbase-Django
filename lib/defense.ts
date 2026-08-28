@@ -192,6 +192,62 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+
+  // Defense-tech companies whose individual job *listings* are ingested via the
+  // /defense-jobs CSV importer (scripts/import-defense-job-listings.ts), not the
+  // aggregate defense_employer_locations path. Seeded so listings can link an
+  // employer_slug and so they appear in the unified employer filter. Kratos has
+  // no listings yet but is seeded because the user tracks it.
+  {
+    slug: "shield-ai",
+    display_name: "Shield AI",
+    parent_company: "Shield AI",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "palantir",
+    display_name: "Palantir",
+    parent_company: "Palantir Technologies",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "saronic",
+    display_name: "Saronic",
+    parent_company: "Saronic Technologies",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "vannevar-labs",
+    display_name: "Vannevar Labs",
+    parent_company: "Vannevar Labs",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "kratos",
+    display_name: "Kratos Defense",
+    parent_company: "Kratos Defense & Security Solutions",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
