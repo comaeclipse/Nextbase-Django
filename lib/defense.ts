@@ -248,6 +248,70 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+  {
+    // Directed-energy / counter-electronics prime (Leonidas HPM). Listings are
+    // pulled from its public Greenhouse board (board token "epirus") via the
+    // /defense-jobs CSV importer.
+    slug: "epirus",
+    display_name: "Epirus",
+    parent_company: "Epirus",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "epirus" },
+    legacy_aliases: [],
+  },
+  {
+    // National-security software (Enterprise Readiness platform; Patriot, F-35,
+    // B-52 programs). Formerly Govini — rebranded to Air in 2026. Listings come
+    // from its public Greenhouse board (board token "air").
+    slug: "air",
+    display_name: "Air (Govini)",
+    parent_company: "Air",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "air" },
+    legacy_aliases: [],
+  },
+  {
+    // Advanced sensing / detection defense-tech (El Segundo). Listings come from
+    // its public Greenhouse board (board token "chaosindustries").
+    slug: "chaos-industries",
+    display_name: "CHAOS Industries",
+    parent_company: "CHAOS Industries",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "chaosindustries" },
+    legacy_aliases: [],
+  },
+  {
+    // Hypersonic-weapons / low-cost strike startup (Torrance CA, plus Rio Rancho
+    // NM and Midland/Allen TX). No public JSON ATS feed; listings are scraped
+    // from its careers-page.com (Manatal) board into the /defense-jobs CSV.
+    slug: "castelion",
+    display_name: "Castelion",
+    parent_company: "Castelion",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    // Military planning / staff software (deployed to combatant commands; roles
+    // at Fort Leavenworth, Fort Knox, Wiesbaden/Stuttgart, plus US remote).
+    // Listings come from its public Ashby board (board token "onebrief").
+    slug: "onebrief",
+    display_name: "Onebrief",
+    parent_company: "Onebrief",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "ashby",
+    ats_config: { board: "onebrief" },
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */

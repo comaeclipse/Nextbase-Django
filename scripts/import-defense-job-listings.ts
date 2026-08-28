@@ -50,6 +50,12 @@ const COMPANY_SLUG: Record<string, string> = {
   kratos: "kratos",
   anduril: "anduril",
   "anduril industries": "anduril",
+  epirus: "epirus",
+  air: "air",
+  govini: "air", // Govini rebranded to Air in 2026
+  "chaos industries": "chaos-industries",
+  castelion: "castelion",
+  onebrief: "onebrief",
 };
 
 /**
@@ -82,6 +88,50 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "orlando|FL": [28.5383, -81.3792],
   "raleigh|NC": [35.7796, -78.6382],
   "wichita|KS": [37.6872, -97.3301],
+  "torrance|CA": [33.8358, -118.3406],
+  "lawton|OK": [34.6087, -98.3903],
+  "pittsburgh|PA": [40.4406, -79.9959],
+  "el segundo|CA": [33.9192, -118.4165],
+  "hawthorne|CA": [33.9164, -118.3526],
+  "san francisco|CA": [37.7749, -122.4194],
+  "los angeles|CA": [34.0522, -118.2437],
+  "costa mesa|CA": [33.6411, -117.9187],
+  "ashville|OH": [39.7142, -82.9541],
+  "santa ana|CA": [33.7455, -117.8677],
+  "irvine|CA": [33.6846, -117.8265],
+  "atlanta|GA": [33.749, -84.388],
+  "broomfield|CO": [39.9205, -105.0867],
+  "quincy|MA": [42.2529, -71.0023],
+  "waltham|MA": [42.3765, -71.2356],
+  "reston|VA": [38.9586, -77.357],
+  "quonset|RI": [41.5951, -71.4111],
+  "mchenry|MS": [30.6969, -88.9995],
+  "lexington|MA": [42.4473, -71.2245],
+  "chantilly|VA": [38.8943, -77.4311],
+  "fort collins|CO": [40.5853, -105.0844],
+  "morrisville|NC": [35.8235, -78.8256],
+  "bellevue|WA": [47.6101, -122.2015],
+  "hudson|NH": [42.7648, -71.439],
+  "mountain view|CA": [37.3861, -122.0839],
+  "boulder|CO": [40.015, -105.2705],
+  "foothill ranch|CA": [33.6847, -117.6614],
+  "san clemente|CA": [33.427, -117.612],
+  "aberdeen|MD": [39.5093, -76.1641],
+  "fort bragg|NC": [35.1391, -79.006],
+  "phoenix|AZ": [33.4484, -112.074],
+  "west lafayette|IN": [40.4259, -86.9081],
+  "fort stockton|TX": [30.8935, -102.8794],
+  "long beach|CA": [33.7701, -118.1937],
+  "tustin|CA": [33.7458, -117.8261],
+  "herndon|VA": [38.9696, -77.3861],
+  "las vegas|NV": [36.1699, -115.1398],
+  "rio rancho|NM": [35.2328, -106.663],
+  "allen|TX": [33.1032, -96.6706],
+  "midland|TX": [31.9973, -102.0779],
+  "albuquerque|NM": [35.0844, -106.6504],
+  "fort leavenworth|KS": [39.3489, -94.9186],
+  "fort knox|KY": [37.8915, -85.9636],
+  "fort bliss|TX": [31.8134, -106.4236],
 };
 
 interface Parsed {
@@ -116,7 +166,9 @@ function geocode(locationRaw: string | null, region: string | null): Parsed {
   // Wichita has no state in the source ("Wichita Metro Area").
   if (city && /^wichita$/i.test(city) && !stateRaw) stateRaw = "KS";
 
-  const state = stateRaw ? resolveStateAbbr(stateRaw) : null;
+  // "DC" is a USPS code but not a state, so resolveStateAbbr rejects it; keep the
+  // normalized "DC" so Washington rows resolve against CITY_COORDS["washington|DC"].
+  const state = stateRaw === "DC" ? "DC" : stateRaw ? resolveStateAbbr(stateRaw) : null;
   if (!city || !state) return { city, state, latitude: null, longitude: null };
 
   const coords = CITY_COORDS[`${city.toLowerCase()}|${state}`];
