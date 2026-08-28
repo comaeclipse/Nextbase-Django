@@ -274,6 +274,18 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: { board: "air" },
     legacy_aliases: [],
   },
+  {
+    // Advanced sensing / detection defense-tech (El Segundo). Listings come from
+    // its public Greenhouse board (board token "chaosindustries").
+    slug: "chaos-industries",
+    display_name: "CHAOS Industries",
+    parent_company: "CHAOS Industries",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "chaosindustries" },
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */

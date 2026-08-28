@@ -53,6 +53,7 @@ const COMPANY_SLUG: Record<string, string> = {
   epirus: "epirus",
   air: "air",
   govini: "air", // Govini rebranded to Air in 2026
+  "chaos industries": "chaos-industries",
 };
 
 /**
@@ -88,6 +89,10 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "torrance|CA": [33.8358, -118.3406],
   "lawton|OK": [34.6087, -98.3903],
   "pittsburgh|PA": [40.4406, -79.9959],
+  "el segundo|CA": [33.9192, -118.4165],
+  "hawthorne|CA": [33.9164, -118.3526],
+  "san francisco|CA": [37.7749, -122.4194],
+  "los angeles|CA": [34.0522, -118.2437],
 };
 
 interface Parsed {
