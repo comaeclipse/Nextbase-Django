@@ -14,7 +14,11 @@ import {
   housingBurden,
   requiredIncomeGross,
 } from "./housing-burden";
-import { estimatePitiMonthly, type CostInputs } from "./affordability";
+import {
+  estimateMonthlyCost,
+  estimatePitiMonthly,
+  type CostInputs,
+} from "./affordability";
 import type { ResolvedConstants } from "./cost-constants";
 
 const C: ResolvedConstants = {
@@ -118,7 +122,9 @@ describe("requiredIncomeGross", () => {
       // At the printed required income, housing is affordable...
       const band = burdenBand(monthly, income);
       expect(band === "affordable" || band === "very_affordable").toBe(true);
-      // ...and a dollar less crosses the 30% line.
+      // ...and a dollar less crosses the 30% line. (True at realistic cost
+      // magnitudes like these — for sub-dollar monthly costs a $1 income
+      // step is too coarse for this to hold, which no real PITI produces.)
       expect(burdenBand(monthly, income - 1)).toBe("stretched");
     }
   });
@@ -218,6 +224,36 @@ describe("cityHousingBurden", () => {
     );
     expect(entry.band).toBe(burdenBand(entry.piti.total!, 100_000));
     expect(entry.ratio).toBeCloseTo(100_000 / entry.requiredIncome!, 6);
+  });
+
+  it("REGRESSION: PITI is exactly the buying tenure minus maintenance and utilities", () => {
+    // The drift-pin between estimatePitiMonthly and housingCost's buying
+    // path: if either twin changes alone (PMI, loan term, a new carrying
+    // component), this identity breaks loudly instead of silently.
+    const l = loc({ property_tax_rate: 0.015 });
+    const buying = estimateMonthlyCost(l, "buying", C, { hoaMonthly: 120 }).housing!;
+    const piti = estimatePitiMonthly(l, 400_000, C, { hoaMonthly: 120 }).total!;
+    const maintenance = (400_000 * C.annualMaintenanceRate) / 12;
+    const utilities = C.modestNationalUtilitiesMonthly; // RPP 100, modest default
+    expect(buying).toBeCloseTo(piti + maintenance + utilities, 6);
+  });
+
+  it("threads hoaMonthly through cityHousingBurden's estimate options", () => {
+    const withHoa = cityHousingBurden(loc({ entry_home_value: 200_000 }), C, {
+      estimate: { hoaMonthly: 150 },
+    });
+    const without = cityHousingBurden(loc({ entry_home_value: 200_000 }), C);
+    expect(withHoa.entry!.piti.total! - without.entry!.piti.total!).toBeCloseTo(150, 6);
+  });
+
+  it("refuses non-positive prices instead of banding them affordable", () => {
+    const city = cityHousingBurden(
+      loc({ entry_home_value: 0, avg_home_value: "0" }),
+      C,
+      { salaryAnnual: 100_000 }
+    );
+    expect(city.entry).toBeNull();
+    expect(city.median).toBeNull();
   });
 
   it("returns null sides for missing data instead of guessing", () => {

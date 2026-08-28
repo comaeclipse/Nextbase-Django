@@ -25,8 +25,8 @@ import {
   estimatePitiMonthly,
   homeValue,
   type CostInputs,
-  type EstimateOptions,
   type PitiEstimate,
+  type PitiOptions,
 } from "./affordability";
 import type { ResolvedConstants } from "./cost-constants";
 
@@ -165,7 +165,7 @@ function homeBurden(
   price: number,
   c: ResolvedConstants,
   salaryAnnual: number | undefined,
-  opts: EstimateOptions
+  opts: PitiOptions
 ): HomeBurden {
   const piti = estimatePitiMonthly(loc, price, c, opts);
   const requiredIncome =
@@ -192,11 +192,17 @@ function homeBurden(
 export function cityHousingBurden(
   loc: CostInputs,
   c: ResolvedConstants,
-  options: { salaryAnnual?: number; estimate?: EstimateOptions } = {}
+  options: { salaryAnnual?: number; estimate?: PitiOptions } = {}
 ): CityHousingBurden {
   const opts = options.estimate ?? {};
-  const entryPrice = loc.entry_home_value ?? null;
-  const medianPrice = homeValue(loc);
+  // Positive-price gates: a zero "value" is a data defect, and pricing it
+  // would band as very_affordable at any salary — nonsense in, null out.
+  const entryPrice =
+    loc.entry_home_value != null && loc.entry_home_value > 0
+      ? loc.entry_home_value
+      : null;
+  const parsedMedian = homeValue(loc);
+  const medianPrice = parsedMedian !== null && parsedMedian > 0 ? parsedMedian : null;
   return {
     entry:
       entryPrice === null
