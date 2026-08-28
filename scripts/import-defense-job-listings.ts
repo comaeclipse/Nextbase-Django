@@ -62,6 +62,8 @@ const COMPANY_SLUG: Record<string, string> = {
   blacksky: "blacksky",
   "lockheed martin": "lockheed-martin",
   "palo alto networks": "palo-alto-networks",
+  "bae systems": "bae-systems",
+  "cyntel technologies": "cyntel-technologies",
 };
 
 /**
@@ -184,6 +186,37 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "madison|WI": [43.0731, -89.4012],
   "minneapolis|MN": [44.9778, -93.265],
   "cleveland|OH": [41.4993, -81.6944],
+  // BAE Systems + Cyntel CONUS sites (top by open-req volume).
+  "nashua|NH": [42.7654, -71.4676],
+  "merrimack|NH": [42.8651, -71.4934],
+  "westminster|CO": [39.8367, -105.0372],
+  "endicott|NY": [42.0987, -76.0494],
+  "hill afb|UT": [41.1239, -111.973],
+  "sterling|VA": [39.0067, -77.4291],
+  "fort wayne|IN": [41.0793, -85.1394],
+  "totowa|NJ": [40.9054, -74.2065],
+  "cedar rapids|IA": [41.9779, -91.6656],
+  "falls church|VA": [38.8823, -77.1711],
+  "rockville|MD": [39.084, -77.1528],
+  "wayne|NJ": [40.9254, -74.2765],
+  "louisville|KY": [38.2527, -85.7585],
+  "greenlawn|NY": [40.8676, -73.3651],
+  "york|PA": [39.9626, -76.7277],
+  "norfolk|VA": [36.8508, -76.2859],
+  "fort walton beach|FL": [30.4058, -86.6188],
+  "manchester|NH": [42.9956, -71.4548],
+  "maple grove|MN": [45.0725, -93.4558],
+  "mclean|VA": [38.9339, -77.1773],
+  "wallops island|VA": [37.9402, -75.4664],
+  "saint inigoes|MD": [38.137, -76.411],
+  "kingsport|TN": [36.5484, -82.5618],
+  "aurora|CO": [39.7294, -104.8319],
+  "springfield|VA": [38.7893, -77.1872],
+  "quantico|VA": [38.5223, -77.2934],
+  "linthicum|MD": [39.2065, -76.6647],
+  "ft meade|MD": [39.108, -76.7436],
+  "joint base langley-eustis|VA": [37.0829, -76.3597],
+  "dyess afb|TX": [32.4207, -99.8548],
 };
 
 interface Parsed {

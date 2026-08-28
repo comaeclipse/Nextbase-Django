@@ -377,6 +377,31 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+  {
+    // Defense prime (BAE Systems Inc., the US arm; Nashua NH electronic systems,
+    // plus many CONUS sites). Careers on Phenom (refNum BAE1US); listings pulled
+    // from phApp.ddo.eagerLoadRefineSearch, USA/CONUS-only.
+    slug: "bae-systems",
+    display_name: "BAE Systems",
+    parent_company: "BAE Systems",
+    sector: "defense_aerospace",
+    counts_as_defense: true,
+    ats_kind: "phenom",
+    ats_config: { refNum: "BAE1US", site: "jobs.baesystems.com" },
+    legacy_aliases: [],
+  },
+  {
+    // Defense-intelligence contractor (TS/SCI analysis at Ft Meade, Linthicum,
+    // Langley-Eustis). Small WordPress careers site (no ATS API).
+    slug: "cyntel-technologies",
+    display_name: "Cyntel Technologies",
+    parent_company: "Cyntel Technologies",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
