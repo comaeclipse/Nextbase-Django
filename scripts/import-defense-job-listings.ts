@@ -58,6 +58,8 @@ const COMPANY_SLUG: Record<string, string> = {
   onebrief: "onebrief",
   firestorm: "firestorm",
   hadrian: "hadrian",
+  hermeus: "hermeus",
+  blacksky: "blacksky",
 };
 
 /**
@@ -136,6 +138,8 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "fort bliss|TX": [31.8134, -106.4236],
   "mesa|AZ": [33.4152, -111.8315],
   "cherokee|AL": [34.757, -87.9736],
+  "jacksonville|FL": [30.3322, -81.6557],
+  "tukwila|WA": [47.4739, -122.2612],
 };
 
 interface Parsed {

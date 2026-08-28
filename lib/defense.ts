@@ -338,6 +338,30 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+  {
+    // Hypersonic aircraft (Quarterhorse/Darkhorse); Atlanta HQ, plus Los Angeles
+    // and Jacksonville. Listings from its public Lever board (token "hermeus").
+    slug: "hermeus",
+    display_name: "Hermeus",
+    parent_company: "Hermeus",
+    sector: "defense_aerospace",
+    counts_as_defense: true,
+    ats_kind: "lever",
+    ats_config: { board: "hermeus" },
+    legacy_aliases: [],
+  },
+  {
+    // Real-time geospatial intelligence / satellite imagery (Tukwila WA, Herndon
+    // VA). Listings from its public Greenhouse board (board token "blacksky").
+    slug: "blacksky",
+    display_name: "BlackSky",
+    parent_company: "BlackSky",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "blacksky" },
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
