@@ -176,6 +176,7 @@ export function validateGenreOntology(
 export interface GenreAssignmentEvidence {
   featureKeys?: readonly string[];
   sourceSignalKeys?: readonly string[];
+  dossierKeys?: readonly string[];
   claimIds?: readonly string[];
   divergenceIds?: readonly string[];
   notes?: readonly string[];
@@ -232,9 +233,9 @@ export function validateGenreAssignment(assignment: GenreAssignmentDraft): strin
   const evidenceCount =
     evidenceKeys.length +
     (assignment.evidence.sourceSignalKeys?.length ?? 0) +
+    (assignment.evidence.dossierKeys?.length ?? 0) +
     (assignment.evidence.claimIds?.length ?? 0) +
-    (assignment.evidence.divergenceIds?.length ?? 0) +
-    (assignment.evidence.notes?.filter((note) => note.trim()).length ?? 0);
+    (assignment.evidence.divergenceIds?.length ?? 0);
   if (evidenceCount === 0) errors.push("at least one evidence reference is required");
 
   if (Boolean(assignment.reviewedBy) !== Boolean(assignment.reviewedAt)) {

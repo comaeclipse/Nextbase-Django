@@ -5,8 +5,8 @@ Updated **in place** at the end of every pass and every governance decision;
 git history is the changelog. Do not re-narrate this state inside dossier
 notes or ledger entries — reference it.
 
-*As of: 2026-08-25 (genre ontology/schema implementation; Validation Corpus v1
-pass 1 of 12 complete: Pensacola).*
+*As of: 2026-08-25 (genre ontology/schema migrated; evidence-backed importer
+implemented; Validation Corpus v1 pass 1 of 12 complete: Pensacola).*
 
 ## Corpus status
 
@@ -125,8 +125,8 @@ non-squeeze.
    divergence_direction, divergence_magnitude, confidence, mechanism}.
 2. Per-domain falsification storage feeding borrow-aggressiveness tiers in
    the propagation engine.
-3. An evidence-backed assignment importer after assignment confidence and
-   rationale are reviewed; do not infer rows from board labels alone.
+3. Review assignment confidence/rationale and author the first explicit source
+   artifact; the importer is implemented but the assignment table remains empty.
 4. Periodic cross-city calibration of remaining intensity features
    (geographic_isolation, growth_pressure) — wind was the template.
 
