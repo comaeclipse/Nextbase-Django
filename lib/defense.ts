@@ -114,6 +114,21 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
   },
 
   {
+    // Defense/IT integrator (Reston HQ). No public ATS feed we scrape; its
+    // nationwide site footprint is hand-sourced (source_kind = user_attested),
+    // and each row carries an attested onsite opening count, so presence promotes
+    // exactly like an RTX facility does — mirrors System High.
+    slug: "leidos",
+    display_name: "Leidos",
+    parent_company: "Leidos",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+
+  {
     // Defense-technology manufacturer. Its public Greenhouse board is used for
     // hand-sourced, dated facility snapshots until an ATS sync is added.
     slug: "anduril",
@@ -194,12 +209,59 @@ export interface EmployerPresence {
   hybrid: number;
   remote: number;
   total: number;
+  /**
+   * Contained geographies whose postings are folded into the counts above.
+   * Present only when a facility sits in a neighborhood rather than being
+   * posted against the city itself, so the page can say "incl. Canoga Park".
+   *
+   * The counts are summed INTO onsite/hybrid/remote/total rather than kept
+   * separate, so hasDefenseEmployerSignal and matchesEmployers below need no
+   * changes and the defense_ecosystem filter comes out right automatically.
+   */
+  rolled_up_from?: {
+    geo_id: number;
+    name: string;
+    state: string;
+    onsite: number;
+    hybrid: number;
+    remote: number;
+    total: number;
+  }[];
 }
 
 /**
  * location_id -> employers present. A plain object (not a Map) so it survives
  * the server -> client component boundary.
  */
+/**
+ * Defense employment elsewhere in a city's metro.
+ *
+ * Deliberately separate from EmployerPresence rather than folded into it. A
+ * facility in the city (or in a geography inside it, like Canoga Park) is a
+ * fact about that city; a facility 40 miles away in the same CBSA is a fact
+ * about the region. Merging the two would have made Greenville TX read 258
+ * openings from McKinney, and four Boston-area cities read an identical 599.
+ *
+ * This is also why metro presence never feeds defense_hub -- see
+ * scripts/recompute-defense-hub.ts, which walks municipal_containment only.
+ */
+export interface MetroEmployerPresence {
+  slug: string;
+  display_name: string;
+  counts_as_defense: boolean;
+  /** onsite + hybrid only: a remote posting is not a facility. */
+  onsiteHybrid: number;
+  /** The places inside the metro that contribute, largest first. */
+  places: { name: string; state: string; onsiteHybrid: number }[];
+}
+
+export interface MetroEmployment {
+  metroName: string;
+  employers: MetroEmployerPresence[];
+}
+
+export type MetroEmployerIndex = Record<number, MetroEmployment>;
+
 export type EmployerIndex = Record<number, EmployerPresence[]>;
 
 /**

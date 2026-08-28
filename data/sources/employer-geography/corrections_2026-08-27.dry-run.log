@@ -1,0 +1,268 @@
+{
+  "before": [
+    {
+      "id": "502",
+      "slug": "co-schriever-afb",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "415",
+      "slug": "fl-kennedy-space-center",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "421",
+      "slug": "fl-lake-suzy",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "455",
+      "slug": "gu-nimitz-hill",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "436",
+      "slug": "hi-marine-corps-base-kaneohe-bay",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "367",
+      "slug": "la-fort-johnson",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "270",
+      "slug": "ma-bedford",
+      "geography": {
+        "county": "Middlesex",
+        "latitude": 42.414454279292,
+        "longitude": -71.11055778907,
+        "boundary_geoid": "2539835",
+        "boundary_source": null
+      },
+      "metros": [
+        "cbsa-14460"
+      ]
+    },
+    {
+      "id": "394",
+      "slug": "mi-harrison-township",
+      "geography": {
+        "county": "Macomb",
+        "latitude": 42.587101,
+        "longitude": -82.817239,
+        "boundary_geoid": "2609936820",
+        "boundary_source": null
+      },
+      "metros": [
+        "cbsa-19820"
+      ]
+    },
+    {
+      "id": "351",
+      "slug": "nj-egg-harbor-township",
+      "geography": {
+        "county": "Atlantic",
+        "latitude": 39.380407,
+        "longitude": -74.612341,
+        "boundary_geoid": "3400120290",
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "324",
+      "slug": "nv-carson-city",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "id": "200",
+      "slug": "pr-santa-isabel",
+      "geography": {
+        "county": "Santa Isabel",
+        "latitude": 17.969149,
+        "longitude": -66.405052,
+        "boundary_geoid": "7278145",
+        "boundary_source": null
+      },
+      "metros": []
+    }
+  ],
+  "proposed": [
+    {
+      "slug": "pr-santa-isabel",
+      "geography": {
+        "county": "Santa Isabel",
+        "latitude": 17.9691494,
+        "longitude": -66.4050513,
+        "boundary_geoid": "7278145",
+        "boundary_source": "US Census TIGERweb current Santa Isabel zona urbana centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/5/query?where=GEOID%3D%277278145%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json"
+      },
+      "metros": []
+    },
+    {
+      "slug": "ma-bedford",
+      "geography": {
+        "county": "Middlesex",
+        "latitude": 42.4969409,
+        "longitude": -71.2782954,
+        "boundary_geoid": "2501704615",
+        "boundary_source": "US Census TIGERweb current Bedford town centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272501704615%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json"
+      },
+      "metros": [
+        "cbsa-14460"
+      ]
+    },
+    {
+      "slug": "nv-carson-city",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "slug": "nj-egg-harbor-township",
+      "geography": {
+        "county": "Atlantic",
+        "latitude": 39.3786565,
+        "longitude": -74.6101758,
+        "boundary_geoid": "3400120290",
+        "boundary_source": "US Census TIGERweb current Egg Harbor township centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%273400120290%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json"
+      },
+      "metros": []
+    },
+    {
+      "slug": "la-fort-johnson",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "slug": "mi-harrison-township",
+      "geography": {
+        "county": "Macomb",
+        "latitude": 42.5880711,
+        "longitude": -82.8178312,
+        "boundary_geoid": "2609936820",
+        "boundary_source": "US Census TIGERweb current Harrison charter township centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272609936820%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json"
+      },
+      "metros": [
+        "cbsa-19820"
+      ]
+    },
+    {
+      "slug": "fl-kennedy-space-center",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "slug": "fl-lake-suzy",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "slug": "hi-marine-corps-base-kaneohe-bay",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "slug": "gu-nimitz-hill",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    },
+    {
+      "slug": "co-schriever-afb",
+      "geography": {
+        "county": null,
+        "latitude": null,
+        "longitude": null,
+        "boundary_geoid": null,
+        "boundary_source": null
+      },
+      "metros": []
+    }
+  ]
+}
+Dry run: all expected-state guards passed; nothing written.

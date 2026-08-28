@@ -341,8 +341,8 @@ export const COST_CONSTANTS = {
     kind: "measured",
     source: "KFF: average Medigap premium across all plans, 2023 analysis",
     sourceUrl:
-      "https://www.kff.org/medicare/medicare-part-d-enrollment-premiums-and-cost-sharing-in-2026/",
-    sourcedOn: "2026-08-11",
+      "https://www.kff.org/medicare/issue-brief/key-facts-about-medigap-enrollment-and-premiums-for-medicare-beneficiaries/",
+    sourcedOn: "2026-08-25",
     refresh: "annual",
     note:
       "MIXED VINTAGE: this is KFF's 2023 analysis, the newest published " +
@@ -375,6 +375,91 @@ export const COST_CONSTANTS = {
       "drug coverage, so the `va_primary` path drops this premium too, " +
       "without modeling a late-enrollment penalty while that VA coverage " +
       "continues.",
+  }),
+
+  /*
+   * TRICARE retiree enrollment fees, CY2026 (issue #108 Phase 3). Modeled at
+   * GROUP A (initial service before 2018-01-01): in 2026 essentially every
+   * already-retired 20-year retiree is Group A — the earliest 20-year Group B
+   * retirees appear around 2038. Group B pays more; that is disclosed via
+   * missingContext, not priced.
+   *
+   * These are PER-PLAN fees, not per-person: a couple (two enrolled
+   * beneficiaries) pays the FAMILY rate, never 2x the individual rate (DHA
+   * TRICARE For Life Program Manager, DVIDS Q&A 2026-02-26,
+   * https://www.dvidshub.net/news/558968/). TRICARE For Life needs no
+   * constant here: no enrollment fee, each beneficiary pays Medicare Part B
+   * (medicarePartBMonthly).
+   *
+   * Fact sheets publish ANNUAL fees; monthly = annual / 12, which is faithful
+   * because TRICARE bills monthly by allotment.
+   */
+
+  /** TRICARE Prime, Group A retiree, individual: $381.96/yr. */
+  tricarePrimeIndividualMonthly: constant({
+    value: 31.83,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet (May 2026, FS410G260526WP): " +
+      "Prime Group A retiree $381.96 per individual per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Group B (service on/after 2018-01-01) pays $462.96/yr — not modeled. " +
+      "Prime copays (e.g. $26 primary care, Group A) and the catastrophic cap " +
+      "are not estimated; disclosed via missingContext.",
+  }),
+
+  /** TRICARE Prime, Group A retiree, family: $765.00/yr. */
+  tricarePrimeFamilyMonthly: constant({
+    value: 63.75,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet: Prime Group A retiree " +
+      "$765.00 per family per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "One fee per enrolled family of two or more, per the DHA family-rate " +
+      "rule — the couple path uses this, never 2x the individual fee.",
+  }),
+
+  /** TRICARE Select, Group A retiree, individual: $186.96/yr. */
+  tricareSelectIndividualMonthly: constant({
+    value: 15.58,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet: Select Group A retiree " +
+      "$186.96 per individual per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Group B pays $594.96/yr — not modeled. Select also carries an annual " +
+      "deductible ($150/$300 Group A) and per-visit cost-shares (e.g. $38 " +
+      "network primary care); disclosed via missingContext, not priced.",
+  }),
+
+  /** TRICARE Select, Group A retiree, family: $375.00/yr. */
+  tricareSelectFamilyMonthly: constant({
+    value: 31.25,
+    unit: "USD per month",
+    kind: "measured",
+    source:
+      "DHA, TRICARE 2026 Costs and Fees fact sheet: Select Group A retiree " +
+      "$375.00 per family per year, / 12",
+    sourceUrl:
+      "https://tricare.mil/-/media/Files/TRICARE/Publications/FactSheets/Costs_Fees.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
   }),
 
   /**
@@ -539,6 +624,220 @@ export const COST_CONSTANTS = {
       "conventional 20%. Consider letting the user override this in the UI; " +
       "the model accepts a per-call override already.",
   }),
+
+  /*
+   * COUPLE INTERPOLATION ANCHORS (issue #108). BLS publishes NO "married
+   * couples only x 65+" expenditure table — the full cross-tab index was
+   * enumerated on 2026-08-25 and the composition-of-CU family has no age
+   * cut. The measured substitute is the CU-size x age pair from one
+   * publication: Table 3600 (one-person CUs, 65+) and Table 3620 (two-person
+   * CUs, 65+), CE 2021-2022 — the SAME vintage as the modest profile's
+   * Table 3254, a deliberate mismatch with the 2024 typical anchors. Only
+   * the RATIO structure of these sums is used, never their dollar levels,
+   * which limits the vintage-mismatch damage to relative shape.
+   *
+   * WHY RAW SUMS AND NOT A PRE-BAKED COUPLE RATIO: the existing baskets
+   * describe the AVERAGE 65+ consumer unit at each profile — about 1.3
+   * people for modest, more for typical — not a one-person household.
+   * Multiplying such a base by the raw two-over-one-person ratio (~2x)
+   * double-counts the extra people already inside the base and overstates a
+   * couple by tens of percent. Instead, coupleSliceMultipliers() interpolates
+   * each slice linearly in household size between the one-person and
+   * two-person sums, evaluates the base at its own published size, and takes
+   * couple = twoPerson / interpolated(base). That lands the effective couple
+   * multipliers near 1.4-1.5 — independently corroborated by the Elder
+   * Index 2025 needs-based couple/single ratio of ~1.35 (elderindex.org).
+   *
+   * KNOWN LIMITS, by construction (surfaced via missingContext, not hidden):
+   * two-person 65+ CUs are ~85% couples but include elder-plus-adult-child
+   * pairs, and they have 2.28x the pre-tax income of one-person 65+ CUs
+   * ($75,477 vs $33,114), so the shape is partly an income effect, not
+   * purely a second-person effect. Category cells suppressed by BLS
+   * (RSE >= 25%) on either side are excluded from BOTH sides of a sum.
+   */
+
+  /**
+   * One-person 65+ goods-category annual sum: food at home $3,086; alcohol
+   * $344; apparel $719; vehicle purchases $1,341; gasoline $998; reading
+   * $130; tobacco $183; entertainment toys/hobbies $89. Other entertainment
+   * supplies suppressed on both sides and excluded.
+   */
+  onePerson65GoodsAnnual: constant({
+    value: 6890,
+    unit: "USD per year",
+    kind: "measured",
+    source:
+      "BLS CE 2021-2022, Table 3600 (one-person CUs by age of reference " +
+      "person), 65+ column: goods-category sum",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-1-person-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Used only as an interpolation anchor by coupleSliceMultipliers(); " +
+      "never added into a budget as dollars. 2023-2024 exists only as XLSX; " +
+      "refresh all eight one/two-person sums together.",
+  }),
+
+  /**
+   * Two-person 65+ goods-category annual sum: food at home $5,615; alcohol
+   * $660; apparel $1,280; vehicle purchases $3,580; gasoline $2,188;
+   * reading $169; tobacco $238; entertainment toys/hobbies $139.
+   */
+  twoPerson65GoodsAnnual: constant({
+    value: 13869,
+    unit: "USD per year",
+    kind: "measured",
+    source:
+      "BLS CE 2021-2022, Table 3620 (two-person CUs by age of reference " +
+      "person), 65+ column: goods-category sum",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-2-persons-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+  }),
+
+  /**
+   * One-person 65+ other-services annual sum: food away $1,357; other
+   * vehicle expenses $1,890; public transportation $256; entertainment fees
+   * $208; audio/visual $818; pets $446; personal care $439; miscellaneous
+   * $750. Education suppressed on the one-person side and excluded from
+   * both sides.
+   */
+  onePerson65OtherServicesAnnual: constant({
+    value: 6164,
+    unit: "USD per year",
+    kind: "measured",
+    source:
+      "BLS CE 2021-2022, Table 3600, 65+ column: other-services category sum",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-1-person-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+  }),
+
+  /**
+   * Two-person 65+ other-services annual sum: food away $2,843; other
+   * vehicle $3,533; public transportation $631; entertainment fees $696;
+   * audio/visual $1,207; pets $894; personal care $836; miscellaneous
+   * $1,045 (education excluded to mirror the one-person side).
+   */
+  twoPerson65OtherServicesAnnual: constant({
+    value: 11685,
+    unit: "USD per year",
+    kind: "measured",
+    source:
+      "BLS CE 2021-2022, Table 3620, 65+ column: other-services category sum",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-2-persons-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+  }),
+
+  /** One-person 65+ utilities, fuels, and public services, annual. */
+  onePerson65UtilitiesAnnual: constant({
+    value: 2985,
+    unit: "USD per year",
+    kind: "measured",
+    source: "BLS CE 2021-2022, Table 3600, 65+ column: utilities line",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-1-person-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Two people in one dwelling do not double the utility bill — the " +
+      "two-over-one ratio here is 1.62 vs ~2.0 for goods, which is exactly " +
+      "why utilities interpolate separately.",
+  }),
+
+  /** Two-person 65+ utilities, fuels, and public services, annual. */
+  twoPerson65UtilitiesAnnual: constant({
+    value: 4822,
+    unit: "USD per year",
+    kind: "measured",
+    source: "BLS CE 2021-2022, Table 3620, 65+ column: utilities line",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-2-persons-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+  }),
+
+  /**
+   * One-person 65+ unscaled slice: cash contributions $2,602 plus personal
+   * insurance and pensions $1,234. Only the typical profile carries a
+   * non-zero unscaled slice; modest stays 0 for couples too.
+   */
+  onePerson65UnscaledAnnual: constant({
+    value: 3836,
+    unit: "USD per year",
+    kind: "measured",
+    source:
+      "BLS CE 2021-2022, Table 3600, 65+ column: cash contributions plus " +
+      "personal insurance and pensions",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-1-person-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+  }),
+
+  /** Two-person 65+ unscaled slice: $5,705 + $4,252. */
+  twoPerson65UnscaledAnnual: constant({
+    value: 9957,
+    unit: "USD per year",
+    kind: "measured",
+    source:
+      "BLS CE 2021-2022, Table 3620, 65+ column: cash contributions plus " +
+      "personal insurance and pensions",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/cu-size-by-age-2-persons-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+  }),
+
+  /**
+   * Average people per consumer unit behind the MODEST baskets (Table 3254,
+   * 65+ x income $15k-$30k). The size the interpolation evaluates the
+   * modest base at.
+   */
+  modestHouseholdSize: constant({
+    value: 1.3,
+    unit: "people per consumer unit",
+    kind: "measured",
+    source:
+      "BLS CE Table 3254, 2021-2022, 65+ with income $15,000-$29,999: " +
+      "average number in consumer unit (people)",
+    sourceUrl:
+      "https://www.bls.gov/cex/tables/cross-tab/mean/reference-person-age-by-income-65-or-older-2021-2022.pdf",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Read directly from the published table (which also re-confirmed every " +
+      "existing modest-profile figure). Same column's 'Adults 65 and older' " +
+      "is 1.2 — part of the extra 0.3 is a younger co-resident, not a spouse.",
+  }),
+
+  /**
+   * Average people per consumer unit behind the TYPICAL baskets (CE 2024,
+   * all 65+ CUs). The size the interpolation evaluates the typical base at.
+   */
+  typicalHouseholdSize: constant({
+    value: 1.8,
+    unit: "people per consumer unit",
+    kind: "measured",
+    source:
+      "BLS CE 2024 calendar year, reference person 65+: average number in " +
+      "consumer unit (people), series CXU980010LB0407M — same database, " +
+      "vintage, and demographic code (LB0407) as nonHousingBaseline65Plus",
+    sourceUrl:
+      "https://api.bls.gov/publicAPI/v2/timeseries/data/CXU980010LB0407M?latest=true",
+    sourcedOn: "2026-08-25",
+    refresh: "annual",
+    note:
+      "Item code 980010 = people-per-CU was verified by degenerate " +
+      "identities: the one-person-CU series returns exactly 1.0 and the " +
+      "two-person-CU series exactly 2.0 for 2024. The 2021-2022 two-year " +
+      "mean shows 1.7; 1.8 is used because the typical baskets are CY2024.",
+  }),
 };
 
 export type CostConstantKey = keyof typeof COST_CONSTANTS;
@@ -586,6 +885,17 @@ export type SpendingProfile = "modest" | "typical";
 
 export const DEFAULT_SPENDING_PROFILE: SpendingProfile = "modest";
 
+/**
+ * Who the estimate prices. `single` is the existing behavior: each profile's
+ * published basket, which describes the AVERAGE consumer unit at that
+ * profile (slightly more than one person), plus one person's premiums.
+ * `couple` scales the consumption slices via coupleSliceMultipliers() and
+ * doubles the per-person Medicare premiums.
+ */
+export type Household = "single" | "couple";
+
+export const DEFAULT_HOUSEHOLD: Household = "single";
+
 export interface SpendingSlices {
   goodsMonthly: number;
   otherServicesMonthly: number;
@@ -593,22 +903,67 @@ export interface SpendingSlices {
   utilitiesMonthly: number;
 }
 
-export function spendingSlices(
+/**
+ * Per-slice couple multipliers for a profile.
+ *
+ * Each slice is interpolated linearly in household size between the measured
+ * one-person and two-person 65+ sums; the profile's base is evaluated at its
+ * own published size, and the multiplier is twoPerson / interpolated(base).
+ * See the COUPLE INTERPOLATION ANCHORS comment above for why the raw 2/1
+ * ratio must NOT be applied directly: the base already averages more than
+ * one person, and double-counting them overstates a couple by tens of
+ * percent.
+ */
+export function coupleSliceMultipliers(
   profile: SpendingProfile,
   c: ResolvedConstants
 ): SpendingSlices {
-  if (profile === "typical") {
-    return {
-      goodsMonthly: c.nonHousingGoodsMonthly,
-      otherServicesMonthly: c.nonHousingOtherServicesMonthly,
-      unscaledMonthly: c.nonHousingUnscaledMonthly,
-      utilitiesMonthly: c.nationalUtilitiesMonthly,
-    };
-  }
+  const size =
+    profile === "typical" ? c.typicalHouseholdSize : c.modestHouseholdSize;
+  // Sizes are expected in [1, 2]. A future refresh above 2.0 would
+  // extrapolate multipliers below 1 (a couple priced cheaper than the base)
+  // — if the published average ever crosses 2, this construction needs a
+  // rethink, not a clamp.
+  const m = (onePerson: number, twoPerson: number): number => {
+    const baseEquivalent = onePerson + (size - 1) * (twoPerson - onePerson);
+    return baseEquivalent > 0 ? twoPerson / baseEquivalent : 1;
+  };
   return {
-    goodsMonthly: c.modestNonHousingGoodsMonthly,
-    otherServicesMonthly: c.modestNonHousingOtherServicesMonthly,
-    unscaledMonthly: c.modestNonHousingUnscaledMonthly,
-    utilitiesMonthly: c.modestNationalUtilitiesMonthly,
+    goodsMonthly: m(c.onePerson65GoodsAnnual, c.twoPerson65GoodsAnnual),
+    otherServicesMonthly: m(
+      c.onePerson65OtherServicesAnnual,
+      c.twoPerson65OtherServicesAnnual
+    ),
+    unscaledMonthly: m(c.onePerson65UnscaledAnnual, c.twoPerson65UnscaledAnnual),
+    utilitiesMonthly: m(c.onePerson65UtilitiesAnnual, c.twoPerson65UtilitiesAnnual),
+  };
+}
+
+export function spendingSlices(
+  profile: SpendingProfile,
+  c: ResolvedConstants,
+  household: Household = DEFAULT_HOUSEHOLD
+): SpendingSlices {
+  const base: SpendingSlices =
+    profile === "typical"
+      ? {
+          goodsMonthly: c.nonHousingGoodsMonthly,
+          otherServicesMonthly: c.nonHousingOtherServicesMonthly,
+          unscaledMonthly: c.nonHousingUnscaledMonthly,
+          utilitiesMonthly: c.nationalUtilitiesMonthly,
+        }
+      : {
+          goodsMonthly: c.modestNonHousingGoodsMonthly,
+          otherServicesMonthly: c.modestNonHousingOtherServicesMonthly,
+          unscaledMonthly: c.modestNonHousingUnscaledMonthly,
+          utilitiesMonthly: c.modestNationalUtilitiesMonthly,
+        };
+  if (household === "single") return base;
+  const scale = coupleSliceMultipliers(profile, c);
+  return {
+    goodsMonthly: base.goodsMonthly * scale.goodsMonthly,
+    otherServicesMonthly: base.otherServicesMonthly * scale.otherServicesMonthly,
+    unscaledMonthly: base.unscaledMonthly * scale.unscaledMonthly,
+    utilitiesMonthly: base.utilitiesMonthly * scale.utilitiesMonthly,
   };
 }

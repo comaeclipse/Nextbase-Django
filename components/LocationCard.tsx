@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 import { Hospital } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Location } from "@/lib/types";
-import type { LocationBudget, Tenure } from "@/lib/affordability";
+import type { LocationBudget, QuickVerdict, Tenure } from "@/lib/affordability";
+import type { QuickAnnotation } from "@/components/ExploreClient";
 import {
   bandLabel,
   formatUsd,
   healthCoverageLabel,
+  householdLabel,
   profileLabel,
+  quickVerdictLabel,
   tenureLabel,
 } from "@/lib/affordability-scenario";
 
@@ -21,13 +24,25 @@ function bandClass(band: LocationBudget["band"]): string {
   return "border-border bg-muted text-muted-foreground";
 }
 
+/** Five-band chip tones for quick-check verdicts, worst first. */
+function quickBandClass(verdict: QuickVerdict): string {
+  if (verdict === "comfortable") return "border-emerald-200 bg-emerald-50 text-emerald-800";
+  if (verdict === "in_the_ballpark") return "border-yellow-200 bg-yellow-50 text-yellow-800";
+  if (verdict === "very_tight") return "border-amber-200 bg-amber-50 text-amber-800";
+  if (verdict === "probably_too_expensive") return "border-orange-200 bg-orange-50 text-orange-800";
+  return "border-rose-200 bg-rose-50 text-rose-800";
+}
+
 export default function LocationCard({
   location,
   budget = null,
+  quick = null,
   tenure = "own_outright",
 }: {
   location: Location;
   budget?: LocationBudget | null;
+  /** Quick-check annotation; takes precedence over `budget` when present. */
+  quick?: QuickAnnotation | null;
   tenure?: Tenure;
 }) {
   const router = useRouter();
@@ -93,7 +108,48 @@ export default function LocationCard({
           ))}
         </dl>
 
-        {budget ? (
+        {quick ? (
+          <div className="space-y-1.5 rounded-xl border bg-muted/30 p-3">
+            <div className="flex items-start justify-between gap-2">
+              <Badge
+                variant="outline"
+                className={`rounded-full font-medium ${
+                  quick.check
+                    ? quickBandClass(quick.check.verdict)
+                    : "border-border bg-muted text-muted-foreground"
+                }`}
+              >
+                {quick.check
+                  ? quickVerdictLabel(quick.check.verdict)
+                  : "Not enough data"}
+              </Badge>
+              {quick.check ? (
+                <p className="text-sm font-semibold">
+                  {quick.check.remaining >= 0
+                    ? `${formatUsd(quick.check.remaining)} left`
+                    : `${formatUsd(Math.abs(quick.check.remaining))} short`}
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground">Not priced</p>
+              )}
+            </div>
+            {quick.affordability.monthlyCost !== null ? (
+              <p className="text-xs text-muted-foreground">
+                Est. {formatUsd(quick.affordability.monthlyCost)}/mo
+                {` · Modest · ${tenureLabel(tenure)} · ${householdLabel(quick.affordability.household)}`}
+              </p>
+            ) : null}
+            {quick.affordability.missing.length > 0 ? (
+              <p className="text-[11px] text-amber-800">
+                Missing: {quick.affordability.missing.join("; ")}
+              </p>
+            ) : quick.affordability.approximations.length > 0 ? (
+              <p className="text-[11px] text-muted-foreground">
+                Approximated: {quick.affordability.approximations.join("; ")}
+              </p>
+            ) : null}
+          </div>
+        ) : budget ? (
           <div className="space-y-1.5 rounded-xl border bg-muted/30 p-3">
             <div className="flex items-start justify-between gap-2">
               <Badge
@@ -118,7 +174,7 @@ export default function LocationCard({
                 ? ` · take-home ${formatUsd(budget.income.netMonthly)}`
                 : ""}
               {` · ${profileLabel(budget.cost.spendingProfile)} · ${tenureLabel(tenure)}`}
-              {budget.cost.healthCoverage === "va_primary"
+              {budget.cost.healthCoverage !== "medicare_supplement"
                 ? ` · ${healthCoverageLabel(budget.cost.healthCoverage)}`
                 : ""}
             </p>

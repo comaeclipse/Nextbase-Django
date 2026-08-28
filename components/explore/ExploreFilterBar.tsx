@@ -72,8 +72,8 @@ import type { DefenseEmployerRow } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import AffordabilityForm from "@/components/affordability/AffordabilityForm";
 import {
+  scenarioAnnotationActive,
   scenarioChipLabel,
-  scenarioIsActive,
   type AffordabilityScenario,
 } from "@/lib/affordability-scenario";
 
@@ -860,7 +860,7 @@ export default function ExploreFilterBar({
       count > 0 ? { key: "more", label: "More filters" } : null,
     ] as ({ key: ChipKey; label: string } | null)[]
   ).filter(Boolean) as { key: ChipKey; label: string }[];
-  const incomeActive = scenarioIsActive(scenario);
+  const incomeActive = scenarioAnnotationActive(scenario);
 
   const moreContent = (
     <MoreFiltersContent
@@ -979,12 +979,12 @@ export default function ExploreFilterBar({
                 render={
                   <FilterButton
                     label={
-                      scenarioIsActive(scenario)
+                      scenarioAnnotationActive(scenario)
                         ? scenarioChipLabel(scenario)
                         : "On my income"
                     }
                     icon={Wallet}
-                    active={scenarioIsActive(scenario)}
+                    active={scenarioAnnotationActive(scenario)}
                   />
                 }
               />

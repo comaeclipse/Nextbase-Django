@@ -5,14 +5,29 @@
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run] [--allow-incomplete]
  *
- * Upserts locations keyed on (name, state), matching Django's update_or_create.
+ * Upserts locations keyed on `slug`. That used to be (name, state), matching
+ * Django's update_or_create, but below city level it is not unique -- a second
+ * "Downtown, CA" silently overwrote the first.
+ *
+ * A CSV may declare `GeoType` (city | neighborhood | cdp | county | metro) and
+ * `ParentSlug`. Omitted, a row is a city with no parent and behaves exactly as
+ * it always has. A non-city row is imported with is_candidate=false, so it gets
+ * a profile page and resolves employer postings but never enters /explore.
+ *
  * --dry-run parses and reports without touching the database.
  */
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
-import { locationCsvCompletionProblems } from "../lib/location-completeness";
+import {
+  geoTypeOf,
+  isCandidateOf,
+  locationCsvCompletionProblems,
+} from "../lib/location-completeness";
+import { buildLocationUpsert, type ImportParent as ParentGeo } from "../lib/location-import";
+import { isUnresolvedGeographyRow } from "../lib/geography-import-status";
+import { geoSlug } from "../lib/geo-slug";
 import { deriveCostOfLivingCategory } from "../lib/cost-of-living";
 import { classifyAndPersist, classifyLocation } from "../lib/pace";
 import type { PaceDerivedBundle, PacePlaceCentroid } from "../lib/pace/types";
@@ -123,23 +138,57 @@ const parseTags = (v: string | undefined): string[] => {
   return [c];
 };
 
+/** The parent's slug, or null for a top-level place. */
+function parentSlugOf(row: Row): string | null {
+  return cleanEmpty(row["ParentSlug"] ?? "") ?? null;
+}
+
 function parseRow(row: Row): Record<string, unknown> {
   const rawHomeValue = row["AvgHomeValue"] ?? "";
   const city = cleanEmpty(row["City"] ?? "") ?? "";
   const state = cleanEmpty(row["State"] ?? "") ?? "";
   const coords = resolveCoordinates(city, state, row["Latitude"], row["Longitude"]);
+  const geoType = geoTypeOf(row);
+  const parentSlug = parentSlugOf(row);
 
   return {
     name: city,
     state: state,
     county: cleanEmpty(row["County"]),
+    /*
+     * Identity. The slug is the upsert key -- (name, state) is not unique below
+     * city level. is_candidate is the ranking gate and defaults to false for
+     * anything that is not a city, so a neighborhood cannot reach /explore by
+     * being imported; promoting one is a deliberate, separate act.
+     */
+    slug: geoSlug(city, state, parentSlug),
+    geo_type: geoType,
+    is_candidate: isCandidateOf(row, geoType),
+    population_source: cleanEmpty(row["PopulationSource"]),
+    ...("PopulationUnavailableReason" in row ? { population_unavailable_reason: cleanEmpty(row["PopulationUnavailableReason"]) } : {}),
+    population_vintage: cleanEmpty(row["PopulationVintage"]),
+    boundary_source: cleanEmpty(row["BoundarySource"]),
+    boundary_geoid: cleanEmpty(row["BoundaryGeoid"]),
     latitude: coords.latitude,
     longitude: coords.longitude,
-    climate: cleanEmpty(row["Climate"] ?? "") ?? "",
+    // Nullable since the geo-hierarchy migration. A city keeps the historical
+    // empty-string default; a geography that inherits its climate stores NULL,
+    // because a placeholder is indistinguishable from a researched value.
+    climate:
+      cleanEmpty(row["Climate"] ?? "") ?? (isCandidateOf(row, geoType) ? "" : null),
     // locations_location.cost_of_living is NOT NULL. We initialize it from
     // the CSV or fallback, and then scripts/sync-col-index-from-rpp.ts standardizes
     // it from BEA all_items_rpp.
-    cost_of_living: deriveCostOfLivingCategory(parseIntV(row["CostOfLiving"])),
+    /*
+     * Only a ranked candidate gets the derived fallback. deriveCostOfLivingCategory
+     * returns "Moderate" for a missing input, and on a structural parent that
+     * placeholder would be inherited by every geography inside it and rendered
+     * as though it were researched. NULL resolves to `absent` instead, which is
+     * the truth until scripts/sync-col-index-from-rpp.ts writes a real band.
+     */
+    cost_of_living: isCandidateOf(row, geoType)
+      ? deriveCostOfLivingCategory(parseIntV(row["CostOfLiving"]))
+      : null,
     // State-owned CSV fields are intentionally ignored here. They belong in
     // locations_stateinfo after sourced adjudication, not on every city row.
     city_politics: cleanEmpty(row["CityPolitics"]),
@@ -186,38 +235,39 @@ function parseRow(row: Row): Record<string, unknown> {
   };
 }
 
-async function upsert(
-  data: Record<string, unknown>
-): Promise<{ status: "created" | "updated"; id: number }> {
+async function upsert(query: ReturnType<typeof buildLocationUpsert>): Promise<{ status: "created" | "updated"; id: number }> {
+  const rows = await getSql().query(query.text, query.params) as { id: number; created: boolean }[];
+  if (rows.length !== 1) throw new Error("Parent changed or disappeared before import; no child written");
+  return { status: rows[0].created ? "created" : "updated", id: Number(rows[0].id) };
+}
+
+/**
+ * Look the declared parent up. Resolved BEFORE the child is written, so a bad
+ * ParentSlug fails without leaving anything behind -- doing this after the
+ * upsert creates an orphaned row with a null parent_geo_id, which is exactly
+ * the inconsistent state scripts/verify-geo-hierarchy.ts exists to catch.
+ */
+async function resolveParent(parentSlug: string): Promise<ParentGeo> {
   const sql = getSql();
-  const cols = Object.keys(data);
-  // jsonb column needs a text param cast; everything else coerces fine.
-  const value = (c: string) => (c === "tags" ? JSON.stringify(data[c]) : data[c]);
-  const placeholder = (c: string, i: number) =>
-    c === "tags" ? `$${i + 1}::jsonb` : `$${i + 1}`;
+  const found = (await sql.query(
+    "SELECT id, name, state, geo_type FROM locations_location WHERE slug = $1",
+    [parentSlug]
+  )) as { id: number; name: string; state: string; geo_type: string }[];
 
-  const existing = (await sql.query(
-    "SELECT id FROM locations_location WHERE name = $1 AND state = $2",
-    [data.name, data.state]
-  )) as { id: number }[];
-
-  if (existing.length) {
-    const setClause = cols.map((c, i) => `${c} = ${placeholder(c, i)}`).join(", ");
-    await sql.query(
-      `UPDATE locations_location SET ${setClause}, updated_at = now() WHERE id = $${cols.length + 1}`,
-      [...cols.map(value), existing[0].id]
+  if (!found.length) {
+    throw new Error(
+      `ParentSlug "${parentSlug}" does not exist. Import the parent geography first — ` +
+        `a child with no parent has nothing to inherit from.`
     );
-    return { status: "updated", id: Number(existing[0].id) };
   }
-  const colList = cols.join(", ");
-  const placeholders = cols.map((c, i) => placeholder(c, i)).join(", ");
-  const inserted = (await sql.query(
-    `INSERT INTO locations_location (${colList}, created_at, updated_at)
-     VALUES (${placeholders}, now(), now())
-     RETURNING id`,
-    cols.map(value)
-  )) as { id: number }[];
-  return { status: "created", id: Number(inserted[0].id) };
+  const parent = found[0];
+  if (!["city", "county"].includes(parent.geo_type)) throw new Error("Parent must be a city or county");
+  return {
+    ...parent,
+    id: Number(parent.id),
+    relationship:
+      parent.geo_type === "county" ? "county_containment" : "municipal_containment",
+  };
 }
 
 /** Classify pace after upsert; never blocks the city import on failure. */
@@ -275,14 +325,49 @@ async function main() {
   }
 
   const text = readFileSync(csvPath, "utf-8");
-  const rows: Row[] = parse(text, { columns: true, skip_empty_lines: true });
+  const parsed: Row[] = parse(text, { columns: true, skip_empty_lines: true });
+  const rows = parsed.filter((row) => {
+    if (!isUnresolvedGeographyRow(row)) return true;
+    console.log(`Skipped unresolved geography: ${row.City}, ${row.State}: ${row.GeoResolutionNote}`);
+    return false;
+  });
+  if (clear && rows.length !== parsed.length) throw new Error("--clear cannot be combined with unresolved audit rows");
   console.log(`Importing locations from: ${csvPath}${dryRun ? " (dry run)" : ""}`);
 
+  /*
+   * Two rows computing the same slug is a silent overwrite: the first is
+   * inserted, the second updates it, and the import reports success. Catch it
+   * at parse time, by name, rather than letting the UNIQUE constraint surface
+   * it later as a confusing database error.
+   */
+  const slugCounts = new Map<string, number[]>();
+  rows.forEach((row, index) => {
+    const slug = geoSlug(
+      cleanEmpty(row["City"] ?? "") ?? "",
+      cleanEmpty(row["State"] ?? "") ?? "",
+      cleanEmpty(row["ParentSlug"] ?? "") ?? null
+    );
+    slugCounts.set(slug, [...(slugCounts.get(slug) ?? []), index + 2]);
+  });
+  const duplicateSlugs = [...slugCounts].filter(([, lines]) => lines.length > 1);
+  if (duplicateSlugs.length) {
+    console.error("Import blocked: two or more rows resolve to the same geography.");
+    for (const [slug, lines] of duplicateSlugs) {
+      console.error(`  - ${slug} on rows ${lines.join(", ")}`);
+    }
+    console.error(
+      "Give them distinct names, or distinct parents via ParentSlug. Importing as-is would silently keep only the last."
+    );
+    process.exit(1);
+  }
+
   const completionProblems = rows.flatMap((row, index) =>
-    locationCsvCompletionProblems(row).map((problem) => `row ${index + 2}: ${problem}`)
+    locationCsvCompletionProblems(row, geoTypeOf(row), isCandidateOf(row, geoTypeOf(row))).map(
+      (problem) => `row ${index + 2}: ${problem}`
+    )
   );
   if (completionProblems.length && !allowIncomplete) {
-    console.error("Import blocked: a curated city cannot be incomplete.");
+    console.error("Import blocked: a location cannot be imported incomplete.");
     for (const problem of completionProblems) console.error(`  - ${problem}`);
     console.error("Research and source every required field, or use --allow-incomplete only for a legacy repair that will not be reported as complete.");
     process.exit(1);
@@ -294,6 +379,28 @@ async function main() {
 
   const sql = getSql();
   if (clear) {
+    /*
+     * The self-FK is ON DELETE RESTRICT, so a blanket delete would fail
+     * partway through anyway. Refuse up front with an explanation instead of
+     * a foreign-key error, because "delete everything" is not a safe way to
+     * remove a hierarchy: it would either fail or, under CASCADE, silently
+     * take every contained geography with it.
+     */
+    const contained = (await sql.query(
+      "SELECT count(*)::int AS n FROM locations_location WHERE parent_geo_id IS NOT NULL"
+    )) as { n: number }[];
+    if (contained[0].n > 0) {
+      console.error(
+        `Refusing --clear: ${contained[0].n} location(s) are contained by another geography.`
+      );
+      console.error(
+        "Deleting the parents would fail on the ON DELETE RESTRICT self-FK, or silently"
+      );
+      console.error(
+        "remove their children. Remove the contained rows deliberately first."
+      );
+      process.exit(1);
+    }
     console.log("Clearing existing locations...");
     if (!dryRun) await sql.query("DELETE FROM locations_location", []);
     console.log("Cleared!");
@@ -305,29 +412,62 @@ async function main() {
   for (let i = 0; i < rows.length; i++) {
     try {
       const data = parseRow(rows[i]);
+      const parentSlug = parentSlugOf(rows[i]);
+      const parent = parentSlug ? await resolveParent(parentSlug) : null;
+      if (parent && (parent.state !== data.state || data.geo_type === "city")) throw new Error("Invalid child/parent geography");
+      // Build the exact write query during dry-run too; validation must not diverge.
+      const query = buildLocationUpsert(data, parent, cleanEmpty(rows[i]["ParentSource"]) ?? "CSV import");
       if (dryRun) {
-        console.log(`  = Would upsert: ${data.name}, ${data.state}`);
+        console.log(
+          `  = Would upsert: ${data.name}, ${data.state}` +
+            (data.geo_type === "city" ? "" : ` [${data.geo_type}]`) +
+            ` -> slug ${data.slug}` +
+            (parentSlugOf(rows[i]) ? ` under ${parentSlugOf(rows[i])}` : "")
+        );
         continue;
       }
-      const result = await upsert(data);
+      const result = await upsert(query);
+      const label = `${data.name}, ${data.state}` +
+        (data.geo_type === "city" ? "" : ` [${data.geo_type}]`);
       if (result.status === "created") {
         created++;
-        console.log(`  + Created: ${data.name}, ${data.state}`);
+        console.log(`  + Created: ${label}`);
       } else {
         updated++;
-        console.log(`  ~ Updated: ${data.name}, ${data.state}`);
+        console.log(`  ~ Updated: ${label}`);
       }
-      await classifyImportedLocation(
-        result.id,
-        String(data.name),
-        String(data.state)
-      );
+
+      if (parent) console.log(`    contained by: ${parent.name}, ${parent.state} (${parent.relationship})`);
+
+      /*
+       * A county or metro has no settlement pace of its own -- it exists to be
+       * inherited from. A neighborhood does, and classify-pace resolves it from
+       * its own tract, so it is classified like a city.
+       */
+      if (
+        data.geo_type === "county" ||
+        data.geo_type === "metro" ||
+        (data.geo_type === "city" && data.is_candidate === false)
+      ) {
+        // A container, or a city that exists only to anchor employer postings.
+        // Pace describes what living somewhere feels like; nothing ranks these,
+        // and classifying ~400 of them would cost a geocoder round trip each
+        // for a value no surface reads.
+        console.log("    pace: skipped (not a ranked candidate)");
+      } else {
+        await classifyImportedLocation(
+          result.id,
+          String(data.name),
+          String(data.state)
+        );
+      }
     } catch (e) {
       errors++;
       console.error(`  X Error on row ${i + 2}: ${(e as Error).message}`);
     }
   }
 
+  if (errors) process.exitCode = 1;
   console.log(
     dryRun
       ? `\nDry run complete. ${rows.length} row(s) parsed, ${errors} error(s).`
@@ -335,4 +475,4 @@ async function main() {
   );
 }
 
-main();
+main().catch((error) => { console.error(error); process.exitCode = 1; });

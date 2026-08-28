@@ -1,0 +1,245 @@
+{
+  "verifiedAt": "2026-08-27T18:01:32.976Z",
+  "masterCommit": "5dceaeaf00225d8cfe4d4fb95baff3ca585c0c20",
+  "artifactHashes": {
+    "data/employer_geography_corrections_2026-08-27.json": "0d5d39a1e002bf79b1f2df16680e0749bc145bf63be28013bf27e3bce1c29a30",
+    "data/columbus_ga_midland.csv": "b0d578fc4e3436486ee88ed918e3075a039da75d23806c50774b1a4fac553e82"
+  },
+  "nonTargetProofs": {
+    "locations_location": {
+      "unchanged": true,
+      "sha256": "1234e04cb4c55573ccc112f32e17fa135bfdaaa7ab11adeecba6d3a305d2885e"
+    },
+    "defense_employer_locations": {
+      "unchanged": true,
+      "sha256": "a39f5ae85fdba7de2acb050dc0acc61dcd9f87d3d3b809555d78fdd3c1b361fb"
+    },
+    "geo_relationships": {
+      "unchanged": true,
+      "sha256": "7ebfeddfaf7e3dd8ddcbc3ac2ca63684e5a6d171685b50c5abb4994ae4195ca4"
+    },
+    "location_military_proximity": {
+      "unchanged": true,
+      "sha256": "58ad1f5ccf5a46da082288658e0ab41008865a9dd1c87de8b20230968728d9bb"
+    }
+  },
+  "correctedLocations": [
+    {
+      "id": "200",
+      "slug": "pr-santa-isabel",
+      "county": "Santa Isabel",
+      "latitude": 17.9691494,
+      "longitude": -66.4050513,
+      "boundary_geoid": "7278145",
+      "boundary_source": "US Census TIGERweb current Santa Isabel zona urbana centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/5/query?where=GEOID%3D%277278145%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+      "has_va": true,
+      "nearest_va": "Eurípides Rubio Department of Veterans Affairs Outpatient Clinic",
+      "distance_to_va": "13 miles"
+    },
+    {
+      "id": "270",
+      "slug": "ma-bedford",
+      "county": "Middlesex",
+      "latitude": 42.4969409,
+      "longitude": -71.2782954,
+      "boundary_geoid": "2501704615",
+      "boundary_source": "US Census TIGERweb current Bedford town centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272501704615%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+      "has_va": true,
+      "nearest_va": "Edith Nourse Rogers Memorial Veterans' Hospital",
+      "distance_to_va": "1 miles"
+    },
+    {
+      "id": "351",
+      "slug": "nj-egg-harbor-township",
+      "county": "Atlantic",
+      "latitude": 39.3786565,
+      "longitude": -74.6101758,
+      "boundary_geoid": "3400120290",
+      "boundary_source": "US Census TIGERweb current Egg Harbor township centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%273400120290%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+      "has_va": true,
+      "nearest_va": "Atlantic County VA Clinic",
+      "distance_to_va": "3 miles"
+    },
+    {
+      "id": "394",
+      "slug": "mi-harrison-township",
+      "county": "Macomb",
+      "latitude": 42.5880711,
+      "longitude": -82.8178312,
+      "boundary_geoid": "2609936820",
+      "boundary_source": "US Census TIGERweb current Harrison charter township centroid; retrieved 2026-08-27; https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272609936820%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+      "has_va": true,
+      "nearest_va": "Detroit VA Medical Center-Valor Center",
+      "distance_to_va": "20 miles"
+    }
+  ],
+  "midland": {
+    "id": "617",
+    "slug": "ga-columbus-midland",
+    "geo_type": "neighborhood",
+    "is_candidate": false,
+    "county": "Muscogee",
+    "latitude": 32.574867,
+    "longitude": -84.827156,
+    "population": null,
+    "population_unavailable_reason": "GNIS populated-place point has no defined Census place boundary or defensible community population. ZCTA 31820 population is not a community population.",
+    "parent_geo_id": "126",
+    "defense_hub": true,
+    "nearest_va": "Robert S. Poydasheff VA Clinic",
+    "distance_to_va": "10 miles"
+  },
+  "employerLink": [
+    {
+      "id": "191",
+      "location_id": "617",
+      "onsite": 54,
+      "hybrid": 0,
+      "snapshot_date": "2026-08-25T05:00:00.000Z"
+    }
+  ],
+  "columbusLocal": [
+    {
+      "location_id": "126",
+      "slug": "pratt-whitney",
+      "display_name": "Pratt & Whitney",
+      "parent_company": "RTX",
+      "counts_as_defense": true,
+      "onsite": 54,
+      "hybrid": 0,
+      "remote": 0,
+      "total": 54,
+      "rolled_up_from": [
+        {
+          "geo_id": 617,
+          "name": "Midland",
+          "state": "GA",
+          "onsite": 54,
+          "hybrid": 0,
+          "remote": 0,
+          "total": 54
+        }
+      ]
+    }
+  ],
+  "columbusElsewhere": [
+    {
+      "city_id": "126",
+      "metro_name": "Columbus, GA-AL",
+      "slug": "leidos",
+      "display_name": "Leidos",
+      "counts_as_defense": true,
+      "onsite_hybrid": 1,
+      "places": [
+        {
+          "name": "Fort Benning",
+          "state": "GA",
+          "onsiteHybrid": 1
+        }
+      ]
+    }
+  ],
+  "military": [
+    {
+      "location_id": "200",
+      "n": 181,
+      "nearest": 1083.83
+    },
+    {
+      "location_id": "270",
+      "n": 181,
+      "nearest": 2.67
+    },
+    {
+      "location_id": "351",
+      "n": 181,
+      "nearest": 43.84
+    },
+    {
+      "location_id": "394",
+      "n": 181,
+      "nearest": 12.99
+    },
+    {
+      "location_id": "617",
+      "n": 181,
+      "nearest": 12.18
+    }
+  ],
+  "pace": [
+    {
+      "id": "547",
+      "location_id": "617",
+      "scope": "place",
+      "cbsa_geoid": null,
+      "place_geoid": null,
+      "tract_geoids": [],
+      "census_vintage": null,
+      "input_values": {
+        "reviewReasons": [
+          "geography_unresolved"
+        ]
+      },
+      "source_versions": {
+        "epa_sld_v3_2021": "EPA-SLD-V3-Jan-2021",
+        "ruca_2020_tracts": "2020-RUCA-tracts-2025-07",
+        "census_gaz_place_2024": "2024-Gaz-place-national"
+      },
+      "source_checksums": {
+        "epa_sld_v3_2021": "24bbb2eed222f69f2cf5cbb89278864bd28eced8986bec2ba3d1458092ebab78",
+        "ruca_2020_tracts": "e056ee1bcf387e39c220f20a506801030c1105351fa8a1bb814d0a686013a8a8",
+        "census_gaz_place_2024": "cf262fc92b2326f7a8c62a89d156a60eb17d64d6d35f7a62310c43bb08972c06"
+      },
+      "score": null,
+      "candidate_category": null,
+      "confidence": null,
+      "review_state": "needs_review",
+      "override_category": null,
+      "override_reason": null,
+      "reviewed_at": null,
+      "algorithm_version": "pace-v1",
+      "created_at": "2026-08-27T18:00:57.172Z"
+    }
+  ],
+  "unresolvedSlugs": [
+    "nv-carson-city",
+    "la-fort-johnson",
+    "fl-kennedy-space-center",
+    "fl-lake-suzy",
+    "hi-marine-corps-base-kaneohe-bay",
+    "gu-nimitz-hill",
+    "co-schriever-afb"
+  ],
+  "runtime": {
+    "origin": "https://nextbase-django.vercel.app",
+    "columbus": {
+      "path": "/city/126",
+      "prattWhitneyOpenings": 54,
+      "attribution": "incl. Midland",
+      "midlandElsewhereDuplicate": false,
+      "initialResponseStale": true,
+      "freshResponseVerified": true
+    },
+    "bedford": {
+      "path": "/city/270",
+      "county": "Middlesex",
+      "nearestVA": "Edith Nourse Rogers Memorial Veterans' Hospital",
+      "distanceMiles": 1
+    },
+    "eggHarbor": {
+      "path": "/city/351",
+      "county": "Atlantic",
+      "newYorkMetroExposed": false
+    },
+    "map": {
+      "path": "/map",
+      "renderedCandidateMarkers": 165,
+      "midlandMarkerPresent": false
+    },
+    "api": {
+      "path": "/api/locations?state_filter=GA",
+      "status": 200,
+      "candidateCount": 5,
+      "midland617Present": false
+    }
+  }
+}
