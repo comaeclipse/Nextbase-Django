@@ -51,6 +51,8 @@ const COMPANY_SLUG: Record<string, string> = {
   anduril: "anduril",
   "anduril industries": "anduril",
   epirus: "epirus",
+  air: "air",
+  govini: "air", // Govini rebranded to Air in 2026
 };
 
 /**
@@ -85,6 +87,7 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "wichita|KS": [37.6872, -97.3301],
   "torrance|CA": [33.8358, -118.3406],
   "lawton|OK": [34.6087, -98.3903],
+  "pittsburgh|PA": [40.4406, -79.9959],
 };
 
 interface Parsed {
