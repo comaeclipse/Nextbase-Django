@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { locationCsvCompletionProblems, REQUIRED_LOCATION_CSV_COLUMNS } from "./location-completeness";
+import {
+  formatCompletionProblem,
+  locationCsvCompletionProblems,
+  missingLegacyCoreFields,
+  REQUIRED_LOCATION_CSV_COLUMNS,
+} from "./location-completeness";
 
 const completeRow = Object.fromEntries(
   REQUIRED_LOCATION_CSV_COLUMNS.map((column) => [column, "1"])
@@ -65,5 +70,20 @@ describe("locationCsvCompletionProblems", () => {
     expect(locationCsvCompletionProblems(invalid)).toEqual([
       "LGBTQ_MEI must be numeric or Not Rated",
     ]);
+  });
+
+  it("explains the next expected action for DB completion gaps", () => {
+    expect(formatCompletionProblem("defense_hub_manual")).toContain("run recompute-defense-hub.ts");
+    expect(formatCompletionProblem("gas_price")).toContain("AAA or EIA regular-gas price");
+  });
+
+  it("computes the issue #20 legacy core-field gap queue", () => {
+    const missing = missingLegacyCoreFields({
+      tci: null,
+      crime: "",
+      gas_price: "$3.19",
+      defense_hub_manual: false,
+    });
+    expect(missing.map((requirement) => requirement.field)).toEqual(["tci", "crime"]);
   });
 });

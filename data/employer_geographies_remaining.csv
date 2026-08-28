@@ -1,17 +1,8 @@
 City,State,County,GeoType,IsCandidate,Latitude,Longitude,BoundarySource
-Dulles,VA,Loudoun,city,No,38.947464,-77.459931,"FAA US_Airport service, KIAD airport reference point"
-Buckley Sfb,CO,Arapahoe,city,No,39.706670022,-104.757689049,"DoD MIRTA DoD Sites, SITENAME 'Buckley Space Force Base'"
-Opa Locka,FL,Miami-Dade,city,No,25.90232151735757,-80.25032980064438,USGS GNIS Populated Place (ID 308425)
-Hanover,MD,Anne Arundel,city,No,39.1714186,-76.7233284,Census TIGERweb ZCTA 21076 internal point
-Merrimack,NH,Hillsborough,city,No,42.86509515442935,-71.49340116439785,USGS GNIS Populated Place (ID 868400)
-Cranberry Township,PA,Butler,city,No,40.7099671,-80.1056416,Census TIGERweb county subdivision 4201916920 internal point
-Dededo,GU,Guam,city,No,13.515284674302633,144.83610630542185,USGS GNIS Populated Place (ID 1389637)
-Fort Novosel,AL,Dale,city,No,31.403955,-85.747317,"DoD MIRTA DoD Sites, SITENAME 'Fort Novosel'"
-Fort Shafter,HI,Honolulu,city,No,21.34584,-157.883504,"DoD MIRTA DoD Sites, SITENAME 'Fort Shafter'"
-JBER,AK,Anchorage,city,No,61.269787,-149.811208,"DoD MIRTA DoD Sites, SITENAME 'Joint Base Elmendorf-Richardson', ISJOINTBASE=yes"
-Linthicum Heights,MD,Anne Arundel,city,No,39.20344886070783,-76.66219259705474,USGS GNIS Populated Place (ID 590672)
-Millersville,MD,Anne Arundel,city,No,39.059562032497716,-76.64802408362765,USGS GNIS Populated Place (ID 590805)
-Patrick Air Force Base,FL,Brevard,city,No,28.233570331,-80.60841349,"DoD MIRTA DoD Sites, SITENAME 'Patrick Space Force Base'"
-Peterson Afb,CO,El Paso,city,No,38.822897304,-104.696135201,"DoD MIRTA DoD Sites, SITENAME 'Peterson Space Force Base'"
-Santa Rita,GU,Guam,city,No,13.386118021646308,144.66888414722348,USGS GNIS Populated Place (ID 1390020)
-Yigo,GU,Guam,city,No,13.534451266857026,144.8855507922837,USGS GNIS Populated Place (ID 1390188)
+Bismarck,ND,Burleigh,city,No,46.808334458386526,-100.78374930527363,USGS GNIS Populated Place (ID 1035849)
+Columbia,SC,Richland,city,No,34.0007170095113,-81.03481763451505,USGS GNIS Populated Place (ID 1245051)
+Concord,NH,Merrimack,city,No,43.208145416931686,-71.53757259893244,USGS GNIS Populated Place (ID 873303)
+Jefferson City,MO,Cole,city,No,38.57670872679901,-92.17352313311156,USGS GNIS Populated Place (ID 758233)
+Lincoln,NE,Lancaster,city,No,40.8000082332047,-96.6669680656698,USGS GNIS Populated Place (ID 837279)
+Montgomery,AL,Montgomery,city,No,32.366811267353576,-86.29997357821628,USGS GNIS Populated Place (ID 165344)
+Salem,OR,Marion,city,No,44.94290289486235,-123.03511071960084,USGS GNIS Populated Place (ID 1167861)
