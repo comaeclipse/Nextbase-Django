@@ -152,6 +152,10 @@ Fields:
 - `population_raw`
 - `population`
 - `density`
+- `geo_type` — `city` | `neighborhood` | `cdp` | `county` | `metro`
+- `is_candidate` — whether the place is a **ranked retirement candidate**
+- `slug`, `parent_geo_id`
+- `population_source`, `population_vintage`, `boundary_source`, `boundary_geoid`
 
 Recommended sources:
 
@@ -160,7 +164,33 @@ Recommended sources:
 
 Retrieval notes:
 
-- Decide whether each row represents a city/place, county, or metro area before fetching data.
+- Decide what the row **is** (`geo_type`) and, separately, whether it is a **ranked
+  candidate** (`is_candidate`) before fetching anything. These are independent: Los
+  Angeles is `geo_type='city', is_candidate=false` — a real city that exists so Canoga
+  Park has a municipality to inherit sales tax and RPP from, and which must never appear
+  in `/explore`. Default `is_candidate` to false for anything that is not a curated
+  retirement city.
+- Identity is the `slug`, plus `UNIQUE (name, state, parent_geo_id)`. `(name, state)`
+  alone is **not** unique below city level — "Downtown, CA" exists many times over.
+- A child geography needs its parent row **and** a `geo_relationships` row; setting
+  `parent_geo_id` alone leaves the graph inconsistent and `scripts/verify-geo-hierarchy.ts`
+  will fail.
+- Population for a non-Census place (a neighborhood) has no Census Place count behind it.
+  Record `population_source` and `population_vintage` — an ACS tract aggregation and a
+  newspaper boundary project are not the same claim, and `boundary_geoid` is null exactly
+  when no Census geography exists for the place.
+- A **non-candidate neighborhood** with no defensible population boundary may leave
+  Population, PopulationSource and PopulationVintage blank only when
+  `PopulationUnavailableReason` explains why, and `ParentSource` records containment
+  evidence. Own coordinates, description, tags and boundary/point provenance remain
+  required. Do not use ZIP population or `--allow-incomplete` to bypass this policy.
+  Run `scripts/migrate-population-unavailable-reason.ts` from merged master before the
+  first live import using this field. A supplied population still requires provenance.
+- **Research only what the place owns.** `sales_tax`, property tax, climate, and
+  `col_index`/RPP resolve at read time from the municipality, county, station and metro
+  respectively; VA access is recomputed from the row's own coordinates. Writing any of
+  them by hand stores a placeholder that is indistinguishable from a researched value.
+  See `lib/geo-inheritance.ts` and SCHEMA.md.
 - If the app row is a city but current data is a metro population, document that choice.
 - For city/place populations, use Census place geographies.
 - For metro populations, use CBSA/MSA geographies.
@@ -768,11 +798,30 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scri
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
 ```
 
-Then run the completion audit for each city being added or declared complete. It must exit successfully before the city can be reported complete:
+Then run the completion audit for each city being added or declared complete. It must exit successfully before the city can be reported complete. When it fails, each line includes the missing field and the next expected source/review action; treat that result as **blocked**, not complete:
 
 ```powershell
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/verify-location-completeness.ts --name "City, ST"
 ```
+
+To reproduce the issue #20 legacy core-field inventory for existing ranked cities, run the read-only report:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/report-legacy-core-gaps.ts
+```
+
+For the broader issue #55 live data-quality inventory, including city-row gaps,
+military/employer coordinate gaps, and monthly-weather nullable fields, run:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/report-data-quality-gaps.ts
+```
+
+Use this language in final reports:
+
+- **complete**: importer dry run/live import and every required post-import verifier passed.
+- **blocked**: a named city cannot be called complete because the verifier lists unresolved fields or follow-up actions.
+- **legacy backfill pending**: an already-existing city has a recorded historical gap in the inventory report; do not use this status for a new city package.
 
 For state-owned fields that still exist on legacy location rows, run the divergence audit before and after any state-info normalization work:
 
@@ -881,3 +930,58 @@ node "--env-file=$envFile" -e $script
 - Avoid mixing geographies in one field without a source note.
 - If a field cannot be sourced reliably, leave it blank and add it to the known gaps list.
 - If external data licensing is unclear, do not import bulk data until the license is reviewed.
+
+## Scoped employer geography repair and community imports
+
+Use this procedure for existing employer anchors and non-candidate communities;
+full candidate-city enrichment remains the workflow above. Code and source artifacts
+must merge before production writes, and execution must use merged master.
+
+1. Read the current row, employer links/counts, active relationships and derived
+   records. A ticket or old CSV can already be stale. Preserve ids, manual flags and
+   researched fields. Save exact primary-source responses and identity decisions.
+2. Audit with `scripts/repair-employer-geo-state-mismatches.ts --ids 200,270`.
+   Despite its historical name this command is **report-only**. It reports all
+   mismatches, including broad-installation exceptions, and unchecked lookups.
+   Exit 2 means incomplete lookup coverage, not a clean audit. No same-state name
+   heuristic authorizes deletion or clearing.
+3. For existing rows, use a reviewed JSON array accepted by
+   `scripts/apply-geography-patches.ts <file> --dry-run`. Each record names a stable
+   slug, exact expected and replacement county/coordinates/boundary fields,
+   expectedMetroSlugs, metroSlugs, sourceUrl and reason. See the dated #157 source
+   package for an example. The live serializable transaction guards every target
+   before modifying any, retires wrong memberships without deleting history, and
+   saves targeted prior state under backups/. Already-applied patches are no-ops.
+   **Do not replay a full location CSV as a partial-field correction.**
+4. For a new child, `import-csv.ts <file> --dry-run` validates ParentSlug against
+   the live DB. The parent must be a same-state city/county. Import creates the
+   child/containment atomically. Verify the AFTER INSERT employer link explicitly;
+   rerunning an update does not fire that trigger. Avoid a global backfill for a
+   single-row repair; repair a missed link only after validating its exact identity.
+5. Refresh only reviewed targets with `sync-va-facilities.ts --ids 200,270`,
+   `sync-military-proximity.ts --ids 200,270`, and
+   `recompute-defense-hub.ts --ids 200,270`. Preview each with `--dry-run` first.
+   Include affected ancestors in the hub preview when adding containment. Military
+   preview/write/cleanup use the same target scope. Inspect other coordinate-derived
+   records before deciding whether they need scoped refresh or invalidation.
+6. Verify directly in Neon, then run `verify-geo-hierarchy.ts`, appropriate row
+   completeness checks and a fresh runtime page. For a community, confirm its employer
+   count appears once in the parent's local rollup with the community named, not again
+   under elsewhere-in-metro. Confirm exclusion from ranked candidate/map output.
+   Distinguish unknown population, pending pace and stale cache from completed data.
+
+### Source replay and rejected matches
+
+`resolve-employer-geographies.ts` creates a new timestamped run directory under
+`data/employer-geography-runs/` (or a fresh `--out-dir`); it never overwrites the
+canonical batch. Review the batch before promoting artifacts.
+
+Canonical location and metro CSVs may retain rejected identities with
+`GeoResolutionStatus=unresolved` and `GeoResolutionNote`. A rejected location must
+be non-candidate with county/coordinates/boundary fields blank; its metro record must
+have a blank CBSA. Importers validate and skip these rows. Preserve the rejected
+original values in a dated source artifact rather than silently dropping history.
+The resolver cannot revisit an already-linked anchor automatically; use the reviewed
+patch path. Current exact Census CBSA evidence takes precedence over a stale derived
+county crosswalk, while creating metro entities still follows the existing shared
+candidate-plus-anchor policy.

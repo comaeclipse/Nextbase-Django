@@ -25,7 +25,10 @@ export default async function MapPage() {
         longitude: location.longitude,
         pace: location.pace_category,
         climate: location.climate,
-        costOfLiving: location.cost_of_living,
+        // getAllLocations returns candidates only, which all carry a band;
+        // the fallback exists because the column is nullable for
+        // geographies that inherit their cost band instead of owning one.
+        costOfLiving: location.cost_of_living ?? "Unknown",
         homeValue: location.avg_home_value_display,
         defenseHub: location.defense_hub,
       },

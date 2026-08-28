@@ -43,9 +43,23 @@ export default function AffordabilityForm({
     <div className="grid gap-4">
       <ToggleGroup
         value={[scenario.mode]}
-        onValueChange={(values: string[]) =>
-          set("mode", (values[0] as AffordabilityMode) ?? "quick")
-        }
+        onValueChange={(values: string[]) => {
+          const nextMode = (values[0] as AffordabilityMode) ?? "quick";
+          // Carry the quick household into detailed filing, matching the
+          // city card's fine-tune: an explicit Couple choice must not
+          // silently price as single after the switch. Never demote the
+          // other way — detailed choices belong to the user.
+          if (
+            nextMode === "detailed" &&
+            scenario.mode === "quick" &&
+            scenario.quickHousehold === "couple" &&
+            scenario.filing !== "married"
+          ) {
+            onChange({ ...scenario, mode: nextMode, filing: "married" });
+          } else {
+            set("mode", nextMode);
+          }
+        }}
         variant="outline"
         spacing={0}
         aria-label="Estimate mode"

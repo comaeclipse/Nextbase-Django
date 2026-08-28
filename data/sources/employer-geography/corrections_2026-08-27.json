@@ -1,0 +1,1591 @@
+[
+  {
+    "slug": "ma-bedford",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272501704615%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+    "retrievedAt": "2026-08-27T17:44:01.178Z",
+    "response": {
+      "displayFieldName": "BASENAME",
+      "fieldAliases": {
+        "GEOID": "GEOID",
+        "NAME": "NAME",
+        "BASENAME": "BASENAME",
+        "STATE": "STATE",
+        "CENTLAT": "CENTLAT",
+        "CENTLON": "CENTLON",
+        "INTPTLAT": "INTPTLAT",
+        "INTPTLON": "INTPTLON"
+      },
+      "fields": [
+        {
+          "name": "GEOID",
+          "type": "esriFieldTypeString",
+          "alias": "GEOID",
+          "length": 10
+        },
+        {
+          "name": "NAME",
+          "type": "esriFieldTypeString",
+          "alias": "NAME",
+          "length": 100
+        },
+        {
+          "name": "BASENAME",
+          "type": "esriFieldTypeString",
+          "alias": "BASENAME",
+          "length": 100
+        },
+        {
+          "name": "STATE",
+          "type": "esriFieldTypeString",
+          "alias": "STATE",
+          "length": 2
+        },
+        {
+          "name": "CENTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLAT",
+          "length": 11
+        },
+        {
+          "name": "CENTLON",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLON",
+          "length": 12
+        },
+        {
+          "name": "INTPTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLAT",
+          "length": 11
+        },
+        {
+          "name": "INTPTLON",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLON",
+          "length": 12
+        }
+      ],
+      "features": [
+        {
+          "attributes": {
+            "GEOID": "2501704615",
+            "NAME": "Bedford town",
+            "BASENAME": "Bedford",
+            "STATE": "25",
+            "CENTLAT": "+42.4969409",
+            "CENTLON": "-071.2782954",
+            "INTPTLAT": "+42.4987763",
+            "INTPTLON": "-071.2817904"
+          }
+        }
+      ]
+    },
+    "pointCheck": {
+      "url": "https://geocoding.geo.census.gov/geocoder/geographies/coordinates?benchmark=Public_AR_Current&vintage=Current_Current&format=json&x=-71.2782954&y=42.4969409",
+      "retrievedAt": "2026-08-27T17:44:34.461Z",
+      "response": {
+        "result": {
+          "geographies": {
+            "States": [
+              {
+                "STATENS": "00606926",
+                "GEOID": "25",
+                "CENTLAT": "+42.1618490",
+                "AREAWATER": "7130573767",
+                "STATE": "25",
+                "BASENAME": "Massachusetts",
+                "STUSAB": "MA",
+                "OID": "27490203627104",
+                "LSADC": "00",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+42.1565196",
+                "DIVISION": "1",
+                "NAME": "Massachusetts",
+                "REGION": "1",
+                "OBJECTID": 40,
+                "CENTLON": "-071.4975238",
+                "AREALAND": "20204476757",
+                "INTPTLON": "-071.4895915",
+                "MTFCC": "G4000"
+              }
+            ],
+            "Combined Statistical Areas": [
+              {
+                "POP100": "",
+                "GEOID": "148",
+                "CENTLAT": "+42.3823496",
+                "AREAWATER": "7148114296",
+                "BASENAME": "Boston-Worcester-Providence, MA-RI-NH",
+                "OID": "2619034687907984",
+                "LSADC": "M0",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.3823379",
+                "NAME": "Boston-Worcester-Providence, MA-RI-NH CSA",
+                "OBJECTID": 172,
+                "CSA": "148",
+                "CENTLON": "-071.2405196",
+                "INTPTLON": "-071.2392639",
+                "AREALAND": "23800674532",
+                "HU100": "",
+                "MTFCC": "G3100"
+              }
+            ],
+            "County Subdivisions": [
+              {
+                "COUSUB": "04615",
+                "GEOID": "2501704615",
+                "CENTLAT": "+42.4969409",
+                "AREAWATER": "458061",
+                "STATE": "25",
+                "BASENAME": "Bedford",
+                "OID": "27690260070066",
+                "LSADC": "43",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+42.4987763",
+                "NAME": "Bedford town",
+                "OBJECTID": 31353,
+                "CENTLON": "-071.2782954",
+                "COUSUBCC": "T1",
+                "AREALAND": "35385693",
+                "INTPTLON": "-071.2817904",
+                "MTFCC": "G4040",
+                "COUSUBNS": "00619395",
+                "COUNTY": "017"
+              }
+            ],
+            "Urban Areas": [
+              {
+                "GEOID": "09271",
+                "CENTLAT": "+42.3794877",
+                "AREAWATER": "185447265",
+                "BASENAME": "Boston, MA--NH",
+                "OID": "27021206517502",
+                "UA": "09271",
+                "LSADC": "67",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.3789986",
+                "NAME": "Boston, MA--NH Urban Area",
+                "OBJECTID": 1154,
+                "CENTLON": "-071.1422216",
+                "AREALAND": "4288971524",
+                "INTPTLON": "-071.1423438",
+                "MTFCC": "G3500"
+              }
+            ],
+            "Counties": [
+              {
+                "GEOID": "25017",
+                "CENTLAT": "+42.4853699",
+                "AREAWATER": "75219794",
+                "STATE": "25",
+                "BASENAME": "Middlesex",
+                "OID": "27590260056194",
+                "LSADC": "06",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+42.4817215",
+                "NAME": "Middlesex County",
+                "OBJECTID": 2848,
+                "CENTLON": "-071.3915833",
+                "COUNTYCC": "H4",
+                "COUNTYNS": "00606935",
+                "AREALAND": "2118363230",
+                "INTPTLON": "-071.3949160",
+                "MTFCC": "G4020",
+                "COUNTY": "017"
+              }
+            ],
+            "2024 State Legislative Districts - Upper": [
+              {
+                "GEOID": "25D15",
+                "CENTLAT": "+42.4716188",
+                "AREAWATER": "12657701",
+                "STATE": "25",
+                "BASENAME": "Third Middlesex",
+                "OID": "2129035963375846",
+                "SLDU": "D15",
+                "LSADC": "07",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+42.4723178",
+                "NAME": "Third Middlesex District",
+                "OBJECTID": 350,
+                "CENTLON": "-071.3198228",
+                "LSY": "2024",
+                "AREALAND": "326456074",
+                "INTPTLON": "-071.3155074",
+                "MTFCC": "G5210",
+                "LDTYP": "O"
+              }
+            ],
+            "2024 State Legislative Districts - Lower": [
+              {
+                "GEOID": "25079",
+                "CENTLAT": "+42.4969338",
+                "SLDL": "079",
+                "AREAWATER": "765548",
+                "STATE": "25",
+                "BASENAME": "21st Middlesex",
+                "OID": "2139035963376179",
+                "LSADC": "07",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+42.4982663",
+                "NAME": "21st Middlesex District",
+                "OBJECTID": 4225,
+                "CENTLON": "-071.2420537",
+                "LSY": "2024",
+                "AREALAND": "70407621",
+                "INTPTLON": "-071.2435858",
+                "MTFCC": "G5220",
+                "LDTYP": "O"
+              }
+            ],
+            "2020 Census Blocks": [
+              {
+                "SUFFIX": "",
+                "GEOID": "250173593034018",
+                "CENTLAT": "+42.4988048",
+                "BLOCK": "4018",
+                "AREAWATER": "0",
+                "STATE": "25",
+                "BASENAME": "4018",
+                "OID": "210701007933842",
+                "LSADC": "BK",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.4988048",
+                "NAME": "Block 4018",
+                "OBJECTID": 3821985,
+                "TRACT": "359303",
+                "CENTLON": "-071.2818140",
+                "BLKGRP": "4",
+                "AREALAND": "583020",
+                "INTPTLON": "-071.2818140",
+                "MTFCC": "G5040",
+                "LWBLKTYP": "L",
+                "UR": "U",
+                "COUNTY": "017"
+              }
+            ],
+            "Census Tracts": [
+              {
+                "GEOID": "25017359303",
+                "CENTLAT": "+42.4919367",
+                "AREAWATER": "292336",
+                "STATE": "25",
+                "BASENAME": "3593.03",
+                "OID": "2079019653473486",
+                "LSADC": "CT",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.4916996",
+                "NAME": "Census Tract 3593.03",
+                "OBJECTID": 27192,
+                "TRACT": "359303",
+                "CENTLON": "-071.2926691",
+                "AREALAND": "20538147",
+                "INTPTLON": "-071.2941307",
+                "MTFCC": "G5020",
+                "COUNTY": "017"
+              }
+            ],
+            "119th Congressional Districts": [
+              {
+                "GEOID": "2506",
+                "CENTLAT": "+42.6192368",
+                "CDSESSN": "119",
+                "AREAWATER": "864936186",
+                "BASENAME": "6",
+                "STATE": "25",
+                "OID": "2119035963374640",
+                "LSADC": "C2",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+42.6192411",
+                "NAME": "Congressional District 6",
+                "OBJECTID": 177,
+                "CENTLON": "-070.8852955",
+                "CD119": "06",
+                "AREALAND": "1379623928",
+                "INTPTLON": "-070.8851341",
+                "MTFCC": "G5200"
+              }
+            ]
+          },
+          "input": {
+            "vintage": {
+              "isDefault": true,
+              "id": "4",
+              "vintageName": "Current_Current",
+              "vintageDescription": "Current Vintage - Current Benchmark"
+            },
+            "location": {
+              "x": -71.2782954,
+              "y": 42.4969409
+            },
+            "benchmark": {
+              "isDefault": true,
+              "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+              "id": "4",
+              "benchmarkName": "Public_AR_Current"
+            }
+          }
+        }
+      }
+    },
+    "cbsaChecks": [
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/3/query?geometry=-71.2782954%2C42.4969409&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.305Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": [
+            {
+              "attributes": {
+                "GEOID": "14460",
+                "NAME": "Boston-Cambridge-Newton, MA-NH Metro Area"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/4/query?geometry=-71.2782954%2C42.4969409&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.495Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": []
+        }
+      }
+    ]
+  },
+  {
+    "slug": "mi-harrison-township",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%272609936820%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+    "retrievedAt": "2026-08-27T17:44:01.447Z",
+    "response": {
+      "displayFieldName": "BASENAME",
+      "fieldAliases": {
+        "GEOID": "GEOID",
+        "NAME": "NAME",
+        "BASENAME": "BASENAME",
+        "STATE": "STATE",
+        "CENTLAT": "CENTLAT",
+        "CENTLON": "CENTLON",
+        "INTPTLAT": "INTPTLAT",
+        "INTPTLON": "INTPTLON"
+      },
+      "fields": [
+        {
+          "name": "GEOID",
+          "type": "esriFieldTypeString",
+          "alias": "GEOID",
+          "length": 10
+        },
+        {
+          "name": "NAME",
+          "type": "esriFieldTypeString",
+          "alias": "NAME",
+          "length": 100
+        },
+        {
+          "name": "BASENAME",
+          "type": "esriFieldTypeString",
+          "alias": "BASENAME",
+          "length": 100
+        },
+        {
+          "name": "STATE",
+          "type": "esriFieldTypeString",
+          "alias": "STATE",
+          "length": 2
+        },
+        {
+          "name": "CENTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLAT",
+          "length": 11
+        },
+        {
+          "name": "CENTLON",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLON",
+          "length": 12
+        },
+        {
+          "name": "INTPTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLAT",
+          "length": 11
+        },
+        {
+          "name": "INTPTLON",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLON",
+          "length": 12
+        }
+      ],
+      "features": [
+        {
+          "attributes": {
+            "GEOID": "2609936820",
+            "NAME": "Harrison charter township",
+            "BASENAME": "Harrison",
+            "STATE": "26",
+            "CENTLAT": "+42.5880711",
+            "CENTLON": "-082.8178312",
+            "INTPTLAT": "+42.5875727",
+            "INTPTLON": "-082.8174573"
+          }
+        }
+      ]
+    },
+    "pointCheck": {
+      "url": "https://geocoding.geo.census.gov/geocoder/geographies/coordinates?benchmark=Public_AR_Current&vintage=Current_Current&format=json&x=-82.8178312&y=42.5880711",
+      "retrievedAt": "2026-08-27T17:44:34.740Z",
+      "response": {
+        "result": {
+          "geographies": {
+            "States": [
+              {
+                "STATENS": "01779789",
+                "GEOID": "26",
+                "CENTLAT": "+44.8382368",
+                "AREAWATER": "103860203470",
+                "STATE": "26",
+                "BASENAME": "Michigan",
+                "STUSAB": "MI",
+                "OID": "2749048217992",
+                "LSADC": "00",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+44.8441783",
+                "DIVISION": "3",
+                "NAME": "Michigan",
+                "REGION": "2",
+                "OBJECTID": 5,
+                "CENTLON": "-085.6650623",
+                "AREALAND": "146625951329",
+                "INTPTLON": "-085.6604877",
+                "MTFCC": "G4000"
+              }
+            ],
+            "Combined Statistical Areas": [
+              {
+                "POP100": "",
+                "GEOID": "220",
+                "CENTLAT": "+42.5316575",
+                "AREAWATER": "1330627937",
+                "BASENAME": "Detroit-Warren-Ann Arbor, MI",
+                "OID": "2619034687908012",
+                "LSADC": "M0",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.5319462",
+                "NAME": "Detroit-Warren-Ann Arbor, MI CSA",
+                "OBJECTID": 181,
+                "CSA": "220",
+                "CENTLON": "-083.4395132",
+                "INTPTLON": "-083.4402563",
+                "AREALAND": "16925267676",
+                "HU100": "",
+                "MTFCC": "G3100"
+              }
+            ],
+            "County Subdivisions": [
+              {
+                "COUSUB": "36820",
+                "GEOID": "2609936820",
+                "CENTLAT": "+42.5880711",
+                "AREAWATER": "24629763",
+                "STATE": "26",
+                "BASENAME": "Harrison",
+                "OID": "2769056994640",
+                "LSADC": "49",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+42.5875727",
+                "NAME": "Harrison charter township",
+                "OBJECTID": 23649,
+                "CENTLON": "-082.8178312",
+                "COUSUBCC": "T1",
+                "AREALAND": "36905073",
+                "INTPTLON": "-082.8174573",
+                "MTFCC": "G4040",
+                "COUSUBNS": "01626439",
+                "COUNTY": "099"
+              }
+            ],
+            "Urban Areas": [
+              {
+                "GEOID": "23824",
+                "CENTLAT": "+42.4867073",
+                "AREAWATER": "87103627",
+                "BASENAME": "Detroit, MI",
+                "OID": "2702155293420",
+                "UA": "23824",
+                "LSADC": "67",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.4865814",
+                "NAME": "Detroit, MI Urban Area",
+                "OBJECTID": 1715,
+                "CENTLON": "-083.2247421",
+                "AREALAND": "3327788666",
+                "INTPTLON": "-083.2274196",
+                "MTFCC": "G3500"
+              }
+            ],
+            "Counties": [
+              {
+                "GEOID": "26099",
+                "CENTLAT": "+42.6725888",
+                "AREAWATER": "237154387",
+                "STATE": "26",
+                "BASENAME": "Macomb",
+                "OID": "2759056994612",
+                "LSADC": "06",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+42.6715526",
+                "NAME": "Macomb County",
+                "OBJECTID": 2665,
+                "CENTLON": "-082.9101629",
+                "COUNTYCC": "H1",
+                "COUNTYNS": "01622992",
+                "AREALAND": "1241524021",
+                "INTPTLON": "-082.9114562",
+                "MTFCC": "G4020",
+                "COUNTY": "099"
+              }
+            ],
+            "2024 State Legislative Districts - Upper": [
+              {
+                "GEOID": "26012",
+                "CENTLAT": "+42.5691557",
+                "AREAWATER": "438829937",
+                "STATE": "26",
+                "BASENAME": "12",
+                "OID": "2129035964524997",
+                "SLDU": "012",
+                "LSADC": "LU",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+42.5928085",
+                "NAME": "State Senate District 12",
+                "OBJECTID": 1528,
+                "CENTLON": "-082.7586273",
+                "LSY": "2024",
+                "AREALAND": "353300433",
+                "INTPTLON": "-082.7723863",
+                "MTFCC": "G5210",
+                "LDTYP": "O"
+              }
+            ],
+            "2024 State Legislative Districts - Lower": [
+              {
+                "GEOID": "26062",
+                "CENTLAT": "+42.5507431",
+                "SLDL": "062",
+                "AREAWATER": "210157936",
+                "STATE": "26",
+                "BASENAME": "62",
+                "OID": "2139035964525235",
+                "LSADC": "LL",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+42.5680463",
+                "NAME": "State House District 62",
+                "OBJECTID": 4218,
+                "CENTLON": "-082.8088055",
+                "LSY": "2024",
+                "AREALAND": "85206518",
+                "INTPTLON": "-082.7849226",
+                "MTFCC": "G5220",
+                "LDTYP": "O"
+              }
+            ],
+            "2020 Census Blocks": [
+              {
+                "SUFFIX": "",
+                "GEOID": "260992473012004",
+                "CENTLAT": "+42.5875727",
+                "BLOCK": "2004",
+                "AREAWATER": "0",
+                "STATE": "26",
+                "BASENAME": "2004",
+                "OID": "210701008368874",
+                "LSADC": "BK",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.5875727",
+                "NAME": "Block 2004",
+                "OBJECTID": 5101454,
+                "TRACT": "247301",
+                "CENTLON": "-082.8174573",
+                "BLKGRP": "2",
+                "AREALAND": "270681",
+                "INTPTLON": "-082.8174573",
+                "MTFCC": "G5040",
+                "LWBLKTYP": "L",
+                "UR": "U",
+                "COUNTY": "099"
+              }
+            ],
+            "Census Tracts": [
+              {
+                "GEOID": "26099247301",
+                "CENTLAT": "+42.5776460",
+                "AREAWATER": "11440766",
+                "STATE": "26",
+                "BASENAME": "2473.01",
+                "OID": "2079015504734502",
+                "LSADC": "CT",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+42.5772454",
+                "NAME": "Census Tract 2473.01",
+                "OBJECTID": 33205,
+                "TRACT": "247301",
+                "CENTLON": "-082.7887895",
+                "AREALAND": "6491987",
+                "INTPTLON": "-082.7917834",
+                "MTFCC": "G5020",
+                "COUNTY": "099"
+              }
+            ],
+            "119th Congressional Districts": [
+              {
+                "GEOID": "2610",
+                "CENTLAT": "+42.5854123",
+                "CDSESSN": "119",
+                "AREAWATER": "37193381",
+                "BASENAME": "10",
+                "STATE": "26",
+                "OID": "2119035964529604",
+                "LSADC": "C2",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+42.5842536",
+                "NAME": "Congressional District 10",
+                "OBJECTID": 331,
+                "CENTLON": "-082.9953468",
+                "CD119": "10",
+                "AREALAND": "588622161",
+                "INTPTLON": "-082.9951439",
+                "MTFCC": "G5200"
+              }
+            ]
+          },
+          "input": {
+            "vintage": {
+              "isDefault": true,
+              "id": "4",
+              "vintageName": "Current_Current",
+              "vintageDescription": "Current Vintage - Current Benchmark"
+            },
+            "location": {
+              "x": -82.8178312,
+              "y": 42.5880711
+            },
+            "benchmark": {
+              "isDefault": true,
+              "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+              "id": "4",
+              "benchmarkName": "Public_AR_Current"
+            }
+          }
+        }
+      }
+    },
+    "cbsaChecks": [
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/3/query?geometry=-82.8178312%2C42.5880711&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.565Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": [
+            {
+              "attributes": {
+                "GEOID": "19820",
+                "NAME": "Detroit-Warren-Dearborn, MI Metro Area"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/4/query?geometry=-82.8178312%2C42.5880711&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.636Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": []
+        }
+      }
+    ]
+  },
+  {
+    "slug": "nj-egg-harbor-township",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/1/query?where=GEOID%3D%273400120290%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+    "retrievedAt": "2026-08-27T17:44:01.607Z",
+    "response": {
+      "displayFieldName": "BASENAME",
+      "fieldAliases": {
+        "GEOID": "GEOID",
+        "NAME": "NAME",
+        "BASENAME": "BASENAME",
+        "STATE": "STATE",
+        "CENTLAT": "CENTLAT",
+        "CENTLON": "CENTLON",
+        "INTPTLAT": "INTPTLAT",
+        "INTPTLON": "INTPTLON"
+      },
+      "fields": [
+        {
+          "name": "GEOID",
+          "type": "esriFieldTypeString",
+          "alias": "GEOID",
+          "length": 10
+        },
+        {
+          "name": "NAME",
+          "type": "esriFieldTypeString",
+          "alias": "NAME",
+          "length": 100
+        },
+        {
+          "name": "BASENAME",
+          "type": "esriFieldTypeString",
+          "alias": "BASENAME",
+          "length": 100
+        },
+        {
+          "name": "STATE",
+          "type": "esriFieldTypeString",
+          "alias": "STATE",
+          "length": 2
+        },
+        {
+          "name": "CENTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLAT",
+          "length": 11
+        },
+        {
+          "name": "CENTLON",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLON",
+          "length": 12
+        },
+        {
+          "name": "INTPTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLAT",
+          "length": 11
+        },
+        {
+          "name": "INTPTLON",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLON",
+          "length": 12
+        }
+      ],
+      "features": [
+        {
+          "attributes": {
+            "GEOID": "3400120290",
+            "NAME": "Egg Harbor township",
+            "BASENAME": "Egg Harbor",
+            "STATE": "34",
+            "CENTLAT": "+39.3786565",
+            "CENTLON": "-074.6101758",
+            "INTPTLAT": "+39.3804071",
+            "INTPTLON": "-074.6123412"
+          }
+        }
+      ]
+    },
+    "pointCheck": {
+      "url": "https://geocoding.geo.census.gov/geocoder/geographies/coordinates?benchmark=Public_AR_Current&vintage=Current_Current&format=json&x=-74.6101758&y=39.3786565",
+      "retrievedAt": "2026-08-27T17:44:34.926Z",
+      "response": {
+        "result": {
+          "geographies": {
+            "States": [
+              {
+                "STATENS": "01779795",
+                "GEOID": "34",
+                "CENTLAT": "+40.1048602",
+                "AREAWATER": "3533159776",
+                "STATE": "34",
+                "BASENAME": "New Jersey",
+                "STUSAB": "NJ",
+                "OID": "27490286138606",
+                "LSADC": "00",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+40.1072744",
+                "DIVISION": "2",
+                "NAME": "New Jersey",
+                "REGION": "1",
+                "OBJECTID": 3,
+                "CENTLON": "-074.6583832",
+                "AREALAND": "19049444606",
+                "INTPTLON": "-074.6652012",
+                "MTFCC": "G4000"
+              }
+            ],
+            "Combined Statistical Areas": [
+              {
+                "POP100": "",
+                "GEOID": "428",
+                "CENTLAT": "+39.7357889",
+                "AREAWATER": "3025822802",
+                "BASENAME": "Philadelphia-Reading-Camden, PA-NJ-DE-MD",
+                "OID": "2619034687908101",
+                "LSADC": "M0",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+39.7347837",
+                "NAME": "Philadelphia-Reading-Camden, PA-NJ-DE-MD CSA",
+                "OBJECTID": 41,
+                "CSA": "428",
+                "CENTLON": "-075.2899501",
+                "INTPTLON": "-075.2904778",
+                "AREALAND": "19000579080",
+                "HU100": "",
+                "MTFCC": "G3100"
+              }
+            ],
+            "County Subdivisions": [
+              {
+                "COUSUB": "20290",
+                "GEOID": "3400120290",
+                "CENTLAT": "+39.3786565",
+                "AREAWATER": "21826135",
+                "STATE": "34",
+                "BASENAME": "Egg Harbor",
+                "OID": "27690323495384",
+                "LSADC": "44",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+39.3804071",
+                "NAME": "Egg Harbor township",
+                "OBJECTID": 452,
+                "CENTLON": "-074.6101758",
+                "COUSUBCC": "T1",
+                "AREALAND": "173650802",
+                "INTPTLON": "-074.6123412",
+                "MTFCC": "G4040",
+                "COUSUBNS": "00882051",
+                "COUNTY": "001"
+              }
+            ],
+            "Urban Areas": [
+              {
+                "GEOID": "03904",
+                "CENTLAT": "+39.2976740",
+                "AREAWATER": "10625397",
+                "BASENAME": "Atlantic City--Ocean City--Villas, NJ",
+                "OID": "2702132391318009",
+                "UA": "03904",
+                "LSADC": "67",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+39.2393719",
+                "NAME": "Atlantic City--Ocean City--Villas, NJ Urban Area",
+                "OBJECTID": 1322,
+                "CENTLON": "-074.6485435",
+                "AREALAND": "421846161",
+                "INTPTLON": "-074.6639402",
+                "MTFCC": "G3500"
+              }
+            ],
+            "Counties": [
+              {
+                "GEOID": "34001",
+                "CENTLAT": "+39.4688137",
+                "AREAWATER": "301091075",
+                "STATE": "34",
+                "BASENAME": "Atlantic",
+                "OID": "27590323485505",
+                "LSADC": "06",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+39.4693555",
+                "NAME": "Atlantic County",
+                "OBJECTID": 1071,
+                "CENTLON": "-074.6335925",
+                "COUNTYCC": "H1",
+                "COUNTYNS": "00882270",
+                "AREALAND": "1438954305",
+                "INTPTLON": "-074.6337591",
+                "MTFCC": "G4020",
+                "COUNTY": "001"
+              }
+            ],
+            "2024 State Legislative Districts - Upper": [
+              {
+                "GEOID": "34002",
+                "CENTLAT": "+39.4414831",
+                "AREAWATER": "286145869",
+                "STATE": "34",
+                "BASENAME": "02",
+                "OID": "2129035951822502",
+                "SLDU": "002",
+                "LSADC": "LU",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+39.4456049",
+                "NAME": "State Senate District 2",
+                "OBJECTID": 693,
+                "CENTLON": "-074.5564413",
+                "LSY": "2024",
+                "AREALAND": "823058291",
+                "INTPTLON": "-074.5563750",
+                "MTFCC": "G5210",
+                "LDTYP": "O"
+              }
+            ],
+            "2024 State Legislative Districts - Lower": [
+              {
+                "GEOID": "34002",
+                "CENTLAT": "+39.4414831",
+                "SLDL": "002",
+                "AREAWATER": "286145869",
+                "STATE": "34",
+                "BASENAME": "02",
+                "OID": "2139035951822542",
+                "LSADC": "L3",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+39.4456049",
+                "NAME": "Assembly District 02",
+                "OBJECTID": 3468,
+                "CENTLON": "-074.5564413",
+                "LSY": "2024",
+                "AREALAND": "823058291",
+                "INTPTLON": "-074.5563750",
+                "MTFCC": "G5220",
+                "LDTYP": "O"
+              }
+            ],
+            "2020 Census Blocks": [
+              {
+                "SUFFIX": "",
+                "GEOID": "340010118061000",
+                "CENTLAT": "+39.3804071",
+                "BLOCK": "1000",
+                "AREAWATER": "0",
+                "STATE": "34",
+                "BASENAME": "1000",
+                "OID": "210701003065582",
+                "LSADC": "BK",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+39.3804071",
+                "NAME": "Block 1000",
+                "OBJECTID": 730256,
+                "TRACT": "011806",
+                "CENTLON": "-074.6123412",
+                "BLKGRP": "1",
+                "AREALAND": "380067",
+                "INTPTLON": "-074.6123412",
+                "MTFCC": "G5040",
+                "LWBLKTYP": "L",
+                "UR": "U",
+                "COUNTY": "001"
+              }
+            ],
+            "Census Tracts": [
+              {
+                "GEOID": "34001011806",
+                "CENTLAT": "+39.3695929",
+                "AREAWATER": "2053",
+                "STATE": "34",
+                "BASENAME": "118.06",
+                "OID": "2079015682283937",
+                "LSADC": "CT",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+39.3675842",
+                "NAME": "Census Tract 118.06",
+                "OBJECTID": 8145,
+                "TRACT": "011806",
+                "CENTLON": "-074.6064317",
+                "AREALAND": "11175752",
+                "INTPTLON": "-074.6067253",
+                "MTFCC": "G5020",
+                "COUNTY": "001"
+              }
+            ],
+            "119th Congressional Districts": [
+              {
+                "GEOID": "3402",
+                "CENTLAT": "+39.4226079",
+                "CDSESSN": "119",
+                "AREAWATER": "2518561833",
+                "BASENAME": "2",
+                "STATE": "34",
+                "OID": "2119035951823615",
+                "LSADC": "C2",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+39.4270501",
+                "NAME": "Congressional District 2",
+                "OBJECTID": 428,
+                "CENTLON": "-074.8562518",
+                "CD119": "02",
+                "AREALAND": "5165214770",
+                "INTPTLON": "-074.8513700",
+                "MTFCC": "G5200"
+              }
+            ]
+          },
+          "input": {
+            "vintage": {
+              "isDefault": true,
+              "id": "4",
+              "vintageName": "Current_Current",
+              "vintageDescription": "Current Vintage - Current Benchmark"
+            },
+            "location": {
+              "x": -74.6101758,
+              "y": 39.3786565
+            },
+            "benchmark": {
+              "isDefault": true,
+              "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+              "id": "4",
+              "benchmarkName": "Public_AR_Current"
+            }
+          }
+        }
+      }
+    },
+    "cbsaChecks": [
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/3/query?geometry=-74.6101758%2C39.3786565&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.712Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": [
+            {
+              "attributes": {
+                "GEOID": "12100",
+                "NAME": "Atlantic City-Hammonton, NJ Metro Area"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/4/query?geometry=-74.6101758%2C39.3786565&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.777Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": []
+        }
+      }
+    ]
+  },
+  {
+    "slug": "pr-santa-isabel",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/5/query?where=GEOID%3D%277278145%27&outFields=GEOID%2CNAME%2CBASENAME%2CSTATE%2CCENTLAT%2CCENTLON%2CINTPTLAT%2CINTPTLON&returnGeometry=false&f=json",
+    "retrievedAt": "2026-08-27T17:44:01.742Z",
+    "response": {
+      "displayFieldName": "BASENAME",
+      "fieldAliases": {
+        "GEOID": "GEOID",
+        "NAME": "NAME",
+        "BASENAME": "BASENAME",
+        "STATE": "STATE",
+        "CENTLAT": "CENTLAT",
+        "CENTLON": "CENTLON",
+        "INTPTLAT": "INTPTLAT",
+        "INTPTLON": "INTPTLON"
+      },
+      "fields": [
+        {
+          "name": "GEOID",
+          "type": "esriFieldTypeString",
+          "alias": "GEOID",
+          "length": 7
+        },
+        {
+          "name": "NAME",
+          "type": "esriFieldTypeString",
+          "alias": "NAME",
+          "length": 100
+        },
+        {
+          "name": "BASENAME",
+          "type": "esriFieldTypeString",
+          "alias": "BASENAME",
+          "length": 100
+        },
+        {
+          "name": "STATE",
+          "type": "esriFieldTypeString",
+          "alias": "STATE",
+          "length": 2
+        },
+        {
+          "name": "CENTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLAT",
+          "length": 11
+        },
+        {
+          "name": "CENTLON",
+          "type": "esriFieldTypeString",
+          "alias": "CENTLON",
+          "length": 12
+        },
+        {
+          "name": "INTPTLAT",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLAT",
+          "length": 11
+        },
+        {
+          "name": "INTPTLON",
+          "type": "esriFieldTypeString",
+          "alias": "INTPTLON",
+          "length": 12
+        }
+      ],
+      "features": [
+        {
+          "attributes": {
+            "GEOID": "7278145",
+            "NAME": "Santa Isabel zona urbana",
+            "BASENAME": "Santa Isabel",
+            "STATE": "72",
+            "CENTLAT": "+17.9691494",
+            "CENTLON": "-066.4050513",
+            "INTPTLAT": "+17.9691494",
+            "INTPTLON": "-066.4050513"
+          }
+        }
+      ]
+    },
+    "pointCheck": {
+      "url": "https://geocoding.geo.census.gov/geocoder/geographies/coordinates?benchmark=Public_AR_Current&vintage=Current_Current&format=json&x=-66.4050513&y=17.9691494",
+      "retrievedAt": "2026-08-27T17:44:35.139Z",
+      "response": {
+        "result": {
+          "geographies": {
+            "States": [
+              {
+                "STATENS": "01779808",
+                "GEOID": "72",
+                "CENTLAT": "+18.2164715",
+                "AREAWATER": "4922732926",
+                "STATE": "72",
+                "BASENAME": "Puerto Rico",
+                "STUSAB": "PR",
+                "OID": "2749082215471",
+                "LSADC": "00",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+18.2176480",
+                "DIVISION": "0",
+                "NAME": "Puerto Rico",
+                "REGION": "9",
+                "OBJECTID": 12,
+                "CENTLON": "-066.4147614",
+                "AREALAND": "8868545949",
+                "INTPTLON": "-066.4107992",
+                "MTFCC": "G4000"
+              }
+            ],
+            "Combined Statistical Areas": [
+              {
+                "POP100": "",
+                "GEOID": "434",
+                "CENTLAT": "+18.0238818",
+                "AREAWATER": "558405473",
+                "BASENAME": "Ponce-Coamo, PR",
+                "OID": "2619034687908104",
+                "LSADC": "M0",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+18.0228793",
+                "NAME": "Ponce-Coamo, PR CSA",
+                "OBJECTID": 112,
+                "CSA": "434",
+                "CENTLON": "-066.5838711",
+                "INTPTLON": "-066.5859821",
+                "AREALAND": "1237216562",
+                "HU100": "",
+                "MTFCC": "G3100"
+              }
+            ],
+            "County Subdivisions": [
+              {
+                "COUSUB": "78188",
+                "GEOID": "7213378188",
+                "CENTLAT": "+17.9684773",
+                "AREAWATER": "0",
+                "STATE": "72",
+                "BASENAME": "Santa Isabel",
+                "OID": "27690495722628",
+                "LSADC": "41",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+17.9684773",
+                "NAME": "Santa Isabel barrio-pueblo",
+                "OBJECTID": 35994,
+                "CENTLON": "-066.4049437",
+                "COUSUBCC": "Z1",
+                "AREALAND": "2250666",
+                "INTPTLON": "-066.4049437",
+                "MTFCC": "G4040",
+                "COUSUBNS": "02416013",
+                "COUNTY": "133"
+              }
+            ],
+            "Census Designated Places": [
+              {
+                "DISP_CLR": 1,
+                "NECTAPCI": "N",
+                "GEOID": "7278145",
+                "CENTLAT": "+17.9691494",
+                "AREAWATER": "0",
+                "BASENAME": "Santa Isabel",
+                "STATE": "72",
+                "OID": "28090495722634",
+                "LSADC": "62",
+                "PLACE": "78145",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+17.9691494",
+                "NAME": "Santa Isabel zona urbana",
+                "OBJECTID": 11390,
+                "PLACECC": "U1",
+                "CENTLON": "-066.4050513",
+                "CBSAPCI": "N",
+                "AREALAND": "2649782",
+                "INTPTLON": "-066.4050513",
+                "PLACENS": "02414948",
+                "MTFCC": "G4210"
+              }
+            ],
+            "Urban Areas": [
+              {
+                "GEOID": "79390",
+                "CENTLAT": "+17.9702744",
+                "AREAWATER": "11547",
+                "BASENAME": "Santa Isabel, PR",
+                "OID": "27021495722672",
+                "UA": "79390",
+                "LSADC": "67",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+17.9707249",
+                "NAME": "Santa Isabel, PR Urban Area",
+                "OBJECTID": 2149,
+                "CENTLON": "-066.4026675",
+                "AREALAND": "7794006",
+                "INTPTLON": "-066.4016704",
+                "MTFCC": "G3500"
+              }
+            ],
+            "Counties": [
+              {
+                "GEOID": "72133",
+                "CENTLAT": "+17.9530263",
+                "AREAWATER": "111047061",
+                "STATE": "72",
+                "BASENAME": "Santa Isabel",
+                "OID": "27590495722619",
+                "LSADC": "13",
+                "FUNCSTAT": "A",
+                "INTPTLAT": "+17.9560057",
+                "NAME": "Santa Isabel Municipio",
+                "OBJECTID": 1678,
+                "CENTLON": "-066.3866994",
+                "COUNTYCC": "H1",
+                "COUNTYNS": "01804547",
+                "AREALAND": "88311822",
+                "INTPTLON": "-066.3910987",
+                "MTFCC": "G4020",
+                "COUNTY": "133"
+              }
+            ],
+            "2024 State Legislative Districts - Upper": [
+              {
+                "GEOID": "72006",
+                "CENTLAT": "+18.1217456",
+                "AREAWATER": "10756193",
+                "STATE": "72",
+                "BASENAME": "6",
+                "OID": "2129035951824891",
+                "SLDU": "006",
+                "LSADC": "LU",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+18.1200767",
+                "NAME": "State Senate District 6",
+                "OBJECTID": 1138,
+                "CENTLON": "-066.2900149",
+                "LSY": "2024",
+                "AREALAND": "1658649048",
+                "INTPTLON": "-066.2904630",
+                "MTFCC": "G5210",
+                "LDTYP": "O"
+              }
+            ],
+            "2024 State Legislative Districts - Lower": [
+              {
+                "GEOID": "72027",
+                "CENTLAT": "+18.0651324",
+                "SLDL": "027",
+                "AREAWATER": "1029572",
+                "STATE": "72",
+                "BASENAME": "27",
+                "OID": "2139035951824926",
+                "LSADC": "LL",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+18.0608024",
+                "NAME": "State House District 27",
+                "OBJECTID": 4678,
+                "CENTLON": "-066.3621116",
+                "LSY": "2024",
+                "AREALAND": "303821137",
+                "INTPTLON": "-066.3622769",
+                "MTFCC": "G5220",
+                "LDTYP": "O"
+              }
+            ],
+            "2020 Census Blocks": [
+              {
+                "SUFFIX": "",
+                "GEOID": "721339538001012",
+                "CENTLAT": "+17.9688844",
+                "BLOCK": "1012",
+                "AREAWATER": "0",
+                "STATE": "72",
+                "BASENAME": "1012",
+                "OID": "210701002905500",
+                "LSADC": "BK",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+17.9688844",
+                "NAME": "Block 1012",
+                "OBJECTID": 1663549,
+                "TRACT": "953800",
+                "CENTLON": "-066.4048902",
+                "BLKGRP": "1",
+                "AREALAND": "8691",
+                "INTPTLON": "-066.4048902",
+                "MTFCC": "G5040",
+                "LWBLKTYP": "L",
+                "UR": "U",
+                "COUNTY": "133"
+              }
+            ],
+            "Census Tracts": [
+              {
+                "GEOID": "72133953800",
+                "CENTLAT": "+17.9667591",
+                "AREAWATER": "1928854",
+                "STATE": "72",
+                "BASENAME": "9538",
+                "OID": "20790495722667",
+                "LSADC": "CT",
+                "FUNCSTAT": "S",
+                "INTPTLAT": "+17.9676178",
+                "NAME": "Census Tract 9538",
+                "OBJECTID": 14059,
+                "TRACT": "953800",
+                "CENTLON": "-066.4140057",
+                "AREALAND": "5808669",
+                "INTPTLON": "-066.4154779",
+                "MTFCC": "G5020",
+                "COUNTY": "133"
+              }
+            ],
+            "119th Congressional Districts": [
+              {
+                "GEOID": "7298",
+                "CENTLAT": "+18.2164715",
+                "CDSESSN": "119",
+                "AREAWATER": "4922732926",
+                "BASENAME": "Resident Commissioner District (at Large)",
+                "STATE": "72",
+                "OID": "2119035951824110",
+                "LSADC": "C3",
+                "FUNCSTAT": "N",
+                "INTPTLAT": "+18.2176480",
+                "NAME": "Resident Commissioner District (at Large)",
+                "OBJECTID": 123,
+                "CENTLON": "-066.4147614",
+                "CD119": "98",
+                "AREALAND": "8868545949",
+                "INTPTLON": "-066.4107992",
+                "MTFCC": "G5200"
+              }
+            ]
+          },
+          "input": {
+            "vintage": {
+              "isDefault": true,
+              "id": "4",
+              "vintageName": "Current_Current",
+              "vintageDescription": "Current Vintage - Current Benchmark"
+            },
+            "location": {
+              "x": -66.4050513,
+              "y": 17.9691494
+            },
+            "benchmark": {
+              "isDefault": true,
+              "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+              "id": "4",
+              "benchmarkName": "Public_AR_Current"
+            }
+          }
+        }
+      }
+    },
+    "cbsaChecks": [
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/3/query?geometry=-66.4050513%2C17.9691494&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.854Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": []
+        }
+      },
+      {
+        "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/4/query?geometry=-66.4050513%2C17.9691494&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+        "retrievedAt": "2026-08-27T17:45:26.924Z",
+        "response": {
+          "displayFieldName": "BASENAME",
+          "fieldAliases": {
+            "GEOID": "GEOID",
+            "NAME": "NAME"
+          },
+          "fields": [
+            {
+              "name": "GEOID",
+              "type": "esriFieldTypeString",
+              "alias": "GEOID",
+              "length": 5
+            },
+            {
+              "name": "NAME",
+              "type": "esriFieldTypeString",
+              "alias": "NAME",
+              "length": 100
+            }
+          ],
+          "features": [
+            {
+              "attributes": {
+                "GEOID": "17620",
+                "NAME": "Coamo, PR Micro Area"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
