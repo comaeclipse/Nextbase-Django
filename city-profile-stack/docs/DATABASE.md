@@ -19,3 +19,10 @@ Genre keys and lifecycle status are owned by
 table. `location_genre_assignments` stores only versioned, evidence-backed city
 memberships; the registry currently contains two provisional micro families and
 no admitted genres.
+
+Assignments are loaded only from an explicitly named, reviewed JSON artifact
+with `scripts/import/import-location-genre-assignments.ts <source.json>`. The
+importer rejects stale ontology versions, unknown fields or feature keys,
+missing city-specific feature/signal/dossier references, duplicate primary
+memberships, and incomplete review metadata. It is transactional and upsert-only;
+there is deliberately no default seed file.

@@ -76,6 +76,8 @@ node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/im
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-location-features.ts
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-texture-markers.ts
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-experience-observations.ts
+# Requires an explicit reviewed source file; no default assignments are inferred.
+node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/import/import-location-genre-assignments.ts <source.json> --dry-run
 node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts --dry-run
 ```
 

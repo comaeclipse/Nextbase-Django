@@ -18,6 +18,50 @@ export function assertTargetsExist(ids: number[] | null, found: { id: number | s
   if (missing.length) throw new Error(`Target ids not found: ${missing.join(", ")}`);
 }
 
+export interface LocationVerificationOptions {
+  where: string;
+  params: (string | number)[];
+  label: string;
+  mode: "structural" | "profile" | "candidate";
+}
+
+/** Exactly one selector; SQL identifiers are chosen here, never taken from arguments. */
+export function parseLocationVerificationOptions(args: string[]): LocationVerificationOptions {
+  let selector: Omit<LocationVerificationOptions, "mode"> | undefined;
+  let mode: LocationVerificationOptions["mode"] | undefined;
+  for (let i = 0; i < args.length; i++) {
+    const flag = args[i];
+    if (!["--id", "--slug", "--name", "--mode"].includes(flag)) throw new Error("Unknown option: " + flag);
+    const raw = args[++i]?.trim();
+    if (!raw || raw.startsWith("--")) throw new Error("Missing value for " + flag);
+    if (flag === "--mode") {
+      if (mode || !["structural", "profile", "candidate"].includes(raw)) throw new Error("Invalid or repeated --mode");
+      mode = raw as LocationVerificationOptions["mode"];
+      continue;
+    }
+    if (selector) throw new Error("Choose exactly one of --id, --slug, or --name");
+    if (flag === "--id") {
+      if (!/^\d+$/.test(raw) || !Number.isSafeInteger(Number(raw)) || Number(raw) <= 0) throw new Error("Invalid location id");
+      selector = { where: "l.id = $1", params: [Number(raw)], label: "id " + raw };
+    } else if (flag === "--slug") {
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(raw)) throw new Error("Invalid location slug");
+      selector = { where: "l.slug = $1", params: [raw], label: raw };
+    } else {
+      const parts = raw.split(",").map((part) => part.trim());
+      if (parts.length !== 2 || !parts[0] || !/^[A-Z]{2}$/.test(parts[1])) throw new Error('Expected --name "City, ST"');
+      selector = { where: "l.name = $1 AND l.state = $2", params: parts, label: raw };
+    }
+  }
+  if (!selector) throw new Error("Choose exactly one of --id, --slug, or --name");
+  return { ...selector, mode: mode ?? "profile" };
+}
+
+export function requireUniqueLocation<T>(rows: T[], label: string): T {
+  if (!rows.length) throw new Error("Location not found: " + label);
+  if (rows.length > 1) throw new Error("Ambiguous location: " + label + "; use --id or --slug");
+  return rows[0];
+}
+
 /** The identical row predicate is used by military preview and write queries. */
 export const MILITARY_TARGET_PREDICATE = `($1::bigint[] IS NOT NULL AND l.id = ANY($1::bigint[]))
   OR ($1::bigint[] IS NULL AND (l.is_candidate OR l.parent_geo_id IS NOT NULL))`;

@@ -24,8 +24,9 @@ import {
   geoTypeOf,
   isCandidateOf,
   locationCsvCompletionProblems,
+  locationCsvSafetyProblems,
 } from "../lib/location-completeness";
-import { buildLocationUpsert, type ImportParent as ParentGeo } from "../lib/location-import";
+import { assertLocationImportTransition, buildLocationUpsert, type ImportParent as ParentGeo } from "../lib/location-import";
 import { isUnresolvedGeographyRow } from "../lib/geography-import-status";
 import { geoSlug } from "../lib/geo-slug";
 import { deriveCostOfLivingCategory } from "../lib/cost-of-living";
@@ -237,7 +238,7 @@ function parseRow(row: Row): Record<string, unknown> {
 
 async function upsert(query: ReturnType<typeof buildLocationUpsert>): Promise<{ status: "created" | "updated"; id: number }> {
   const rows = await getSql().query(query.text, query.params) as { id: number; created: boolean }[];
-  if (rows.length !== 1) throw new Error("Parent changed or disappeared before import; no child written");
+  if (rows.length !== 1) throw new Error("Import blocked: parent or existing geography/candidate state changed; no location written");
   return { status: rows[0].created ? "created" : "updated", id: Number(rows[0].id) };
 }
 
@@ -361,6 +362,12 @@ async function main() {
     process.exit(1);
   }
 
+  const safetyProblems = rows.flatMap((row, index) =>
+    locationCsvSafetyProblems(row).map((problem) => "row " + (index + 2) + ": " + problem)
+  );
+  if (safetyProblems.length) {
+    throw new Error("Import blocked (--allow-incomplete cannot bypass safety rules):\n" + safetyProblems.join("\n"));
+  }
   const completionProblems = rows.flatMap((row, index) =>
     locationCsvCompletionProblems(row, geoTypeOf(row), isCandidateOf(row, geoTypeOf(row))).map(
       (problem) => `row ${index + 2}: ${problem}`
@@ -412,6 +419,10 @@ async function main() {
   for (let i = 0; i < rows.length; i++) {
     try {
       const data = parseRow(rows[i]);
+      const existing = await sql.query(
+        "SELECT geo_type, is_candidate FROM locations_location WHERE slug = $1", [data.slug]
+      ) as { geo_type: string; is_candidate: boolean }[];
+      assertLocationImportTransition(data, existing[0]);
       const parentSlug = parentSlugOf(rows[i]);
       const parent = parentSlug ? await resolveParent(parentSlug) : null;
       if (parent && (parent.state !== data.state || data.geo_type === "city")) throw new Error("Invalid child/parent geography");
