@@ -50,6 +50,7 @@ const COMPANY_SLUG: Record<string, string> = {
   kratos: "kratos",
   anduril: "anduril",
   "anduril industries": "anduril",
+  epirus: "epirus",
 };
 
 /**
@@ -82,6 +83,8 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "orlando|FL": [28.5383, -81.3792],
   "raleigh|NC": [35.7796, -78.6382],
   "wichita|KS": [37.6872, -97.3301],
+  "torrance|CA": [33.8358, -118.3406],
+  "lawton|OK": [34.6087, -98.3903],
 };
 
 interface Parsed {
@@ -116,7 +119,9 @@ function geocode(locationRaw: string | null, region: string | null): Parsed {
   // Wichita has no state in the source ("Wichita Metro Area").
   if (city && /^wichita$/i.test(city) && !stateRaw) stateRaw = "KS";
 
-  const state = stateRaw ? resolveStateAbbr(stateRaw) : null;
+  // "DC" is a USPS code but not a state, so resolveStateAbbr rejects it; keep the
+  // normalized "DC" so Washington rows resolve against CITY_COORDS["washington|DC"].
+  const state = stateRaw === "DC" ? "DC" : stateRaw ? resolveStateAbbr(stateRaw) : null;
   if (!city || !state) return { city, state, latitude: null, longitude: null };
 
   const coords = CITY_COORDS[`${city.toLowerCase()}|${state}`];

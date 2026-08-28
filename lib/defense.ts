@@ -248,6 +248,19 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+  {
+    // Directed-energy / counter-electronics prime (Leonidas HPM). Listings are
+    // pulled from its public Greenhouse board (board token "epirus") via the
+    // /defense-jobs CSV importer.
+    slug: "epirus",
+    display_name: "Epirus",
+    parent_company: "Epirus",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "epirus" },
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
