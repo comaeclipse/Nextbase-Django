@@ -6,6 +6,10 @@
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-location-completeness.ts --name "City, ST"
  */
 import { getSql } from "../lib/db";
+import {
+  formatCompletionProblem,
+  hasCompletionValue,
+} from "../lib/location-completeness";
 
 const nameIndex = process.argv.indexOf("--name");
 const cityKey = nameIndex >= 0 ? process.argv[nameIndex + 1] : undefined;
@@ -39,8 +43,8 @@ const requiredColumns = [
   "climate_category", "gas_price", "description", "tags", "latitude", "longitude",
 ] as const;
 
-function hasValue(value: unknown): boolean {
-  return !(value === null || value === undefined || value === "");
+function hasValue(field: string, value: unknown): boolean {
+  return hasCompletionValue(field, value);
 }
 
 function allowsMissingMeiScore(row: Record<string, unknown>): boolean {
@@ -70,17 +74,17 @@ async function main() {
   const geoType = String(row.geo_type ?? "city");
   const isCity = geoType === "city";
   const populationUnavailable = geoType === "neighborhood" && row.is_candidate === false &&
-    !hasValue(row.population) && hasValue(row.population_unavailable_reason);
+    !hasValue("population", row.population) && hasValue("population_unavailable_reason", row.population_unavailable_reason);
   const columns: readonly string[] = isCity ? requiredColumns : populationUnavailable
     ? requiredNonCityColumns.filter((c) => !["population", "population_source", "population_vintage"].includes(c))
     : requiredNonCityColumns;
 
   const missing: string[] = columns.filter((column) => {
-    const value = row[column];
-    if (column === "lgbtq_mei_score" && !hasValue(value) && allowsMissingMeiScore(row)) {
+    const fieldValue = row[column];
+    if (column === "lgbtq_mei_score" && !hasValue(column, fieldValue) && allowsMissingMeiScore(row)) {
       return false;
     }
-    return value === null || value === undefined || value === "" || (column === "tags" && (!Array.isArray(value) || value.length === 0));
+    return !hasValue(column, fieldValue);
   });
   if (!row.pace_category) missing.push("pace_category");
 
@@ -98,13 +102,13 @@ async function main() {
 
   // Containment is the one thing a non-city geography must have; without it
   // there is nothing to inherit from and its page renders mostly empty.
-  if (!isCity && !hasValue(row.parent_geo_id)) {
+  if (!isCity && !hasValue("parent_geo_id", row.parent_geo_id)) {
     missing.push("parent_geo_id (no containing geography)");
   }
 
   if (missing.length) {
     console.error(`${name}, ${state} is incomplete:`);
-    for (const field of missing) console.error(`  - ${field}`);
+    for (const field of missing) console.error(`  - ${formatCompletionProblem(field)}`);
     process.exitCode = 1;
     return;
   }
