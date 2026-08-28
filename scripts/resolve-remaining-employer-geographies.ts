@@ -24,10 +24,34 @@
  *
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/resolve-remaining-employer-geographies.ts
+ *   ... --include-remote   also resolve places whose only postings are remote
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { getSql } from "../lib/db";
+
+/*
+ * --include-remote lifts the onsite+hybrid >= 1 filter below.
+ *
+ * The default is right for the general case: a remote posting is not a
+ * facility, and hundreds of speculative geographies would be noise. It is
+ * wrong for the last handful, for two reasons.
+ *
+ * First, the location row is not the claim. Bismarck, ND is a real city
+ * whether or not anyone works there; the remote-ness lives on
+ * defense_employer_locations.remote_posting_count and is already recorded
+ * correctly. Resolving the row only stops location_id dangling.
+ *
+ * Second, nothing downstream can misread it. recompute-defense-hub and the
+ * metro employment line on a city page both require onsite+hybrid >= 1, so a
+ * remote-only row reaches neither. 36 remote-only rows are already linked this
+ * way and have had no effect on a hub or a metro line.
+ *
+ * Worth knowing before running it: every place this currently unlocks is a
+ * STATE CAPITAL, which is the shape of an applicant-tracking convention for
+ * state-wide remote roles rather than evidence of an office.
+ */
+const includeRemote = process.argv.includes("--include-remote");
 
 const GNIS =
   "https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer/find";
@@ -284,7 +308,9 @@ async function main() {
        AND e.active
      GROUP BY 1, 2
      HAVING SUM(COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0)) >= 1
-     ORDER BY 3 DESC, 1`
+        OR $1
+     ORDER BY 3 DESC, 1`,
+    [includeRemote]
   )) as { city: string; state: string; oh: number; employers: string }[];
 
   console.log(`Resolving ${places.length} remaining place(s) via GNIS\n`);
