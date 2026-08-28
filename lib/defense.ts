@@ -148,8 +148,10 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Lockheed Martin",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    // Listings ingested from LM's Eightfold careers API (domain
+    // lockheedmartin.com), CONUS-only. Old careers backend was BrassRing.
+    ats_kind: "eightfold",
+    ats_config: { domain: "lockheedmartin.com" },
     legacy_aliases: [],
   },
   {
@@ -310,6 +312,94 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     counts_as_defense: true,
     ats_kind: "ashby",
     ats_config: { board: "onebrief" },
+    legacy_aliases: [],
+  },
+  {
+    // Autonomous precision-manufacturing for aerospace & defense (Los Angeles,
+    // plus Mesa AZ and Cherokee AL factories). Listings from its public Ashby
+    // board (board token "hadrian-automation").
+    slug: "hadrian",
+    display_name: "Hadrian",
+    parent_company: "Hadrian Automation",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "ashby",
+    ats_config: { board: "hadrian-automation" },
+    legacy_aliases: [],
+  },
+  {
+    // Expeditionary manufacturing / unmanned aerial systems for defense
+    // (San Diego). Listings scraped from its Gem (jobs.gem.com) board; Gem has
+    // no public JSON feed, so pay/education are not captured at ingest.
+    slug: "firestorm",
+    display_name: "Firestorm",
+    parent_company: "Firestorm Labs",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    // Hypersonic aircraft (Quarterhorse/Darkhorse); Atlanta HQ, plus Los Angeles
+    // and Jacksonville. Listings from its public Lever board (token "hermeus").
+    slug: "hermeus",
+    display_name: "Hermeus",
+    parent_company: "Hermeus",
+    sector: "defense_aerospace",
+    counts_as_defense: true,
+    ats_kind: "lever",
+    ats_config: { board: "hermeus" },
+    legacy_aliases: [],
+  },
+  {
+    // Real-time geospatial intelligence / satellite imagery (Tukwila WA, Herndon
+    // VA). Listings from its public Greenhouse board (board token "blacksky").
+    slug: "blacksky",
+    display_name: "BlackSky",
+    parent_company: "BlackSky",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "blacksky" },
+    legacy_aliases: [],
+  },
+  {
+    // Cybersecurity (defense-adjacent: federal/DoD security business). Careers
+    // run on Radancy (tenant 47263) with no public JSON feed, so listings are
+    // scraped list-level (CONUS-only); pay/education not captured at ingest.
+    slug: "palo-alto-networks",
+    display_name: "Palo Alto Networks",
+    parent_company: "Palo Alto Networks",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    // Defense prime (BAE Systems Inc., the US arm; Nashua NH electronic systems,
+    // plus many CONUS sites). Careers on Phenom (refNum BAE1US); listings pulled
+    // from phApp.ddo.eagerLoadRefineSearch, USA/CONUS-only.
+    slug: "bae-systems",
+    display_name: "BAE Systems",
+    parent_company: "BAE Systems",
+    sector: "defense_aerospace",
+    counts_as_defense: true,
+    ats_kind: "phenom",
+    ats_config: { refNum: "BAE1US", site: "jobs.baesystems.com" },
+    legacy_aliases: [],
+  },
+  {
+    // Defense-intelligence contractor (TS/SCI analysis at Ft Meade, Linthicum,
+    // Langley-Eustis). Small WordPress careers site (no ATS API).
+    slug: "cyntel-technologies",
+    display_name: "Cyntel Technologies",
+    parent_company: "Cyntel Technologies",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
     legacy_aliases: [],
   },
 ];
