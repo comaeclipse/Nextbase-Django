@@ -299,6 +299,19 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+  {
+    // Military planning / staff software (deployed to combatant commands; roles
+    // at Fort Leavenworth, Fort Knox, Wiesbaden/Stuttgart, plus US remote).
+    // Listings come from its public Ashby board (board token "onebrief").
+    slug: "onebrief",
+    display_name: "Onebrief",
+    parent_company: "Onebrief",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "ashby",
+    ats_config: { board: "onebrief" },
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */

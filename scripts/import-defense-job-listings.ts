@@ -55,6 +55,7 @@ const COMPANY_SLUG: Record<string, string> = {
   govini: "air", // Govini rebranded to Air in 2026
   "chaos industries": "chaos-industries",
   castelion: "castelion",
+  onebrief: "onebrief",
 };
 
 /**
@@ -128,6 +129,9 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "allen|TX": [33.1032, -96.6706],
   "midland|TX": [31.9973, -102.0779],
   "albuquerque|NM": [35.0844, -106.6504],
+  "fort leavenworth|KS": [39.3489, -94.9186],
+  "fort knox|KY": [37.8915, -85.9636],
+  "fort bliss|TX": [31.8134, -106.4236],
 };
 
 interface Parsed {
