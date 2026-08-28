@@ -148,8 +148,10 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Lockheed Martin",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    // Listings ingested from LM's Eightfold careers API (domain
+    // lockheedmartin.com), CONUS-only. Old careers backend was BrassRing.
+    ats_kind: "eightfold",
+    ats_config: { domain: "lockheedmartin.com" },
     legacy_aliases: [],
   },
   {

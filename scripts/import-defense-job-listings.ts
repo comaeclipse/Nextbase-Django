@@ -60,6 +60,7 @@ const COMPANY_SLUG: Record<string, string> = {
   hadrian: "hadrian",
   hermeus: "hermeus",
   blacksky: "blacksky",
+  "lockheed martin": "lockheed-martin",
 };
 
 /**
@@ -140,6 +141,32 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "cherokee|AL": [34.757, -87.9736],
   "jacksonville|FL": [30.3322, -81.6557],
   "tukwila|WA": [47.4739, -122.2612],
+  // Lockheed Martin's larger CONUS sites (top by open-req volume).
+  "littleton|CO": [39.6133, -105.0166],
+  "fort worth|TX": [32.7555, -97.3308],
+  "king of prussia|PA": [40.0893, -75.396],
+  "grand prairie|TX": [32.746, -96.9978],
+  "marietta|GA": [33.9526, -84.5499],
+  "moorestown|NJ": [39.9689, -74.949],
+  "sunnyvale|CA": [37.3688, -122.0363],
+  "palmdale|CA": [34.5794, -118.1165],
+  "camden|AR": [33.5845, -92.8343],
+  "liverpool|NY": [43.1062, -76.2177],
+  "stratford|CT": [41.1845, -73.1332],
+  "troy|AL": [31.8088, -85.97],
+  "archbald|PA": [41.4959, -75.5385],
+  "greenville|SC": [34.8526, -82.394],
+  "owego|NY": [42.1009, -76.2619],
+  "englewood|CO": [39.6478, -104.9878],
+  "arlington|TX": [32.7357, -97.1081],
+  "highlands ranch|CO": [39.5539, -104.9689],
+  "manassas|VA": [38.7509, -77.4753],
+  "lexington|KY": [38.0406, -84.5037],
+  "cape canaveral|FL": [28.3922, -80.6077],
+  "goleta|CA": [34.4358, -119.8276],
+  "mt laurel township|NJ": [39.934, -74.891],
+  "chelmsford|MA": [42.5998, -71.3673],
+  "eglin afb|FL": [30.4633, -86.5524],
 };
 
 interface Parsed {
