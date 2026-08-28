@@ -312,6 +312,32 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: { board: "onebrief" },
     legacy_aliases: [],
   },
+  {
+    // Autonomous precision-manufacturing for aerospace & defense (Los Angeles,
+    // plus Mesa AZ and Cherokee AL factories). Listings from its public Ashby
+    // board (board token "hadrian-automation").
+    slug: "hadrian",
+    display_name: "Hadrian",
+    parent_company: "Hadrian Automation",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "ashby",
+    ats_config: { board: "hadrian-automation" },
+    legacy_aliases: [],
+  },
+  {
+    // Expeditionary manufacturing / unmanned aerial systems for defense
+    // (San Diego). Listings scraped from its Gem (jobs.gem.com) board; Gem has
+    // no public JSON feed, so pay/education are not captured at ingest.
+    slug: "firestorm",
+    display_name: "Firestorm",
+    parent_company: "Firestorm Labs",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
