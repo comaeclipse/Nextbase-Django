@@ -422,6 +422,55 @@ export interface DefenseEmployerLocationRow {
   notes: string | null;
 }
 
+/**
+ * One defense-industry job listing on the standalone /defense-jobs page
+ * (`defense_job_listings`, imported from master_defense_jobs.csv). Independent of
+ * locations_location and not a Fit-score factor. `latitude`/`longitude` are NULL
+ * for remote/nationwide rows (kept in the list, absent from the map).
+ */
+export interface DefenseJobListingRow {
+  id: number;
+  company: string;
+  employer_slug: string | null;
+  ats: string | null;
+  title: string;
+  field_raw: string | null;
+  sector: string;
+  location_raw: string | null;
+  city: string | null;
+  state: string | null;
+  country: string;
+  region: string | null;
+  is_remote: boolean;
+  latitude: number | null;
+  longitude: number | null;
+  employment_type: string | null;
+  pay_min: number | null;
+  pay_max: number | null;
+  pay_interval: string | null;
+  education: string | null;
+  url: string;
+}
+
+/**
+ * Aggregate per-city posting counts for an already-tracked defense employer
+ * (`defense_employer_locations` joined to `defense_employers`). Used by
+ * /defense-jobs as count-only map markers for employers we track but have no
+ * individual listings for (Raytheon, L3Harris, Anduril, Leidos, System High).
+ */
+export interface DefenseEmployerCityCount {
+  employer_slug: string;
+  display_name: string;
+  city: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+  onsite: number;
+  hybrid: number;
+  remote: number;
+  total: number;
+}
+
 /** A mosque plotted on the standalone /mosques map (`mosques`, sourced from OpenStreetMap). */
 export interface MosqueRow {
   id: number;
