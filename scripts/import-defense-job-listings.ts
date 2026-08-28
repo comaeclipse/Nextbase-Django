@@ -61,6 +61,7 @@ const COMPANY_SLUG: Record<string, string> = {
   hermeus: "hermeus",
   blacksky: "blacksky",
   "lockheed martin": "lockheed-martin",
+  "palo alto networks": "palo-alto-networks",
 };
 
 /**
@@ -167,6 +168,22 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "mt laurel township|NJ": [39.934, -74.891],
   "chelmsford|MA": [42.5998, -71.3673],
   "eglin afb|FL": [30.4633, -86.5524],
+  // Palo Alto Networks CONUS sites (top by open-req volume).
+  "santa clara|CA": [37.3541, -121.9552],
+  "new york city|NY": [40.7128, -74.006],
+  "plano|TX": [33.0198, -96.6989],
+  "burbank|CA": [34.1808, -118.309],
+  "charlotte|NC": [35.2271, -80.8431],
+  "cincinnati|OH": [39.1031, -84.512],
+  "philadelphia|PA": [39.9526, -75.1652],
+  "columbus|OH": [39.9612, -82.9988],
+  "nashville|TN": [36.1627, -86.7816],
+  "portland|OR": [45.5152, -122.6784],
+  "washington dc|DC": [38.9072, -77.0369],
+  "houston|TX": [29.7604, -95.3698],
+  "madison|WI": [43.0731, -89.4012],
+  "minneapolis|MN": [44.9778, -93.265],
+  "cleveland|OH": [41.4993, -81.6944],
 };
 
 interface Parsed {

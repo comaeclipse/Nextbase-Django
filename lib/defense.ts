@@ -364,6 +364,19 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: { board: "blacksky" },
     legacy_aliases: [],
   },
+  {
+    // Cybersecurity (defense-adjacent: federal/DoD security business). Careers
+    // run on Radancy (tenant 47263) with no public JSON feed, so listings are
+    // scraped list-level (CONUS-only); pay/education not captured at ingest.
+    slug: "palo-alto-networks",
+    display_name: "Palo Alto Networks",
+    parent_company: "Palo Alto Networks",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
