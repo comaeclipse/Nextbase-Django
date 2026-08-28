@@ -286,6 +286,19 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: { board: "chaosindustries" },
     legacy_aliases: [],
   },
+  {
+    // Hypersonic-weapons / low-cost strike startup (Torrance CA, plus Rio Rancho
+    // NM and Midland/Allen TX). No public JSON ATS feed; listings are scraped
+    // from its careers-page.com (Manatal) board into the /defense-jobs CSV.
+    slug: "castelion",
+    display_name: "Castelion",
+    parent_company: "Castelion",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */

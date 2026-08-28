@@ -54,6 +54,7 @@ const COMPANY_SLUG: Record<string, string> = {
   air: "air",
   govini: "air", // Govini rebranded to Air in 2026
   "chaos industries": "chaos-industries",
+  castelion: "castelion",
 };
 
 /**
@@ -123,6 +124,10 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "tustin|CA": [33.7458, -117.8261],
   "herndon|VA": [38.9696, -77.3861],
   "las vegas|NV": [36.1699, -115.1398],
+  "rio rancho|NM": [35.2328, -106.663],
+  "allen|TX": [33.1032, -96.6706],
+  "midland|TX": [31.9973, -102.0779],
+  "albuquerque|NM": [35.0844, -106.6504],
 };
 
 interface Parsed {
