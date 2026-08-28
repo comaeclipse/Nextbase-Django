@@ -194,6 +194,8 @@ interface Row {
   censusPlace: string | null;
   refusal: string | null;
   sourceNote?: string;
+  /* Set when the place is a spelling of a geography that already exists. */
+  aliasOf?: { id: number; name: string };
 }
 
 async function getJson(url: string): Promise<unknown> {
@@ -313,6 +315,42 @@ async function main() {
     [includeRemote]
   )) as { city: string; state: string; oh: number; employers: string }[];
 
+  /*
+   * Spelling-variant guard.
+   *
+   * The place list is keyed on an exact (city, state) miss, so "Saint Paul, MN"
+   * looks unresolved even though "St. Paul, MN" is already a row. Resolving it
+   * creates a SECOND geography for one city, and the damage is quiet: each row
+   * holds part of the employer presence, so the city page under-reports and
+   * neither row looks wrong on its own. Fort George G Meade is already split
+   * that way, with Raytheon and Collins on one row and L3Harris on the other.
+   *
+   * So normalize the common abbreviations and check before resolving. A hit
+   * becomes an ALIAS to the existing row rather than a new geography, which is
+   * what the alias table is for.
+   *
+   * Deliberately conservative: it folds only documented abbreviations
+   * (St/Saint, Ft/Fort, Mt/Mount, D.C./DC) and punctuation. It is not fuzzy
+   * matching, because "Springfield" and "Springfield Township" are two places.
+   */
+  const normalizePlace = (name: string) =>
+    name
+      .toLowerCase()
+      .replace(/\bst\.?\b/g, "saint")
+      .replace(/\bft\.?\b/g, "fort")
+      .replace(/\bmt\.?\b/g, "mount")
+      .replace(/\bd\.?\s*c\.?\b/g, "dc")
+      .replace(/[^a-z0-9]+/g, "");
+
+  const existing = new Map<string, { id: number; name: string }>();
+  for (const e of (await sql.query(
+    `SELECT id, name, state FROM locations_location WHERE geo_type <> 'metro'`
+  )) as { id: number; name: string; state: string }[]) {
+    existing.set(`${normalizePlace(e.name)}|${e.state.toUpperCase()}`, {
+      id: Number(e.id),
+      name: e.name,
+    });
+  }
   console.log(`Resolving ${places.length} remaining place(s) via GNIS\n`);
   const out: Row[] = [];
 
@@ -330,6 +368,19 @@ async function main() {
      * cannot answer for, so trying it first would only risk a near-miss like
      * the Luzerne "Cranberry".
      */
+    const collision = existing.get(
+      `${normalizePlace(p.city)}|${p.state.toUpperCase()}`
+    );
+    if (collision) {
+      row.aliasOf = collision;
+      out.push(row);
+      console.log(
+        `  ~ ${(p.city + ", " + p.state).padEnd(30)} already exists as ` +
+          `\"${collision.name}\" (#${collision.id}) — alias, not a new row`
+      );
+      continue;
+    }
+
     const override = OVERRIDES[key];
     if (override) {
       row.gnis = {
@@ -396,8 +447,13 @@ async function main() {
     );
   }
 
-  const resolved = out.filter((r) => r.gnis && !r.refusal && r.countyName);
-  const refused = out.filter((r) => !r.gnis || r.refusal || !r.countyName);
+  const aliased = out.filter((r) => r.aliasOf);
+  const resolved = out.filter(
+    (r) => !r.aliasOf && r.gnis && !r.refusal && r.countyName
+  );
+  const refused = out.filter(
+    (r) => !r.aliasOf && (!r.gnis || r.refusal || !r.countyName)
+  );
 
   const esc = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
   const csv = [
@@ -464,7 +520,12 @@ async function main() {
   ].join("\n");
   writeFileSync(path.join("data", "employer_geographies_remaining_report.md"), md);
 
-  console.log(`\nresolved ${resolved.length}/${out.length}; refused ${refused.length}`);
+  console.log(
+    `\nresolved ${resolved.length}/${out.length}; refused ${refused.length}` +
+      (aliased.length
+        ? `; ${aliased.length} already exist under another spelling`
+        : "")
+  );
   console.log("wrote data/employer_geographies_remaining.csv");
   console.log("wrote data/employer_geographies_remaining_metro.csv");
   console.log("wrote data/employer_geographies_remaining_report.md");
