@@ -2,3 +2,4 @@ RawCity,RawState,CanonicalCity,AliasKind,Source,OnsiteHybrid
 St. Petersburg,FL,St Petersburg,employer_location,defense employer feed spelling variant,1
 Schriever AFB,CO,Schriever Afb,employer_location,defense employer feed spelling variant,1
 Wright-Patterson AFB,OH,Wright-Patterson Afb,employer_location,defense employer feed spelling variant,1
+Washington Dc,DC,Washington,employer_location,defense employer feed spelling variant (remote-only posting; Washington DC already exists as id 265),0
