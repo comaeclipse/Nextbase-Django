@@ -28,3 +28,20 @@ alias table in the script, not fuzzy matching.
 
 ## Name aliases applied
 
+
+## Correction — 2026-08-27
+
+`Saint Paul, MN` was resolved and imported by this run, then **rolled back**: the
+database already held `St. Paul, MN` (#517), so the import created a second
+geography for one city. It has been removed from the CSVs above and moved to
+`data/employer_geographies_aliases.csv`.
+
+The resolver keyed on an exact `(name, state)` miss, which cannot see a spelling
+variant. It now normalizes `St./Saint`, `Ft./Fort`, `Mt./Mount` and `D.C./DC`
+and checks the existing rows first, emitting an alias instead of a new row.
+
+Still outstanding, and predating this run: `Ft George G Meade, MD` (#236) and
+`Fort George G Meade, MD` (#365) are the same installation at identical
+coordinates, splitting its defense presence — Raytheon and Collins on one row,
+L3Harris on the other. `scripts/merge-duplicate-geography.ts` can merge them;
+that is a separate change.
