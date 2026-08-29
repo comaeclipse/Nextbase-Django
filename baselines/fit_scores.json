@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-29T02:16:31.297Z",
-  "verifiedOn": "2026-08-29T02:16:31.297Z",
+  "generatedAt": "2026-08-29T20:52:30.174Z",
+  "verifiedOn": "2026-08-29T20:52:30.174Z",
   "note": "Regression snapshot of Fit Score output for every ranked candidate. NOT a Django parity reference — see baselines/django_scores.json for that, and scripts/generate-score-baseline.ts for why they differ. Regenerate in the same commit as any deliberate scoring or input change.",
-  "candidateCount": 176,
+  "candidateCount": 183,
   "scores": [
     {
       "id": 7,
@@ -5381,6 +5381,38 @@
       ]
     },
     {
+      "id": 475,
+      "name": "Parkersburg",
+      "state": "WV",
+      "score": 83,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 26
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
       "id": 501,
       "name": "Santa Ana",
       "state": "CA",
@@ -5629,6 +5661,198 @@
         {
           "key": "inclusivity",
           "score": 75
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 675,
+      "name": "Flagstaff",
+      "state": "AZ",
+      "score": 74,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 95
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 676,
+      "name": "Rio Rancho",
+      "state": "NM",
+      "score": 78,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 70
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 44
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 677,
+      "name": "Yuma",
+      "state": "AZ",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 678,
+      "name": "Roseville",
+      "state": "CA",
+      "score": 68,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 679,
+      "name": "Torrance",
+      "state": "CA",
+      "score": 64,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 50
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 680,
+      "name": "Redondo Beach",
+      "state": "CA",
+      "score": 74,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 50
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 100
         }
       ],
       "crime": [
