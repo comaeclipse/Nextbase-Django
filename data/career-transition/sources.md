@@ -2,7 +2,7 @@
 
 Retrieved: 2026-08-29
 
-This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, and electronic warfare expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
+This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, electronic warfare, and surface/shipboard-electrical expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
 
 ## Stable occupation and credential sources
 
@@ -52,6 +52,13 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Air Force Bomber/Special EW and Radar Surveillance Integrated Avionics 2A9X3 page: https://www.airforce.com/careers/aviation-and-flight/bomber-special-electronic-warfare-and-radar-surveillance-integrated-avionics
 - Air Force Avionics Test Station and Components 2A0X1 page: https://www.airforce.com/careers/science-and-technology/avionics-test-station-and-components
 - My Next Move for Veterans avionics military crosswalk page: https://www.mynextmove.org/vets/profile/military/49-2091.00
+- Navy Electrician's Mate (EM) page: https://www.navy.com/careers-benefits/careers/industrial-mechanical/electricians-mate
+- Navy Electronics Technician (ET) page: https://www.navy.com/careers-benefits/careers/electronics-technology/electronics
+- Navy Interior Communications Electrician (IC) page: https://www.navy.com/careers-benefits/careers/electronics-technology/interior-communications-electrician
+- Army 12R Interior Electrician page: https://www.goarmy.com/careers-and-jobs/mechanics-engineering/design-develop/12r-interior-electrician
+- Army COOL 12R Interior Electrician (corroborating primary): https://www.cool.osd.mil/army/moc/index.html?moc=12r
+- O*NET Electricians summary (47-2111): https://www.onetonline.org/link/summary/47-2111.00
+- O*NET Power Plant Operators summary (51-8013, checked and rejected — operator, not maintainer): https://www.onetonline.org/link/summary/51-8013.00
 
 ## Employer snapshot sources
 
@@ -70,7 +77,11 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - General Dynamics Ordnance and Tactical Systems careers: https://www.gdots.com/careers/
 - RTX careers: https://careers.rtx.com/
 - Northrop Grumman careers: https://www.northropgrumman.com/jobs/
-- HII careers: https://hii.com/careers/
+- HII careers (Newport News + Ingalls shipbuilding): https://hii.com/careers/
+- General Dynamics Electric Boat careers (submarines, Groton CT): https://www.gdeb.com/careers/
+- General Dynamics NASSCO careers (San Diego shipyard): https://jobs.nassco.com/
+- Fincantieri Marine Group / Marinette Marine careers: https://fincantierimarinegroup.com/careers/
+- Austal USA careers (Mobile AL shipyard): https://www.austaljobs.com/
 - Leonardo DRS careers: https://www.leonardodrs.com/careers/
 - KBR careers: https://www.kbr.com/en/careers
 - FN America careers: https://fnamerica.com/careers/
