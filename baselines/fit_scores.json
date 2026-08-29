@@ -1,7 +1,8 @@
 {
-  "generatedAt": "2026-08-27T20:46:23.930Z",
+  "generatedAt": "2026-08-27T23:59:02.658Z",
+  "verifiedOn": "2026-08-27T23:59:02.658Z",
   "note": "Regression snapshot of Fit Score output for every ranked candidate. NOT a Django parity reference — see baselines/django_scores.json for that, and scripts/generate-score-baseline.ts for why they differ. Regenerate in the same commit as any deliberate scoring or input change.",
-  "candidateCount": 170,
+  "candidateCount": 171,
   "scores": [
     {
       "id": 7,
@@ -5372,6 +5373,38 @@
         {
           "key": "inclusivity",
           "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 501,
+      "name": "Santa Ana",
+      "state": "CA",
+      "score": 68,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 50
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 100
         }
       ],
       "crime": [

@@ -188,8 +188,10 @@ CREATE INDEX location_genre_assignments_genre_key_idx
   ON location_genre_assignments(genre_key);
 ```
 
-No production migration or assignment import has been run. Assignments remain
-an explicit editorial act; the registry does not infer them from feature scores.
+The production migration was applied after the registry merged. The table is
+empty until an explicit reviewed source artifact is supplied to
+`scripts/import/import-location-genre-assignments.ts`; the importer does not
+infer membership or confidence from feature scores or board labels.
 
 ## 6. Corroboration (adopted, not reinvented)
 

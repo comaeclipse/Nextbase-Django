@@ -27,8 +27,10 @@
  *
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/generate-score-baseline.ts [--dry-run]
+ *   ... --stamp    record that the snapshot was checked today, without
+ *                  rewriting it. Refuses if any score differs.
  */
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fetchAllLocations } from "../lib/locations";
 import {
@@ -38,6 +40,17 @@ import {
 } from "../lib/scoring";
 
 const dryRun = process.argv.includes("--dry-run");
+/*
+ * --stamp records that the snapshot was CHECKED today without rewriting it.
+ *
+ * A bare regenerate bumps generatedAt even when every score is identical, which
+ * makes the file look like the data moved and puts a meaningless entry in git
+ * blame for anyone trying to find when scores last actually changed. Keeping
+ * "when these values were produced" separate from "when they were last
+ * confirmed" means blame stays readable, and the stamp refuses to write if
+ * anything differs -- so it can never be used to bless a drifted baseline.
+ */
+const stampOnly = process.argv.includes("--stamp");
 const OUT = path.join("baselines", "fit_scores.json");
 
 async function main() {
@@ -61,8 +74,58 @@ async function main() {
     };
   });
 
+  const now = new Date().toISOString();
+
+  if (stampOnly) {
+    const existing = JSON.parse(readFileSync(OUT, "utf8")) as {
+      scores: { id: number; name: string; state: string; score: number;
+                breakdown: { key: string; score: number }[];
+                crime: [string | null, string | null] }[];
+    } & Record<string, unknown>;
+    const byId = new Map(existing.scores.map((r) => [r.id, r]));
+
+    const drifted: string[] = [];
+    let uncovered = 0;
+    for (const s of scores) {
+      const ref = byId.get(s.id);
+      if (!ref) { uncovered++; continue; }
+      const same =
+        ref.score === s.score &&
+        JSON.stringify(ref.breakdown) === JSON.stringify(s.breakdown) &&
+        JSON.stringify(ref.crime) === JSON.stringify(s.crime);
+      if (!same) drifted.push(`${s.name}, ${s.state} (#${s.id})`);
+    }
+
+    if (drifted.length) {
+      console.error(
+        `Refusing to stamp: ${drifted.length} score(s) differ from the baseline.`
+      );
+      for (const d of drifted.slice(0, 10)) console.error(`  ${d}`);
+      console.error("Regenerate instead, so the diff records what moved.");
+      process.exit(1);
+    }
+
+    /*
+     * Rebuilt rather than mutated so verifiedOn sits beside generatedAt at the
+     * top of the file. Appending it would bury the one line a reader wants
+     * under 5,400 lines of scores.
+     */
+    const { generatedAt, ...rest } = existing as Record<string, unknown>;
+    const stamped = { generatedAt, verifiedOn: now, ...rest };
+    if (dryRun) {
+      console.log(`Dry run — would stamp verifiedOn ${now.slice(0, 10)}`);
+      console.log(`  ${scores.length - uncovered} of ${scores.length} live candidate(s) matched; ${uncovered} not covered.`);
+      return;
+    }
+    writeFileSync(OUT, JSON.stringify(stamped, null, 2) + "\n");
+    console.log(`Stamped verifiedOn ${now.slice(0, 10)} — scores untouched.`);
+    console.log(`  ${scores.length - uncovered} of ${scores.length} live candidate(s) matched; ${uncovered} not covered.`);
+    return;
+  }
+
   const payload = {
-    generatedAt: new Date().toISOString(),
+    generatedAt: now,
+    verifiedOn: now,
     note:
       "Regression snapshot of Fit Score output for every ranked candidate. " +
       "NOT a Django parity reference — see baselines/django_scores.json for " +

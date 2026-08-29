@@ -24,10 +24,34 @@
  *
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/resolve-remaining-employer-geographies.ts
+ *   ... --include-remote   also resolve places whose only postings are remote
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { getSql } from "../lib/db";
+
+/*
+ * --include-remote lifts the onsite+hybrid >= 1 filter below.
+ *
+ * The default is right for the general case: a remote posting is not a
+ * facility, and hundreds of speculative geographies would be noise. It is
+ * wrong for the last handful, for two reasons.
+ *
+ * First, the location row is not the claim. Bismarck, ND is a real city
+ * whether or not anyone works there; the remote-ness lives on
+ * defense_employer_locations.remote_posting_count and is already recorded
+ * correctly. Resolving the row only stops location_id dangling.
+ *
+ * Second, nothing downstream can misread it. recompute-defense-hub and the
+ * metro employment line on a city page both require onsite+hybrid >= 1, so a
+ * remote-only row reaches neither. 36 remote-only rows are already linked this
+ * way and have had no effect on a hub or a metro line.
+ *
+ * Worth knowing before running it: every place this currently unlocks is a
+ * STATE CAPITAL, which is the shape of an applicant-tracking convention for
+ * state-wide remote roles rather than evidence of an office.
+ */
+const includeRemote = process.argv.includes("--include-remote");
 
 const GNIS =
   "https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer/find";
@@ -170,6 +194,8 @@ interface Row {
   censusPlace: string | null;
   refusal: string | null;
   sourceNote?: string;
+  /* Set when the place is a spelling of a geography that already exists. */
+  aliasOf?: { id: number; name: string };
 }
 
 async function getJson(url: string): Promise<unknown> {
@@ -284,9 +310,47 @@ async function main() {
        AND e.active
      GROUP BY 1, 2
      HAVING SUM(COALESCE(d.onsite_posting_count,0) + COALESCE(d.hybrid_posting_count,0)) >= 1
-     ORDER BY 3 DESC, 1`
+        OR $1
+     ORDER BY 3 DESC, 1`,
+    [includeRemote]
   )) as { city: string; state: string; oh: number; employers: string }[];
 
+  /*
+   * Spelling-variant guard.
+   *
+   * The place list is keyed on an exact (city, state) miss, so "Saint Paul, MN"
+   * looks unresolved even though "St. Paul, MN" is already a row. Resolving it
+   * creates a SECOND geography for one city, and the damage is quiet: each row
+   * holds part of the employer presence, so the city page under-reports and
+   * neither row looks wrong on its own. Fort George G Meade is already split
+   * that way, with Raytheon and Collins on one row and L3Harris on the other.
+   *
+   * So normalize the common abbreviations and check before resolving. A hit
+   * becomes an ALIAS to the existing row rather than a new geography, which is
+   * what the alias table is for.
+   *
+   * Deliberately conservative: it folds only documented abbreviations
+   * (St/Saint, Ft/Fort, Mt/Mount, D.C./DC) and punctuation. It is not fuzzy
+   * matching, because "Springfield" and "Springfield Township" are two places.
+   */
+  const normalizePlace = (name: string) =>
+    name
+      .toLowerCase()
+      .replace(/\bst\.?\b/g, "saint")
+      .replace(/\bft\.?\b/g, "fort")
+      .replace(/\bmt\.?\b/g, "mount")
+      .replace(/\bd\.?\s*c\.?\b/g, "dc")
+      .replace(/[^a-z0-9]+/g, "");
+
+  const existing = new Map<string, { id: number; name: string }>();
+  for (const e of (await sql.query(
+    `SELECT id, name, state FROM locations_location WHERE geo_type <> 'metro'`
+  )) as { id: number; name: string; state: string }[]) {
+    existing.set(`${normalizePlace(e.name)}|${e.state.toUpperCase()}`, {
+      id: Number(e.id),
+      name: e.name,
+    });
+  }
   console.log(`Resolving ${places.length} remaining place(s) via GNIS\n`);
   const out: Row[] = [];
 
@@ -304,6 +368,19 @@ async function main() {
      * cannot answer for, so trying it first would only risk a near-miss like
      * the Luzerne "Cranberry".
      */
+    const collision = existing.get(
+      `${normalizePlace(p.city)}|${p.state.toUpperCase()}`
+    );
+    if (collision) {
+      row.aliasOf = collision;
+      out.push(row);
+      console.log(
+        `  ~ ${(p.city + ", " + p.state).padEnd(30)} already exists as ` +
+          `\"${collision.name}\" (#${collision.id}) — alias, not a new row`
+      );
+      continue;
+    }
+
     const override = OVERRIDES[key];
     if (override) {
       row.gnis = {
@@ -370,8 +447,13 @@ async function main() {
     );
   }
 
-  const resolved = out.filter((r) => r.gnis && !r.refusal && r.countyName);
-  const refused = out.filter((r) => !r.gnis || r.refusal || !r.countyName);
+  const aliased = out.filter((r) => r.aliasOf);
+  const resolved = out.filter(
+    (r) => !r.aliasOf && r.gnis && !r.refusal && r.countyName
+  );
+  const refused = out.filter(
+    (r) => !r.aliasOf && (!r.gnis || r.refusal || !r.countyName)
+  );
 
   const esc = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
   const csv = [
@@ -438,7 +520,12 @@ async function main() {
   ].join("\n");
   writeFileSync(path.join("data", "employer_geographies_remaining_report.md"), md);
 
-  console.log(`\nresolved ${resolved.length}/${out.length}; refused ${refused.length}`);
+  console.log(
+    `\nresolved ${resolved.length}/${out.length}; refused ${refused.length}` +
+      (aliased.length
+        ? `; ${aliased.length} already exist under another spelling`
+        : "")
+  );
   console.log("wrote data/employer_geographies_remaining.csv");
   console.log("wrote data/employer_geographies_remaining_metro.csv");
   console.log("wrote data/employer_geographies_remaining_report.md");
