@@ -333,6 +333,13 @@ export const SPECIALTY_AMBIGUITY_RULES: AmbiguityRule[] = [
           "electricians mate",
           "nuke",
           "nuclear",
+          // A carrier is a ship that carries BOTH aviation electricians (AE) and
+          // ship's electricians (EM). "aircraft carrier" also matches AE's
+          // "aircraft" token, so listing these makes a carrier context AMBIGUOUS
+          // (both candidates fire) rather than silently resolving to aviation.
+          "carrier",
+          "aircraft carrier",
+          "cvn",
         ],
       },
     ],

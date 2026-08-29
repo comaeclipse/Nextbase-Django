@@ -68,8 +68,22 @@ describe("resolveSpecialty (issue #221)", () => {
     expect(result.specialty.code).toBe("EM");
   });
 
+  it('treats an "aircraft carrier" electrician as ambiguous, not aviation AE', () => {
+    // A carrier is a ship that carries BOTH aviation (AE) and ship's (EM)
+    // electricians; "aircraft" must not auto-resolve the shipboard context to AE.
+    for (const q of [
+      "navy electrician aboard an aircraft carrier",
+      "electrician on aircraft carrier navy",
+    ]) {
+      const result = resolveSpecialty(RESOLVER_FIXTURE, q);
+      expect(result.status, q).toBe("ambiguous");
+      if (result.status !== "ambiguous") throw new Error("expected ambiguous");
+      expect(result.candidates.map((c) => c.code).sort(), q).toEqual(["AE", "EM"]);
+    }
+  });
+
   it('resolves "navy AE" and "aviation electrician" to the aviation rate', () => {
-    for (const q of ["navy AE", "aviation electrician"]) {
+    for (const q of ["navy AE", "aviation electrician", "navy aircraft electrician"]) {
       const result = resolveSpecialty(RESOLVER_FIXTURE, q);
       expect(result.status, q).toBe("resolved");
       if (result.status !== "resolved") throw new Error("expected resolved");
