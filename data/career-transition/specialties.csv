@@ -31,3 +31,23 @@ marine_corps,MOS,2171,Electro-Optical Ordnance Repairer,enlisted,current,officia
 marine_corps,MOS,0842,Field Artillery Radar Operator,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
 marine_corps,MOS,0844,Field Artillery Fire Control Marine,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
 marine_corps,MOS,0847,Field Artillery Sensor Support Marine,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+navy,Rating,CWT,Cyber Warfare Technician,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,Rating,CTN,Cryptologic Technician Networks,enlisted,legacy,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H11A,Digital Network Analyst,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H12A,Exploitation Analyst,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H29A,Cyberspace Operations Planner,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H31A,Cyber Defense Analyst - Host,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H32A,Cyber Threat Emulations Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H34A,Cyber Defense Analyst - Network,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H41A,Basic Offensive Cyberspace Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H41B,Senior Cyberspace Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+army,MOS,17C,Cyber Operations Specialist,enlisted,current,official_service_page,https://cybercoe.army.mil/Cyber-Center-of-Excellence/Schools/Cyber-School/Cyber-Courses/Cyber-Operations-Specialist/,2026-08-29
+marine_corps,MOS,1721,Cyberspace Warfare Operator,enlisted,current,official_service_page,https://www.information.marines.mil/17XX-Careers/1721/,2026-08-29
+marine_corps,NMOS,1712,Interactive On-Net Operator,enlisted,current,official_service_page,https://www.information.marines.mil/Portals/224/Docs/17XX/220330-17XX-Guide-to-the-IM-OccFld.pdf,2026-08-29
+marine_corps,NMOS,1713,Exploitation Analyst,enlisted,current,official_service_page,https://www.information.marines.mil/Portals/224/Docs/17XX/220330-17XX-Guide-to-the-IM-OccFld.pdf,2026-08-29
+marine_corps,NMOS,1722,Host Analyst,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/2717969/update-to-fy22-mos-manual-for-the-17xx-occupational-field/,2026-08-29
+marine_corps,NMOS,1723,Network Analyst,enlisted,current,official_service_page,https://www.information.marines.mil/Portals/224/Docs/17XX/220330-17XX-Guide-to-the-IM-OccFld.pdf,2026-08-29
+air_force,AFSC,1B4X1,Cyber Warfare Operations,enlisted,current,official_service_page,https://www.airforce.com/careers/intelligence/cyber-warfare-operations,2026-08-29
+air_force,AFSC,1D7X1,Cyber Defense Operations,enlisted,current,official_service_page,https://www.airforce.com/careers/intelligence/cyber-system-operations,2026-08-29
+space_force,SFSC,5C0X1,Cyber Operations,enlisted,current,official_service_page,https://www.spaceforce.com/enlisted-careers/cyber-operations,2026-08-29
+coast_guard,Rating,CMS,Cyber Mission Specialist,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted/cms,2026-08-29

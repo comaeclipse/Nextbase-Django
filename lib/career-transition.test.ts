@@ -20,7 +20,8 @@ describe("career-transition taxonomy", () => {
     expect(searchSpecialties(catalog.specialties, "navy", "machinist")[0]?.code).toBe("AD");
     expect(searchSpecialties(catalog.specialties, "navy", "ordnance")[0]?.code).toBe("AO");
     expect(searchSpecialties(catalog.specialties, "navy", "gunner")[0]?.code).toBe("GM");
-    expect(searchSpecialties(catalog.specialties, "space_force", "")).toEqual([]);
+    expect(searchSpecialties(catalog.specialties, "space_force", "cyber")[0]?.code).toBe("5C0X1");
+    expect(searchSpecialties(catalog.specialties, "coast_guard", "mission")[0]?.code).toBe("CMS");
   });
 
   it("sorts role matches by fit score, then directness", () => {
@@ -48,6 +49,9 @@ describe("career-transition csv bundle", () => {
     expect(catalog.employers.length).toBeGreaterThan(0);
     expect(catalog.roles.map((role) => role.slug)).toContain("naval-weapons-technician");
     expect(catalog.roles.map((role) => role.slug)).toContain("qasas-specialist");
+    expect(catalog.roles.map((role) => role.slug)).toContain("cyber-operator");
+    expect(catalog.roles.map((role) => role.slug)).toContain("dfir-analyst");
+    expect(catalog.roles.map((role) => role.slug)).toContain("space-cybersecurity-specialist");
     expect(
       catalog.matches.filter((match) => match.roles.length === 0 || match.employers.length === 0)
     ).toEqual([]);

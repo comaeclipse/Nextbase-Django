@@ -89,7 +89,8 @@ export type TransitionEmployerType =
   | "oem"
   | "defense_contractor"
   | "mro"
-  | "civilian_operator";
+  | "civilian_operator"
+  | "commercial_cyber";
 
 export interface TransitionEmployer {
   id: number;
@@ -212,7 +213,8 @@ function parseEmployerType(value: string): TransitionEmployerType {
     normalized === "oem" ||
     normalized === "defense_contractor" ||
     normalized === "mro" ||
-    normalized === "civilian_operator"
+    normalized === "civilian_operator" ||
+    normalized === "commercial_cyber"
   ) {
     return normalized;
   }
