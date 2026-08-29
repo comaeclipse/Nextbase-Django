@@ -72,7 +72,7 @@ const SECTOR_RULES: { sector: DefenseJobSector; pattern: RegExp }[] = [
   {
     sector: "Hardware & Engineering",
     pattern:
-      /\b(?:mechanical|electrical|ee\b|me\b|hardware|rf\b|radio frequency|aerospace|aeronautic|avionics|propulsion|structural|systems engineer|design engineer|test engineer|integration engineer|controls|robotic|mechatronic|thermal|electronics|pcb\b|circuit|antenna|optics|photonics|engineer)/i,
+      /\b(?:mechanical|electrical|electrician|ee\b|me\b|hardware|rf\b|radio frequency|aerospace|aeronautic|avionics|propulsion|structural|systems engineer|design engineer|test engineer|integration engineer|controls|robotic|mechatronic|thermal|electronics|pcb\b|circuit|antenna|optics|photonics|engineer)/i,
   },
   {
     sector: "Product & Design",

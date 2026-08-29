@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   Building2,
   ExternalLink,
+  GraduationCap,
   MapPin,
   Search,
   ShieldCheck,
@@ -17,6 +18,7 @@ import {
   type EmployerMatchView,
   type MilitaryBranch,
   type RoleMatchView,
+  type SkillMatchView,
   type SpecialtyMatchView,
 } from "@/lib/career-transition-shared";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +38,14 @@ function directnessLabel(value: string) {
   if (value === "direct") return "Direct fit";
   if (value === "adjacent") return "Adjacent";
   return "Credential gap";
+}
+
+function skillKindLabel(value: string) {
+  if (value === "technical") return "Technical skill";
+  if (value === "domain") return "Domain knowledge";
+  if (value === "credential") return "Credential";
+  if (value === "clearance") return "Clearance";
+  return "Safety";
 }
 
 function employerTypeLabel(value: string) {
@@ -97,6 +107,32 @@ function RoleCard({ match }: { match: RoleMatchView }) {
           <span className="text-xs text-muted-foreground">
             Fit {match.fit_score}/100
           </span>
+          <SourceLink href={match.source_url} label={sourceDate(match.source_retrieved_on)} />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SkillCard({ match }: { match: SkillMatchView }) {
+  return (
+    <Card size="sm" className="rounded-lg">
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <CardTitle>{match.skill.title}</CardTitle>
+            <CardDescription>{skillKindLabel(match.skill.skill_kind)}</CardDescription>
+          </div>
+          <Badge variant={match.directness === "direct" ? "default" : "outline"}>
+            {directnessLabel(match.directness)}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm leading-6">{match.skill.summary}</p>
+        <p className="text-sm leading-6 text-muted-foreground">{match.rationale}</p>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-xs text-muted-foreground">Fit {match.fit_score}/100</span>
           <SourceLink href={match.source_url} label={sourceDate(match.source_retrieved_on)} />
         </div>
       </CardContent>
@@ -340,6 +376,27 @@ export default function CareerTransitionClient({
                   label={sourceDate(selected.specialty.source_retrieved_on)}
                 />
               </div>
+            </section>
+
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
+                <GraduationCap className="size-4 text-muted-foreground" />
+                <h3 className="font-semibold">Skills and credentials</h3>
+              </div>
+              {selected.skills.length > 0 ? (
+                <div className="grid gap-3 xl:grid-cols-2">
+                  {selected.skills.map((match) => (
+                    <SkillCard key={match.skill.slug} match={match} />
+                  ))}
+                </div>
+              ) : (
+                <Card className="rounded-lg border-dashed">
+                  <CardContent className="p-4 text-sm text-muted-foreground">
+                    No civilian skills are mapped for this specialty yet. This section stays
+                    empty rather than borrowing another specialty&rsquo;s skills.
+                  </CardContent>
+                </Card>
+              )}
             </section>
 
             <section className="space-y-3">

@@ -96,6 +96,31 @@ export interface SpecialtyEmployerMatch {
   source_retrieved_on: string;
 }
 
+export type SkillKind = "technical" | "domain" | "credential" | "clearance" | "safety";
+
+export interface TransitionSkill {
+  id: number;
+  slug: string;
+  title: string;
+  skill_kind: SkillKind;
+  summary: string;
+  listing_keywords: string[];
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
+export interface SpecialtySkillMatch {
+  specialty_id: number;
+  skill_id: number;
+  fit_score: number;
+  directness: MatchDirectness;
+  rationale: string;
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
 export interface RoleMatchView extends SpecialtyRoleMatch {
   role: CivilianTransitionRole;
 }
@@ -105,16 +130,22 @@ export interface EmployerMatchView extends SpecialtyEmployerMatch {
   mapped_location_count: number | null;
 }
 
+export interface SkillMatchView extends SpecialtySkillMatch {
+  skill: TransitionSkill;
+}
+
 export interface SpecialtyMatchView {
   specialty: MilitarySpecialty;
   roles: RoleMatchView[];
   employers: EmployerMatchView[];
+  skills: SkillMatchView[];
 }
 
 export interface CareerTransitionCatalog {
   specialties: MilitarySpecialty[];
   roles: CivilianTransitionRole[];
   employers: TransitionEmployer[];
+  skills: TransitionSkill[];
   matches: SpecialtyMatchView[];
   source: "database" | "csv_fallback";
 }
