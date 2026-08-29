@@ -113,6 +113,7 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 
 ## Caveats
 
+- **Uncovered specialty → empty result, never a nearby code.** This bundle is a curated seed, not complete military-occupation coverage. When a user's specialty is not seeded, or their vernacular is ambiguous ("electrician", "nuke", "intel"), the matcher must return an empty result with an explanation, or ask which specialty they mean — it must **never** substitute the nearest seeded neighbor. Substring search treats "navy electrician" as a hit on the aviation rate `AE` (Aviation Electrician's Mate); shipboard `EM` is a different rate with different civilian paths. Resolving to `AE` would recommend avionics jobs to a ship electrician. `resolveSpecialty` (issue #221) owns this decision so search convenience can never override it: code owns the match, the model only narrates.
 - Current postings change quickly. `snapshot_date` and `source_retrieved_on` are required for every employer match.
 - Ordnance employer matches are curated system-fit snapshots, not claims that a specialty usually feeds a specific employer.
 - System tags such as Mk 41 VLS, CIWS, Mk 45, aviation ordnance, ammunition, fire control, and electro-optical systems should be treated as user-profile refinements when more granular service history is available.
