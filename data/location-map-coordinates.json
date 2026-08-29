@@ -115,39 +115,11 @@
       "longitude": -117.675848
     },
     {
-      "name": "Sacramento",
-      "state": "CA",
-      "census_place_geoid": "0664000",
-      "latitude": 38.567694,
-      "longitude": -121.468161
-    },
-    {
       "name": "San Diego",
       "state": "CA",
       "census_place_geoid": "0666000",
       "latitude": 32.814977,
       "longitude": -117.135562
-    },
-    {
-      "name": "Santa Ana",
-      "state": "CA",
-      "census_place_geoid": "0669000",
-      "latitude": 33.736332,
-      "longitude": -117.8829
-    },
-    {
-      "name": "Santa Clara",
-      "state": "CA",
-      "census_place_geoid": "0669084",
-      "latitude": 37.364621,
-      "longitude": -121.967973
-    },
-    {
-      "name": "Tehachapi",
-      "state": "CA",
-      "census_place_geoid": "0678092",
-      "latitude": 35.142959,
-      "longitude": -118.446036
     },
     {
       "name": "Victorville",
@@ -199,13 +171,6 @@
       "longitude": -108.567452
     },
     {
-      "name": "Littleton",
-      "state": "CO",
-      "census_place_geoid": "0845255",
-      "latitude": 39.590375,
-      "longitude": -105.020084
-    },
-    {
       "name": "Pueblo",
       "state": "CO",
       "census_place_geoid": "0862000",
@@ -239,13 +204,6 @@
       "census_place_geoid": "1215475",
       "latitude": 30.747932,
       "longitude": -86.579275
-    },
-    {
-      "name": "Fort Walton Beach",
-      "state": "FL",
-      "census_place_geoid": "1224475",
-      "latitude": 30.424904,
-      "longitude": -86.621762
     },
     {
       "name": "Jacksonville",
@@ -409,13 +367,6 @@
       "longitude": -89.617198
     },
     {
-      "name": "Bloomington",
-      "state": "IN",
-      "census_place_geoid": "1805860",
-      "latitude": 39.1637,
-      "longitude": -86.524264
-    },
-    {
       "name": "Fort Wayne",
       "state": "IN",
       "census_place_geoid": "1825000",
@@ -512,13 +463,6 @@
       "census_place_geoid": "2572600",
       "latitude": 42.388921,
       "longitude": -71.242268
-    },
-    {
-      "name": "Wilmington",
-      "state": "MA",
-      "census_place_geoid": "2580195",
-      "latitude": 42.564647,
-      "longitude": -71.164516
     },
     {
       "name": "Baltimore",
@@ -626,13 +570,6 @@
       "longitude": -111.29997
     },
     {
-      "name": "Libby",
-      "state": "MT",
-      "census_place_geoid": "3043450",
-      "latitude": 48.386421,
-      "longitude": -115.556701
-    },
-    {
       "name": "Missoula",
       "state": "MT",
       "census_place_geoid": "3050200",
@@ -731,13 +668,6 @@
       "longitude": -71.444131
     },
     {
-      "name": "Nashua",
-      "state": "NH",
-      "census_place_geoid": "3350260",
-      "latitude": 42.749074,
-      "longitude": -71.490544
-    },
-    {
       "name": "Camden",
       "state": "NJ",
       "census_place_geoid": "3410000",
@@ -750,13 +680,6 @@
       "census_place_geoid": "3457000",
       "latitude": 40.914766,
       "longitude": -74.162829
-    },
-    {
-      "name": "Trenton",
-      "state": "NJ",
-      "census_place_geoid": "3474000",
-      "latitude": 40.223841,
-      "longitude": -74.763624
     },
     {
       "name": "Albuquerque",
@@ -1079,13 +1002,6 @@
       "census_place_geoid": "4853388",
       "latitude": 31.880461,
       "longitude": -102.345314
-    },
-    {
-      "name": "Plano",
-      "state": "TX",
-      "census_place_geoid": "4858016",
-      "latitude": 33.050769,
-      "longitude": -96.747944
     },
     {
       "name": "San Antonio",
