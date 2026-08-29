@@ -190,6 +190,17 @@ export interface LocationRow {
 
   /** Monthly median gross rent, dollars. ACS 5-year B25064. */
   median_rent?: number | null;
+  /**
+   * Entry-level home value, dollars: ACS 5-year B25076, the lower value
+   * quartile (25th percentile) of the owner-occupied stock's self-reported
+   * value. A formal percentile, not "cheapest listing" — and stock value,
+   * not sale price (issue #170).
+   */
+  entry_home_value?: number | null;
+  /** Monthly median gross rent for 2-bedroom units, dollars. ACS B25031. */
+  median_rent_2br?: number | null;
+  /** Monthly median gross rent for 3-bedroom units, dollars. ACS B25031. */
+  median_rent_3br?: number | null;
   /** Effective annual property tax as a fraction of home value. */
   property_tax_rate?: number | null;
   /** BEA RPP components (100 = US average). Joined from location_cost_rpp. */
@@ -409,6 +420,55 @@ export interface DefenseEmployerLocationRow {
   source_retrieved_on: string | null;
   is_featured: boolean;
   notes: string | null;
+}
+
+/**
+ * One defense-industry job listing on the standalone /defense-jobs page
+ * (`defense_job_listings`, imported from master_defense_jobs.csv). Independent of
+ * locations_location and not a Fit-score factor. `latitude`/`longitude` are NULL
+ * for remote/nationwide rows (kept in the list, absent from the map).
+ */
+export interface DefenseJobListingRow {
+  id: number;
+  company: string;
+  employer_slug: string | null;
+  ats: string | null;
+  title: string;
+  field_raw: string | null;
+  sector: string;
+  location_raw: string | null;
+  city: string | null;
+  state: string | null;
+  country: string;
+  region: string | null;
+  is_remote: boolean;
+  latitude: number | null;
+  longitude: number | null;
+  employment_type: string | null;
+  pay_min: number | null;
+  pay_max: number | null;
+  pay_interval: string | null;
+  education: string | null;
+  url: string;
+}
+
+/**
+ * Aggregate per-city posting counts for an already-tracked defense employer
+ * (`defense_employer_locations` joined to `defense_employers`). Used by
+ * /defense-jobs as count-only map markers for employers we track but have no
+ * individual listings for (Raytheon, L3Harris, Anduril, Leidos, System High).
+ */
+export interface DefenseEmployerCityCount {
+  employer_slug: string;
+  display_name: string;
+  city: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+  onsite: number;
+  hybrid: number;
+  remote: number;
+  total: number;
 }
 
 /** A mosque plotted on the standalone /mosques map (`mosques`, sourced from OpenStreetMap). */

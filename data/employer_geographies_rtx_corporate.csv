@@ -1,0 +1,4 @@
+City,State,County,GeoType,IsCandidate,Latitude,Longitude,BoundarySource
+Middletown,RI,Newport,city,No,41.54566630958463,-71.29143942041404,USGS GNIS Populated Place (ID 1220013)
+East Granby,CT,Capitol,city,No,41.9300568,-72.7453747,Census TIGERweb county subdivision 0911022070 internal point
+St Louis Park,MN,Hennepin,city,No,44.948305883526565,-93.34801287042805,USGS GNIS Populated Place (ID 650797)

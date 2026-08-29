@@ -25,7 +25,8 @@ type NavKey =
   | "veteran-benefits"
   | "electricity"
   | "politics"
-  | "mosques";
+  | "mosques"
+  | "defense-jobs";
 
 const LINKS: { key: NavKey; href: string; label: string }[] = [
   { key: "home", href: "/", label: "Home" },
@@ -47,6 +48,7 @@ const DATA_LINKS: { key: NavKey; href: string; label: string; description: strin
   { key: "veteran-benefits", href: "/veteran-benefits", label: "Veteran Benefits", description: "State-created veteran benefit rankings" },
   { key: "electricity", href: "/electricity", label: "Electricity", description: "Residential electricity prices" },
   { key: "mosques", href: "/mosques", label: "Mosques", description: "Find a mosque near a retirement city" },
+  { key: "defense-jobs", href: "/defense-jobs", label: "Defense Jobs", description: "Defense-industry openings by employer & sector" },
 ];
 
 export default function PublicNav({ active }: { active?: NavKey }) {

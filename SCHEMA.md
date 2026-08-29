@@ -152,7 +152,7 @@ may inherit from is per-field**, and every resolved value carries provenance
 | `climate`, `snow_annual`, `rain_annual`, `sun_days`, `alw`, `avg_high_summer`, `humidity_summer` | nearest station | normals travel 20–50 mi |
 | `col_index`, `cost_of_living`, `*_rpp`, `bea_geo_*` | metro (CBSA) | BEA publishes RPP per MSA by construction |
 | `has_va`, `nearest_va*`, `distance_to_va*` | **recompute** | run `sync-va-facilities.ts`; never inherit a 25-mile access gate |
-| `population`, `density`, `median_rent`, `avg_home_value*`, `has_walmart`, `has_costco`, `near_*`, `vibes`, `tags` | **none** | inheriting a 3.8M city population onto a 60k neighborhood is the worst failure this prevents |
+| `population`, `density`, `median_rent`, `median_rent_2br`, `median_rent_3br`, `avg_home_value*`, `entry_home_value`, `has_walmart`, `has_costco`, `near_*`, `vibes`, `tags` | **none** | inheriting a 3.8M city population onto a 60k neighborhood is the worst failure this prevents |
 
 The registry is `satisfies Record<InheritableField, FieldRule>`, so **adding a
 column to `LocationRow` without declaring a policy for it is a compile error.**
@@ -187,6 +187,8 @@ researched value.
 - **Income**: State income tax percentage (0.00 = no income tax)
 - **COL**: Cost of Living index (100 = national average). Derived from `location_cost_rpp.all_items_rpp` (BEA Regional Price Parity, "All items") via `scripts/sync-col-index-from-rpp.ts`, run as a required follow-up after any location import — no longer hand-researched per city from a cost-of-living website. Still used by the categorical Fit score; the affordability engine should not decompose it (see issue #52).
 - **median_rent**: Monthly median gross rent in dollars (ACS 5-year table B25064). Gross rent includes utilities, matching the affordability model's renter housing term. Place-level matches are preferred; county fallbacks are listed in `data/sources/rent/match-report.md`. Refresh with `scripts/import-median-rent.ts`.
+- **median_rent_2br** / **median_rent_3br**: Monthly median gross rent by bedroom count (ACS 5-year table B25031), same gross-rent definition as `median_rent` so the three stay comparable. Bedroom medians suppress in small places, so coverage is thinner than `median_rent`; county fallback is per column and flagged in `data/sources/housing-metrics/match-report.md`. Refresh with `scripts/import-housing-metrics.ts` (issue #170).
+- **entry_home_value**: The formal entry-level home value in dollars — ACS 5-year table B25076, the lower value quartile (25th percentile) of the owner-occupied stock's self-reported value. A percentile by construction (one fixer-upper can never make a city look cheap), but STOCK value across all structure types, not the sale price of a detached single-family home — the trade documented in issue #170. Refresh with `scripts/import-housing-metrics.ts`.
 - **property_tax_rate**: Effective annual property tax as a fraction of home value (e.g. `0.01250` = 1.25%), not a percent. Refresh with `scripts/import-property-tax.ts`.
 - **avg_home_value** / **avg_home_value_display**: Typical home value (ZHVI) used by ownership tenures in the affordability model.
 
@@ -297,6 +299,15 @@ ontology/method versions, assignment date, and paired review metadata. A feature
 value can support an assignment but never creates one automatically. Create the
 table with `city-profile-stack/scripts/migrations/migrate-location-genre-assignments.ts`;
 the migration does not alter `locations_location`.
+
+Import assignments with
+`city-profile-stack/scripts/import/import-location-genre-assignments.ts <source.json>`.
+The source file must declare `ontology_version`, `method_version`, and explicit
+city assignments. Each assignment cites existing feature, profile-signal,
+and/or dossier keys; prose notes alone are not evidence. The importer validates
+those references against the target city, rejects multiple primary genres at
+one level, and writes all supplied rows in one transaction. It never infers an
+assignment or confidence value.
 
 **Similarity is a profile, not a scalar, and ranking is conjunctive.** The first version averaged absolute differences across all features and ranked Sierra Vista AZ as the 3rd most similar city to Billings MT (0.854) — two places differing by ~56 inches of annual snow. One categorical mismatch was averaged against twenty near-matches and disappeared. Raising the norm did not help (Sierra Vista rose to 2nd at p=3): the aggregator's shape was never the problem. Compatibility between places is **conjunctive** — a city is "like" another only if nothing about it would blindside you — whereas a mean models the opposite, that abundance on one axis compensates for absence on another. Ranking therefore uses the **weakest category**, with overall as a tiebreak, and any feature diverging by ≥0.30 is reported outright. Sierra Vista now ranks 11th with `climate 0.71` and `snow_burden 0.61` named explicitly. Use `--explain "Other City, ST"` for a full pairwise profile.
 
