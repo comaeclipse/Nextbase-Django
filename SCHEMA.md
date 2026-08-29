@@ -440,6 +440,64 @@ Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It 
 
 ---
 
+## Career transition (military specialty → civilian)
+
+Five tables back `/career-transition` (`lib/career-transition.ts`), a **curated hand-built graph** that maps a military specialty to civilian roles and transition employers. It is a **seed, not complete military-occupation coverage** — v1 covers an aviation-maintenance slice plus first ordnance/weapons, cyber, and electronic-warfare expansions (see `data/career-transition/sources.md`). It is **not a Fit-score factor** and is independent of `locations_location`; the only cross-link is the optional `defense_employers.slug` reference below.
+
+Matching is CSV edges sorted by `fit_score`, then `directness`. Every curated row carries provenance (`source_kind` / `source_url` / `source_retrieved_on`); `specialty_employer_matches` additionally carries a `snapshot_date` because postings change fast. Seeds live in `data/career-transition/*.csv`; `scripts/migrate-career-transition.ts` creates the tables and `scripts/import-career-transition.ts` loads the CSVs. `getCareerTransitionCatalog()` reads the DB and **falls back to the CSV bundle** (`loadCareerTransitionCsvCatalog`) when the tables are absent/empty, so the two must stay in sync.
+
+### `military_specialties`
+
+One row per branch specialty (rating / MOS / AFSC / rate). `id bigserial PK`.
+
+- **branch**: `army | navy | air_force | marine_corps | coast_guard | space_force`
+- **code_system** / **code**: e.g. `Rating` + `AE`, `MOS` + `15F`. `code` is stored upper-cased and space-stripped
+- **title**: e.g. `Aviation Electrician's Mate`
+- **population**: `enlisted | warrant | officer` (CHECK-constrained; default `enlisted`)
+- **status**: `current | legacy | unknown` (CHECK-constrained; default `current`)
+- **source_kind** / **source_url** / **source_retrieved_on**: provenance (required)
+- Unique on `(branch, code_system, code)`; indexed on `(branch, code)`
+
+### `civilian_transition_roles`
+
+O*NET-anchored civilian roles a specialty can transition into. `id bigserial PK`.
+
+- **slug** (unique) / **title** / **role_family**
+- **onet_soc_code**: nullable SOC code, e.g. `49-2094.00`
+- **summary** / **credential_notes** (nullable)
+- **source_kind** / **source_url** / **source_retrieved_on**
+
+### `specialty_role_matches`
+
+Edge: which roles a specialty maps to. PK `(specialty_id, role_id)`, both FK `ON DELETE CASCADE`.
+
+- **fit_score**: integer, CHECK `0..100`
+- **directness**: `direct | adjacent | requires_gap` (CHECK-constrained)
+- **rationale** + provenance
+
+### `transition_employers`
+
+Employers that hire out of these specialties. `id bigserial PK`.
+
+- **slug** (unique) / **display_name** / **parent_company** (nullable)
+- **employer_type**: `oem | defense_contractor | mro | civilian_operator | commercial_cyber` (CHECK-constrained)
+- **defense_employer_slug**: **optional** FK to `defense_employers(slug)`, indexed where non-null. Present only for employers that already exist in the VetRetire defense footprint; a mapped VetRetire location count is computed at read time (distinct `defense_employer_locations` with a positive posting count) **only** for these. An unmapped employer means "not yet mapped," **not** "no locations" — civilian operators and commercial-cyber employers are intentionally *not* inserted into `defense_employers`
+- **website_url** / **notes** (nullable) + provenance
+
+### `specialty_employer_matches`
+
+Edge: which employers a specialty maps to. PK `(specialty_id, employer_id)`, both FK `ON DELETE CASCADE`.
+
+- **fit_score** (`0..100`) / **directness** (`direct | adjacent | requires_gap`)
+- **platform_tags**: `text[]` of system/platform refinements (e.g. `Mk 41 VLS`, `SLQ-32`) — treat as user-profile refinements, not standalone match reasons
+- **requires_ap** / **values_ap** / **requires_clearance** / **values_clearance** / **requires_faa** / **requires_fcc**: boolean credential/clearance signals
+- **snapshot_date**: when the posting picture was captured
+- **rationale** + provenance
+
+> **Chat scope & honesty (Phases 0–4):** chat (`/chat`, `app/api/chat/route.ts`) is **city-only** and has **no career tool** until Phase 4 of the Career Transition project. Because the specialty graph is a seed, an uncovered specialty must return an **empty result with an explanation, never a nearby code** — substring search treats "navy electrician" as a hit on the aviation rate `AE`, which is exactly the mismatch the resolver (`resolveSpecialty`, issue #221) and the honesty rule in `sources.md` exist to prevent. Code owns the match; the model only narrates.
+
+---
+
 ## Military installations
 
 Military installations are stored separately from defense employers because a command is a public facility, not a contractor or job-posting footprint. This is the data layer for the **near a base** radius filter. It does **not** feed `defense_hub`.
