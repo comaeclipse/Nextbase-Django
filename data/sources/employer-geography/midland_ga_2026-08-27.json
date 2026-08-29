@@ -1,0 +1,429 @@
+[
+  {
+    "kind": "gnis",
+    "url": "https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer/3/query?where=gaz_id%3D318098&outFields=gaz_id%2Cgaz_name%2Cgaz_featureclass%2Cstate_alpha%2Ccounty_name&returnGeometry=true&outSR=4326&f=json",
+    "retrievedAt": "2026-08-27T17:44:36.373Z",
+    "response": {
+      "displayFieldName": "gaz_name",
+      "fieldAliases": {
+        "gaz_id": "gaz_id",
+        "gaz_name": "gaz_name",
+        "gaz_featureclass": "gaz_featureclass",
+        "state_alpha": "state_alpha",
+        "county_name": "county_name"
+      },
+      "geometryType": "esriGeometryMultipoint",
+      "spatialReference": {
+        "wkid": 4326,
+        "latestWkid": 4326
+      },
+      "fields": [
+        {
+          "name": "gaz_id",
+          "type": "esriFieldTypeInteger",
+          "alias": "gaz_id"
+        },
+        {
+          "name": "gaz_name",
+          "type": "esriFieldTypeString",
+          "alias": "gaz_name",
+          "length": 120
+        },
+        {
+          "name": "gaz_featureclass",
+          "type": "esriFieldTypeString",
+          "alias": "gaz_featureclass",
+          "length": 50
+        },
+        {
+          "name": "state_alpha",
+          "type": "esriFieldTypeString",
+          "alias": "state_alpha",
+          "length": 1073741822
+        },
+        {
+          "name": "county_name",
+          "type": "esriFieldTypeString",
+          "alias": "county_name",
+          "length": 100
+        }
+      ],
+      "features": [
+        {
+          "attributes": {
+            "gaz_id": 318098,
+            "gaz_name": "Midland",
+            "gaz_featureclass": "Populated Place",
+            "state_alpha": "GA",
+            "county_name": "Muscogee"
+          },
+          "geometry": {
+            "points": [
+              [
+                -84.82715626894138,
+                32.57486696455997
+              ]
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "kind": "census_point",
+    "url": "https://geocoding.geo.census.gov/geocoder/geographies/coordinates?benchmark=Public_AR_Current&vintage=Current_Current&format=json&x=-84.827156&y=32.574867",
+    "retrievedAt": "2026-08-27T17:44:36.722Z",
+    "response": {
+      "result": {
+        "geographies": {
+          "States": [
+            {
+              "STATENS": "01705317",
+              "GEOID": "13",
+              "CENTLAT": "+32.6279417",
+              "AREAWATER": "4417034407",
+              "STATE": "13",
+              "BASENAME": "Georgia",
+              "STUSAB": "GA",
+              "OID": "2749048077737",
+              "LSADC": "00",
+              "FUNCSTAT": "A",
+              "INTPTLAT": "+32.6295789",
+              "DIVISION": "5",
+              "NAME": "Georgia",
+              "REGION": "3",
+              "OBJECTID": 33,
+              "CENTLON": "-083.4165286",
+              "AREALAND": "149487949628",
+              "INTPTLON": "-083.4235109",
+              "MTFCC": "G4000"
+            }
+          ],
+          "Combined Statistical Areas": [
+            {
+              "POP100": "",
+              "GEOID": "194",
+              "CENTLAT": "+32.5086306",
+              "AREAWATER": "244281105",
+              "BASENAME": "Columbus-Auburn-Opelika, GA-AL",
+              "OID": "2619034687908004",
+              "LSADC": "M0",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+32.5127726",
+              "NAME": "Columbus-Auburn-Opelika, GA-AL CSA",
+              "OBJECTID": 104,
+              "CSA": "194",
+              "CENTLON": "-085.1690010",
+              "INTPTLON": "-085.1695982",
+              "AREALAND": "12221820563",
+              "HU100": "",
+              "MTFCC": "G3100"
+            }
+          ],
+          "County Subdivisions": [
+            {
+              "COUSUB": "90752",
+              "GEOID": "1321590752",
+              "CENTLAT": "+32.5646806",
+              "AREAWATER": "7940255",
+              "STATE": "13",
+              "BASENAME": "Columbus North",
+              "OID": "276903717912238",
+              "LSADC": "22",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+32.5600952",
+              "NAME": "Columbus North CCD",
+              "OBJECTID": 35105,
+              "CENTLON": "-084.8982026",
+              "COUSUBCC": "Z5",
+              "AREALAND": "223336860",
+              "INTPTLON": "-084.8937259",
+              "MTFCC": "G4040",
+              "COUSUBNS": "02583409",
+              "COUNTY": "215"
+            }
+          ],
+          "Incorporated Places": [
+            {
+              "DISP_CLR": 4,
+              "NECTAPCI": "N",
+              "GEOID": "1319000",
+              "CENTLAT": "+32.5099571",
+              "AREAWATER": "11683932",
+              "BASENAME": "Columbus",
+              "STATE": "13",
+              "OID": "27890383562663",
+              "LSADC": "25",
+              "PLACE": "19000",
+              "FUNCSTAT": "A",
+              "INTPTLAT": "+32.5107420",
+              "NAME": "Columbus city",
+              "OBJECTID": 32113,
+              "PLACECC": "C1",
+              "CENTLON": "-084.8770366",
+              "CBSAPCI": "Y",
+              "AREALAND": "560731676",
+              "INTPTLON": "-084.8740980",
+              "PLACENS": "02404111",
+              "MTFCC": "G4110"
+            }
+          ],
+          "Counties": [
+            {
+              "GEOID": "13215",
+              "CENTLAT": "+32.5099571",
+              "AREAWATER": "11683932",
+              "STATE": "13",
+              "BASENAME": "Muscogee",
+              "OID": "27590383551548",
+              "LSADC": "06",
+              "FUNCSTAT": "C",
+              "INTPTLAT": "+32.5107420",
+              "NAME": "Muscogee County",
+              "OBJECTID": 487,
+              "CENTLON": "-084.8770366",
+              "COUNTYCC": "H6",
+              "COUNTYNS": "00357428",
+              "AREALAND": "560731676",
+              "INTPTLON": "-084.8740980",
+              "MTFCC": "G4020",
+              "COUNTY": "215"
+            }
+          ],
+          "2024 State Legislative Districts - Upper": [
+            {
+              "GEOID": "13029",
+              "CENTLAT": "+32.9153147",
+              "AREAWATER": "125634706",
+              "STATE": "13",
+              "BASENAME": "29",
+              "OID": "2129035952733189",
+              "SLDU": "029",
+              "LSADC": "LU",
+              "FUNCSTAT": "N",
+              "INTPTLAT": "+32.9134205",
+              "NAME": "State Senate District 29",
+              "OBJECTID": 754,
+              "CENTLON": "-084.8700810",
+              "LSY": "2024",
+              "AREALAND": "3792602918",
+              "INTPTLON": "-084.8714360",
+              "MTFCC": "G5210",
+              "LDTYP": "O"
+            }
+          ],
+          "2024 State Legislative Districts - Lower": [
+            {
+              "GEOID": "13137",
+              "CENTLAT": "+32.7399716",
+              "SLDL": "137",
+              "AREAWATER": "13182958",
+              "STATE": "13",
+              "BASENAME": "137",
+              "OID": "2139035952733263",
+              "LSADC": "LL",
+              "FUNCSTAT": "N",
+              "INTPTLAT": "+32.7308345",
+              "NAME": "State House District 137",
+              "OBJECTID": 3908,
+              "CENTLON": "-084.6643291",
+              "LSY": "2024",
+              "AREALAND": "1845375335",
+              "INTPTLON": "-084.6570071",
+              "MTFCC": "G5220",
+              "LDTYP": "O"
+            }
+          ],
+          "2020 Census Blocks": [
+            {
+              "SUFFIX": "",
+              "GEOID": "132150101101015",
+              "CENTLAT": "+32.5645959",
+              "BLOCK": "1015",
+              "AREAWATER": "15509",
+              "STATE": "13",
+              "BASENAME": "1015",
+              "OID": "210701005173551",
+              "LSADC": "BK",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+32.5645767",
+              "NAME": "Block 1015",
+              "OBJECTID": 995812,
+              "TRACT": "010110",
+              "CENTLON": "-084.8408759",
+              "BLKGRP": "1",
+              "AREALAND": "2567180",
+              "INTPTLON": "-084.8409470",
+              "MTFCC": "G5040",
+              "LWBLKTYP": "B",
+              "UR": "R",
+              "COUNTY": "215"
+            }
+          ],
+          "Census Tracts": [
+            {
+              "GEOID": "13215010110",
+              "CENTLAT": "+32.5680231",
+              "AREAWATER": "140706",
+              "STATE": "13",
+              "BASENAME": "101.10",
+              "OID": "2079015489671353",
+              "LSADC": "CT",
+              "FUNCSTAT": "S",
+              "INTPTLAT": "+32.5695909",
+              "NAME": "Census Tract 101.10",
+              "OBJECTID": 55218,
+              "TRACT": "010110",
+              "CENTLON": "-084.8662785",
+              "AREALAND": "23968058",
+              "INTPTLON": "-084.8689100",
+              "MTFCC": "G5020",
+              "COUNTY": "215"
+            }
+          ],
+          "119th Congressional Districts": [
+            {
+              "GEOID": "1302",
+              "CENTLAT": "+31.7665079",
+              "CDSESSN": "119",
+              "AREAWATER": "431273272",
+              "BASENAME": "2",
+              "STATE": "13",
+              "OID": "2119035952732977",
+              "LSADC": "C2",
+              "FUNCSTAT": "N",
+              "INTPTLAT": "+31.7569607",
+              "NAME": "Congressional District 2",
+              "OBJECTID": 433,
+              "CENTLON": "-084.4014304",
+              "CD119": "02",
+              "AREALAND": "25778838315",
+              "INTPTLON": "-084.3887329",
+              "MTFCC": "G5200"
+            }
+          ]
+        },
+        "input": {
+          "vintage": {
+            "isDefault": true,
+            "id": "4",
+            "vintageName": "Current_Current",
+            "vintageDescription": "Current Vintage - Current Benchmark"
+          },
+          "location": {
+            "x": -84.827156,
+            "y": 32.574867
+          },
+          "benchmark": {
+            "isDefault": true,
+            "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+            "id": "4",
+            "benchmarkName": "Public_AR_Current"
+          }
+        }
+      }
+    }
+  },
+  {
+    "kind": "midland_place_search_4",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4/query?where=STATE%3D%2713%27+AND+BASENAME+LIKE+%27Midland%25%27&outFields=GEOID%2CNAME%2CSTATE&returnGeometry=false&f=json",
+    "retrievedAt": "2026-08-27T17:44:36.995Z",
+    "response": {
+      "displayFieldName": "BASENAME",
+      "fieldAliases": {
+        "GEOID": "GEOID",
+        "NAME": "NAME",
+        "STATE": "STATE"
+      },
+      "fields": [
+        {
+          "name": "GEOID",
+          "type": "esriFieldTypeString",
+          "alias": "GEOID",
+          "length": 7
+        },
+        {
+          "name": "NAME",
+          "type": "esriFieldTypeString",
+          "alias": "NAME",
+          "length": 100
+        },
+        {
+          "name": "STATE",
+          "type": "esriFieldTypeString",
+          "alias": "STATE",
+          "length": 2
+        }
+      ],
+      "features": []
+    }
+  },
+  {
+    "kind": "midland_place_search_5",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/5/query?where=STATE%3D%2713%27+AND+BASENAME+LIKE+%27Midland%25%27&outFields=GEOID%2CNAME%2CSTATE&returnGeometry=false&f=json",
+    "retrievedAt": "2026-08-27T17:44:37.257Z",
+    "response": {
+      "displayFieldName": "BASENAME",
+      "fieldAliases": {
+        "GEOID": "GEOID",
+        "NAME": "NAME",
+        "STATE": "STATE"
+      },
+      "fields": [
+        {
+          "name": "GEOID",
+          "type": "esriFieldTypeString",
+          "alias": "GEOID",
+          "length": 7
+        },
+        {
+          "name": "NAME",
+          "type": "esriFieldTypeString",
+          "alias": "NAME",
+          "length": 100
+        },
+        {
+          "name": "STATE",
+          "type": "esriFieldTypeString",
+          "alias": "STATE",
+          "length": 2
+        }
+      ],
+      "features": []
+    }
+  },
+  {
+    "kind": "cbsa_point",
+    "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/CBSA/MapServer/3/query?geometry=-84.827156%2C32.574867&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=GEOID%2CNAME&returnGeometry=false&f=json",
+    "retrievedAt": "2026-08-27T17:45:27.921Z",
+    "response": {
+      "displayFieldName": "BASENAME",
+      "fieldAliases": {
+        "GEOID": "GEOID",
+        "NAME": "NAME"
+      },
+      "fields": [
+        {
+          "name": "GEOID",
+          "type": "esriFieldTypeString",
+          "alias": "GEOID",
+          "length": 5
+        },
+        {
+          "name": "NAME",
+          "type": "esriFieldTypeString",
+          "alias": "NAME",
+          "length": 100
+        }
+      ],
+      "features": [
+        {
+          "attributes": {
+            "GEOID": "17980",
+            "NAME": "Columbus, GA-AL Metro Area"
+          }
+        }
+      ]
+    }
+  }
+]

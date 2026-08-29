@@ -428,3 +428,55 @@ body:has(> .city-page) { background: var(--bg); }
     .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .kpi { padding: .9rem; }
 }
+
+/* ── Geo provenance (contained geographies only) ──
+   These class names appear only when a value was inherited from a containing
+   geography, which is never true for a row without a parent. Every curated
+   city page therefore emits exactly the DOM it did before, so pixel parity is
+   unreachable rather than merely preserved. New class names only -- no element
+   or document-wide selectors, per the cascade note in CLAUDE.md. */
+.spec-src {
+    display: inline;
+    margin-left: .4rem;
+    font-weight: 400;
+    font-size: .72rem;
+    color: var(--fg-subtle);
+    white-space: nowrap;
+}
+.spec-src::before { content: "· "; }
+
+.geo-note {
+    margin: 0 0 1.25rem;
+    padding: .7rem .9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--primary-soft);
+    font-size: .84rem;
+    line-height: 1.5;
+    color: var(--fg-muted);
+}
+
+/* ── Metro-level employment (candidate cities that share a CBSA with a
+   defense employer). Separated from the city's own employer rows on purpose:
+   these openings are in the region, not in the city, and merging them would
+   overstate. Renders only when metro siblings exist, so a city with none emits
+   exactly the DOM it did before. ── */
+.metro-employment {
+    margin-top: 1rem;
+    padding-top: .85rem;
+    border-top: 1px dashed var(--border);
+}
+.metro-employment-head {
+    margin-bottom: .35rem;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+}
+.metro-employment-note {
+    margin: .6rem 0 0;
+    font-size: .78rem;
+    line-height: 1.5;
+    color: var(--fg-muted);
+}

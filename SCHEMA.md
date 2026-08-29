@@ -65,12 +65,110 @@ Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudi
 
 ---
 
+## Geographic identity and hierarchy
+
+A row in `locations_location` is a **place**, not necessarily an incorporated
+city and not necessarily a retirement candidate. Two independent columns say
+which is which, and conflating them breaks immediately.
+
+- **`geo_type`**: what the place *is* — `city` | `neighborhood` | `cdp` | `county` | `metro`.
+- **`is_candidate`**: whether it is one of the curated retirement locations that
+  `/explore`, `/quiz`, `/map`, `/profile`, `/weather` and `/api/locations` rank.
+  Every ranked surface filters on **this**, never on `geo_type`.
+
+Los Angeles is `geo_type='city', is_candidate=false`: unambiguously a city, and
+it must exist so Canoga Park has a municipality to inherit sales tax and RPP
+from — but it is not somewhere you retire to. The same is true of the ~410 other
+places that carry defense-employer postings but were never curated.
+
+- **`slug`**: stable external key, `UNIQUE`. `ca-los-angeles`, `ca-los-angeles-canoga-park`.
+- **`parent_geo_id`**: canonical containment, `ON DELETE RESTRICT`. Null for a top-level place.
+- **`population_source` / `population_vintage` / `boundary_source` / `boundary_geoid`**:
+  geography provenance. A neighborhood population is an ACS tract aggregation or a
+  boundary project, not a Census Place count, and which one it is changes how much
+  weight the number carries. `boundary_geoid` is null exactly when no Census
+  geography exists for the place.
+- **`population_unavailable_reason`**: nullable text added by
+  `scripts/migrate-population-unavailable-reason.ts`. Only a non-candidate
+  neighborhood may omit population/source/vintage with an explicit reason and
+  sourced containment. This is not inherited. A supplied population still needs
+  source and vintage; ZIP population is not a substitute for a community boundary.
+  Candidate and CDP completeness requirements are unchanged.
+
+`import-csv.ts` resolves `ParentSlug` during dry-run and requires a same-state
+city/county parent. The live child upsert and containment edge use one SQL
+statement, so an edge failure also rolls back insertion-trigger employer links.
+
+`UNIQUE NULLS NOT DISTINCT (name, state, parent_geo_id)` closes a long-standing
+hole: `import-csv.ts` upserted on `(name, state)` with nothing enforcing it, so a
+second "Downtown, CA" silently overwrote the first.
+
+### `geo_relationships`
+
+The typed, multi-parent, time-bounded containment graph. Types:
+`municipal_containment`, `county_containment`, `metro_membership`,
+`precinct_containment`, `historical_annexation`.
+
+Both this table **and** `parent_geo_id` exist on purpose: the column is the
+canonical containment and the fast path, the table is the graph. Canoga Park is
+in LA city **and** LA County **and** the LA–Long Beach–Anaheim CBSA, and **each
+is the correct fallback geography for a different field**. One parent pointer
+cannot express that.
+
+The duplication means drift, so `scripts/verify-geo-hierarchy.ts` checks the
+column against the table (plus cycles, orphan and shadowed aliases, and slug
+well-formedness) and exits non-zero. Run it after any geography change.
+
+### `geo_aliases`
+
+Raw location strings that should resolve to a geography — employer feeds, USPS
+place names, former names. `normalized_key` is byte-identical to `locKey()` in
+`scripts/lib/defense-db.ts`.
+
+Mostly **not needed for exact matches**: production carries an `AFTER INSERT`
+trigger on `locations_location`, `trg_link_city_to_employer_locations`, which
+back-links `defense_employer_locations` rows by exact
+`lower(city)`/`upper(state)` whenever a location is inserted. Aliases are for
+strings that genuinely differ.
+
+### Views
+
+- **`geo_entities`** — the conceptual identity layer over `locations_location`.
+- **`geo_closure`** — transitive closure of the active graph, depth-capped at 6
+  as a cycle guard (plain SQL cannot express acyclicity; the verifier detects
+  the cycle itself).
+
+### Field inheritance (`lib/geo-inheritance.ts`)
+
+A geography that does not report a fact may inherit it, but **which geography it
+may inherit from is per-field**, and every resolved value carries provenance
+(`direct` | `inherited` | `derived` | `absent`).
+
+| field group | fallback | note |
+|---|---|---|
+| `sales_tax`, `lgbtq_rating`, `lgbtq_mei_score` | municipality | levied/scored per municipality |
+| `property_tax_rate` | county, then municipality | set by the assessing county |
+| `crime`, `tci`, `election_*`, `city_politics` | county/precinct → municipality, **`context_only`** | reported by a wider jurisdiction; must never render without a source label |
+| `climate`, `snow_annual`, `rain_annual`, `sun_days`, `alw`, `avg_high_summer`, `humidity_summer` | nearest station | normals travel 20–50 mi |
+| `col_index`, `cost_of_living`, `*_rpp`, `bea_geo_*` | metro (CBSA) | BEA publishes RPP per MSA by construction |
+| `has_va`, `nearest_va*`, `distance_to_va*` | **recompute** | run `sync-va-facilities.ts`; never inherit a 25-mile access gate |
+| `population`, `density`, `median_rent`, `median_rent_2br`, `median_rent_3br`, `avg_home_value*`, `entry_home_value`, `has_walmart`, `has_costco`, `near_*`, `vibes`, `tags` | **none** | inheriting a 3.8M city population onto a 60k neighborhood is the worst failure this prevents |
+
+The registry is `satisfies Record<InheritableField, FieldRule>`, so **adding a
+column to `LocationRow` without declaring a policy for it is a compile error.**
+
+`cost_of_living` and `climate` are nullable for this reason — a metro has no
+climate of its own, and forcing a placeholder makes it indistinguishable from a
+researched value.
+
 ## Location Model Fields
 
 ### Basic Location Information
 - **State**: Two-letter state abbreviation (e.g., "FL", "CA")
 - **City**: City name
 - **County**: County name
+- See [Geographic identity and hierarchy](#geographic-identity-and-hierarchy) for
+  `geo_type`, `is_candidate`, `slug` and `parent_geo_id`
 
 ### Political Information
 - **StateParty**: Political party controlling the state (R/D)
@@ -89,6 +187,8 @@ Migrate with `scripts/migrate-state-owned-fields.ts`, then import sourced adjudi
 - **Income**: State income tax percentage (0.00 = no income tax)
 - **COL**: Cost of Living index (100 = national average). Derived from `location_cost_rpp.all_items_rpp` (BEA Regional Price Parity, "All items") via `scripts/sync-col-index-from-rpp.ts`, run as a required follow-up after any location import — no longer hand-researched per city from a cost-of-living website. Still used by the categorical Fit score; the affordability engine should not decompose it (see issue #52).
 - **median_rent**: Monthly median gross rent in dollars (ACS 5-year table B25064). Gross rent includes utilities, matching the affordability model's renter housing term. Place-level matches are preferred; county fallbacks are listed in `data/sources/rent/match-report.md`. Refresh with `scripts/import-median-rent.ts`.
+- **median_rent_2br** / **median_rent_3br**: Monthly median gross rent by bedroom count (ACS 5-year table B25031), same gross-rent definition as `median_rent` so the three stay comparable. Bedroom medians suppress in small places, so coverage is thinner than `median_rent`; county fallback is per column and flagged in `data/sources/housing-metrics/match-report.md`. Refresh with `scripts/import-housing-metrics.ts` (issue #170).
+- **entry_home_value**: The formal entry-level home value in dollars — ACS 5-year table B25076, the lower value quartile (25th percentile) of the owner-occupied stock's self-reported value. A percentile by construction (one fixer-upper can never make a city look cheap), but STOCK value across all structure types, not the sale price of a detached single-family home — the trade documented in issue #170. Refresh with `scripts/import-housing-metrics.ts`.
 - **property_tax_rate**: Effective annual property tax as a fraction of home value (e.g. `0.01250` = 1.25%), not a percent. Refresh with `scripts/import-property-tax.ts`.
 - **avg_home_value** / **avg_home_value_display**: Typical home value (ZHVI) used by ownership tenures in the affordability model.
 
@@ -132,6 +232,15 @@ The affordability engine scales a named national basket, not a single leftover `
 - **TechHub**: Whether location is a technology hub (Y/N)
 - **DefenseHub**: Whether location has significant defense/military presence (Y/N). **Derived** — see [Defense hub (derived)](#defense-hub-derived); edit `defense_hub_manual`, never this column
 - **DefenseHubManual**: The hand-curated input to `DefenseHub`. Three-valued: `null` means "never researched", which is not `false`
+- **Employer presence rolls up the containment graph.** A facility inside a
+  neighborhood counts for that neighborhood *and* for every geography containing
+  it — a plant inside Los Angeles city limits is Los Angeles employment however
+  the job posting spells the location. It never rolls down. `getEmployerIndex`
+  sums descendant counts into the totals and names the contributors in
+  `rolled_up_from`, so the city page can say "incl. Canoga Park".
+- **Posting counts are a presence signal, never a job count.** They already sum
+  to more than an employer's job total because one posting can list several
+  cities; roll-up widens that.
 
 ### Retail Access
 - **HasWalmart** / **HasCostco**: Whether the city has an in-city Walmart or Costco location, sourced from official store/warehouse pages or another durable source. Stored as nullable booleans: `null` means unresearched or not yet backfilled, not a confirmed `false`.
@@ -190,6 +299,15 @@ ontology/method versions, assignment date, and paired review metadata. A feature
 value can support an assignment but never creates one automatically. Create the
 table with `city-profile-stack/scripts/migrations/migrate-location-genre-assignments.ts`;
 the migration does not alter `locations_location`.
+
+Import assignments with
+`city-profile-stack/scripts/import/import-location-genre-assignments.ts <source.json>`.
+The source file must declare `ontology_version`, `method_version`, and explicit
+city assignments. Each assignment cites existing feature, profile-signal,
+and/or dossier keys; prose notes alone are not evidence. The importer validates
+those references against the target city, rejects multiple primary genres at
+one level, and writes all supplied rows in one transaction. It never infers an
+assignment or confidence value.
 
 **Similarity is a profile, not a scalar, and ranking is conjunctive.** The first version averaged absolute differences across all features and ranked Sierra Vista AZ as the 3rd most similar city to Billings MT (0.854) — two places differing by ~56 inches of annual snow. One categorical mismatch was averaged against twenty near-matches and disappeared. Raising the norm did not help (Sierra Vista rose to 2nd at p=3): the aggregator's shape was never the problem. Compatibility between places is **conjunctive** — a city is "like" another only if nothing about it would blindside you — whereas a mean models the opposite, that abundance on one axis compensates for absence on another. Ranking therefore uses the **weakest category**, with overall as a tiebreak, and any feature diverging by ≥0.30 is reported outright. Sierra Vista now ranks 11th with `climate 0.71` and `snow_burden 0.61` named explicitly. Use `--explain "Other City, ST"` for a full pairwise profile.
 

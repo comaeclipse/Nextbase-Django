@@ -180,6 +180,11 @@ async function main() {
       ) d ON d.location_id = w.location_id AND d.month = w.month
       GROUP BY w.location_id
     ) mc ON mc.location_id = l.id
+    -- Candidates only. The formula-vs-ground-truth calibration this script
+    -- prints is fitted over the curated corpus; a structural parent such as
+    -- Los Angeles, or a neighborhood whose inputs are partly inherited, would
+    -- skew the fit while never being a place the features get consumed for.
+    WHERE l.is_candidate
     ORDER BY l.state, l.name
   `)) as Row[];
 

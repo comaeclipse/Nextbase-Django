@@ -7,6 +7,20 @@
  * typed as `string | null` and parsed where needed.
  */
 
+/**
+ * What a place *is*. Independent of whether it is ranked -- see
+ * `LocationRow.is_candidate`.
+ */
+export type GeoType = "city" | "neighborhood" | "cdp" | "county" | "metro";
+
+/** How one geography contains or belongs to another. */
+export type GeoRelationshipType =
+  | "municipal_containment"
+  | "county_containment"
+  | "metro_membership"
+  | "precinct_containment"
+  | "historical_annexation";
+
 export interface LocationRow {
   id: number;
   name: string;
@@ -15,9 +29,40 @@ export interface LocationRow {
   latitude?: number | null;
   longitude?: number | null;
 
+  // Geographic identity
+  /** Stable external key, e.g. "ca-los-angeles", "ca-los-angeles-canoga-park". */
+  slug: string;
+  geo_type: GeoType;
+  /**
+   * Whether this is one of the curated retirement locations that /explore,
+   * /quiz, /map and the API rank. Deliberately separate from `geo_type`: Los
+   * Angeles is unambiguously a city, has to exist so Canoga Park has a
+   * municipality to inherit sales tax and RPP from, and must never appear as a
+   * retirement candidate.
+   */
+  is_candidate: boolean;
+  /** Canonical containment. Null for a top-level place. */
+  parent_geo_id: number | null;
+
+  /*
+   * Geography provenance. A neighborhood population is an ACS tract
+   * aggregation or a boundary project, not a Census Place count, and which one
+   * it is changes how much weight the number carries.
+   */
+  population_source: string | null;
+  population_unavailable_reason?: string | null;
+  population_vintage: string | null;
+  boundary_source: string | null;
+  /** Null exactly when no Census geography exists for the place. */
+  boundary_geoid: string | null;
+
   // Metrics / display
   climate: string | null;
-  cost_of_living: string;
+  /**
+   * Nullable since the geo-hierarchy migration: a neighborhood has no cost
+   * category of its own, because BEA publishes RPP per metro.
+   */
+  cost_of_living: string | null;
   tags: string[] | null; // jsonb
   emoji: string;
   gradient: string;
@@ -145,6 +190,17 @@ export interface LocationRow {
 
   /** Monthly median gross rent, dollars. ACS 5-year B25064. */
   median_rent?: number | null;
+  /**
+   * Entry-level home value, dollars: ACS 5-year B25076, the lower value
+   * quartile (25th percentile) of the owner-occupied stock's self-reported
+   * value. A formal percentile, not "cheapest listing" — and stock value,
+   * not sale price (issue #170).
+   */
+  entry_home_value?: number | null;
+  /** Monthly median gross rent for 2-bedroom units, dollars. ACS B25031. */
+  median_rent_2br?: number | null;
+  /** Monthly median gross rent for 3-bedroom units, dollars. ACS B25031. */
+  median_rent_3br?: number | null;
   /** Effective annual property tax as a fraction of home value. */
   property_tax_rate?: number | null;
   /** BEA RPP components (100 = US average). Joined from location_cost_rpp. */
@@ -364,6 +420,55 @@ export interface DefenseEmployerLocationRow {
   source_retrieved_on: string | null;
   is_featured: boolean;
   notes: string | null;
+}
+
+/**
+ * One defense-industry job listing on the standalone /defense-jobs page
+ * (`defense_job_listings`, imported from master_defense_jobs.csv). Independent of
+ * locations_location and not a Fit-score factor. `latitude`/`longitude` are NULL
+ * for remote/nationwide rows (kept in the list, absent from the map).
+ */
+export interface DefenseJobListingRow {
+  id: number;
+  company: string;
+  employer_slug: string | null;
+  ats: string | null;
+  title: string;
+  field_raw: string | null;
+  sector: string;
+  location_raw: string | null;
+  city: string | null;
+  state: string | null;
+  country: string;
+  region: string | null;
+  is_remote: boolean;
+  latitude: number | null;
+  longitude: number | null;
+  employment_type: string | null;
+  pay_min: number | null;
+  pay_max: number | null;
+  pay_interval: string | null;
+  education: string | null;
+  url: string;
+}
+
+/**
+ * Aggregate per-city posting counts for an already-tracked defense employer
+ * (`defense_employer_locations` joined to `defense_employers`). Used by
+ * /defense-jobs as count-only map markers for employers we track but have no
+ * individual listings for (Raytheon, L3Harris, Anduril, Leidos, System High).
+ */
+export interface DefenseEmployerCityCount {
+  employer_slug: string;
+  display_name: string;
+  city: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+  onsite: number;
+  hybrid: number;
+  remote: number;
+  total: number;
 }
 
 /** A mosque plotted on the standalone /mosques map (`mosques`, sourced from OpenStreetMap). */

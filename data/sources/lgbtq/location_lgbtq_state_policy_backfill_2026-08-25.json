@@ -1,0 +1,341 @@
+{
+  "retrieved_on": "2026-08-25",
+  "field": "locations_location.lgbtq_state_policy_score",
+  "denominator": "MAP overall policy score /49",
+  "notes": [
+    "MT: used current MAP overall -1.75 (filled siblings were [-1.75,-1.5])",
+    "NE: used current MAP overall 1.75 (filled siblings were [1.25])",
+    "NY: used current MAP overall 44.5 (filled siblings were [44.5,45])",
+    "PA: used current MAP overall 17.75 (filled siblings were [6.5,16.75,17])"
+  ],
+  "patches": [
+    {
+      "id": 89,
+      "name": "Camden",
+      "state": "AR",
+      "lgbtq_state_policy_score": -14.25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/AR"
+    },
+    {
+      "id": 113,
+      "name": "Gilbert",
+      "state": "AZ",
+      "lgbtq_state_policy_score": 7.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/AZ"
+    },
+    {
+      "id": 125,
+      "name": "Lake Forest",
+      "state": "CA",
+      "lgbtq_state_policy_score": 45,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/CA"
+    },
+    {
+      "id": 116,
+      "name": "Victorville",
+      "state": "CA",
+      "lgbtq_state_policy_score": 45,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/CA"
+    },
+    {
+      "id": 123,
+      "name": "Boulder",
+      "state": "CO",
+      "lgbtq_state_policy_score": 45.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/CO"
+    },
+    {
+      "id": 124,
+      "name": "Broomfield",
+      "state": "CO",
+      "lgbtq_state_policy_score": 45.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/CO"
+    },
+    {
+      "id": 146,
+      "name": "Hartford",
+      "state": "CT",
+      "lgbtq_state_policy_score": 42.25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/CT"
+    },
+    {
+      "id": 143,
+      "name": "Crestview",
+      "state": "FL",
+      "lgbtq_state_policy_score": -5.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/FL"
+    },
+    {
+      "id": 161,
+      "name": "Jacksonville",
+      "state": "FL",
+      "lgbtq_state_policy_score": -5.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/FL"
+    },
+    {
+      "id": 142,
+      "name": "Pace",
+      "state": "FL",
+      "lgbtq_state_policy_score": -5.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/FL"
+    },
+    {
+      "id": 166,
+      "name": "Palm Bay",
+      "state": "FL",
+      "lgbtq_state_policy_score": -5.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/FL"
+    },
+    {
+      "id": 175,
+      "name": "Tallahassee",
+      "state": "FL",
+      "lgbtq_state_policy_score": -5.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/FL"
+    },
+    {
+      "id": 156,
+      "name": "Valdosta",
+      "state": "GA",
+      "lgbtq_state_policy_score": -0.75,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/GA"
+    },
+    {
+      "id": 149,
+      "name": "Kāneʻohe",
+      "state": "HI",
+      "lgbtq_state_policy_score": 34.25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/HI"
+    },
+    {
+      "id": 147,
+      "name": "Idaho Falls",
+      "state": "ID",
+      "lgbtq_state_policy_score": -13.75,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/ID"
+    },
+    {
+      "id": 151,
+      "name": "Peoria",
+      "state": "IL",
+      "lgbtq_state_policy_score": 45,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/IL"
+    },
+    {
+      "id": 170,
+      "name": "Lawrence",
+      "state": "KS",
+      "lgbtq_state_policy_score": -1,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/KS"
+    },
+    {
+      "id": 144,
+      "name": "Bowling Green",
+      "state": "KY",
+      "lgbtq_state_policy_score": 5.75,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/KY"
+    },
+    {
+      "id": 169,
+      "name": "Alexandria",
+      "state": "LA",
+      "lgbtq_state_policy_score": -6.75,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/LA"
+    },
+    {
+      "id": 150,
+      "name": "Battle Creek",
+      "state": "MI",
+      "lgbtq_state_policy_score": 30,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/MI"
+    },
+    {
+      "id": 153,
+      "name": "Bozeman",
+      "state": "MT",
+      "lgbtq_state_policy_score": -1.75,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality-profiles/mt/"
+    },
+    {
+      "id": 173,
+      "name": "Grand Island",
+      "state": "NE",
+      "lgbtq_state_policy_score": 1.75,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality/"
+    },
+    {
+      "id": 114,
+      "name": "North Platte",
+      "state": "NE",
+      "lgbtq_state_policy_score": 1.75,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality/"
+    },
+    {
+      "id": 117,
+      "name": "Hudson",
+      "state": "NH",
+      "lgbtq_state_policy_score": 32,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/NH"
+    },
+    {
+      "id": 171,
+      "name": "Camden",
+      "state": "NJ",
+      "lgbtq_state_policy_score": 41.75,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/NJ"
+    },
+    {
+      "id": 95,
+      "name": "Ithaca",
+      "state": "NY",
+      "lgbtq_state_policy_score": 44.5,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality-profiles/ny/"
+    },
+    {
+      "id": 174,
+      "name": "Jamestown",
+      "state": "NY",
+      "lgbtq_state_policy_score": 44.5,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality-profiles/ny/"
+    },
+    {
+      "id": 164,
+      "name": "Rochester",
+      "state": "NY",
+      "lgbtq_state_policy_score": 44.5,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality-profiles/ny/"
+    },
+    {
+      "id": 158,
+      "name": "Medford",
+      "state": "OR",
+      "lgbtq_state_policy_score": 39.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/OR"
+    },
+    {
+      "id": 172,
+      "name": "Erie",
+      "state": "PA",
+      "lgbtq_state_policy_score": 17.75,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality-profiles/pa/"
+    },
+    {
+      "id": 168,
+      "name": "State College",
+      "state": "PA",
+      "lgbtq_state_policy_score": 17.75,
+      "method": "map_current_overall",
+      "source_url": "https://mapresearch.org/equality-profiles/pa/"
+    },
+    {
+      "id": 160,
+      "name": "Charleston",
+      "state": "SC",
+      "lgbtq_state_policy_score": -10.25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/SC"
+    },
+    {
+      "id": 167,
+      "name": "Greenville",
+      "state": "TX",
+      "lgbtq_state_policy_score": -6.75,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/TX"
+    },
+    {
+      "id": 68,
+      "name": "San Antonio",
+      "state": "TX",
+      "lgbtq_state_policy_score": -6.75,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/TX"
+    },
+    {
+      "id": 145,
+      "name": "Lynchburg",
+      "state": "VA",
+      "lgbtq_state_policy_score": 25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/VA"
+    },
+    {
+      "id": 67,
+      "name": "Virginia Beach",
+      "state": "VA",
+      "lgbtq_state_policy_score": 25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/VA"
+    },
+    {
+      "id": 130,
+      "name": "Hamilton",
+      "state": "WA",
+      "lgbtq_state_policy_score": 40.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/WA"
+    },
+    {
+      "id": 154,
+      "name": "Yakima",
+      "state": "WA",
+      "lgbtq_state_policy_score": 40.5,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/WA"
+    },
+    {
+      "id": 148,
+      "name": "Green Bay",
+      "state": "WI",
+      "lgbtq_state_policy_score": 18.25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/WI"
+    },
+    {
+      "id": 152,
+      "name": "Kenosha",
+      "state": "WI",
+      "lgbtq_state_policy_score": 18.25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/WI"
+    },
+    {
+      "id": 159,
+      "name": "Morgantown",
+      "state": "WV",
+      "lgbtq_state_policy_score": 0.25,
+      "method": "sibling_propagate",
+      "source_url": "https://www.lgbtmap.org/equality_maps/profile_state/WV"
+    }
+  ]
+}
