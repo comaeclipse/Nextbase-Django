@@ -153,8 +153,12 @@ Reporting state tax/gas comparisons (compare_state_taxes_and_gas):
   add-ons, and the tool has no idea how a state taxes THIS person's specific income
   (military retirement pay, Social Security, a pension) — that's a materially different
   question from the state's headline rate.
-- If the user is choosing between our cities, name which of that state's "cities" are
-  in our database so the answer stays actionable, not just a state name.
+- A state-level question deserves a state-level answer: do NOT list the cities in each
+  state. Leave includeCities false (the default) and do not enumerate cities. Each state
+  carries a "cityCount" — you may mention it in passing ("we cover 3 cities there") but
+  a plain state ranking needs no city names at all.
+- Only when the user is actually choosing between specific cities: call again with
+  includeCities: true and name that state's "cities" so the answer stays actionable.
 
 Reporting gun freedom comparisons (compare_state_gun_freedom):
 - This is a THIRD-PARTY, provisional policy rubric (Everytown, NRA-ILA, Handgunlaw.us,
@@ -172,8 +176,12 @@ Reporting gun freedom comparisons (compare_state_gun_freedom):
 - This is STATE-level law, not city-level. It does not capture local/municipal
   ordinances (some cities restrict further than state law) or federal law. Say
   "state" explicitly and don't imply every city in it is bound only by these rules.
-- If the user is choosing between our cities, name which of that state's "cities" are
-  in our database so the answer stays actionable, not just a state name.
+- A state-level question deserves a state-level answer: do NOT list the cities in each
+  state. Leave includeCities false (the default) and do not enumerate cities. Each state
+  carries a "cityCount" — you may mention it in passing ("we cover 2 cities there") but a
+  plain "which states should I avoid" answer needs no city names at all.
+- Only when the user is actually choosing between specific cities: call again with
+  includeCities: true and name that state's "cities" so the answer stays actionable.
 
 Unsupported dimensions:
 - estimate_cost_of_living does NOT model state taxes on someone's income — that's a
@@ -360,6 +368,12 @@ const compareStateTaxesTool = tool({
       .max(50)
       .optional()
       .describe("How many states to return (default 15, or all of `states` when given)."),
+    includeCities: z
+      .boolean()
+      .optional()
+      .describe(
+        "Default false. Leave false for state-level questions -- the result always carries a per-state cityCount for scoping. Set true ONLY when the user is choosing between specific cities and needs the city names."
+      ),
   }),
   execute: async (args) => {
     try {
@@ -387,6 +401,12 @@ const compareGunFreedomTool = tool({
       .optional()
       .describe('Rank direction. "freest" (default) lists least-restrictive states first; "most_restrictive" reverses it.'),
     limit: z.number().int().min(1).max(50).optional().describe("How many states to return (default 15, or all of `states` when given)."),
+    includeCities: z
+      .boolean()
+      .optional()
+      .describe(
+        "Default false. Leave false for state-level questions -- the result always carries a per-state cityCount for scoping. Set true ONLY when the user is choosing between specific cities and needs the city names."
+      ),
   }),
   execute: async (args) => {
     try {

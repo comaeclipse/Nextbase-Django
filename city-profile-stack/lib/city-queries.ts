@@ -738,8 +738,10 @@ export interface StateTaxGasEntry {
   /** Statewide income tax percentage only when the current rows agree. 0 means no income tax; null means unknown or conflicting. */
   incomeTaxPct: number | null;
   gasPricePerGallon: number | null;
-  /** Cities in this database, for this state. */
-  cities: string[];
+  /** How many cities this database has in this state (always present, for scoping). */
+  cityCount: number;
+  /** The city names, only when includeCities was requested (user is choosing between cities). */
+  cities?: string[];
 }
 
 export type StateTaxGasSort = "combined" | "income_tax" | "sales_tax" | "gas_price";
@@ -815,6 +817,7 @@ export async function compareStateTaxesAndGas(
     states?: string[];
     sortBy?: StateTaxGasSort;
     limit?: number;
+    includeCities?: boolean;
   } = {}
 ): Promise<StateTaxGasResult> {
   const sql = getSql();
@@ -857,7 +860,8 @@ export async function compareStateTaxesAndGas(
       salesTaxPct: b.salesTaxN ? round2(b.salesTaxSum / b.salesTaxN) : null,
       incomeTaxPct: incomeTaxValues.length === 1 ? round2(incomeTaxValues[0]) : null,
       gasPricePerGallon: gasByState.get(abbr) ?? null,
-      cities: b.cities.sort(),
+      cityCount: b.cities.length,
+      ...(opts.includeCities ? { cities: b.cities.sort() } : {}),
     };
   });
 
@@ -899,8 +903,10 @@ export interface StateGunFreedomEntry {
   summary: string;
   /** Present only for states whose relevant laws are in active litigation. */
   legalStatus?: "Unsettled";
-  /** Cities in this database, for this state. */
-  cities: string[];
+  /** How many cities this database has in this state (always present, for scoping). */
+  cityCount: number;
+  /** The city names, only when includeCities was requested (user is choosing between cities). */
+  cities?: string[];
 }
 
 export type StateGunFreedomSort = "freest" | "most_restrictive";
@@ -929,6 +935,7 @@ export async function compareStateGunFreedom(
     states?: string[];
     sortBy?: StateGunFreedomSort;
     limit?: number;
+    includeCities?: boolean;
   } = {}
 ): Promise<StateGunFreedomResult> {
   const sql = getSql();
@@ -955,7 +962,8 @@ export async function compareStateGunFreedom(
       displayBand: d.displayBand,
       summary: d.summary,
       legalStatus: d.legalStatus,
-      cities: (citiesByState.get(d.state) ?? []).sort(),
+      cityCount: (citiesByState.get(d.state) ?? []).length,
+      ...(opts.includeCities ? { cities: (citiesByState.get(d.state) ?? []).sort() } : {}),
     }));
 
   if (opts.states?.length) {
