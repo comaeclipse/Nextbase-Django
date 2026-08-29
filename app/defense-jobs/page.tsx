@@ -1,40 +1,26 @@
 import DefenseJobsExplorer, {
   type EmployerCount,
-  type JobListing,
 } from "@/components/defense-jobs/DefenseJobsExplorer";
 import {
   getDefenseEmployerCityCounts,
-  getDefenseJobListings,
+  getDefenseJobFacets,
+  getDefenseJobInitialListings,
+  getDefenseJobInitialMap,
+  toClientListing,
 } from "@/lib/defense-jobs";
 
 export const dynamic = "force-dynamic";
 
 export default async function DefenseJobsPage() {
-  const [rows, countRows] = await Promise.all([
-    getDefenseJobListings(),
+  // Only the first page of listings, the filter-chip options, the city-level map
+  // aggregation, and the tracked-employer counts — never all ~12k rows. The
+  // client fetches subsequent pages / filtered results from /api/defense-jobs.
+  const [facets, firstPage, cityPoints, countRows] = await Promise.all([
+    getDefenseJobFacets(),
+    getDefenseJobInitialListings(),
+    getDefenseJobInitialMap(),
     getDefenseEmployerCityCounts(),
   ]);
-
-  const listings: JobListing[] = rows.map((r) => ({
-    id: r.id,
-    company: r.company,
-    employerSlug: r.employer_slug,
-    title: r.title,
-    fieldRaw: r.field_raw,
-    sector: r.sector,
-    city: r.city,
-    state: r.state,
-    region: r.region,
-    isRemote: r.is_remote,
-    latitude: r.latitude,
-    longitude: r.longitude,
-    employmentType: r.employment_type,
-    payMin: r.pay_min,
-    payMax: r.pay_max,
-    payInterval: r.pay_interval,
-    education: r.education,
-    url: r.url,
-  }));
 
   const counts: EmployerCount[] = countRows.map((c) => ({
     employerSlug: c.employer_slug,
@@ -59,7 +45,13 @@ export default async function DefenseJobsPage() {
           track. Click a city on the map to see its listings.
         </p>
       </header>
-      <DefenseJobsExplorer listings={listings} counts={counts} />
+      <DefenseJobsExplorer
+        facets={facets}
+        initialListings={firstPage.listings.map(toClientListing)}
+        initialTotal={firstPage.total}
+        initialCityPoints={cityPoints}
+        counts={counts}
+      />
     </div>
   );
 }
