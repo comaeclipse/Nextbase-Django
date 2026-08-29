@@ -28,7 +28,7 @@ jobs:
       - uses: actions/create-github-app-token@v3
         id: app-token
         with:
-          app-id: ${{ secrets.REVIEW_APP_ID }}
+          client-id: ${{ secrets.REVIEW_APP_CLIENT_ID }}
           private-key: ${{ secrets.REVIEW_APP_PRIVATE_KEY }}
 
       - uses: actions/checkout@v7
@@ -64,6 +64,11 @@ jobs:
       # additionally blocks file edits outright, since this role should only
       # ever comment/review, never modify files.
       - uses: anthropics/claude-code-action@v1
+        id: claude
+        # A turn-limit stall is an expected outcome for a hard task, not a
+        # workflow failure — the "Gate on Claude result" step below re-raises
+        # any *other* failure.
+        continue-on-error: true
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
@@ -72,3 +77,26 @@ jobs:
           bot_id: "314730973"
           prompt: ${{ steps.prompt.outputs.text }}
           claude_args: "--max-turns 30 --permission-mode bypassPermissions --disallowedTools Edit,Write"
+
+      # Tolerate ONLY a max-turns stall (result subtype error_max_turns); any
+      # other Claude failure still fails the job.
+      - name: Gate on Claude result
+        if: always() && steps.claude.outcome == 'failure'
+        shell: bash
+        env:
+          EXECUTION_FILE: ${{ steps.claude.outputs.execution_file }}
+        run: |
+          subtype=""
+          if [ -n "${EXECUTION_FILE:-}" ] && [ -f "$EXECUTION_FILE" ]; then
+            subtype=$(jq -r '[.[] | select(.type == "result")] | last | .subtype // ""' "$EXECUTION_FILE" 2>/dev/null || echo "")
+            if [ -z "$subtype" ] && grep -q 'error_max_turns' "$EXECUTION_FILE" 2>/dev/null; then
+              subtype="error_max_turns"
+            fi
+          fi
+          echo "Claude result subtype: '${subtype:-unknown}'"
+          if [ "$subtype" = "error_max_turns" ]; then
+            echo "::notice::Review agent hit the turn limit without finishing — treated as a soft stall, not a failure."
+            exit 0
+          fi
+          echo "::error::Claude Code failed for a non-max-turns reason (subtype: '${subtype:-unknown}')."
+          exit 1
