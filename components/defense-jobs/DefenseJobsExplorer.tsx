@@ -394,6 +394,9 @@ export default function DefenseJobsExplorer({
                     rel="noreferrer"
                     className="block rounded-xl border p-3 transition-colors hover:bg-muted/50"
                   >
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-primary">
+                      {j.company}
+                    </p>
                     <div className="flex items-start justify-between gap-2">
                       <h3 className="text-sm font-semibold leading-snug">{j.title}</h3>
                       {pay && (
@@ -403,7 +406,7 @@ export default function DefenseJobsExplorer({
                       )}
                     </div>
                     <p className="mt-0.5 text-sm text-muted-foreground">
-                      {j.company} · {loc}
+                      {loc}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       <Badge variant="secondary">{j.sector}</Badge>
