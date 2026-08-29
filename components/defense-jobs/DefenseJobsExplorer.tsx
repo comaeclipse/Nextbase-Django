@@ -1,35 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import type {
+  ClientJobListing,
+  DefenseJobCityPoint,
+  DefenseJobFacets,
+} from "@/lib/defense-jobs";
 import DefenseJobsMap, {
   type CityPoint,
   type CountPoint,
 } from "./DefenseJobsMap";
 
 /** Client-side listing shape (camelCase mirror of DefenseJobListingRow). */
-export interface JobListing {
-  id: number;
-  company: string;
-  employerSlug: string | null;
-  title: string;
-  fieldRaw: string | null;
-  sector: string;
-  city: string | null;
-  state: string | null;
-  region: string | null;
-  isRemote: boolean;
-  latitude: number | null;
-  longitude: number | null;
-  employmentType: string | null;
-  payMin: number | null;
-  payMax: number | null;
-  payInterval: string | null;
-  education: string | null;
-  url: string;
-}
+export type JobListing = ClientJobListing;
 
 /** Client-side aggregate count shape (camelCase mirror of DefenseEmployerCityCount). */
 export interface EmployerCount {
@@ -44,10 +30,6 @@ export interface EmployerCount {
   remote: number;
   total: number;
 }
-
-const employerKey = (j: JobListing) => j.employerSlug ?? j.company;
-const cityKey = (city: string | null, state: string | null) =>
-  city && state ? `${city}|${state}` : null;
 
 function formatPay(j: JobListing): string | null {
   if (j.payMin == null && j.payMax == null) return null;
@@ -114,13 +96,49 @@ function FilterGroup({
   );
 }
 
+/** Build the query string the API routes expect from the current filter state. */
+function buildParams(f: {
+  sectors: Set<string>;
+  employers: Set<string>;
+  regions: Set<string>;
+  remote: boolean;
+  q: string;
+  city: string | null;
+}): URLSearchParams {
+  const p = new URLSearchParams();
+  if (f.sectors.size) p.set("sectors", [...f.sectors].join(","));
+  if (f.employers.size) p.set("employers", [...f.employers].join(","));
+  if (f.regions.size) p.set("regions", [...f.regions].join(","));
+  if (f.remote) p.set("remote", "true");
+  if (f.q.trim()) p.set("q", f.q.trim());
+  if (f.city) p.set("city", f.city);
+  return p;
+}
+
+interface ListResponse {
+  listings: JobListing[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+interface MapResponse {
+  cityPoints: DefenseJobCityPoint[];
+}
+
 export default function DefenseJobsExplorer({
-  listings,
+  facets,
+  initialListings,
+  initialTotal,
+  initialCityPoints,
   counts,
 }: {
-  listings: JobListing[];
+  facets: DefenseJobFacets;
+  initialListings: JobListing[];
+  initialTotal: number;
+  initialCityPoints: DefenseJobCityPoint[];
   counts: EmployerCount[];
 }) {
+  // Filter state.
   const [selSectors, setSelSectors] = useState<Set<string>>(new Set());
   const [selEmployers, setSelEmployers] = useState<Set<string>>(new Set());
   const [selRegions, setSelRegions] = useState<Set<string>>(new Set());
@@ -129,18 +147,25 @@ export default function DefenseJobsExplorer({
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
-  // Facet options derived once from the data.
-  const listingEmployers = useMemo(() => {
-    const m = new Map<string, string>();
-    for (const j of listings) m.set(employerKey(j), j.company);
-    return [...m.entries()]
-      .map(([key, name]) => ({ key, name }))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [listings]);
+  // Server-fed data state (seeded from the unfiltered initial render).
+  const [items, setItems] = useState<JobListing[]>(initialListings);
+  const [total, setTotal] = useState(initialTotal);
+  const [page, setPage] = useState(1);
+  const [cityPoints, setCityPoints] = useState<CityPoint[]>(initialCityPoints);
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
+  // Debounce the free-text search so keystrokes don't each fire a request.
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 250);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  // Facet options come straight from the server (no longer derived from listings).
   const listingEmployerSlugs = useMemo(
-    () => new Set(listings.map((j) => j.employerSlug).filter(Boolean) as string[]),
-    [listings]
+    () => new Set(facets.employers.map((e) => e.key)),
+    [facets.employers]
   );
 
   // Employers we track only as aggregate counts (no individual listings).
@@ -156,16 +181,6 @@ export default function DefenseJobsExplorer({
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [counts, listingEmployerSlugs]);
 
-  const sectorsPresent = useMemo(() => {
-    const s = new Set(listings.map((j) => j.sector));
-    return [...s].sort();
-  }, [listings]);
-
-  const regionsPresent = useMemo(() => {
-    const s = new Set(listings.map((j) => j.region).filter(Boolean) as string[]);
-    return [...s].sort();
-  }, [listings]);
-
   const toggle = (set: Set<string>, key: string): Set<string> => {
     const next = new Set(set);
     if (next.has(key)) next.delete(key);
@@ -173,56 +188,76 @@ export default function DefenseJobsExplorer({
     return next;
   };
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return listings.filter((j) => {
-      if (selSectors.size && !selSectors.has(j.sector)) return false;
-      if (selEmployers.size && !selEmployers.has(employerKey(j))) return false;
-      if (selRegions.size && (!j.region || !selRegions.has(j.region))) return false;
-      if (remoteOnly && !j.isRemote) return false;
-      if (selectedCity && cityKey(j.city, j.state) !== selectedCity) return false;
-      if (q) {
-        const hay = `${j.title} ${j.company} ${j.city ?? ""} ${j.fieldRaw ?? ""}`.toLowerCase();
-        if (!hay.includes(q)) return false;
-      }
-      return true;
-    });
-  }, [listings, selSectors, selEmployers, selRegions, remoteOnly, selectedCity, search]);
+  // Monotonic request id so a slow response can never overwrite a newer one.
+  const reqIdRef = useRef(0);
+  const skipInitialRef = useRef(true);
 
-  const cityPoints = useMemo<CityPoint[]>(() => {
-    const m = new Map<string, CityPoint & { _emp: Map<string, number> }>();
-    for (const j of filtered) {
-      if (j.latitude == null || j.longitude == null || !j.city || !j.state) continue;
-      const key = `${j.city}|${j.state}`;
-      let entry = m.get(key);
-      if (!entry) {
-        entry = {
-          key,
-          city: j.city,
-          state: j.state,
-          latitude: j.latitude,
-          longitude: j.longitude,
-          count: 0,
-          employers: [],
-          _emp: new Map(),
-        };
-        m.set(key, entry);
-      }
-      entry.count += 1;
-      entry._emp.set(j.company, (entry._emp.get(j.company) ?? 0) + 1);
+  const currentParams = useCallback(
+    () =>
+      buildParams({
+        sectors: selSectors,
+        employers: selEmployers,
+        regions: selRegions,
+        remote: remoteOnly,
+        q: debouncedSearch,
+        city: selectedCity,
+      }),
+    [selSectors, selEmployers, selRegions, remoteOnly, debouncedSearch, selectedCity]
+  );
+
+  // Refetch page 1 + the map whenever a filter changes.
+  useEffect(() => {
+    if (skipInitialRef.current) {
+      skipInitialRef.current = false;
+      return;
     }
-    return [...m.values()].map((e) => ({
-      key: e.key,
-      city: e.city,
-      state: e.state,
-      latitude: e.latitude,
-      longitude: e.longitude,
-      count: e.count,
-      employers: [...e._emp.entries()]
-        .map(([name, count]) => ({ name, count }))
-        .sort((a, b) => b.count - a.count),
-    }));
-  }, [filtered]);
+    const id = ++reqIdRef.current;
+    const controller = new AbortController();
+    setLoading(true);
+    const params = currentParams();
+    const listParams = new URLSearchParams(params);
+    listParams.set("page", "1");
+    Promise.all([
+      fetch(`/api/defense-jobs?${listParams}`, { signal: controller.signal }).then(
+        (r) => r.json() as Promise<ListResponse>
+      ),
+      fetch(`/api/defense-jobs/map?${params}`, { signal: controller.signal }).then(
+        (r) => r.json() as Promise<MapResponse>
+      ),
+    ])
+      .then(([list, map]) => {
+        if (id !== reqIdRef.current) return;
+        setItems(list.listings);
+        setTotal(list.total);
+        setPage(1);
+        setCityPoints(map.cityPoints);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (err?.name === "AbortError" || id !== reqIdRef.current) return;
+        setLoading(false);
+      });
+    return () => controller.abort();
+  }, [currentParams]);
+
+  const loadMore = useCallback(() => {
+    if (loadingMore || items.length >= total) return;
+    const id = reqIdRef.current; // must still match when the response lands
+    const nextPage = page + 1;
+    const params = currentParams();
+    params.set("page", String(nextPage));
+    setLoadingMore(true);
+    fetch(`/api/defense-jobs?${params}`, {})
+      .then((r) => r.json() as Promise<ListResponse>)
+      .then((list) => {
+        if (id !== reqIdRef.current) return; // a filter changed mid-flight
+        setItems((prev) => [...prev, ...list.listings]);
+        setTotal(list.total);
+        setPage(nextPage);
+        setLoadingMore(false);
+      })
+      .catch(() => setLoadingMore(false));
+  }, [loadingMore, items.length, total, page, currentParams]);
 
   const countPoints = useMemo<CountPoint[]>(() => {
     if (!selCountEmployers.size) return [];
@@ -259,6 +294,8 @@ export default function DefenseJobsExplorer({
     setSearch("");
   };
 
+  const onMap = cityPoints.reduce((n, p) => n + p.count, 0);
+
   return (
     <div className="space-y-5">
       {/* Filter bar */}
@@ -271,8 +308,8 @@ export default function DefenseJobsExplorer({
             className="sm:max-w-xs"
           />
           <div className="text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">{filtered.length.toLocaleString()}</span>{" "}
-            of {listings.length.toLocaleString()} listings
+            <span className="font-semibold text-foreground">{total.toLocaleString()}</span>{" "}
+            of {facets.total.toLocaleString()} listings
             {anyFilter ? (
               <button
                 type="button"
@@ -286,7 +323,7 @@ export default function DefenseJobsExplorer({
         </div>
 
         <FilterGroup label="Sector">
-          {sectorsPresent.map((s) => (
+          {facets.sectors.map((s) => (
             <Chip
               key={s}
               active={selSectors.has(s)}
@@ -298,7 +335,7 @@ export default function DefenseJobsExplorer({
         </FilterGroup>
 
         <FilterGroup label="Employer">
-          {listingEmployers.map((e) => (
+          {facets.employers.map((e) => (
             <Chip
               key={e.key}
               active={selEmployers.has(e.key)}
@@ -310,7 +347,7 @@ export default function DefenseJobsExplorer({
         </FilterGroup>
 
         <FilterGroup label="Region">
-          {regionsPresent.map((r) => (
+          {facets.regions.map((r) => (
             <Chip
               key={r}
               active={selRegions.has(r)}
@@ -346,7 +383,7 @@ export default function DefenseJobsExplorer({
             <div>
               <p className="text-xs font-bold tracking-widest text-primary">UNITED STATES</p>
               <h2 className="text-lg font-semibold">
-                {cityPoints.reduce((n, p) => n + p.count, 0).toLocaleString()} listings on map
+                {onMap.toLocaleString()} listings on map
               </h2>
             </div>
             {selectedCity && (
@@ -373,53 +410,70 @@ export default function DefenseJobsExplorer({
         </div>
 
         <div className="lg:col-span-2">
-          <div className="max-h-[min(64vh,640px)] space-y-3 overflow-y-auto rounded-2xl border bg-card p-4 shadow-sm">
-            {filtered.length === 0 ? (
+          <div
+            className={cn(
+              "max-h-[min(64vh,640px)] space-y-3 overflow-y-auto rounded-2xl border bg-card p-4 shadow-sm transition-opacity",
+              loading && "opacity-60"
+            )}
+          >
+            {total === 0 ? (
               <p className="py-8 text-center text-sm text-muted-foreground">
                 No listings match these filters.
               </p>
             ) : (
-              filtered.map((j) => {
-                const pay = formatPay(j);
-                const loc = j.isRemote
-                  ? "Remote"
-                  : [j.city, j.state].filter(Boolean).join(", ") ||
-                    j.region ||
-                    "—";
-                return (
-                  <a
-                    key={j.id}
-                    href={j.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block rounded-xl border p-3 transition-colors hover:bg-muted/50"
+              <>
+                {items.map((j) => {
+                  const pay = formatPay(j);
+                  const loc = j.isRemote
+                    ? "Remote"
+                    : [j.city, j.state].filter(Boolean).join(", ") ||
+                      j.region ||
+                      "—";
+                  return (
+                    <a
+                      key={j.id}
+                      href={j.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-xl border p-3 transition-colors hover:bg-muted/50"
+                    >
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-primary">
+                        {j.company}
+                      </p>
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="text-sm font-semibold leading-snug">{j.title}</h3>
+                        {pay && (
+                          <span className="shrink-0 text-xs font-semibold text-primary">
+                            {pay}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-0.5 text-sm text-muted-foreground">{loc}</p>
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        <Badge variant="secondary">{j.sector}</Badge>
+                        {j.fieldRaw && j.fieldRaw !== j.sector && (
+                          <Badge variant="outline">{j.fieldRaw}</Badge>
+                        )}
+                        {j.employmentType && (
+                          <Badge variant="outline">{j.employmentType}</Badge>
+                        )}
+                      </div>
+                    </a>
+                  );
+                })}
+                {items.length < total && (
+                  <button
+                    type="button"
+                    onClick={loadMore}
+                    disabled={loadingMore}
+                    className="w-full rounded-xl border border-dashed py-3 text-sm font-medium text-primary transition-colors hover:bg-muted/50 disabled:opacity-60"
                   >
-                    <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-primary">
-                      {j.company}
-                    </p>
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-sm font-semibold leading-snug">{j.title}</h3>
-                      {pay && (
-                        <span className="shrink-0 text-xs font-semibold text-primary">
-                          {pay}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-0.5 text-sm text-muted-foreground">
-                      {loc}
-                    </p>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      <Badge variant="secondary">{j.sector}</Badge>
-                      {j.fieldRaw && j.fieldRaw !== j.sector && (
-                        <Badge variant="outline">{j.fieldRaw}</Badge>
-                      )}
-                      {j.employmentType && (
-                        <Badge variant="outline">{j.employmentType}</Badge>
-                      )}
-                    </div>
-                  </a>
-                );
-              })
+                    {loadingMore
+                      ? "Loading…"
+                      : `Load more (${(total - items.length).toLocaleString()} more)`}
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
