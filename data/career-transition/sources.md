@@ -2,7 +2,7 @@
 
 Retrieved: 2026-08-29
 
-This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus a first ordnance/weapons expansion. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
+This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons and cyber operations expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
 
 ## Stable occupation and credential sources
 
@@ -26,6 +26,20 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - O*NET Explosives Workers, Ordnance Handling Experts, and Blasters summary: https://www.onetonline.org/link/summary/47-5032.00
 - O*NET Electrical and Electronics Repairers, Commercial and Industrial Equipment summary: https://www.onetonline.org/link/summary/49-2094.00
 - Army QASAS overview: https://www.army.mil/article/283327/qasas_play_essential_role_in_army_readiness
+- MyNavy HR Cyber Warfare Technician page: https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/
+- Army Cyber Operations Specialist 17C page: https://cybercoe.army.mil/Cyber-Center-of-Excellence/Schools/Cyber-School/Cyber-Courses/Cyber-Operations-Specialist/
+- Marine Corps 1721 Cyberspace Warfare Operator page: https://www.information.marines.mil/17XX-Careers/1721/
+- Marine Corps 17XX guide: https://www.information.marines.mil/Portals/224/Docs/17XX/220330-17XX-Guide-to-the-IM-OccFld.pdf
+- Marine Corps FY22 17XX MOS update: https://www.marines.mil/News/Messages/Messages-Display/Article/2717969/update-to-fy22-mos-manual-for-the-17xx-occupational-field/
+- Air Force Cyber Warfare Operations 1B4X1 page: https://www.airforce.com/careers/intelligence/cyber-warfare-operations
+- Air Force Cyber Systems Operations 1D7X1 page: https://www.airforce.com/careers/intelligence/cyber-system-operations
+- Space Force Cyber Operations page: https://www.spaceforce.com/enlisted-careers/cyber-operations
+- Coast Guard Cyber Mission Specialist page: https://www.gocoastguard.com/careers/enlisted/cms
+- O*NET Cyber Defense Incident Responder summary: https://www.onetonline.org/link/summary/15-1299.04
+- O*NET Penetration Tester summary: https://www.onetonline.org/link/summary/15-1299.05
+- O*NET Digital Forensics Analyst summary: https://www.onetonline.org/link/summary/15-1299.06
+- O*NET Information Security Analysts summary: https://www.onetonline.org/link/summary/15-1212.00
+- O*NET Computer Network Architects summary: https://www.onetonline.org/link/summary/15-1241.00
 
 ## Employer snapshot sources
 
@@ -50,6 +64,31 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - FN America careers: https://fnamerica.com/careers/
 - SIG Sauer careers: https://www.sigsauer.com/careers
 - Colt CZ Group careers: https://www.coltczgroup.com/en/career
+- Leidos Defensive Cyber Operations Analyst posting: https://careers.leidos.com/jobs/18103000-defensive-cyber-operations-analyst
+- Leidos Cyber Defense Analyst posting: https://careers.leidos.com/jobs/18147344-cyber-defense-analyst
+- Peraton Computer Network Defense Analyst posting: https://www.careers.peraton.com/jobs/computer-network-defense-analyst-cnda-lead-associate-ts-sci-w-poly-fort-meade-maryland-164773-jobs--cyber-security--
+- Peraton Digital Network Exploitation Analyst posting: https://www.careers.peraton.com/jobs/digital-network-exploitation-analyst-dnea-lead-associate-ts-sci-w-poly-bluffdale-utah-166319-jobs--cyber-security--
+- Peraton USCCJ2 landing page: https://www.careers.peraton.com/landing-page/usccj2
+- Booz Allen careers: https://www.boozallen.com/careers.html
+- CACI careers: https://careers.caci.com/
+- ManTech careers: https://www.mantech.com/careers/
+- SAIC careers: https://jobs.saic.com/
+- General Dynamics Information Technology careers: https://www.gdit.com/careers/
+- Kratos Defense careers: https://www.kratosdefense.com/careers
+- Palo Alto Networks Unit 42 DFIR posting: https://jobs.paloaltonetworks.com/en/job/santa-clara/consultant-dfir-reactive-services-unit-42/47263/96174875472
+- CrowdStrike careers: https://www.crowdstrike.com/careers/
+- Microsoft careers: https://careers.microsoft.com/
+- Google careers: https://www.google.com/about/careers/applications/
+- Amazon jobs: https://www.amazon.jobs/
+- Cisco jobs: https://jobs.cisco.com/
+- Cloudflare careers: https://www.cloudflare.com/careers/
+- Fortinet careers: https://www.fortinet.com/corporate/careers
+- SentinelOne careers: https://www.sentinelone.com/careers/
+- Recorded Future careers: https://www.recordedfuture.com/careers
+- Dragos careers: https://www.dragos.com/careers/
+- Rapid7 careers: https://www.rapid7.com/careers/
+- Okta careers: https://www.okta.com/company/careers/
+- Viasat careers: https://careers.viasat.com/
 - Air Methods careers: https://www.airmethods.com/careers/
 - PHI Aviation careers: https://www.phihelico.com/careers/
 - Bristow careers: https://www.bristowgroup.com/careers/
@@ -61,5 +100,7 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Current postings change quickly. `snapshot_date` and `source_retrieved_on` are required for every employer match.
 - Ordnance employer matches are curated system-fit snapshots, not claims that a specialty usually feeds a specific employer.
 - System tags such as Mk 41 VLS, CIWS, Mk 45, aviation ordnance, ammunition, fire control, and electro-optical systems should be treated as user-profile refinements when more granular service history is available.
+- Cyber employer matches should treat clearance, work role, training pipeline, NEC/NMOS, tool stack, and mission environment as high-signal fields. A rating, MOS, AFSC, or SFSC alone is not enough to infer the best role.
+- Commercial cyber employers are transition employers, not VetRetire defense footprint evidence unless separately linked to `defense_employers`.
 - Civilian operators are transition employers, not defense employers. They are intentionally not inserted into `defense_employers`.
 - A mapped VetRetire location count exists only for transition employers linked to an existing `defense_employers.slug`; an unmapped employer means "not yet mapped," not "no locations."

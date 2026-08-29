@@ -98,9 +98,22 @@ async function main() {
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now(),
       CONSTRAINT transition_employers_type_check CHECK (
-        employer_type IN ('oem', 'defense_contractor', 'mro', 'civilian_operator')
+        employer_type IN ('oem', 'defense_contractor', 'mro', 'civilian_operator', 'commercial_cyber')
       )
     )`
+  );
+
+  await run(
+    "refresh transition employer type constraint",
+    `ALTER TABLE transition_employers
+       DROP CONSTRAINT IF EXISTS transition_employers_type_check`
+  );
+  await run(
+    "allow commercial cyber transition employers",
+    `ALTER TABLE transition_employers
+       ADD CONSTRAINT transition_employers_type_check CHECK (
+         employer_type IN ('oem', 'defense_contractor', 'mro', 'civilian_operator', 'commercial_cyber')
+       )`
   );
 
   await run(

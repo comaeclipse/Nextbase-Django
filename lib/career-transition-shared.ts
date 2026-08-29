@@ -60,7 +60,8 @@ export type TransitionEmployerType =
   | "oem"
   | "defense_contractor"
   | "mro"
-  | "civilian_operator";
+  | "civilian_operator"
+  | "commercial_cyber";
 
 export interface TransitionEmployer {
   id: number;
