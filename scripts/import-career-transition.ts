@@ -15,7 +15,7 @@ async function main() {
   console.log(
     `Importing career-transition bundle${dryRun ? " (dry run)" : ""}: ` +
       `${catalog.specialties.length} specialties, ${catalog.roles.length} roles, ` +
-      `${catalog.employers.length} employers`
+      `${catalog.employers.length} employers, ${catalog.skills.length} skills`
   );
 
   for (const specialty of catalog.specialties) {
@@ -118,6 +118,34 @@ async function main() {
     );
   }
 
+  for (const skill of catalog.skills) {
+    await sql.query(
+      `INSERT INTO transition_skills
+         (slug, title, skill_kind, summary, listing_keywords,
+          source_kind, source_url, source_retrieved_on)
+       VALUES ($1, $2, $3, $4, $5::text[], $6, $7, $8)
+       ON CONFLICT (slug) DO UPDATE SET
+         title = EXCLUDED.title,
+         skill_kind = EXCLUDED.skill_kind,
+         summary = EXCLUDED.summary,
+         listing_keywords = EXCLUDED.listing_keywords,
+         source_kind = EXCLUDED.source_kind,
+         source_url = EXCLUDED.source_url,
+         source_retrieved_on = EXCLUDED.source_retrieved_on,
+         updated_at = now()`,
+      [
+        skill.slug,
+        skill.title,
+        skill.skill_kind,
+        skill.summary,
+        skill.listing_keywords,
+        skill.source_kind,
+        skill.source_url,
+        skill.source_retrieved_on,
+      ]
+    );
+  }
+
   const dbSpecialties = (await sql.query(
     `SELECT id, branch, code FROM military_specialties`
   )) as { id: string; branch: string; code: string }[];
@@ -137,6 +165,11 @@ async function main() {
     slug: string;
   }[];
   const employerIds = new Map(dbEmployers.map((row) => [row.slug, Number(row.id)]));
+  const dbSkills = (await sql.query(`SELECT id, slug FROM transition_skills`)) as {
+    id: string;
+    slug: string;
+  }[];
+  const skillIds = new Map(dbSkills.map((row) => [row.slug, Number(row.id)]));
 
   for (const specialtyMatch of catalog.matches) {
     const specialtyId = specialtyIds.get(
@@ -212,6 +245,35 @@ async function main() {
           match.requires_faa,
           match.requires_fcc,
           match.snapshot_date,
+          match.rationale,
+          match.source_kind,
+          match.source_url,
+          match.source_retrieved_on,
+        ]
+      );
+    }
+
+    for (const match of specialtyMatch.skills) {
+      const skillId = skillIds.get(match.skill.slug);
+      if (!skillId) throw new Error(`Missing inserted skill ${match.skill.slug}`);
+      await sql.query(
+        `INSERT INTO specialty_skill_matches
+           (specialty_id, skill_id, fit_score, directness, rationale,
+            source_kind, source_url, source_retrieved_on)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         ON CONFLICT (specialty_id, skill_id) DO UPDATE SET
+           fit_score = EXCLUDED.fit_score,
+           directness = EXCLUDED.directness,
+           rationale = EXCLUDED.rationale,
+           source_kind = EXCLUDED.source_kind,
+           source_url = EXCLUDED.source_url,
+           source_retrieved_on = EXCLUDED.source_retrieved_on,
+           updated_at = now()`,
+        [
+          specialtyId,
+          skillId,
+          match.fit_score,
+          match.directness,
           match.rationale,
           match.source_kind,
           match.source_url,

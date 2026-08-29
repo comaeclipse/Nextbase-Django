@@ -125,6 +125,36 @@ export interface SpecialtyEmployerMatch {
   source_retrieved_on: string;
 }
 
+export type SkillKind = "technical" | "domain" | "credential" | "clearance" | "safety";
+
+/**
+ * A civilian, reusable skill — the "missing middle" between a specialty and a
+ * listing. Describes what a person can do (3-phase power, NEC code), never a MOS
+ * title. `listing_keywords` are the terms the Phase 3 listing bridge OR-searches.
+ */
+export interface TransitionSkill {
+  id: number;
+  slug: string;
+  title: string;
+  skill_kind: SkillKind;
+  summary: string;
+  listing_keywords: string[];
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
+export interface SpecialtySkillMatch {
+  specialty_id: number;
+  skill_id: number;
+  fit_score: number;
+  directness: MatchDirectness;
+  rationale: string;
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
 export interface RoleMatchView extends SpecialtyRoleMatch {
   role: CivilianTransitionRole;
 }
@@ -134,16 +164,22 @@ export interface EmployerMatchView extends SpecialtyEmployerMatch {
   mapped_location_count: number | null;
 }
 
+export interface SkillMatchView extends SpecialtySkillMatch {
+  skill: TransitionSkill;
+}
+
 export interface SpecialtyMatchView {
   specialty: MilitarySpecialty;
   roles: RoleMatchView[];
   employers: EmployerMatchView[];
+  skills: SkillMatchView[];
 }
 
 export interface CareerTransitionCatalog {
   specialties: MilitarySpecialty[];
   roles: CivilianTransitionRole[];
   employers: TransitionEmployer[];
+  skills: TransitionSkill[];
   matches: SpecialtyMatchView[];
   source: "database" | "csv_fallback";
 }
@@ -219,6 +255,20 @@ function parseEmployerType(value: string): TransitionEmployerType {
     return normalized;
   }
   throw new Error(`Unsupported employer type: ${value}`);
+}
+
+function parseSkillKind(value: string): SkillKind {
+  const normalized = value.trim().toLowerCase();
+  if (
+    normalized === "technical" ||
+    normalized === "domain" ||
+    normalized === "credential" ||
+    normalized === "clearance" ||
+    normalized === "safety"
+  ) {
+    return normalized;
+  }
+  throw new Error(`Unsupported skill kind: ${value}`);
 }
 
 function parseTags(value: string | null | undefined): string[] {
@@ -604,6 +654,34 @@ function normalizeDbEmployerMatch(row: EmployerMatchView): EmployerMatchView {
   };
 }
 
+function normalizeDbSkill(row: TransitionSkill): TransitionSkill {
+  return {
+    id: Number(row.id),
+    slug: row.slug,
+    title: row.title,
+    skill_kind: row.skill_kind,
+    summary: row.summary,
+    listing_keywords: row.listing_keywords ?? [],
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+  };
+}
+
+function normalizeDbSkillMatch(row: SkillMatchView): SkillMatchView {
+  return {
+    specialty_id: Number(row.specialty_id),
+    skill_id: Number(row.skill_id),
+    fit_score: Number(row.fit_score),
+    directness: row.directness,
+    rationale: row.rationale,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+    skill: normalizeDbSkill(row.skill),
+  };
+}
+
 function csvRows(file: string): CsvRow[] {
   return parse(readFileSync(path.join(DATA_DIR, file), "utf-8"), {
     columns: true,
@@ -662,11 +740,27 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
     } satisfies TransitionEmployer;
   });
 
+  const skills = csvRows("skills.csv").map((row, index) => {
+    validateSourceFields(row, `skill ${required(row, "SkillSlug")}`);
+    return {
+      id: index + 1,
+      slug: required(row, "SkillSlug"),
+      title: required(row, "SkillTitle"),
+      skill_kind: parseSkillKind(required(row, "SkillKind")),
+      summary: required(row, "Summary"),
+      listing_keywords: parseTags(row.ListingKeywords),
+      source_kind: required(row, "SourceKind"),
+      source_url: required(row, "SourceUrl"),
+      source_retrieved_on: required(row, "SourceRetrievedOn"),
+    } satisfies TransitionSkill;
+  });
+
   const specialtyByKey = new Map(
     specialties.map((specialty) => [normalizeSpecialtyKey(specialty.branch, specialty.code), specialty])
   );
   const roleBySlug = new Map(roles.map((role) => [role.slug, role]));
   const employerBySlug = new Map(employers.map((employer) => [employer.slug, employer]));
+  const skillBySlug = new Map(skills.map((skill) => [skill.slug, skill]));
 
   const roleMatches: RoleMatchView[] = csvRows("specialty-role-matches.csv").map((row) => {
     validateSourceFields(row, `role match ${required(row, "Branch")} ${required(row, "Code")}`);
@@ -717,15 +811,46 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
     };
   });
 
-  return buildCatalog(specialties, roles, employers, roleMatches, employerMatches, "csv_fallback");
+  const skillMatches: SkillMatchView[] = csvRows("specialty-skill-matches.csv").map((row) => {
+    validateSourceFields(row, `skill match ${required(row, "Branch")} ${required(row, "Code")}`);
+    const branch = parseBranch(required(row, "Branch"));
+    const specialty = specialtyByKey.get(normalizeSpecialtyKey(branch, required(row, "Code")));
+    const skill = skillBySlug.get(required(row, "SkillSlug"));
+    if (!specialty) throw new Error(`Unknown specialty in skill match: ${JSON.stringify(row)}`);
+    if (!skill) throw new Error(`Unknown skill in skill match: ${JSON.stringify(row)}`);
+    return {
+      specialty_id: specialty.id,
+      skill_id: skill.id,
+      fit_score: parseIntField(row, "FitScore"),
+      directness: parseDirectness(required(row, "Directness")),
+      rationale: required(row, "Rationale"),
+      source_kind: required(row, "SourceKind"),
+      source_url: required(row, "SourceUrl"),
+      source_retrieved_on: required(row, "SourceRetrievedOn"),
+      skill,
+    };
+  });
+
+  return buildCatalog(
+    specialties,
+    roles,
+    employers,
+    skills,
+    roleMatches,
+    employerMatches,
+    skillMatches,
+    "csv_fallback"
+  );
 }
 
 function buildCatalog(
   specialties: MilitarySpecialty[],
   roles: CivilianTransitionRole[],
   employers: TransitionEmployer[],
+  skills: TransitionSkill[],
   roleMatches: RoleMatchView[],
   employerMatches: EmployerMatchView[],
+  skillMatches: SkillMatchView[],
   source: CareerTransitionCatalog["source"]
 ): CareerTransitionCatalog {
   const matches = specialties.map((specialty) => ({
@@ -734,6 +859,7 @@ function buildCatalog(
     employers: sortRoleMatches(
       employerMatches.filter((match) => match.specialty_id === specialty.id)
     ),
+    skills: sortRoleMatches(skillMatches.filter((match) => match.specialty_id === specialty.id)),
   }));
 
   return {
@@ -742,6 +868,7 @@ function buildCatalog(
     ),
     roles,
     employers,
+    skills,
     matches,
     source,
   };
@@ -754,12 +881,15 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
       specialtyRows,
       roleRows,
       employerRows,
+      skillRows,
       roleMatchRows,
       employerMatchRows,
+      skillMatchRows,
     ] = await Promise.all([
       sql.query(`SELECT * FROM military_specialties ORDER BY branch, code`),
       sql.query(`SELECT * FROM civilian_transition_roles ORDER BY role_family, title`),
       sql.query(`SELECT * FROM transition_employers ORDER BY employer_type, display_name`),
+      sql.query(`SELECT * FROM transition_skills ORDER BY skill_kind, title`),
       sql.query(
         `SELECT m.*, row_to_json(r.*) AS role
          FROM specialty_role_matches m
@@ -783,18 +913,34 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
          FROM specialty_employer_matches m
          JOIN transition_employers e ON e.id = m.employer_id`
       ),
+      sql.query(
+        `SELECT m.*, row_to_json(s.*) AS skill
+         FROM specialty_skill_matches m
+         JOIN transition_skills s ON s.id = m.skill_id`
+      ),
     ]);
 
     const specialties = asRows<MilitarySpecialty>(specialtyRows).map(normalizeDbSpecialty);
     const roles = asRows<CivilianTransitionRole>(roleRows).map(normalizeDbRole);
     const employers = asRows<TransitionEmployer>(employerRows).map(normalizeDbEmployer);
+    const skills = asRows<TransitionSkill>(skillRows).map(normalizeDbSkill);
     const roleMatches = asRows<RoleMatchView>(roleMatchRows).map(normalizeDbRoleMatch);
     const employerMatches = asRows<EmployerMatchView>(employerMatchRows).map(
       normalizeDbEmployerMatch
     );
+    const skillMatches = asRows<SkillMatchView>(skillMatchRows).map(normalizeDbSkillMatch);
 
     if (specialties.length === 0) return loadCareerTransitionCsvCatalog();
-    return buildCatalog(specialties, roles, employers, roleMatches, employerMatches, "database");
+    return buildCatalog(
+      specialties,
+      roles,
+      employers,
+      skills,
+      roleMatches,
+      employerMatches,
+      skillMatches,
+      "database"
+    );
   } catch (error) {
     const code = (error as { code?: string }).code;
     if (code === "42P01" || code === "42703" || code === "3D000") {

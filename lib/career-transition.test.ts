@@ -198,3 +198,49 @@ describe("career-transition csv bundle", () => {
     ).toBe(true);
   });
 });
+
+describe("career-transition skills layer (issue #222)", () => {
+  const catalog = loadCareerTransitionCsvCatalog();
+  const skillsFor = (code: string) =>
+    catalog.matches.find((m) => m.specialty.code === code)?.skills ?? [];
+
+  it("loads skills into the catalog", () => {
+    expect(catalog.skills.length).toBeGreaterThan(0);
+    expect(catalog.skills.map((s) => s.slug)).toContain("shipboard-power-distribution");
+    expect(catalog.skills.map((s) => s.slug)).toContain("nec-electrical-code");
+  });
+
+  it("gives every Phase 1 electrical specialty at least one skill", () => {
+    for (const code of ["EM", "ET", "IC"]) {
+      expect(skillsFor(code).length, code).toBeGreaterThan(0);
+    }
+    expect(skillsFor("12R").length).toBeGreaterThan(0);
+  });
+
+  it("gives EM electrical skills, not avionics", () => {
+    const slugs = skillsFor("EM").map((m) => m.skill.slug);
+    expect(slugs).toContain("shipboard-power-distribution");
+    expect(slugs).toContain("marine-electrical-systems");
+    expect(slugs.some((s) => s.includes("avionic"))).toBe(false);
+  });
+
+  it("carries listing keywords and kinds skills can be queried and labelled with", () => {
+    const power = catalog.skills.find((s) => s.slug === "shipboard-power-distribution");
+    expect(power?.skill_kind).toBe("domain");
+    expect(power?.listing_keywords).toContain("power distribution");
+    const nec = catalog.skills.find((s) => s.slug === "nec-electrical-code");
+    expect(nec?.skill_kind).toBe("credential");
+  });
+
+  it("models NEC licensure as a gap, not a held skill, for military electricians", () => {
+    const nec = skillsFor("EM").find((m) => m.skill.slug === "nec-electrical-code");
+    expect(nec?.directness).toBe("requires_gap");
+  });
+
+  it("leaves uncovered specialties with empty skills — never borrowed AE skills", () => {
+    // AE (aviation electrician) is seeded but has no skills; it must not inherit
+    // the shipboard electrical skills.
+    expect(skillsFor("AE")).toEqual([]);
+    expect(skillsFor("AO")).toEqual([]);
+  });
+});

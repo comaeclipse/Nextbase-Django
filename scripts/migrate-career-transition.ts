@@ -144,6 +144,45 @@ async function main() {
   );
 
   await run(
+    "create transition_skills",
+    `CREATE TABLE IF NOT EXISTS transition_skills (
+      id bigserial PRIMARY KEY,
+      slug text NOT NULL UNIQUE,
+      title text NOT NULL,
+      skill_kind text NOT NULL,
+      summary text NOT NULL,
+      listing_keywords text[] NOT NULL DEFAULT '{}',
+      source_kind text NOT NULL,
+      source_url text NOT NULL,
+      source_retrieved_on date NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      updated_at timestamptz NOT NULL DEFAULT now(),
+      CONSTRAINT transition_skills_kind_check CHECK (
+        skill_kind IN ('technical', 'domain', 'credential', 'clearance', 'safety')
+      )
+    )`
+  );
+
+  await run(
+    "create specialty_skill_matches",
+    `CREATE TABLE IF NOT EXISTS specialty_skill_matches (
+      specialty_id bigint NOT NULL REFERENCES military_specialties(id) ON DELETE CASCADE,
+      skill_id bigint NOT NULL REFERENCES transition_skills(id) ON DELETE CASCADE,
+      fit_score integer NOT NULL,
+      directness text NOT NULL,
+      rationale text NOT NULL,
+      source_kind text NOT NULL,
+      source_url text NOT NULL,
+      source_retrieved_on date NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      updated_at timestamptz NOT NULL DEFAULT now(),
+      PRIMARY KEY (specialty_id, skill_id),
+      CONSTRAINT specialty_skill_matches_fit_check CHECK (fit_score BETWEEN 0 AND 100),
+      CONSTRAINT specialty_skill_matches_directness_check CHECK (directness IN ('direct', 'adjacent', 'requires_gap'))
+    )`
+  );
+
+  await run(
     "index military_specialties branch/code",
     `CREATE INDEX IF NOT EXISTS military_specialties_branch_code_idx
      ON military_specialties (branch, code)`
