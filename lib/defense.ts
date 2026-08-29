@@ -148,8 +148,10 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Lockheed Martin",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    // Listings ingested from LM's Eightfold careers API (domain
+    // lockheedmartin.com), CONUS-only. Old careers backend was BrassRing.
+    ats_kind: "eightfold",
+    ats_config: { domain: "lockheedmartin.com" },
     legacy_aliases: [],
   },
   {
@@ -187,6 +189,214 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     display_name: "Boeing",
     parent_company: "Boeing",
     sector: "defense_aerospace",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+
+  // Defense-tech companies whose individual job *listings* are ingested via the
+  // /defense-jobs CSV importer (scripts/import-defense-job-listings.ts), not the
+  // aggregate defense_employer_locations path. Seeded so listings can link an
+  // employer_slug and so they appear in the unified employer filter. Kratos has
+  // no listings yet but is seeded because the user tracks it.
+  {
+    slug: "shield-ai",
+    display_name: "Shield AI",
+    parent_company: "Shield AI",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "palantir",
+    display_name: "Palantir",
+    parent_company: "Palantir Technologies",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "saronic",
+    display_name: "Saronic",
+    parent_company: "Saronic Technologies",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "vannevar-labs",
+    display_name: "Vannevar Labs",
+    parent_company: "Vannevar Labs",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    slug: "kratos",
+    display_name: "Kratos Defense",
+    parent_company: "Kratos Defense & Security Solutions",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    // Directed-energy / counter-electronics prime (Leonidas HPM). Listings are
+    // pulled from its public Greenhouse board (board token "epirus") via the
+    // /defense-jobs CSV importer.
+    slug: "epirus",
+    display_name: "Epirus",
+    parent_company: "Epirus",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "epirus" },
+    legacy_aliases: [],
+  },
+  {
+    // National-security software (Enterprise Readiness platform; Patriot, F-35,
+    // B-52 programs). Formerly Govini — rebranded to Air in 2026. Listings come
+    // from its public Greenhouse board (board token "air").
+    slug: "air",
+    display_name: "Air (Govini)",
+    parent_company: "Air",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "air" },
+    legacy_aliases: [],
+  },
+  {
+    // Advanced sensing / detection defense-tech (El Segundo). Listings come from
+    // its public Greenhouse board (board token "chaosindustries").
+    slug: "chaos-industries",
+    display_name: "CHAOS Industries",
+    parent_company: "CHAOS Industries",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "chaosindustries" },
+    legacy_aliases: [],
+  },
+  {
+    // Hypersonic-weapons / low-cost strike startup (Torrance CA, plus Rio Rancho
+    // NM and Midland/Allen TX). No public JSON ATS feed; listings are scraped
+    // from its careers-page.com (Manatal) board into the /defense-jobs CSV.
+    slug: "castelion",
+    display_name: "Castelion",
+    parent_company: "Castelion",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    // Military planning / staff software (deployed to combatant commands; roles
+    // at Fort Leavenworth, Fort Knox, Wiesbaden/Stuttgart, plus US remote).
+    // Listings come from its public Ashby board (board token "onebrief").
+    slug: "onebrief",
+    display_name: "Onebrief",
+    parent_company: "Onebrief",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "ashby",
+    ats_config: { board: "onebrief" },
+    legacy_aliases: [],
+  },
+  {
+    // Autonomous precision-manufacturing for aerospace & defense (Los Angeles,
+    // plus Mesa AZ and Cherokee AL factories). Listings from its public Ashby
+    // board (board token "hadrian-automation").
+    slug: "hadrian",
+    display_name: "Hadrian",
+    parent_company: "Hadrian Automation",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "ashby",
+    ats_config: { board: "hadrian-automation" },
+    legacy_aliases: [],
+  },
+  {
+    // Expeditionary manufacturing / unmanned aerial systems for defense
+    // (San Diego). Listings scraped from its Gem (jobs.gem.com) board; Gem has
+    // no public JSON feed, so pay/education are not captured at ingest.
+    slug: "firestorm",
+    display_name: "Firestorm",
+    parent_company: "Firestorm Labs",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    // Hypersonic aircraft (Quarterhorse/Darkhorse); Atlanta HQ, plus Los Angeles
+    // and Jacksonville. Listings from its public Lever board (token "hermeus").
+    slug: "hermeus",
+    display_name: "Hermeus",
+    parent_company: "Hermeus",
+    sector: "defense_aerospace",
+    counts_as_defense: true,
+    ats_kind: "lever",
+    ats_config: { board: "hermeus" },
+    legacy_aliases: [],
+  },
+  {
+    // Real-time geospatial intelligence / satellite imagery (Tukwila WA, Herndon
+    // VA). Listings from its public Greenhouse board (board token "blacksky").
+    slug: "blacksky",
+    display_name: "BlackSky",
+    parent_company: "BlackSky",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "greenhouse",
+    ats_config: { board: "blacksky" },
+    legacy_aliases: [],
+  },
+  {
+    // Cybersecurity (defense-adjacent: federal/DoD security business). Careers
+    // run on Radancy (tenant 47263) with no public JSON feed, so listings are
+    // scraped list-level (CONUS-only); pay/education not captured at ingest.
+    slug: "palo-alto-networks",
+    display_name: "Palo Alto Networks",
+    parent_company: "Palo Alto Networks",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+  {
+    // Defense prime (BAE Systems Inc., the US arm; Nashua NH electronic systems,
+    // plus many CONUS sites). Careers on Phenom (refNum BAE1US); listings pulled
+    // from phApp.ddo.eagerLoadRefineSearch, USA/CONUS-only.
+    slug: "bae-systems",
+    display_name: "BAE Systems",
+    parent_company: "BAE Systems",
+    sector: "defense_aerospace",
+    counts_as_defense: true,
+    ats_kind: "phenom",
+    ats_config: { refNum: "BAE1US", site: "jobs.baesystems.com" },
+    legacy_aliases: [],
+  },
+  {
+    // Defense-intelligence contractor (TS/SCI analysis at Ft Meade, Linthicum,
+    // Langley-Eustis). Small WordPress careers site (no ATS API).
+    slug: "cyntel-technologies",
+    display_name: "Cyntel Technologies",
+    parent_company: "Cyntel Technologies",
+    sector: "defense",
     counts_as_defense: true,
     ats_kind: null,
     ats_config: null,

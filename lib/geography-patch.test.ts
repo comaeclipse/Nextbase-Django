@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { geographyPatchStatements, validateGeographyPatches, type GeographyPatch } from "./geography-patch";
-import { assertTargetsExist, parseLocationIds } from "./location-targets";
-import { buildLocationUpsert } from "./location-import";
+import { assertTargetsExist, parseLocationIds, parseLocationVerificationOptions, requireUniqueLocation } from "./location-targets";
+import { assertLocationImportTransition, buildLocationUpsert } from "./location-import";
 import { isUnresolvedGeographyRow, isUnresolvedMetroRow } from "./geography-import-status";
 
 const geo = { county: "Middlesex", latitude: 42.49, longitude: -71.28, boundary_geoid: "2501704615", boundary_source: "Census" };
@@ -52,4 +52,32 @@ it("accepts actual numbered election columns but refuses unsafe identifiers", ()
   for (const column of ["2016_election", "name;drop", "name--", 'name"', "Name", "name field", ""]) {
     expect(() => buildLocationUpsert({ [column]: null }, null, "")).toThrow("Invalid import column");
   }
+});
+
+it("requires one unambiguous verification target and a supported mode", () => {
+  expect(parseLocationVerificationOptions(["--id", "617", "--mode", "structural"])).toEqual({
+    where: "l.id = $1", params: [617], label: "id 617", mode: "structural",
+  });
+  expect(parseLocationVerificationOptions(["--slug", "ga-columbus-midland"]).params).toEqual(["ga-columbus-midland"]);
+  expect(parseLocationVerificationOptions(["--name", "Downtown, CA"]).params).toEqual(["Downtown", "CA"]);
+  for (const args of [[], ["--id"], ["--id", "0"], ["--id", "1;DROP"], ["--ids", "1"],
+    ["--id", "1", "--slug", "ca-downtown"], ["--name", "Downtown"], ["--slug", "bad slug"],
+    ["--id", "1", "--mode", "ready"], ["--id", "1", "--mode", "profile", "--mode", "candidate"]]) {
+    expect(() => parseLocationVerificationOptions(args)).toThrow();
+  }
+  expect(() => requireUniqueLocation([], "Downtown, CA")).toThrow("not found");
+  expect(() => requireUniqueLocation([{ id: 1 }, { id: 2 }], "Downtown, CA")).toThrow("Ambiguous");
+  expect(requireUniqueLocation([{ id: 617 }], "Midland")).toEqual({ id: 617 });
+});
+
+it("blocks CSV promotion and stale demotion in both preview and SQL write guards", () => {
+  const data = { name: "Midland", slug: "ga-columbus-midland", geo_type: "neighborhood", is_candidate: false };
+  expect(() => assertLocationImportTransition(data, { geo_type: "neighborhood", is_candidate: false })).not.toThrow();
+  expect(() => assertLocationImportTransition(data, { geo_type: "neighborhood", is_candidate: true })).toThrow("demote");
+  expect(() => assertLocationImportTransition({ ...data, geo_type: "city" }, { geo_type: "neighborhood", is_candidate: false })).toThrow("geography type");
+  expect(() => buildLocationUpsert({ ...data, is_candidate: true }, null, "CSV")).toThrow("non-candidates");
+  const query = buildLocationUpsert(data, null, "CSV");
+  expect(query.text).toContain("WHERE locations_location.geo_type = EXCLUDED.geo_type");
+  expect(query.text).toContain("locations_location.is_candidate = EXCLUDED.is_candidate");
+  expect(() => assertLocationImportTransition({ geo_type: "city", is_candidate: true }, { geo_type: "city", is_candidate: false })).not.toThrow();
 });

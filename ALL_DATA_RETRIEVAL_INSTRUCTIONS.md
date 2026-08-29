@@ -798,11 +798,30 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scri
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
 ```
 
-Then run the completion audit for each city being added or declared complete. It must exit successfully before the city can be reported complete:
+Then run the completion audit for each city being added or declared complete. It must exit successfully before the city can be reported complete. When it fails, each line includes the missing field and the next expected source/review action; treat that result as **blocked**, not complete:
 
 ```powershell
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/verify-location-completeness.ts --name "City, ST"
 ```
+
+To reproduce the issue #20 legacy core-field inventory for existing ranked cities, run the read-only report:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/report-legacy-core-gaps.ts
+```
+
+For the broader issue #55 live data-quality inventory, including city-row gaps,
+military/employer coordinate gaps, and monthly-weather nullable fields, run:
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/report-data-quality-gaps.ts
+```
+
+Use this language in final reports:
+
+- **complete**: importer dry run/live import and every required post-import verifier passed.
+- **blocked**: a named city cannot be called complete because the verifier lists unresolved fields or follow-up actions.
+- **legacy backfill pending**: an already-existing city has a recorded historical gap in the inventory report; do not use this status for a new city package.
 
 For state-owned fields that still exist on legacy location rows, run the divergence audit before and after any state-info normalization work:
 
