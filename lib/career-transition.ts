@@ -275,6 +275,95 @@ function asRows<T>(value: unknown): T[] {
   return value as T[];
 }
 
+function dateString(value: unknown): string {
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+  return String(value);
+}
+
+function normalizeDbSpecialty(row: MilitarySpecialty): MilitarySpecialty {
+  return {
+    id: Number(row.id),
+    branch: row.branch,
+    code_system: row.code_system,
+    code: row.code,
+    title: row.title,
+    population: row.population,
+    status: row.status,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+  };
+}
+
+function normalizeDbRole(row: CivilianTransitionRole): CivilianTransitionRole {
+  return {
+    id: Number(row.id),
+    slug: row.slug,
+    title: row.title,
+    role_family: row.role_family,
+    onet_soc_code: row.onet_soc_code,
+    summary: row.summary,
+    credential_notes: row.credential_notes,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+  };
+}
+
+function normalizeDbEmployer(row: TransitionEmployer): TransitionEmployer {
+  return {
+    id: Number(row.id),
+    slug: row.slug,
+    display_name: row.display_name,
+    parent_company: row.parent_company,
+    employer_type: row.employer_type,
+    defense_employer_slug: row.defense_employer_slug,
+    website_url: row.website_url,
+    notes: row.notes,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+  };
+}
+
+function normalizeDbRoleMatch(row: RoleMatchView): RoleMatchView {
+  return {
+    specialty_id: Number(row.specialty_id),
+    role_id: Number(row.role_id),
+    fit_score: Number(row.fit_score),
+    directness: row.directness,
+    rationale: row.rationale,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+    role: normalizeDbRole(row.role),
+  };
+}
+
+function normalizeDbEmployerMatch(row: EmployerMatchView): EmployerMatchView {
+  return {
+    specialty_id: Number(row.specialty_id),
+    employer_id: Number(row.employer_id),
+    fit_score: Number(row.fit_score),
+    directness: row.directness,
+    platform_tags: row.platform_tags ?? [],
+    requires_ap: row.requires_ap,
+    values_ap: row.values_ap,
+    requires_clearance: row.requires_clearance,
+    values_clearance: row.values_clearance,
+    requires_faa: row.requires_faa,
+    requires_fcc: row.requires_fcc,
+    snapshot_date: dateString(row.snapshot_date),
+    rationale: row.rationale,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+    employer: normalizeDbEmployer(row.employer),
+    mapped_location_count:
+      row.mapped_location_count == null ? null : Number(row.mapped_location_count),
+  };
+}
+
 function csvRows(file: string): CsvRow[] {
   return parse(readFileSync(path.join(DATA_DIR, file), "utf-8"), {
     columns: true,
@@ -456,11 +545,13 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
       ),
     ]);
 
-    const specialties = asRows<MilitarySpecialty>(specialtyRows);
-    const roles = asRows<CivilianTransitionRole>(roleRows);
-    const employers = asRows<TransitionEmployer>(employerRows);
-    const roleMatches = asRows<RoleMatchView>(roleMatchRows);
-    const employerMatches = asRows<EmployerMatchView>(employerMatchRows);
+    const specialties = asRows<MilitarySpecialty>(specialtyRows).map(normalizeDbSpecialty);
+    const roles = asRows<CivilianTransitionRole>(roleRows).map(normalizeDbRole);
+    const employers = asRows<TransitionEmployer>(employerRows).map(normalizeDbEmployer);
+    const roleMatches = asRows<RoleMatchView>(roleMatchRows).map(normalizeDbRoleMatch);
+    const employerMatches = asRows<EmployerMatchView>(employerMatchRows).map(
+      normalizeDbEmployerMatch
+    );
 
     if (specialties.length === 0) return loadCareerTransitionCsvCatalog();
     return buildCatalog(specialties, roles, employers, roleMatches, employerMatches, "database");
