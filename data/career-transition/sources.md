@@ -2,7 +2,7 @@
 
 Retrieved: 2026-08-29
 
-This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons and cyber operations expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
+This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, and electronic warfare expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
 
 ## Stable occupation and credential sources
 
@@ -40,6 +40,18 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - O*NET Digital Forensics Analyst summary: https://www.onetonline.org/link/summary/15-1299.06
 - O*NET Information Security Analysts summary: https://www.onetonline.org/link/summary/15-1212.00
 - O*NET Computer Network Architects summary: https://www.onetonline.org/link/summary/15-1241.00
+- MyNavy HR CTT page: https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Information-Warfare/CTT/
+- MyNavy HR CTT FY-27 enlisted career path and NEC snapshot: https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf
+- Army 17E Electromagnetic Warfare Specialist page: https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/17e-electromagnetic-warfare-specialist
+- Army Cyber Center 17E page: https://cybercoe.army.mil/Cyber-Center-of-Excellence/Schools/Cyber-School/Cyber-Courses/Electromagnetic-Warfare-Specialist/
+- Marine Corps 17XX Information Maneuver page: https://www.information.marines.mil/17XX-Careers/
+- Marine Corps FY26 Cyber Electromagnetic Warfare Operations Officer Course message: https://www.marines.mil/News/Messages/Messages-Display/Article/4275553/soliciting-nominations-for-the-fy26-cyber-electromagnetic-warfare-operations-of/
+- Marine Corps FY26 NSA cryptologic internship programs message: https://www.marines.mil/News/Messages/Messages-Display/Article/4035390/fiscal-year-2026-national-security-agency-cryptologic-internship-programs/
+- Air Force Mobility Air Forces Electronic Warfare Systems 2A5X3 page: https://www.airforce.com/careers/aviation-and-flight/mobility-air-forces-electronic-warfare-systems
+- Air Force SOF/PR Integrated Electronic Warfare Systems 2A8X3 page: https://www.airforce.com/careers/aviation-and-flight/special-operations-forces-personnel-recovery-integrated-electronic-warfare-systems
+- Air Force Bomber/Special EW and Radar Surveillance Integrated Avionics 2A9X3 page: https://www.airforce.com/careers/aviation-and-flight/bomber-special-electronic-warfare-and-radar-surveillance-integrated-avionics
+- Air Force Avionics Test Station and Components 2A0X1 page: https://www.airforce.com/careers/science-and-technology/avionics-test-station-and-components
+- My Next Move for Veterans avionics military crosswalk page: https://www.mynextmove.org/vets/profile/military/49-2091.00
 
 ## Employer snapshot sources
 
@@ -75,6 +87,10 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - SAIC careers: https://jobs.saic.com/
 - General Dynamics Information Technology careers: https://www.gdit.com/careers/
 - Kratos Defense careers: https://www.kratosdefense.com/careers
+- L3Harris ELINT careers search: https://careers.l3harris.com/en/search-jobs/elint/4832/1/1
+- L3Harris Electronic Warfare Specialist posting: https://careers.l3harris.com/en/job/clifton/electronic-warfare-specialist-systems-engineer/4832/98185751328
+- Lockheed Martin electronic warfare careers search: https://www.lockheedmartinjobs.com/search-jobs/electronic%20warfare/694/1
+- Sierra Nevada Company careers: https://www.sncorp.com/careers/
 - Palo Alto Networks Unit 42 DFIR posting: https://jobs.paloaltonetworks.com/en/job/santa-clara/consultant-dfir-reactive-services-unit-42/47263/96174875472
 - CrowdStrike careers: https://www.crowdstrike.com/careers/
 - Microsoft careers: https://careers.microsoft.com/
@@ -101,6 +117,8 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Ordnance employer matches are curated system-fit snapshots, not claims that a specialty usually feeds a specific employer.
 - System tags such as Mk 41 VLS, CIWS, Mk 45, aviation ordnance, ammunition, fire control, and electro-optical systems should be treated as user-profile refinements when more granular service history is available.
 - Cyber employer matches should treat clearance, work role, training pipeline, NEC/NMOS, tool stack, and mission environment as high-signal fields. A rating, MOS, AFSC, or SFSC alone is not enough to infer the best role.
+- EW employer matches should treat platform, system, and mission context as high-signal fields. Examples: CTT plus SLQ-32(V)6 maintenance is a different path than CTT plus C17A technical ELINT analysis; 2A9X3 airborne EW/radar avionics is different from 17E tactical jamming and spectrum operations.
+- EW roles are a mix of operator, analyst, technician, planner, field-service, and engineering-support paths. The matcher should not imply that enlisted EW experience alone qualifies a user for degreed engineering billets without the separate education/experience evidence those roles require.
 - Commercial cyber employers are transition employers, not VetRetire defense footprint evidence unless separately linked to `defense_employers`.
 - Civilian operators are transition employers, not defense employers. They are intentionally not inserted into `defense_employers`.
 - A mapped VetRetire location count exists only for transition employers linked to an existing `defense_employers.slug`; an unmapped employer means "not yet mapped," not "no locations."
