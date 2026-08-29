@@ -16,7 +16,9 @@ export default function DefenseJobsLayout({
   return (
     <div className="min-h-screen bg-background text-foreground">
       <PublicNav active="defense-jobs" />
-      <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+      {/* 1312 = 1280 content column + the 16px px-4 gutters on each side, so the
+          inner `.space-y-6` measures exactly 1280px wide on desktop. */}
+      <main className="mx-auto max-w-[1312px] px-4 py-8">{children}</main>
     </div>
   );
 }

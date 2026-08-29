@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type {
   ClientJobListing,
@@ -13,6 +12,7 @@ import DefenseJobsMap, {
   type CityPoint,
   type CountPoint,
 } from "./DefenseJobsMap";
+import DefenseJobsFilterBar from "./DefenseJobsFilterBar";
 
 /** Client-side listing shape (camelCase mirror of DefenseJobListingRow). */
 export type JobListing = ClientJobListing;
@@ -51,49 +51,6 @@ function formatPay(j: JobListing): string | null {
     return `${fmt(j.payMin)}–${fmt(j.payMax)}${unit}`;
   }
   return `${fmt(j.payMin ?? j.payMax!)}${unit}`;
-}
-
-function Chip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={cn(
-        "rounded-full border px-3 py-1 text-sm transition-colors",
-        active
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border bg-background text-foreground hover:bg-muted"
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-
-function FilterGroup({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-2">
-      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        {label}
-      </p>
-      <div className="flex flex-wrap gap-2">{children}</div>
-    </div>
-  );
 }
 
 /** Build the query string the API routes expect from the current filter state. */
@@ -277,14 +234,6 @@ export default function DefenseJobsExplorer({
       }));
   }, [counts, selCountEmployers]);
 
-  const anyFilter =
-    selSectors.size ||
-    selEmployers.size ||
-    selRegions.size ||
-    remoteOnly ||
-    selectedCity ||
-    search.trim();
-
   const clearAll = () => {
     setSelSectors(new Set());
     setSelEmployers(new Set());
@@ -298,83 +247,27 @@ export default function DefenseJobsExplorer({
 
   return (
     <div className="space-y-5">
-      {/* Filter bar */}
-      <div className="space-y-4 rounded-2xl border bg-card p-5 shadow-sm">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <Input
-            placeholder="Search title, company, city…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="sm:max-w-xs"
-          />
-          <div className="text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">{total.toLocaleString()}</span>{" "}
-            of {facets.total.toLocaleString()} listings
-            {anyFilter ? (
-              <button
-                type="button"
-                onClick={clearAll}
-                className="ml-3 text-primary hover:underline"
-              >
-                Clear filters
-              </button>
-            ) : null}
-          </div>
-        </div>
-
-        <FilterGroup label="Sector">
-          {facets.sectors.map((s) => (
-            <Chip
-              key={s}
-              active={selSectors.has(s)}
-              onClick={() => setSelSectors((p) => toggle(p, s))}
-            >
-              {s}
-            </Chip>
-          ))}
-        </FilterGroup>
-
-        <FilterGroup label="Employer">
-          {facets.employers.map((e) => (
-            <Chip
-              key={e.key}
-              active={selEmployers.has(e.key)}
-              onClick={() => setSelEmployers((p) => toggle(p, e.key))}
-            >
-              {e.name}
-            </Chip>
-          ))}
-        </FilterGroup>
-
-        <FilterGroup label="Region">
-          {facets.regions.map((r) => (
-            <Chip
-              key={r}
-              active={selRegions.has(r)}
-              onClick={() => setSelRegions((p) => toggle(p, r))}
-            >
-              {r}
-            </Chip>
-          ))}
-          <Chip active={remoteOnly} onClick={() => setRemoteOnly((v) => !v)}>
-            Remote only
-          </Chip>
-        </FilterGroup>
-
-        {countOnlyEmployers.length > 0 && (
-          <FilterGroup label="Cross-reference on map (aggregate counts, no listings yet)">
-            {countOnlyEmployers.map((e) => (
-              <Chip
-                key={e.slug}
-                active={selCountEmployers.has(e.slug)}
-                onClick={() => setSelCountEmployers((p) => toggle(p, e.slug))}
-              >
-                {e.name}
-              </Chip>
-            ))}
-          </FilterGroup>
-        )}
-      </div>
+      <DefenseJobsFilterBar
+        facets={facets}
+        countOnlyEmployers={countOnlyEmployers.map((e) => ({
+          key: e.slug,
+          name: e.name,
+        }))}
+        search={search}
+        onSearchChange={setSearch}
+        selSectors={selSectors}
+        selEmployers={selEmployers}
+        selRegions={selRegions}
+        selCountEmployers={selCountEmployers}
+        remoteOnly={remoteOnly}
+        onToggleSector={(k) => setSelSectors((p) => toggle(p, k))}
+        onToggleEmployer={(k) => setSelEmployers((p) => toggle(p, k))}
+        onToggleRegion={(k) => setSelRegions((p) => toggle(p, k))}
+        onToggleCountEmployer={(k) => setSelCountEmployers((p) => toggle(p, k))}
+        onRemoteChange={setRemoteOnly}
+        total={total}
+        resetAll={clearAll}
+      />
 
       {/* Map + list */}
       <div className="grid gap-5 lg:grid-cols-5">
@@ -452,7 +345,12 @@ export default function DefenseJobsExplorer({
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         <Badge variant="secondary">{j.sector}</Badge>
                         {j.fieldRaw && j.fieldRaw !== j.sector && (
-                          <Badge variant="outline">{j.fieldRaw}</Badge>
+                          <Badge
+                            variant="outline"
+                            className="h-auto max-w-full whitespace-normal text-left leading-snug"
+                          >
+                            {j.fieldRaw}
+                          </Badge>
                         )}
                         {j.employmentType && (
                           <Badge variant="outline">{j.employmentType}</Badge>

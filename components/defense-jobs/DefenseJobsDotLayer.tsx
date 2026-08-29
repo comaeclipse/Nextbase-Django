@@ -53,9 +53,11 @@ const CLUSTER_RADIUS: MapLibreGL.ExpressionSpecification = [
   "interpolate", ["linear"], ["get", "sum"],
   1, 14, 25, 20, 100, 28, 500, 38, 2000, 48,
 ];
+// Min radius is 11 so a single-listing "1" (and a "5") stays legible at the
+// default national zoom instead of shrinking into the background.
 const POINT_RADIUS: MapLibreGL.ExpressionSpecification = [
   "interpolate", ["linear"], ["get", "count"],
-  1, 7, 10, 11, 50, 18, 200, 26, 1000, 36,
+  1, 11, 10, 14, 50, 19, 200, 27, 1000, 36,
 ];
 
 export default function DefenseJobsDotLayer({
@@ -103,7 +105,10 @@ export default function DefenseJobsDotLayer({
       ...(clustered
         ? {
             cluster: true,
-            clusterRadius: 48,
+            // Tighter than the default so small, isolated cities (a "1" or a
+            // "5") separate out and stay visible at the national default zoom
+            // rather than being swallowed into a neighboring cluster bubble.
+            clusterRadius: 30,
             clusterMaxZoom: 11,
             // Sum the listing counts within each cluster (not city count).
             clusterProperties: { sum: ["+", ["get", "count"]] },
