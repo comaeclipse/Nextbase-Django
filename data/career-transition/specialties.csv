@@ -1,0 +1,17 @@
+Branch,CodeSystem,Code,Title,Population,Status,SourceKind,SourceUrl,SourceRetrievedOn
+army,MOS,15T,UH-60 Helicopter Repairer,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15U,CH-47 Helicopter Repairer,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15R,AH-64 Attack Helicopter Repairer,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15N,Avionic Mechanic,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15F,Aircraft Electrician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AD,Aviation Machinist's Mate,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AM,Aviation Structural Mechanic,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AE,Aviation Electrician's Mate,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AT,Aviation Electronics Technician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,NEC,722B,MH-60R Organizational Maintenance Technician,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/References/NEOCS-Manual/,2026-08-29
+air_force,AFSC,2A5X1,Airlift and Special Mission Aircraft Maintenance,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+air_force,AFSC,2A6X1,Aerospace Propulsion,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+marine_corps,MOS,6114,Helicopter Mechanic UH/AH-1,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,6324,Aircraft Communications/Navigation/Electrical/Weapon Systems Technician UH/AH-1,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+coast_guard,Rating,AMT,Aviation Maintenance Technician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+coast_guard,Rating,AET,Aviation Electronics Technician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
