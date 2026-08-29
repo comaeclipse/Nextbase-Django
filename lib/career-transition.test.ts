@@ -89,19 +89,22 @@ describe("resolveSpecialty (issue #221)", () => {
     expect(result.status).toBe("uncovered");
   });
 
-  it("stays ambiguous against the real seed even before EM is seeded", () => {
-    // Integrity in production today: EM is not in the CSV bundle yet, but the
-    // resolver must still ask rather than return AE.
-    const catalog = loadCareerTransitionCsvCatalog();
-    expect(catalog.specialties.some((s) => s.branch === "navy" && s.code === "EM")).toBe(false);
+  it("asks even when only the aviation rate is seeded — never returns AE", () => {
+    // Integrity guarantee independent of catalog contents: with ONLY AE seeded,
+    // "electrician" must still ask, not auto-resolve to the one seeded neighbor.
+    // Uses an explicit AE-only fixture so a later data seed of EM (issue #219)
+    // cannot silently invalidate this test's premise.
+    const aeOnly = {
+      specialties: [specialty("navy", "AE", "Aviation Electrician's Mate", { id: 1 })],
+    };
 
-    const result = resolveSpecialty(catalog, "navy electrician");
+    const result = resolveSpecialty(aeOnly, "navy electrician");
     expect(result.status).toBe("ambiguous");
     if (result.status !== "ambiguous") throw new Error("expected ambiguous");
     const em = result.candidates.find((c) => c.code === "EM");
     const ae = result.candidates.find((c) => c.code === "AE");
-    expect(em?.specialty).toBeNull(); // not seeded yet
-    expect(ae?.specialty).not.toBeNull(); // AE is seeded today
+    expect(em?.specialty).toBeNull(); // EM absent from this fixture
+    expect(ae?.specialty).not.toBeNull(); // AE present
   });
 });
 
