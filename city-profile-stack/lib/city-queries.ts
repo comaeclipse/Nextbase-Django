@@ -738,8 +738,6 @@ export interface StateTaxGasEntry {
   /** Statewide income tax percentage only when the current rows agree. 0 means no income tax; null means unknown or conflicting. */
   incomeTaxPct: number | null;
   gasPricePerGallon: number | null;
-  /** How many cities this database has in this state (always present, for scoping). */
-  cityCount: number;
   /** The city names, only when includeCities was requested (user is choosing between cities). */
   cities?: string[];
 }
@@ -860,7 +858,6 @@ export async function compareStateTaxesAndGas(
       salesTaxPct: b.salesTaxN ? round2(b.salesTaxSum / b.salesTaxN) : null,
       incomeTaxPct: incomeTaxValues.length === 1 ? round2(incomeTaxValues[0]) : null,
       gasPricePerGallon: gasByState.get(abbr) ?? null,
-      cityCount: b.cities.length,
       ...(opts.includeCities ? { cities: b.cities.sort() } : {}),
     };
   });
@@ -903,8 +900,6 @@ export interface StateGunFreedomEntry {
   summary: string;
   /** Present only for states whose relevant laws are in active litigation. */
   legalStatus?: "Unsettled";
-  /** How many cities this database has in this state (always present, for scoping). */
-  cityCount: number;
   /** The city names, only when includeCities was requested (user is choosing between cities). */
   cities?: string[];
 }
@@ -962,7 +957,6 @@ export async function compareStateGunFreedom(
       displayBand: d.displayBand,
       summary: d.summary,
       legalStatus: d.legalStatus,
-      cityCount: (citiesByState.get(d.state) ?? []).length,
       ...(opts.includeCities ? { cities: (citiesByState.get(d.state) ?? []).sort() } : {}),
     }));
 
