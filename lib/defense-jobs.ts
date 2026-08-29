@@ -300,7 +300,7 @@ export const getDefenseJobInitialListings = unstable_cache(
  * Map aggregation (city-level rollup of the matching listings)
  * ------------------------------------------------------------------ */
 
-/** A city plotted on the map: total matching listings + per-employer breakdown. */
+/** A city plotted on the map: total matching listings + per-employer / per-sector breakdown. */
 export interface DefenseJobCityPoint {
   key: string;
   city: string;
@@ -309,6 +309,10 @@ export interface DefenseJobCityPoint {
   longitude: number;
   count: number;
   employers: { name: string; count: number }[];
+  /** Per-sector listing counts in this city, highest first. */
+  sectors: { sector: string; count: number }[];
+  /** The single most common sector in this city — drives the color-by-sector map. */
+  dominantSector: string;
 }
 
 /**
@@ -325,9 +329,11 @@ export async function getDefenseJobMapAggregation(
   const geoClause = where
     ? `${where} AND city IS NOT NULL AND state IS NOT NULL AND latitude IS NOT NULL AND longitude IS NOT NULL`
     : `WHERE city IS NOT NULL AND state IS NOT NULL AND latitude IS NOT NULL AND longitude IS NOT NULL`;
+  // The geo/filter clause (with its `$n` params) is referenced by both CTEs;
+  // the params array is built once and positional placeholders reuse it.
   try {
     const rows = (await sql.query(
-      `WITH per AS (
+      `WITH per_emp AS (
          SELECT city, state, company,
                 COUNT(*)::int AS c,
                 MAX(latitude)  AS lat,
@@ -335,18 +341,41 @@ export async function getDefenseJobMapAggregation(
            FROM defense_job_listings
            ${geoClause}
           GROUP BY city, state, company
+       ),
+       per_sec AS (
+         SELECT city, state, sector, COUNT(*)::int AS c
+           FROM defense_job_listings
+           ${geoClause}
+          GROUP BY city, state, sector
+       ),
+       emp AS (
+         SELECT city, state,
+                MAX(lat) AS lat, MAX(lng) AS lng,
+                SUM(c)::int AS count,
+                jsonb_agg(
+                  jsonb_build_object('name', company, 'count', c)
+                  ORDER BY c DESC, company ASC
+                ) AS employers
+           FROM per_emp
+          GROUP BY city, state
+       ),
+       sec AS (
+         SELECT city, state,
+                jsonb_agg(
+                  jsonb_build_object('sector', sector, 'count', c)
+                  ORDER BY c DESC, sector ASC
+                ) AS sectors,
+                (array_agg(sector ORDER BY c DESC, sector ASC))[1] AS dominant_sector
+           FROM per_sec
+          GROUP BY city, state
        )
-       SELECT city, state,
-              MAX(lat) AS latitude,
-              MAX(lng) AS longitude,
-              SUM(c)::int AS count,
-              jsonb_agg(
-                jsonb_build_object('name', company, 'count', c)
-                ORDER BY c DESC, company ASC
-              ) AS employers
-         FROM per
-        GROUP BY city, state
-        ORDER BY count DESC, city ASC`,
+       SELECT emp.city, emp.state,
+              emp.lat AS latitude, emp.lng AS longitude,
+              emp.count, emp.employers,
+              sec.sectors, sec.dominant_sector
+         FROM emp
+         JOIN sec ON emp.city = sec.city AND emp.state = sec.state
+        ORDER BY emp.count DESC, emp.city ASC`,
       params
     )) as Record<string, unknown>[];
     return rows.map((r) => ({
@@ -360,6 +389,11 @@ export async function getDefenseJobMapAggregation(
         name: String(e.name),
         count: Number(e.count),
       })),
+      sectors: (r.sectors as { sector: string; count: number }[]).map((s) => ({
+        sector: String(s.sector),
+        count: Number(s.count),
+      })),
+      dominantSector: String(r.dominant_sector),
     }));
   } catch (err) {
     if (isMissingTable(err)) return [];
