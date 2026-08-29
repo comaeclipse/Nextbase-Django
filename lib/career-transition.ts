@@ -252,6 +252,237 @@ export function searchSpecialties(
     .sort((a, b) => a.code.localeCompare(b.code) || a.title.localeCompare(b.title));
 }
 
+/**
+ * Specialty resolution (issue #221).
+ *
+ * Substring search treats "navy electrician" as a hit on AE (Aviation
+ * Electrician's Mate) because that title contains "Electrician". Wiring chat or
+ * the listing bridge to that behavior would recommend avionics jobs to a ship
+ * electrician. `resolveSpecialty` is the integrity gate every later phase must
+ * call instead: it owns the match, so the model only narrates.
+ *
+ * Ambiguity is a curated fact about the *vernacular*, not something derived from
+ * catalog membership — "electrician" stays ambiguous whether or not shipboard EM
+ * is seeded yet. A resolved outcome still requires the specialty to be in the
+ * catalog; an ambiguous trigger with no disambiguating qualifier always asks.
+ */
+export type SpecialtyResolution =
+  | { status: "resolved"; specialty: MilitarySpecialty; matchedOn: "code" | "qualifier" | "title" }
+  | {
+      status: "ambiguous";
+      branch: MilitaryBranch | null;
+      term: string;
+      candidates: AmbiguousCandidate[];
+      clarification: string;
+    }
+  | { status: "uncovered"; branch: MilitaryBranch | null; query: string; explanation: string };
+
+export interface AmbiguousCandidate {
+  branch: MilitaryBranch;
+  code: string;
+  title: string;
+  /** Plain-language cue that would point a user at this specialty. */
+  disambiguator: string;
+  /** The seeded catalog row, or null when this candidate is not yet seeded. */
+  specialty: MilitarySpecialty | null;
+}
+
+interface AmbiguityCandidateRule {
+  code: string;
+  title: string;
+  disambiguator: string;
+  /** Query words that uniquely select this candidate. */
+  qualifiers: string[];
+}
+
+interface AmbiguityRule {
+  branch: MilitaryBranch;
+  /** Vernacular words that make the query ambiguous on their own. */
+  triggers: string[];
+  candidates: AmbiguityCandidateRule[];
+  clarification: string;
+}
+
+/**
+ * Curated ambiguous vernacular. Keep entries here rather than inferring ambiguity
+ * from the catalog, so the resolver asks even before a candidate rate is seeded.
+ */
+export const SPECIALTY_AMBIGUITY_RULES: AmbiguityRule[] = [
+  {
+    branch: "navy",
+    triggers: ["electrician"],
+    candidates: [
+      {
+        code: "AE",
+        title: "Aviation Electrician's Mate",
+        disambiguator: "aircraft electrical and avionics systems",
+        qualifiers: ["aviation", "aircraft", "avionics", "ae"],
+      },
+      {
+        code: "EM",
+        title: "Electrician's Mate",
+        disambiguator: "shipboard power generation and distribution (surface or nuclear)",
+        qualifiers: [
+          "em",
+          "shipboard",
+          "ship",
+          "surface",
+          "engineering",
+          "power distribution",
+          "electrician's mate",
+          "electricians mate",
+          "nuke",
+          "nuclear",
+        ],
+      },
+    ],
+    clarification:
+      'In the Navy, "electrician" is more than one rating. Which describes your work?',
+  },
+];
+
+function tokenize(value: string): string[] {
+  return value
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+/** Detect a branch named anywhere in the query as whole words. */
+export function detectBranch(query: string): MilitaryBranch | null {
+  const normalized = ` ${query.toLowerCase()} `;
+  for (const [alias, branch] of Object.entries(BRANCH_ALIASES)) {
+    if (normalized.includes(` ${alias} `)) return branch;
+  }
+  return null;
+}
+
+function normalizeTitle(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function findSeeded(
+  specialties: MilitarySpecialty[],
+  branch: MilitaryBranch,
+  code: string
+): MilitarySpecialty | null {
+  const wanted = normalizeSpecialtyKey(branch, code);
+  return specialties.find((s) => normalizeSpecialtyKey(s.branch, s.code) === wanted) ?? null;
+}
+
+/**
+ * Resolve a free-text occupation to a single specialty, an ask, or an honest
+ * "not covered". `branch` is an optional hint; when omitted it is inferred from
+ * the query (a branch word, or a qualifier that uniquely names one rating).
+ *
+ * Never returns a "nearby" specialty for an ambiguous or uncovered query.
+ */
+export function resolveSpecialty(
+  catalog: Pick<CareerTransitionCatalog, "specialties">,
+  query: string,
+  branch?: MilitaryBranch
+): SpecialtyResolution {
+  const specialties = catalog.specialties;
+  const raw = query.trim();
+  const tokens = tokenize(raw);
+  const tokenSet = new Set(tokens);
+  const normalizedQuery = normalizeTitle(raw);
+  const branchHint = branch ?? detectBranch(raw);
+
+  if (!raw) {
+    return {
+      status: "uncovered",
+      branch: branchHint,
+      query: raw,
+      explanation: "No occupation was provided.",
+    };
+  }
+
+  // 1) Curated ambiguity — checked before any code/title match so substring
+  //    similarity can never auto-pick a seeded neighbor.
+  for (const rule of SPECIALTY_AMBIGUITY_RULES) {
+    if (branchHint && branchHint !== rule.branch) continue;
+    const triggered = rule.triggers.some((t) => normalizedQuery.includes(t));
+    if (!triggered) continue;
+
+    const selected = rule.candidates.filter((c) =>
+      c.qualifiers.some((q) => {
+        const nq = normalizeTitle(q);
+        return nq.includes(" ") ? normalizedQuery.includes(nq) : tokenSet.has(nq);
+      })
+    );
+
+    if (selected.length === 1) {
+      const c = selected[0];
+      const seeded = findSeeded(specialties, rule.branch, c.code);
+      if (seeded) return { status: "resolved", specialty: seeded, matchedOn: "qualifier" };
+      return {
+        status: "uncovered",
+        branch: rule.branch,
+        query: raw,
+        explanation: `${BRANCH_LABELS[rule.branch]} ${c.title} (${c.code}) is not in the career-transition seed yet.`,
+      };
+    }
+
+    // Zero or multiple qualifiers → ask, never guess.
+    return {
+      status: "ambiguous",
+      branch: rule.branch,
+      term: rule.triggers.find((t) => normalizedQuery.includes(t)) ?? rule.triggers[0],
+      candidates: rule.candidates.map((c) => ({
+        branch: rule.branch,
+        code: c.code,
+        title: c.title,
+        disambiguator: c.disambiguator,
+        specialty: findSeeded(specialties, rule.branch, c.code),
+      })),
+      clarification: rule.clarification,
+    };
+  }
+
+  // 2) Exact code-token match (branch-scoped when a branch is known).
+  const codeMatches = specialties.filter(
+    (s) => (!branchHint || s.branch === branchHint) && tokenSet.has(s.code.toLowerCase())
+  );
+  if (codeMatches.length === 1) {
+    return { status: "resolved", specialty: codeMatches[0], matchedOn: "code" };
+  }
+  if (codeMatches.length > 1) {
+    return {
+      status: "ambiguous",
+      branch: branchHint,
+      term: raw,
+      candidates: codeMatches.map((s) => ({
+        branch: s.branch,
+        code: s.code,
+        title: s.title,
+        disambiguator: `${BRANCH_LABELS[s.branch]} ${s.title}`,
+        specialty: s,
+      })),
+      clarification: "That code matches more than one specialty. Which branch?",
+    };
+  }
+
+  // 3) Exact title match (branch-scoped when a branch is known). Conservative on
+  //    purpose: no loose substring, which is what created the AE trap.
+  const titleMatches = specialties.filter(
+    (s) => (!branchHint || s.branch === branchHint) && normalizeTitle(s.title) === normalizedQuery
+  );
+  if (titleMatches.length === 1) {
+    return { status: "resolved", specialty: titleMatches[0], matchedOn: "title" };
+  }
+
+  // 4) Not covered — say so, never substitute a neighbor.
+  return {
+    status: "uncovered",
+    branch: branchHint,
+    query: raw,
+    explanation: branchHint
+      ? `No ${BRANCH_LABELS[branchHint]} specialty in the career-transition seed matches "${raw}".`
+      : `No specialty in the career-transition seed matches "${raw}".`,
+  };
+}
+
 export function sortRoleMatches<T extends { fit_score: number; directness: MatchDirectness }>(
   matches: T[]
 ) {
