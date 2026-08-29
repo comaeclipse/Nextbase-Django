@@ -14,6 +14,10 @@ async function main() {
   const specialtiesByBranch: Record<string, number> = {};
   const specialtiesWithoutRoles: string[] = [];
   const specialtiesWithoutEmployers: string[] = [];
+  // Skills are seeded per slice, not for every specialty, so a specialty without
+  // skills is expected — report which specialties DO carry skills rather than
+  // treating a missing skill list as a failure.
+  const specialtiesWithSkills: string[] = [];
 
   for (const match of catalog.matches) {
     specialtiesByBranch[match.specialty.branch] =
@@ -23,6 +27,9 @@ async function main() {
     }
     if (match.employers.length === 0) {
       specialtiesWithoutEmployers.push(`${match.specialty.branch}:${match.specialty.code}`);
+    }
+    if (match.skills.length > 0) {
+      specialtiesWithSkills.push(`${match.specialty.branch}:${match.specialty.code}`);
     }
   }
 
@@ -38,10 +45,12 @@ async function main() {
         specialties: catalog.specialties.length,
         roles: catalog.roles.length,
         employers: catalog.employers.length,
+        skills: catalog.skills.length,
         branches: specialtiesByBranch,
         employerTypeMix,
         specialtiesWithoutRoles,
         specialtiesWithoutEmployers,
+        specialtiesWithSkills,
       },
       null,
       2
