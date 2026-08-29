@@ -18,6 +18,8 @@ describe("career-transition taxonomy", () => {
 
     expect(searchSpecialties(catalog.specialties, "army", "15t")[0]?.code).toBe("15T");
     expect(searchSpecialties(catalog.specialties, "navy", "machinist")[0]?.code).toBe("AD");
+    expect(searchSpecialties(catalog.specialties, "navy", "ordnance")[0]?.code).toBe("AO");
+    expect(searchSpecialties(catalog.specialties, "navy", "gunner")[0]?.code).toBe("GM");
     expect(searchSpecialties(catalog.specialties, "space_force", "")).toEqual([]);
   });
 
@@ -44,6 +46,8 @@ describe("career-transition csv bundle", () => {
     expect(catalog.specialties.length).toBeGreaterThanOrEqual(12);
     expect(catalog.roles.length).toBeGreaterThan(0);
     expect(catalog.employers.length).toBeGreaterThan(0);
+    expect(catalog.roles.map((role) => role.slug)).toContain("naval-weapons-technician");
+    expect(catalog.roles.map((role) => role.slug)).toContain("qasas-specialist");
     expect(
       catalog.matches.filter((match) => match.roles.length === 0 || match.employers.length === 0)
     ).toEqual([]);
