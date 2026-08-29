@@ -1,0 +1,72 @@
+Branch,CodeSystem,Code,Title,Population,Status,SourceKind,SourceUrl,SourceRetrievedOn
+army,MOS,15T,UH-60 Helicopter Repairer,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15U,CH-47 Helicopter Repairer,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15R,AH-64 Attack Helicopter Repairer,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15N,Avionic Mechanic,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+army,MOS,15F,Aircraft Electrician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AD,Aviation Machinist's Mate,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AM,Aviation Structural Mechanic,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AE,Aviation Electrician's Mate,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AT,Aviation Electronics Technician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,NEC,722B,MH-60R Organizational Maintenance Technician,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/References/NEOCS-Manual/,2026-08-29
+air_force,AFSC,2A5X1,Airlift and Special Mission Aircraft Maintenance,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+air_force,AFSC,2A6X1,Aerospace Propulsion,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+marine_corps,MOS,6114,Helicopter Mechanic UH/AH-1,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,6324,Aircraft Communications/Navigation/Electrical/Weapon Systems Technician UH/AH-1,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+coast_guard,Rating,AMT,Aviation Maintenance Technician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+coast_guard,Rating,AET,Aviation Electronics Technician,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-29
+navy,Rating,AO,Aviation Ordnanceman,enlisted,current,official_service_page,https://www.navy.com/careers-benefits/careers/aviation/aviation-ordnanceman,2026-08-29
+navy,Rating,GM,Gunner's Mate,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Surface-CS-OPS/GM/,2026-08-29
+army,MOS,91F,Small Arms/Towed Artillery Repairer,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/mechanics-engineering/test-repair/91f-small-arms-towed-artillery-repair,2026-08-29
+army,MOS,89B,Ammunition Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/support-logistics/transportation-inventory/89b-ammunition-specialist,2026-08-29
+army,MOS,94F,Computer/Detection Systems Repairer,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/94f-computer-detection-systems-repairer,2026-08-29
+air_force,AFSC,2W1X1,Aircraft Armament Systems,enlisted,current,official_service_page,https://www.airforce.com/careers/science-and-technology/aircraft-armament-systems,2026-08-29
+air_force,AFSC,2W0X1,Munitions Systems,enlisted,current,official_service_page,https://www.airforce.com/careers/logistics-and-administration/munitions-systems,2026-08-29
+air_force,AFSC,2M0X1,Missile and Space Systems Electronic Maintenance,enlisted,current,official_service_page,https://www.airforce.com/careers/science-and-technology/missile-and-space-systems-electronic-maintenance,2026-08-29
+air_force,AFSC,2M0X2,Missile and Space Systems Maintenance,enlisted,current,official_service_page,https://www.airforce.com/careers/science-and-technology/missile-and-space-systems-maintenance,2026-08-29
+marine_corps,MOS,6531,Aircraft Ordnance Technician,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,6541,Aviation Ordnance Systems Technician,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,2311,Ammunition Technician,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,2171,Electro-Optical Ordnance Repairer,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,0842,Field Artillery Radar Operator,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,0844,Field Artillery Fire Control Marine,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+marine_corps,MOS,0847,Field Artillery Sensor Support Marine,enlisted,current,official_mos_manual,https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/4429151/navmc-12001l/,2026-08-29
+navy,Rating,CWT,Cyber Warfare Technician,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,Rating,CTN,Cryptologic Technician Networks,enlisted,legacy,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H11A,Digital Network Analyst,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H12A,Exploitation Analyst,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H29A,Cyberspace Operations Planner,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H31A,Cyber Defense Analyst - Host,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H32A,Cyber Threat Emulations Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H34A,Cyber Defense Analyst - Network,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H41A,Basic Offensive Cyberspace Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+navy,NEC,H41B,Senior Cyberspace Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Career-Management/Detailing/Enlisted/Information-Warfare/CWT/,2026-08-29
+army,MOS,17C,Cyber Operations Specialist,enlisted,current,official_service_page,https://cybercoe.army.mil/Cyber-Center-of-Excellence/Schools/Cyber-School/Cyber-Courses/Cyber-Operations-Specialist/,2026-08-29
+marine_corps,MOS,1721,Cyberspace Warfare Operator,enlisted,current,official_service_page,https://www.information.marines.mil/17XX-Careers/1721/,2026-08-29
+marine_corps,NMOS,1712,Interactive On-Net Operator,enlisted,current,official_service_page,https://www.information.marines.mil/Portals/224/Docs/17XX/220330-17XX-Guide-to-the-IM-OccFld.pdf,2026-08-29
+marine_corps,NMOS,1713,Exploitation Analyst,enlisted,current,official_service_page,https://www.information.marines.mil/Portals/224/Docs/17XX/220330-17XX-Guide-to-the-IM-OccFld.pdf,2026-08-29
+marine_corps,NMOS,1722,Host Analyst,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/2717969/update-to-fy22-mos-manual-for-the-17xx-occupational-field/,2026-08-29
+marine_corps,NMOS,1723,Network Analyst,enlisted,current,official_service_page,https://www.information.marines.mil/Portals/224/Docs/17XX/220330-17XX-Guide-to-the-IM-OccFld.pdf,2026-08-29
+air_force,AFSC,1B4X1,Cyber Warfare Operations,enlisted,current,official_service_page,https://www.airforce.com/careers/intelligence/cyber-warfare-operations,2026-08-29
+air_force,AFSC,1D7X1,Cyber Defense Operations,enlisted,current,official_service_page,https://www.airforce.com/careers/intelligence/cyber-system-operations,2026-08-29
+space_force,SFSC,5C0X1,Cyber Operations,enlisted,current,official_service_page,https://www.spaceforce.com/enlisted-careers/cyber-operations,2026-08-29
+coast_guard,Rating,CMS,Cyber Mission Specialist,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted/cms,2026-08-29
+navy,Rating,CTT,Cryptologic Technician Technical,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Information-Warfare/CTT/,2026-08-29
+navy,NEC,C00A,AN/SLQ-32A/B(V) Technician,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C01A,AN/SLQ-32 EW Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C02A,AN/SLQ-32(V)3/4 Technician,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C04A,AN/SLQ-32(V)6 Technician,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C36A,AN/SLQ-32(V)6 Operator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C05A,Electromagnetic Warfare Coordinator,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C06A,Airborne Cryptologic Operator P-8,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C07A,Operational ELINT Analyst,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+navy,NEC,C17A,Intermediate Technical ELINT Analysis Technician,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Crypto_IT/CTT%20FY-27%20ECP%20FINAL.pdf,2026-08-29
+army,MOS,17E,Electromagnetic Warfare Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/17e-electromagnetic-warfare-specialist,2026-08-29
+marine_corps,NMOS,1704,Electromagnetic Spectrum Operations Planner,officer,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4275553/soliciting-nominations-for-the-fy26-cyber-electromagnetic-warfare-operations-of/,2026-08-29
+marine_corps,MOS,2621,Signals Intelligence/Electronic Warfare Operator,enlisted,current,official_mos_manual,https://www.marines.mil/News/Messages/Messages-Display/Article/4035390/fiscal-year-2026-national-security-agency-cryptologic-internship-programs/,2026-08-29
+marine_corps,MOS,2631,Electronic Intelligence Intercept Operator/Analyst,enlisted,current,official_mos_manual,https://www.marines.mil/News/Messages/Messages-Display/Article/4035390/fiscal-year-2026-national-security-agency-cryptologic-internship-programs/,2026-08-29
+air_force,AFSC,2A5X3,Mobility Air Forces Electronic Warfare Systems,enlisted,current,official_service_page,https://www.airforce.com/careers/aviation-and-flight/mobility-air-forces-electronic-warfare-systems,2026-08-29
+air_force,AFSC,2A8X3,Special Operations Forces/Personnel Recovery Integrated Electronic Warfare Systems,enlisted,current,official_service_page,https://www.airforce.com/careers/aviation-and-flight/special-operations-forces-personnel-recovery-integrated-electronic-warfare-systems,2026-08-29
+air_force,AFSC,2A2X3,Special Operations Forces/Personnel Recovery Integrated Electronic Warfare Systems,enlisted,legacy,official_crosswalk,https://www.mynextmove.org/vets/profile/military/49-2091.00,2026-08-29
+air_force,AFSC,2A9X3,Bomber/Special Electronic Warfare and Radar Surveillance Integrated Avionics,enlisted,current,official_service_page,https://www.airforce.com/careers/aviation-and-flight/bomber-special-electronic-warfare-and-radar-surveillance-integrated-avionics,2026-08-29
+air_force,AFSC,2A0X1,Avionics Test Station and Components,enlisted,current,official_service_page,https://www.airforce.com/careers/science-and-technology/avionics-test-station-and-components,2026-08-29

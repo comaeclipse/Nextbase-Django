@@ -26,6 +26,7 @@ type NavKey =
   | "electricity"
   | "politics"
   | "mosques"
+  | "career-transition"
   | "defense-jobs";
 
 const LINKS: { key: NavKey; href: string; label: string }[] = [
@@ -48,6 +49,7 @@ const DATA_LINKS: { key: NavKey; href: string; label: string; description: strin
   { key: "veteran-benefits", href: "/veteran-benefits", label: "Veteran Benefits", description: "State-created veteran benefit rankings" },
   { key: "electricity", href: "/electricity", label: "Electricity", description: "Residential electricity prices" },
   { key: "mosques", href: "/mosques", label: "Mosques", description: "Find a mosque near a retirement city" },
+  { key: "career-transition", href: "/career-transition", label: "Career Transition", description: "Military specialty to civilian role matcher" },
   { key: "defense-jobs", href: "/defense-jobs", label: "Defense Jobs", description: "Defense-industry openings by employer & sector" },
 ];
 
