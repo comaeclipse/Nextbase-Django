@@ -34,7 +34,8 @@ Data scripts (run with tsx + the env file):
 ```bash
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts [--dry-run]
-node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/django_scores.json
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/fit_scores.json
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/generate-score-baseline.ts   # regenerate baselines/fit_scores.json (same commit as an intended scoring/data change)
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-state-weather-indices.ts [--dry-run]  # /uv -> state_weather_indices
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-geo-hierarchy.ts [--dry-run]           # geo_type/is_candidate/slug + geo_relationships + geo_aliases
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-geo-hierarchy.ts                        # cycles, column-vs-table drift, orphan aliases
@@ -126,7 +127,7 @@ lib/                    # the load-bearing modules:
   # the rest back one data page each: electricity, gas-prices, insurance,
   # critters, housing-market, mosques, quiz, quiz2, state-*.ts, utils.ts
 scripts/                # data + verification scripts
-baselines/              # parity references (django_scores.json used by tests)
+baselines/              # parity references (fit_scores.json is the live regression baseline; django_scores.json is dead migration evidence)
 ```
 
 ## Key domain logic
