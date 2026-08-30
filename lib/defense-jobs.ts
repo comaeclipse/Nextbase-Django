@@ -39,6 +39,77 @@ const LISTING_COLUMNS = `id, company, employer_slug, ats, title, field_raw, sect
 const isMissingTable = (err: unknown): boolean =>
   (err as { code?: string })?.code === "42P01";
 
+const SKILLBRIDGE_COLUMNS = [
+  "skillbridge_status",
+  "skillbridge_participation_type",
+  "skillbridge_source_url",
+  "skillbridge_verified_at",
+] as const;
+
+let skillBridgeColumnsPromise: Promise<boolean> | null = null;
+
+async function hasSkillBridgeColumns(): Promise<boolean> {
+  skillBridgeColumnsPromise ??= (async () => {
+    try {
+      const sql = getSql();
+      const rows = (await sql.query(
+        `SELECT column_name
+         FROM information_schema.columns
+         WHERE table_schema = 'public'
+           AND table_name = 'transition_employers'
+           AND column_name = ANY($1)`,
+        [SKILLBRIDGE_COLUMNS]
+      )) as { column_name: string }[];
+      const found = new Set(rows.map((r) => r.column_name));
+      return SKILLBRIDGE_COLUMNS.every((column) => found.has(column));
+    } catch (err) {
+      if (isMissingTable(err)) return false;
+      throw err;
+    }
+  })();
+  return skillBridgeColumnsPromise;
+}
+
+function skillBridgeJoin(include: boolean): string {
+  if (!include) return "";
+  return `LEFT JOIN (
+      SELECT defense_employer_slug AS employer_slug,
+             CASE
+               WHEN bool_or(skillbridge_status = 'active') THEN 'active'
+               WHEN bool_or(skillbridge_status = 'inactive') THEN 'inactive'
+               ELSE 'unknown'
+             END AS skillbridge_status,
+             (array_agg(skillbridge_participation_type ORDER BY (skillbridge_status = 'active') DESC)
+                FILTER (WHERE skillbridge_participation_type IS NOT NULL))[1]
+                AS skillbridge_participation_type,
+             (array_agg(skillbridge_source_url ORDER BY (skillbridge_status = 'active') DESC)
+                FILTER (WHERE skillbridge_source_url IS NOT NULL))[1]
+                AS skillbridge_source_url,
+             max(skillbridge_verified_at) AS skillbridge_verified_at
+      FROM transition_employers
+      WHERE defense_employer_slug IS NOT NULL
+      GROUP BY defense_employer_slug
+    ) sb ON sb.employer_slug = j.employer_slug`;
+}
+
+function listingSelect(alias: string, includeSkillBridge: boolean): string {
+  const base = LISTING_COLUMNS.split(",")
+    .map((column) => `${alias}.${column.trim()}`)
+    .join(", ");
+  if (!includeSkillBridge) {
+    return `${base},
+       NULL::text AS skillbridge_status,
+       NULL::text AS skillbridge_participation_type,
+       NULL::text AS skillbridge_source_url,
+       NULL::date AS skillbridge_verified_at`;
+  }
+  return `${base},
+       sb.skillbridge_status,
+       sb.skillbridge_participation_type,
+       sb.skillbridge_source_url,
+       sb.skillbridge_verified_at`;
+}
+
 /** Client-facing listing shape (camelCase), shared by the page and the API route. */
 export interface ClientJobListing {
   id: number;
@@ -59,6 +130,10 @@ export interface ClientJobListing {
   payInterval: string | null;
   education: string | null;
   url: string;
+  skillBridgeStatus: string | null;
+  skillBridgeParticipationType: string | null;
+  skillBridgeSourceUrl: string | null;
+  skillBridgeVerifiedAt: string | null;
 }
 
 /** Map a DB row to the trimmed camelCase shape the client component consumes. */
@@ -82,6 +157,10 @@ export function toClientListing(r: DefenseJobListingRow): ClientJobListing {
     payInterval: r.pay_interval,
     education: r.education,
     url: r.url,
+    skillBridgeStatus: r.skillbridge_status ?? null,
+    skillBridgeParticipationType: r.skillbridge_participation_type ?? null,
+    skillBridgeSourceUrl: r.skillbridge_source_url ?? null,
+    skillBridgeVerifiedAt: r.skillbridge_verified_at ?? null,
   };
 }
 
@@ -94,6 +173,10 @@ function normalizeListingRow(r: Record<string, unknown>): DefenseJobListingRow {
     pay_min: r.pay_min == null ? null : Number(r.pay_min),
     pay_max: r.pay_max == null ? null : Number(r.pay_max),
     is_remote: Boolean(r.is_remote),
+    skillbridge_verified_at:
+      r.skillbridge_verified_at instanceof Date
+        ? r.skillbridge_verified_at.toISOString().slice(0, 10)
+        : r.skillbridge_verified_at,
   } as DefenseJobListingRow;
 }
 
@@ -112,6 +195,7 @@ export interface DefenseJobFilter {
   employers?: string[];
   regions?: string[];
   remote?: boolean;
+  skillbridge?: boolean;
   q?: string;
   city?: string | null;
 }
@@ -126,6 +210,7 @@ export function parseDefenseJobFilter(sp: URLSearchParams): DefenseJobFilter {
     employers: splitCsv(sp.get("employers")),
     regions: splitCsv(sp.get("regions")),
     remote: sp.get("remote") === "true",
+    skillbridge: sp.get("skillbridge") === "true",
     q: sp.get("q") ?? "",
     city: sp.get("city"),
   };
@@ -140,31 +225,39 @@ function likeLiteral(q: string): string {
  * Build the WHERE clause for a filter, pushing parameters onto `params` (1-based
  * `$n` placeholders for sql.query). Returns "" when the filter is empty.
  */
-function buildWhere(f: DefenseJobFilter, params: unknown[]): string {
+export function buildDefenseJobWhere(
+  f: DefenseJobFilter,
+  params: unknown[],
+  options: { includeSkillBridge?: boolean; listingAlias?: string } = {}
+): string {
   const clauses: string[] = [];
+  const alias = options.listingAlias ? `${options.listingAlias}.` : "";
   if (f.sectors?.length) {
     params.push(f.sectors);
-    clauses.push(`sector = ANY($${params.length})`);
+    clauses.push(`${alias}sector = ANY($${params.length})`);
   }
   if (f.employers?.length) {
     params.push(f.employers);
-    clauses.push(`COALESCE(employer_slug, company) = ANY($${params.length})`);
+    clauses.push(`COALESCE(${alias}employer_slug, ${alias}company) = ANY($${params.length})`);
   }
   if (f.regions?.length) {
     params.push(f.regions);
-    clauses.push(`region = ANY($${params.length})`);
+    clauses.push(`${alias}region = ANY($${params.length})`);
   }
   if (f.remote) {
-    clauses.push(`is_remote = TRUE`);
+    clauses.push(`${alias}is_remote = TRUE`);
+  }
+  if (f.skillbridge) {
+    clauses.push(options.includeSkillBridge ? `sb.skillbridge_status = 'active'` : "FALSE");
   }
   const q = f.q?.trim();
   if (q) {
     params.push(likeLiteral(q));
     const i = params.length;
     clauses.push(
-      `(title ILIKE $${i} ESCAPE '\\' OR company ILIKE $${i} ESCAPE '\\' ` +
-        `OR COALESCE(city, '') ILIKE $${i} ESCAPE '\\' ` +
-        `OR COALESCE(field_raw, '') ILIKE $${i} ESCAPE '\\')`
+      `(${alias}title ILIKE $${i} ESCAPE '\\' OR ${alias}company ILIKE $${i} ESCAPE '\\' ` +
+        `OR COALESCE(${alias}city, '') ILIKE $${i} ESCAPE '\\' ` +
+        `OR COALESCE(${alias}field_raw, '') ILIKE $${i} ESCAPE '\\')`
     );
   }
   if (f.city) {
@@ -175,7 +268,7 @@ function buildWhere(f: DefenseJobFilter, params: unknown[]): string {
     const ci = params.length;
     params.push(state);
     const si = params.length;
-    clauses.push(`city = $${ci} AND state = $${si}`);
+    clauses.push(`${alias}city = $${ci} AND ${alias}state = $${si}`);
   }
   return clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
 }
@@ -187,36 +280,58 @@ function buildWhere(f: DefenseJobFilter, params: unknown[]): string {
 export interface DefenseJobFacets {
   sectors: string[];
   /** `key` is COALESCE(employer_slug, company); `name` is the display company. */
-  employers: { key: string; name: string }[];
+  employers: { key: string; name: string; skillBridgeActive: boolean }[];
   regions: string[];
+  skillBridgeListings: number;
   /** Total listings in the table (for the "N of M" counter). */
   total: number;
 }
 
 async function fetchFacets(): Promise<DefenseJobFacets> {
   const sql = getSql();
+  const includeSkillBridge = await hasSkillBridgeColumns();
+  const join = skillBridgeJoin(includeSkillBridge);
+  const skillBridgeEmployerExpr = includeSkillBridge
+    ? "bool_or(sb.skillbridge_status = 'active')"
+    : "FALSE";
+  const skillBridgeListingExpr = includeSkillBridge
+    ? "COUNT(*) FILTER (WHERE sb.skillbridge_status = 'active')::int"
+    : "0::int";
   const [sectorRows, employerRows, regionRows, totalRows] = await Promise.all([
     sql.query(
       `SELECT DISTINCT sector FROM defense_job_listings WHERE sector IS NOT NULL ORDER BY sector`
     ),
     sql.query(
-      `SELECT COALESCE(employer_slug, company) AS key, MIN(company) AS name
-         FROM defense_job_listings
-        GROUP BY COALESCE(employer_slug, company)
+      `SELECT COALESCE(j.employer_slug, j.company) AS key,
+              MIN(j.company) AS name,
+              ${skillBridgeEmployerExpr} AS skillbridge_active
+         FROM defense_job_listings j
+         ${join}
+        GROUP BY COALESCE(j.employer_slug, j.company)
         ORDER BY name ASC`
     ),
     sql.query(
       `SELECT DISTINCT region FROM defense_job_listings WHERE region IS NOT NULL ORDER BY region`
     ),
-    sql.query(`SELECT COUNT(*)::int AS n FROM defense_job_listings`),
+    sql.query(
+      `SELECT COUNT(*)::int AS n,
+              ${skillBridgeListingExpr}
+                AS skillbridge_listings
+         FROM defense_job_listings j
+         ${join}`
+    ),
   ]);
   return {
     sectors: (sectorRows as Record<string, unknown>[]).map((r) => String(r.sector)),
     employers: (employerRows as Record<string, unknown>[]).map((r) => ({
       key: String(r.key),
       name: String(r.name),
+      skillBridgeActive: Boolean(r.skillbridge_active),
     })),
     regions: (regionRows as Record<string, unknown>[]).map((r) => String(r.region)),
+    skillBridgeListings: Number(
+      (totalRows as Record<string, unknown>[])[0]?.skillbridge_listings ?? 0
+    ),
     total: Number((totalRows as Record<string, unknown>[])[0]?.n ?? 0),
   };
 }
@@ -227,7 +342,7 @@ export const getDefenseJobFacets = unstable_cache(
       return await fetchFacets();
     } catch (err) {
       if (isMissingTable(err)) {
-        return { sectors: [], employers: [], regions: [], total: 0 };
+        return { sectors: [], employers: [], regions: [], skillBridgeListings: 0, total: 0 };
       }
       throw err;
     }
@@ -259,8 +374,13 @@ export async function getDefenseJobListingsPage(
   pageSize = DEFENSE_JOBS_PAGE_SIZE
 ): Promise<DefenseJobListingsPage> {
   const sql = getSql();
+  const includeSkillBridge = await hasSkillBridgeColumns();
   const params: unknown[] = [];
-  const where = buildWhere(filter, params);
+  const where = buildDefenseJobWhere(filter, params, {
+    includeSkillBridge,
+    listingAlias: "j",
+  });
+  const join = skillBridgeJoin(includeSkillBridge);
   const limit = Math.max(1, Math.min(pageSize, 200));
   const offset = Math.max(0, (Math.max(1, page) - 1) * limit);
   params.push(limit);
@@ -269,10 +389,11 @@ export async function getDefenseJobListingsPage(
   const offsetIdx = params.length;
   try {
     const rows = (await sql.query(
-      `SELECT ${LISTING_COLUMNS}, COUNT(*) OVER()::int AS _total
-         FROM defense_job_listings
+      `SELECT ${listingSelect("j", includeSkillBridge)}, COUNT(*) OVER()::int AS _total
+         FROM defense_job_listings j
+         ${join}
          ${where}
-        ORDER BY company ASC, title ASC, id ASC
+        ORDER BY j.company ASC, j.title ASC, j.id ASC
         LIMIT $${limitIdx} OFFSET $${offsetIdx}`,
       params
     )) as Record<string, unknown>[];
@@ -324,29 +445,36 @@ export async function getDefenseJobMapAggregation(
   filter: DefenseJobFilter = {}
 ): Promise<DefenseJobCityPoint[]> {
   const sql = getSql();
+  const includeSkillBridge = await hasSkillBridgeColumns();
   const params: unknown[] = [];
-  const where = buildWhere(filter, params);
+  const where = buildDefenseJobWhere(filter, params, {
+    includeSkillBridge,
+    listingAlias: "j",
+  });
+  const join = skillBridgeJoin(includeSkillBridge);
   const geoClause = where
-    ? `${where} AND city IS NOT NULL AND state IS NOT NULL AND latitude IS NOT NULL AND longitude IS NOT NULL`
-    : `WHERE city IS NOT NULL AND state IS NOT NULL AND latitude IS NOT NULL AND longitude IS NOT NULL`;
+    ? `${where} AND j.city IS NOT NULL AND j.state IS NOT NULL AND j.latitude IS NOT NULL AND j.longitude IS NOT NULL`
+    : `WHERE j.city IS NOT NULL AND j.state IS NOT NULL AND j.latitude IS NOT NULL AND j.longitude IS NOT NULL`;
   // The geo/filter clause (with its `$n` params) is referenced by both CTEs;
   // the params array is built once and positional placeholders reuse it.
   try {
     const rows = (await sql.query(
       `WITH per_emp AS (
-         SELECT city, state, company,
+         SELECT j.city, j.state, j.company,
                 COUNT(*)::int AS c,
-                MAX(latitude)  AS lat,
-                MAX(longitude) AS lng
-           FROM defense_job_listings
+                MAX(j.latitude)  AS lat,
+                MAX(j.longitude) AS lng
+           FROM defense_job_listings j
+           ${join}
            ${geoClause}
-          GROUP BY city, state, company
+          GROUP BY j.city, j.state, j.company
        ),
        per_sec AS (
-         SELECT city, state, sector, COUNT(*)::int AS c
-           FROM defense_job_listings
+         SELECT j.city, j.state, j.sector, COUNT(*)::int AS c
+           FROM defense_job_listings j
+           ${join}
            ${geoClause}
-          GROUP BY city, state, sector
+          GROUP BY j.city, j.state, j.sector
        ),
        emp AS (
          SELECT city, state,
@@ -414,13 +542,13 @@ export const getDefenseJobInitialMap = unstable_cache(
 
 async function fetchListings(): Promise<DefenseJobListingRow[]> {
   const sql = getSql();
-  const rows = await sql`
-    SELECT id, company, employer_slug, ats, title, field_raw, sector,
-           location_raw, city, state, country, region, is_remote,
-           latitude, longitude, employment_type, pay_min, pay_max,
-           pay_interval, education, url
-    FROM defense_job_listings
-    ORDER BY company ASC, title ASC`;
+  const includeSkillBridge = await hasSkillBridgeColumns();
+  const rows = await sql.query(
+    `SELECT ${listingSelect("j", includeSkillBridge)}
+     FROM defense_job_listings j
+     ${skillBridgeJoin(includeSkillBridge)}
+     ORDER BY j.company ASC, j.title ASC`
+  );
   return (rows as Record<string, unknown>[]).map(normalizeListingRow);
 }
 

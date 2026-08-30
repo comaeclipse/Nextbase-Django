@@ -444,7 +444,7 @@ Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It 
 
 Five tables back `/career-transition` (`lib/career-transition.ts`), a **curated hand-built graph** that maps a military specialty to civilian roles and transition employers. It is a **seed, not complete military-occupation coverage** — v1 covers an aviation-maintenance slice plus first ordnance/weapons, cyber, and electronic-warfare expansions (see `data/career-transition/sources.md`). It is **not a Fit-score factor** and is independent of `locations_location`; the only cross-link is the optional `defense_employers.slug` reference below.
 
-Matching is CSV edges sorted by `fit_score`, then `directness`. Every curated row carries provenance (`source_kind` / `source_url` / `source_retrieved_on`); `specialty_employer_matches` additionally carries a `snapshot_date` because postings change fast. Seeds live in `data/career-transition/*.csv`; `scripts/migrate-career-transition.ts` creates the tables and `scripts/import-career-transition.ts` loads the CSVs. `getCareerTransitionCatalog()` reads the DB and **falls back to the CSV bundle** (`loadCareerTransitionCsvCatalog`) when the tables are absent/empty, so the two must stay in sync.
+Matching is CSV edges sorted by `fit_score`, then `directness`, with an in-memory display-only bonus for active SkillBridge employers. The stored curated score is not overwritten. Every curated row carries provenance (`source_kind` / `source_url` / `source_retrieved_on`); `specialty_employer_matches` additionally carries a `snapshot_date` because postings change fast. Seeds live in `data/career-transition/*.csv`; `scripts/migrate-career-transition.ts` creates the tables and `scripts/import-career-transition.ts` loads the CSVs. `getCareerTransitionCatalog()` reads the DB and **falls back to the CSV bundle** (`loadCareerTransitionCsvCatalog`) when the tables are absent/empty, so the two must stay in sync.
 
 ### `military_specialties`
 
@@ -482,7 +482,14 @@ Employers that hire out of these specialties. `id bigserial PK`.
 - **slug** (unique) / **display_name** / **parent_company** (nullable)
 - **employer_type**: `oem | defense_contractor | mro | civilian_operator | commercial_cyber` (CHECK-constrained)
 - **defense_employer_slug**: **optional** FK to `defense_employers(slug)`, indexed where non-null. Present only for employers that already exist in the VetRetire defense footprint; a mapped VetRetire location count is computed at read time (distinct `defense_employer_locations` with a positive posting count) **only** for these. An unmapped employer means "not yet mapped," **not** "no locations" — civilian operators and commercial-cyber employers are intentionally *not* inserted into `defense_employers`
+- **skillbridge_status**: `active | inactive | unknown` (CHECK-constrained; default `unknown`). `unknown` means no current structured evidence in the seed, not absence of a program
+- **skillbridge_participation_type**: nullable enum: `direct_employer | convertible_requisition | hiring_our_heroes | training_to_employment | third_party_fellowship | government_agency`
+- **skillbridge_pathways** / **skillbridge_target_domains**: `text[]` values used for labels and career-transition ranking context, not free-text scoring factors
+- **skillbridge_remote_available** / **skillbridge_nationwide**: nullable booleans, so unknown is distinct from false
+- **skillbridge_duration_days_min/max**, **skillbridge_mou_expiration**, **skillbridge_source_url**, **skillbridge_verified_at**, **skillbridge_notes**: optional program details and provenance
 - **website_url** / **notes** (nullable) + provenance
+
+SkillBridge is an employer attribute. It is not stored on `defense_job_listings`, not denormalized onto `locations_location`, and does not feed the city Fit score or `defense_hub`. `/defense-jobs` reads active SkillBridge through `defense_job_listings.employer_slug` → `transition_employers.defense_employer_slug`, grouping by defense slug so business-unit transition rows do not duplicate listings. If the SkillBridge columns have not been migrated yet, `/defense-jobs` keeps serving listings and omits the SkillBridge filter/badges.
 
 ### `specialty_employer_matches`
 
