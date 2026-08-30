@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   loadCareerTransitionCsvCatalog,
+  parseSkillBridgeParticipationType,
+  parseSkillBridgeStatus,
+  skillBridgeScoreBonus,
+  effectiveEmployerFitScore,
   normalizeSpecialtyKey,
   resolveSpecialty,
   searchSpecialties,
@@ -8,6 +12,8 @@ import {
   validateSourceFields,
   type MilitaryBranch,
   type MilitarySpecialty,
+  type EmployerMatchView,
+  type TransitionEmployer,
 } from "./career-transition";
 
 function specialty(
@@ -196,6 +202,50 @@ describe("career-transition csv bundle", () => {
         (match) => match.employer.slug === "air-methods" && match.mapped_location_count === null
       )
     ).toBe(true);
+  });
+
+  it("loads active SkillBridge as structured employer data", () => {
+    const catalog = loadCareerTransitionCsvCatalog();
+    const l3harris = catalog.employers.find((employer) => employer.slug === "l3harris");
+
+    expect(l3harris?.skillbridge_status).toBe("active");
+    expect(l3harris?.skillbridge_participation_type).toBe("direct_employer");
+    expect(l3harris?.skillbridge_pathways).toContain("dedicated_requisitions");
+    expect(l3harris?.skillbridge_target_domains).toContain("ew_rf");
+    expect(l3harris?.skillbridge_source_url).toContain("bridge");
+  });
+
+  it("keeps unverified SkillBridge fields unknown/null rather than false", () => {
+    const catalog = loadCareerTransitionCsvCatalog();
+    const collins = catalog.employers.find((employer) => employer.slug === "collins-aerospace");
+
+    expect(collins?.skillbridge_status).toBe("unknown");
+    expect(collins?.skillbridge_participation_type).toBeNull();
+    expect(collins?.skillbridge_remote_available).toBeNull();
+    expect(collins?.skillbridge_pathways).toEqual([]);
+  });
+
+  it("rejects unsupported SkillBridge enum values", () => {
+    expect(() => parseSkillBridgeStatus("maybe")).toThrow("Unsupported SkillBridge status");
+    expect(() => parseSkillBridgeParticipationType("vendor")).toThrow(
+      "Unsupported SkillBridge participation type"
+    );
+  });
+
+  it("applies SkillBridge as a capped transition ranking signal without mutating fit score", () => {
+    const employer = {
+      skillbridge_status: "active",
+      skillbridge_participation_type: "direct_employer",
+    } as TransitionEmployer;
+    const match = {
+      fit_score: 97,
+      directness: "direct",
+      employer,
+    } as EmployerMatchView;
+
+    expect(skillBridgeScoreBonus(employer)).toBe(6);
+    expect(effectiveEmployerFitScore(match)).toBe(100);
+    expect(match.fit_score).toBe(97);
   });
 });
 

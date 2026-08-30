@@ -102,6 +102,7 @@ function buildParams(f: {
   employers: Set<string>;
   regions: Set<string>;
   remote: boolean;
+  skillbridge: boolean;
   q: string;
   city: string | null;
 }): URLSearchParams {
@@ -110,9 +111,20 @@ function buildParams(f: {
   if (f.employers.size) p.set("employers", [...f.employers].join(","));
   if (f.regions.size) p.set("regions", [...f.regions].join(","));
   if (f.remote) p.set("remote", "true");
+  if (f.skillbridge) p.set("skillbridge", "true");
   if (f.q.trim()) p.set("q", f.q.trim());
   if (f.city) p.set("city", f.city);
   return p;
+}
+
+function skillBridgeTypeLabel(value: string | null): string {
+  if (value === "direct_employer") return "Direct SkillBridge";
+  if (value === "convertible_requisition") return "Convertible SkillBridge";
+  if (value === "hiring_our_heroes") return "Hiring Our Heroes";
+  if (value === "training_to_employment") return "Training pathway";
+  if (value === "third_party_fellowship") return "Fellowship";
+  if (value === "government_agency") return "Government SkillBridge";
+  return "SkillBridge";
 }
 
 interface ListResponse {
@@ -145,6 +157,7 @@ export default function DefenseJobsExplorer({
   const [selCountEmployers, setSelCountEmployers] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
   const [remoteOnly, setRemoteOnly] = useState(false);
+  const [skillBridgeOnly, setSkillBridgeOnly] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
   // Server-fed data state (seeded from the unfiltered initial render).
@@ -199,10 +212,19 @@ export default function DefenseJobsExplorer({
         employers: selEmployers,
         regions: selRegions,
         remote: remoteOnly,
+        skillbridge: skillBridgeOnly,
         q: debouncedSearch,
         city: selectedCity,
       }),
-    [selSectors, selEmployers, selRegions, remoteOnly, debouncedSearch, selectedCity]
+    [
+      selSectors,
+      selEmployers,
+      selRegions,
+      remoteOnly,
+      skillBridgeOnly,
+      debouncedSearch,
+      selectedCity,
+    ]
   );
 
   // Refetch page 1 + the map whenever a filter changes.
@@ -282,6 +304,7 @@ export default function DefenseJobsExplorer({
     selEmployers.size ||
     selRegions.size ||
     remoteOnly ||
+    skillBridgeOnly ||
     selectedCity ||
     search.trim();
 
@@ -290,6 +313,7 @@ export default function DefenseJobsExplorer({
     setSelEmployers(new Set());
     setSelRegions(new Set());
     setRemoteOnly(false);
+    setSkillBridgeOnly(false);
     setSelectedCity(null);
     setSearch("");
   };
@@ -341,7 +365,14 @@ export default function DefenseJobsExplorer({
               active={selEmployers.has(e.key)}
               onClick={() => setSelEmployers((p) => toggle(p, e.key))}
             >
-              {e.name}
+              <span className="inline-flex items-center gap-1.5">
+                {e.name}
+                {e.skillBridgeActive ? (
+                  <span className="rounded-full bg-primary-foreground/20 px-1.5 text-[10px] font-semibold uppercase tracking-wide">
+                    SB
+                  </span>
+                ) : null}
+              </span>
             </Chip>
           ))}
         </FilterGroup>
@@ -359,6 +390,14 @@ export default function DefenseJobsExplorer({
           <Chip active={remoteOnly} onClick={() => setRemoteOnly((v) => !v)}>
             Remote only
           </Chip>
+          {facets.skillBridgeListings > 0 ? (
+            <Chip
+              active={skillBridgeOnly}
+              onClick={() => setSkillBridgeOnly((v) => !v)}
+            >
+              Active SkillBridge
+            </Chip>
+          ) : null}
         </FilterGroup>
 
         {countOnlyEmployers.length > 0 && (
@@ -456,6 +495,11 @@ export default function DefenseJobsExplorer({
                         )}
                         {j.employmentType && (
                           <Badge variant="outline">{j.employmentType}</Badge>
+                        )}
+                        {j.skillBridgeStatus === "active" && (
+                          <Badge variant="secondary">
+                            {skillBridgeTypeLabel(j.skillBridgeParticipationType)}
+                          </Badge>
                         )}
                       </div>
                     </a>

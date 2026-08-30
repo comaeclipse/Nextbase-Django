@@ -9,6 +9,14 @@ export type MilitaryBranch =
 export type MilitaryPopulation = "enlisted" | "warrant" | "officer";
 export type SpecialtyStatus = "current" | "legacy" | "unknown";
 export type MatchDirectness = "direct" | "adjacent" | "requires_gap";
+export type SkillBridgeStatus = "active" | "inactive" | "unknown";
+export type SkillBridgeParticipationType =
+  | "direct_employer"
+  | "convertible_requisition"
+  | "hiring_our_heroes"
+  | "training_to_employment"
+  | "third_party_fellowship"
+  | "government_agency";
 
 export const BRANCH_LABELS: Record<MilitaryBranch, string> = {
   army: "Army",
@@ -75,6 +83,18 @@ export interface TransitionEmployer {
   source_kind: string;
   source_url: string;
   source_retrieved_on: string;
+  skillbridge_status: SkillBridgeStatus;
+  skillbridge_participation_type: SkillBridgeParticipationType | null;
+  skillbridge_pathways: string[];
+  skillbridge_remote_available: boolean | null;
+  skillbridge_nationwide: boolean | null;
+  skillbridge_target_domains: string[];
+  skillbridge_duration_days_min: number | null;
+  skillbridge_duration_days_max: number | null;
+  skillbridge_mou_expiration: string | null;
+  skillbridge_source_url: string | null;
+  skillbridge_verified_at: string | null;
+  skillbridge_notes: string | null;
 }
 
 export interface SpecialtyEmployerMatch {
@@ -181,4 +201,29 @@ export function sortRoleMatches<T extends { fit_score: number; directness: Match
       b.fit_score - a.fit_score ||
       directnessRank[a.directness] - directnessRank[b.directness]
   );
+}
+
+export function skillBridgeScoreBonus(
+  employer: Pick<TransitionEmployer, "skillbridge_status" | "skillbridge_participation_type">
+): number {
+  if (employer.skillbridge_status !== "active") return 0;
+  switch (employer.skillbridge_participation_type) {
+    case "direct_employer":
+      return 6;
+    case "convertible_requisition":
+      return 5;
+    case "training_to_employment":
+      return 4;
+    case "hiring_our_heroes":
+    case "third_party_fellowship":
+      return 3;
+    case "government_agency":
+      return 2;
+    default:
+      return 1;
+  }
+}
+
+export function effectiveEmployerFitScore(match: EmployerMatchView): number {
+  return Math.min(100, match.fit_score + skillBridgeScoreBonus(match.employer));
 }
