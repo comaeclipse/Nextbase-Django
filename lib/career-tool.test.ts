@@ -28,6 +28,21 @@ describe("exploreSpecialtyTransition (issue #228)", () => {
     expect(listListings).not.toHaveBeenCalled();
   });
 
+  it("ignores a blank code the model passes and uses the occupation text (regression)", async () => {
+    // The live chat model calls the tool with code: "" / nec: "" rather than
+    // omitting them; a blank code must NOT override the real occupation.
+    const listListings = vi.fn(async () => STUB_LISTINGS);
+    const r = await exploreSpecialtyTransition(
+      "retired Navy electrician",
+      { branch: "navy", code: "", nec: "" },
+      { loadCatalog, listListings }
+    );
+    expect(r.status).toBe("ambiguous");
+    if (r.status !== "ambiguous") throw new Error("expected ambiguous");
+    expect(r.candidates.map((c) => c.code).sort()).toEqual(["AE", "EM"]);
+    expect(listListings).not.toHaveBeenCalled();
+  });
+
   it("keeps an aircraft-carrier electrician ambiguous (not aviation AE)", async () => {
     const r = await exploreSpecialtyTransition(
       "navy electrician aboard an aircraft carrier",

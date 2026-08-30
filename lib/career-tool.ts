@@ -159,7 +159,12 @@ export async function exploreSpecialtyTransition(
   const listListings = deps.listListings ?? listingsForSpecialty;
 
   const catalog = await loadCatalog();
-  const resolution = resolveSpecialty(catalog, opts.code ?? query, opts.branch);
+  // The chat model frequently passes code: "" (an empty string) rather than
+  // omitting it — nullish-coalescing would let that blank override the real
+  // occupation text and make every query resolve to "uncovered". Treat a blank
+  // code as absent so the free-text occupation is used instead.
+  const explicitCode = opts.code && opts.code.trim() ? opts.code : undefined;
+  const resolution = resolveSpecialty(catalog, explicitCode ?? query, opts.branch);
 
   if (resolution.status === "ambiguous") {
     return {
