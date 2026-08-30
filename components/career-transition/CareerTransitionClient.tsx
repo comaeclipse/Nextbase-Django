@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import {
   BRANCH_LABELS,
+  effectiveEmployerFitScore,
   searchSpecialties,
   type CareerTransitionCatalog,
   type EmployerMatchView,
@@ -53,6 +54,16 @@ function employerTypeLabel(value: string) {
     .split("_")
     .map((part) => part[0].toUpperCase() + part.slice(1))
     .join(" ");
+}
+
+function skillBridgeTypeLabel(value: string | null) {
+  if (value === "direct_employer") return "Direct employer";
+  if (value === "convertible_requisition") return "Convertible requisition";
+  if (value === "hiring_our_heroes") return "Hiring Our Heroes";
+  if (value === "training_to_employment") return "Training to employment";
+  if (value === "third_party_fellowship") return "Third-party fellowship";
+  if (value === "government_agency") return "Government agency";
+  return "SkillBridge";
 }
 
 function sourceDate(date: string) {
@@ -184,7 +195,56 @@ function LocationSignal({ match }: { match: EmployerMatchView }) {
   );
 }
 
+function SkillBridgeSignal({ match }: { match: EmployerMatchView }) {
+  const employer = match.employer;
+  if (employer.skillbridge_status !== "active") return null;
+  const labels = [
+    employer.skillbridge_nationwide === true ? "Nationwide" : null,
+    employer.skillbridge_remote_available === true ? "Remote available" : null,
+    employer.skillbridge_duration_days_min && employer.skillbridge_duration_days_max
+      ? `${employer.skillbridge_duration_days_min}-${employer.skillbridge_duration_days_max} days`
+      : null,
+  ].filter(Boolean) as string[];
+
+  return (
+    <div className="space-y-2 rounded-lg border bg-muted/30 p-3 text-sm">
+      <div className="flex flex-wrap items-center gap-2">
+        <ShieldCheck className="size-4 text-primary" />
+        <span className="font-medium">SkillBridge available</span>
+        <Badge variant="secondary">
+          {skillBridgeTypeLabel(employer.skillbridge_participation_type)}
+        </Badge>
+      </div>
+      {employer.skillbridge_pathways.length > 0 ? (
+        <div className="flex flex-wrap gap-1.5">
+          {employer.skillbridge_pathways.map((pathway) => (
+            <Badge key={pathway} variant="outline">
+              {pathway}
+            </Badge>
+          ))}
+        </div>
+      ) : null}
+      {employer.skillbridge_target_domains.length > 0 ? (
+        <p className="text-muted-foreground">
+          Domains: {employer.skillbridge_target_domains.join(", ")}
+        </p>
+      ) : null}
+      {labels.length > 0 ? <p className="text-muted-foreground">{labels.join(" · ")}</p> : null}
+      {employer.skillbridge_notes ? (
+        <p className="text-muted-foreground">{employer.skillbridge_notes}</p>
+      ) : null}
+      {employer.skillbridge_source_url && employer.skillbridge_verified_at ? (
+        <SourceLink
+          href={employer.skillbridge_source_url}
+          label={`Verified ${sourceDate(employer.skillbridge_verified_at)}`}
+        />
+      ) : null}
+    </div>
+  );
+}
+
 function EmployerCard({ match }: { match: EmployerMatchView }) {
+  const effectiveScore = effectiveEmployerFitScore(match);
   return (
     <Card size="sm" className="rounded-lg">
       <CardHeader>
@@ -213,10 +273,12 @@ function EmployerCard({ match }: { match: EmployerMatchView }) {
           </div>
         ) : null}
         <RequirementBadges match={match} />
+        <SkillBridgeSignal match={match} />
         <LocationSignal match={match} />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs text-muted-foreground">
-            Snapshot {sourceDate(match.snapshot_date)}
+            Snapshot {sourceDate(match.snapshot_date)} · Fit {match.fit_score}/100
+            {effectiveScore !== match.fit_score ? ` · transition signal ${effectiveScore}/100` : ""}
           </span>
           <SourceLink href={match.source_url} label="Source" />
         </div>

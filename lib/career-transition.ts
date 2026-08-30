@@ -14,6 +14,14 @@ export type MilitaryBranch =
 export type MilitaryPopulation = "enlisted" | "warrant" | "officer";
 export type SpecialtyStatus = "current" | "legacy" | "unknown";
 export type MatchDirectness = "direct" | "adjacent" | "requires_gap";
+export type SkillBridgeStatus = "active" | "inactive" | "unknown";
+export type SkillBridgeParticipationType =
+  | "direct_employer"
+  | "convertible_requisition"
+  | "hiring_our_heroes"
+  | "training_to_employment"
+  | "third_party_fellowship"
+  | "government_agency";
 
 export const BRANCH_LABELS: Record<MilitaryBranch, string> = {
   army: "Army",
@@ -104,6 +112,18 @@ export interface TransitionEmployer {
   source_kind: string;
   source_url: string;
   source_retrieved_on: string;
+  skillbridge_status: SkillBridgeStatus;
+  skillbridge_participation_type: SkillBridgeParticipationType | null;
+  skillbridge_pathways: string[];
+  skillbridge_remote_available: boolean | null;
+  skillbridge_nationwide: boolean | null;
+  skillbridge_target_domains: string[];
+  skillbridge_duration_days_min: number | null;
+  skillbridge_duration_days_max: number | null;
+  skillbridge_mou_expiration: string | null;
+  skillbridge_source_url: string | null;
+  skillbridge_verified_at: string | null;
+  skillbridge_notes: string | null;
 }
 
 export interface SpecialtyEmployerMatch {
@@ -187,6 +207,16 @@ export interface CareerTransitionCatalog {
 type CsvRow = Record<string, string | undefined>;
 
 const DATA_DIR = path.join(process.cwd(), "data", "career-transition");
+const SKILLBRIDGE_COLUMNS = [
+  "skillbridge_status",
+  "skillbridge_participation_type",
+  "skillbridge_pathways",
+  "skillbridge_remote_available",
+  "skillbridge_nationwide",
+  "skillbridge_target_domains",
+  "skillbridge_source_url",
+  "skillbridge_verified_at",
+] as const;
 
 function clean(value: string | null | undefined): string | null {
   if (value == null) return null;
@@ -203,6 +233,15 @@ function required(row: CsvRow, name: string): string {
 function parseBool(value: string | null | undefined): boolean {
   const cleaned = clean(value);
   return cleaned ? ["1", "true", "t", "yes", "y"].includes(cleaned.toLowerCase()) : false;
+}
+
+function parseOptionalBool(value: string | null | undefined): boolean | null {
+  const cleaned = clean(value);
+  if (!cleaned) return null;
+  const normalized = cleaned.toLowerCase();
+  if (["1", "true", "t", "yes", "y"].includes(normalized)) return true;
+  if (["0", "false", "f", "no", "n"].includes(normalized)) return false;
+  throw new Error(`Unsupported boolean: ${value}`);
 }
 
 function parseIntField(row: CsvRow, name: string): number {
@@ -255,6 +294,40 @@ function parseEmployerType(value: string): TransitionEmployerType {
     return normalized;
   }
   throw new Error(`Unsupported employer type: ${value}`);
+}
+
+export function parseSkillBridgeStatus(value: string | null | undefined): SkillBridgeStatus {
+  const normalized = clean(value)?.toLowerCase() ?? "unknown";
+  if (normalized === "active" || normalized === "inactive" || normalized === "unknown") {
+    return normalized;
+  }
+  throw new Error(`Unsupported SkillBridge status: ${value}`);
+}
+
+export function parseSkillBridgeParticipationType(
+  value: string | null | undefined
+): SkillBridgeParticipationType | null {
+  const normalized = clean(value)?.toLowerCase();
+  if (!normalized) return null;
+  if (
+    normalized === "direct_employer" ||
+    normalized === "convertible_requisition" ||
+    normalized === "hiring_our_heroes" ||
+    normalized === "training_to_employment" ||
+    normalized === "third_party_fellowship" ||
+    normalized === "government_agency"
+  ) {
+    return normalized;
+  }
+  throw new Error(`Unsupported SkillBridge participation type: ${value}`);
+}
+
+function parseOptionalInt(value: string | null | undefined): number | null {
+  const cleaned = clean(value);
+  if (!cleaned) return null;
+  const parsed = Number.parseInt(cleaned, 10);
+  if (!Number.isInteger(parsed)) throw new Error(`Invalid integer: ${value}`);
+  return parsed;
 }
 
 function parseSkillKind(value: string): SkillKind {
@@ -555,6 +628,45 @@ export function sortRoleMatches<T extends { fit_score: number; directness: Match
   );
 }
 
+export function skillBridgeScoreBonus(
+  employer: Pick<TransitionEmployer, "skillbridge_status" | "skillbridge_participation_type">
+): number {
+  if (employer.skillbridge_status !== "active") return 0;
+  switch (employer.skillbridge_participation_type) {
+    case "direct_employer":
+      return 6;
+    case "convertible_requisition":
+      return 5;
+    case "training_to_employment":
+      return 4;
+    case "hiring_our_heroes":
+    case "third_party_fellowship":
+      return 3;
+    case "government_agency":
+      return 2;
+    default:
+      return 1;
+  }
+}
+
+export function effectiveEmployerFitScore(match: EmployerMatchView): number {
+  return Math.min(100, match.fit_score + skillBridgeScoreBonus(match.employer));
+}
+
+export function sortEmployerMatches(matches: EmployerMatchView[]) {
+  const directnessRank: Record<MatchDirectness, number> = {
+    direct: 0,
+    adjacent: 1,
+    requires_gap: 2,
+  };
+  return [...matches].sort(
+    (a, b) =>
+      effectiveEmployerFitScore(b) - effectiveEmployerFitScore(a) ||
+      b.fit_score - a.fit_score ||
+      directnessRank[a.directness] - directnessRank[b.directness]
+  );
+}
+
 export function validateSourceFields(row: CsvRow, label: string) {
   for (const field of ["SourceKind", "SourceUrl", "SourceRetrievedOn"]) {
     if (!clean(row[field])) throw new Error(`${label} missing ${field}`);
@@ -613,6 +725,22 @@ function normalizeDbEmployer(row: TransitionEmployer): TransitionEmployer {
     source_kind: row.source_kind,
     source_url: row.source_url,
     source_retrieved_on: dateString(row.source_retrieved_on),
+    skillbridge_status: row.skillbridge_status ?? "unknown",
+    skillbridge_participation_type: row.skillbridge_participation_type,
+    skillbridge_pathways: row.skillbridge_pathways ?? [],
+    skillbridge_remote_available: row.skillbridge_remote_available,
+    skillbridge_nationwide: row.skillbridge_nationwide,
+    skillbridge_target_domains: row.skillbridge_target_domains ?? [],
+    skillbridge_duration_days_min:
+      row.skillbridge_duration_days_min == null ? null : Number(row.skillbridge_duration_days_min),
+    skillbridge_duration_days_max:
+      row.skillbridge_duration_days_max == null ? null : Number(row.skillbridge_duration_days_max),
+    skillbridge_mou_expiration:
+      row.skillbridge_mou_expiration == null ? null : dateString(row.skillbridge_mou_expiration),
+    skillbridge_source_url: row.skillbridge_source_url,
+    skillbridge_verified_at:
+      row.skillbridge_verified_at == null ? null : dateString(row.skillbridge_verified_at),
+    skillbridge_notes: row.skillbridge_notes,
   };
 }
 
@@ -690,6 +818,19 @@ function csvRows(file: string): CsvRow[] {
   });
 }
 
+async function hasSkillBridgeColumns(sql: ReturnType<typeof getSql>): Promise<boolean> {
+  const rows = (await sql.query(
+    `SELECT column_name
+     FROM information_schema.columns
+     WHERE table_schema = 'public'
+       AND table_name = 'transition_employers'
+       AND column_name = ANY($1)`,
+    [SKILLBRIDGE_COLUMNS]
+  )) as { column_name: string }[];
+  const found = new Set(rows.map((r) => r.column_name));
+  return SKILLBRIDGE_COLUMNS.every((column) => found.has(column));
+}
+
 export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
   const specialties = csvRows("specialties.csv").map((row, index) => {
     validateSourceFields(row, `specialty ${required(row, "Code")}`);
@@ -725,6 +866,15 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
 
   const employers = csvRows("employers.csv").map((row, index) => {
     validateSourceFields(row, `employer ${required(row, "EmployerSlug")}`);
+    const skillbridgeStatus = parseSkillBridgeStatus(row.SkillBridgeStatus);
+    const skillbridgeParticipationType = parseSkillBridgeParticipationType(
+      row.SkillBridgeParticipationType
+    );
+    if (skillbridgeStatus === "active" && !skillbridgeParticipationType) {
+      throw new Error(
+        `Active SkillBridge employer missing participation type: ${row.EmployerSlug}`
+      );
+    }
     return {
       id: index + 1,
       slug: required(row, "EmployerSlug"),
@@ -737,6 +887,18 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
       source_kind: required(row, "SourceKind"),
       source_url: required(row, "SourceUrl"),
       source_retrieved_on: required(row, "SourceRetrievedOn"),
+      skillbridge_status: skillbridgeStatus,
+      skillbridge_participation_type: skillbridgeParticipationType,
+      skillbridge_pathways: parseTags(row.SkillBridgePathways),
+      skillbridge_remote_available: parseOptionalBool(row.SkillBridgeRemoteAvailable),
+      skillbridge_nationwide: parseOptionalBool(row.SkillBridgeNationwide),
+      skillbridge_target_domains: parseTags(row.SkillBridgeTargetDomains),
+      skillbridge_duration_days_min: parseOptionalInt(row.SkillBridgeDurationDaysMin),
+      skillbridge_duration_days_max: parseOptionalInt(row.SkillBridgeDurationDaysMax),
+      skillbridge_mou_expiration: clean(row.SkillBridgeMouExpiration),
+      skillbridge_source_url: clean(row.SkillBridgeSourceUrl),
+      skillbridge_verified_at: clean(row.SkillBridgeVerifiedAt),
+      skillbridge_notes: clean(row.SkillBridgeNotes),
     } satisfies TransitionEmployer;
   });
 
@@ -856,7 +1018,7 @@ function buildCatalog(
   const matches = specialties.map((specialty) => ({
     specialty,
     roles: sortRoleMatches(roleMatches.filter((match) => match.specialty_id === specialty.id)),
-    employers: sortRoleMatches(
+    employers: sortEmployerMatches(
       employerMatches.filter((match) => match.specialty_id === specialty.id)
     ),
     skills: sortRoleMatches(skillMatches.filter((match) => match.specialty_id === specialty.id)),
@@ -877,6 +1039,7 @@ function buildCatalog(
 export async function getCareerTransitionCatalog(): Promise<CareerTransitionCatalog> {
   try {
     const sql = getSql();
+    if (!(await hasSkillBridgeColumns(sql))) return loadCareerTransitionCsvCatalog();
     const [
       specialtyRows,
       roleRows,

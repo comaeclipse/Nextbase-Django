@@ -63,51 +63,73 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 ## Employer snapshot sources
 
 - Amentum veterans page: https://www.amentumcareers.com/veterans
+- Amentum military support / Amentum Hires Heroes page: https://www.amentum.com/culture-and-values/veteran-military-family-support/
 - Amentum UH-60/MH-60R aviation-maintenance posting page: https://www.amentumcareers.com/jobs/uh-60-mh-60r-careers-structures-airframer-sheet-metal-am-avionics-technician-at-jubail-saudi-arabia-jubail-eastern-province-saudi-arabia-miramar-california-united-states-jacksonville-florida
 - L3Harris careers search: https://careers.l3harris.com/en/search_jobs/oconus/4832/1/1
+- L3Harris SkillBridge careers search: https://careers.l3harris.com/en/search_jobs/bridge/4832/1/search_jobs
 - Textron military veterans page: https://careers.textron.com/military-veterans/
+- Textron SkillBridge page: https://skillbridge.textron.com/
 - Lockheed Martin maintenance jobs search: https://www.lockheedmartinjobs.com/search-jobs/maintenance/
+- Lockheed Martin Heroes / SkillBridge page: https://www.lockheedmartin.com/en-us/careers/candidates/military-veterans/heroes.html
 - RTX Collins Aerospace careers page: https://careers.rtx.com/global/en/collins-aerospace
 - RTX Pratt & Whitney careers page: https://careers.rtx.com/global/en/pratt-whitney
 - Boeing careers: https://jobs.boeing.com/
+- Boeing Veterans SkillBridge page: https://jobs.boeing.com/en/Veterans-SkillBridge
 - V2X careers: https://careers.v2x.com/
 - BAE Systems Ordnance Systems careers: https://jobs.baesystems.com/global/en/osi
 - BAE Systems military veterans page: https://jobs.baesystems.com/global/en/militaryveterans
+- BAE Systems SkillBridge page: https://jobs.baesystems.com/global/en/skillbridge
 - General Dynamics Ordnance and Tactical Systems: https://www.gdots.com/
 - General Dynamics Ordnance and Tactical Systems careers: https://www.gdots.com/careers/
 - RTX careers: https://careers.rtx.com/
+- RTX SkillBridge opportunities: https://careers.rtx.com/global/en/SkillBridge-Opportunities
 - Northrop Grumman careers: https://www.northropgrumman.com/jobs/
+- Northrop Grumman SkillBridge page: https://www.northropgrumman.com/careers/skillbridge
 - HII careers (Newport News + Ingalls shipbuilding): https://hii.com/careers/
+- HII SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/hii-huntington-ingalls-industries/
 - General Dynamics Electric Boat careers (submarines, Groton CT): https://www.gdeb.com/careers/
+- General Dynamics Electric Boat SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/general-dynamics-electric-boat/
 - General Dynamics NASSCO careers (San Diego shipyard): https://jobs.nassco.com/
 - Fincantieri Marine Group / Marinette Marine careers: https://fincantierimarinegroup.com/careers/
 - Austal USA careers (Mobile AL shipyard): https://www.austaljobs.com/
 - Leonardo DRS careers: https://www.leonardodrs.com/careers/
 - KBR careers: https://www.kbr.com/en/careers
+- KBR SkillBridge page: https://careers.kbr.com/us/en/kbr-skillbridge
 - FN America careers: https://fnamerica.com/careers/
 - SIG Sauer careers: https://www.sigsauer.com/careers
 - Colt CZ Group careers: https://www.coltczgroup.com/en/career
 - Leidos Defensive Cyber Operations Analyst posting: https://careers.leidos.com/jobs/18103000-defensive-cyber-operations-analyst
 - Leidos Cyber Defense Analyst posting: https://careers.leidos.com/jobs/18147344-cyber-defense-analyst
+- Leidos SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/leidos/
 - Peraton Computer Network Defense Analyst posting: https://www.careers.peraton.com/jobs/computer-network-defense-analyst-cnda-lead-associate-ts-sci-w-poly-fort-meade-maryland-164773-jobs--cyber-security--
 - Peraton Digital Network Exploitation Analyst posting: https://www.careers.peraton.com/jobs/digital-network-exploitation-analyst-dnea-lead-associate-ts-sci-w-poly-bluffdale-utah-166319-jobs--cyber-security--
 - Peraton USCCJ2 landing page: https://www.careers.peraton.com/landing-page/usccj2
+- Peraton veteran commitment / SkillBridge page: https://www.peraton.com/company/our-commitment-to-veterans
 - Booz Allen careers: https://www.boozallen.com/careers.html
+- Booz Allen military talent page: https://www.boozallen.com/careers/military-talent.html
 - CACI careers: https://careers.caci.com/
 - ManTech careers: https://www.mantech.com/careers/
+- ManTech SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/mantech-international-corporation/
 - SAIC careers: https://jobs.saic.com/
+- SAIC SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/science-applications-international-corporation-saic/
 - General Dynamics Information Technology careers: https://www.gdit.com/careers/
+- GDIT SkillBridge page: https://www.gdit.com/careers/featured-career-stages/military-veterans/skillbridge/
 - Kratos Defense careers: https://www.kratosdefense.com/careers
 - L3Harris ELINT careers search: https://careers.l3harris.com/en/search-jobs/elint/4832/1/1
 - L3Harris Electronic Warfare Specialist posting: https://careers.l3harris.com/en/job/clifton/electronic-warfare-specialist-systems-engineer/4832/98185751328
 - Lockheed Martin electronic warfare careers search: https://www.lockheedmartinjobs.com/search-jobs/electronic%20warfare/694/1
 - Sierra Nevada Company careers: https://www.sncorp.com/careers/
+- Sierra Nevada Corporation SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/sierra-nevada-corporation/
 - Palo Alto Networks Unit 42 DFIR posting: https://jobs.paloaltonetworks.com/en/job/santa-clara/consultant-dfir-reactive-services-unit-42/47263/96174875472
+- Palo Alto Networks military careers page: https://jobs.paloaltonetworks.com/en/military
 - CrowdStrike careers: https://www.crowdstrike.com/careers/
 - Microsoft careers: https://careers.microsoft.com/
+- Microsoft SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/microsoft/
 - Google careers: https://www.google.com/about/careers/applications/
 - Amazon jobs: https://www.amazon.jobs/
+- Amazon SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/amazon/
 - Cisco jobs: https://jobs.cisco.com/
+- Cisco SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/cisco-systems-inc/
 - Cloudflare careers: https://www.cloudflare.com/careers/
 - Fortinet careers: https://www.fortinet.com/corporate/careers
 - SentinelOne careers: https://www.sentinelone.com/careers/
@@ -126,6 +148,8 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 
 - **Uncovered specialty → empty result, never a nearby code.** This bundle is a curated seed, not complete military-occupation coverage. When a user's specialty is not seeded, or their vernacular is ambiguous ("electrician", "nuke", "intel"), the matcher must return an empty result with an explanation, or ask which specialty they mean — it must **never** substitute the nearest seeded neighbor. Substring search treats "navy electrician" as a hit on the aviation rate `AE` (Aviation Electrician's Mate); shipboard `EM` is a different rate with different civilian paths. Resolving to `AE` would recommend avionics jobs to a ship electrician. `resolveSpecialty` (issue #221) owns this decision so search convenience can never override it: code owns the match, the model only narrates.
 - Current postings change quickly. `snapshot_date` and `source_retrieved_on` are required for every employer match.
+- SkillBridge is stored as an employer attribute, not as a city, listing, or Fit-score field. Blank SkillBridge fields mean `unknown`, not `inactive`; only dated source-backed rows are marked `active`.
+- The initial SkillBridge seed is intentionally bounded to documented high-value employers from the 2026-08-29 research pass. It is not a complete SkillBridge directory import.
 - Ordnance employer matches are curated system-fit snapshots, not claims that a specialty usually feeds a specific employer.
 - System tags such as Mk 41 VLS, CIWS, Mk 45, aviation ordnance, ammunition, fire control, and electro-optical systems should be treated as user-profile refinements when more granular service history is available.
 - Cyber employer matches should treat clearance, work role, training pipeline, NEC/NMOS, tool stack, and mission environment as high-signal fields. A rating, MOS, AFSC, or SFSC alone is not enough to infer the best role.

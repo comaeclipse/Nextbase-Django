@@ -90,8 +90,16 @@ async function main() {
     await sql.query(
       `INSERT INTO transition_employers
          (slug, display_name, parent_company, employer_type, defense_employer_slug,
-          website_url, notes, source_kind, source_url, source_retrieved_on)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+          website_url, notes, skillbridge_status, skillbridge_participation_type,
+          skillbridge_pathways, skillbridge_remote_available, skillbridge_nationwide,
+          skillbridge_target_domains, skillbridge_duration_days_min,
+          skillbridge_duration_days_max, skillbridge_mou_expiration,
+          skillbridge_source_url, skillbridge_verified_at, skillbridge_notes,
+          source_kind, source_url, source_retrieved_on)
+       VALUES (
+          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10::text[], $11, $12,
+          $13::text[], $14, $15, $16, $17, $18, $19, $20, $21, $22
+       )
        ON CONFLICT (slug) DO UPDATE SET
          display_name = EXCLUDED.display_name,
          parent_company = EXCLUDED.parent_company,
@@ -99,6 +107,18 @@ async function main() {
          defense_employer_slug = EXCLUDED.defense_employer_slug,
          website_url = EXCLUDED.website_url,
          notes = EXCLUDED.notes,
+         skillbridge_status = EXCLUDED.skillbridge_status,
+         skillbridge_participation_type = EXCLUDED.skillbridge_participation_type,
+         skillbridge_pathways = EXCLUDED.skillbridge_pathways,
+         skillbridge_remote_available = EXCLUDED.skillbridge_remote_available,
+         skillbridge_nationwide = EXCLUDED.skillbridge_nationwide,
+         skillbridge_target_domains = EXCLUDED.skillbridge_target_domains,
+         skillbridge_duration_days_min = EXCLUDED.skillbridge_duration_days_min,
+         skillbridge_duration_days_max = EXCLUDED.skillbridge_duration_days_max,
+         skillbridge_mou_expiration = EXCLUDED.skillbridge_mou_expiration,
+         skillbridge_source_url = EXCLUDED.skillbridge_source_url,
+         skillbridge_verified_at = EXCLUDED.skillbridge_verified_at,
+         skillbridge_notes = EXCLUDED.skillbridge_notes,
          source_kind = EXCLUDED.source_kind,
          source_url = EXCLUDED.source_url,
          source_retrieved_on = EXCLUDED.source_retrieved_on,
@@ -111,6 +131,18 @@ async function main() {
         employer.defense_employer_slug,
         employer.website_url,
         employer.notes,
+        employer.skillbridge_status,
+        employer.skillbridge_participation_type,
+        employer.skillbridge_pathways,
+        employer.skillbridge_remote_available,
+        employer.skillbridge_nationwide,
+        employer.skillbridge_target_domains,
+        employer.skillbridge_duration_days_min,
+        employer.skillbridge_duration_days_max,
+        employer.skillbridge_mou_expiration,
+        employer.skillbridge_source_url,
+        employer.skillbridge_verified_at,
+        employer.skillbridge_notes,
         employer.source_kind,
         employer.source_url,
         employer.source_retrieved_on,
