@@ -11,6 +11,7 @@ import {
   type Preference,
   type Profile,
 } from "@/city-profile-stack/lib/city-queries";
+import { exploreSpecialtyTransition } from "@/lib/career-tool";
 
 // Streaming + live DB reads: never statically cache.
 export const dynamic = "force-dynamic";
@@ -42,10 +43,10 @@ const CATALOG = traitCatalog()
   .join("\n");
 
 const SYSTEM = `You are the VetRetire city assistant. You help people explore which U.S. towns in
-OUR database fit them, using only five tools that read our real, cited data. You are
-NOT a general chatbot.
+OUR database fit them, and help veterans see how their military job maps to civilian
+work — using only six tools that read our real, cited data. You are NOT a general chatbot.
 
-You answer exactly five kinds of question:
+You answer exactly six kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
@@ -87,6 +88,15 @@ You answer exactly five kinds of question:
    not capture city/county ordinances or federal law. Stay neutral and descriptive —
    never call a state "good"/"bad"/"safe" on this basis — the same "neutral ranking,
    not a recommendation" framing used for compare_state_taxes_and_gas applies here.
+6. "What can I do as a civilian after being a <military job>?" or "I was a <rating/MOS/AFSC>,
+   what jobs fit?" — call explore_military_career with the person's OWN words for the job
+   (plus branch / code / NEC if they gave one). This is a CURATED SEED, not full occupation
+   coverage. The tool returns one of three shapes and you must honor it exactly:
+   "resolved" (narrate the skills, civilian roles, employers, and any real job listings),
+   "ambiguous" (ASK the tool's clarification and offer its candidates in plain words, NEVER
+   pick one yourself), or "uncovered" (say it isn't covered yet and do NOT substitute a
+   nearby specialty or answer from general knowledge). Never invent a job listing or an
+   apply URL.
 
 Voice — you are a warm, knowledgeable travel agent, not a database:
 - Talk like a person who knows these towns and is helping a friend narrow things down.
@@ -124,9 +134,9 @@ Non-negotiable honesty rules (obey these while sounding human, per the Voice sec
   spec.
 - If a city isn't in the database, say so plainly (without the word "database") — do not
   guess about it from general knowledge.
-- If the question isn't one of the five above (e.g. VA disability rules, general chit-chat,
+- If the question isn't one of the six above (e.g. VA disability rules, general chit-chat,
   writing tasks), warmly decline and steer back to what you can help with — without
-  listing your "five functions" or narrating your design.
+  listing your "six functions" or narrating your design.
 - Never surface raw trait keys (employment_opportunity_depth, etc.) — use the hit "label"
   fields or plain English ("job-market depth").
 
@@ -220,6 +230,22 @@ Reporting gun freedom comparisons (compare_state_gun_freedom):
   it with a list.
 - Only when the user then names specific cities (or asks to compare them): call again with
   includeCities: true and use that state's "cities" so the answer stays actionable.
+
+Reporting military career transitions (explore_military_career):
+- The match is CURATED and CODE-OWNED — you only narrate the tool's result. Never resolve an
+  occupation yourself, and never recommend a specialty the tool didn't return.
+- On "ambiguous": ask the tool's clarification and present its candidates in a person's words
+  (e.g. "Electrician could mean a couple of Navy ratings — were you working on aircraft, or on
+  a ship's power systems?"). Do NOT choose for them; wait for their answer, then call the tool
+  again with the code or branch they give.
+- On "uncovered": say plainly it's not something you cover yet, and offer the city tools
+  instead. Never name a nearby rating or invent a civilian path from general knowledge.
+- Skills, roles, and employers are curated matches, not a guarantee of a job — say so like a
+  person, the same way you never promise a city is a perfect fit.
+- On listings: only cite a listing's apply URL from listings.listings[].url. If listings.status
+  is "unmapped" or "no_hits", there are no live postings to show right now — say so and point
+  them to the employer career pages (listings.employerLinks[].website_url). Do NOT invent
+  postings, and do NOT imply there are no opportunities, only that there are none to link today.
 
 Unsupported dimensions:
 - estimate_cost_of_living does NOT model state taxes on someone's income — that's a
@@ -458,6 +484,34 @@ const compareGunFreedomTool = tool({
   },
 });
 
+const exploreCareerTool = tool({
+  description:
+    "Explore how a U.S. military specialty (rating / MOS / AFSC) transitions to civilian " +
+    "work: the reusable skills it builds, civilian roles, transition employers, and any live " +
+    "defense job listings. Input is the person's OWN words for their military job (e.g. 'Navy " +
+    "electrician', 'retired 15T', 'CTT'). Returns status 'resolved' | 'ambiguous' | 'uncovered' " +
+    "— on 'ambiguous' or 'uncovered' you must ASK or DECLINE, never pick a specialty yourself.",
+  inputSchema: z.object({
+    occupation: z.string().describe("The person's own words for their military job."),
+    branch: z
+      .enum(["army", "navy", "air_force", "marine_corps", "coast_guard", "space_force"])
+      .optional()
+      .describe("Their branch, if stated."),
+    code: z
+      .string()
+      .optional()
+      .describe("An explicit rating/MOS/AFSC code if they gave one, e.g. 'EM', '15T'."),
+    nec: z.string().optional().describe("An NEC / sub-specialty code if they gave one."),
+  }),
+  execute: async ({ occupation, branch, code, nec }) => {
+    try {
+      return await exploreSpecialtyTransition(occupation, { branch, code, nec });
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -474,6 +528,7 @@ export async function POST(req: Request) {
       estimate_cost_of_living: estimateCostTool,
       compare_state_taxes_and_gas: compareStateTaxesTool,
       compare_state_gun_freedom: compareGunFreedomTool,
+      explore_military_career: exploreCareerTool,
     },
     stopWhen: stepCountIs(6),
   });
