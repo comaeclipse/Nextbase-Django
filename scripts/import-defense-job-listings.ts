@@ -43,6 +43,8 @@ const num = (value: string | undefined): number | null => {
 
 /** Company (CSV "Company" column) -> defense_employers slug. Extend as you add feeds. */
 const COMPANY_SLUG: Record<string, string> = {
+  hii: "hii",
+  "huntington ingalls": "hii",
   "shield ai": "shield-ai",
   palantir: "palantir",
   saronic: "saronic",
@@ -274,6 +276,9 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "merritt island|FL": [28.36, -80.6942],
   "camarillo|CA": [34.2164, -119.0376],
   "newport news|VA": [37.0871, -76.473],
+  "pascagoula|MS": [30.3658, -88.5561],
+  "goose creek|SC": [32.981, -80.0326],
+  "hampton|VA": [37.0299, -76.3452],
   "robins afb|GA": [32.6079, -83.5924],
   "oak harbor|WA": [48.2932, -122.6432],
   "fort greely|AK": [63.8833, -145.7],
