@@ -1,8 +1,8 @@
 # Career Transition Seed Sources
 
-Retrieved: 2026-08-29
+Initial retrieved: 2026-08-29; sonar/undersea snapshot added: 2026-08-31
 
-This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, electronic warfare, and surface/shipboard-electrical expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
+This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, electronic warfare, surface/shipboard-electrical, and sonar/undersea warfare expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
 
 ## Stable occupation and credential sources
 
@@ -59,6 +59,12 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Army COOL 12R Interior Electrician (corroborating primary): https://www.cool.osd.mil/army/moc/index.html?moc=12r
 - O*NET Electricians summary (47-2111): https://www.onetonline.org/link/summary/47-2111.00
 - O*NET Power Plant Operators summary (51-8013, checked and rejected — operator, not maintainer): https://www.onetonline.org/link/summary/51-8013.00
+- MyNavy HR STG page: https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Surface-CS-OPS/STG/
+- MyNavy HR STG FY-27 enlisted career path snapshot: https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Surface_CS_Ops/STG_FY-27_ECP_FINAL.pdf
+- Navy Sonar Technician careers page: https://aws.navy.com/careers-benefits/careers/intelligence-information-cryptology/sonar-technician
+- Navy NEOCS Chapter IV NEC snapshot: https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_23.pdf
+- General Dynamics Mission Systems sonar systems and sensors page: https://gdmissionsystems.com/submarine-systems/sonar
+- General Dynamics Mission Systems Progeny Systems page: https://gdmissionsystems.com/sea/progeny-systems
 
 ## Employer snapshot sources
 
@@ -114,10 +120,15 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - SAIC SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/science-applications-international-corporation-saic/
 - General Dynamics Information Technology careers: https://www.gdit.com/careers/
 - GDIT SkillBridge page: https://www.gdit.com/careers/featured-career-stages/military-veterans/skillbridge/
+- General Dynamics Mission Systems careers: https://gdmissionsystems.com/careers
+- General Dynamics Mission Systems sonar systems and sensors page: https://gdmissionsystems.com/submarine-systems/sonar
+- General Dynamics Mission Systems Progeny Systems page: https://gdmissionsystems.com/sea/progeny-systems
 - Kratos Defense careers: https://www.kratosdefense.com/careers
 - L3Harris ELINT careers search: https://careers.l3harris.com/en/search-jobs/elint/4832/1/1
+- L3Harris maritime/undersea search snapshot: https://careers.l3harris.com/en/search_jobs/voip/4832/1/search-jobs
 - L3Harris Electronic Warfare Specialist posting: https://careers.l3harris.com/en/job/clifton/electronic-warfare-specialist-systems-engineer/4832/98185751328
 - Lockheed Martin electronic warfare careers search: https://www.lockheedmartinjobs.com/search-jobs/electronic%20warfare/694/1
+- Lockheed Martin sonar careers search: https://www.lockheedmartinjobs.com/search-jobs/sonar/694/1
 - Sierra Nevada Company careers: https://www.sncorp.com/careers/
 - Sierra Nevada Corporation SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/sierra-nevada-corporation/
 - Palo Alto Networks Unit 42 DFIR posting: https://jobs.paloaltonetworks.com/en/job/santa-clara/consultant-dfir-reactive-services-unit-42/47263/96174875472
@@ -138,6 +149,7 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Rapid7 careers: https://www.rapid7.com/careers/
 - Okta careers: https://www.okta.com/company/careers/
 - Viasat careers: https://careers.viasat.com/
+- Oceaneering careers: https://www.oceaneering.com/careers/
 - Air Methods careers: https://www.airmethods.com/careers/
 - PHI Aviation careers: https://www.phihelico.com/careers/
 - Bristow careers: https://www.bristowgroup.com/careers/
@@ -155,6 +167,8 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Cyber employer matches should treat clearance, work role, training pipeline, NEC/NMOS, tool stack, and mission environment as high-signal fields. A rating, MOS, AFSC, or SFSC alone is not enough to infer the best role.
 - EW employer matches should treat platform, system, and mission context as high-signal fields. Examples: CTT plus SLQ-32(V)6 maintenance is a different path than CTT plus C17A technical ELINT analysis; 2A9X3 airborne EW/radar avionics is different from 17E tactical jamming and spectrum operations.
 - EW roles are a mix of operator, analyst, technician, planner, field-service, and engineering-support paths. The matcher should not imply that enlisted EW experience alone qualifies a user for degreed engineering billets without the separate education/experience evidence those roles require.
+- Sonar/undersea matches should split operator/acoustic-analysis experience from electronics-maintenance experience. STG/STS can support both paths, but STS plus submarine acoustic analysis and STS plus sonar calibration/test equipment point to different civilian openings.
+- Sonar is a narrow-but-deep market. The matcher should present fewer employers with high confidence rather than imply cyber-scale market breadth.
 - Commercial cyber employers are transition employers, not VetRetire defense footprint evidence unless separately linked to `defense_employers`.
 - Civilian operators are transition employers, not defense employers. They are intentionally not inserted into `defense_employers`.
 - A mapped VetRetire location count exists only for transition employers linked to an existing `defense_employers.slug`; an unmapped employer means "not yet mapped," not "no locations."

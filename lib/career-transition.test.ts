@@ -145,6 +145,8 @@ describe("career-transition taxonomy", () => {
     expect(searchSpecialties(catalog.specialties, "army", "electromagnetic")[0]?.code).toBe("17E");
     expect(searchSpecialties(catalog.specialties, "space_force", "cyber")[0]?.code).toBe("5C0X1");
     expect(searchSpecialties(catalog.specialties, "coast_guard", "mission")[0]?.code).toBe("CMS");
+    expect(searchSpecialties(catalog.specialties, "navy", "stg")[0]?.code).toBe("STG");
+    expect(searchSpecialties(catalog.specialties, "navy", "submarines")[0]?.code).toBe("STS");
   });
 
   it("sorts role matches by fit score, then directness", () => {
@@ -178,6 +180,9 @@ describe("career-transition csv bundle", () => {
     expect(catalog.roles.map((role) => role.slug)).toContain("electronic-warfare-specialist");
     expect(catalog.roles.map((role) => role.slug)).toContain("elint-analyst");
     expect(catalog.roles.map((role) => role.slug)).toContain("rf-systems-technician");
+    expect(catalog.roles.map((role) => role.slug)).toContain("sonar-systems-technician");
+    expect(catalog.roles.map((role) => role.slug)).toContain("acoustic-analyst");
+    expect(catalog.roles.map((role) => role.slug)).toContain("undersea-systems-specialist");
     expect(
       catalog.matches.filter((match) => match.roles.length === 0 || match.employers.length === 0)
     ).toEqual([]);
@@ -258,6 +263,8 @@ describe("career-transition skills layer (issue #222)", () => {
     expect(catalog.skills.length).toBeGreaterThan(0);
     expect(catalog.skills.map((s) => s.slug)).toContain("shipboard-power-distribution");
     expect(catalog.skills.map((s) => s.slug)).toContain("nec-electrical-code");
+    expect(catalog.skills.map((s) => s.slug)).toContain("active-passive-sonar");
+    expect(catalog.skills.map((s) => s.slug)).toContain("acoustic-analysis");
   });
 
   it("gives every Phase 1 electrical specialty at least one skill", () => {
@@ -292,5 +299,17 @@ describe("career-transition skills layer (issue #222)", () => {
     // the shipboard electrical skills.
     expect(skillsFor("AE")).toEqual([]);
     expect(skillsFor("AO")).toEqual([]);
+  });
+
+  it("gives seeded sonar specialties direct acoustic and electronics skills", () => {
+    const stg = skillsFor("STG").map((m) => m.skill.slug);
+    const sts = skillsFor("STS").map((m) => m.skill.slug);
+    const master = skillsFor("T42A").map((m) => m.skill.slug);
+
+    expect(stg).toContain("active-passive-sonar");
+    expect(stg).toContain("sonar-electronics-maintenance");
+    expect(sts).toContain("acoustic-analysis");
+    expect(sts).toContain("underwater-communications");
+    expect(master).toContain("acoustic-analysis");
   });
 });
