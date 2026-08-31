@@ -18,6 +18,7 @@ import {
   resolveSpecialty,
   type CareerTransitionCatalog,
   type EmployerMatchView,
+  type ListingEvidenceView,
   type MilitaryBranch,
   type RoleMatchView,
   type SkillMatchView,
@@ -64,6 +65,21 @@ export interface CareerEmployerView {
   snapshot_date: string;
 }
 
+export interface CareerPinnedListingView {
+  title: string;
+  company_name: string;
+  employer_slug: string;
+  location: string;
+  url: string;
+  directness: string;
+  fit_score: number;
+  platform_tags: string[];
+  requires_clearance: boolean;
+  clearance_note: string | null;
+  snapshot_date: string;
+  evidence_note: string;
+}
+
 export interface CareerCandidateView {
   branch: MilitaryBranch;
   code: string;
@@ -78,6 +94,7 @@ export type CareerToolResult =
       skills: CareerSkillView[];
       roles: CareerRoleView[];
       employers: CareerEmployerView[];
+      pinnedListings: CareerPinnedListingView[];
       listings: SpecialtyListings;
     }
   | {
@@ -142,6 +159,23 @@ function pickEmployer(m: EmployerMatchView): CareerEmployerView {
     website_url: m.employer.website_url,
     mapped_location_count: m.mapped_location_count,
     snapshot_date: m.snapshot_date,
+  };
+}
+
+function pickPinnedListing(m: ListingEvidenceView): CareerPinnedListingView {
+  return {
+    title: m.listing_title,
+    company_name: m.company_name,
+    employer_slug: m.employer.slug,
+    location: m.location,
+    url: m.url,
+    directness: m.directness,
+    fit_score: m.fit_score,
+    platform_tags: m.platform_tags,
+    requires_clearance: m.requires_clearance,
+    clearance_note: m.clearance_note,
+    snapshot_date: m.snapshot_date,
+    evidence_note: m.evidence_note,
   };
 }
 
@@ -223,6 +257,7 @@ export async function exploreSpecialtyTransition(
     skills: match.skills.map(pickSkill),
     roles: match.roles.map(pickRole),
     employers: match.employers.map(pickEmployer),
+    pinnedListings: match.listingEvidence.map(pickPinnedListing),
     listings,
   };
 }

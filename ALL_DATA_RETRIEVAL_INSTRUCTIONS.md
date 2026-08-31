@@ -870,7 +870,7 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-clim
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts
 ```
 
-`categorize-climate.ts` currently updates every location. Run its write mode only after a batch review. For a single-city import, calculate and verify the category from the documented rule, then use a narrowly scoped parameterized Neon update that asserts exactly one matched row.
+`categorize-climate.ts` global write mode updates every location; run it only after a batch review of its `--dry-run` diff. For a single city, scope it: `--name "City, ST"` (or `--id N`) touches exactly that row, and `--explain` prints the rule and inputs that decided the bucket, so you no longer need a hand-written Neon update for a one-city fix. The classifier is shared with `import-csv.ts` (`lib/climate-category.ts`), so a freshly imported complete city already carries a derived `climate_category`. `--audit` is a read-only pass that lists any row whose `climate_category` is null or outside the four accepted keys (`cold_snowy`, `hot_humid`, `hot_dry`, `mild_coastal`) and exits non-zero — run it after an Apply phase to confirm the enum invariant.
 
 ## Verification Checklist
 
