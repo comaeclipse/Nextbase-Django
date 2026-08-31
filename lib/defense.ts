@@ -402,6 +402,34 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+
+  // Defense employers referenced by the career-transition graph
+  // (data/career-transition/employers.csv). Seeded with zero locations and no
+  // ATS scraper — presence data lands later via hand-sourced footprints or an
+  // importer, same as the general-dynamics / northrop-grumman seeds. This lets
+  // transition_employers.defense_employer_slug link them (issue #265). Civilian
+  // operators, commercial-cyber employers, and government agencies stay unseeded.
+  { slug: "hii", display_name: "HII", parent_company: "HII", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "fincantieri-marinette", display_name: "Fincantieri Marinette Marine", parent_company: "Fincantieri", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "austal-usa", display_name: "Austal USA", parent_company: "Austal", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "leonardo-drs", display_name: "Leonardo DRS", parent_company: "Leonardo DRS", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "kbr", display_name: "KBR", parent_company: "KBR", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "peraton", display_name: "Peraton", parent_company: "Peraton", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "booz-allen", display_name: "Booz Allen Hamilton", parent_company: "Booz Allen Hamilton", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "caci", display_name: "CACI", parent_company: "CACI", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "mantech", display_name: "ManTech", parent_company: "ManTech", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "saic", display_name: "SAIC", parent_company: "SAIC", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "sierra-nevada", display_name: "Sierra Nevada Corporation", parent_company: "Sierra Nevada Corporation", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "amentum", display_name: "Amentum", parent_company: "Amentum", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "v2x", display_name: "V2X", parent_company: "V2X", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "bell-textron", display_name: "Bell (Textron)", parent_company: "Textron", sector: "defense_aerospace", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "fn-america", display_name: "FN America", parent_company: "FN America", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "sig-sauer", display_name: "SIG Sauer", parent_company: "SIG Sauer", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "colt-cz", display_name: "Colt CZ Group", parent_company: "Colt CZ Group", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "oceaneering", display_name: "Oceaneering International", parent_company: "Oceaneering International", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "three-saints-bay", display_name: "Three Saints Bay", parent_company: "Three Saints Bay", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "marine-acoustics", display_name: "Marine Acoustics", parent_company: "Marine Acoustics", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  { slug: "arcfield", display_name: "Arcfield", parent_company: "Arcfield", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
