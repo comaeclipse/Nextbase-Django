@@ -15,7 +15,8 @@ async function main() {
   console.log(
     `Importing career-transition bundle${dryRun ? " (dry run)" : ""}: ` +
       `${catalog.specialties.length} specialties, ${catalog.roles.length} roles, ` +
-      `${catalog.employers.length} employers`
+      `${catalog.employers.length} employers, ${catalog.skills.length} skills, ` +
+      `${catalog.listingEvidence.length} pinned listing evidence rows`
   );
 
   for (const specialty of catalog.specialties) {
@@ -90,8 +91,16 @@ async function main() {
     await sql.query(
       `INSERT INTO transition_employers
          (slug, display_name, parent_company, employer_type, defense_employer_slug,
-          website_url, notes, source_kind, source_url, source_retrieved_on)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+          website_url, notes, skillbridge_status, skillbridge_participation_type,
+          skillbridge_pathways, skillbridge_remote_available, skillbridge_nationwide,
+          skillbridge_target_domains, skillbridge_duration_days_min,
+          skillbridge_duration_days_max, skillbridge_mou_expiration,
+          skillbridge_source_url, skillbridge_verified_at, skillbridge_notes,
+          source_kind, source_url, source_retrieved_on)
+       VALUES (
+          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10::text[], $11, $12,
+          $13::text[], $14, $15, $16, $17, $18, $19, $20, $21, $22
+       )
        ON CONFLICT (slug) DO UPDATE SET
          display_name = EXCLUDED.display_name,
          parent_company = EXCLUDED.parent_company,
@@ -99,6 +108,18 @@ async function main() {
          defense_employer_slug = EXCLUDED.defense_employer_slug,
          website_url = EXCLUDED.website_url,
          notes = EXCLUDED.notes,
+         skillbridge_status = EXCLUDED.skillbridge_status,
+         skillbridge_participation_type = EXCLUDED.skillbridge_participation_type,
+         skillbridge_pathways = EXCLUDED.skillbridge_pathways,
+         skillbridge_remote_available = EXCLUDED.skillbridge_remote_available,
+         skillbridge_nationwide = EXCLUDED.skillbridge_nationwide,
+         skillbridge_target_domains = EXCLUDED.skillbridge_target_domains,
+         skillbridge_duration_days_min = EXCLUDED.skillbridge_duration_days_min,
+         skillbridge_duration_days_max = EXCLUDED.skillbridge_duration_days_max,
+         skillbridge_mou_expiration = EXCLUDED.skillbridge_mou_expiration,
+         skillbridge_source_url = EXCLUDED.skillbridge_source_url,
+         skillbridge_verified_at = EXCLUDED.skillbridge_verified_at,
+         skillbridge_notes = EXCLUDED.skillbridge_notes,
          source_kind = EXCLUDED.source_kind,
          source_url = EXCLUDED.source_url,
          source_retrieved_on = EXCLUDED.source_retrieved_on,
@@ -111,9 +132,49 @@ async function main() {
         employer.defense_employer_slug,
         employer.website_url,
         employer.notes,
+        employer.skillbridge_status,
+        employer.skillbridge_participation_type,
+        employer.skillbridge_pathways,
+        employer.skillbridge_remote_available,
+        employer.skillbridge_nationwide,
+        employer.skillbridge_target_domains,
+        employer.skillbridge_duration_days_min,
+        employer.skillbridge_duration_days_max,
+        employer.skillbridge_mou_expiration,
+        employer.skillbridge_source_url,
+        employer.skillbridge_verified_at,
+        employer.skillbridge_notes,
         employer.source_kind,
         employer.source_url,
         employer.source_retrieved_on,
+      ]
+    );
+  }
+
+  for (const skill of catalog.skills) {
+    await sql.query(
+      `INSERT INTO transition_skills
+         (slug, title, skill_kind, summary, listing_keywords,
+          source_kind, source_url, source_retrieved_on)
+       VALUES ($1, $2, $3, $4, $5::text[], $6, $7, $8)
+       ON CONFLICT (slug) DO UPDATE SET
+         title = EXCLUDED.title,
+         skill_kind = EXCLUDED.skill_kind,
+         summary = EXCLUDED.summary,
+         listing_keywords = EXCLUDED.listing_keywords,
+         source_kind = EXCLUDED.source_kind,
+         source_url = EXCLUDED.source_url,
+         source_retrieved_on = EXCLUDED.source_retrieved_on,
+         updated_at = now()`,
+      [
+        skill.slug,
+        skill.title,
+        skill.skill_kind,
+        skill.summary,
+        skill.listing_keywords,
+        skill.source_kind,
+        skill.source_url,
+        skill.source_retrieved_on,
       ]
     );
   }
@@ -137,6 +198,11 @@ async function main() {
     slug: string;
   }[];
   const employerIds = new Map(dbEmployers.map((row) => [row.slug, Number(row.id)]));
+  const dbSkills = (await sql.query(`SELECT id, slug FROM transition_skills`)) as {
+    id: string;
+    slug: string;
+  }[];
+  const skillIds = new Map(dbSkills.map((row) => [row.slug, Number(row.id)]));
 
   for (const specialtyMatch of catalog.matches) {
     const specialtyId = specialtyIds.get(
@@ -216,6 +282,81 @@ async function main() {
           match.source_kind,
           match.source_url,
           match.source_retrieved_on,
+        ]
+      );
+    }
+
+    for (const match of specialtyMatch.skills) {
+      const skillId = skillIds.get(match.skill.slug);
+      if (!skillId) throw new Error(`Missing inserted skill ${match.skill.slug}`);
+      await sql.query(
+        `INSERT INTO specialty_skill_matches
+           (specialty_id, skill_id, fit_score, directness, rationale,
+            source_kind, source_url, source_retrieved_on)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         ON CONFLICT (specialty_id, skill_id) DO UPDATE SET
+           fit_score = EXCLUDED.fit_score,
+           directness = EXCLUDED.directness,
+           rationale = EXCLUDED.rationale,
+           source_kind = EXCLUDED.source_kind,
+           source_url = EXCLUDED.source_url,
+           source_retrieved_on = EXCLUDED.source_retrieved_on,
+           updated_at = now()`,
+        [
+          specialtyId,
+          skillId,
+          match.fit_score,
+          match.directness,
+          match.rationale,
+          match.source_kind,
+          match.source_url,
+          match.source_retrieved_on,
+        ]
+      );
+    }
+
+    for (const evidence of specialtyMatch.listingEvidence) {
+      const employerId = employerIds.get(evidence.employer.slug);
+      if (!employerId) throw new Error(`Missing inserted employer ${evidence.employer.slug}`);
+      await sql.query(
+        `INSERT INTO specialty_listing_evidence
+           (specialty_id, employer_id, listing_title, company_name, location, url,
+            fit_score, directness, platform_tags, requires_clearance, clearance_note,
+            snapshot_date, evidence_note, source_kind, source_url, source_retrieved_on)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::text[], $10, $11, $12, $13, $14, $15, $16)
+         ON CONFLICT (specialty_id, url) DO UPDATE SET
+           employer_id = EXCLUDED.employer_id,
+           listing_title = EXCLUDED.listing_title,
+           company_name = EXCLUDED.company_name,
+           location = EXCLUDED.location,
+           fit_score = EXCLUDED.fit_score,
+           directness = EXCLUDED.directness,
+           platform_tags = EXCLUDED.platform_tags,
+           requires_clearance = EXCLUDED.requires_clearance,
+           clearance_note = EXCLUDED.clearance_note,
+           snapshot_date = EXCLUDED.snapshot_date,
+           evidence_note = EXCLUDED.evidence_note,
+           source_kind = EXCLUDED.source_kind,
+           source_url = EXCLUDED.source_url,
+           source_retrieved_on = EXCLUDED.source_retrieved_on,
+           updated_at = now()`,
+        [
+          specialtyId,
+          employerId,
+          evidence.listing_title,
+          evidence.company_name,
+          evidence.location,
+          evidence.url,
+          evidence.fit_score,
+          evidence.directness,
+          evidence.platform_tags,
+          evidence.requires_clearance,
+          evidence.clearance_note,
+          evidence.snapshot_date,
+          evidence.evidence_note,
+          evidence.source_kind,
+          evidence.source_url,
+          evidence.source_retrieved_on,
         ]
       );
     }

@@ -3,8 +3,10 @@
 import { useMemo, useState } from "react";
 import {
   BadgeCheck,
+  BriefcaseBusiness,
   Building2,
   ExternalLink,
+  GraduationCap,
   MapPin,
   Search,
   ShieldCheck,
@@ -12,11 +14,14 @@ import {
 } from "lucide-react";
 import {
   BRANCH_LABELS,
+  effectiveEmployerFitScore,
   searchSpecialties,
   type CareerTransitionCatalog,
   type EmployerMatchView,
+  type ListingEvidenceView,
   type MilitaryBranch,
   type RoleMatchView,
+  type SkillMatchView,
   type SpecialtyMatchView,
 } from "@/lib/career-transition-shared";
 import { Badge } from "@/components/ui/badge";
@@ -38,11 +43,29 @@ function directnessLabel(value: string) {
   return "Credential gap";
 }
 
+function skillKindLabel(value: string) {
+  if (value === "technical") return "Technical skill";
+  if (value === "domain") return "Domain knowledge";
+  if (value === "credential") return "Credential";
+  if (value === "clearance") return "Clearance";
+  return "Safety";
+}
+
 function employerTypeLabel(value: string) {
   return value
     .split("_")
     .map((part) => part[0].toUpperCase() + part.slice(1))
     .join(" ");
+}
+
+function skillBridgeTypeLabel(value: string | null) {
+  if (value === "direct_employer") return "Direct employer";
+  if (value === "convertible_requisition") return "Convertible requisition";
+  if (value === "hiring_our_heroes") return "Hiring Our Heroes";
+  if (value === "training_to_employment") return "Training to employment";
+  if (value === "third_party_fellowship") return "Third-party fellowship";
+  if (value === "government_agency") return "Government agency";
+  return "SkillBridge";
 }
 
 function sourceDate(date: string) {
@@ -104,6 +127,32 @@ function RoleCard({ match }: { match: RoleMatchView }) {
   );
 }
 
+function SkillCard({ match }: { match: SkillMatchView }) {
+  return (
+    <Card size="sm" className="rounded-lg">
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <CardTitle>{match.skill.title}</CardTitle>
+            <CardDescription>{skillKindLabel(match.skill.skill_kind)}</CardDescription>
+          </div>
+          <Badge variant={match.directness === "direct" ? "default" : "outline"}>
+            {directnessLabel(match.directness)}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm leading-6">{match.skill.summary}</p>
+        <p className="text-sm leading-6 text-muted-foreground">{match.rationale}</p>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-xs text-muted-foreground">Fit {match.fit_score}/100</span>
+          <SourceLink href={match.source_url} label={sourceDate(match.source_retrieved_on)} />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 function RequirementBadges({ match }: { match: EmployerMatchView }) {
   const flags = [
     match.values_ap ? "A&P valued" : null,
@@ -148,7 +197,56 @@ function LocationSignal({ match }: { match: EmployerMatchView }) {
   );
 }
 
+function SkillBridgeSignal({ match }: { match: EmployerMatchView }) {
+  const employer = match.employer;
+  if (employer.skillbridge_status !== "active") return null;
+  const labels = [
+    employer.skillbridge_nationwide === true ? "Nationwide" : null,
+    employer.skillbridge_remote_available === true ? "Remote available" : null,
+    employer.skillbridge_duration_days_min && employer.skillbridge_duration_days_max
+      ? `${employer.skillbridge_duration_days_min}-${employer.skillbridge_duration_days_max} days`
+      : null,
+  ].filter(Boolean) as string[];
+
+  return (
+    <div className="space-y-2 rounded-lg border bg-muted/30 p-3 text-sm">
+      <div className="flex flex-wrap items-center gap-2">
+        <ShieldCheck className="size-4 text-primary" />
+        <span className="font-medium">SkillBridge available</span>
+        <Badge variant="secondary">
+          {skillBridgeTypeLabel(employer.skillbridge_participation_type)}
+        </Badge>
+      </div>
+      {employer.skillbridge_pathways.length > 0 ? (
+        <div className="flex flex-wrap gap-1.5">
+          {employer.skillbridge_pathways.map((pathway) => (
+            <Badge key={pathway} variant="outline">
+              {pathway}
+            </Badge>
+          ))}
+        </div>
+      ) : null}
+      {employer.skillbridge_target_domains.length > 0 ? (
+        <p className="text-muted-foreground">
+          Domains: {employer.skillbridge_target_domains.join(", ")}
+        </p>
+      ) : null}
+      {labels.length > 0 ? <p className="text-muted-foreground">{labels.join(" · ")}</p> : null}
+      {employer.skillbridge_notes ? (
+        <p className="text-muted-foreground">{employer.skillbridge_notes}</p>
+      ) : null}
+      {employer.skillbridge_source_url && employer.skillbridge_verified_at ? (
+        <SourceLink
+          href={employer.skillbridge_source_url}
+          label={`Verified ${sourceDate(employer.skillbridge_verified_at)}`}
+        />
+      ) : null}
+    </div>
+  );
+}
+
 function EmployerCard({ match }: { match: EmployerMatchView }) {
+  const effectiveScore = effectiveEmployerFitScore(match);
   return (
     <Card size="sm" className="rounded-lg">
       <CardHeader>
@@ -177,12 +275,61 @@ function EmployerCard({ match }: { match: EmployerMatchView }) {
           </div>
         ) : null}
         <RequirementBadges match={match} />
+        <SkillBridgeSignal match={match} />
         <LocationSignal match={match} />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs text-muted-foreground">
-            Snapshot {sourceDate(match.snapshot_date)}
+            Snapshot {sourceDate(match.snapshot_date)} · Fit {match.fit_score}/100
+            {effectiveScore !== match.fit_score ? ` · transition signal ${effectiveScore}/100` : ""}
           </span>
           <SourceLink href={match.source_url} label="Source" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ListingEvidenceCard({ evidence }: { evidence: ListingEvidenceView }) {
+  return (
+    <Card size="sm" className="rounded-lg">
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <CardTitle>{evidence.listing_title}</CardTitle>
+            <CardDescription>
+              {evidence.company_name} · {evidence.location}
+            </CardDescription>
+          </div>
+          <Badge variant={evidence.directness === "direct" ? "default" : "outline"}>
+            {directnessLabel(evidence.directness)}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm leading-6">{evidence.evidence_note}</p>
+        {evidence.platform_tags.length > 0 ? (
+          <div className="flex flex-wrap gap-1.5">
+            {evidence.platform_tags.map((tag) => (
+              <Badge key={tag} variant="outline">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        ) : null}
+        {evidence.requires_clearance || evidence.clearance_note ? (
+          <div className="flex gap-2 rounded-lg border bg-muted/30 p-3 text-sm">
+            <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" />
+            <span>
+              {evidence.clearance_note ??
+                "This listing evidence indicates a clearance requirement."}
+            </span>
+          </div>
+        ) : null}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-xs text-muted-foreground">
+            Snapshot {sourceDate(evidence.snapshot_date)} · Fit {evidence.fit_score}/100
+          </span>
+          <SourceLink href={evidence.url} label="Listing source" />
         </div>
       </CardContent>
     </Card>
@@ -344,6 +491,27 @@ export default function CareerTransitionClient({
 
             <section className="space-y-3">
               <div className="flex items-center gap-2">
+                <GraduationCap className="size-4 text-muted-foreground" />
+                <h3 className="font-semibold">Skills and credentials</h3>
+              </div>
+              {selected.skills.length > 0 ? (
+                <div className="grid gap-3 xl:grid-cols-2">
+                  {selected.skills.map((match) => (
+                    <SkillCard key={match.skill.slug} match={match} />
+                  ))}
+                </div>
+              ) : (
+                <Card className="rounded-lg border-dashed">
+                  <CardContent className="p-4 text-sm text-muted-foreground">
+                    No civilian skills are mapped for this specialty yet. This section stays
+                    empty rather than borrowing another specialty&rsquo;s skills.
+                  </CardContent>
+                </Card>
+              )}
+            </section>
+
+            <section className="space-y-3">
+              <div className="flex items-center gap-2">
                 <Wrench className="size-4 text-muted-foreground" />
                 <h3 className="font-semibold">Civilian roles</h3>
               </div>
@@ -365,6 +533,23 @@ export default function CareerTransitionClient({
                 ))}
               </div>
             </section>
+
+            {selected.listingEvidence.length > 0 ? (
+              <section className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <BriefcaseBusiness className="size-4 text-muted-foreground" />
+                  <h3 className="font-semibold">Pinned listing evidence</h3>
+                </div>
+                <div className="grid gap-3 xl:grid-cols-2">
+                  {selected.listingEvidence.map((evidence) => (
+                    <ListingEvidenceCard
+                      key={`${evidence.employer.slug}:${evidence.url}`}
+                      evidence={evidence}
+                    />
+                  ))}
+                </div>
+              </section>
+            ) : null}
 
             <section className="rounded-lg border bg-card p-4">
               <div className="flex gap-3">
