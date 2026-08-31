@@ -172,6 +172,7 @@ describe("career-transition csv bundle", () => {
     expect(catalog.specialties.length).toBeGreaterThanOrEqual(12);
     expect(catalog.roles.length).toBeGreaterThan(0);
     expect(catalog.employers.length).toBeGreaterThan(0);
+    expect(catalog.listingEvidence.length).toBeGreaterThan(0);
     expect(catalog.roles.map((role) => role.slug)).toContain("naval-weapons-technician");
     expect(catalog.roles.map((role) => role.slug)).toContain("qasas-specialist");
     expect(catalog.roles.map((role) => role.slug)).toContain("cyber-operator");
@@ -183,6 +184,10 @@ describe("career-transition csv bundle", () => {
     expect(catalog.roles.map((role) => role.slug)).toContain("sonar-systems-technician");
     expect(catalog.roles.map((role) => role.slug)).toContain("acoustic-analyst");
     expect(catalog.roles.map((role) => role.slug)).toContain("undersea-systems-specialist");
+    expect(catalog.employers.map((employer) => employer.slug)).toContain("three-saints-bay");
+    expect(catalog.employers.map((employer) => employer.slug)).toContain(
+      "office-of-naval-intelligence"
+    );
     expect(
       catalog.matches.filter((match) => match.roles.length === 0 || match.employers.length === 0)
     ).toEqual([]);
@@ -251,6 +256,27 @@ describe("career-transition csv bundle", () => {
     expect(skillBridgeScoreBonus(employer)).toBe(6);
     expect(effectiveEmployerFitScore(match)).toBe(100);
     expect(match.fit_score).toBe(97);
+  });
+
+  it("loads pinned listing evidence for STG, STS, and T42A without hiding the employer", () => {
+    const catalog = loadCareerTransitionCsvCatalog();
+    const stg = catalog.matches.find((match) => match.specialty.code === "STG");
+    const sts = catalog.matches.find((match) => match.specialty.code === "STS");
+    const master = catalog.matches.find((match) => match.specialty.code === "T42A");
+
+    expect(stg?.listingEvidence.map((evidence) => evidence.company_name)).toContain(
+      "Booz Allen Hamilton"
+    );
+    expect(sts?.listingEvidence.map((evidence) => evidence.company_name)).toContain(
+      "Three Saints Bay / Ghostrock"
+    );
+    expect(sts?.listingEvidence.map((evidence) => evidence.listing_title)).toContain(
+      "US Navy Submarine Fire Control or SONAR Technician (FT/STS) Test Engineer"
+    );
+    expect(master?.listingEvidence.some((evidence) => evidence.platform_tags.includes("ACINT"))).toBe(
+      true
+    );
+    expect(catalog.listingEvidence.every((evidence) => evidence.source_url)).toBe(true);
   });
 });
 

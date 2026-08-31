@@ -67,6 +67,21 @@ describe("exploreSpecialtyTransition (issue #228)", () => {
     expect(listListings).toHaveBeenCalledOnce();
   });
 
+  it("returns curated pinned listing evidence for sonar specialties", async () => {
+    const r = await exploreSpecialtyTransition(
+      "navy STS",
+      {},
+      { loadCatalog, listListings: async () => STUB_LISTINGS }
+    );
+    expect(r.status).toBe("resolved");
+    if (r.status !== "resolved") throw new Error("expected resolved");
+    expect(r.pinnedListings.length).toBeGreaterThan(0);
+    expect(r.pinnedListings.map((listing) => listing.company_name)).toContain(
+      "Three Saints Bay / Ghostrock"
+    );
+    expect(r.pinnedListings.every((listing) => listing.url.startsWith("https://"))).toBe(true);
+  });
+
   it("resolves an explicit branch + code even with a vague free-text query", async () => {
     const r = await exploreSpecialtyTransition(
       "I did electrical work on ships",
