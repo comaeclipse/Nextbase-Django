@@ -512,9 +512,8 @@ Recommended sources:
 
 Retrieval notes:
 
-- `tci` needs a defined methodology. Do not mix proprietary "crime index" values from consumer websites unless licensing allows reuse.
-- A feasible open method is: calculate violent crime rate per 100,000 and index it to U.S. average = 100.
-- `crime` can be a derived label from `tci`.
+- `tci` has a **defined methodology** — do not mix proprietary "crime index" values from consumer websites. Compute it from FBI Crime Data Explorer agency counts (violent + property offenses + covered population) indexed to the FBI national rate (avg = 100), via `scripts/compute-tci.ts`. The formula, national reference rates, and the FBI sourcing runbook are in [`data/sources/crime/TCI_METHODOLOGY.md`](data/sources/crime/TCI_METHODOLOGY.md); the math is `lib/crime-index.ts`.
+- `crime` is the label **derived from `tci`** by the same module (`Low` < 75, `Moderate` 75–149, `High` ≥ 150). Do not reproduce the legacy letter grades (`A+…F`); SCHEMA.md flags the legacy `crime` column as mixing two vocabularies.
 - For cities with official recent crime briefings, record the source year and use them to annotate trend context, such as violent crime down year over year, property crime down year over year, or lowest level in a defined period.
 - If official local data and FBI/third-party annual data disagree, prefer the official local source for the latest trend narrative and the FBI/open-data source for normalized cross-city comparisons. Document both vintages.
 - For Virginia Beach specifically, useful crime/safety cross-check sources include the VBPD 2025 crime briefing, NeighborhoodScout Virginia Beach crime page, and Niche Virginia Beach crime/safety page.
