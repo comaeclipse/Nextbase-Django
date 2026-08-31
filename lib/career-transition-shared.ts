@@ -69,7 +69,8 @@ export type TransitionEmployerType =
   | "defense_contractor"
   | "mro"
   | "civilian_operator"
-  | "commercial_cyber";
+  | "commercial_cyber"
+  | "government_agency";
 
 export interface TransitionEmployer {
   id: number;
@@ -116,6 +117,25 @@ export interface SpecialtyEmployerMatch {
   source_retrieved_on: string;
 }
 
+export interface SpecialtyListingEvidence {
+  specialty_id: number;
+  employer_id: number;
+  listing_title: string;
+  company_name: string;
+  location: string;
+  url: string;
+  fit_score: number;
+  directness: MatchDirectness;
+  platform_tags: string[];
+  requires_clearance: boolean;
+  clearance_note: string | null;
+  snapshot_date: string;
+  evidence_note: string;
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
 export type SkillKind = "technical" | "domain" | "credential" | "clearance" | "safety";
 
 export interface TransitionSkill {
@@ -154,11 +174,16 @@ export interface SkillMatchView extends SpecialtySkillMatch {
   skill: TransitionSkill;
 }
 
+export interface ListingEvidenceView extends SpecialtyListingEvidence {
+  employer: TransitionEmployer;
+}
+
 export interface SpecialtyMatchView {
   specialty: MilitarySpecialty;
   roles: RoleMatchView[];
   employers: EmployerMatchView[];
   skills: SkillMatchView[];
+  listingEvidence: ListingEvidenceView[];
 }
 
 export interface CareerTransitionCatalog {
@@ -166,6 +191,7 @@ export interface CareerTransitionCatalog {
   roles: CivilianTransitionRole[];
   employers: TransitionEmployer[];
   skills: TransitionSkill[];
+  listingEvidence: ListingEvidenceView[];
   matches: SpecialtyMatchView[];
   source: "database" | "csv_fallback";
 }
