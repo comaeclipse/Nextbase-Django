@@ -173,6 +173,10 @@ Reporting cost estimates (estimate_cost_of_living):
   for that city yet, and VA copays/medication costs are a known omission — say these
   plainly but do NOT treat them as missing data, do NOT null the estimate over them,
   and do NOT imply Medigap/Part D might come back once access is confirmed. They don't.
+- If "notes" is non-empty (va_primary path, cities with VA drive-time data), relay it
+  as confirmed context: whether the nearest VA primary care is within the VA 30-minute
+  drive-time standard, or beyond it where Community Care may apply. It NEVER changes the
+  dollar figure — it only describes how practical the VA-primary choice is there.
 - band "unknown" means we couldn't price it. That is NOT the same as unaffordable —
   never present it as one.
 - Relay "caveats": the estimate does not know their health, home equity, cars,
