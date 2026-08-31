@@ -74,3 +74,6 @@ navy,Rating,EM,Electrician's Mate,enlisted,current,official_service_page,https:/
 navy,Rating,ET,Electronics Technician,enlisted,current,official_service_page,https://www.navy.com/careers-benefits/careers/electronics-technology/electronics,2026-08-29
 navy,Rating,IC,Interior Communications Electrician,enlisted,current,official_service_page,https://www.navy.com/careers-benefits/careers/electronics-technology/interior-communications-electrician,2026-08-29
 army,MOS,12R,Interior Electrician,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/mechanics-engineering/design-develop/12r-interior-electrician,2026-08-29
+navy,Rating,STG,Sonar Technician Surface,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Surface-CS-OPS/STG/,2026-08-31
+navy,Rating,STS,Sonar Technician Submarines,enlisted,current,official_service_page,https://aws.navy.com/careers-benefits/careers/intelligence-information-cryptology/sonar-technician,2026-08-31
+navy,NEC,T42A,Master Sonar Technician Submarines,enlisted,current,official_neocs,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_23.pdf,2026-08-31
