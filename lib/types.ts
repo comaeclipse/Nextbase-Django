@@ -450,6 +450,10 @@ export interface DefenseJobListingRow {
   pay_interval: string | null;
   education: string | null;
   url: string;
+  skillbridge_status?: string | null;
+  skillbridge_participation_type?: string | null;
+  skillbridge_source_url?: string | null;
+  skillbridge_verified_at?: string | null;
 }
 
 /**

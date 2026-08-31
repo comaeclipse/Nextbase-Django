@@ -14,6 +14,14 @@ export type MilitaryBranch =
 export type MilitaryPopulation = "enlisted" | "warrant" | "officer";
 export type SpecialtyStatus = "current" | "legacy" | "unknown";
 export type MatchDirectness = "direct" | "adjacent" | "requires_gap";
+export type SkillBridgeStatus = "active" | "inactive" | "unknown";
+export type SkillBridgeParticipationType =
+  | "direct_employer"
+  | "convertible_requisition"
+  | "hiring_our_heroes"
+  | "training_to_employment"
+  | "third_party_fellowship"
+  | "government_agency";
 
 export const BRANCH_LABELS: Record<MilitaryBranch, string> = {
   army: "Army",
@@ -90,7 +98,8 @@ export type TransitionEmployerType =
   | "defense_contractor"
   | "mro"
   | "civilian_operator"
-  | "commercial_cyber";
+  | "commercial_cyber"
+  | "government_agency";
 
 export interface TransitionEmployer {
   id: number;
@@ -104,6 +113,18 @@ export interface TransitionEmployer {
   source_kind: string;
   source_url: string;
   source_retrieved_on: string;
+  skillbridge_status: SkillBridgeStatus;
+  skillbridge_participation_type: SkillBridgeParticipationType | null;
+  skillbridge_pathways: string[];
+  skillbridge_remote_available: boolean | null;
+  skillbridge_nationwide: boolean | null;
+  skillbridge_target_domains: string[];
+  skillbridge_duration_days_min: number | null;
+  skillbridge_duration_days_max: number | null;
+  skillbridge_mou_expiration: string | null;
+  skillbridge_source_url: string | null;
+  skillbridge_verified_at: string | null;
+  skillbridge_notes: string | null;
 }
 
 export interface SpecialtyEmployerMatch {
@@ -125,6 +146,55 @@ export interface SpecialtyEmployerMatch {
   source_retrieved_on: string;
 }
 
+export interface SpecialtyListingEvidence {
+  specialty_id: number;
+  employer_id: number;
+  listing_title: string;
+  company_name: string;
+  location: string;
+  url: string;
+  fit_score: number;
+  directness: MatchDirectness;
+  platform_tags: string[];
+  requires_clearance: boolean;
+  clearance_note: string | null;
+  snapshot_date: string;
+  evidence_note: string;
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
+export type SkillKind = "technical" | "domain" | "credential" | "clearance" | "safety";
+
+/**
+ * A civilian, reusable skill — the "missing middle" between a specialty and a
+ * listing. Describes what a person can do (3-phase power, NEC code), never a MOS
+ * title. `listing_keywords` are the terms the Phase 3 listing bridge OR-searches.
+ */
+export interface TransitionSkill {
+  id: number;
+  slug: string;
+  title: string;
+  skill_kind: SkillKind;
+  summary: string;
+  listing_keywords: string[];
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
+export interface SpecialtySkillMatch {
+  specialty_id: number;
+  skill_id: number;
+  fit_score: number;
+  directness: MatchDirectness;
+  rationale: string;
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
 export interface RoleMatchView extends SpecialtyRoleMatch {
   role: CivilianTransitionRole;
 }
@@ -134,16 +204,28 @@ export interface EmployerMatchView extends SpecialtyEmployerMatch {
   mapped_location_count: number | null;
 }
 
+export interface SkillMatchView extends SpecialtySkillMatch {
+  skill: TransitionSkill;
+}
+
+export interface ListingEvidenceView extends SpecialtyListingEvidence {
+  employer: TransitionEmployer;
+}
+
 export interface SpecialtyMatchView {
   specialty: MilitarySpecialty;
   roles: RoleMatchView[];
   employers: EmployerMatchView[];
+  skills: SkillMatchView[];
+  listingEvidence: ListingEvidenceView[];
 }
 
 export interface CareerTransitionCatalog {
   specialties: MilitarySpecialty[];
   roles: CivilianTransitionRole[];
   employers: TransitionEmployer[];
+  skills: TransitionSkill[];
+  listingEvidence: ListingEvidenceView[];
   matches: SpecialtyMatchView[];
   source: "database" | "csv_fallback";
 }
@@ -151,6 +233,16 @@ export interface CareerTransitionCatalog {
 type CsvRow = Record<string, string | undefined>;
 
 const DATA_DIR = path.join(process.cwd(), "data", "career-transition");
+const SKILLBRIDGE_COLUMNS = [
+  "skillbridge_status",
+  "skillbridge_participation_type",
+  "skillbridge_pathways",
+  "skillbridge_remote_available",
+  "skillbridge_nationwide",
+  "skillbridge_target_domains",
+  "skillbridge_source_url",
+  "skillbridge_verified_at",
+] as const;
 
 function clean(value: string | null | undefined): string | null {
   if (value == null) return null;
@@ -167,6 +259,15 @@ function required(row: CsvRow, name: string): string {
 function parseBool(value: string | null | undefined): boolean {
   const cleaned = clean(value);
   return cleaned ? ["1", "true", "t", "yes", "y"].includes(cleaned.toLowerCase()) : false;
+}
+
+function parseOptionalBool(value: string | null | undefined): boolean | null {
+  const cleaned = clean(value);
+  if (!cleaned) return null;
+  const normalized = cleaned.toLowerCase();
+  if (["1", "true", "t", "yes", "y"].includes(normalized)) return true;
+  if (["0", "false", "f", "no", "n"].includes(normalized)) return false;
+  throw new Error(`Unsupported boolean: ${value}`);
 }
 
 function parseIntField(row: CsvRow, name: string): number {
@@ -214,11 +315,60 @@ function parseEmployerType(value: string): TransitionEmployerType {
     normalized === "defense_contractor" ||
     normalized === "mro" ||
     normalized === "civilian_operator" ||
-    normalized === "commercial_cyber"
+    normalized === "commercial_cyber" ||
+    normalized === "government_agency"
   ) {
     return normalized;
   }
   throw new Error(`Unsupported employer type: ${value}`);
+}
+
+export function parseSkillBridgeStatus(value: string | null | undefined): SkillBridgeStatus {
+  const normalized = clean(value)?.toLowerCase() ?? "unknown";
+  if (normalized === "active" || normalized === "inactive" || normalized === "unknown") {
+    return normalized;
+  }
+  throw new Error(`Unsupported SkillBridge status: ${value}`);
+}
+
+export function parseSkillBridgeParticipationType(
+  value: string | null | undefined
+): SkillBridgeParticipationType | null {
+  const normalized = clean(value)?.toLowerCase();
+  if (!normalized) return null;
+  if (
+    normalized === "direct_employer" ||
+    normalized === "convertible_requisition" ||
+    normalized === "hiring_our_heroes" ||
+    normalized === "training_to_employment" ||
+    normalized === "third_party_fellowship" ||
+    normalized === "government_agency"
+  ) {
+    return normalized;
+  }
+  throw new Error(`Unsupported SkillBridge participation type: ${value}`);
+}
+
+function parseOptionalInt(value: string | null | undefined): number | null {
+  const cleaned = clean(value);
+  if (!cleaned) return null;
+  const parsed = Number.parseInt(cleaned, 10);
+  if (!Number.isInteger(parsed)) throw new Error(`Invalid integer: ${value}`);
+  return parsed;
+}
+
+function parseSkillKind(value: string): SkillKind {
+  const normalized = value.trim().toLowerCase();
+  if (
+    normalized === "technical" ||
+    normalized === "domain" ||
+    normalized === "credential" ||
+    normalized === "clearance" ||
+    normalized === "safety"
+  ) {
+    return normalized;
+  }
+  throw new Error(`Unsupported skill kind: ${value}`);
 }
 
 function parseTags(value: string | null | undefined): string[] {
@@ -252,6 +402,244 @@ export function searchSpecialties(
     .sort((a, b) => a.code.localeCompare(b.code) || a.title.localeCompare(b.title));
 }
 
+/**
+ * Specialty resolution (issue #221).
+ *
+ * Substring search treats "navy electrician" as a hit on AE (Aviation
+ * Electrician's Mate) because that title contains "Electrician". Wiring chat or
+ * the listing bridge to that behavior would recommend avionics jobs to a ship
+ * electrician. `resolveSpecialty` is the integrity gate every later phase must
+ * call instead: it owns the match, so the model only narrates.
+ *
+ * Ambiguity is a curated fact about the *vernacular*, not something derived from
+ * catalog membership — "electrician" stays ambiguous whether or not shipboard EM
+ * is seeded yet. A resolved outcome still requires the specialty to be in the
+ * catalog; an ambiguous trigger with no disambiguating qualifier always asks.
+ */
+export type SpecialtyResolution =
+  | { status: "resolved"; specialty: MilitarySpecialty; matchedOn: "code" | "qualifier" | "title" }
+  | {
+      status: "ambiguous";
+      branch: MilitaryBranch | null;
+      term: string;
+      candidates: AmbiguousCandidate[];
+      clarification: string;
+    }
+  | { status: "uncovered"; branch: MilitaryBranch | null; query: string; explanation: string };
+
+export interface AmbiguousCandidate {
+  branch: MilitaryBranch;
+  code: string;
+  title: string;
+  /** Plain-language cue that would point a user at this specialty. */
+  disambiguator: string;
+  /** The seeded catalog row, or null when this candidate is not yet seeded. */
+  specialty: MilitarySpecialty | null;
+}
+
+interface AmbiguityCandidateRule {
+  code: string;
+  title: string;
+  disambiguator: string;
+  /** Query words that uniquely select this candidate. */
+  qualifiers: string[];
+}
+
+interface AmbiguityRule {
+  branch: MilitaryBranch;
+  /** Vernacular words that make the query ambiguous on their own. */
+  triggers: string[];
+  candidates: AmbiguityCandidateRule[];
+  clarification: string;
+}
+
+/**
+ * Curated ambiguous vernacular. Keep entries here rather than inferring ambiguity
+ * from the catalog, so the resolver asks even before a candidate rate is seeded.
+ */
+export const SPECIALTY_AMBIGUITY_RULES: AmbiguityRule[] = [
+  {
+    branch: "navy",
+    triggers: ["electrician"],
+    candidates: [
+      {
+        code: "AE",
+        title: "Aviation Electrician's Mate",
+        disambiguator: "aircraft electrical and avionics systems",
+        qualifiers: ["aviation", "aircraft", "avionics", "ae"],
+      },
+      {
+        code: "EM",
+        title: "Electrician's Mate",
+        disambiguator: "shipboard power generation and distribution (surface or nuclear)",
+        qualifiers: [
+          "em",
+          "shipboard",
+          "ship",
+          "surface",
+          "engineering",
+          "power distribution",
+          "electrician's mate",
+          "electricians mate",
+          "nuke",
+          "nuclear",
+          // A carrier is a ship that carries BOTH aviation electricians (AE) and
+          // ship's electricians (EM). "aircraft carrier" also matches AE's
+          // "aircraft" token, so listing these makes a carrier context AMBIGUOUS
+          // (both candidates fire) rather than silently resolving to aviation.
+          "carrier",
+          "aircraft carrier",
+          "cvn",
+        ],
+      },
+    ],
+    clarification:
+      'In the Navy, "electrician" is more than one rating. Which describes your work?',
+  },
+];
+
+function tokenize(value: string): string[] {
+  return value
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+/** Detect a branch named anywhere in the query as whole words. */
+export function detectBranch(query: string): MilitaryBranch | null {
+  const normalized = ` ${query.toLowerCase()} `;
+  for (const [alias, branch] of Object.entries(BRANCH_ALIASES)) {
+    if (normalized.includes(` ${alias} `)) return branch;
+  }
+  return null;
+}
+
+function normalizeTitle(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function findSeeded(
+  specialties: MilitarySpecialty[],
+  branch: MilitaryBranch,
+  code: string
+): MilitarySpecialty | null {
+  const wanted = normalizeSpecialtyKey(branch, code);
+  return specialties.find((s) => normalizeSpecialtyKey(s.branch, s.code) === wanted) ?? null;
+}
+
+/**
+ * Resolve a free-text occupation to a single specialty, an ask, or an honest
+ * "not covered". `branch` is an optional hint; when omitted it is inferred from
+ * the query (a branch word, or a qualifier that uniquely names one rating).
+ *
+ * Never returns a "nearby" specialty for an ambiguous or uncovered query.
+ */
+export function resolveSpecialty(
+  catalog: Pick<CareerTransitionCatalog, "specialties">,
+  query: string,
+  branch?: MilitaryBranch
+): SpecialtyResolution {
+  const specialties = catalog.specialties;
+  const raw = query.trim();
+  const tokens = tokenize(raw);
+  const tokenSet = new Set(tokens);
+  const normalizedQuery = normalizeTitle(raw);
+  const branchHint = branch ?? detectBranch(raw);
+
+  if (!raw) {
+    return {
+      status: "uncovered",
+      branch: branchHint,
+      query: raw,
+      explanation: "No occupation was provided.",
+    };
+  }
+
+  // 1) Curated ambiguity — checked before any code/title match so substring
+  //    similarity can never auto-pick a seeded neighbor.
+  for (const rule of SPECIALTY_AMBIGUITY_RULES) {
+    if (branchHint && branchHint !== rule.branch) continue;
+    const triggered = rule.triggers.some((t) => normalizedQuery.includes(t));
+    if (!triggered) continue;
+
+    const selected = rule.candidates.filter((c) =>
+      c.qualifiers.some((q) => {
+        const nq = normalizeTitle(q);
+        return nq.includes(" ") ? normalizedQuery.includes(nq) : tokenSet.has(nq);
+      })
+    );
+
+    if (selected.length === 1) {
+      const c = selected[0];
+      const seeded = findSeeded(specialties, rule.branch, c.code);
+      if (seeded) return { status: "resolved", specialty: seeded, matchedOn: "qualifier" };
+      return {
+        status: "uncovered",
+        branch: rule.branch,
+        query: raw,
+        explanation: `${BRANCH_LABELS[rule.branch]} ${c.title} (${c.code}) is not in the career-transition seed yet.`,
+      };
+    }
+
+    // Zero or multiple qualifiers → ask, never guess.
+    return {
+      status: "ambiguous",
+      branch: rule.branch,
+      term: rule.triggers.find((t) => normalizedQuery.includes(t)) ?? rule.triggers[0],
+      candidates: rule.candidates.map((c) => ({
+        branch: rule.branch,
+        code: c.code,
+        title: c.title,
+        disambiguator: c.disambiguator,
+        specialty: findSeeded(specialties, rule.branch, c.code),
+      })),
+      clarification: rule.clarification,
+    };
+  }
+
+  // 2) Exact code-token match (branch-scoped when a branch is known).
+  const codeMatches = specialties.filter(
+    (s) => (!branchHint || s.branch === branchHint) && tokenSet.has(s.code.toLowerCase())
+  );
+  if (codeMatches.length === 1) {
+    return { status: "resolved", specialty: codeMatches[0], matchedOn: "code" };
+  }
+  if (codeMatches.length > 1) {
+    return {
+      status: "ambiguous",
+      branch: branchHint,
+      term: raw,
+      candidates: codeMatches.map((s) => ({
+        branch: s.branch,
+        code: s.code,
+        title: s.title,
+        disambiguator: `${BRANCH_LABELS[s.branch]} ${s.title}`,
+        specialty: s,
+      })),
+      clarification: "That code matches more than one specialty. Which branch?",
+    };
+  }
+
+  // 3) Exact title match (branch-scoped when a branch is known). Conservative on
+  //    purpose: no loose substring, which is what created the AE trap.
+  const titleMatches = specialties.filter(
+    (s) => (!branchHint || s.branch === branchHint) && normalizeTitle(s.title) === normalizedQuery
+  );
+  if (titleMatches.length === 1) {
+    return { status: "resolved", specialty: titleMatches[0], matchedOn: "title" };
+  }
+
+  // 4) Not covered — say so, never substitute a neighbor.
+  return {
+    status: "uncovered",
+    branch: branchHint,
+    query: raw,
+    explanation: branchHint
+      ? `No ${BRANCH_LABELS[branchHint]} specialty in the career-transition seed matches "${raw}".`
+      : `No specialty in the career-transition seed matches "${raw}".`,
+  };
+}
+
 export function sortRoleMatches<T extends { fit_score: number; directness: MatchDirectness }>(
   matches: T[]
 ) {
@@ -262,6 +650,45 @@ export function sortRoleMatches<T extends { fit_score: number; directness: Match
   };
   return [...matches].sort(
     (a, b) =>
+      b.fit_score - a.fit_score ||
+      directnessRank[a.directness] - directnessRank[b.directness]
+  );
+}
+
+export function skillBridgeScoreBonus(
+  employer: Pick<TransitionEmployer, "skillbridge_status" | "skillbridge_participation_type">
+): number {
+  if (employer.skillbridge_status !== "active") return 0;
+  switch (employer.skillbridge_participation_type) {
+    case "direct_employer":
+      return 6;
+    case "convertible_requisition":
+      return 5;
+    case "training_to_employment":
+      return 4;
+    case "hiring_our_heroes":
+    case "third_party_fellowship":
+      return 3;
+    case "government_agency":
+      return 2;
+    default:
+      return 1;
+  }
+}
+
+export function effectiveEmployerFitScore(match: EmployerMatchView): number {
+  return Math.min(100, match.fit_score + skillBridgeScoreBonus(match.employer));
+}
+
+export function sortEmployerMatches(matches: EmployerMatchView[]) {
+  const directnessRank: Record<MatchDirectness, number> = {
+    direct: 0,
+    adjacent: 1,
+    requires_gap: 2,
+  };
+  return [...matches].sort(
+    (a, b) =>
+      effectiveEmployerFitScore(b) - effectiveEmployerFitScore(a) ||
       b.fit_score - a.fit_score ||
       directnessRank[a.directness] - directnessRank[b.directness]
   );
@@ -325,6 +752,22 @@ function normalizeDbEmployer(row: TransitionEmployer): TransitionEmployer {
     source_kind: row.source_kind,
     source_url: row.source_url,
     source_retrieved_on: dateString(row.source_retrieved_on),
+    skillbridge_status: row.skillbridge_status ?? "unknown",
+    skillbridge_participation_type: row.skillbridge_participation_type,
+    skillbridge_pathways: row.skillbridge_pathways ?? [],
+    skillbridge_remote_available: row.skillbridge_remote_available,
+    skillbridge_nationwide: row.skillbridge_nationwide,
+    skillbridge_target_domains: row.skillbridge_target_domains ?? [],
+    skillbridge_duration_days_min:
+      row.skillbridge_duration_days_min == null ? null : Number(row.skillbridge_duration_days_min),
+    skillbridge_duration_days_max:
+      row.skillbridge_duration_days_max == null ? null : Number(row.skillbridge_duration_days_max),
+    skillbridge_mou_expiration:
+      row.skillbridge_mou_expiration == null ? null : dateString(row.skillbridge_mou_expiration),
+    skillbridge_source_url: row.skillbridge_source_url,
+    skillbridge_verified_at:
+      row.skillbridge_verified_at == null ? null : dateString(row.skillbridge_verified_at),
+    skillbridge_notes: row.skillbridge_notes,
   };
 }
 
@@ -366,12 +809,75 @@ function normalizeDbEmployerMatch(row: EmployerMatchView): EmployerMatchView {
   };
 }
 
+function normalizeDbSkill(row: TransitionSkill): TransitionSkill {
+  return {
+    id: Number(row.id),
+    slug: row.slug,
+    title: row.title,
+    skill_kind: row.skill_kind,
+    summary: row.summary,
+    listing_keywords: row.listing_keywords ?? [],
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+  };
+}
+
+function normalizeDbSkillMatch(row: SkillMatchView): SkillMatchView {
+  return {
+    specialty_id: Number(row.specialty_id),
+    skill_id: Number(row.skill_id),
+    fit_score: Number(row.fit_score),
+    directness: row.directness,
+    rationale: row.rationale,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+    skill: normalizeDbSkill(row.skill),
+  };
+}
+
+function normalizeDbListingEvidence(row: ListingEvidenceView): ListingEvidenceView {
+  return {
+    specialty_id: Number(row.specialty_id),
+    employer_id: Number(row.employer_id),
+    listing_title: row.listing_title,
+    company_name: row.company_name,
+    location: row.location,
+    url: row.url,
+    fit_score: Number(row.fit_score),
+    directness: row.directness,
+    platform_tags: row.platform_tags ?? [],
+    requires_clearance: row.requires_clearance,
+    clearance_note: row.clearance_note,
+    snapshot_date: dateString(row.snapshot_date),
+    evidence_note: row.evidence_note,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+    employer: normalizeDbEmployer(row.employer),
+  };
+}
+
 function csvRows(file: string): CsvRow[] {
   return parse(readFileSync(path.join(DATA_DIR, file), "utf-8"), {
     columns: true,
     skip_empty_lines: true,
     bom: true,
   });
+}
+
+async function hasSkillBridgeColumns(sql: ReturnType<typeof getSql>): Promise<boolean> {
+  const rows = (await sql.query(
+    `SELECT column_name
+     FROM information_schema.columns
+     WHERE table_schema = 'public'
+       AND table_name = 'transition_employers'
+       AND column_name = ANY($1)`,
+    [SKILLBRIDGE_COLUMNS]
+  )) as { column_name: string }[];
+  const found = new Set(rows.map((r) => r.column_name));
+  return SKILLBRIDGE_COLUMNS.every((column) => found.has(column));
 }
 
 export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
@@ -409,6 +915,15 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
 
   const employers = csvRows("employers.csv").map((row, index) => {
     validateSourceFields(row, `employer ${required(row, "EmployerSlug")}`);
+    const skillbridgeStatus = parseSkillBridgeStatus(row.SkillBridgeStatus);
+    const skillbridgeParticipationType = parseSkillBridgeParticipationType(
+      row.SkillBridgeParticipationType
+    );
+    if (skillbridgeStatus === "active" && !skillbridgeParticipationType) {
+      throw new Error(
+        `Active SkillBridge employer missing participation type: ${row.EmployerSlug}`
+      );
+    }
     return {
       id: index + 1,
       slug: required(row, "EmployerSlug"),
@@ -421,7 +936,34 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
       source_kind: required(row, "SourceKind"),
       source_url: required(row, "SourceUrl"),
       source_retrieved_on: required(row, "SourceRetrievedOn"),
+      skillbridge_status: skillbridgeStatus,
+      skillbridge_participation_type: skillbridgeParticipationType,
+      skillbridge_pathways: parseTags(row.SkillBridgePathways),
+      skillbridge_remote_available: parseOptionalBool(row.SkillBridgeRemoteAvailable),
+      skillbridge_nationwide: parseOptionalBool(row.SkillBridgeNationwide),
+      skillbridge_target_domains: parseTags(row.SkillBridgeTargetDomains),
+      skillbridge_duration_days_min: parseOptionalInt(row.SkillBridgeDurationDaysMin),
+      skillbridge_duration_days_max: parseOptionalInt(row.SkillBridgeDurationDaysMax),
+      skillbridge_mou_expiration: clean(row.SkillBridgeMouExpiration),
+      skillbridge_source_url: clean(row.SkillBridgeSourceUrl),
+      skillbridge_verified_at: clean(row.SkillBridgeVerifiedAt),
+      skillbridge_notes: clean(row.SkillBridgeNotes),
     } satisfies TransitionEmployer;
+  });
+
+  const skills = csvRows("skills.csv").map((row, index) => {
+    validateSourceFields(row, `skill ${required(row, "SkillSlug")}`);
+    return {
+      id: index + 1,
+      slug: required(row, "SkillSlug"),
+      title: required(row, "SkillTitle"),
+      skill_kind: parseSkillKind(required(row, "SkillKind")),
+      summary: required(row, "Summary"),
+      listing_keywords: parseTags(row.ListingKeywords),
+      source_kind: required(row, "SourceKind"),
+      source_url: required(row, "SourceUrl"),
+      source_retrieved_on: required(row, "SourceRetrievedOn"),
+    } satisfies TransitionSkill;
   });
 
   const specialtyByKey = new Map(
@@ -429,6 +971,7 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
   );
   const roleBySlug = new Map(roles.map((role) => [role.slug, role]));
   const employerBySlug = new Map(employers.map((employer) => [employer.slug, employer]));
+  const skillBySlug = new Map(skills.map((skill) => [skill.slug, skill]));
 
   const roleMatches: RoleMatchView[] = csvRows("specialty-role-matches.csv").map((row) => {
     validateSourceFields(row, `role match ${required(row, "Branch")} ${required(row, "Code")}`);
@@ -479,22 +1022,96 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
     };
   });
 
-  return buildCatalog(specialties, roles, employers, roleMatches, employerMatches, "csv_fallback");
+  const skillMatches: SkillMatchView[] = csvRows("specialty-skill-matches.csv").map((row) => {
+    validateSourceFields(row, `skill match ${required(row, "Branch")} ${required(row, "Code")}`);
+    const branch = parseBranch(required(row, "Branch"));
+    const specialty = specialtyByKey.get(normalizeSpecialtyKey(branch, required(row, "Code")));
+    const skill = skillBySlug.get(required(row, "SkillSlug"));
+    if (!specialty) throw new Error(`Unknown specialty in skill match: ${JSON.stringify(row)}`);
+    if (!skill) throw new Error(`Unknown skill in skill match: ${JSON.stringify(row)}`);
+    return {
+      specialty_id: specialty.id,
+      skill_id: skill.id,
+      fit_score: parseIntField(row, "FitScore"),
+      directness: parseDirectness(required(row, "Directness")),
+      rationale: required(row, "Rationale"),
+      source_kind: required(row, "SourceKind"),
+      source_url: required(row, "SourceUrl"),
+      source_retrieved_on: required(row, "SourceRetrievedOn"),
+      skill,
+    };
+  });
+
+  const listingEvidence: ListingEvidenceView[] = csvRows("specialty-listing-evidence.csv").map(
+    (row) => {
+      validateSourceFields(
+        row,
+        `listing evidence ${required(row, "Branch")} ${required(row, "Code")}`
+      );
+      const branch = parseBranch(required(row, "Branch"));
+      const specialty = specialtyByKey.get(normalizeSpecialtyKey(branch, required(row, "Code")));
+      const employer = employerBySlug.get(required(row, "EmployerSlug"));
+      if (!specialty) {
+        throw new Error(`Unknown specialty in listing evidence: ${JSON.stringify(row)}`);
+      }
+      if (!employer) {
+        throw new Error(`Unknown employer in listing evidence: ${JSON.stringify(row)}`);
+      }
+      return {
+        specialty_id: specialty.id,
+        employer_id: employer.id,
+        listing_title: required(row, "ListingTitle"),
+        company_name: required(row, "CompanyName"),
+        location: required(row, "Location"),
+        url: required(row, "Url"),
+        fit_score: parseIntField(row, "FitScore"),
+        directness: parseDirectness(required(row, "Directness")),
+        platform_tags: parseTags(row.PlatformTags),
+        requires_clearance: parseBool(row.RequiresClearance),
+        clearance_note: clean(row.ClearanceNote),
+        snapshot_date: required(row, "SnapshotDate"),
+        evidence_note: required(row, "EvidenceNote"),
+        source_kind: required(row, "SourceKind"),
+        source_url: required(row, "SourceUrl"),
+        source_retrieved_on: required(row, "SourceRetrievedOn"),
+        employer,
+      };
+    }
+  );
+
+  return buildCatalog(
+    specialties,
+    roles,
+    employers,
+    skills,
+    roleMatches,
+    employerMatches,
+    skillMatches,
+    listingEvidence,
+    "csv_fallback"
+  );
 }
 
 function buildCatalog(
   specialties: MilitarySpecialty[],
   roles: CivilianTransitionRole[],
   employers: TransitionEmployer[],
+  skills: TransitionSkill[],
   roleMatches: RoleMatchView[],
   employerMatches: EmployerMatchView[],
+  skillMatches: SkillMatchView[],
+  listingEvidence: ListingEvidenceView[],
   source: CareerTransitionCatalog["source"]
 ): CareerTransitionCatalog {
   const matches = specialties.map((specialty) => ({
     specialty,
     roles: sortRoleMatches(roleMatches.filter((match) => match.specialty_id === specialty.id)),
-    employers: sortRoleMatches(
+    employers: sortEmployerMatches(
       employerMatches.filter((match) => match.specialty_id === specialty.id)
+    ),
+    skills: sortRoleMatches(skillMatches.filter((match) => match.specialty_id === specialty.id)),
+    listingEvidence: sortRoleMatches(
+      listingEvidence.filter((evidence) => evidence.specialty_id === specialty.id)
     ),
   }));
 
@@ -504,6 +1121,8 @@ function buildCatalog(
     ),
     roles,
     employers,
+    skills,
+    listingEvidence,
     matches,
     source,
   };
@@ -512,16 +1131,21 @@ function buildCatalog(
 export async function getCareerTransitionCatalog(): Promise<CareerTransitionCatalog> {
   try {
     const sql = getSql();
+    if (!(await hasSkillBridgeColumns(sql))) return loadCareerTransitionCsvCatalog();
     const [
       specialtyRows,
       roleRows,
       employerRows,
+      skillRows,
       roleMatchRows,
       employerMatchRows,
+      skillMatchRows,
+      listingEvidenceRows,
     ] = await Promise.all([
       sql.query(`SELECT * FROM military_specialties ORDER BY branch, code`),
       sql.query(`SELECT * FROM civilian_transition_roles ORDER BY role_family, title`),
       sql.query(`SELECT * FROM transition_employers ORDER BY employer_type, display_name`),
+      sql.query(`SELECT * FROM transition_skills ORDER BY skill_kind, title`),
       sql.query(
         `SELECT m.*, row_to_json(r.*) AS role
          FROM specialty_role_matches m
@@ -545,18 +1169,43 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
          FROM specialty_employer_matches m
          JOIN transition_employers e ON e.id = m.employer_id`
       ),
+      sql.query(
+        `SELECT m.*, row_to_json(s.*) AS skill
+         FROM specialty_skill_matches m
+         JOIN transition_skills s ON s.id = m.skill_id`
+      ),
+      sql.query(
+        `SELECT le.*, row_to_json(e.*) AS employer
+         FROM specialty_listing_evidence le
+         JOIN transition_employers e ON e.id = le.employer_id`
+      ),
     ]);
 
     const specialties = asRows<MilitarySpecialty>(specialtyRows).map(normalizeDbSpecialty);
     const roles = asRows<CivilianTransitionRole>(roleRows).map(normalizeDbRole);
     const employers = asRows<TransitionEmployer>(employerRows).map(normalizeDbEmployer);
+    const skills = asRows<TransitionSkill>(skillRows).map(normalizeDbSkill);
     const roleMatches = asRows<RoleMatchView>(roleMatchRows).map(normalizeDbRoleMatch);
     const employerMatches = asRows<EmployerMatchView>(employerMatchRows).map(
       normalizeDbEmployerMatch
     );
+    const skillMatches = asRows<SkillMatchView>(skillMatchRows).map(normalizeDbSkillMatch);
+    const listingEvidence = asRows<ListingEvidenceView>(listingEvidenceRows).map(
+      normalizeDbListingEvidence
+    );
 
     if (specialties.length === 0) return loadCareerTransitionCsvCatalog();
-    return buildCatalog(specialties, roles, employers, roleMatches, employerMatches, "database");
+    return buildCatalog(
+      specialties,
+      roles,
+      employers,
+      skills,
+      roleMatches,
+      employerMatches,
+      skillMatches,
+      listingEvidence,
+      "database"
+    );
   } catch (error) {
     const code = (error as { code?: string }).code;
     if (code === "42P01" || code === "42703" || code === "3D000") {
