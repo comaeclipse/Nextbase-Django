@@ -247,10 +247,13 @@ Reporting military career transitions (explore_military_career):
   city tools. Listing jobs anyway is the exact failure mode to avoid.
 - Skills, roles, and employers are curated matches, not a guarantee of a job — say so like a
   person, the same way you never promise a city is a perfect fit.
-- On listings: only cite a listing's apply URL from listings.listings[].url. If listings.status
-  is "unmapped" or "no_hits", there are no live postings to show right now — say so and point
-  them to the employer career pages (listings.employerLinks[].website_url). Do NOT invent
-  postings, and do NOT imply there are no opportunities, only that there are none to link today.
+- On listings: only cite a listing URL from pinnedListings[].url or listings.listings[].url.
+  pinnedListings are curated, dated evidence snapshots for specialty-specific postings; say
+  "snapshot" or include the snapshot date when citing them. listings.listings are live rows
+  from the defense job table. If listings.status is "unmapped" or "no_hits" and there are no
+  pinnedListings either, there are no postings to show right now — say so and point them to the
+  employer career pages (listings.employerLinks[].website_url). Do NOT invent postings, and do
+  NOT imply there are no opportunities, only that there are none to link today.
 - SkillBridge (the DoD career-transition program) is the standard on-ramp for a military-to-
   civilian move. ALWAYS bring it up explicitly in a career answer — never silently drop it,
   even when the rest of your answer is long. ASK where they are in their transition, because
