@@ -49,13 +49,39 @@ function unitToRaw(unit: PaceDerivedUnit): PaceRawMetrics {
   };
 }
 
-function findTractUnit(
+/**
+ * Connecticut's 2022 reorg recoded census tracts from the legacy eight counties
+ * (state FIPS 09 + county 001–015) to nine planning regions (09 + 110–190),
+ * preserving the six-digit tract number. The Census geocoder now returns the
+ * planning-region GEOID (e.g. 09120080500 for a Stratford tract), but the
+ * derived pace bundle still keys CT tracts by the legacy county FIPS
+ * (09001080500). CT 2020 tract numbers are unique statewide, so bridge a CT
+ * tract by its six-digit number when the direct GEOID lookup misses.
+ */
+function bridgeConnecticutTract(
+  key: string,
+  tractIndex: Map<string, PaceDerivedUnit>
+): PaceDerivedUnit | null {
+  if (!key.startsWith("09") || key.length !== 11) return null;
+  const tractNumber = key.slice(5);
+  for (const [geoid, unit] of tractIndex) {
+    if (geoid.length === 11 && geoid.startsWith("09") && geoid.slice(5) === tractNumber) {
+      return unit;
+    }
+  }
+  return null;
+}
+
+export function findTractUnit(
   geography: PaceGeography,
   tractIndex: Map<string, PaceDerivedUnit>
 ): PaceDerivedUnit | null {
   for (const tract of geography.tractGeoids) {
     const key = tract.replace(/\D/g, "").padStart(11, "0").slice(-11);
-    const unit = tractIndex.get(key) ?? tractIndex.get(tract);
+    const unit =
+      tractIndex.get(key) ??
+      tractIndex.get(tract) ??
+      bridgeConnecticutTract(key, tractIndex);
     if (unit) return unit;
   }
   return null;
