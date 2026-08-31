@@ -512,9 +512,8 @@ Recommended sources:
 
 Retrieval notes:
 
-- `tci` needs a defined methodology. Do not mix proprietary "crime index" values from consumer websites unless licensing allows reuse.
-- A feasible open method is: calculate violent crime rate per 100,000 and index it to U.S. average = 100.
-- `crime` can be a derived label from `tci`.
+- `tci` has a **defined methodology** — do not mix proprietary "crime index" values from consumer websites. Compute it from FBI Crime Data Explorer agency counts (violent + property offenses + covered population) indexed to the FBI national rate (avg = 100), via `scripts/compute-tci.ts`. The formula, national reference rates, and the FBI sourcing runbook are in [`data/sources/crime/TCI_METHODOLOGY.md`](data/sources/crime/TCI_METHODOLOGY.md); the math is `lib/crime-index.ts`.
+- `crime` is the label **derived from `tci`** by the same module (`Low` < 75, `Moderate` 75–149, `High` ≥ 150). Do not reproduce the legacy letter grades (`A+…F`); SCHEMA.md flags the legacy `crime` column as mixing two vocabularies.
 - For cities with official recent crime briefings, record the source year and use them to annotate trend context, such as violent crime down year over year, property crime down year over year, or lowest level in a defined period.
 - If official local data and FBI/third-party annual data disagree, prefer the official local source for the latest trend narrative and the FBI/open-data source for normalized cross-city comparisons. Document both vintages.
 - For Virginia Beach specifically, useful crime/safety cross-check sources include the VBPD 2025 crime briefing, NeighborhoodScout Virginia Beach crime page, and Niche Virginia Beach crime/safety page.
@@ -870,7 +869,7 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-clim
 node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts
 ```
 
-`categorize-climate.ts` currently updates every location. Run its write mode only after a batch review. For a single-city import, calculate and verify the category from the documented rule, then use a narrowly scoped parameterized Neon update that asserts exactly one matched row.
+`categorize-climate.ts` global write mode updates every location; run it only after a batch review of its `--dry-run` diff. For a single city, scope it: `--name "City, ST"` (or `--id N`) touches exactly that row, and `--explain` prints the rule and inputs that decided the bucket, so you no longer need a hand-written Neon update for a one-city fix. The classifier is shared with `import-csv.ts` (`lib/climate-category.ts`), so a freshly imported complete city already carries a derived `climate_category`. `--audit` is a read-only pass that lists any row whose `climate_category` is null or outside the four accepted keys (`cold_snowy`, `hot_humid`, `hot_dry`, `mild_coastal`) and exits non-zero — run it after an Apply phase to confirm the enum invariant.
 
 ## Verification Checklist
 

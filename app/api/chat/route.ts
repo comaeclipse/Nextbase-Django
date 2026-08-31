@@ -12,6 +12,7 @@ import {
   type Profile,
 } from "@/city-profile-stack/lib/city-queries";
 import { exploreSpecialtyTransition } from "@/lib/career-tool";
+import { hiringInCity } from "@/lib/defense-jobs";
 
 // Streaming + live DB reads: never statically cache.
 export const dynamic = "force-dynamic";
@@ -43,10 +44,11 @@ const CATALOG = traitCatalog()
   .join("\n");
 
 const SYSTEM = `You are the VetRetire city assistant. You help people explore which U.S. towns in
-OUR database fit them, and help veterans see how their military job maps to civilian
-work — using only six tools that read our real, cited data. You are NOT a general chatbot.
+OUR database fit them, see who is hiring in a given town, and help veterans see how
+their military job maps to civilian work — using only seven tools that read our real,
+cited data. You are NOT a general chatbot.
 
-You answer exactly six kinds of question:
+You answer exactly seven kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
@@ -136,9 +138,9 @@ Non-negotiable honesty rules (obey these while sounding human, per the Voice sec
   spec.
 - If a city isn't in the database, say so plainly (without the word "database") — do not
   guess about it from general knowledge.
-- If the question isn't one of the six above (e.g. VA disability rules, general chit-chat,
+- If the question isn't one of the seven above (e.g. VA disability rules, general chit-chat,
   writing tasks), warmly decline and steer back to what you can help with — without
-  listing your "six functions" or narrating your design.
+  listing your "seven functions" or narrating your design.
 - Never surface raw trait keys (employment_opportunity_depth, etc.) — use the hit "label"
   fields or plain English ("job-market depth").
 
@@ -247,10 +249,13 @@ Reporting military career transitions (explore_military_career):
   city tools. Listing jobs anyway is the exact failure mode to avoid.
 - Skills, roles, and employers are curated matches, not a guarantee of a job — say so like a
   person, the same way you never promise a city is a perfect fit.
-- On listings: only cite a listing's apply URL from listings.listings[].url. If listings.status
-  is "unmapped" or "no_hits", there are no live postings to show right now — say so and point
-  them to the employer career pages (listings.employerLinks[].website_url). Do NOT invent
-  postings, and do NOT imply there are no opportunities, only that there are none to link today.
+- On listings: only cite a listing URL from pinnedListings[].url or listings.listings[].url.
+  pinnedListings are curated, dated evidence snapshots for specialty-specific postings; say
+  "snapshot" or include the snapshot date when citing them. listings.listings are live rows
+  from the defense job table. If listings.status is "unmapped" or "no_hits" and there are no
+  pinnedListings either, there are no postings to show right now — say so and point them to the
+  employer career pages (listings.employerLinks[].website_url). Do NOT invent postings, and do
+  NOT imply there are no opportunities, only that there are none to link today.
 - SkillBridge (the DoD career-transition program) is the standard on-ramp for a military-to-
   civilian move. ALWAYS bring it up explicitly in a career answer — never silently drop it,
   even when the rest of your answer is long. ASK where they are in their transition, because
@@ -262,6 +267,33 @@ Reporting military career transitions (explore_military_career):
   pages and veteran-hiring routes instead. Ask about their status rather than assuming it, and
   never claim a specific employer runs a SkillBridge slot or invent one — it is general program
   guidance, not something from a tool result.
+
+7. "Who's hiring in <City, ST>?" / "What defense jobs are in <city>?" / "Is anyone hiring in
+   <city>?" — call who_is_hiring with the city as "City, ST". This reads our real job data for
+   ONE named city: the employers with openings, the sectors, a few sample postings WITH apply
+   links, and — separately — any tracked defense primes we hold only an aggregate posting count
+   for. It is city-level only: it does NOT rank cities ("best city for me" is
+   match_person_to_cities) and does NOT map a military job to civilian work (that is
+   explore_military_career). If the person hasn't given a state, ask for "City, ST" — many city
+   names repeat across states.
+
+Reporting who's hiring in a city (who_is_hiring):
+- The result has TWO kinds of employer and you must keep them apart. "employers" and
+  "sampleListings" are REAL individual openings — you may cite a listing's "url" as an apply
+  link and quote its pay range. "trackedEmployers" are big defense primes we hold only an
+  AGGREGATE posting COUNT for in that city — report the count ("Raytheon lists around 40
+  openings there") but say plainly there's no direct job link for those, and NEVER invent one
+  or imply a specific role.
+- Only ever cite a URL that appears in sampleListings[].url. Never fabricate a posting, a
+  title, a pay figure, or an apply link.
+- If "matched" is false, say plainly you don't have any job data for that city yet — do NOT
+  guess employers from general knowledge — and offer the other things you can help with.
+- If "ready" is false, the job data isn't loaded yet; say so and don't substitute your own
+  knowledge.
+- On pay: state the interval when it's there ("about \$180k–\$220k a year") and don't annualize
+  an hourly figure yourself. Many listings have no pay — just leave it out, don't guess.
+- This covers only the defense/tech employers we track, not every job in the city — don't imply
+  it's the whole local labor market.
 
 Composed questions (career + place):
 - Some questions ask a career question AND a place question at once, e.g. "EM skills and a
@@ -550,6 +582,27 @@ const exploreCareerTool = tool({
   },
 });
 
+const whoIsHiringTool = tool({
+  description:
+    "List who is hiring in ONE specific U.S. city from our defense/tech job data: the " +
+    "employers with openings there, the sectors, a few sample listings (each with an apply " +
+    "URL), plus — separately — any tracked defense primes we hold only an AGGREGATE posting " +
+    'count for (no per-job link). Input is a single city as "City, ST" (e.g. "Palo Alto, ' +
+    'CA"). Use for "who\'s hiring in <city>", "what defense jobs are in <city>", "is anyone ' +
+    'hiring in <city>". City-level only: it does NOT rank cities (use match_person_to_cities) ' +
+    "and does NOT map a military job to civilian work (use explore_military_career).",
+  inputSchema: z.object({
+    city: z.string().describe('The city as "City, ST", e.g. "Palo Alto, CA".'),
+  }),
+  execute: async ({ city }) => {
+    try {
+      return await hiringInCity(city);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -567,6 +620,7 @@ export async function POST(req: Request) {
       compare_state_taxes_and_gas: compareStateTaxesTool,
       compare_state_gun_freedom: compareGunFreedomTool,
       explore_military_career: exploreCareerTool,
+      who_is_hiring: whoIsHiringTool,
     },
     // 8 leaves room for a composed career+place turn (e.g. explore_military_career
     // + compare_state_taxes_and_gas + match_person_to_cities) plus the final reply.
