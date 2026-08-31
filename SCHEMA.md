@@ -442,9 +442,9 @@ Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It 
 
 ## Career transition (military specialty → civilian)
 
-Five tables back `/career-transition` (`lib/career-transition.ts`), a **curated hand-built graph** that maps a military specialty to civilian roles and transition employers. It is a **seed, not complete military-occupation coverage** — v1 covers an aviation-maintenance slice plus first ordnance/weapons, cyber, and electronic-warfare expansions (see `data/career-transition/sources.md`). It is **not a Fit-score factor** and is independent of `locations_location`; the only cross-link is the optional `defense_employers.slug` reference below.
+Six tables back `/career-transition` (`lib/career-transition.ts`), a **curated hand-built graph** that maps a military specialty to civilian roles, transition employers, skills, and pinned listing evidence. It is a **seed, not complete military-occupation coverage** — v1 covers an aviation-maintenance slice plus first ordnance/weapons, cyber, electronic-warfare, surface/shipboard-electrical, and sonar/undersea expansions (see `data/career-transition/sources.md`). It is **not a Fit-score factor** and is independent of `locations_location`; the only cross-link is the optional `defense_employers.slug` reference below.
 
-Matching is CSV edges sorted by `fit_score`, then `directness`, with an in-memory display-only bonus for active SkillBridge employers. The stored curated score is not overwritten. Every curated row carries provenance (`source_kind` / `source_url` / `source_retrieved_on`); `specialty_employer_matches` additionally carries a `snapshot_date` because postings change fast. Seeds live in `data/career-transition/*.csv`; `scripts/migrate-career-transition.ts` creates the tables and `scripts/import-career-transition.ts` loads the CSVs. `getCareerTransitionCatalog()` reads the DB and **falls back to the CSV bundle** (`loadCareerTransitionCsvCatalog`) when the tables are absent/empty, so the two must stay in sync.
+Matching is CSV edges sorted by `fit_score`, then `directness`, with an in-memory display-only bonus for active SkillBridge employers. The stored curated score is not overwritten. Every curated row carries provenance (`source_kind` / `source_url` / `source_retrieved_on`); `specialty_employer_matches` and `specialty_listing_evidence` additionally carry a `snapshot_date` because postings change fast. Seeds live in `data/career-transition/*.csv`; `scripts/migrate-career-transition.ts` creates the tables and `scripts/import-career-transition.ts` loads the CSVs. `getCareerTransitionCatalog()` reads the DB and **falls back to the CSV bundle** (`loadCareerTransitionCsvCatalog`) when the tables are absent/empty, so the two must stay in sync.
 
 ### `military_specialties`
 
@@ -480,7 +480,7 @@ Edge: which roles a specialty maps to. PK `(specialty_id, role_id)`, both FK `ON
 Employers that hire out of these specialties. `id bigserial PK`.
 
 - **slug** (unique) / **display_name** / **parent_company** (nullable)
-- **employer_type**: `oem | defense_contractor | mro | civilian_operator | commercial_cyber` (CHECK-constrained)
+- **employer_type**: `oem | defense_contractor | mro | civilian_operator | commercial_cyber | government_agency` (CHECK-constrained)
 - **defense_employer_slug**: **optional** FK to `defense_employers(slug)`, indexed where non-null. Present only for employers that already exist in the VetRetire defense footprint; a mapped VetRetire location count is computed at read time (distinct `defense_employer_locations` with a positive posting count) **only** for these. An unmapped employer means "not yet mapped," **not** "no locations" — civilian operators and commercial-cyber employers are intentionally *not* inserted into `defense_employers`
 - **skillbridge_status**: `active | inactive | unknown` (CHECK-constrained; default `unknown`). `unknown` means no current structured evidence in the seed, not absence of a program
 - **skillbridge_participation_type**: nullable enum: `direct_employer | convertible_requisition | hiring_our_heroes | training_to_employment | third_party_fellowship | government_agency`
@@ -501,7 +501,20 @@ Edge: which employers a specialty maps to. PK `(specialty_id, employer_id)`, bot
 - **snapshot_date**: when the posting picture was captured
 - **rationale** + provenance
 
-> **Chat scope & honesty (Phases 0–4):** chat (`/chat`, `app/api/chat/route.ts`) is **city-only** and has **no career tool** until Phase 4 of the Career Transition project. Because the specialty graph is a seed, an uncovered specialty must return an **empty result with an explanation, never a nearby code** — substring search treats "navy electrician" as a hit on the aviation rate `AE`, which is exactly the mismatch the resolver (`resolveSpecialty`, issue #221) and the honesty rule in `sources.md` exist to prevent. Code owns the match; the model only narrates.
+### `specialty_listing_evidence`
+
+Dated posting examples pinned to a specialty. PK `(specialty_id, url)`, both specialty and employer FKs `ON DELETE CASCADE`.
+
+- **listing_title** / **company_name** / **location** / **url**: the user-facing job evidence tile. `company_name` is stored on the row so an archived or external listing still shows the employer without a click-through
+- **fit_score** (`0..100`) / **directness** (`direct | adjacent | requires_gap`)
+- **platform_tags**: system or requirement tags visible on the evidence tile
+- **requires_clearance** / **clearance_note**: dated credential signal from the listing snapshot
+- **snapshot_date**: when the listing evidence was captured
+- **evidence_note** + provenance
+
+Pinned listing evidence is separate from `defense_job_listings`: it may point to external job boards, federal announcement pages, or pasted research snapshots and should not be treated as the live scraped listings table.
+
+> **Chat scope & honesty:** chat (`/chat`, `app/api/chat/route.ts`) can call the deterministic career tool. Because the specialty graph is a seed, an uncovered specialty must return an **empty result with an explanation, never a nearby code** — substring search treats "navy electrician" as a hit on the aviation rate `AE`, which is exactly the mismatch the resolver (`resolveSpecialty`, issue #221) and the honesty rule in `sources.md` exist to prevent. Code owns the match; the model only narrates. Chat may cite only URLs returned by `pinnedListings[].url`, `listings.listings[].url`, or employer career URLs returned by the tool.
 
 ---
 
