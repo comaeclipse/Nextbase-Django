@@ -103,7 +103,10 @@ export default function DefenseJobsDotLayer({
       ...(clustered
         ? {
             cluster: true,
-            clusterRadius: 48,
+            // Tight radius so isolated small-count cities (a lone "1" or "5")
+            // stay visible as their own dots at the national default zoom
+            // instead of being absorbed into a nearby cluster.
+            clusterRadius: 28,
             clusterMaxZoom: 11,
             // Sum the listing counts within each cluster (not city count).
             clusterProperties: { sum: ["+", ["get", "count"]] },
