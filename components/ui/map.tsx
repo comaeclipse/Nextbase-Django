@@ -609,15 +609,43 @@ function DefaultMarkerIcon() {
   );
 }
 
+// Self-contained styling on purpose: some hosts render map popups on pages
+// that don't load Tailwind (e.g. the pixel-parity `/map`), so the shadcn
+// utility classes wouldn't apply. Inline styles + a hover state give the same
+// ghost-icon dialog-close look everywhere, light or dark, via currentColor.
 function PopupCloseButton({ onClick }: { onClick: () => void }) {
+  const [hover, setHover] = useState(false);
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label="Close popup"
-      className="focus-visible:ring-ring hover:bg-muted text-foreground absolute top-1 right-1 z-10 inline-flex size-5 cursor-pointer items-center justify-center rounded-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      aria-label="Close"
+      style={{
+        position: "absolute",
+        top: 8,
+        right: 8,
+        zIndex: 10,
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 28,
+        height: 28,
+        padding: 0,
+        border: 0,
+        borderRadius: 8,
+        background: hover
+          ? "color-mix(in srgb, currentColor 12%, transparent)"
+          : "transparent",
+        color: "currentColor",
+        opacity: hover ? 1 : 0.6,
+        cursor: "pointer",
+        transition: "background-color 150ms ease, opacity 150ms ease",
+        outline: "none",
+      }}
     >
-      <X className="size-3.5" />
+      <X size={16} aria-hidden="true" />
     </button>
   );
 }
@@ -673,6 +701,42 @@ function MarkerPopup({
       popup.setMaxWidth(maxWidth);
     }
   }, [popup, offset, maxWidth]);
+
+  // Keep the popup fully on-screen when it opens. Tapping a marker near the
+  // edge of the viewport (common when zoomed in on mobile) would otherwise
+  // open a card that spills off the map; pan by just the overflow so the whole
+  // card is visible without recentering when it already fits.
+  useEffect(() => {
+    if (!map) return;
+    const panIntoView = () => {
+      requestAnimationFrame(() => {
+        const el = popup.getElement();
+        if (!el) return;
+        const mapBox = map.getContainer().getBoundingClientRect();
+        const popBox = el.getBoundingClientRect();
+        const pad = 12;
+        let dx = 0;
+        let dy = 0;
+        if (popBox.left < mapBox.left + pad) {
+          dx = popBox.left - (mapBox.left + pad);
+        } else if (popBox.right > mapBox.right - pad) {
+          dx = popBox.right - (mapBox.right - pad);
+        }
+        if (popBox.top < mapBox.top + pad) {
+          dy = popBox.top - (mapBox.top + pad);
+        } else if (popBox.bottom > mapBox.bottom - pad) {
+          dy = popBox.bottom - (mapBox.bottom - pad);
+        }
+        if (dx !== 0 || dy !== 0) {
+          map.panBy([dx, dy], { duration: 300 });
+        }
+      });
+    };
+    popup.on("open", panIntoView);
+    return () => {
+      popup.off("open", panIntoView);
+    };
+  }, [map, popup]);
 
   const handleClose = () => popup.remove();
 
