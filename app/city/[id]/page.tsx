@@ -46,7 +46,8 @@ import CityAffordabilityCard from "@/components/city/CityAffordabilityCard";
 import { getHousingMarket } from "@/lib/housing-market";
 import { formatNearestBase } from "@/lib/military";
 import { Check, X } from "lucide-react";
-import "../../styles/city.css";
+// city.css is imported from ./layout.tsx (layout-level) so it loads before the
+// page commits on client-side navigation — see that file for why.
 
 export const dynamic = "force-dynamic";
 
