@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { aggregateUnits } from "./aggregate";
-import { classifyFromMetrics } from "./classify";
+import { classifyFromMetrics, findTractUnit } from "./classify";
+import type { PaceDerivedUnit } from "./types";
 import { filterAndSort } from "../filters";
 import {
   log1p,
@@ -198,6 +199,73 @@ describe("scoring + review", () => {
     expect(distanceToNearestBoundary(50)).toBe(0);
     expect(distanceToNearestBoundary(60)).toBe(10);
     expect(distanceToNearestBoundary(20)).toBe(5);
+  });
+});
+
+describe("Connecticut planning-region tract bridge", () => {
+  function unit(geoid: string): PaceDerivedUnit {
+    return {
+      geoid,
+      ruca_primary: 1,
+      ruca_score: 100,
+      density: 964,
+      ua_population: 917_879,
+      employment_density: 1.4,
+      walkability: 6.6,
+      ped_intersection_density: 17.7,
+      population: 3107,
+      cbsa: "14860",
+    };
+  }
+
+  it("resolves a 2022 planning-region GEOID to the legacy-county tract", () => {
+    // Bundle keys CT tracts by legacy Fairfield County (09001); the geocoder
+    // returns the Greater Bridgeport planning-region GEOID (09120).
+    const index = new Map([["09001080500", unit("09001080500")]]);
+    const found = findTractUnit(
+      {
+        scope: "place",
+        cbsaGeoid: null,
+        placeGeoid: null,
+        tractGeoids: ["09120080500"],
+        censusVintage: "Current_Current",
+        matchedName: "Stratford, CT",
+      },
+      index
+    );
+    expect(found?.geoid).toBe("09001080500");
+  });
+
+  it("does not bridge across states or invent a match", () => {
+    const index = new Map([["09001080500", unit("09001080500")]]);
+    // A non-CT GEOID with the same tract number must not match.
+    expect(
+      findTractUnit(
+        {
+          scope: "place",
+          cbsaGeoid: null,
+          placeGeoid: null,
+          tractGeoids: ["36001080500"],
+          censusVintage: "Current_Current",
+          matchedName: "Somewhere, NY",
+        },
+        index
+      )
+    ).toBeNull();
+    // A CT GEOID whose tract number is absent must not match.
+    expect(
+      findTractUnit(
+        {
+          scope: "place",
+          cbsaGeoid: null,
+          placeGeoid: null,
+          tractGeoids: ["09120999900"],
+          censusVintage: "Current_Current",
+          matchedName: "Nowhere, CT",
+        },
+        index
+      )
+    ).toBeNull();
   });
 });
 
