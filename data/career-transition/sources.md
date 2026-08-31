@@ -1,6 +1,6 @@
 # Career Transition Seed Sources
 
-Initial retrieved: 2026-08-29; sonar/undersea snapshot added: 2026-08-31
+Initial retrieved: 2026-08-29; sonar/undersea snapshot added: 2026-08-31; STS/STG pinned listing evidence added: 2026-08-31
 
 This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, electronic warfare, surface/shipboard-electrical, and sonar/undersea warfare expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
 
@@ -66,6 +66,19 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - General Dynamics Mission Systems sonar systems and sensors page: https://gdmissionsystems.com/submarine-systems/sonar
 - General Dynamics Mission Systems Progeny Systems page: https://gdmissionsystems.com/sea/progeny-systems
 
+## Pinned listing evidence snapshots
+
+Pinned listing evidence is stored separately from `defense_job_listings`. These rows are curated examples that explicitly name a specialty, NEC, or sonar/ACINT requirement, and each row carries a `snapshot_date` plus `source_retrieved_on` because postings can move, expire, or be mirrored by job boards.
+
+- Booz Allen Acoustic Intelligence Analyst, Senior snapshot, Suitland MD: https://does.pflbas.dc.gov/vosnet/jobbanks/jobdetails.aspx?enc=9B8%2FuT7EfbEIDLIMZ8rho7lgjcz5GhrB+qzMCateevCtKcKJt2q4qJWNzvBjsQSK910pxd0i9nYx7MWKpb1GFZKRe%2F6Knd+t5xctBfVWsyNkXz6SHvSmlpG2FgaxkZrB6W+xr4rFlSfeAJ4XtR5b1+WOv%2FmK7eGb9XoxFh%2FoWvHVzsNfVgPQ1dDH0x%2FVMjJUyUNlMvo4I%2FdmGBtK6pW4uJKhCrjpJxisl+SCxjzoEZiXc21Pek+Ro%2FkIyDnmQI+eMxZWajeUNSY7S7eR1fANjF%2FVckG5%2FSiQeotesi+wsmcqbwfN9JZSWywTxwfIHsRNKeEb0wLkK3%2FSGaoLxT8HMANjMJt0h1RbSMEL4DEM93M%2F0Kc4QCur1dmBgl4ODZZ6PG++mv9GKcgtPoS+73U+7ZuVbTe8OGRGJ9301LqcVrwbgyAK599rKc9s%2Fq+qYcqO1fgFLWfcz%2FuktodLFwsJOON6SsR1IW8ioJcu0Ds1IdoP0A%2FiAWEaGzl+j9459lUMmbm1yT0qJk+il6OB%2FRtypukkatc9DSy6jpMU8vBX5ahZro4BY3PztiT4jJh%2FWYaZNdz5rFZYRECpfwoEwIefViXoXVpOTIdb7MPRxGmjV3Yb5YiaNwUATOSIgDZG0xcs
+- Three Saints Bay / Ghostrock Navy Sonar Technician Submarine (STS), San Diego CA: https://www.clearancejobs.com/jobs/9122828/navy-sonar-technician-submarine-sts-6105
+- Amentum Submarine Sonar Technician - ARCI, Portsmouth NH: https://www.amentumcareers.com/jobs/submarine-sonar-technician-arci-portsmouth-new-hampshire-united-states
+- Amentum Submarine Sonar Technician, Groton CT: https://pae.wd1.myworkdayjobs.com/en-US/Amentum_Careers/job/Submarine-Sonar-Technician_R0163560
+- Office of Naval Intelligence current openings / SWORD acoustic analyst pasted-evidence snapshot: https://www.oni.navy.mil/careers/current-openings/fileid/103597/
+- Leidos STAPLE Toolkit Subject Matter Expert, Bethesda MD: https://jobs.hireheroesusa.org/jobs/525062085-staple-toolkit-stk-subject-matter-expert-at-leidos
+- Marine Acoustics Inc. STS/STG acoustic-analysis pasted-evidence snapshot: https://www.linkedin.com/in/jacqueline-workman-0246abb4
+- Arcfield US Navy Submarine Fire Control or SONAR Technician (FT/STS) Test Engineer, Newport RI: https://careers.arcfield.com/careers-home/jobs/8515?lang=en-us
+
 ## Employer snapshot sources
 
 - Amentum veterans page: https://www.amentumcareers.com/veterans
@@ -123,6 +136,10 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - General Dynamics Mission Systems careers: https://gdmissionsystems.com/careers
 - General Dynamics Mission Systems sonar systems and sensors page: https://gdmissionsystems.com/submarine-systems/sonar
 - General Dynamics Mission Systems Progeny Systems page: https://gdmissionsystems.com/sea/progeny-systems
+- Three Saints Bay careers: https://www.threesaintsbay.com/careers/
+- Office of Naval Intelligence careers: https://www.oni.navy.mil/careers/
+- Marine Acoustics careers: https://marineacoustics.com/careers/
+- Arcfield careers: https://careers.arcfield.com/
 - Kratos Defense careers: https://www.kratosdefense.com/careers
 - L3Harris ELINT careers search: https://careers.l3harris.com/en/search-jobs/elint/4832/1/1
 - L3Harris maritime/undersea search snapshot: https://careers.l3harris.com/en/search_jobs/voip/4832/1/search-jobs

@@ -18,6 +18,7 @@ import {
 } from "../lib/location-completeness";
 import { parseLocationVerificationOptions, requireUniqueLocation } from "../lib/location-targets";
 import { inspectNeighborhoodReadiness } from "../lib/neighborhood-readiness";
+import { CLIMATE_CATEGORIES, isClimateCategory } from "../lib/climate-category";
 
 /*
  * A geography below city level owns a different set of facts; the rest resolve
@@ -119,6 +120,14 @@ async function main() {
     return !hasValue(column, fieldValue);
   });
   if (!row.pace_category) missing.push("pace_category");
+
+  // Present-but-invalid is a distinct failure from missing: a city can carry a
+  // stale bucket like "humid_continental" that no filter key accepts (issue #64).
+  if (isCity && hasValue("climate_category", row.climate_category) && !isClimateCategory(row.climate_category)) {
+    missing.push(
+      `climate_category "${String(row.climate_category)}" is not an accepted key (${CLIMATE_CATEGORIES.join(", ")})`
+    );
+  }
 
   /*
    * Weather and hourly normals are keyed by station, not containment, so a
