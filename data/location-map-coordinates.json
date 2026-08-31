@@ -31,6 +31,13 @@
       "longitude": -88.107853
     },
     {
+      "name": "Troy",
+      "state": "AL",
+      "census_place_geoid": "0176920",
+      "latitude": 31.80196,
+      "longitude": -85.96713
+    },
+    {
       "name": "Camden",
       "state": "AR",
       "census_place_geoid": "0510720",
@@ -43,6 +50,13 @@
       "census_place_geoid": "0541000",
       "latitude": 34.725393,
       "longitude": -92.358556
+    },
+    {
+      "name": "Flagstaff",
+      "state": "AZ",
+      "census_place_geoid": "0423620",
+      "latitude": 35.185212,
+      "longitude": -111.620698
     },
     {
       "name": "Gilbert",
@@ -71,6 +85,13 @@
       "census_place_geoid": "0477000",
       "latitude": 32.153036,
       "longitude": -110.870773
+    },
+    {
+      "name": "Yuma",
+      "state": "AZ",
+      "census_place_geoid": "0485540",
+      "latitude": 32.516286,
+      "longitude": -114.521782
     },
     {
       "name": "Costa Mesa",
@@ -115,11 +136,74 @@
       "longitude": -117.675848
     },
     {
+      "name": "Manhattan Beach",
+      "state": "CA",
+      "census_place_geoid": "0645400",
+      "latitude": 33.90087,
+      "longitude": -118.420715
+    },
+    {
+      "name": "Palo Alto",
+      "state": "CA",
+      "census_place_geoid": "0655282",
+      "latitude": 37.39652,
+      "longitude": -122.143088
+    },
+    {
+      "name": "Redondo Beach",
+      "state": "CA",
+      "census_place_geoid": "0660018",
+      "latitude": 33.849538,
+      "longitude": -118.400755
+    },
+    {
+      "name": "Roseville",
+      "state": "CA",
+      "census_place_geoid": "0662938",
+      "latitude": 38.770296,
+      "longitude": -121.319634
+    },
+    {
+      "name": "Sacramento",
+      "state": "CA",
+      "census_place_geoid": "0664000",
+      "latitude": 38.567694,
+      "longitude": -121.468161
+    },
+    {
       "name": "San Diego",
       "state": "CA",
       "census_place_geoid": "0666000",
       "latitude": 32.814977,
       "longitude": -117.135562
+    },
+    {
+      "name": "Santa Ana",
+      "state": "CA",
+      "census_place_geoid": "0669000",
+      "latitude": 33.736332,
+      "longitude": -117.8829
+    },
+    {
+      "name": "Santa Clara",
+      "state": "CA",
+      "census_place_geoid": "0669084",
+      "latitude": 37.364621,
+      "longitude": -121.967973
+    },
+    {
+      "name": "Tehachapi",
+      "state": "CA",
+      "census_place_geoid": "0678092",
+      "latitude": 35.142959,
+      "longitude": -118.446036
+    },
+    {
+      "name": "Torrance",
+      "state": "CA",
+      "census_place_geoid": "0680000",
+      "latitude": 33.830453,
+      "longitude": -118.356618
     },
     {
       "name": "Victorville",
@@ -171,11 +255,32 @@
       "longitude": -108.567452
     },
     {
+      "name": "Highlands Ranch",
+      "state": "CO",
+      "census_place_geoid": "0836410",
+      "latitude": 39.540829,
+      "longitude": -104.971077
+    },
+    {
+      "name": "Littleton",
+      "state": "CO",
+      "census_place_geoid": "0845255",
+      "latitude": 39.590375,
+      "longitude": -105.020084
+    },
+    {
       "name": "Pueblo",
       "state": "CO",
       "census_place_geoid": "0862000",
       "latitude": 38.269228,
       "longitude": -104.610816
+    },
+    {
+      "name": "Westminster",
+      "state": "CO",
+      "census_place_geoid": "0883835",
+      "latitude": 39.880122,
+      "longitude": -105.061513
     },
     {
       "name": "Bridgeport",
@@ -192,6 +297,13 @@
       "longitude": -72.681579
     },
     {
+      "name": "Stratford",
+      "state": "CT",
+      "census_place_geoid": "0912074190",
+      "latitude": 41.205688,
+      "longitude": -73.127986
+    },
+    {
       "name": "Wilmington",
       "state": "DE",
       "census_place_geoid": "1077580",
@@ -204,6 +316,13 @@
       "census_place_geoid": "1215475",
       "latitude": 30.747932,
       "longitude": -86.579275
+    },
+    {
+      "name": "Fort Walton Beach",
+      "state": "FL",
+      "census_place_geoid": "1224475",
+      "latitude": 30.424904,
+      "longitude": -86.621762
     },
     {
       "name": "Jacksonville",
@@ -367,6 +486,20 @@
       "longitude": -89.617198
     },
     {
+      "name": "Rolling Meadows",
+      "state": "IL",
+      "census_place_geoid": "1765338",
+      "latitude": 42.074909,
+      "longitude": -88.025363
+    },
+    {
+      "name": "Bloomington",
+      "state": "IN",
+      "census_place_geoid": "1805860",
+      "latitude": 39.1637,
+      "longitude": -86.524264
+    },
+    {
       "name": "Fort Wayne",
       "state": "IN",
       "census_place_geoid": "1825000",
@@ -423,6 +556,13 @@
       "longitude": -92.470189
     },
     {
+      "name": "Franklin",
+      "state": "LA",
+      "census_place_geoid": "2227155",
+      "latitude": 29.784946,
+      "longitude": -91.509567
+    },
+    {
       "name": "New Orleans",
       "state": "LA",
       "census_place_geoid": "2255000",
@@ -465,11 +605,25 @@
       "longitude": -71.242268
     },
     {
+      "name": "Wilmington",
+      "state": "MA",
+      "census_place_geoid": "2580195",
+      "latitude": 42.564647,
+      "longitude": -71.164516
+    },
+    {
       "name": "Baltimore",
       "state": "MD",
       "census_place_geoid": "2404000",
       "latitude": 39.300032,
       "longitude": -76.610476
+    },
+    {
+      "name": "Elkton",
+      "state": "MD",
+      "census_place_geoid": "2425800",
+      "latitude": 39.605776,
+      "longitude": -75.821686
     },
     {
       "name": "Bangor",
@@ -570,6 +724,13 @@
       "longitude": -111.29997
     },
     {
+      "name": "Libby",
+      "state": "MT",
+      "census_place_geoid": "3043450",
+      "latitude": 48.386421,
+      "longitude": -115.556701
+    },
+    {
       "name": "Missoula",
       "state": "MT",
       "census_place_geoid": "3050200",
@@ -668,6 +829,13 @@
       "longitude": -71.444131
     },
     {
+      "name": "Nashua",
+      "state": "NH",
+      "census_place_geoid": "3350260",
+      "latitude": 42.749074,
+      "longitude": -71.490544
+    },
+    {
       "name": "Camden",
       "state": "NJ",
       "census_place_geoid": "3410000",
@@ -682,11 +850,39 @@
       "longitude": -74.162829
     },
     {
+      "name": "Totowa",
+      "state": "NJ",
+      "census_place_geoid": "3473140",
+      "latitude": 40.903415,
+      "longitude": -74.219779
+    },
+    {
+      "name": "Trenton",
+      "state": "NJ",
+      "census_place_geoid": "3474000",
+      "latitude": 40.223841,
+      "longitude": -74.763624
+    },
+    {
+      "name": "Wayne",
+      "state": "NJ",
+      "census_place_geoid": "3403177840",
+      "latitude": 40.945855,
+      "longitude": -74.245077
+    },
+    {
       "name": "Albuquerque",
       "state": "NM",
       "census_place_geoid": "3502000",
       "latitude": 35.10478,
       "longitude": -106.646809
+    },
+    {
+      "name": "Rio Rancho",
+      "state": "NM",
+      "census_place_geoid": "3563460",
+      "latitude": 35.28507,
+      "longitude": -106.698867
     },
     {
       "name": "Elko",
@@ -724,6 +920,27 @@
       "longitude": -75.909369
     },
     {
+      "name": "Buffalo",
+      "state": "NY",
+      "census_place_geoid": "3611000",
+      "latitude": 42.892492,
+      "longitude": -78.859686
+    },
+    {
+      "name": "Endicott",
+      "state": "NY",
+      "census_place_geoid": "3624515",
+      "latitude": 42.097489,
+      "longitude": -76.063376
+    },
+    {
+      "name": "Greenlawn",
+      "state": "NY",
+      "census_place_geoid": "3630543",
+      "latitude": 40.863515,
+      "longitude": -73.365754
+    },
+    {
       "name": "Ithaca",
       "state": "NY",
       "census_place_geoid": "3638077",
@@ -736,6 +953,27 @@
       "census_place_geoid": "3638264",
       "latitude": 42.097603,
       "longitude": -79.236135
+    },
+    {
+      "name": "Liverpool",
+      "state": "NY",
+      "census_place_geoid": "3642884",
+      "latitude": 43.105566,
+      "longitude": -76.209664
+    },
+    {
+      "name": "Niagara Falls",
+      "state": "NY",
+      "census_place_geoid": "3651055",
+      "latitude": 43.092841,
+      "longitude": -79.014743
+    },
+    {
+      "name": "Owego",
+      "state": "NY",
+      "census_place_geoid": "3655882",
+      "latitude": 42.10456,
+      "longitude": -76.262227
     },
     {
       "name": "Rochester",
@@ -827,6 +1065,13 @@
       "census_place_geoid": "4159000",
       "latitude": 45.536951,
       "longitude": -122.649971
+    },
+    {
+      "name": "Archbald",
+      "state": "PA",
+      "census_place_geoid": "4202832",
+      "latitude": 41.506438,
+      "longitude": -75.550459
     },
     {
       "name": "Erie",
@@ -962,6 +1207,13 @@
       "longitude": -101.833107
     },
     {
+      "name": "Arlington",
+      "state": "TX",
+      "census_place_geoid": "4804000",
+      "latitude": 32.700708,
+      "longitude": -97.124691
+    },
+    {
       "name": "Dallas",
       "state": "TX",
       "census_place_geoid": "4819000",
@@ -1004,11 +1256,32 @@
       "longitude": -102.345314
     },
     {
+      "name": "Plano",
+      "state": "TX",
+      "census_place_geoid": "4858016",
+      "latitude": 33.050769,
+      "longitude": -96.747944
+    },
+    {
       "name": "San Antonio",
       "state": "TX",
       "census_place_geoid": "4865000",
       "latitude": 29.462809,
       "longitude": -98.524635
+    },
+    {
+      "name": "Clearfield",
+      "state": "UT",
+      "census_place_geoid": "4913850",
+      "latitude": 41.097012,
+      "longitude": -112.01792
+    },
+    {
+      "name": "Corinne",
+      "state": "UT",
+      "census_place_geoid": "4915830",
+      "latitude": 41.551464,
+      "longitude": -112.125015
     },
     {
       "name": "Salt Lake City",
@@ -1032,11 +1305,25 @@
       "longitude": -77.442088
     },
     {
+      "name": "Falls Church",
+      "state": "VA",
+      "census_place_geoid": "5127200",
+      "latitude": 38.884722,
+      "longitude": -77.175603
+    },
+    {
       "name": "Lynchburg",
       "state": "VA",
       "census_place_geoid": "5147672",
       "latitude": 37.399016,
       "longitude": -79.195458
+    },
+    {
+      "name": "Manassas",
+      "state": "VA",
+      "census_place_geoid": "5148952",
+      "latitude": 38.746808,
+      "longitude": -77.482633
     },
     {
       "name": "Norfolk",
@@ -1051,6 +1338,13 @@
       "census_place_geoid": "5182000",
       "latitude": 36.779525,
       "longitude": -76.029142
+    },
+    {
+      "name": "Waynesboro",
+      "state": "VA",
+      "census_place_geoid": "5183680",
+      "latitude": 38.067157,
+      "longitude": -78.90142
     },
     {
       "name": "Burlington",
@@ -1128,6 +1422,13 @@
       "census_place_geoid": "5455756",
       "latitude": 39.637487,
       "longitude": -79.946856
+    },
+    {
+      "name": "Parkersburg",
+      "state": "WV",
+      "census_place_geoid": "5462140",
+      "latitude": 39.261278,
+      "longitude": -81.54335
     },
     {
       "name": "Casper",

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import LocationsMapExperience from "@/components/LocationsMapExperience";
 import PublicNav from "@/components/PublicNav";
 import { getAllLocations } from "@/lib/locations";
-import "../styles/map.css";
+// map.css is imported from ./layout.tsx (layout-level) so it loads before the
+// page commits on client-side navigation — see that file for why.
 
 export const metadata: Metadata = {
   title: "Retirement Location Map - VetRetire",

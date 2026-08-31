@@ -84,6 +84,28 @@ Two things made it hard to see:
   place can therefore change defense figures with no importer run; re-run
   `scripts/recompute-defense-hub.ts --dry-run` and read the flips before going live.
 
+## Applying merged ingests (the serial Apply phase)
+
+Ingest PRs stop at the PR by design — they write no prod data. (The `nextbase-data-retrieval`
+skill runs its research phase this way so it can be run many-up in parallel: a run's deliverable
+is a CSV + source notes + a `--dry-run` log + a PR, never a database write.) After those PRs
+merge, the Neon write and every global recompute/sync happen in a **serial Apply phase run by a
+single operator**: once, from a `master` checkout, `--dry-run` before each live step.
+
+- **Never from a feature branch, never two at a time, never looped per-city while agents are
+  still ingesting.** `import-csv.ts` (live), `recompute-defense-hub`, `sync-va-facilities`,
+  `sync-military-proximity`, `import-bea-rpp` / `sync-col-index-from-rpp`,
+  `prepare-map-coordinates`, `classify-pace`, and the verifiers each read or write the whole DB
+  or a single shared file, so parallel runs (or a run racing an agent that is still ingesting)
+  clobber each other — torn writes, one regenerated artifact overwriting another.
+- **Batch the whole merged set once** — do not re-run the global scripts per city.
+- Exact order, flags, and per-script gotchas live in the retrieval skill's Apply phase and
+  [ALL_DATA_RETRIEVAL_INSTRUCTIONS.md](ALL_DATA_RETRIEVAL_INSTRUCTIONS.md); this section is only
+  the collaboration rule (serial, one operator, from `master`, after merge).
+- Every `master` push auto-redeploys Vercel with cold caches, so merged rows appear at once — a
+  deploy is not a separate step. A `needs_review` pace result, though, won't show a lifestyle
+  tag until it is approved.
+
 ## Scratch files
 
 Keep them out of the repo root — `.gitignore` covers `/.check_*`, `/*_tmp.js`, `/*.tmp`,

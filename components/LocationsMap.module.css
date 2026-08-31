@@ -133,6 +133,7 @@
 }
 
 .popup {
+  position: relative;
   min-width: 206px;
   padding: 15px !important;
   border: 1px solid #dbe4ec !important;
@@ -148,6 +149,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  /* Reserve room for the absolutely-positioned close button (top-right). */
+  padding-right: 30px;
   color: #64748b;
   font-size: 0.68rem;
   font-weight: 800;
