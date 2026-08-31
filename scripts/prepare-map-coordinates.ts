@@ -68,6 +68,25 @@ const LEGACY_NON_PLACE_COORDINATES: Record<LocationKey, MapCoordinate> = {
     latitude: 41.571527,
     longitude: -71.449907,
   },
+  // Connecticut towns are county subdivisions (post-2022 planning-region
+  // geography), not Census places; GEOID/internal point from the 2024
+  // Gazetteer county-subdivision file (Greater Bridgeport Planning Region).
+  "stratford|CT": {
+    name: "Stratford",
+    state: "CT",
+    census_place_geoid: "0912074190",
+    latitude: 41.205688,
+    longitude: -73.127986,
+  },
+  // New Jersey townships are county subdivisions, not Census places; GEOID and
+  // internal point from the 2024 Gazetteer county-subdivision file (Passaic Co.).
+  "wayne|NJ": {
+    name: "Wayne",
+    state: "NJ",
+    census_place_geoid: "3403177840",
+    latitude: 40.945855,
+    longitude: -74.245077,
+  },
 };
 
 function key(name: string, state: string): LocationKey {
