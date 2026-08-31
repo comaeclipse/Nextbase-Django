@@ -15,6 +15,7 @@ type NavKey =
   | "map"
   | "quiz"
   | "profile"
+  | "affordability"
   | "weather"
   | "uv"
   | "gas"
@@ -38,6 +39,7 @@ const LINKS: { key: NavKey; href: string; label: string }[] = [
 ];
 
 const DATA_LINKS: { key: NavKey; href: string; label: string; description: string }[] = [
+  { key: "affordability", href: "/affordability", label: "Affordability", description: "Cost-of-living quick check by city" },
   { key: "critters", href: "/critters", label: "Critters", description: "Local wildlife and pest activity" },
   { key: "uv", href: "/uv", label: "UV", description: "State-level UV exposure" },
   { key: "gas", href: "/gas", label: "Gas Prices", description: "State-level gas price averages" },
