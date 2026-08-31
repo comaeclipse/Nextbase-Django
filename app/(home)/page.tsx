@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PublicNav from "@/components/PublicNav";
-import "./styles/home.css";
+// home.css is imported from ./layout.tsx (layout-level) so it loads before the
+// page commits on client-side navigation — see that file for why.
 
 export const metadata: Metadata = {
   title: "VetRetire - Find Your Perfect Retirement Destination",
