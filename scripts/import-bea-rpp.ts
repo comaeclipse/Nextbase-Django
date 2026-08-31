@@ -106,18 +106,69 @@ async function download(url: string, dest: string) {
   fs.writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
 }
 
+// Pure-Node zip extraction. The previous implementation shelled out to
+// `tar -xf`, which only works where the system `tar` is bsdtar (macOS, newer
+// Windows); on GNU tar (Git Bash / most Linux CI) it fails with "This does not
+// look like a tar archive". This reads the zip's central directory (so sizes
+// are correct even when a local header uses a data descriptor) and inflates
+// each entry with zlib — deterministic everywhere Node runs, no dependency.
+// Handles stored (0) and deflate (8), which is all the Census/BEA zips use;
+// ZIP64 is not handled (these files are well under 4GB / 65k entries).
 async function unzipTo(zipPath: string, destDir: string) {
   fs.mkdirSync(destDir, { recursive: true });
-  const { spawnSync } = await import("node:child_process");
-  const result = spawnSync(
-    "tar",
-    ["-xf", zipPath, "-C", destDir],
-    { encoding: "utf8" }
-  );
-  if (result.status !== 0) {
-    throw new Error(
-      `Failed to extract ${zipPath}: ${result.stderr || result.stdout}`
-    );
+  const zlib = await import("node:zlib");
+  const buf = fs.readFileSync(zipPath);
+
+  const EOCD_SIG = 0x06054b50;
+  const CEN_SIG = 0x02014b50;
+  const LOC_SIG = 0x04034b50;
+
+  // The End Of Central Directory record isn't always the last 22 bytes (a
+  // trailing comment can follow), so scan backwards for its signature.
+  let eocd = -1;
+  for (let i = buf.length - 22; i >= 0; i--) {
+    if (buf.readUInt32LE(i) === EOCD_SIG) {
+      eocd = i;
+      break;
+    }
+  }
+  if (eocd < 0) throw new Error(`Not a zip archive (no EOCD): ${zipPath}`);
+
+  const entryCount = buf.readUInt16LE(eocd + 10);
+  let p = buf.readUInt32LE(eocd + 16); // central-directory start offset
+
+  for (let n = 0; n < entryCount; n++) {
+    if (buf.readUInt32LE(p) !== CEN_SIG) break;
+    const method = buf.readUInt16LE(p + 10);
+    const compSize = buf.readUInt32LE(p + 20);
+    const nameLen = buf.readUInt16LE(p + 28);
+    const extraLen = buf.readUInt16LE(p + 30);
+    const commentLen = buf.readUInt16LE(p + 32);
+    const localOff = buf.readUInt32LE(p + 42);
+    const name = buf.toString("utf8", p + 46, p + 46 + nameLen);
+    p += 46 + nameLen + extraLen + commentLen;
+
+    const outPath = path.join(destDir, name);
+    if (name.endsWith("/")) {
+      fs.mkdirSync(outPath, { recursive: true });
+      continue;
+    }
+
+    // The local header's name/extra lengths can differ from the central
+    // directory's, so re-read them to find where the entry's data begins.
+    if (buf.readUInt32LE(localOff) !== LOC_SIG) continue;
+    const lNameLen = buf.readUInt16LE(localOff + 26);
+    const lExtraLen = buf.readUInt16LE(localOff + 28);
+    const dataStart = localOff + 30 + lNameLen + lExtraLen;
+    const raw = buf.subarray(dataStart, dataStart + compSize);
+
+    let data: Buffer;
+    if (method === 0) data = raw;
+    else if (method === 8) data = zlib.inflateRawSync(raw);
+    else throw new Error(`Unsupported zip compression method ${method} for ${name}`);
+
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    fs.writeFileSync(outPath, data);
   }
 }
 
