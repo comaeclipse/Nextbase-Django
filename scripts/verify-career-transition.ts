@@ -18,6 +18,7 @@ async function main() {
   // skills is expected — report which specialties DO carry skills rather than
   // treating a missing skill list as a failure.
   const specialtiesWithSkills: string[] = [];
+  const specialtiesWithListingEvidence: string[] = [];
 
   for (const match of catalog.matches) {
     specialtiesByBranch[match.specialty.branch] =
@@ -30,6 +31,9 @@ async function main() {
     }
     if (match.skills.length > 0) {
       specialtiesWithSkills.push(`${match.specialty.branch}:${match.specialty.code}`);
+    }
+    if (match.listingEvidence.length > 0) {
+      specialtiesWithListingEvidence.push(`${match.specialty.branch}:${match.specialty.code}`);
     }
   }
 
@@ -46,11 +50,13 @@ async function main() {
         roles: catalog.roles.length,
         employers: catalog.employers.length,
         skills: catalog.skills.length,
+        listingEvidence: catalog.listingEvidence.length,
         branches: specialtiesByBranch,
         employerTypeMix,
         specialtiesWithoutRoles,
         specialtiesWithoutEmployers,
         specialtiesWithSkills,
+        specialtiesWithListingEvidence,
       },
       null,
       2
