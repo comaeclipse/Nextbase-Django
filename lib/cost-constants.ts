@@ -838,6 +838,72 @@ export const COST_CONSTANTS = {
       "two-person-CU series exactly 2.0 for 2024. The 2021-2022 two-year " +
       "mean shows 1.7; 1.8 is used because the typical baskets are CY2024.",
   }),
+
+  /*
+   * DEPENDENTS (issue #108, Phase 4). Unlike the couple path — which is a
+   * MEASURED BLS interpolation between one- and two-person 65+ consumer units
+   * — dependents are priced with the OECD-modified equivalence scale, an
+   * explicit CONVENTION. BLS publishes no clean "65+ reference person plus a
+   * dependent" table whose category suppression matches the existing anchors,
+   * and a single count of "extra people" is heterogeneous (a grandchild being
+   * raised, an adult child), so a published equivalence scale is more honest
+   * here than a false-precision extraction. The scale touches CONSUMPTION
+   * only: housing stays one dwelling and Medicare premiums are per 65+ adult,
+   * never per dependent (a dependent is presumptively under 65 and not on
+   * Medicare). dependentConsumptionFactor() below expresses each dependent as
+   * a proper equivalence RATIO against the adult core, so adding a child to a
+   * couple raises consumption proportionally less than adding one to a single.
+   */
+
+  /**
+   * OECD-modified equivalence weight for each additional adult (aged 14+)
+   * beyond the first. Used only to place the couple core on the OECD scale
+   * (1 + 0.5 = 1.5) as the denominator of the dependent ratio; couple
+   * CONSUMPTION pricing itself stays the measured BLS interpolation, not this
+   * weight.
+   */
+  oecdSecondAdultWeight: constant({
+    value: 0.5,
+    unit: "equivalence weight",
+    kind: "convention",
+    source:
+      "OECD-modified equivalence scale (Hagenaars et al. 1994): 1.0 to the " +
+      "first adult, 0.5 to each other person aged 14+, 0.3 to each child " +
+      "under 14. Adopted as the reference scale by the OECD and Eurostat.",
+    sourceUrl:
+      "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Equivalised_income",
+    sourcedOn: "2026-08-31",
+    refresh: "rare",
+    note:
+      "A whole-consumption equivalence convention, not a 65+ measurement. It " +
+      "is deliberately NOT used to re-price the couple basket (that stays the " +
+      "measured coupleSliceMultipliers path) — only to normalize the " +
+      "per-dependent increment.",
+  }),
+
+  /**
+   * OECD-modified equivalence weight for each dependent. Each dependent is
+   * priced as a child (0.3); a dependent adult (14+) would be 0.5 on the same
+   * scale, but the UI takes a single count of dependents and the model
+   * discloses the child assumption via missingContext.
+   */
+  oecdDependentWeight: constant({
+    value: 0.3,
+    unit: "equivalence weight",
+    kind: "convention",
+    source:
+      "OECD-modified equivalence scale: 0.3 to each child aged under 14. " +
+      "Eurostat: \"0.3 to each child aged under 14.\"",
+    sourceUrl:
+      "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Equivalised_income",
+    sourcedOn: "2026-08-31",
+    refresh: "rare",
+    note:
+      "Applied to the four CONSUMPTION slices only — not housing (one " +
+      "dwelling) and not Medicare premiums (per 65+ adult). No separate " +
+      "dependent health coverage (CHAMPVA/TRICARE) is priced; that gap is " +
+      "surfaced as missingContext, never folded in.",
+  }),
 };
 
 export type CostConstantKey = keyof typeof COST_CONSTANTS;
@@ -939,10 +1005,34 @@ export function coupleSliceMultipliers(
   };
 }
 
+/**
+ * How much a household's everyday CONSUMPTION scales for `dependents` extra
+ * people, on top of the single/couple adult core, via the OECD-modified
+ * equivalence scale. Returns 1 when there are none.
+ *
+ * Expressed as an equivalence RATIO — (adultCore + dependents x childWeight) /
+ * adultCore — so it composes with the couple multiplier instead of replacing
+ * it, and a child added to a couple (denominator 1.5) costs proportionally
+ * less than one added to a single (denominator 1.0). A single scalar applied
+ * to every slice equals applying it to their RPP-weighted sum, so the OECD
+ * "scale total consumption" reading is preserved even though the slices carry
+ * different price parities.
+ */
+export function dependentConsumptionFactor(
+  household: Household,
+  dependents: number,
+  c: ResolvedConstants
+): number {
+  if (dependents <= 0) return 1;
+  const adultCore = 1 + (household === "couple" ? c.oecdSecondAdultWeight : 0);
+  return (adultCore + dependents * c.oecdDependentWeight) / adultCore;
+}
+
 export function spendingSlices(
   profile: SpendingProfile,
   c: ResolvedConstants,
-  household: Household = DEFAULT_HOUSEHOLD
+  household: Household = DEFAULT_HOUSEHOLD,
+  dependents: number = 0
 ): SpendingSlices {
   const base: SpendingSlices =
     profile === "typical"
@@ -958,12 +1048,16 @@ export function spendingSlices(
           unscaledMonthly: c.modestNonHousingUnscaledMonthly,
           utilitiesMonthly: c.modestNationalUtilitiesMonthly,
         };
-  if (household === "single") return base;
-  const scale = coupleSliceMultipliers(profile, c);
+  const scale = household === "single" ? null : coupleSliceMultipliers(profile, c);
+  const dep = dependentConsumptionFactor(household, dependents, c);
+  const goods = (scale?.goodsMonthly ?? 1) * dep;
+  const other = (scale?.otherServicesMonthly ?? 1) * dep;
+  const unscaled = (scale?.unscaledMonthly ?? 1) * dep;
+  const utilities = (scale?.utilitiesMonthly ?? 1) * dep;
   return {
-    goodsMonthly: base.goodsMonthly * scale.goodsMonthly,
-    otherServicesMonthly: base.otherServicesMonthly * scale.otherServicesMonthly,
-    unscaledMonthly: base.unscaledMonthly * scale.unscaledMonthly,
-    utilitiesMonthly: base.utilitiesMonthly * scale.utilitiesMonthly,
+    goodsMonthly: base.goodsMonthly * goods,
+    otherServicesMonthly: base.otherServicesMonthly * other,
+    unscaledMonthly: base.unscaledMonthly * unscaled,
+    utilitiesMonthly: base.utilitiesMonthly * utilities,
   };
 }

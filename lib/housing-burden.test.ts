@@ -56,6 +56,8 @@ const C: ResolvedConstants = {
   tricarePrimeFamilyMonthly: 55,
   tricareSelectIndividualMonthly: 15,
   tricareSelectFamilyMonthly: 28,
+  oecdSecondAdultWeight: 0.5,
+  oecdDependentWeight: 0.3,
 };
 
 function loc(over: Partial<CostInputs> = {}): CostInputs {

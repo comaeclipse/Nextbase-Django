@@ -177,6 +177,23 @@ export default function AffordabilityForm({
             />
           </label>
         ) : null}
+        <div className="grid gap-1">
+          <Label htmlFor="aff-dependents" className="text-xs">
+            Dependents
+          </Label>
+          <Input
+            id="aff-dependents"
+            inputMode="numeric"
+            placeholder="0"
+            value={scenario.dependents}
+            onChange={(e) => set("dependents", e.target.value)}
+            aria-describedby="aff-dependents-hint"
+          />
+          <p id="aff-dependents-hint" className="text-[11px] text-muted-foreground">
+            Extra people beyond the adults above — priced on everyday spending
+            only, one dwelling.
+          </p>
+        </div>
       </section>
         </>
       )}

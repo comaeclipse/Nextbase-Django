@@ -60,6 +60,12 @@ export interface AffordabilityScenario {
   mortgageRatePct: string;
   propertyTaxPct: string;
   hoaMonthly: string;
+  /**
+   * Extra people beyond the single/couple adult core (detailed mode). Free
+   * text like the other numeric inputs; blank or 0 means none. Priced on
+   * everyday spending only, via the OECD-modified equivalence scale.
+   */
+  dependents: string;
 }
 
 export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
@@ -83,6 +89,7 @@ export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
   mortgageRatePct: "",
   propertyTaxPct: "",
   hoaMonthly: "",
+  dependents: "",
 };
 
 export const INCOME_FIELDS: {
@@ -346,6 +353,16 @@ export function parseOptionalPercent(raw: string): number | undefined {
 }
 
 /**
+ * A non-negative whole count of dependents from free text; 0 for blank or
+ * anything unparseable. The engine also floors/clamps, but normalizing here
+ * keeps the scenario summary and the model in step.
+ */
+export function parseDependents(raw: string): number {
+  const n = parseMonthlyAmount(raw);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+}
+
+/**
  * The EstimateOptions a scenario implies — basket, coverage, household, and
  * any housing overrides the user typed. The single source of truth for
  * turning scenario state into model options.
@@ -362,6 +379,7 @@ export function scenarioEstimateOptions(
     mortgageRateOverride: parseOptionalPercent(scenario.mortgageRatePct),
     propertyTaxRateOverride: parseOptionalPercent(scenario.propertyTaxPct),
     hoaMonthly: parseOptionalAmount(scenario.hoaMonthly),
+    dependents: parseDependents(scenario.dependents),
   };
 }
 
@@ -471,7 +489,10 @@ export function scenarioChipLabel(scenario: AffordabilityScenario): string {
     scenario.healthCoverage !== "medicare_supplement"
       ? ` · ${healthCoverageLabel(scenario.healthCoverage)}`
       : "";
-  return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)}${coverage} · ${formatUsd(gross)}/mo`;
+  // Dependents change the priced basket, so they belong in the summary when set.
+  const deps = parseDependents(scenario.dependents);
+  const dependents = deps > 0 ? ` · +${deps} dependent${deps === 1 ? "" : "s"}` : "";
+  return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)}${coverage}${dependents} · ${formatUsd(gross)}/mo`;
 }
 
 export const AFFORDABILITY_DISCLAIMER =
