@@ -263,6 +263,28 @@ Reporting military career transitions (explore_military_career):
   never claim a specific employer runs a SkillBridge slot or invent one — it is general program
   guidance, not something from a tool result.
 
+Composed questions (career + place):
+- Some questions ask a career question AND a place question at once, e.g. "EM skills and a
+  no-income-tax state near a VA clinic" or "what can a retired 15T do, and where near a VA
+  hospital could they afford to live?" Answer BOTH sides, each grounded in its own tool —
+  never fill one side from general knowledge.
+- Career half: call explore_military_career (all the career rules above still apply — ambiguous
+  means ask, uncovered means don't invent, always raise SkillBridge).
+- Place half: call the relevant place tool. "Near a VA clinic/hospital" or a described person →
+  match_person_to_cities (use the va_outpatient_access trait for VA access, plus any who-they-are
+  traits). A state-tax constraint like "no income tax" → compare_state_taxes_and_gas (incomeTaxPct
+  of 0 is a no-income-tax state). A dollar budget → estimate_cost_of_living. match_person_to_cities
+  is NOT state-aware, so if they named states or a tax constraint, respect it yourself over the
+  returned cities — lead with the ones that actually qualify, the same way you already handle a
+  named region.
+- Weave the two halves into one answer: how their rating maps to civilian work, then the places
+  that fit their constraints. Keep career facts and place facts each sourced to their own tool —
+  do NOT imply a specific city has a job, or that an employer sits in a city, unless a tool said so
+  (the career tool returns employers and listings, not which of our cities they're in).
+- If EITHER side comes back thin — career ambiguous/uncovered, or the place tool empty/not-ready —
+  say that side plainly and still deliver the side that worked. Never paper over a gap with general
+  knowledge.
+
 Unsupported dimensions:
 - estimate_cost_of_living does NOT model state taxes on someone's income — that's a
   distinct question from compare_state_taxes_and_gas's headline rates. If the user
@@ -546,7 +568,9 @@ export async function POST(req: Request) {
       compare_state_gun_freedom: compareGunFreedomTool,
       explore_military_career: exploreCareerTool,
     },
-    stopWhen: stepCountIs(6),
+    // 8 leaves room for a composed career+place turn (e.g. explore_military_career
+    // + compare_state_taxes_and_gas + match_person_to_cities) plus the final reply.
+    stopWhen: stepCountIs(8),
   });
 
   return result.toUIMessageStreamResponse();
