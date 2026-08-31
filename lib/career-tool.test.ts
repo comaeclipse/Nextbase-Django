@@ -28,6 +28,21 @@ describe("exploreSpecialtyTransition (issue #228)", () => {
     expect(listListings).not.toHaveBeenCalled();
   });
 
+  it("ignores a blank code the model passes and uses the occupation text (regression)", async () => {
+    // The live chat model calls the tool with code: "" / nec: "" rather than
+    // omitting them; a blank code must NOT override the real occupation.
+    const listListings = vi.fn(async () => STUB_LISTINGS);
+    const r = await exploreSpecialtyTransition(
+      "retired Navy electrician",
+      { branch: "navy", code: "", nec: "" },
+      { loadCatalog, listListings }
+    );
+    expect(r.status).toBe("ambiguous");
+    if (r.status !== "ambiguous") throw new Error("expected ambiguous");
+    expect(r.candidates.map((c) => c.code).sort()).toEqual(["AE", "EM"]);
+    expect(listListings).not.toHaveBeenCalled();
+  });
+
   it("keeps an aircraft-carrier electrician ambiguous (not aviation AE)", async () => {
     const r = await exploreSpecialtyTransition(
       "navy electrician aboard an aircraft carrier",
@@ -50,6 +65,21 @@ describe("exploreSpecialtyTransition (issue #228)", () => {
     expect(r.employers.length).toBeGreaterThan(0);
     expect(r.listings).toBe(STUB_LISTINGS);
     expect(listListings).toHaveBeenCalledOnce();
+  });
+
+  it("returns curated pinned listing evidence for sonar specialties", async () => {
+    const r = await exploreSpecialtyTransition(
+      "navy STS",
+      {},
+      { loadCatalog, listListings: async () => STUB_LISTINGS }
+    );
+    expect(r.status).toBe("resolved");
+    if (r.status !== "resolved") throw new Error("expected resolved");
+    expect(r.pinnedListings.length).toBeGreaterThan(0);
+    expect(r.pinnedListings.map((listing) => listing.company_name)).toContain(
+      "Three Saints Bay / Ghostrock"
+    );
+    expect(r.pinnedListings.every((listing) => listing.url.startsWith("https://"))).toBe(true);
   });
 
   it("resolves an explicit branch + code even with a vague free-text query", async () => {

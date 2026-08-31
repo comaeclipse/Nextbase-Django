@@ -30,6 +30,7 @@ import { assertLocationImportTransition, buildLocationUpsert, type ImportParent 
 import { isUnresolvedGeographyRow } from "../lib/geography-import-status";
 import { geoSlug } from "../lib/geo-slug";
 import { deriveCostOfLivingCategory } from "../lib/cost-of-living";
+import { classifyClimate } from "../lib/climate-category";
 import { classifyAndPersist, classifyLocation } from "../lib/pace";
 import type { PaceDerivedBundle, PacePlaceCentroid } from "../lib/pace/types";
 
@@ -151,6 +152,26 @@ function parseRow(row: Row): Record<string, unknown> {
   const coords = resolveCoordinates(city, state, row["Latitude"], row["Longitude"]);
   const geoType = geoTypeOf(row);
   const parentSlug = parentSlugOf(row);
+  const isCandidate = isCandidateOf(row, geoType);
+
+  const climate = cleanEmpty(row["Climate"] ?? "") ?? (isCandidate ? "" : null);
+  const snow_annual = parseIntV(row["Snow"]);
+  const rain_annual = parseIntV(row["Rain"]);
+  const alw = parseIntV(row["AverageLowWinter"]);
+  const avg_high_summer = parseIntV(row["AverageHighSummer"]);
+  const humidity_summer = parseIntV(row["HumiditySummer"]);
+  /*
+   * Derive climate_category at ingest from the same classifier categorize-climate.ts
+   * uses, so a newly imported city is never left with a null bucket that a later
+   * follow-up has to remember to fill (issue #64). Only a ranked candidate gets a
+   * value — a structural parent inherits its climate from a station at read time
+   * (lib/geo-inheritance.ts), so a derived bucket here would be an inherited
+   * placeholder. A candidate missing avg_high_summer is caught by the completion
+   * gate before it reaches this point, so the derived value is well-grounded.
+   */
+  const climate_category = isCandidate
+    ? classifyClimate({ climate, snow_annual, rain_annual, alw, avg_high_summer, humidity_summer })
+    : null;
 
   return {
     name: city,
@@ -175,8 +196,10 @@ function parseRow(row: Row): Record<string, unknown> {
     // Nullable since the geo-hierarchy migration. A city keeps the historical
     // empty-string default; a geography that inherits its climate stores NULL,
     // because a placeholder is indistinguishable from a researched value.
-    climate:
-      cleanEmpty(row["Climate"] ?? "") ?? (isCandidateOf(row, geoType) ? "" : null),
+    climate,
+    // Derived above from the shared classifier; NULL for a non-candidate, which
+    // resolves its bucket from a station at read time rather than storing one.
+    climate_category,
     // locations_location.cost_of_living is NOT NULL. We initialize it from
     // the CSV or fallback, and then scripts/sync-col-index-from-rpp.ts standardizes
     // it from BEA all_items_rpp.
@@ -219,12 +242,12 @@ function parseRow(row: Row): Record<string, unknown> {
     defense_hub_manual: parseBoolV(row["DefenseHub"]),
     has_walmart: parseBoolV(row["HasWalmart"]),
     has_costco: parseBoolV(row["HasCostco"]),
-    snow_annual: parseIntV(row["Snow"]),
-    rain_annual: parseIntV(row["Rain"]),
+    snow_annual,
+    rain_annual,
     sun_days: parseIntV(row["SunnyDays"]),
-    alw: parseIntV(row["AverageLowWinter"]),
-    avg_high_summer: parseIntV(row["AverageHighSummer"]),
-    humidity_summer: parseIntV(row["HumiditySummer"]),
+    alw,
+    avg_high_summer,
+    humidity_summer,
     gas_price: cleanEmpty(row["Gas"]),
     description: cleanEmpty(row["Description"]),
     rep_vote_share_change_pp: parseFloatV(row["rep_vote_share_change_pp"]),
