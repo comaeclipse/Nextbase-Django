@@ -202,13 +202,6 @@ export default function DefenseJobsMap({
                 </div>
               ))}
             </div>
-            <button
-              type="button"
-              onClick={() => onSelectCity(selected.point)}
-              className="mt-3 border-t pt-2 text-sm font-semibold text-primary hover:underline"
-            >
-              Show these in the list →
-            </button>
           </MapPopup>
         )}
 
