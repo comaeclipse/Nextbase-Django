@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Check,
   Copy,
@@ -8,6 +10,7 @@ import {
   HeartHandshake,
   House,
   RotateCcw,
+  Save,
   ShieldCheck,
   SlidersHorizontal,
   Snowflake,
@@ -28,9 +31,11 @@ import {
   PRICE_STEP,
   SNOW_OPTIONS,
   WEIGHT_FACTORS,
+  clearQuiz2ProfileCookie,
   formatPriceCeiling,
   profileToFilterParams,
   profileToWeights,
+  setQuiz2ProfileCookie,
   weightShares,
   type Quiz2Profile,
   type WeightKey,
@@ -84,12 +89,18 @@ function weightLabel(value: number): string {
 export default function Quiz2Client({
   locations,
   stateInfos,
+  initialProfile,
 }: {
   locations: LocationRow[];
   stateInfos: StateInfoRow[];
+  initialProfile: Quiz2Profile | null;
 }) {
-  const [profile, setProfile] = useState<Quiz2Profile>(DEFAULT_QUIZ2_PROFILE);
+  const router = useRouter();
+  const [profile, setProfile] = useState<Quiz2Profile>(
+    initialProfile ?? DEFAULT_QUIZ2_PROFILE
+  );
   const [copied, setCopied] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   const stateInfoByAbbr = useMemo(() => {
     const map: Record<string, StateInfoRow> = {};
@@ -135,6 +146,7 @@ export default function Quiz2Client({
 
   function update<K extends keyof Quiz2Profile>(key: K, value: Quiz2Profile[K]) {
     setProfile((prev) => ({ ...prev, [key]: value }));
+    setSaved(false);
   }
 
   function updateWeight(key: WeightKey, value: number) {
@@ -142,6 +154,26 @@ export default function Quiz2Client({
       ...prev,
       weights: { ...prev.weights, [key]: value },
     }));
+    setSaved(false);
+  }
+
+  function applyPreset(preset: Quiz2Profile) {
+    setProfile(preset);
+    setSaved(false);
+  }
+
+  function handleSave() {
+    setQuiz2ProfileCookie(profile);
+    setSaved(true);
+    // Re-render server components (city pages) so saved weights take effect.
+    router.refresh();
+  }
+
+  function handleReset() {
+    clearQuiz2ProfileCookie();
+    setProfile(DEFAULT_QUIZ2_PROFILE);
+    setSaved(false);
+    router.refresh();
   }
 
   async function copyProfile() {
@@ -166,7 +198,7 @@ export default function Quiz2Client({
               <Button
                 key={preset.id}
                 variant="outline"
-                onClick={() => setProfile(preset.profile)}
+                onClick={() => applyPreset(preset.profile)}
                 className="h-auto flex-col items-start gap-1 px-3 py-2.5 text-left whitespace-normal"
               >
                 <span className="text-sm font-semibold">
@@ -409,15 +441,35 @@ export default function Quiz2Client({
           </CardContent>
         </Card>
 
-        <div className="flex flex-wrap items-center gap-2 pb-2">
-          <Button variant="outline" onClick={() => setProfile(DEFAULT_QUIZ2_PROFILE)}>
-            <RotateCcw aria-hidden="true" />
-            Reset profile
-          </Button>
-          <Button variant="ghost" onClick={copyProfile}>
-            {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-            {copied ? "Copied" : "Copy profile JSON"}
-          </Button>
+        <div className="flex flex-col gap-2 pb-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button onClick={handleSave} className="min-w-32">
+              <Save aria-hidden="true" />
+              Save my profile
+            </Button>
+            <Button variant="outline" onClick={handleReset}>
+              <RotateCcw aria-hidden="true" />
+              Reset
+            </Button>
+            <Button variant="ghost" onClick={copyProfile}>
+              {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
+              {copied ? "Copied" : "Copy profile JSON"}
+            </Button>
+          </div>
+          {saved ? (
+            <p className="text-sm text-muted-foreground">
+              Saved. Your priorities now personalize the Fit Score on every{" "}
+              <Link href="/explore" className="underline">
+                city
+              </Link>{" "}
+              you open — for 180 days on this device, no account needed.
+            </p>
+          ) : (
+            <p className="text-xs text-muted-foreground">
+              Saving stores these weights in a cookie so every city&apos;s Fit
+              Score reflects your priorities.
+            </p>
+          )}
         </div>
       </div>
 
