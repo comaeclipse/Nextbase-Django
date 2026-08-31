@@ -25,6 +25,7 @@
  */
 import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
+import { resolveStateAbbr } from "./states";
 import type { DefenseEmployerCityCount, DefenseJobListingRow } from "./types";
 
 const CACHE_REVALIDATE_SECONDS = 300;
@@ -616,3 +617,189 @@ export const getDefenseEmployerCityCounts = unstable_cache(
   ["defense-jobs:getDefenseEmployerCityCounts"],
   { revalidate: CACHE_REVALIDATE_SECONDS, tags: [DEFENSE_JOBS_TAG] }
 );
+
+/* ------------------------------------------------------------------ *
+ * "Who's hiring in <City, ST>?" — a single-city read for the chat tool
+ * ------------------------------------------------------------------ */
+
+/** One employer with scraped openings in the city (real listings, apply URLs exist). */
+export interface CityHiringEmployer {
+  name: string;
+  count: number;
+}
+
+/** A sample scraped opening in the city — this is the only place URLs may be cited from. */
+export interface CityHiringSample {
+  company: string;
+  title: string;
+  sector: string;
+  payMin: number | null;
+  payMax: number | null;
+  payInterval: string | null;
+  isRemote: boolean;
+  url: string;
+}
+
+/**
+ * A tracked defense prime for which we hold only an AGGREGATE posting count in
+ * this city (defense_employer_locations) — no per-job listing, no apply URL.
+ */
+export interface CityHiringTrackedEmployer {
+  name: string;
+  total: number;
+  onsite: number;
+  hybrid: number;
+  remote: number;
+}
+
+export interface CityHiringResult {
+  /** false only when the job tables aren't loaded yet. */
+  ready: boolean;
+  /** Whether any listings OR tracked counts were found for the city. */
+  matched: boolean;
+  city: string | null;
+  state: string | null;
+  /** Total scraped listings in the city (sum over `employers`). */
+  totalListings: number;
+  employers: CityHiringEmployer[];
+  sectors: { sector: string; count: number }[];
+  sampleListings: CityHiringSample[];
+  /** Deduped by employer slug against `employers`, so a company is never double-counted. */
+  trackedEmployers: CityHiringTrackedEmployer[];
+  note: string;
+}
+
+/**
+ * Answer "who's hiring in <City, ST>?" from our defense/tech job data, combining
+ * the two granularities the /defense-jobs page keeps deliberately distinct:
+ *   - individual scraped listings (real openings, each with an apply URL), and
+ *   - tracked-employer aggregate posting counts (primes we hold only a per-city
+ *     total for, no per-job link — the page's dashed "count-only" markers).
+ * A tracked employer already represented by scraped listings in this city is
+ * dropped (deduped by `employer_slug`), so no company is counted twice.
+ *
+ * `cityInput` is a single `"City, ST"` string; the state part accepts a USPS code
+ * or a full name (both normalized via resolveStateAbbr).
+ */
+export async function hiringInCity(cityInput: string): Promise<CityHiringResult> {
+  const base = (
+    note: string,
+    city: string | null,
+    state: string | null,
+    over: Partial<CityHiringResult> = {}
+  ): CityHiringResult => ({
+    ready: true,
+    matched: false,
+    city,
+    state,
+    totalListings: 0,
+    employers: [],
+    sectors: [],
+    sampleListings: [],
+    trackedEmployers: [],
+    note,
+    ...over,
+  });
+
+  const sep = cityInput.lastIndexOf(",");
+  const cityRaw = (sep === -1 ? cityInput : cityInput.slice(0, sep)).trim();
+  const stateRaw = sep === -1 ? "" : cityInput.slice(sep + 1).trim();
+  const stateAbbr = stateRaw ? resolveStateAbbr(stateRaw) : null;
+  if (!cityRaw) return base('Give a city as "City, ST".', null, null);
+  if (!stateAbbr) {
+    return base(
+      'I need a state to tell the city apart — ask for it as "City, ST" (e.g. "Palo Alto, CA").',
+      cityRaw,
+      null
+    );
+  }
+
+  const sql = getSql();
+  const cityMatch = `LOWER(TRIM(city)) = LOWER($1) AND UPPER(TRIM(state)) = UPPER($2)`;
+  try {
+    const [empRows, secRows, sampleRows] = await Promise.all([
+      sql.query(
+        `SELECT company AS name, MAX(employer_slug) AS slug, COUNT(*)::int AS count
+           FROM defense_job_listings
+          WHERE ${cityMatch}
+          GROUP BY company
+          ORDER BY count DESC, company ASC`,
+        [cityRaw, stateAbbr]
+      ),
+      sql.query(
+        `SELECT sector, COUNT(*)::int AS count
+           FROM defense_job_listings
+          WHERE ${cityMatch} AND sector IS NOT NULL
+          GROUP BY sector
+          ORDER BY count DESC, sector ASC`,
+        [cityRaw, stateAbbr]
+      ),
+      sql.query(
+        `SELECT company, title, sector, pay_min, pay_max, pay_interval, is_remote, url
+           FROM defense_job_listings
+          WHERE ${cityMatch}
+          ORDER BY (pay_max IS NULL) ASC, pay_max DESC, company ASC, title ASC
+          LIMIT 8`,
+        [cityRaw, stateAbbr]
+      ),
+    ]);
+
+    const empRaw = empRows as Record<string, unknown>[];
+    const employers: CityHiringEmployer[] = empRaw.map((r) => ({
+      name: String(r.name),
+      count: Number(r.count),
+    }));
+    const listingSlugs = new Set(
+      empRaw.map((r) => (r.slug == null ? "" : String(r.slug))).filter(Boolean)
+    );
+    const totalListings = employers.reduce((sum, e) => sum + e.count, 0);
+    const sectors = (secRows as Record<string, unknown>[]).map((r) => ({
+      sector: String(r.sector),
+      count: Number(r.count),
+    }));
+    const sampleListings: CityHiringSample[] = (sampleRows as Record<string, unknown>[]).map(
+      (r) => ({
+        company: String(r.company),
+        title: String(r.title),
+        sector: String(r.sector),
+        payMin: r.pay_min == null ? null : Number(r.pay_min),
+        payMax: r.pay_max == null ? null : Number(r.pay_max),
+        payInterval: r.pay_interval == null ? null : String(r.pay_interval),
+        isRemote: Boolean(r.is_remote),
+        url: String(r.url),
+      })
+    );
+
+    // Tracked-employer aggregate counts for this city, minus any employer already
+    // represented by scraped listings above (deduped by slug so we never double-count).
+    const trackedEmployers: CityHiringTrackedEmployer[] = (await getDefenseEmployerCityCounts())
+      .filter(
+        (c) =>
+          c.city.trim().toLowerCase() === cityRaw.toLowerCase() &&
+          c.state.trim().toUpperCase() === stateAbbr.toUpperCase() &&
+          !listingSlugs.has(c.employer_slug)
+      )
+      .map((c) => ({
+        name: c.display_name,
+        total: c.total,
+        onsite: c.onsite,
+        hybrid: c.hybrid,
+        remote: c.remote,
+      }));
+
+    const matched = totalListings > 0 || trackedEmployers.length > 0;
+    return base(
+      matched
+        ? "Listings are real openings with apply links; tracked-employer figures are aggregate posting counts with no per-job link."
+        : "No defense job listings or tracked-employer postings for that city.",
+      cityRaw,
+      stateAbbr,
+      { matched, totalListings, employers, sectors, sampleListings, trackedEmployers }
+    );
+  } catch (err) {
+    if (isMissingTable(err)) {
+      return base("Job data isn't loaded yet.", cityRaw, stateAbbr, { ready: false });
+    }
+    throw err;
+  }
+}
