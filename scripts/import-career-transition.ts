@@ -15,7 +15,8 @@ async function main() {
   console.log(
     `Importing career-transition bundle${dryRun ? " (dry run)" : ""}: ` +
       `${catalog.specialties.length} specialties, ${catalog.roles.length} roles, ` +
-      `${catalog.employers.length} employers, ${catalog.skills.length} skills`
+      `${catalog.employers.length} employers, ${catalog.skills.length} skills, ` +
+      `${catalog.listingEvidence.length} pinned listing evidence rows`
   );
 
   for (const specialty of catalog.specialties) {
@@ -310,6 +311,52 @@ async function main() {
           match.source_kind,
           match.source_url,
           match.source_retrieved_on,
+        ]
+      );
+    }
+
+    for (const evidence of specialtyMatch.listingEvidence) {
+      const employerId = employerIds.get(evidence.employer.slug);
+      if (!employerId) throw new Error(`Missing inserted employer ${evidence.employer.slug}`);
+      await sql.query(
+        `INSERT INTO specialty_listing_evidence
+           (specialty_id, employer_id, listing_title, company_name, location, url,
+            fit_score, directness, platform_tags, requires_clearance, clearance_note,
+            snapshot_date, evidence_note, source_kind, source_url, source_retrieved_on)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::text[], $10, $11, $12, $13, $14, $15, $16)
+         ON CONFLICT (specialty_id, url) DO UPDATE SET
+           employer_id = EXCLUDED.employer_id,
+           listing_title = EXCLUDED.listing_title,
+           company_name = EXCLUDED.company_name,
+           location = EXCLUDED.location,
+           fit_score = EXCLUDED.fit_score,
+           directness = EXCLUDED.directness,
+           platform_tags = EXCLUDED.platform_tags,
+           requires_clearance = EXCLUDED.requires_clearance,
+           clearance_note = EXCLUDED.clearance_note,
+           snapshot_date = EXCLUDED.snapshot_date,
+           evidence_note = EXCLUDED.evidence_note,
+           source_kind = EXCLUDED.source_kind,
+           source_url = EXCLUDED.source_url,
+           source_retrieved_on = EXCLUDED.source_retrieved_on,
+           updated_at = now()`,
+        [
+          specialtyId,
+          employerId,
+          evidence.listing_title,
+          evidence.company_name,
+          evidence.location,
+          evidence.url,
+          evidence.fit_score,
+          evidence.directness,
+          evidence.platform_tags,
+          evidence.requires_clearance,
+          evidence.clearance_note,
+          evidence.snapshot_date,
+          evidence.evidence_note,
+          evidence.source_kind,
+          evidence.source_url,
+          evidence.source_retrieved_on,
         ]
       );
     }
