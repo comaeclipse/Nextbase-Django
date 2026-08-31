@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import {
   BadgeCheck,
+  BriefcaseBusiness,
   Building2,
   ExternalLink,
   GraduationCap,
@@ -17,6 +18,7 @@ import {
   searchSpecialties,
   type CareerTransitionCatalog,
   type EmployerMatchView,
+  type ListingEvidenceView,
   type MilitaryBranch,
   type RoleMatchView,
   type SkillMatchView,
@@ -287,6 +289,53 @@ function EmployerCard({ match }: { match: EmployerMatchView }) {
   );
 }
 
+function ListingEvidenceCard({ evidence }: { evidence: ListingEvidenceView }) {
+  return (
+    <Card size="sm" className="rounded-lg">
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <CardTitle>{evidence.listing_title}</CardTitle>
+            <CardDescription>
+              {evidence.company_name} · {evidence.location}
+            </CardDescription>
+          </div>
+          <Badge variant={evidence.directness === "direct" ? "default" : "outline"}>
+            {directnessLabel(evidence.directness)}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm leading-6">{evidence.evidence_note}</p>
+        {evidence.platform_tags.length > 0 ? (
+          <div className="flex flex-wrap gap-1.5">
+            {evidence.platform_tags.map((tag) => (
+              <Badge key={tag} variant="outline">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        ) : null}
+        {evidence.requires_clearance || evidence.clearance_note ? (
+          <div className="flex gap-2 rounded-lg border bg-muted/30 p-3 text-sm">
+            <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" />
+            <span>
+              {evidence.clearance_note ??
+                "This listing evidence indicates a clearance requirement."}
+            </span>
+          </div>
+        ) : null}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="text-xs text-muted-foreground">
+            Snapshot {sourceDate(evidence.snapshot_date)} · Fit {evidence.fit_score}/100
+          </span>
+          <SourceLink href={evidence.url} label="Listing source" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 function EmptyState({ branch }: { branch: MilitaryBranch }) {
   return (
     <Card className="rounded-lg border-dashed">
@@ -484,6 +533,23 @@ export default function CareerTransitionClient({
                 ))}
               </div>
             </section>
+
+            {selected.listingEvidence.length > 0 ? (
+              <section className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <BriefcaseBusiness className="size-4 text-muted-foreground" />
+                  <h3 className="font-semibold">Pinned listing evidence</h3>
+                </div>
+                <div className="grid gap-3 xl:grid-cols-2">
+                  {selected.listingEvidence.map((evidence) => (
+                    <ListingEvidenceCard
+                      key={`${evidence.employer.slug}:${evidence.url}`}
+                      evidence={evidence}
+                    />
+                  ))}
+                </div>
+              </section>
+            ) : null}
 
             <section className="rounded-lg border bg-card p-4">
               <div className="flex gap-3">
