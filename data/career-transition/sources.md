@@ -1,8 +1,8 @@
 # Career Transition Seed Sources
 
-Retrieved: 2026-08-29
+Initial retrieved: 2026-08-29; sonar/undersea snapshot added: 2026-08-31; STS/STG pinned listing evidence added: 2026-08-31
 
-This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, and electronic warfare expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
+This v1 bundle seeds the military specialty career matcher with a narrow aviation-maintenance slice plus first ordnance/weapons, cyber operations, electronic warfare, surface/shipboard-electrical, and sonar/undersea warfare expansions. It is designed to prove the all-branch schema and UI without claiming complete military occupation coverage.
 
 ## Stable occupation and credential sources
 
@@ -52,51 +52,112 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Air Force Bomber/Special EW and Radar Surveillance Integrated Avionics 2A9X3 page: https://www.airforce.com/careers/aviation-and-flight/bomber-special-electronic-warfare-and-radar-surveillance-integrated-avionics
 - Air Force Avionics Test Station and Components 2A0X1 page: https://www.airforce.com/careers/science-and-technology/avionics-test-station-and-components
 - My Next Move for Veterans avionics military crosswalk page: https://www.mynextmove.org/vets/profile/military/49-2091.00
+- Navy Electrician's Mate (EM) page: https://www.navy.com/careers-benefits/careers/industrial-mechanical/electricians-mate
+- Navy Electronics Technician (ET) page: https://www.navy.com/careers-benefits/careers/electronics-technology/electronics
+- Navy Interior Communications Electrician (IC) page: https://www.navy.com/careers-benefits/careers/electronics-technology/interior-communications-electrician
+- Army 12R Interior Electrician page: https://www.goarmy.com/careers-and-jobs/mechanics-engineering/design-develop/12r-interior-electrician
+- Army COOL 12R Interior Electrician (corroborating primary): https://www.cool.osd.mil/army/moc/index.html?moc=12r
+- O*NET Electricians summary (47-2111): https://www.onetonline.org/link/summary/47-2111.00
+- O*NET Power Plant Operators summary (51-8013, checked and rejected — operator, not maintainer): https://www.onetonline.org/link/summary/51-8013.00
+- MyNavy HR STG page: https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Surface-CS-OPS/STG/
+- MyNavy HR STG FY-27 enlisted career path snapshot: https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Surface_CS_Ops/STG_FY-27_ECP_FINAL.pdf
+- Navy Sonar Technician careers page: https://aws.navy.com/careers-benefits/careers/intelligence-information-cryptology/sonar-technician
+- Navy NEOCS Chapter IV NEC snapshot: https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_23.pdf
+- General Dynamics Mission Systems sonar systems and sensors page: https://gdmissionsystems.com/submarine-systems/sonar
+- General Dynamics Mission Systems Progeny Systems page: https://gdmissionsystems.com/sea/progeny-systems
+
+## Pinned listing evidence snapshots
+
+Pinned listing evidence is stored separately from `defense_job_listings`. These rows are curated examples that explicitly name a specialty, NEC, or sonar/ACINT requirement, and each row carries a `snapshot_date` plus `source_retrieved_on` because postings can move, expire, or be mirrored by job boards.
+
+- Booz Allen Acoustic Intelligence Analyst, Senior snapshot, Suitland MD: https://does.pflbas.dc.gov/vosnet/jobbanks/jobdetails.aspx?enc=9B8%2FuT7EfbEIDLIMZ8rho7lgjcz5GhrB+qzMCateevCtKcKJt2q4qJWNzvBjsQSK910pxd0i9nYx7MWKpb1GFZKRe%2F6Knd+t5xctBfVWsyNkXz6SHvSmlpG2FgaxkZrB6W+xr4rFlSfeAJ4XtR5b1+WOv%2FmK7eGb9XoxFh%2FoWvHVzsNfVgPQ1dDH0x%2FVMjJUyUNlMvo4I%2FdmGBtK6pW4uJKhCrjpJxisl+SCxjzoEZiXc21Pek+Ro%2FkIyDnmQI+eMxZWajeUNSY7S7eR1fANjF%2FVckG5%2FSiQeotesi+wsmcqbwfN9JZSWywTxwfIHsRNKeEb0wLkK3%2FSGaoLxT8HMANjMJt0h1RbSMEL4DEM93M%2F0Kc4QCur1dmBgl4ODZZ6PG++mv9GKcgtPoS+73U+7ZuVbTe8OGRGJ9301LqcVrwbgyAK599rKc9s%2Fq+qYcqO1fgFLWfcz%2FuktodLFwsJOON6SsR1IW8ioJcu0Ds1IdoP0A%2FiAWEaGzl+j9459lUMmbm1yT0qJk+il6OB%2FRtypukkatc9DSy6jpMU8vBX5ahZro4BY3PztiT4jJh%2FWYaZNdz5rFZYRECpfwoEwIefViXoXVpOTIdb7MPRxGmjV3Yb5YiaNwUATOSIgDZG0xcs
+- Three Saints Bay / Ghostrock Navy Sonar Technician Submarine (STS), San Diego CA: https://www.clearancejobs.com/jobs/9122828/navy-sonar-technician-submarine-sts-6105
+- Amentum Submarine Sonar Technician - ARCI, Portsmouth NH: https://www.amentumcareers.com/jobs/submarine-sonar-technician-arci-portsmouth-new-hampshire-united-states
+- Amentum Submarine Sonar Technician, Groton CT: https://pae.wd1.myworkdayjobs.com/en-US/Amentum_Careers/job/Submarine-Sonar-Technician_R0163560
+- Office of Naval Intelligence current openings / SWORD acoustic analyst pasted-evidence snapshot: https://www.oni.navy.mil/careers/current-openings/fileid/103597/
+- Leidos STAPLE Toolkit Subject Matter Expert, Bethesda MD: https://jobs.hireheroesusa.org/jobs/525062085-staple-toolkit-stk-subject-matter-expert-at-leidos
+- Marine Acoustics Inc. STS/STG acoustic-analysis pasted-evidence snapshot: https://www.linkedin.com/in/jacqueline-workman-0246abb4
+- Arcfield US Navy Submarine Fire Control or SONAR Technician (FT/STS) Test Engineer, Newport RI: https://careers.arcfield.com/careers-home/jobs/8515?lang=en-us
 
 ## Employer snapshot sources
 
 - Amentum veterans page: https://www.amentumcareers.com/veterans
+- Amentum military support / Amentum Hires Heroes page: https://www.amentum.com/culture-and-values/veteran-military-family-support/
 - Amentum UH-60/MH-60R aviation-maintenance posting page: https://www.amentumcareers.com/jobs/uh-60-mh-60r-careers-structures-airframer-sheet-metal-am-avionics-technician-at-jubail-saudi-arabia-jubail-eastern-province-saudi-arabia-miramar-california-united-states-jacksonville-florida
 - L3Harris careers search: https://careers.l3harris.com/en/search_jobs/oconus/4832/1/1
+- L3Harris SkillBridge careers search: https://careers.l3harris.com/en/search_jobs/bridge/4832/1/search_jobs
 - Textron military veterans page: https://careers.textron.com/military-veterans/
+- Textron SkillBridge page: https://skillbridge.textron.com/
 - Lockheed Martin maintenance jobs search: https://www.lockheedmartinjobs.com/search-jobs/maintenance/
+- Lockheed Martin Heroes / SkillBridge page: https://www.lockheedmartin.com/en-us/careers/candidates/military-veterans/heroes.html
 - RTX Collins Aerospace careers page: https://careers.rtx.com/global/en/collins-aerospace
 - RTX Pratt & Whitney careers page: https://careers.rtx.com/global/en/pratt-whitney
 - Boeing careers: https://jobs.boeing.com/
+- Boeing Veterans SkillBridge page: https://jobs.boeing.com/en/Veterans-SkillBridge
 - V2X careers: https://careers.v2x.com/
 - BAE Systems Ordnance Systems careers: https://jobs.baesystems.com/global/en/osi
 - BAE Systems military veterans page: https://jobs.baesystems.com/global/en/militaryveterans
+- BAE Systems SkillBridge page: https://jobs.baesystems.com/global/en/skillbridge
 - General Dynamics Ordnance and Tactical Systems: https://www.gdots.com/
 - General Dynamics Ordnance and Tactical Systems careers: https://www.gdots.com/careers/
 - RTX careers: https://careers.rtx.com/
+- RTX SkillBridge opportunities: https://careers.rtx.com/global/en/SkillBridge-Opportunities
 - Northrop Grumman careers: https://www.northropgrumman.com/jobs/
-- HII careers: https://hii.com/careers/
+- Northrop Grumman SkillBridge page: https://www.northropgrumman.com/careers/skillbridge
+- HII careers (Newport News + Ingalls shipbuilding): https://hii.com/careers/
+- HII SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/hii-huntington-ingalls-industries/
+- General Dynamics Electric Boat careers (submarines, Groton CT): https://www.gdeb.com/careers/
+- General Dynamics Electric Boat SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/general-dynamics-electric-boat/
+- General Dynamics NASSCO careers (San Diego shipyard): https://jobs.nassco.com/
+- Fincantieri Marine Group / Marinette Marine careers: https://fincantierimarinegroup.com/careers/
+- Austal USA careers (Mobile AL shipyard): https://www.austaljobs.com/
 - Leonardo DRS careers: https://www.leonardodrs.com/careers/
 - KBR careers: https://www.kbr.com/en/careers
+- KBR SkillBridge page: https://careers.kbr.com/us/en/kbr-skillbridge
 - FN America careers: https://fnamerica.com/careers/
 - SIG Sauer careers: https://www.sigsauer.com/careers
 - Colt CZ Group careers: https://www.coltczgroup.com/en/career
 - Leidos Defensive Cyber Operations Analyst posting: https://careers.leidos.com/jobs/18103000-defensive-cyber-operations-analyst
 - Leidos Cyber Defense Analyst posting: https://careers.leidos.com/jobs/18147344-cyber-defense-analyst
+- Leidos SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/leidos/
 - Peraton Computer Network Defense Analyst posting: https://www.careers.peraton.com/jobs/computer-network-defense-analyst-cnda-lead-associate-ts-sci-w-poly-fort-meade-maryland-164773-jobs--cyber-security--
 - Peraton Digital Network Exploitation Analyst posting: https://www.careers.peraton.com/jobs/digital-network-exploitation-analyst-dnea-lead-associate-ts-sci-w-poly-bluffdale-utah-166319-jobs--cyber-security--
 - Peraton USCCJ2 landing page: https://www.careers.peraton.com/landing-page/usccj2
+- Peraton veteran commitment / SkillBridge page: https://www.peraton.com/company/our-commitment-to-veterans
 - Booz Allen careers: https://www.boozallen.com/careers.html
+- Booz Allen military talent page: https://www.boozallen.com/careers/military-talent.html
 - CACI careers: https://careers.caci.com/
 - ManTech careers: https://www.mantech.com/careers/
+- ManTech SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/mantech-international-corporation/
 - SAIC careers: https://jobs.saic.com/
+- SAIC SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/science-applications-international-corporation-saic/
 - General Dynamics Information Technology careers: https://www.gdit.com/careers/
+- GDIT SkillBridge page: https://www.gdit.com/careers/featured-career-stages/military-veterans/skillbridge/
+- General Dynamics Mission Systems careers: https://gdmissionsystems.com/careers
+- General Dynamics Mission Systems sonar systems and sensors page: https://gdmissionsystems.com/submarine-systems/sonar
+- General Dynamics Mission Systems Progeny Systems page: https://gdmissionsystems.com/sea/progeny-systems
+- Three Saints Bay careers: https://www.threesaintsbay.com/careers/
+- Office of Naval Intelligence careers: https://www.oni.navy.mil/careers/
+- Marine Acoustics careers: https://marineacoustics.com/careers/
+- Arcfield careers: https://careers.arcfield.com/
 - Kratos Defense careers: https://www.kratosdefense.com/careers
 - L3Harris ELINT careers search: https://careers.l3harris.com/en/search-jobs/elint/4832/1/1
+- L3Harris maritime/undersea search snapshot: https://careers.l3harris.com/en/search_jobs/voip/4832/1/search-jobs
 - L3Harris Electronic Warfare Specialist posting: https://careers.l3harris.com/en/job/clifton/electronic-warfare-specialist-systems-engineer/4832/98185751328
 - Lockheed Martin electronic warfare careers search: https://www.lockheedmartinjobs.com/search-jobs/electronic%20warfare/694/1
+- Lockheed Martin sonar careers search: https://www.lockheedmartinjobs.com/search-jobs/sonar/694/1
 - Sierra Nevada Company careers: https://www.sncorp.com/careers/
+- Sierra Nevada Corporation SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/sierra-nevada-corporation/
 - Palo Alto Networks Unit 42 DFIR posting: https://jobs.paloaltonetworks.com/en/job/santa-clara/consultant-dfir-reactive-services-unit-42/47263/96174875472
+- Palo Alto Networks military careers page: https://jobs.paloaltonetworks.com/en/military
 - CrowdStrike careers: https://www.crowdstrike.com/careers/
 - Microsoft careers: https://careers.microsoft.com/
+- Microsoft SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/microsoft/
 - Google careers: https://www.google.com/about/careers/applications/
 - Amazon jobs: https://www.amazon.jobs/
+- Amazon SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/amazon/
 - Cisco jobs: https://jobs.cisco.com/
+- Cisco SkillBridge provider page: https://hiredtroops.com/skillbridge/providers/cisco-systems-inc/
 - Cloudflare careers: https://www.cloudflare.com/careers/
 - Fortinet careers: https://www.fortinet.com/corporate/careers
 - SentinelOne careers: https://www.sentinelone.com/careers/
@@ -105,6 +166,7 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 - Rapid7 careers: https://www.rapid7.com/careers/
 - Okta careers: https://www.okta.com/company/careers/
 - Viasat careers: https://careers.viasat.com/
+- Oceaneering careers: https://www.oceaneering.com/careers/
 - Air Methods careers: https://www.airmethods.com/careers/
 - PHI Aviation careers: https://www.phihelico.com/careers/
 - Bristow careers: https://www.bristowgroup.com/careers/
@@ -113,12 +175,17 @@ This v1 bundle seeds the military specialty career matcher with a narrow aviatio
 
 ## Caveats
 
+- **Uncovered specialty → empty result, never a nearby code.** This bundle is a curated seed, not complete military-occupation coverage. When a user's specialty is not seeded, or their vernacular is ambiguous ("electrician", "nuke", "intel"), the matcher must return an empty result with an explanation, or ask which specialty they mean — it must **never** substitute the nearest seeded neighbor. Substring search treats "navy electrician" as a hit on the aviation rate `AE` (Aviation Electrician's Mate); shipboard `EM` is a different rate with different civilian paths. Resolving to `AE` would recommend avionics jobs to a ship electrician. `resolveSpecialty` (issue #221) owns this decision so search convenience can never override it: code owns the match, the model only narrates.
 - Current postings change quickly. `snapshot_date` and `source_retrieved_on` are required for every employer match.
+- SkillBridge is stored as an employer attribute, not as a city, listing, or Fit-score field. Blank SkillBridge fields mean `unknown`, not `inactive`; only dated source-backed rows are marked `active`.
+- The initial SkillBridge seed is intentionally bounded to documented high-value employers from the 2026-08-29 research pass. It is not a complete SkillBridge directory import.
 - Ordnance employer matches are curated system-fit snapshots, not claims that a specialty usually feeds a specific employer.
 - System tags such as Mk 41 VLS, CIWS, Mk 45, aviation ordnance, ammunition, fire control, and electro-optical systems should be treated as user-profile refinements when more granular service history is available.
 - Cyber employer matches should treat clearance, work role, training pipeline, NEC/NMOS, tool stack, and mission environment as high-signal fields. A rating, MOS, AFSC, or SFSC alone is not enough to infer the best role.
 - EW employer matches should treat platform, system, and mission context as high-signal fields. Examples: CTT plus SLQ-32(V)6 maintenance is a different path than CTT plus C17A technical ELINT analysis; 2A9X3 airborne EW/radar avionics is different from 17E tactical jamming and spectrum operations.
 - EW roles are a mix of operator, analyst, technician, planner, field-service, and engineering-support paths. The matcher should not imply that enlisted EW experience alone qualifies a user for degreed engineering billets without the separate education/experience evidence those roles require.
+- Sonar/undersea matches should split operator/acoustic-analysis experience from electronics-maintenance experience. STG/STS can support both paths, but STS plus submarine acoustic analysis and STS plus sonar calibration/test equipment point to different civilian openings.
+- Sonar is a narrow-but-deep market. The matcher should present fewer employers with high confidence rather than imply cyber-scale market breadth.
 - Commercial cyber employers are transition employers, not VetRetire defense footprint evidence unless separately linked to `defense_employers`.
 - Civilian operators are transition employers, not defense employers. They are intentionally not inserted into `defense_employers`.
 - A mapped VetRetire location count exists only for transition employers linked to an existing `defense_employers.slug`; an unmapped employer means "not yet mapped," not "no locations."

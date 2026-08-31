@@ -15,7 +15,7 @@ const SUGGESTIONS = [
   "What cities are like Elko, NV?",
   "Somewhere like Elko, NV but warmer with less snow",
   "Best town for a retired vet on a fixed income who hates humidity and needs VA care",
-  "Where's good for a remote worker who wants mountains and a walkable downtown?",
+  "I'm a retired Navy electrician — what civilian jobs fit?",
 ];
 
 const TOOL_LABEL: Record<string, string> = {
@@ -24,6 +24,7 @@ const TOOL_LABEL: Record<string, string> = {
   "tool-estimate_cost_of_living": "Estimating monthly cost of living",
   "tool-compare_state_taxes_and_gas": "Comparing state taxes and gas prices",
   "tool-compare_state_gun_freedom": "Comparing state gun-law protections",
+  "tool-explore_military_career": "Matching your military job to civilian work",
 };
 
 const markdownComponents: Components = {
@@ -174,7 +175,7 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask: what's like Elko, NV? - or describe a person..."
-          className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+          className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-base outline-none focus:ring-2 focus:ring-ring sm:text-sm"
         />
         <button
           type="submit"

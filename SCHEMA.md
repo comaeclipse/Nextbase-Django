@@ -440,6 +440,84 @@ Recompute with `scripts/recompute-defense-hub.ts` after any employer import. It 
 
 ---
 
+## Career transition (military specialty → civilian)
+
+Six tables back `/career-transition` (`lib/career-transition.ts`), a **curated hand-built graph** that maps a military specialty to civilian roles, transition employers, skills, and pinned listing evidence. It is a **seed, not complete military-occupation coverage** — v1 covers an aviation-maintenance slice plus first ordnance/weapons, cyber, electronic-warfare, surface/shipboard-electrical, and sonar/undersea expansions (see `data/career-transition/sources.md`). It is **not a Fit-score factor** and is independent of `locations_location`; the only cross-link is the optional `defense_employers.slug` reference below.
+
+Matching is CSV edges sorted by `fit_score`, then `directness`, with an in-memory display-only bonus for active SkillBridge employers. The stored curated score is not overwritten. Every curated row carries provenance (`source_kind` / `source_url` / `source_retrieved_on`); `specialty_employer_matches` and `specialty_listing_evidence` additionally carry a `snapshot_date` because postings change fast. Seeds live in `data/career-transition/*.csv`; `scripts/migrate-career-transition.ts` creates the tables and `scripts/import-career-transition.ts` loads the CSVs. `getCareerTransitionCatalog()` reads the DB and **falls back to the CSV bundle** (`loadCareerTransitionCsvCatalog`) when the tables are absent/empty, so the two must stay in sync.
+
+### `military_specialties`
+
+One row per branch specialty (rating / MOS / AFSC / rate). `id bigserial PK`.
+
+- **branch**: `army | navy | air_force | marine_corps | coast_guard | space_force`
+- **code_system** / **code**: e.g. `Rating` + `AE`, `MOS` + `15F`. `code` is stored upper-cased and space-stripped
+- **title**: e.g. `Aviation Electrician's Mate`
+- **population**: `enlisted | warrant | officer` (CHECK-constrained; default `enlisted`)
+- **status**: `current | legacy | unknown` (CHECK-constrained; default `current`)
+- **source_kind** / **source_url** / **source_retrieved_on**: provenance (required)
+- Unique on `(branch, code_system, code)`; indexed on `(branch, code)`
+
+### `civilian_transition_roles`
+
+O*NET-anchored civilian roles a specialty can transition into. `id bigserial PK`.
+
+- **slug** (unique) / **title** / **role_family**
+- **onet_soc_code**: nullable SOC code, e.g. `49-2094.00`
+- **summary** / **credential_notes** (nullable)
+- **source_kind** / **source_url** / **source_retrieved_on**
+
+### `specialty_role_matches`
+
+Edge: which roles a specialty maps to. PK `(specialty_id, role_id)`, both FK `ON DELETE CASCADE`.
+
+- **fit_score**: integer, CHECK `0..100`
+- **directness**: `direct | adjacent | requires_gap` (CHECK-constrained)
+- **rationale** + provenance
+
+### `transition_employers`
+
+Employers that hire out of these specialties. `id bigserial PK`.
+
+- **slug** (unique) / **display_name** / **parent_company** (nullable)
+- **employer_type**: `oem | defense_contractor | mro | civilian_operator | commercial_cyber | government_agency` (CHECK-constrained)
+- **defense_employer_slug**: **optional** FK to `defense_employers(slug)`, indexed where non-null. Present only for employers that already exist in the VetRetire defense footprint; a mapped VetRetire location count is computed at read time (distinct `defense_employer_locations` with a positive posting count) **only** for these. An unmapped employer means "not yet mapped," **not** "no locations" — civilian operators and commercial-cyber employers are intentionally *not* inserted into `defense_employers`
+- **skillbridge_status**: `active | inactive | unknown` (CHECK-constrained; default `unknown`). `unknown` means no current structured evidence in the seed, not absence of a program
+- **skillbridge_participation_type**: nullable enum: `direct_employer | convertible_requisition | hiring_our_heroes | training_to_employment | third_party_fellowship | government_agency`
+- **skillbridge_pathways** / **skillbridge_target_domains**: `text[]` values used for labels and career-transition ranking context, not free-text scoring factors
+- **skillbridge_remote_available** / **skillbridge_nationwide**: nullable booleans, so unknown is distinct from false
+- **skillbridge_duration_days_min/max**, **skillbridge_mou_expiration**, **skillbridge_source_url**, **skillbridge_verified_at**, **skillbridge_notes**: optional program details and provenance
+- **website_url** / **notes** (nullable) + provenance
+
+SkillBridge is an employer attribute. It is not stored on `defense_job_listings`, not denormalized onto `locations_location`, and does not feed the city Fit score or `defense_hub`. `/defense-jobs` reads active SkillBridge through `defense_job_listings.employer_slug` → `transition_employers.defense_employer_slug`, grouping by defense slug so business-unit transition rows do not duplicate listings. If the SkillBridge columns have not been migrated yet, `/defense-jobs` keeps serving listings and omits the SkillBridge filter/badges.
+
+### `specialty_employer_matches`
+
+Edge: which employers a specialty maps to. PK `(specialty_id, employer_id)`, both FK `ON DELETE CASCADE`.
+
+- **fit_score** (`0..100`) / **directness** (`direct | adjacent | requires_gap`)
+- **platform_tags**: `text[]` of system/platform refinements (e.g. `Mk 41 VLS`, `SLQ-32`) — treat as user-profile refinements, not standalone match reasons
+- **requires_ap** / **values_ap** / **requires_clearance** / **values_clearance** / **requires_faa** / **requires_fcc**: boolean credential/clearance signals
+- **snapshot_date**: when the posting picture was captured
+- **rationale** + provenance
+
+### `specialty_listing_evidence`
+
+Dated posting examples pinned to a specialty. PK `(specialty_id, url)`, both specialty and employer FKs `ON DELETE CASCADE`.
+
+- **listing_title** / **company_name** / **location** / **url**: the user-facing job evidence tile. `company_name` is stored on the row so an archived or external listing still shows the employer without a click-through
+- **fit_score** (`0..100`) / **directness** (`direct | adjacent | requires_gap`)
+- **platform_tags**: system or requirement tags visible on the evidence tile
+- **requires_clearance** / **clearance_note**: dated credential signal from the listing snapshot
+- **snapshot_date**: when the listing evidence was captured
+- **evidence_note** + provenance
+
+Pinned listing evidence is separate from `defense_job_listings`: it may point to external job boards, federal announcement pages, or pasted research snapshots and should not be treated as the live scraped listings table.
+
+> **Chat scope & honesty:** chat (`/chat`, `app/api/chat/route.ts`) can call the deterministic career tool. Because the specialty graph is a seed, an uncovered specialty must return an **empty result with an explanation, never a nearby code** — substring search treats "navy electrician" as a hit on the aviation rate `AE`, which is exactly the mismatch the resolver (`resolveSpecialty`, issue #221) and the honesty rule in `sources.md` exist to prevent. Code owns the match; the model only narrates. Chat may cite only URLs returned by `pinnedListings[].url`, `listings.listings[].url`, or employer career URLs returned by the tool.
+
+---
+
 ## Military installations
 
 Military installations are stored separately from defense employers because a command is a public facility, not a contractor or job-posting footprint. This is the data layer for the **near a base** radius filter. It does **not** feed `defense_hub`.
