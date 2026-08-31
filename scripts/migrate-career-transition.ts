@@ -110,7 +110,7 @@ async function main() {
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now(),
       CONSTRAINT transition_employers_type_check CHECK (
-        employer_type IN ('oem', 'defense_contractor', 'mro', 'civilian_operator', 'commercial_cyber')
+        employer_type IN ('oem', 'defense_contractor', 'mro', 'civilian_operator', 'commercial_cyber', 'government_agency')
       )
     )`
   );
@@ -141,10 +141,10 @@ async function main() {
        DROP CONSTRAINT IF EXISTS transition_employers_type_check`
   );
   await run(
-    "allow commercial cyber transition employers",
+    "allow current transition employer types",
     `ALTER TABLE transition_employers
        ADD CONSTRAINT transition_employers_type_check CHECK (
-         employer_type IN ('oem', 'defense_contractor', 'mro', 'civilian_operator', 'commercial_cyber')
+         employer_type IN ('oem', 'defense_contractor', 'mro', 'civilian_operator', 'commercial_cyber', 'government_agency')
        )`
   );
   await run(
@@ -228,6 +228,33 @@ async function main() {
   );
 
   await run(
+    "create specialty_listing_evidence",
+    `CREATE TABLE IF NOT EXISTS specialty_listing_evidence (
+      specialty_id bigint NOT NULL REFERENCES military_specialties(id) ON DELETE CASCADE,
+      employer_id bigint NOT NULL REFERENCES transition_employers(id) ON DELETE CASCADE,
+      listing_title text NOT NULL,
+      company_name text NOT NULL,
+      location text NOT NULL,
+      url text NOT NULL,
+      fit_score integer NOT NULL,
+      directness text NOT NULL,
+      platform_tags text[] NOT NULL DEFAULT '{}',
+      requires_clearance boolean NOT NULL DEFAULT false,
+      clearance_note text,
+      snapshot_date date NOT NULL,
+      evidence_note text NOT NULL,
+      source_kind text NOT NULL,
+      source_url text NOT NULL,
+      source_retrieved_on date NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      updated_at timestamptz NOT NULL DEFAULT now(),
+      PRIMARY KEY (specialty_id, url),
+      CONSTRAINT specialty_listing_evidence_fit_check CHECK (fit_score BETWEEN 0 AND 100),
+      CONSTRAINT specialty_listing_evidence_directness_check CHECK (directness IN ('direct', 'adjacent', 'requires_gap'))
+    )`
+  );
+
+  await run(
     "create specialty_skill_matches",
     `CREATE TABLE IF NOT EXISTS specialty_skill_matches (
       specialty_id bigint NOT NULL REFERENCES military_specialties(id) ON DELETE CASCADE,
@@ -262,6 +289,11 @@ async function main() {
     `CREATE INDEX IF NOT EXISTS transition_employers_skillbridge_active_idx
      ON transition_employers (defense_employer_slug)
      WHERE skillbridge_status = 'active' AND defense_employer_slug IS NOT NULL`
+  );
+  await run(
+    "index specialty listing evidence by employer",
+    `CREATE INDEX IF NOT EXISTS specialty_listing_evidence_employer_idx
+     ON specialty_listing_evidence (employer_id)`
   );
 
   console.log(`\n${dryRun ? "Dry run" : "Migration"} complete.`);
