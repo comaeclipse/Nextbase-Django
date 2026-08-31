@@ -1,0 +1,15 @@
+# Keep the Vercel deploy to the app source (~6MB). Vercel installs deps and
+# builds on its side, so node_modules/.next are not needed in the upload, and
+# data/sources is ~1.2GB of raw scraper/weather inputs the running app never
+# reads (it reads the DB plus a few small data/*.json and data/career-transition
+# CSV files, which stay in).
+node_modules
+.next
+.git
+.claude
+.codex
+.turbo
+tsconfig.tsbuildinfo
+
+# Raw data inputs / research — not read at runtime.
+data/sources/

@@ -98,7 +98,8 @@ export type TransitionEmployerType =
   | "defense_contractor"
   | "mro"
   | "civilian_operator"
-  | "commercial_cyber";
+  | "commercial_cyber"
+  | "government_agency";
 
 export interface TransitionEmployer {
   id: number;
@@ -140,6 +141,25 @@ export interface SpecialtyEmployerMatch {
   requires_fcc: boolean;
   snapshot_date: string;
   rationale: string;
+  source_kind: string;
+  source_url: string;
+  source_retrieved_on: string;
+}
+
+export interface SpecialtyListingEvidence {
+  specialty_id: number;
+  employer_id: number;
+  listing_title: string;
+  company_name: string;
+  location: string;
+  url: string;
+  fit_score: number;
+  directness: MatchDirectness;
+  platform_tags: string[];
+  requires_clearance: boolean;
+  clearance_note: string | null;
+  snapshot_date: string;
+  evidence_note: string;
   source_kind: string;
   source_url: string;
   source_retrieved_on: string;
@@ -188,11 +208,16 @@ export interface SkillMatchView extends SpecialtySkillMatch {
   skill: TransitionSkill;
 }
 
+export interface ListingEvidenceView extends SpecialtyListingEvidence {
+  employer: TransitionEmployer;
+}
+
 export interface SpecialtyMatchView {
   specialty: MilitarySpecialty;
   roles: RoleMatchView[];
   employers: EmployerMatchView[];
   skills: SkillMatchView[];
+  listingEvidence: ListingEvidenceView[];
 }
 
 export interface CareerTransitionCatalog {
@@ -200,6 +225,7 @@ export interface CareerTransitionCatalog {
   roles: CivilianTransitionRole[];
   employers: TransitionEmployer[];
   skills: TransitionSkill[];
+  listingEvidence: ListingEvidenceView[];
   matches: SpecialtyMatchView[];
   source: "database" | "csv_fallback";
 }
@@ -289,7 +315,8 @@ function parseEmployerType(value: string): TransitionEmployerType {
     normalized === "defense_contractor" ||
     normalized === "mro" ||
     normalized === "civilian_operator" ||
-    normalized === "commercial_cyber"
+    normalized === "commercial_cyber" ||
+    normalized === "government_agency"
   ) {
     return normalized;
   }
@@ -810,6 +837,28 @@ function normalizeDbSkillMatch(row: SkillMatchView): SkillMatchView {
   };
 }
 
+function normalizeDbListingEvidence(row: ListingEvidenceView): ListingEvidenceView {
+  return {
+    specialty_id: Number(row.specialty_id),
+    employer_id: Number(row.employer_id),
+    listing_title: row.listing_title,
+    company_name: row.company_name,
+    location: row.location,
+    url: row.url,
+    fit_score: Number(row.fit_score),
+    directness: row.directness,
+    platform_tags: row.platform_tags ?? [],
+    requires_clearance: row.requires_clearance,
+    clearance_note: row.clearance_note,
+    snapshot_date: dateString(row.snapshot_date),
+    evidence_note: row.evidence_note,
+    source_kind: row.source_kind,
+    source_url: row.source_url,
+    source_retrieved_on: dateString(row.source_retrieved_on),
+    employer: normalizeDbEmployer(row.employer),
+  };
+}
+
 function csvRows(file: string): CsvRow[] {
   return parse(readFileSync(path.join(DATA_DIR, file), "utf-8"), {
     columns: true,
@@ -993,6 +1042,43 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
     };
   });
 
+  const listingEvidence: ListingEvidenceView[] = csvRows("specialty-listing-evidence.csv").map(
+    (row) => {
+      validateSourceFields(
+        row,
+        `listing evidence ${required(row, "Branch")} ${required(row, "Code")}`
+      );
+      const branch = parseBranch(required(row, "Branch"));
+      const specialty = specialtyByKey.get(normalizeSpecialtyKey(branch, required(row, "Code")));
+      const employer = employerBySlug.get(required(row, "EmployerSlug"));
+      if (!specialty) {
+        throw new Error(`Unknown specialty in listing evidence: ${JSON.stringify(row)}`);
+      }
+      if (!employer) {
+        throw new Error(`Unknown employer in listing evidence: ${JSON.stringify(row)}`);
+      }
+      return {
+        specialty_id: specialty.id,
+        employer_id: employer.id,
+        listing_title: required(row, "ListingTitle"),
+        company_name: required(row, "CompanyName"),
+        location: required(row, "Location"),
+        url: required(row, "Url"),
+        fit_score: parseIntField(row, "FitScore"),
+        directness: parseDirectness(required(row, "Directness")),
+        platform_tags: parseTags(row.PlatformTags),
+        requires_clearance: parseBool(row.RequiresClearance),
+        clearance_note: clean(row.ClearanceNote),
+        snapshot_date: required(row, "SnapshotDate"),
+        evidence_note: required(row, "EvidenceNote"),
+        source_kind: required(row, "SourceKind"),
+        source_url: required(row, "SourceUrl"),
+        source_retrieved_on: required(row, "SourceRetrievedOn"),
+        employer,
+      };
+    }
+  );
+
   return buildCatalog(
     specialties,
     roles,
@@ -1001,6 +1087,7 @@ export function loadCareerTransitionCsvCatalog(): CareerTransitionCatalog {
     roleMatches,
     employerMatches,
     skillMatches,
+    listingEvidence,
     "csv_fallback"
   );
 }
@@ -1013,6 +1100,7 @@ function buildCatalog(
   roleMatches: RoleMatchView[],
   employerMatches: EmployerMatchView[],
   skillMatches: SkillMatchView[],
+  listingEvidence: ListingEvidenceView[],
   source: CareerTransitionCatalog["source"]
 ): CareerTransitionCatalog {
   const matches = specialties.map((specialty) => ({
@@ -1022,6 +1110,9 @@ function buildCatalog(
       employerMatches.filter((match) => match.specialty_id === specialty.id)
     ),
     skills: sortRoleMatches(skillMatches.filter((match) => match.specialty_id === specialty.id)),
+    listingEvidence: sortRoleMatches(
+      listingEvidence.filter((evidence) => evidence.specialty_id === specialty.id)
+    ),
   }));
 
   return {
@@ -1031,6 +1122,7 @@ function buildCatalog(
     roles,
     employers,
     skills,
+    listingEvidence,
     matches,
     source,
   };
@@ -1048,6 +1140,7 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
       roleMatchRows,
       employerMatchRows,
       skillMatchRows,
+      listingEvidenceRows,
     ] = await Promise.all([
       sql.query(`SELECT * FROM military_specialties ORDER BY branch, code`),
       sql.query(`SELECT * FROM civilian_transition_roles ORDER BY role_family, title`),
@@ -1081,6 +1174,11 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
          FROM specialty_skill_matches m
          JOIN transition_skills s ON s.id = m.skill_id`
       ),
+      sql.query(
+        `SELECT le.*, row_to_json(e.*) AS employer
+         FROM specialty_listing_evidence le
+         JOIN transition_employers e ON e.id = le.employer_id`
+      ),
     ]);
 
     const specialties = asRows<MilitarySpecialty>(specialtyRows).map(normalizeDbSpecialty);
@@ -1092,6 +1190,9 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
       normalizeDbEmployerMatch
     );
     const skillMatches = asRows<SkillMatchView>(skillMatchRows).map(normalizeDbSkillMatch);
+    const listingEvidence = asRows<ListingEvidenceView>(listingEvidenceRows).map(
+      normalizeDbListingEvidence
+    );
 
     if (specialties.length === 0) return loadCareerTransitionCsvCatalog();
     return buildCatalog(
@@ -1102,6 +1203,7 @@ export async function getCareerTransitionCatalog(): Promise<CareerTransitionCata
       roleMatches,
       employerMatches,
       skillMatches,
+      listingEvidence,
       "database"
     );
   } catch (error) {
