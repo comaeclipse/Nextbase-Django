@@ -403,6 +403,25 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     legacy_aliases: [],
   },
 
+  {
+    // Government agency, not a private contractor: Naval Sea Systems Command,
+    // the Navy's largest systems command (shipbuilding, ship/submarine warfare
+    // centers). Its individual job *listings* are ingested from USAJOBS via the
+    // /defense-jobs CSV importer (ats="USAJOBS"). Seeded only so those listings
+    // can link an employer_slug and appear in the unified employer filter.
+    // `counts_as_defense: false` and NO defense_employer_locations rows are
+    // written for it, so it never feeds defense_hub / defense_ecosystem — those
+    // facets stay a private-contractor signal (see the module header).
+    slug: "navsea",
+    display_name: "Naval Sea Systems Command",
+    parent_company: "Department of the Navy",
+    sector: "defense",
+    counts_as_defense: false,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
+
   // Defense employers referenced by the career-transition graph
   // (data/career-transition/employers.csv). Seeded with zero locations and no
   // ATS scraper — presence data lands later via hand-sourced footprints or an
