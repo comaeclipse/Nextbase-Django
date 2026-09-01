@@ -192,6 +192,7 @@ Occupation, NEC, and federal-series sources:
 - TRIDENT Refit Facility Bangor careers: https://www.navsea.navy.mil/Home/TRFB/Careers/
 - TRIDENT Refit Facility Kings Bay (CNRSE tenant command): https://cnrse.cnic.navy.mil/Installations/SUBASE-Kings-Bay/About/Tenant-Commands/Trident-Refit-Facility/
 - Draper careers: https://www.draper.com/careers
+- Johns Hopkins University Applied Physics Laboratory (JHU APL) careers: https://www.jhuapl.edu/careers
 
 MT pinned listing evidence is **cross-referenced from rows already in `defense_job_listings`** (the `/defense-jobs` scrape), not a new scrape:
 
