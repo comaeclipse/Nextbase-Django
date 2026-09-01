@@ -173,6 +173,35 @@ Pinned listing evidence is stored separately from `defense_job_listings`. These 
 - Erickson careers: https://ericksoninc.com/careers/
 - Columbia Helicopters careers: https://colheli.com/careers/
 
+## Navy Missile Technician (MT) crosswalk
+
+The MT rating and its TRIDENT SWS NEC path (T33A, T34A, T37A, T38A, T48A, T51A, T53A, T54A, T55A) were seeded from the user-supplied research pass (2026-09-01). Edges tagged `official_military_crosswalk` are those O*NET / My Next Move for Veterans lists directly for the MT NECs; the rest are curated system-fit mappings. MT is broader than its title: the strongest civilian directions are strategic-weapons/missile-systems technician, engineering technologist (17-3023.00), commercial/industrial electronics repairer (49-2094.00), calibration/metrology (17-3028.00), field service, systems integration/test, maintenance supervision (49-1011.00), QA (federal GS-1910), nuclear-weapons surety (T34A), and the federal WG-2604 / TRF Bangor–Kings Bay civilian pipeline.
+
+Occupation, NEC, and federal-series sources:
+
+- Navy.com Missile Technician: https://www.navy.com/careers-benefits/careers/electronics-technology/missile-technician
+- MT career path (MyNavyHR, FY25): https://www.mynavyhr.navy.mil/Portals/55/Career/ECM/Submarine/MT%20career%20path%20FY25.pdf
+- NEOCS NEC manual, Chapter IV: https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_23.pdf
+- O*NET 17-3023.00 Electrical and Electronic Engineering Technologists and Technicians (crosswalk lists T33A/T34A/T37A/T54A/T55A): https://www.mynextmove.org/vets/profile/military/17-3023.00
+- O*NET 49-2094.00 Electrical and Electronics Repairers, Commercial and Industrial Equipment (crosswalk lists T33A/T34A/T37A/T48A/T51A/T53A/T54A/T55A): https://www.mynextmove.org/vets/profile/military/49-2094.00
+- O*NET 49-1011.00 First-Line Supervisors of Mechanics, Installers, and Repairers (crosswalk lists T33A/T37A/T38A/T53A/T54A/T55A): https://www.mynextmove.org/vets/profile/military/49-1011.00
+- O*NET 17-3028.00 Calibration Technologists and Technicians: https://www.onetonline.org/link/summary/17-3028.00
+- OPM GS-1910 Quality Assurance: https://www.opm.gov/policy-data-oversight/classification-qualifications/general-schedule-qualification-standards/1900/quality-assurance-series-1910/
+- OPM GS-0343 Management and Program Analysis: https://www.opm.gov/policy-data-oversight/classification-qualifications/general-schedule-qualification-standards/0300/management-and-program-analysis-series-0343/
+- OPM WG-2604 Electronics Mechanic job-grading standard: https://www.opm.gov/policy-data-oversight/classification-qualifications/classifying-federal-wage-system-positions/standards/2600/fws2604.pdf
+- TRIDENT Refit Facility Bangor careers: https://www.navsea.navy.mil/Home/TRFB/Careers/
+- TRIDENT Refit Facility Kings Bay (CNRSE tenant command): https://cnrse.cnic.navy.mil/Installations/SUBASE-Kings-Bay/About/Tenant-Commands/Trident-Refit-Facility/
+- Draper careers: https://www.draper.com/careers
+
+MT pinned listing evidence is **cross-referenced from rows already in `defense_job_listings`** (the `/defense-jobs` scrape), not a new scrape:
+
+- BAE Systems Strategic Weapon System Test Engineer, Rockville MD (SSP/SWS): https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?PageType=JobDetails&partnerid=25771&siteid=5403&jobid=303317
+- Lockheed Martin Calibration Tech Asc, Kings Bay Base GA: https://lockheedmartin.eightfold.ai/careers/job/996476302549
+- Lockheed Martin Missile Systems Integration/Electrical Test Engineer - E2, Cape Canaveral FL: https://lockheedmartin.eightfold.ai/careers/job/996476277621
+- Northrop Grumman Electronics Technician, Buffalo NY: https://jobs.northropgrumman.com/careers/job/1340073540898
+- Anduril Calibration Technician, Costa Mesa CA: https://boards.greenhouse.io/andurilindustries/jobs/5198192007?gh_jid=5198192007
+- HII Engineer Electromechanical 2, Newport News VA: https://careers.huntingtoningalls.com/job/Newport-News-ENGINEER-ELECTROMECHANICAL-2-Virg/1425021900/
+
 ## Caveats
 
 - **Uncovered specialty → empty result, never a nearby code.** This bundle is a curated seed, not complete military-occupation coverage. When a user's specialty is not seeded, or their vernacular is ambiguous ("electrician", "nuke", "intel"), the matcher must return an empty result with an explanation, or ask which specialty they mean — it must **never** substitute the nearest seeded neighbor. Substring search treats "navy electrician" as a hit on the aviation rate `AE` (Aviation Electrician's Mate); shipboard `EM` is a different rate with different civilian paths. Resolving to `AE` would recommend avionics jobs to a ship electrician. `resolveSpecialty` (issue #221) owns this decision so search convenience can never override it: code owns the match, the model only narrates.
