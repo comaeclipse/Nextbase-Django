@@ -8,6 +8,8 @@ import {
   type EstimateOptions,
   type HealthCoverage,
   type Household,
+  type LifestyleLineAdjustments,
+  type LifestyleLineKey,
   type QuickCheck,
   type QuickVerdict,
   type SpendingProfile,
@@ -66,6 +68,11 @@ export interface AffordabilityScenario {
    * everyday spending only, via the OECD-modified equivalence scale.
    */
   dependents: string;
+  /** Detailed-mode lifestyle spending edits, entered as percentage deltas. */
+  goodsAdjustmentPct: string;
+  otherServicesAdjustmentPct: string;
+  utilitiesAdjustmentPct: string;
+  unscaledAdjustmentPct: string;
 }
 
 export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
@@ -90,6 +97,10 @@ export const DEFAULT_AFFORDABILITY_SCENARIO: AffordabilityScenario = {
   propertyTaxPct: "",
   hoaMonthly: "",
   dependents: "",
+  goodsAdjustmentPct: "",
+  otherServicesAdjustmentPct: "",
+  utilitiesAdjustmentPct: "",
+  unscaledAdjustmentPct: "",
 };
 
 export const INCOME_FIELDS: {
@@ -200,6 +211,44 @@ export const HEALTH_COVERAGE_OPTIONS: {
     id: "tricare_for_life",
     label: "TFL + Medicare",
     hint: "No TRICARE fee — Medicare Part B per person",
+  },
+];
+
+export const LIFESTYLE_LINE_OPTIONS: {
+  key: keyof Pick<
+    AffordabilityScenario,
+    | "goodsAdjustmentPct"
+    | "otherServicesAdjustmentPct"
+    | "utilitiesAdjustmentPct"
+    | "unscaledAdjustmentPct"
+  >;
+  adjustmentKey: LifestyleLineKey;
+  label: string;
+  hint: string;
+}[] = [
+  {
+    key: "goodsAdjustmentPct",
+    adjustmentKey: "goods",
+    label: "Groceries & goods",
+    hint: "Food at home, apparel, vehicle purchases, gas, hobbies",
+  },
+  {
+    key: "otherServicesAdjustmentPct",
+    adjustmentKey: "otherServices",
+    label: "Dining & local services",
+    hint: "Food away, transportation services, pets, personal care",
+  },
+  {
+    key: "utilitiesAdjustmentPct",
+    adjustmentKey: "utilities",
+    label: "Owner utilities",
+    hint: "Electric, gas, water, and other home utilities for owners",
+  },
+  {
+    key: "unscaledAdjustmentPct",
+    adjustmentKey: "unscaled",
+    label: "Cash & commitments",
+    hint: "Cash contributions and personal insurance/pension commitments",
   },
 ];
 
@@ -353,6 +402,19 @@ export function parseOptionalPercent(raw: string): number | undefined {
 }
 
 /**
+ * A signed percentage delta for lifestyle line items. Blank/0 is a no-op.
+ * The UI exposes -50%..+50%; parser clamps too so typed values cannot
+ * accidentally erase or triple a category.
+ */
+export function parseLifestyleAdjustmentPct(raw: string): number | undefined {
+  const cleaned = String(raw).replace(/[^0-9.-]/g, "");
+  const n = Number(cleaned);
+  if (!Number.isFinite(n) || n === 0) return undefined;
+  const clamped = Math.max(-50, Math.min(50, n));
+  return 1 + clamped / 100;
+}
+
+/**
  * A non-negative whole count of dependents from free text; 0 for blank or
  * anything unparseable. The engine also floors/clamps, but normalizing here
  * keeps the scenario summary and the model in step.
@@ -360,6 +422,16 @@ export function parseOptionalPercent(raw: string): number | undefined {
 export function parseDependents(raw: string): number {
   const n = parseMonthlyAmount(raw);
   return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+}
+
+export function scenarioLifestyleAdjustments(
+  scenario: AffordabilityScenario
+): LifestyleLineAdjustments | undefined {
+  const entries = LIFESTYLE_LINE_OPTIONS.flatMap((option) => {
+    const parsed = parseLifestyleAdjustmentPct(scenario[option.key]);
+    return parsed === undefined ? [] : [[option.adjustmentKey, parsed] as const];
+  });
+  return entries.length > 0 ? Object.fromEntries(entries) : undefined;
 }
 
 /**
@@ -380,6 +452,7 @@ export function scenarioEstimateOptions(
     propertyTaxRateOverride: parseOptionalPercent(scenario.propertyTaxPct),
     hoaMonthly: parseOptionalAmount(scenario.hoaMonthly),
     dependents: parseDependents(scenario.dependents),
+    lifestyleAdjustments: scenarioLifestyleAdjustments(scenario),
   };
 }
 
@@ -492,7 +565,10 @@ export function scenarioChipLabel(scenario: AffordabilityScenario): string {
   // Dependents change the priced basket, so they belong in the summary when set.
   const deps = parseDependents(scenario.dependents);
   const dependents = deps > 0 ? ` · +${deps} dependent${deps === 1 ? "" : "s"}` : "";
-  return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)}${coverage}${dependents} · ${formatUsd(gross)}/mo`;
+  const lifestyle = scenarioLifestyleAdjustments(scenario)
+    ? " · line-item edits"
+    : "";
+  return `${profileLabel(scenario.spendingProfile)} · ${tenureLabel(scenario.tenure)}${coverage}${dependents}${lifestyle} · ${formatUsd(gross)}/mo`;
 }
 
 export const AFFORDABILITY_DISCLAIMER =

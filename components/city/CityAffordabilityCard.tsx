@@ -19,6 +19,7 @@ import {
   HEALTH_COVERAGE_OPTIONS,
   HOUSEHOLD_OPTIONS,
   INCOME_FIELDS,
+  LIFESTYLE_LINE_OPTIONS,
   PROFILE_OPTIONS,
   TENURE_OPTIONS,
   affordabilityVintage,
@@ -75,6 +76,45 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
       />
       <small>{hint}</small>
+    </label>
+  );
+}
+
+function sliderPercent(raw: string): number {
+  const parsed = Number(String(raw).replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(parsed) ? Math.max(-50, Math.min(50, parsed)) : 0;
+}
+
+function LineItemControl({
+  id,
+  label,
+  hint,
+  value,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  hint: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const pct = sliderPercent(value);
+  return (
+    <label className="aff-line-item" htmlFor={id}>
+      <span>
+        <strong>{label}</strong>
+        <small>{hint}</small>
+      </span>
+      <input
+        id={id}
+        type="range"
+        min="-50"
+        max="50"
+        step="5"
+        value={pct}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      <em>{pct > 0 ? "+" : ""}{pct}%</em>
     </label>
   );
 }
@@ -568,6 +608,20 @@ export default function CityAffordabilityCard({ location }: { location: Location
               />
             </div>
 
+            <div className="aff-line-items">
+              <span className="aff-legend">Lifestyle line items</span>
+              {LIFESTYLE_LINE_OPTIONS.map((option) => (
+                <LineItemControl
+                  key={option.key}
+                  id={`city-aff-${option.key}`}
+                  label={option.label}
+                  hint={option.hint}
+                  value={scenario[option.key]}
+                  onChange={(value) => set(option.key, value)}
+                />
+              ))}
+            </div>
+
             {scenario.tenure !== "rent" ? (
               <div className="aff-housing-details">
                 <span className="aff-legend">
@@ -698,6 +752,19 @@ export default function CityAffordabilityCard({ location }: { location: Location
                     </p>
                     <ul>
                       {approximations.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {cost?.adjustments?.length ? (
+                  <div className="aff-notes">
+                    <p>
+                      <strong>Adjusted</strong> — these user-entered planning
+                      choices are folded into the total:
+                    </p>
+                    <ul>
+                      {cost.adjustments.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>

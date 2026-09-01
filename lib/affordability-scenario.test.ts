@@ -5,6 +5,7 @@ import {
   cushionShare,
   healthCoverageLabel,
   parseMonthlyAmount,
+  parseLifestyleAdjustmentPct,
   parseOptionalAmount,
   parseOptionalPercent,
   scenarioAnnotationActive,
@@ -12,6 +13,7 @@ import {
   scenarioEstimateOptions,
   scenarioGrossMonthly,
   scenarioHousehold,
+  scenarioLifestyleAdjustments,
   scenarioIsActive,
   scenarioSources,
 } from "./affordability-scenario";
@@ -131,6 +133,15 @@ describe("optional override parsers", () => {
     expect(parseOptionalPercent("250")).toBeUndefined();
     expect(parseOptionalPercent("")).toBeUndefined();
   });
+
+  it("parses signed lifestyle percentages as bounded multipliers", () => {
+    expect(parseLifestyleAdjustmentPct("20")).toBeCloseTo(1.2, 9);
+    expect(parseLifestyleAdjustmentPct("-15")).toBeCloseTo(0.85, 9);
+    expect(parseLifestyleAdjustmentPct("+75")).toBeCloseTo(1.5, 9);
+    expect(parseLifestyleAdjustmentPct("-90")).toBeCloseTo(0.5, 9);
+    expect(parseLifestyleAdjustmentPct("0")).toBeUndefined();
+    expect(parseLifestyleAdjustmentPct("")).toBeUndefined();
+  });
 });
 
 describe("scenarioEstimateOptions", () => {
@@ -142,6 +153,7 @@ describe("scenarioEstimateOptions", () => {
     expect(opts.mortgageRateOverride).toBeUndefined();
     expect(opts.propertyTaxRateOverride).toBeUndefined();
     expect(opts.hoaMonthly).toBeUndefined();
+    expect(opts.lifestyleAdjustments).toBeUndefined();
     expect(cushionShare(DEFAULT_AFFORDABILITY_SCENARIO.cushion)).toBe(
       COMFORT_COST_SHARE
     );
@@ -156,6 +168,9 @@ describe("scenarioEstimateOptions", () => {
       mortgageRatePct: "5.5",
       propertyTaxPct: "1.2",
       hoaMonthly: "150",
+      goodsAdjustmentPct: "10",
+      otherServicesAdjustmentPct: "-5",
+      utilitiesAdjustmentPct: "15",
     });
     expect(opts.household).toBe("couple");
     expect(opts.homePriceOverride).toBe(250000);
@@ -163,6 +178,23 @@ describe("scenarioEstimateOptions", () => {
     expect(opts.mortgageRateOverride).toBeCloseTo(0.055, 9);
     expect(opts.propertyTaxRateOverride).toBeCloseTo(0.012, 9);
     expect(opts.hoaMonthly).toBe(150);
+    expect(opts.lifestyleAdjustments).toEqual({
+      goods: 1.1,
+      otherServices: 0.95,
+      utilities: 1.15,
+    });
+  });
+
+  it("summarizes active lifestyle edits without treating zeros as changes", () => {
+    const scenario = {
+      ...DEFAULT_AFFORDABILITY_SCENARIO,
+      mode: "detailed" as const,
+      wages: "1000",
+      goodsAdjustmentPct: "0",
+      unscaledAdjustmentPct: "-10",
+    };
+    expect(scenarioLifestyleAdjustments(scenario)).toEqual({ unscaled: 0.9 });
+    expect(scenarioChipLabel(scenario)).toContain("line-item edits");
   });
 
   it("maps filing to household in one place", () => {

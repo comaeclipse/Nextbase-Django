@@ -169,7 +169,26 @@ export interface CostEstimate {
    * Drive time only annotates here; it never scales the premium (issue #60).
    */
   notes: string[];
+  /**
+   * User-supplied adjustments folded into `monthlyCost`, such as detailed
+   * lifestyle line-item edits. These are neither missing data nor national
+   * stand-ins; they are explicit scenario choices.
+   */
+  adjustments?: string[];
 }
+
+export type LifestyleLineKey =
+  | "goods"
+  | "otherServices"
+  | "utilities"
+  | "unscaled";
+
+/**
+ * Multipliers over the sourced BLS/BEA spending slices. 1 means unchanged,
+ * 0.8 means the user plans to spend 20% less on that line, 1.2 means 20%
+ * more. Quick check never passes these; detailed mode only.
+ */
+export type LifestyleLineAdjustments = Partial<Record<LifestyleLineKey, number>>;
 
 export interface Affordability extends CostEstimate {
   /** income - monthlyCost. Positive is money left over. Null if incomputable. */
@@ -210,6 +229,12 @@ export interface EstimateOptions {
    * the quick check keeps its three inputs.
    */
   dependents?: number;
+  /**
+   * Detailed-mode line-item edits for the non-housing spending basket. These
+   * are explicit user planning choices layered over the sourced profile,
+   * household, and dependent math; quick check keeps its standardized basket.
+   */
+  lifestyleAdjustments?: LifestyleLineAdjustments;
   /**
    * Override the 30-year mortgage rate for `buying` (annual fraction, e.g.
    * 0.055). Defaults to the sourced Freddie Mac PMMS constant.
@@ -285,7 +310,8 @@ export function nonHousingIndex(
   reasons: string[] = [],
   profile: SpendingProfile = DEFAULT_SPENDING_PROFILE,
   household: Household = DEFAULT_HOUSEHOLD,
-  dependents: number = 0
+  dependents: number = 0,
+  lifestyleAdjustments?: LifestyleLineAdjustments
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -300,7 +326,13 @@ export function nonHousingIndex(
         : "BEA state nonmetropolitan portion, not a city-level price level"
     );
   }
-  const slices = spendingSlices(profile, c, household, dependents);
+  const slices = adjustedSpendingSlices(
+    profile,
+    c,
+    household,
+    dependents,
+    lifestyleAdjustments
+  );
   const total =
     slices.goodsMonthly + slices.otherServicesMonthly + slices.unscaledMonthly;
   if (total <= 0) {
@@ -322,7 +354,8 @@ function nonHousingDollars(
   reasons: string[],
   profile: SpendingProfile,
   household: Household,
-  dependents: number
+  dependents: number,
+  lifestyleAdjustments?: LifestyleLineAdjustments
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -340,7 +373,13 @@ function nonHousingDollars(
       );
     }
   }
-  const slices = spendingSlices(profile, c, household, dependents);
+  const slices = adjustedSpendingSlices(
+    profile,
+    c,
+    household,
+    dependents,
+    lifestyleAdjustments
+  );
   return (
     (slices.goodsMonthly * goods) / 100 +
     (slices.otherServicesMonthly * other) / 100 +
@@ -360,6 +399,46 @@ function monthlyPrincipalAndInterest(
   if (r === 0) return principal / n;
   const growth = Math.pow(1 + r, n);
   return (principal * r * growth) / (growth - 1);
+}
+
+function lifestyleMultiplier(
+  adjustments: LifestyleLineAdjustments | undefined,
+  key: LifestyleLineKey
+): number {
+  const raw = adjustments?.[key];
+  if (raw === undefined) return 1;
+  if (!Number.isFinite(raw)) return 1;
+  return Math.max(0, Math.min(3, raw));
+}
+
+function adjustedSpendingSlices(
+  profile: SpendingProfile,
+  c: ResolvedConstants,
+  household: Household,
+  dependents: number,
+  adjustments?: LifestyleLineAdjustments
+): ReturnType<typeof spendingSlices> {
+  const base = spendingSlices(profile, c, household, dependents);
+  return {
+    goodsMonthly:
+      base.goodsMonthly * lifestyleMultiplier(adjustments, "goods"),
+    otherServicesMonthly:
+      base.otherServicesMonthly *
+      lifestyleMultiplier(adjustments, "otherServices"),
+    unscaledMonthly:
+      base.unscaledMonthly * lifestyleMultiplier(adjustments, "unscaled"),
+    utilitiesMonthly:
+      base.utilitiesMonthly * lifestyleMultiplier(adjustments, "utilities"),
+  };
+}
+
+function activeLifestyleAdjustments(
+  adjustments: LifestyleLineAdjustments | undefined
+): { key: LifestyleLineKey; multiplier: number }[] {
+  if (!adjustments) return [];
+  return (["goods", "otherServices", "utilities", "unscaled"] as const)
+    .map((key) => ({ key, multiplier: lifestyleMultiplier(adjustments, key) }))
+    .filter(({ multiplier }) => multiplier !== 1);
 }
 
 /**
@@ -420,7 +499,13 @@ function housingCost(
     return null;
   }
   const monthlyUtilities =
-    (spendingSlices(profile, c, household, dependents).utilitiesMonthly *
+    (adjustedSpendingSlices(
+      profile,
+      c,
+      household,
+      dependents,
+      opts.lifestyleAdjustments
+    ).utilitiesMonthly *
       utilitiesRpp) /
     100;
   // HOA has no data column and no national constant — it is user-supplied
@@ -576,6 +661,7 @@ export function estimateMonthlyCost(
   const approximations: string[] = [];
   const missingContext: string[] = [];
   const notes: string[] = [];
+  const adjustments: string[] = [];
   const spendingProfile = opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
   const healthCoverage = opts.healthCoverage ?? "medicare_supplement";
   const household = opts.household ?? DEFAULT_HOUSEHOLD;
@@ -591,7 +677,8 @@ export function estimateMonthlyCost(
     [],
     spendingProfile,
     household,
-    dependents
+    dependents,
+    opts.lifestyleAdjustments
   );
   const nonHousing = nonHousingDollars(
     loc,
@@ -600,7 +687,8 @@ export function estimateMonthlyCost(
     missing,
     spendingProfile,
     household,
-    dependents
+    dependents,
+    opts.lifestyleAdjustments
   );
 
   const housing = housingCost(
@@ -625,6 +713,26 @@ export function estimateMonthlyCost(
   if (dependents > 0) {
     missingContext.push(
       `${dependents} dependent${dependents === 1 ? "" : "s"} priced on everyday spending only, via the OECD-modified equivalence scale (each as a child, +0.3) — housing stays one dwelling and no separate dependent health coverage (CHAMPVA/TRICARE) is priced`
+    );
+  }
+
+  const lifestyleAdjustments = activeLifestyleAdjustments(
+    opts.lifestyleAdjustments
+  );
+  if (lifestyleAdjustments.length > 0) {
+    const label: Record<LifestyleLineKey, string> = {
+      goods: "goods",
+      otherServices: "local services",
+      utilities: "owner utilities",
+      unscaled: "cash/personal commitments",
+    };
+    adjustments.push(
+      `user-edited lifestyle lines: ${lifestyleAdjustments
+        .map(({ key, multiplier }) => {
+          const pct = Math.round((multiplier - 1) * 100);
+          return `${label[key]} ${pct > 0 ? "+" : ""}${pct}%`;
+        })
+        .join(", ")}`
     );
   }
 
@@ -691,6 +799,7 @@ export function estimateMonthlyCost(
     approximations,
     missingContext,
     notes,
+    adjustments,
   };
 }
 
