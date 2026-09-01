@@ -374,6 +374,71 @@ describe("healthCoverage", () => {
     expect(e.missingContext.some((m) => /copay/i.test(m))).toBe(true);
   });
 
+  it("known drive time within 30 min becomes a within-standard note, not missing context", () => {
+    const e = estimateMonthlyCost(
+      loc({ median_rent: 1000, va_primary_care_drive_minutes: 18 }),
+      "rent",
+      real,
+      { healthCoverage: "va_primary" }
+    );
+    expect(e.notes.some((n) => /within the VA 30-minute/i.test(n))).toBe(true);
+    expect(e.notes.some((n) => /18 min/.test(n))).toBe(true);
+    // Unknown-access line must be gone; the copay omission still stands.
+    expect(e.missingContext.some((m) => /not verified/i.test(m))).toBe(false);
+    expect(e.missingContext.some((m) => /copay/i.test(m))).toBe(true);
+  });
+
+  it("known drive time beyond 30 min becomes a Community Care note", () => {
+    const e = estimateMonthlyCost(
+      loc({ median_rent: 1000, va_primary_care_drive_minutes: 47 }),
+      "rent",
+      real,
+      { healthCoverage: "va_primary" }
+    );
+    expect(e.notes.some((n) => /Community Care/i.test(n))).toBe(true);
+    expect(e.notes.some((n) => /47 min/.test(n))).toBe(true);
+    expect(e.missingContext.some((m) => /not verified/i.test(m))).toBe(false);
+  });
+
+  it("drive time — present or absent — never changes monthlyCost or the band", () => {
+    const income = 3000;
+    const base = loc({ median_rent: 1000 });
+    const unknown = estimateMonthlyCost(base, "rent", real, {
+      healthCoverage: "va_primary",
+    });
+    const within = estimateMonthlyCost(
+      loc({ median_rent: 1000, va_primary_care_drive_minutes: 10 }),
+      "rent",
+      real,
+      { healthCoverage: "va_primary" }
+    );
+    const beyond = estimateMonthlyCost(
+      loc({ median_rent: 1000, va_primary_care_drive_minutes: 90 }),
+      "rent",
+      real,
+      { healthCoverage: "va_primary" }
+    );
+    // Identical dollars regardless of drive time — it only annotates.
+    expect(within.monthlyCost).toBe(unknown.monthlyCost);
+    expect(beyond.monthlyCost).toBe(unknown.monthlyCost);
+    expect(assessAffordability(within, income).band).toBe(
+      assessAffordability(unknown, income).band
+    );
+    expect(assessAffordability(beyond, income).band).toBe(
+      assessAffordability(unknown, income).band
+    );
+  });
+
+  it("drive time only annotates the va_primary path — other coverages carry no VA notes", () => {
+    const e = estimateMonthlyCost(
+      loc({ median_rent: 1000, va_primary_care_drive_minutes: 18 }),
+      "rent",
+      real,
+      { healthCoverage: "medicare_supplement" }
+    );
+    expect(e.notes).toHaveLength(0);
+  });
+
   it("does not reorder fully-priced cities — the adjustment is household-wide, not per-city", () => {
     const cities = [
       loc({ id: 1, name: "Expensive", goods_rpp: 120, other_services_rpp: 120 }),
@@ -401,6 +466,7 @@ describe("assessAffordability", () => {
     missing: [],
     approximations: [],
     missingContext: [],
+    notes: [],
   });
 
   it("bands at 80% and 100% of income", () => {
@@ -438,6 +504,7 @@ describe("incomeTargets", () => {
     missing: [],
     approximations: [],
     missingContext: [],
+    notes: [],
   });
 
   it("is the exact inverse of the banding thresholds", () => {
@@ -500,6 +567,7 @@ describe("quickCheck", () => {
     missing: [],
     approximations: [],
     missingContext: [],
+    notes: [],
   });
 
   it("assigns the five bands at the documented coverage boundaries", () => {
@@ -801,6 +869,7 @@ describe("cushion parameterization", () => {
     missing: [],
     approximations: [],
     missingContext: [],
+    notes: [],
   });
 
   it("keeps targets and bands in lockstep at every cushion", () => {

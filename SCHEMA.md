@@ -152,6 +152,7 @@ may inherit from is per-field**, and every resolved value carries provenance
 | `climate`, `snow_annual`, `rain_annual`, `sun_days`, `alw`, `avg_high_summer`, `humidity_summer` | nearest station | normals travel 20–50 mi |
 | `col_index`, `cost_of_living`, `*_rpp`, `bea_geo_*` | metro (CBSA) | BEA publishes RPP per MSA by construction |
 | `has_va`, `nearest_va*`, `distance_to_va*` | **recompute** | run `sync-va-facilities.ts`; never inherit a 25-mile access gate |
+| `va_*_drive_minutes`, `va_*_facility_id`, `va_access_verified_on` | **recompute** | run `sync-va-drive-times.ts`; drive time is per-coordinate, never inherit |
 | `population`, `density`, `median_rent`, `median_rent_2br`, `median_rent_3br`, `avg_home_value*`, `entry_home_value`, `has_walmart`, `has_costco`, `near_*`, `vibes`, `tags` | **none** | inheriting a 3.8M city population onto a 60k neighborhood is the worst failure this prevents |
 
 The registry is `satisfies Record<InheritableField, FieldRule>`, so **adding a
@@ -221,6 +222,7 @@ The affordability engine scales a named national basket, not a single leftover `
 - **NearestVA** / **DistanceToVA**: Nearest *outpatient-capable* VA health site (clinic/CBOC or medical center). Used by structural `va_outpatient_access`. Refresh with `scripts/sync-va-facilities.ts`.
 - **NearestVAKind**: `hospital` or `outpatient` — the kind of `nearest_va`. Written by the VA sync. Explore `va_hospital` requires `has_va` and this to be `hospital` (name equality with `nearest_va_hospital` is the pre-sync fallback). `va_clinic` is outpatient-capable nearby (`has_va`), so a VAMC satisfies it.
 - **NearestVAHospital** / **DistanceToVAHospital**: Nearest VA *medical center* (VAST parent / 3-character station). Used by structural `va_hospital_access`. Never treat clinic distance as hospital access. Almost every geocoded city has a named nearest hospital, so this field alone is not a "nearby" filter.
+- **VA drive times** (issue #60): `va_primary_care_drive_minutes`, `va_medical_center_drive_minutes`, `va_primary_care_facility_id`, `va_medical_center_facility_id`, `va_access_verified_on`. **Drive minutes** (not miles) from the VA Facilities API v1 `/nearby` endpoint — the same isochrone bands VA Community Care eligibility uses. Written by `scripts/migrate-va-drive-times.ts` (columns) then `scripts/sync-va-drive-times.ts` (values; needs `VA_FACILITIES_API_KEY`), null until then. **Exist only to annotate the affordability engine's `va_primary` health-coverage path** — within the 30-minute primary-care standard, beyond it (Community Care may apply), or unverified. They **never scale a premium and never null a cost** (lib/affordability.ts). Distinct from the great-circle mileage above, which keeps driving the Fit score and Explore VA facets; recompute per row (never inherit), same as the mileage fields.
 - **Veterans Benefits**: Additional veteran-specific benefits/tax breaks available
 
 ### Safety & Social

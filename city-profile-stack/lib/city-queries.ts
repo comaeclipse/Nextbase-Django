@@ -418,6 +418,12 @@ export interface CityCostBreakdown {
    */
   missingContext: string[];
   /**
+   * Confirmed, informational annotations that also do not change monthlyCost —
+   * on the `va_primary` path, whether the nearest VA primary care is within the
+   * VA 30-minute drive-time standard or beyond it. See lib/affordability.ts.
+   */
+  notes: string[];
+  /**
    * Take-home breakdown for THIS state, when an income composition was given.
    * Null when the caller supplied a flat after-tax figure instead.
    */
@@ -691,6 +697,7 @@ export async function estimateCostForCities(opts: {
         ...(r.income?.approximations ?? []),
       ],
       missingContext: r.cost.missingContext,
+      notes: r.cost.notes,
       takeHome: r.income
         ? {
             grossMonthly: roundMoney(r.income.grossMonthly)!,

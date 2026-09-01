@@ -410,6 +410,18 @@ export default function CityAffordabilityCard({ location }: { location: Location
                     </ul>
                   </div>
                 ) : null}
+                {quickEstimate && quickEstimate.notes.length > 0 ? (
+                  <div className="aff-notes">
+                    <p>
+                      <strong>Good to know</strong>:
+                    </p>
+                    <ul>
+                      {quickEstimate.notes.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
                 <button type="button" className="aff-finetune" onClick={fineTune}>
                   Fine-tune this estimate →
                 </button>
@@ -719,6 +731,18 @@ export default function CityAffordabilityCard({ location }: { location: Location
                     </p>
                     <ul>
                       {cost.missingContext.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {cost?.notes.length ? (
+                  <div className="aff-notes">
+                    <p>
+                      <strong>Good to know</strong>:
+                    </p>
+                    <ul>
+                      {cost.notes.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>

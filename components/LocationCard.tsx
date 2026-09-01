@@ -60,6 +60,7 @@ export default function LocationCard({
     ]),
   ];
   const missingContext = budget?.cost.missingContext ?? [];
+  const notes = budget?.cost.notes ?? [];
 
   return (
     <article
@@ -189,6 +190,14 @@ export default function LocationCard({
             ) : missingContext.length > 0 ? (
               <p className="text-[11px] text-muted-foreground">
                 Not modeled: {missingContext.join("; ")}
+              </p>
+            ) : null}
+            {/* notes are additive context (e.g. VA drive-time standard), not
+                mutually exclusive with the missing/approximated/not-modeled
+                line above — render them in their own block. */}
+            {notes.length > 0 ? (
+              <p className="text-[11px] text-muted-foreground">
+                {notes.join("; ")}
               </p>
             ) : null}
           </div>
