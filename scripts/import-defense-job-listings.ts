@@ -67,6 +67,7 @@ const COMPANY_SLUG: Record<string, string> = {
   "bae systems": "bae-systems",
   "cyntel technologies": "cyntel-technologies",
   "northrop grumman": "northrop-grumman",
+  "naval sea systems command": "navsea",
 };
 
 /**
@@ -305,6 +306,17 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "sierra vista|AZ": [31.5455, -110.2773],
   "groton|CT": [41.3498, -72.0784],
   "st rose|LA": [29.9524, -90.3218],
+  // NAVSEA (USAJOBS) duty stations. Several are installation names, not
+  // municipalities, so each maps to the installation's real centroid.
+  "keyport|WA": [47.7003, -122.6329], // NUWC Keyport
+  "washington navy yard|DC": [38.8749, -76.995],
+  "newport|RI": [41.4901, -71.3128], // Naval Base Newport
+  "panama city|FL": [30.1588, -85.6602], // NSWC Panama City
+  "dahlgren|VA": [38.3399, -77.0538], // NSWC Dahlgren
+  "west palm beach|FL": [26.7153, -80.0534],
+  "crane|IN": [38.8934, -86.9036], // NSWC Crane
+  "bath|ME": [43.9109, -69.8214],
+  "white sands missile range|NM": [32.3792, -106.4861],
 };
 
 interface Parsed {
