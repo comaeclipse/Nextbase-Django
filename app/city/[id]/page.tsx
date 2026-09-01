@@ -30,6 +30,7 @@ import {
 import {
   QUIZ2_COOKIE_NAME,
   decodeQuiz2Profile,
+  hasActiveQuiz2Profile,
   profileToWeights,
 } from "@/lib/quiz2";
 import type { GeoType, Location } from "@/lib/types";
@@ -198,7 +199,9 @@ export default async function CityDetailPage({
   const quiz2Profile = decodeQuiz2Profile(
     cookieStore.get(QUIZ2_COOKIE_NAME)?.value
   );
-  const hasQuiz2Profile = Boolean(quiz2Profile);
+  const hasQuiz2Profile = quiz2Profile
+    ? hasActiveQuiz2Profile(quiz2Profile)
+    : false;
   const personalized = hasQuiz2Profile && isCandidate;
   const personalizedWeights = quiz2Profile
     ? profileToWeights(quiz2Profile)

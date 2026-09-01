@@ -271,11 +271,25 @@ export function calculatePersonalizedBreakdown(
 ): PersonalizedFitFactor[] {
   const factors = personalizedFactorScores(loc, stateInfo);
   const shares = normalizedWeightShares(weights);
-  return PERSONALIZED_FACTOR_LABELS.map(({ key, label }) => ({
+  // Largest-remainder rounding so the whole-percent shares sum to exactly 100
+  // (independent Math.round can drift to 99/101 and read as sloppy in the UI).
+  const raw = PERSONALIZED_FACTOR_LABELS.map(({ key }) => shares[key] * 100);
+  const floors = raw.map((v) => Math.floor(v));
+  let remaining = 100 - floors.reduce((a, b) => a + b, 0);
+  const order = raw
+    .map((v, i) => ({ i, frac: v - floors[i] }))
+    .sort((a, b) => b.frac - a.frac);
+  const wholeShares = [...floors];
+  for (const { i } of order) {
+    if (remaining <= 0) break;
+    wholeShares[i] += 1;
+    remaining -= 1;
+  }
+  return PERSONALIZED_FACTOR_LABELS.map(({ key, label }, idx) => ({
     key,
     label,
     score: clampScore(factors[key]),
-    weightShare: Math.round(shares[key] * 100),
+    weightShare: wholeShares[idx],
   }));
 }
 

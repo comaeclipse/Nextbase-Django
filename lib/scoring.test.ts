@@ -61,13 +61,16 @@ describe("calculatePersonalizedBreakdown", () => {
     expect(byKey.costOfLiving).toBe(20);
     expect(byKey.homeValue).toBe(0);
     const total = rows.reduce((s, r) => s + r.weightShare, 0);
-    expect(Math.abs(total - 100)).toBeLessThanOrEqual(1);
+    expect(total).toBe(100);
   });
 
-  it("splits shares evenly when all weights are 0", () => {
+  it("splits shares as evenly as possible when all weights are 0", () => {
     const zero: PersonalizedWeights = { va: 0, costOfLiving: 0, homeValue: 0, safety: 0, lgbtq: 0, gunRights: 0 };
     const rows = calculatePersonalizedBreakdown(loc(), stateInfo, zero);
-    // 100 / 6 -> 17 rounded, for every factor.
-    expect(rows.every((r) => r.weightShare === 17)).toBe(true);
+    // 100 / 6 has no even whole-percent split; largest-remainder gives
+    // four 17s + two 16s, which sums to exactly 100 (not six 17s = 102).
+    const total = rows.reduce((s, r) => s + r.weightShare, 0);
+    expect(total).toBe(100);
+    expect(rows.every((r) => r.weightShare === 16 || r.weightShare === 17)).toBe(true);
   });
 });
