@@ -52,7 +52,7 @@ const SECTOR_RULES: { sector: DefenseJobSector; pattern: RegExp }[] = [
   {
     sector: "Security & IT",
     pattern:
-      /\b(?:information security|infosec|cyber|security engineer|security operations|soc analyst|insider threat|facility security officer|fso\b|physical security|red team|penetration|vulnerabilit|it support|it technician|it infrastructure|it administrator|information technology|enterprise technology|help ?desk|systems administrator|network engineer|identity)/i,
+      /\b(?:information security|infosec|cyber|security engineer|security operations|soc analyst|insider threat|facility security officer|fso\b|physical security|security specialist|red team|penetration|vulnerabilit|it support|it technician|it infrastructure|it administrator|information technology|enterprise technology|help ?desk|systems administrator|network engineer|identity)/i,
   },
   {
     sector: "Manufacturing & Production",
@@ -87,7 +87,7 @@ const SECTOR_RULES: { sector: DefenseJobSector; pattern: RegExp }[] = [
   {
     sector: "Corporate & G&A",
     pattern:
-      /\b(?:financ|accounting|accountant|controller|treasury|fp&a|legal|counsel|attorney|paralegal|complianc|contracts|people|human resources|hr\b|recruit|talent|sourcer|administrativ|admin\b|executive assistant|office manager|facilities|workplace|communication|public relations|government relations|policy|strategy|operations|program manager|program management|chief of staff|benefits|payroll)/i,
+      /\b(?:financ|accounting|accountant|controller|treasury|fp&a|legal|counsel|attorney|paralegal|complianc|contracts|contract specialist|contracting|acquisition specialist|general business|people|human resources|hr\b|recruit|talent|sourcer|administrativ|admin\b|executive assistant|office manager|facilities|workplace|communication|public relations|government relations|policy|strategy|operations|program manager|program management|chief of staff|benefits|payroll)/i,
   },
 ];
 

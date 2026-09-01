@@ -36,6 +36,15 @@ describe("classifySector", () => {
     ["Corporate Counsel", "Legal", "Corporate & G&A"],
     ["Technical Recruiter", "Recruiting", "Corporate & G&A"],
     ["Administrative Business Partner", "Administrative", "Corporate & G&A"],
+    // Federal (USAJOBS/NAVSEA) titles: contracting/acquisition -> Corporate & G&A,
+    // security specialist -> Security & IT, admin/technical -> Corporate.
+    ["Contract Specialist", "Contracting (1102) · GS 11-12", "Corporate & G&A"],
+    ["Supervisory General Business & Industrial Specialist", "General Business and Industry (1101) · NH 3", "Corporate & G&A"],
+    ["Security Specialist (Administration)", "Security Administration (0080) · NH 2", "Security & IT"],
+    ["Administrative/Technical Specialist", "Logistics Management (0346) · NT 5", "Corporate & G&A"],
+    ["Logistics Management Specialist", "Logistics Management (0346) · GS 13", "Manufacturing & Production"],
+    ["IT Specialist (INFOSEC)", "Information Technology Management (2210) · NT 5", "Security & IT"],
+    ["Quality Assurance Specialist (Shipbuilding)", "Quality Assurance (1910) · GS 5-7", "Manufacturing & Production"],
   ])("%s / %s -> %s", (title, field, expected) => {
     expect(classifySector(title, field)).toBe(expected);
   });
