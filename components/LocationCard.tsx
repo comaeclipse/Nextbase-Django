@@ -191,7 +191,11 @@ export default function LocationCard({
               <p className="text-[11px] text-muted-foreground">
                 Not modeled: {missingContext.join("; ")}
               </p>
-            ) : notes.length > 0 ? (
+            ) : null}
+            {/* notes are additive context (e.g. VA drive-time standard), not
+                mutually exclusive with the missing/approximated/not-modeled
+                line above — render them in their own block. */}
+            {notes.length > 0 ? (
               <p className="text-[11px] text-muted-foreground">
                 {notes.join("; ")}
               </p>

@@ -16,7 +16,10 @@ import {
 import {
   calculateBaselineScore,
   calculateFitBreakdown,
+  calculatePersonalizedBreakdown,
+  calculatePersonalizedScore,
   crimeGradeMeta,
+  type PersonalizedFitFactor,
 } from "@/lib/scoring";
 import { resolveStateAbbr } from "@/lib/states";
 import {
@@ -24,6 +27,12 @@ import {
   blockedByPreferences,
   decodePreferences,
 } from "@/lib/profile";
+import {
+  QUIZ2_COOKIE_NAME,
+  decodeQuiz2Profile,
+  hasActiveQuiz2Profile,
+  profileToWeights,
+} from "@/lib/quiz2";
 import type { GeoType, Location } from "@/lib/types";
 import type { GeoNode } from "@/lib/geo-inheritance";
 import {
@@ -46,7 +55,8 @@ import CityAffordabilityCard from "@/components/city/CityAffordabilityCard";
 import { getHousingMarket } from "@/lib/housing-market";
 import { formatNearestBase } from "@/lib/military";
 import { Check, X } from "lucide-react";
-import "../../styles/city.css";
+// city.css is imported from ./layout.tsx (layout-level) so it loads before the
+// page commits on client-side navigation — see that file for why.
 
 export const dynamic = "force-dynamic";
 
@@ -168,14 +178,42 @@ export default async function CityDetailPage({
   const airQuality = airQualityResolved?.value ?? null;
   const airQualitySourceLabel = airQualityResolved?.sourceLabel ?? null;
 
-  // Saved dealbreakers from /profile. `stateInfo` is already loaded above, so
-  // this costs one cookie read and no extra query.
+  // Two independent cookies, both read once here (no extra query): the /profile
+  // dealbreakers decide whether this city is ruled out, while the /quiz2 weighted
+  // profile reshapes the Fit score itself.
+  const cookieStore = await cookies();
   const preferences = decodePreferences(
-    (await cookies()).get(PROFILE_COOKIE_NAME)?.value
+    cookieStore.get(PROFILE_COOKIE_NAME)?.value
   );
   const profileConflicts = preferences
     ? blockedByPreferences(preferences, stateInfo, stateAbbr)
     : [];
+
+  /*
+   * Personalized Fit (issue #3). When the visitor has a saved /quiz2 profile and
+   * this row is a ranked candidate, the ring, breakdown and copy reflect their
+   * stated priorities instead of the flat 20%-each baseline. A neighborhood that
+   * inherits its facts (isCandidate === false) already suppresses the Fit Score
+   * entirely, so there is nothing to personalize there.
+   */
+  const quiz2Profile = decodeQuiz2Profile(
+    cookieStore.get(QUIZ2_COOKIE_NAME)?.value
+  );
+  const hasQuiz2Profile = quiz2Profile
+    ? hasActiveQuiz2Profile(quiz2Profile)
+    : false;
+  const personalized = hasQuiz2Profile && isCandidate;
+  const personalizedWeights = quiz2Profile
+    ? profileToWeights(quiz2Profile)
+    : null;
+  const fitScore =
+    personalized && personalizedWeights
+      ? calculatePersonalizedScore(row, stateInfo, personalizedWeights)
+      : location.calculated_match_score;
+  const railBreakdown =
+    personalized && personalizedWeights
+      ? calculatePersonalizedBreakdown(row, stateInfo, personalizedWeights)
+      : fitBreakdown;
 
   const employersHere = employerIndex[location.id] ?? [];
   /*
@@ -294,8 +332,10 @@ export default async function CityDetailPage({
             </div>
             {isCandidate ? (
               <div className="hero-fit">
-                <span className="hero-fit-num">{location.calculated_match_score}</span>
-                <span className="hero-fit-label">Fit Score</span>
+                <span className="hero-fit-num">{fitScore}</span>
+                <span className="hero-fit-label">
+                  {personalized ? "Your Fit Score" : "Fit Score"}
+                </span>
               </div>
             ) : null}
           </div>
@@ -999,40 +1039,58 @@ export default async function CityDetailPage({
               <div
                 className="fit-ring"
                 style={{
-                  background: `conic-gradient(var(--primary) ${location.calculated_match_score}%, #e5e7eb 0)`,
+                  background: `conic-gradient(var(--primary) ${fitScore}%, #e5e7eb 0)`,
                 }}
               >
                 <div className="fit-ring-inner">
-                  <div className="fit-ring-num">
-                    {location.calculated_match_score}
-                  </div>
+                  <div className="fit-ring-num">{fitScore}</div>
                   <div className="fit-ring-pct">/ 100</div>
                 </div>
               </div>
               <div className="fit-head-txt">
-                <h3>Veteran Fit Score</h3>
+                <h3>{personalized ? "Your Fit Score" : "Veteran Fit Score"}</h3>
                 <p>
-                  How well {location.name} fits a veteran&apos;s retirement —
-                  five equally weighted factors.
+                  {personalized ? (
+                    <>
+                      How well {location.name} fits{" "}
+                      <em>your</em> priorities — weighted from the profile you
+                      saved.
+                    </>
+                  ) : (
+                    <>
+                      How well {location.name} fits a veteran&apos;s retirement —
+                      five equally weighted factors.
+                    </>
+                  )}
                 </p>
               </div>
             </div>
 
             <div className="fit-breakdown">
-              {fitBreakdown.map((item) => (
-                <div className="fb-row" key={item.key}>
-                  <div className="fb-top">
-                    <span className="fb-label">{item.label}</span>
-                    <span className="fb-score">{item.score}</span>
+              {railBreakdown.map((item) => {
+                const share = personalized
+                  ? (item as PersonalizedFitFactor).weightShare
+                  : null;
+                return (
+                  <div className="fb-row" key={item.key}>
+                    <div className="fb-top">
+                      <span className="fb-label">
+                        {item.label}
+                        {share !== null ? (
+                          <span className="fb-weight">{share}% of your score</span>
+                        ) : null}
+                      </span>
+                      <span className="fb-score">{item.score}</span>
+                    </div>
+                    <div className="meter">
+                      <div
+                        className={`meter-fill ${meterClass(item.score)}`}
+                        style={{ width: `${item.score}%` }}
+                      ></div>
+                    </div>
                   </div>
-                  <div className="meter">
-                    <div
-                      className={`meter-fill ${meterClass(item.score)}`}
-                      style={{ width: `${item.score}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             </div>
@@ -1100,20 +1158,49 @@ export default async function CityDetailPage({
                 <circle cx="12" cy="12" r="10" />
               </svg>
             </div>
-            <h3>Is {location.name} right for you?</h3>
-            <p>
-              This score weighs five factors equally. Take the 2-minute quiz to
-              re-rank it against <em>your</em> priorities — climate, budget,
-              politics, and more.
-            </p>
-            <Link className="btn btn-primary" href="/quiz">
-              <svg className="icon" viewBox="0 0 24 24">
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                <path d="M12 17h.01" />
-                <circle cx="12" cy="12" r="10" />
-              </svg>
-              Get my personalized match
-            </Link>
+            {hasQuiz2Profile ? (
+              <>
+                <h3>Scored for you</h3>
+                <p>
+                  {personalized ? (
+                    <>
+                      This Fit Score is weighted by the priorities you saved.
+                      Changed your mind? Re-tune them anytime.
+                    </>
+                  ) : (
+                    <>
+                      Your saved priorities personalize Fit Scores across the
+                      site. Re-tune them anytime.
+                    </>
+                  )}
+                </p>
+                <Link className="btn btn-primary" href="/quiz2">
+                  <svg className="icon" viewBox="0 0 24 24">
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <path d="M12 17h.01" />
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>
+                  Adjust my priorities
+                </Link>
+              </>
+            ) : (
+              <>
+                <h3>Is {location.name} right for you?</h3>
+                <p>
+                  This score weighs five factors equally. Build a 2-minute
+                  profile to re-rank it against <em>your</em> priorities —
+                  climate, budget, politics, and more.
+                </p>
+                <Link className="btn btn-primary" href="/quiz2">
+                  <svg className="icon" viewBox="0 0 24 24">
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <path d="M12 17h.01" />
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>
+                  Get my personalized match
+                </Link>
+              </>
+            )}
           </div>
         </aside>
       </div>

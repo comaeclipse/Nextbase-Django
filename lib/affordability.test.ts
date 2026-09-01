@@ -21,6 +21,7 @@ import {
 } from "./affordability";
 import {
   coupleSliceMultipliers,
+  dependentConsumptionFactor,
   resolveCostConstants,
   type ResolvedConstants,
 } from "./cost-constants";
@@ -73,6 +74,8 @@ const C: ResolvedConstants = {
   tricarePrimeFamilyMonthly: 55,
   tricareSelectIndividualMonthly: 15,
   tricareSelectFamilyMonthly: 28,
+  oecdSecondAdultWeight: 0.5,
+  oecdDependentWeight: 0.3,
 };
 
 /**
@@ -763,6 +766,93 @@ describe("household: couple", () => {
     expect(couple.missingContext.some((m) => /two-person/i.test(m))).toBe(true);
     const single = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
     expect(single.missingContext.some((m) => /two-person/i.test(m))).toBe(false);
+  });
+});
+
+describe("dependents (OECD-modified equivalence scale)", () => {
+  it("is a no-op for zero or negative counts", () => {
+    expect(dependentConsumptionFactor("single", 0, C)).toBe(1);
+    expect(dependentConsumptionFactor("couple", 0, C)).toBe(1);
+    expect(dependentConsumptionFactor("single", -3, C)).toBe(1);
+  });
+
+  it("adds 0.3 equivalents per dependent over a single adult core (1.0)", () => {
+    // (1 + n*0.3) / 1
+    expect(dependentConsumptionFactor("single", 1, C)).toBeCloseTo(1.3, 6);
+    expect(dependentConsumptionFactor("single", 2, C)).toBeCloseTo(1.6, 6);
+  });
+
+  it("costs proportionally less against a couple core (1.5) than a single", () => {
+    // (1.5 + n*0.3) / 1.5
+    expect(dependentConsumptionFactor("couple", 1, C)).toBeCloseTo(1.2, 6);
+    expect(dependentConsumptionFactor("couple", 2, C)).toBeCloseTo(1.4, 6);
+  });
+
+  it("scales a single's consumption basket, leaving rent and premiums alone", () => {
+    const base = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    const withDep = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      dependents: 1,
+    });
+    // Non-housing is 850 + 750 + 400 = 2000 at RPP 100, times 1.3.
+    expect(withDep.nonHousing).toBeCloseTo(base.nonHousing! * 1.3, 6);
+    expect(withDep.housing).toBe(1500); // one dwelling
+    expect(withDep.nationalFixed).toBe(base.nationalFixed); // per 65+ adult
+  });
+
+  it("composes with the couple multiplier rather than replacing it", () => {
+    const couple = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+    });
+    const coupleDep = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      household: "couple",
+      dependents: 1,
+    });
+    // The couple basket is multiplied by the dependent factor 1.2, and the
+    // premiums (two 65+ adults) are untouched by the dependent.
+    expect(coupleDep.nonHousing).toBeCloseTo(couple.nonHousing! * 1.2, 6);
+    expect(coupleDep.nationalFixed).toBe(couple.nationalFixed);
+  });
+
+  it("scales owner utilities but not tax, insurance, or maintenance", () => {
+    const base = estimateMonthlyCost(loc(), "own_outright", C).housing!;
+    const withDep = estimateMonthlyCost(loc(), "own_outright", C, {
+      dependents: 1,
+    }).housing!;
+    // Only the utilities term moves (400 -> 400*1.3); the per-dwelling terms
+    // (tax, insurance, maintenance) do not.
+    expect(withDep - base).toBeCloseTo(400 * 0.3, 6);
+  });
+
+  it("floors and clamps a stray fractional or negative count", () => {
+    const whole = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      dependents: 1,
+    });
+    const fractional = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      dependents: 1.9,
+    });
+    expect(fractional.nonHousing).toBeCloseTo(whole.nonHousing!, 6);
+    const negative = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      dependents: -2,
+    });
+    const none = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    expect(negative.nonHousing).toBeCloseTo(none.nonHousing!, 6);
+  });
+
+  it("discloses the dependent convention as context, with singular/plural wording", () => {
+    const none = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    expect(none.missingContext.some((m) => /dependent/i.test(m))).toBe(false);
+
+    const one = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      dependents: 1,
+    });
+    expect(one.missingContext.some((m) => /1 dependent priced/.test(m))).toBe(true);
+
+    const two = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      dependents: 2,
+    });
+    expect(two.missingContext.some((m) => /2 dependents priced/.test(m))).toBe(
+      true
+    );
   });
 });
 

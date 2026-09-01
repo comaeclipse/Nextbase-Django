@@ -202,6 +202,15 @@ export interface EstimateOptions {
    */
   household?: Household;
   /**
+   * Extra people beyond the single/couple adult core — a dependent grandchild
+   * being raised, an adult child. A non-negative count (floored/clamped by the
+   * engine). Scales everyday CONSUMPTION only, via the OECD-modified
+   * equivalence scale (each priced as a child): housing stays one dwelling and
+   * Medicare premiums stay per 65+ adult. Defaults to 0. Detailed mode only —
+   * the quick check keeps its three inputs.
+   */
+  dependents?: number;
+  /**
    * Override the 30-year mortgage rate for `buying` (annual fraction, e.g.
    * 0.055). Defaults to the sourced Freddie Mac PMMS constant.
    */
@@ -275,7 +284,8 @@ export function nonHousingIndex(
   approximations: string[] = [],
   reasons: string[] = [],
   profile: SpendingProfile = DEFAULT_SPENDING_PROFILE,
-  household: Household = DEFAULT_HOUSEHOLD
+  household: Household = DEFAULT_HOUSEHOLD,
+  dependents: number = 0
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -290,7 +300,7 @@ export function nonHousingIndex(
         : "BEA state nonmetropolitan portion, not a city-level price level"
     );
   }
-  const slices = spendingSlices(profile, c, household);
+  const slices = spendingSlices(profile, c, household, dependents);
   const total =
     slices.goodsMonthly + slices.otherServicesMonthly + slices.unscaledMonthly;
   if (total <= 0) {
@@ -311,7 +321,8 @@ function nonHousingDollars(
   approximations: string[],
   reasons: string[],
   profile: SpendingProfile,
-  household: Household
+  household: Household,
+  dependents: number
 ): number | null {
   const goods = rppNumber(loc.goods_rpp);
   const other = rppNumber(loc.other_services_rpp);
@@ -329,7 +340,7 @@ function nonHousingDollars(
       );
     }
   }
-  const slices = spendingSlices(profile, c, household);
+  const slices = spendingSlices(profile, c, household, dependents);
   return (
     (slices.goodsMonthly * goods) / 100 +
     (slices.otherServicesMonthly * other) / 100 +
@@ -364,7 +375,8 @@ function housingCost(
   approximations: string[],
   opts: EstimateOptions,
   profile: SpendingProfile,
-  household: Household
+  household: Household,
+  dependents: number
 ): number | null {
   if (tenure === "rent") {
     // No national stand-in is offered here on purpose. Rent varies far too much
@@ -408,7 +420,9 @@ function housingCost(
     return null;
   }
   const monthlyUtilities =
-    (spendingSlices(profile, c, household).utilitiesMonthly * utilitiesRpp) / 100;
+    (spendingSlices(profile, c, household, dependents).utilitiesMonthly *
+      utilitiesRpp) /
+    100;
   // HOA has no data column and no national constant — it is user-supplied
   // only (0 when not provided), so it never appears in `approximations`.
   const monthlyHoa = opts.hoaMonthly ?? 0;
@@ -565,6 +579,10 @@ export function estimateMonthlyCost(
   const spendingProfile = opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
   const healthCoverage = opts.healthCoverage ?? "medicare_supplement";
   const household = opts.household ?? DEFAULT_HOUSEHOLD;
+  // A non-negative whole count — the whole engine downstream sees a clean
+  // integer, so a stray fractional or negative opt can never quietly bias a
+  // slice.
+  const dependents = Math.max(0, Math.floor(opts.dependents ?? 0));
 
   const nhi = nonHousingIndex(
     loc,
@@ -572,7 +590,8 @@ export function estimateMonthlyCost(
     approximations,
     [],
     spendingProfile,
-    household
+    household,
+    dependents
   );
   const nonHousing = nonHousingDollars(
     loc,
@@ -580,7 +599,8 @@ export function estimateMonthlyCost(
     approximations,
     missing,
     spendingProfile,
-    household
+    household,
+    dependents
   );
 
   const housing = housingCost(
@@ -591,13 +611,20 @@ export function estimateMonthlyCost(
     approximations,
     opts,
     spendingProfile,
-    household
+    household,
+    dependents
   );
   const nationalFixed = healthPremiumsMonthly(healthCoverage, household, c);
 
   if (household === "couple") {
     missingContext.push(
       "couple costs are scaled from BLS two-person 65+ households — a close proxy, but ~15% of those are not couples and they skew higher-income than singles"
+    );
+  }
+
+  if (dependents > 0) {
+    missingContext.push(
+      `${dependents} dependent${dependents === 1 ? "" : "s"} priced on everyday spending only, via the OECD-modified equivalence scale (each as a child, +0.3) — housing stays one dwelling and no separate dependent health coverage (CHAMPVA/TRICARE) is priced`
     );
   }
 

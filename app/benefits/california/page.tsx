@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PublicNav from "@/components/PublicNav";
-import "../../styles/california-benefits.css";
+// california-benefits.css is imported from ./layout.tsx (layout-level) so it
+// loads before the page commits on client-side navigation — see that file.
 
 export const metadata: Metadata = {
   title: "California Veteran Benefits | VetRetire",

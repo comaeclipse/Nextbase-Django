@@ -190,6 +190,42 @@ export interface PersonalizedWeights {
   gunRights: number;
 }
 
+type PersonalizedKey = keyof PersonalizedWeights;
+
+/** The six per-factor 0-100 scores that feed the personalized composite. */
+function personalizedFactorScores(
+  loc: LocationRow,
+  stateInfo: StateInfoRow | null | undefined
+): PersonalizedWeights {
+  let lgbtqScore = parseLgbtqScore(loc);
+  if (lgbtqScore === null) lgbtqScore = 50;
+  return {
+    lgbtq: lgbtqScore,
+    va: scoreVaAccess(loc),
+    costOfLiving: scoreCostOfLiving(loc),
+    homeValue: scoreHomeValue(loc),
+    safety: scoreSafety(loc),
+    gunRights: scoreGunRights(stateInfo),
+  };
+}
+
+/**
+ * Each factor's share of the final score as a fraction summing to 1. Mirrors
+ * the fallback in calculatePersonalizedScore: an all-zero profile degenerates
+ * to equal weighting rather than dividing by zero.
+ */
+function normalizedWeightShares(
+  weights: PersonalizedWeights
+): PersonalizedWeights {
+  const keys = Object.keys(weights) as PersonalizedKey[];
+  const total = keys.reduce((sum, k) => sum + (weights[k] || 0), 0);
+  const shares = {} as PersonalizedWeights;
+  for (const k of keys) {
+    shares[k] = total > 0 ? (weights[k] || 0) / total : 1 / keys.length;
+  }
+  return shares;
+}
+
 /**
  * Rank retirement fit using the visitor's quiz-derived importance weights
  * instead of the fixed 20%-each baseline. Falls back to equal weighting if
@@ -200,31 +236,61 @@ export function calculatePersonalizedScore(
   stateInfo: StateInfoRow | null | undefined,
   weights: PersonalizedWeights
 ): number {
-  let lgbtqScore = parseLgbtqScore(loc);
-  if (lgbtqScore === null) lgbtqScore = 50;
-
-  const factors: PersonalizedWeights = {
-    lgbtq: lgbtqScore,
-    va: scoreVaAccess(loc),
-    costOfLiving: scoreCostOfLiving(loc),
-    homeValue: scoreHomeValue(loc),
-    safety: scoreSafety(loc),
-    gunRights: scoreGunRights(stateInfo),
-  };
-
-  const keys = Object.keys(factors) as (keyof PersonalizedWeights)[];
-  const totalWeight = keys.reduce((sum, k) => sum + (weights[k] || 0), 0);
-  const EQUAL_WEIGHTS: PersonalizedWeights = {
-    lgbtq: 1, va: 1, costOfLiving: 1, homeValue: 1, safety: 1, gunRights: 1,
-  };
-  const effectiveWeights = totalWeight > 0 ? weights : EQUAL_WEIGHTS;
-  const norm = totalWeight > 0 ? totalWeight : keys.length;
-
-  const weighted = keys.reduce(
-    (sum, k) => sum + factors[k] * (effectiveWeights[k] / norm),
-    0
-  );
+  const factors = personalizedFactorScores(loc, stateInfo);
+  const shares = normalizedWeightShares(weights);
+  const keys = Object.keys(factors) as PersonalizedKey[];
+  const weighted = keys.reduce((sum, k) => sum + factors[k] * shares[k], 0);
   return clampScore(weighted);
+}
+
+/** Display order + labels for the personalized breakdown (matches /quiz2). */
+const PERSONALIZED_FACTOR_LABELS: { key: PersonalizedKey; label: string }[] = [
+  { key: "va", label: "VA Access" },
+  { key: "costOfLiving", label: "Cost of Living" },
+  { key: "homeValue", label: "Home Affordability" },
+  { key: "safety", label: "Safety" },
+  { key: "lgbtq", label: "LGBTQ Friendliness" },
+  { key: "gunRights", label: "Gun Rights" },
+];
+
+export interface PersonalizedFitFactor extends FitFactor {
+  /** This factor's share of the final weighted score, as a whole percent. */
+  weightShare: number;
+}
+
+/**
+ * The six factors behind a personalized Fit score, each with its raw 0-100
+ * score and the share of the final number it accounts for given the visitor's
+ * weights. Shares use the same normalization as calculatePersonalizedScore, so
+ * the breakdown the rail draws always explains the ring it sits under.
+ */
+export function calculatePersonalizedBreakdown(
+  loc: LocationRow,
+  stateInfo: StateInfoRow | null | undefined,
+  weights: PersonalizedWeights
+): PersonalizedFitFactor[] {
+  const factors = personalizedFactorScores(loc, stateInfo);
+  const shares = normalizedWeightShares(weights);
+  // Largest-remainder rounding so the whole-percent shares sum to exactly 100
+  // (independent Math.round can drift to 99/101 and read as sloppy in the UI).
+  const raw = PERSONALIZED_FACTOR_LABELS.map(({ key }) => shares[key] * 100);
+  const floors = raw.map((v) => Math.floor(v));
+  let remaining = 100 - floors.reduce((a, b) => a + b, 0);
+  const order = raw
+    .map((v, i) => ({ i, frac: v - floors[i] }))
+    .sort((a, b) => b.frac - a.frac);
+  const wholeShares = [...floors];
+  for (const { i } of order) {
+    if (remaining <= 0) break;
+    wholeShares[i] += 1;
+    remaining -= 1;
+  }
+  return PERSONALIZED_FACTOR_LABELS.map(({ key, label }, idx) => ({
+    key,
+    label,
+    score: clampScore(factors[key]),
+    weightShare: wholeShares[idx],
+  }));
 }
 
 export type CrimeTone = "good" | "warn" | "bad" | "neutral";

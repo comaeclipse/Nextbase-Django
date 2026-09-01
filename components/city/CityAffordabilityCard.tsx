@@ -558,6 +558,16 @@ export default function CityAffordabilityCard({ location }: { location: Location
               </div>
             </div>
 
+            <div className="aff-fields">
+              <Field
+                id="city-aff-dependents"
+                label="Dependents"
+                hint="Extra people beyond the adults above (e.g. a grandchild) — priced on everyday spending only, one dwelling"
+                value={scenario.dependents}
+                onChange={(value) => set("dependents", value)}
+              />
+            </div>
+
             {scenario.tenure !== "rent" ? (
               <div className="aff-housing-details">
                 <span className="aff-legend">
