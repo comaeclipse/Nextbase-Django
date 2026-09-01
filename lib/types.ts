@@ -101,6 +101,25 @@ export interface LocationRow {
   /** Nearest VA medical center (parent facility), distinct from CBOC/clinic. */
   nearest_va_hospital: string | null;
   distance_to_va_hospital: string | null;
+  /*
+   * VA Facilities API drive-time access (issue #60). DISTINCT from the
+   * great-circle miles above: these are drive minutes from the VA `/nearby`
+   * endpoint (the same standard VA Community Care eligibility uses), written by
+   * `scripts/sync-va-drive-times.ts`. They exist ONLY to annotate how practical
+   * the affordability engine's `va_primary` health-coverage choice is — they
+   * never scale a premium and never null a cost. Null until that sync has run.
+   * has_va / distance_to_va / the Fit score keep using the mileage fields.
+   */
+  /** Drive minutes to the nearest VA primary-care-capable facility. */
+  va_primary_care_drive_minutes?: number | null;
+  /** Drive minutes to the nearest VA medical center (specialty/hospital). */
+  va_medical_center_drive_minutes?: number | null;
+  /** VA Facilities API facility id backing `va_primary_care_drive_minutes`, so the source stays refreshable. */
+  va_primary_care_facility_id?: string | null;
+  /** VA Facilities API facility id backing `va_medical_center_drive_minutes`. */
+  va_medical_center_facility_id?: string | null;
+  /** ISO date the VA drive-time fields were last refreshed from the API. */
+  va_access_verified_on?: string | null;
   /**
    * State veteran-benefit summary. Populated by the location query's alias from
    * the verified `locations_stateinfo.vet_benefits_summary` (see lib/locations.ts);

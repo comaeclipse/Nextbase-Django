@@ -189,3 +189,21 @@ Pinned listing evidence is stored separately from `defense_job_listings`. These 
 - Commercial cyber employers are transition employers, not VetRetire defense footprint evidence unless separately linked to `defense_employers`.
 - Civilian operators are transition employers, not defense employers. They are intentionally not inserted into `defense_employers`.
 - A mapped VetRetire location count exists only for transition employers linked to an existing `defense_employers.slug`; an unmapped employer means "not yet mapped," not "no locations."
+
+## Acquisition / logistics / admin expansion (NAVSEA federal-series bridge, added 2026-08-31)
+
+This slice bridges the non-cyber federal occupational series that appear in the ingested USAJOBS **NAVSEA** listings (`/defense-jobs`, `ats=USAJOBS`) to their military entry points. It answers "which rates/MOS/NEC line up with these jobs" by adding the *military-specialty* side of the graph; the NAVSEA postings themselves live in `defense_job_listings`, not here.
+
+- Crosswalk basis is the current **O*NET / My Next Move for Veterans Military Crosswalk** (military data from the Defense Manpower Data Center, 2024; service/COOL supplemental data July 2025). Each `direct`/`adjacent` row cites the specific occupation profile it came from:
+  - Purchasing Agents (1102): https://www.mynextmove.org/vets/profile/military/13-1022.00
+  - Logisticians (0346): https://www.mynextmove.org/vets/profile/military/13-1081.00
+  - Management Analysts (0343): https://www.mynextmove.org/vets/profile/military/13-1111.00
+  - Financial & Investment Analysts (0501): https://www.mynextmove.org/vets/profile/military/13-2051.00
+  - Security Management Specialists (0080): https://www.mynextmove.org/vets/profile/military/13-1199.07
+  - Human Resources Specialists (0201): https://www.mynextmove.org/vets/profile/military/13-1071.00
+- **1102 is kept narrow.** The clean enlisted contracting specialties are Army 51C, Air Force 6C0X1, and Marine 3044 (all in the O*NET Purchasing Agents crosswalk). Generic supply/logistics ratings were **not** mapped to 1102. Navy has **no enlisted 1102**; the Navy path is a Supply Corps **officer** (designator 3100/3105) with a contracting warrant/AQD, recorded as `Designator` + `officer` + `adjacent` (not every Supply Corps officer served as a warranted contracting officer). This required adding `Designator (Navy)` to the `CodeSystem` vocabulary — `code_system` is free text with no DB CHECK, so the value is honest without a migration; OPM 1102 basis: https://www.opm.gov/policy-data-oversight/classification-qualifications/classifying-general-schedule-positions/
+- Security rows are downgraded where the code is broad policing rather than physical-security management: Marine 5814 and Navy P11A (Physical Security Specialist) are `direct`; Marine 5811 (MP), Navy MA, Air Force 3P0X1 (Security Forces), and Coast Guard ME are `adjacent`.
+- **0301 (Miscellaneous Administration) and 1101 (General Business and Industry)** are OPM catch-all/broad series, so they are deliberately left sparse: only a few curated `adjacent` rows to a generic `business-operations-specialist` role, never `direct`.
+- **0501** was kept conservative: only Air Force 6F0X1 (which is in the O*NET 13-2051 crosswalk). Army 36B / Marine 3451 were **not** auto-added, because finance ≠ financial analysis (their work may align better with 0510/0560 accounting/budget/pay series) — exactly the false-positive the `resolveSpecialty` rule guards against.
+- Coast Guard **SK (Storekeeper)** is flagged `status=unknown`: O*NET lists it under Logisticians but marks it an older classification; verify current CG nomenclature before treating it as active.
+- NAVSEA is seeded as a `government_agency` transition employer with `ExistingDefenseEmployerSlug` left blank on purpose (the `defense_employers.slug='navsea'` FK link can be added once the /defense-jobs NAVSEA PR merges and its employer seed runs). Every new specialty carries a NAVSEA employer match, and marquee series (1102/0346/0201/0080/0501) carry `specialty_listing_evidence` rows pointing at the actual ingested USAJOBS postings.

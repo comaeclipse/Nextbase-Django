@@ -1,11 +1,16 @@
 /*
- * Profile model for the /quiz2 demo: a live "profile studio" where every
- * control re-ranks the whole location list on the spot. Unlike lib/quiz.ts —
- * which buckets each consideration into priority/consider/skip — this version
- * exposes the Fit-score weights directly as 0-100 sliders, so the demo drives
- * lib/scoring.ts's PersonalizedWeights without any lossy bucketing.
+ * Profile model for /quiz2: a live "profile studio" where every control
+ * re-ranks the whole location list on the spot. Unlike lib/quiz.ts — which
+ * buckets each consideration into priority/consider/skip — this version exposes
+ * the Fit-score weights directly as 0-100 sliders, so it drives lib/scoring.ts's
+ * PersonalizedWeights without any lossy bucketing.
  *
- * Demo only: nothing here is persisted, and /quiz remains the shipping flow.
+ * This is now the shipping weighted-profile flow (issues #2/#3): the profile is
+ * persisted in a versioned cookie (same pattern as lib/quiz.ts and lib/profile.ts)
+ * and read server-side on /city/[id] to personalize the Veteran Fit Score.
+ * lib/profile.ts's `vr_profile_v1` cookie is a *separate*, complementary thing —
+ * hard dealbreakers that decide which cities rank; this cookie carries the soft
+ * weights that reshape the score itself.
  */
 import type { FilterParams } from "./filters";
 import type { PersonalizedWeights } from "./scoring";
@@ -13,7 +18,11 @@ import type { PersonalizedWeights } from "./scoring";
 /** Slider positions, 0-100. Divided by 100 to become PersonalizedWeights. */
 export type WeightKey = keyof PersonalizedWeights;
 
+/** Bumped when the persisted shape changes; older cookies are discarded. */
+const QUIZ2_VERSION = 1;
+
 export interface Quiz2Profile {
+  version: typeof QUIZ2_VERSION;
   weights: Record<WeightKey, number>;
   climate: string[];
   lifestyle: string; // "" = any
@@ -34,6 +43,7 @@ export const PRICE_MIN = 100;
 export const PRICE_STEP = 25;
 
 export const DEFAULT_QUIZ2_PROFILE: Quiz2Profile = {
+  version: QUIZ2_VERSION,
   weights: {
     va: 70,
     costOfLiving: 55,
@@ -204,3 +214,113 @@ export const PRESETS: Quiz2Preset[] = [
     },
   },
 ];
+
+/*
+ * Persistence. Mirrors lib/quiz.ts / lib/profile.ts: a versioned, URL-encoded
+ * JSON cookie, decodable on the server so the first paint (both /quiz2's own
+ * form and the personalized city rail) already reflects the saved profile.
+ * A version mismatch discards rather than migrates.
+ */
+export const QUIZ2_COOKIE_NAME = "vr_quiz2_v1";
+const QUIZ2_COOKIE_MAX_AGE = 60 * 60 * 24 * 180; // 180 days
+
+const WEIGHT_KEYS = WEIGHT_FACTORS.map((f) => f.key);
+const CLIMATE_VALUES = new Set(CLIMATE_OPTIONS.map((o) => o.value));
+const LIFESTYLE_VALUES = new Set(LIFESTYLE_OPTIONS.map((o) => o.value));
+const ACTIVITY_VALUES = new Set(ACTIVITY_OPTIONS.map((o) => o.value));
+const SNOW_VALUES = new Set(SNOW_OPTIONS.map((o) => o.value));
+
+/** Clamp a slider position to a whole number in [min, max]. */
+function clampInt(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, Math.round(value)));
+}
+
+/**
+ * True once the visitor has meaningfully engaged — i.e. the saved profile
+ * differs from the defaults. A cookie that decodes to the exact defaults is
+ * treated as "no profile" so the city page still shows the invite rather than a
+ * personalization that changed nothing.
+ */
+export function hasActiveQuiz2Profile(profile: Quiz2Profile): boolean {
+  return JSON.stringify(profile) !== JSON.stringify(DEFAULT_QUIZ2_PROFILE);
+}
+
+export function encodeQuiz2Profile(profile: Quiz2Profile): string {
+  return encodeURIComponent(JSON.stringify(profile));
+}
+
+/**
+ * Parse a cookie value into a Quiz2Profile, overlaying only well-formed fields
+ * onto the defaults. Returns null for anything unrecognized (wrong version,
+ * non-object, unparseable) so a bad or stale cookie can never poison scoring.
+ */
+export function decodeQuiz2Profile(
+  raw: string | null | undefined
+): Quiz2Profile | null {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(decodeURIComponent(raw));
+    if (typeof parsed !== "object" || parsed === null) return null;
+    if (parsed.version !== QUIZ2_VERSION) return null;
+
+    const out: Quiz2Profile = {
+      ...DEFAULT_QUIZ2_PROFILE,
+      weights: { ...DEFAULT_QUIZ2_PROFILE.weights },
+    };
+
+    const w = parsed.weights;
+    if (typeof w === "object" && w !== null) {
+      for (const key of WEIGHT_KEYS) {
+        const v = w[key];
+        if (typeof v === "number" && Number.isFinite(v)) {
+          out.weights[key] = clampInt(v, 0, 100);
+        }
+      }
+    }
+
+    if (Array.isArray(parsed.climate)) {
+      out.climate = parsed.climate.filter(
+        (c: unknown): c is string => typeof c === "string" && CLIMATE_VALUES.has(c)
+      );
+    }
+    if (Array.isArray(parsed.activities)) {
+      out.activities = parsed.activities.filter(
+        (a: unknown): a is string => typeof a === "string" && ACTIVITY_VALUES.has(a)
+      );
+    }
+    if (typeof parsed.lifestyle === "string" && LIFESTYLE_VALUES.has(parsed.lifestyle)) {
+      out.lifestyle = parsed.lifestyle;
+    }
+    if (typeof parsed.snow === "string" && SNOW_VALUES.has(parsed.snow)) {
+      out.snow = parsed.snow;
+    }
+    if (typeof parsed.priceMax === "number" && Number.isFinite(parsed.priceMax)) {
+      out.priceMax = clampInt(parsed.priceMax, PRICE_MIN, PRICE_ANY);
+    }
+    for (const key of ["priceIsHardFilter", "noAssaultWeaponsBan", "noHighCapMagBan", "lgbtqFriendlyOnly"] as const) {
+      if (typeof parsed[key] === "boolean") out[key] = parsed[key];
+    }
+
+    return out;
+  } catch {
+    return null;
+  }
+}
+
+export function setQuiz2ProfileCookie(profile: Quiz2Profile): void {
+  if (typeof document === "undefined") return;
+  document.cookie = `${QUIZ2_COOKIE_NAME}=${encodeQuiz2Profile(profile)}; path=/; max-age=${QUIZ2_COOKIE_MAX_AGE}; samesite=lax`;
+}
+
+export function clearQuiz2ProfileCookie(): void {
+  if (typeof document === "undefined") return;
+  document.cookie = `${QUIZ2_COOKIE_NAME}=; path=/; max-age=0`;
+}
+
+export function readQuiz2ProfileCookieClient(): Quiz2Profile | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(
+    new RegExp(`(?:^|; )${QUIZ2_COOKIE_NAME}=([^;]*)`)
+  );
+  return match ? decodeQuiz2Profile(match[1]) : null;
+}

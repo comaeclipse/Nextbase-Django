@@ -320,6 +320,14 @@ export const FIELD_RESOLUTION = {
   nearest_va_kind: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
   nearest_va_hospital: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
   distance_to_va_hospital: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
+  // VA Facilities API drive times (issue #60): drive minutes are computed from
+  // the subject's own coordinates, so inheriting a parent's drive time would
+  // misstate access the same way the mileage fields would. Recompute, never inherit.
+  va_primary_care_drive_minutes: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
+  va_medical_center_drive_minutes: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
+  va_primary_care_facility_id: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
+  va_medical_center_facility_id: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
+  va_access_verified_on: { fallback: "recompute", via: NONE, presentation: "value", note: VA_NOTE },
 
   // ── Subject-scoped or absent. ──
   population: own(

@@ -96,6 +96,15 @@ export type HealthCoverage =
   | "tricare_select"
   | "tricare_for_life";
 
+/**
+ * VA Community Care primary-care access standard: 30-minute average drive time
+ * (or a 20-day wait). Used ONLY to annotate the `va_primary` path — a city at
+ * or under this reads as within-standard, over it reads as possibly Community
+ * Care eligible. It is never a premium multiplier and never nulls a cost
+ * (issue #60). Source: VA "Eligibility for Community Care outside VA".
+ */
+export const VA_PRIMARY_CARE_ACCESS_MINUTES = 30;
+
 /** Budget verdict band. `unknown` means we could not compute, not "bad". */
 export type Band = "comfortable" | "tight" | "over" | "unknown";
 
@@ -151,6 +160,15 @@ export interface CostEstimate {
    * exactly what this field exists to avoid.
    */
   missingContext: string[];
+  /**
+   * Confirmed, informational annotations that also do NOT change `monthlyCost`
+   * or the band — the positive counterpart to `missingContext`. Populated on
+   * the `va_primary` path once a city has VA Facilities API drive-time data:
+   * whether the nearest VA primary care is within the VA 30-minute drive-time
+   * access standard, or beyond it (where Community Care eligibility may apply).
+   * Drive time only annotates here; it never scales the premium (issue #60).
+   */
+  notes: string[];
 }
 
 export interface Affordability extends CostEstimate {
@@ -557,6 +575,7 @@ export function estimateMonthlyCost(
   const missing: string[] = [];
   const approximations: string[] = [];
   const missingContext: string[] = [];
+  const notes: string[] = [];
   const spendingProfile = opts.spendingProfile ?? DEFAULT_SPENDING_PROFILE;
   const healthCoverage = opts.healthCoverage ?? "medicare_supplement";
   const household = opts.household ?? DEFAULT_HOUSEHOLD;
@@ -610,14 +629,28 @@ export function estimateMonthlyCost(
   }
 
   if (healthCoverage === "va_primary") {
-    // Neither line blocks or approximates monthlyCost — see missingContext's
-    // doc comment. City-level VA drive-time data does not exist yet (a later,
-    // separate ingest), so access is unverified for every city today; that is
-    // reported as unknown context, never as a reason to null the total or
-    // restore the dropped Medigap/Part D premiums.
-    missingContext.push(
-      "local VA healthcare access is not yet verified for this city (no drive-time data ingested)"
-    );
+    // Drive time only ANNOTATES how practical the VA-primary choice is here; it
+    // never blocks, approximates, or scales monthlyCost — see the missingContext
+    // and notes doc comments. Unknown access is reported as missing context (not
+    // a null total, never a restored Medigap/Part D premium); a known drive time
+    // becomes a within-standard / Community-Care note. `va_primary_care_drive_minutes`
+    // is written per city by scripts/sync-va-drive-times.ts and is null until it runs.
+    const driveMinutes = loc.va_primary_care_drive_minutes;
+    if (driveMinutes == null) {
+      missingContext.push(
+        "local VA healthcare access is not verified for this city (no VA drive-time data)"
+      );
+    } else if (driveMinutes <= VA_PRIMARY_CARE_ACCESS_MINUTES) {
+      notes.push(
+        `VA primary care is about ${Math.round(driveMinutes)} min away — within the VA ${VA_PRIMARY_CARE_ACCESS_MINUTES}-minute drive-time access standard.`
+      );
+    } else {
+      notes.push(
+        `The nearest VA primary care is about ${Math.round(driveMinutes)} min away, beyond the VA ${VA_PRIMARY_CARE_ACCESS_MINUTES}-minute access standard — Community Care eligibility may apply.`
+      );
+    }
+    // The copay/medication omission is true on the va_primary path regardless of
+    // drive time, so it is always disclosed as missing context, never estimated.
     missingContext.push(
       "VA outpatient copays and medication costs are not estimated — they vary by disability rating, priority group, and prescriptions"
     );
@@ -657,6 +690,7 @@ export function estimateMonthlyCost(
     missing,
     approximations,
     missingContext,
+    notes,
   };
 }
 
