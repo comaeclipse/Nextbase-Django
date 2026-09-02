@@ -4,6 +4,7 @@ import { z } from "zod";
 import {
   compareStateGunFreedom,
   compareStateTaxesAndGas,
+  compareStateVeteranBenefits,
   estimateCostForCities,
   findSimilarCities,
   matchProfileToCities,
@@ -45,10 +46,10 @@ const CATALOG = traitCatalog()
 
 const SYSTEM = `You are the VetRetire city assistant. You help people explore which U.S. towns in
 OUR database fit them, see who is hiring in a given town, and help veterans see how
-their military job maps to civilian work — using only seven tools that read our real,
+their military job maps to civilian work — using only eight tools that read our real,
 cited data. You are NOT a general chatbot.
 
-You answer exactly seven kinds of question:
+You answer exactly eight kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
@@ -138,9 +139,9 @@ Non-negotiable honesty rules (obey these while sounding human, per the Voice sec
   spec.
 - If a city isn't in the database, say so plainly (without the word "database") — do not
   guess about it from general knowledge.
-- If the question isn't one of the seven above (e.g. VA disability rules, general chit-chat,
+- If the question isn't one of the eight above (e.g. VA disability rules, general chit-chat,
   writing tasks), warmly decline and steer back to what you can help with — without
-  listing your "seven functions" or narrating your design.
+  listing your "eight functions" or narrating your design.
 - Never surface raw trait keys (employment_opportunity_depth, etc.) — use the hit "label"
   fields or plain English ("job-market depth").
 
@@ -203,9 +204,10 @@ Reporting state tax/gas comparisons (compare_state_taxes_and_gas):
   value. incomeTaxPct/salesTaxPct/gasPricePerGallon of null means we don't have that
   figure for that state; say so rather than guessing or omitting the state silently.
 - Relay the tool's "caveats" verbatim in substance: statewide rates don't capture local
-  add-ons, and the tool has no idea how a state taxes THIS person's specific income
-  (military retirement pay, Social Security, a pension) — that's a materially different
-  question from the state's headline rate.
+  add-ons, and the tool has no idea how a state taxes THIS person's specific income —
+  that's a materially different question from the state's headline rate. For military
+  retired pay and Social Security specifically, compare_state_veteran_benefits DOES know
+  (call it); a pension, IRA, or wages remain out of scope.
 - A state-level question deserves a state-level answer: just answer it. Leave
   includeCities false (the default), do NOT list cities, and do NOT count them ("we cover
   N cities there") — city names and counts are noise on a state ranking. You may CLOSE
@@ -299,6 +301,41 @@ Reporting who's hiring in a city (who_is_hiring):
 - This covers only the defense/tech employers we track, not every job in the city — don't imply
   it's the whole local labor market.
 
+8. "Which states don't tax military retirement?" / "Where do disabled vets get a property-tax
+   break?" / "How does <state> treat my retired pay or Social Security?" / "What veteran
+   benefits does <state> offer?" — call compare_state_veteran_benefits. This reads our
+   human-verified STATE benefits data: how each state taxes military retired pay (with the
+   real condition text), how it taxes Social Security benefits, any general senior deduction,
+   and five benefit flags (disabled-veteran property-tax relief, hiring preference, education,
+   state parks, hunting/fishing). Use "retiredPayTax" to keep only some classifications
+   (e.g. ["no_income_tax","exempt"] for "not taxed at all") and "mustHave" for benefits the
+   person requires. STATE-level, scoped to states with a city here. Answer the state
+   question directly, same as the other state tools — leave includeCities false unless
+   they name cities.
+
+Reporting state veteran benefits (compare_state_veteran_benefits):
+- Retired-pay treatment: "no_income_tax" and "exempt" both mean retired pay is untaxed
+  (say which). For "partial" or "conditional" you MUST relay the retiredPay.condition
+  text in plain words — the label alone misleads. Montana's "conditional", for example,
+  gives most non-working retirees nothing; Virginia's "partial" is a $40,000/yr
+  exclusion. Never collapse those to "partly exempt" and move on.
+- Benefit flags are three-valued. "yes" means the verified source records it; "no" means
+  it records the absence; "not_recorded" means the source summary was silent — say "I
+  don't have that recorded for <state>", NEVER "<state> doesn't offer it". A "mustHave"
+  filter excludes not_recorded states, so say a state was left out for lack of a record
+  when that matters, rather than implying it lacks the benefit.
+- Social Security: "not_taxed" is a real, notable fact. For "partial", relay the AGI
+  threshold and/or age gate from the fields. "taxed" means the federally taxable portion
+  is taxed, not 100% of the check.
+- The "summary" is a one-line digest of the state's veteran programs — quote its
+  substance, but don't present it as the whole catalog; county/city property-tax programs
+  and federal VA benefits are not in it.
+- Cite verifiedOn ("verified August 2026") when stating a rule; these change yearly. It is
+  a comparison aid, not tax or legal advice — never state what someone will owe.
+- The default order is a neutral ranking (untaxed first), not a recommendation, mirroring
+  the tax/gas and gun-freedom guidance. Leave includeCities false for state questions; call
+  again with includeCities true only when they name cities.
+
 Composed questions (career + place):
 - Some questions ask a career question AND a place question at once, e.g. "EM skills and a
   no-income-tax state near a VA clinic" or "what can a retired 15T do, and where near a VA
@@ -309,7 +346,9 @@ Composed questions (career + place):
 - Place half: call the relevant place tool. "Near a VA clinic/hospital" or a described person →
   match_person_to_cities (use the va_outpatient_access trait for VA access, plus any who-they-are
   traits). A state-tax constraint like "no income tax" → compare_state_taxes_and_gas (incomeTaxPct
-  of 0 is a no-income-tax state). A dollar budget → estimate_cost_of_living. match_person_to_cities
+  of 0 is a no-income-tax state). "Military retirement not taxed", "disabled-vet property-tax
+  break", or any state veteran-benefit constraint → compare_state_veteran_benefits (use its
+  retiredPayTax / mustHave filters). A dollar budget → estimate_cost_of_living. match_person_to_cities
   is NOT state-aware, so if they named states or a tax constraint, respect it yourself over the
   returned cities — lead with the ones that actually qualify, the same way you already handle a
   named region.
@@ -322,10 +361,11 @@ Composed questions (career + place):
   knowledge.
 
 Unsupported dimensions:
-- estimate_cost_of_living does NOT model state taxes on someone's income — that's a
-  distinct question from compare_state_taxes_and_gas's headline rates. If the user
-  wants to know how their specific pension/SS/retirement pay would be taxed, tell them you
-  can speak to the state's general rates but not that level of personal tax detail.
+- Personal tax liability is out of scope: estimate_cost_of_living nets income through a
+  model for comparing places, compare_state_taxes_and_gas gives headline state rates, and
+  compare_state_veteran_benefits gives the verified state RULES for military retired pay
+  and Social Security. None of them computes what a specific person will owe, and a
+  private pension or IRA has no state-rule lookup at all — say so rather than guessing.
 - Don't invent provenance or overclaim: never call something "reported" or a "modeled
   estimate" or make up how solid a fact is. You generally don't need to narrate where a
   fact came from at all — just state it plainly (money figures are the exception; see the
@@ -489,8 +529,8 @@ const compareStateTaxesTool = tool({
     "Compare state-level sales tax, income tax, and gas prices across states that have " +
     "a city in this database. Use for questions about which state has low taxes, cheap " +
     "gas, or a specific tax/gas figure — NOT for city-level cost of living (use " +
-    "estimate_cost_of_living for that) and NOT for how a state taxes a specific income " +
-    "type like military retirement pay (this database doesn't have that level of detail).",
+    "estimate_cost_of_living for that) and NOT for how a state taxes military retired pay " +
+    "or Social Security (use compare_state_veteran_benefits for that).",
   inputSchema: z.object({
     states: z
       .array(z.string())
@@ -552,6 +592,68 @@ const compareGunFreedomTool = tool({
   execute: async (args) => {
     try {
       return await compareStateGunFreedom(args);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
+const compareVeteranBenefitsTool = tool({
+  description:
+    "Compare human-verified STATE veteran benefits across states that have a city in " +
+    "this database: how each state taxes military retired pay (classification plus the " +
+    "real condition text), how it taxes Social Security benefits, any general senior " +
+    "deduction, and five benefit flags (disabled-veteran property-tax relief, hiring " +
+    "preference, education, state parks, hunting/fishing). Use for \"which states don't " +
+    "tax military retirement\", \"where do disabled vets get a property-tax break\", " +
+    "\"how does <state> treat my retired pay / Social Security\", \"what veteran benefits " +
+    "does <state> offer\". STATE-level only — not city cost of living " +
+    "(estimate_cost_of_living), not headline sales/income-tax rates " +
+    "(compare_state_taxes_and_gas), and not a personal tax computation. Benefit flags " +
+    "are three-valued: \"not_recorded\" is NOT \"no\".",
+  inputSchema: z.object({
+    states: z
+      .array(z.string())
+      .optional()
+      .describe('Specific states, as USPS codes or full names (e.g. "TX" or "Texas"). Omit to rank all states in the database.'),
+    retiredPayTax: z
+      .array(z.enum(["no_income_tax", "exempt", "partial", "conditional", "taxed", "unknown"]))
+      .optional()
+      .describe(
+        'Keep only states whose military retired-pay treatment is one of these. ["no_income_tax","exempt"] answers "not taxed at all"; add "partial" and "conditional" for "at least some break".'
+      ),
+    mustHave: z
+      .array(
+        z.enum([
+          "no_income_tax",
+          "disabled_vet_property_tax",
+          "employment_preference",
+          "education_benefit",
+          "parks_benefit",
+          "hunt_fish_benefit",
+        ])
+      )
+      .optional()
+      .describe(
+        'Benefits the person requires. Matches only a verified "yes"; states with "not_recorded" are excluded, so mention that when it matters.'
+      ),
+    sortBy: z
+      .enum(["retired_pay", "benefit_count", "name"])
+      .optional()
+      .describe(
+        '"retired_pay" (default) orders untaxed first (no income tax, exempt, partial, conditional, taxed) — a neutral order, not a verdict. "benefit_count" orders by how many flags are a verified yes.'
+      ),
+    limit: z.number().int().min(1).max(50).optional().describe("How many states to return (default 15, or all of `states` when given)."),
+    includeCities: z
+      .boolean()
+      .optional()
+      .describe(
+        "Default false. Leave false for state-level questions. Set true ONLY when the user is choosing between specific cities and needs the city names."
+      ),
+  }),
+  execute: async (args) => {
+    try {
+      return await compareStateVeteranBenefits(args);
     } catch (e) {
       return { error: e instanceof Error ? e.message : String(e) };
     }
@@ -623,6 +725,7 @@ export async function POST(req: Request) {
       estimate_cost_of_living: estimateCostTool,
       compare_state_taxes_and_gas: compareStateTaxesTool,
       compare_state_gun_freedom: compareGunFreedomTool,
+      compare_state_veteran_benefits: compareVeteranBenefitsTool,
       explore_military_career: exploreCareerTool,
       who_is_hiring: whoIsHiringTool,
     },
