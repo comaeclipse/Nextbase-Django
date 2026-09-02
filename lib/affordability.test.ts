@@ -1080,3 +1080,39 @@ describe("spending profiles", () => {
     expect(typicalOwned - modestOwned).toBeCloseTo(400 - 250, 6);
   });
 });
+
+describe("lifestyle line-item adjustments", () => {
+  it("applies user multipliers to the selected everyday spending slices only", () => {
+    const base = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C);
+    const adjusted = estimateMonthlyCost(loc({ median_rent: 1500 }), "rent", C, {
+      lifestyleAdjustments: {
+        goods: 1.2,
+        otherServices: 0.9,
+        unscaled: 1.1,
+        utilities: 1.5,
+      },
+    });
+
+    expect(base.nonHousing).toBeCloseTo(850 + 750 + 400, 6);
+    expect(adjusted.nonHousing).toBeCloseTo(
+      850 * 1.2 + 750 * 0.9 + 400 * 1.1,
+      6
+    );
+    // Rent already includes utilities, so the owner-utilities edit does not
+    // affect a renter's housing term.
+    expect(adjusted.housing).toBe(base.housing);
+    expect(adjusted.adjustments?.[0]).toContain("goods +20%");
+    expect(adjusted.adjustments?.[0]).toContain("local services -10%");
+  });
+
+  it("applies owner-utilities edits only to ownership tenures", () => {
+    const base = estimateMonthlyCost(loc(), "own_outright", C);
+    const adjusted = estimateMonthlyCost(loc(), "own_outright", C, {
+      lifestyleAdjustments: { utilities: 0.5 },
+    });
+
+    expect(adjusted.nonHousing).toBe(base.nonHousing);
+    expect(base.housing! - adjusted.housing!).toBeCloseTo(400 * 0.5, 6);
+    expect(adjusted.monthlyCost! - base.monthlyCost!).toBeCloseTo(-200, 6);
+  });
+});
