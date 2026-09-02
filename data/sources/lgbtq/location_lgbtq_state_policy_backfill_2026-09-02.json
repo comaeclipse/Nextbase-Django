@@ -1,0 +1,696 @@
+{
+  "retrieved_on": "2026-09-02",
+  "source": "Movement Advancement Project (MAP) overall state policy tally, /49; in-state sibling propagation of the already-live MAP-derived convention where filled siblings agree",
+  "patches": [
+    {
+      "id": 357,
+      "name": "Fairbanks",
+      "state": "AK",
+      "fields": {
+        "lgbtq_state_policy_score": 8.25
+      },
+      "method": "sibling propagate: every filled AK city carries 8.25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/AK"
+    },
+    {
+      "id": 693,
+      "name": "Troy",
+      "state": "AL",
+      "fields": {
+        "lgbtq_state_policy_score": -10.5
+      },
+      "method": "sibling propagate: every filled AL city carries -10.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/AL"
+    },
+    {
+      "id": 675,
+      "name": "Flagstaff",
+      "state": "AZ",
+      "fields": {
+        "lgbtq_state_policy_score": 7.5
+      },
+      "method": "sibling propagate: every filled AZ city carries 7.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/AZ"
+    },
+    {
+      "id": 677,
+      "name": "Yuma",
+      "state": "AZ",
+      "fields": {
+        "lgbtq_state_policy_score": 7.5
+      },
+      "method": "sibling propagate: every filled AZ city carries 7.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/AZ"
+    },
+    {
+      "id": 685,
+      "name": "Manhattan Beach",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 713,
+      "name": "Monterey",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 689,
+      "name": "Palo Alto",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 680,
+      "name": "Redondo Beach",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 678,
+      "name": "Roseville",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 248,
+      "name": "Sacramento",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 501,
+      "name": "Santa Ana",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 673,
+      "name": "Santa Clara",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 671,
+      "name": "Tehachapi",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 679,
+      "name": "Torrance",
+      "state": "CA",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled CA city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CA"
+    },
+    {
+      "id": 688,
+      "name": "Highlands Ranch",
+      "state": "CO",
+      "fields": {
+        "lgbtq_state_policy_score": 45.5
+      },
+      "method": "sibling propagate: every filled CO city carries 45.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CO"
+    },
+    {
+      "id": 672,
+      "name": "Littleton",
+      "state": "CO",
+      "fields": {
+        "lgbtq_state_policy_score": 45.5
+      },
+      "method": "sibling propagate: every filled CO city carries 45.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CO"
+    },
+    {
+      "id": 705,
+      "name": "Westminster",
+      "state": "CO",
+      "fields": {
+        "lgbtq_state_policy_score": 45.5
+      },
+      "method": "sibling propagate: every filled CO city carries 45.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CO"
+    },
+    {
+      "id": 695,
+      "name": "Stratford",
+      "state": "CT",
+      "fields": {
+        "lgbtq_state_policy_score": 42.25
+      },
+      "method": "sibling propagate: every filled CT city carries 42.25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/CT"
+    },
+    {
+      "id": 372,
+      "name": "Fort Walton Beach",
+      "state": "FL",
+      "fields": {
+        "lgbtq_state_policy_score": -5.5
+      },
+      "method": "sibling propagate: every filled FL city carries -5.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/FL"
+    },
+    {
+      "id": 731,
+      "name": "Key West",
+      "state": "FL",
+      "fields": {
+        "lgbtq_state_policy_score": -5.5
+      },
+      "method": "sibling propagate: every filled FL city carries -5.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/FL"
+    },
+    {
+      "id": 719,
+      "name": "Panama City",
+      "state": "FL",
+      "fields": {
+        "lgbtq_state_policy_score": -5.5
+      },
+      "method": "sibling propagate: every filled FL city carries -5.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/FL"
+    },
+    {
+      "id": 526,
+      "name": "Tampa",
+      "state": "FL",
+      "fields": {
+        "lgbtq_state_policy_score": -5.5
+      },
+      "method": "sibling propagate: every filled FL city carries -5.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/FL"
+    },
+    {
+      "id": 726,
+      "name": "Albany",
+      "state": "GA",
+      "fields": {
+        "lgbtq_state_policy_score": -0.75
+      },
+      "method": "sibling propagate: every filled GA city carries -0.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/GA"
+    },
+    {
+      "id": 305,
+      "name": "Augusta",
+      "state": "GA",
+      "fields": {
+        "lgbtq_state_policy_score": -0.75
+      },
+      "method": "sibling propagate: every filled GA city carries -0.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/GA"
+    },
+    {
+      "id": 292,
+      "name": "Warner Robins",
+      "state": "GA",
+      "fields": {
+        "lgbtq_state_policy_score": -0.75
+      },
+      "method": "sibling propagate: every filled GA city carries -0.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/GA"
+    },
+    {
+      "id": 684,
+      "name": "Rolling Meadows",
+      "state": "IL",
+      "fields": {
+        "lgbtq_state_policy_score": 45
+      },
+      "method": "sibling propagate: every filled IL city carries 45",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/IL"
+    },
+    {
+      "id": 622,
+      "name": "Bloomington",
+      "state": "IN",
+      "fields": {
+        "lgbtq_state_policy_score": -6.25
+      },
+      "method": "sibling propagate: every filled IN city carries -6.25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/IN"
+    },
+    {
+      "id": 411,
+      "name": "Junction City",
+      "state": "KS",
+      "fields": {
+        "lgbtq_state_policy_score": -1
+      },
+      "method": "sibling propagate: every filled KS city carries -1",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/KS"
+    },
+    {
+      "id": 697,
+      "name": "Franklin",
+      "state": "LA",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled LA city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/LA"
+    },
+    {
+      "id": 547,
+      "name": "Wilmington",
+      "state": "MA",
+      "fields": {
+        "lgbtq_state_policy_score": 40
+      },
+      "method": "sibling propagate: every filled MA city carries 40",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/MA"
+    },
+    {
+      "id": 699,
+      "name": "Elkton",
+      "state": "MD",
+      "fields": {
+        "lgbtq_state_policy_score": 44
+      },
+      "method": "sibling propagate: every filled MD city carries 44",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/MD"
+    },
+    {
+      "id": 670,
+      "name": "Libby",
+      "state": "MT",
+      "fields": {
+        "lgbtq_state_policy_score": -1.75
+      },
+      "method": "current MAP overall state score (siblings disagree: -1.75 / -1.5)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/MT"
+    },
+    {
+      "id": 723,
+      "name": "Goldsboro",
+      "state": "NC",
+      "fields": {
+        "lgbtq_state_policy_score": 6.25
+      },
+      "method": "sibling propagate: every filled NC city carries 6.25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NC"
+    },
+    {
+      "id": 714,
+      "name": "Jacksonville",
+      "state": "NC",
+      "fields": {
+        "lgbtq_state_policy_score": 6.25
+      },
+      "method": "sibling propagate: every filled NC city carries 6.25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NC"
+    },
+    {
+      "id": 446,
+      "name": "Minot",
+      "state": "ND",
+      "fields": {
+        "lgbtq_state_policy_score": 10.5
+      },
+      "method": "sibling propagate: every filled ND city carries 10.5",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/ND"
+    },
+    {
+      "id": 674,
+      "name": "Nashua",
+      "state": "NH",
+      "fields": {
+        "lgbtq_state_policy_score": 32
+      },
+      "method": "sibling propagate: every filled NH city carries 32",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NH"
+    },
+    {
+      "id": 696,
+      "name": "Totowa",
+      "state": "NJ",
+      "fields": {
+        "lgbtq_state_policy_score": 41.75
+      },
+      "method": "sibling propagate: every filled NJ city carries 41.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NJ"
+    },
+    {
+      "id": 176,
+      "name": "Trenton",
+      "state": "NJ",
+      "fields": {
+        "lgbtq_state_policy_score": 41.75
+      },
+      "method": "sibling propagate: every filled NJ city carries 41.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NJ"
+    },
+    {
+      "id": 692,
+      "name": "Wayne",
+      "state": "NJ",
+      "fields": {
+        "lgbtq_state_policy_score": 41.75
+      },
+      "method": "sibling propagate: every filled NJ city carries 41.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NJ"
+    },
+    {
+      "id": 724,
+      "name": "Alamogordo",
+      "state": "NM",
+      "fields": {
+        "lgbtq_state_policy_score": 36
+      },
+      "method": "sibling propagate: every filled NM city carries 36",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NM"
+    },
+    {
+      "id": 333,
+      "name": "Clovis",
+      "state": "NM",
+      "fields": {
+        "lgbtq_state_policy_score": 36
+      },
+      "method": "sibling propagate: every filled NM city carries 36",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NM"
+    },
+    {
+      "id": 676,
+      "name": "Rio Rancho",
+      "state": "NM",
+      "fields": {
+        "lgbtq_state_policy_score": 36
+      },
+      "method": "sibling propagate: every filled NM city carries 36",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NM"
+    },
+    {
+      "id": 734,
+      "name": "Fallon",
+      "state": "NV",
+      "fields": {
+        "lgbtq_state_policy_score": 42.25
+      },
+      "method": "sibling propagate: every filled NV city carries 42.25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NV"
+    },
+    {
+      "id": 700,
+      "name": "Buffalo",
+      "state": "NY",
+      "fields": {
+        "lgbtq_state_policy_score": 44.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 44.5 / 45)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NY"
+    },
+    {
+      "id": 704,
+      "name": "Endicott",
+      "state": "NY",
+      "fields": {
+        "lgbtq_state_policy_score": 44.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 44.5 / 45)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NY"
+    },
+    {
+      "id": 691,
+      "name": "Greenlawn",
+      "state": "NY",
+      "fields": {
+        "lgbtq_state_policy_score": 44.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 44.5 / 45)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NY"
+    },
+    {
+      "id": 702,
+      "name": "Liverpool",
+      "state": "NY",
+      "fields": {
+        "lgbtq_state_policy_score": 44.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 44.5 / 45)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NY"
+    },
+    {
+      "id": 701,
+      "name": "Niagara Falls",
+      "state": "NY",
+      "fields": {
+        "lgbtq_state_policy_score": 44.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 44.5 / 45)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NY"
+    },
+    {
+      "id": 686,
+      "name": "Owego",
+      "state": "NY",
+      "fields": {
+        "lgbtq_state_policy_score": 44.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 44.5 / 45)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/NY"
+    },
+    {
+      "id": 338,
+      "name": "Dayton",
+      "state": "OH",
+      "fields": {
+        "lgbtq_state_policy_score": 0.25
+      },
+      "method": "current MAP overall state score (siblings disagree: 1.75 / 8.25)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/OH"
+    },
+    {
+      "id": 733,
+      "name": "Altus",
+      "state": "OK",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "current MAP overall state score (siblings disagree: -6.75 / 1.5)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/OK"
+    },
+    {
+      "id": 728,
+      "name": "Enid",
+      "state": "OK",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "current MAP overall state score (siblings disagree: -6.75 / 1.5)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/OK"
+    },
+    {
+      "id": 237,
+      "name": "Lawton",
+      "state": "OK",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "current MAP overall state score (siblings disagree: -6.75 / 1.5)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/OK"
+    },
+    {
+      "id": 694,
+      "name": "Archbald",
+      "state": "PA",
+      "fields": {
+        "lgbtq_state_policy_score": 17.75
+      },
+      "method": "current MAP overall state score (siblings disagree: 6.5 / 16.75 / 17 / 17.75)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/PA"
+    },
+    {
+      "id": 322,
+      "name": "Carlisle",
+      "state": "PA",
+      "fields": {
+        "lgbtq_state_policy_score": 17.75
+      },
+      "method": "current MAP overall state score (siblings disagree: 6.5 / 16.75 / 17 / 17.75)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/PA"
+    },
+    {
+      "id": 722,
+      "name": "Abilene",
+      "state": "TX",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled TX city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/TX"
+    },
+    {
+      "id": 690,
+      "name": "Arlington",
+      "state": "TX",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled TX city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/TX"
+    },
+    {
+      "id": 336,
+      "name": "Corpus Christi",
+      "state": "TX",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled TX city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/TX"
+    },
+    {
+      "id": 341,
+      "name": "Del Rio",
+      "state": "TX",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled TX city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/TX"
+    },
+    {
+      "id": 417,
+      "name": "Killeen",
+      "state": "TX",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled TX city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/TX"
+    },
+    {
+      "id": 197,
+      "name": "Plano",
+      "state": "TX",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled TX city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/TX"
+    },
+    {
+      "id": 497,
+      "name": "San Angelo",
+      "state": "TX",
+      "fields": {
+        "lgbtq_state_policy_score": -6.75
+      },
+      "method": "sibling propagate: every filled TX city carries -6.75",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/TX"
+    },
+    {
+      "id": 707,
+      "name": "Clearfield",
+      "state": "UT",
+      "fields": {
+        "lgbtq_state_policy_score": 7.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 8 / 9)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/UT"
+    },
+    {
+      "id": 706,
+      "name": "Corinne",
+      "state": "UT",
+      "fields": {
+        "lgbtq_state_policy_score": 7.5
+      },
+      "method": "current MAP overall state score (siblings disagree: 8 / 9)",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/UT"
+    },
+    {
+      "id": 703,
+      "name": "Falls Church",
+      "state": "VA",
+      "fields": {
+        "lgbtq_state_policy_score": 25
+      },
+      "method": "sibling propagate: every filled VA city carries 25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/VA"
+    },
+    {
+      "id": 698,
+      "name": "Manassas",
+      "state": "VA",
+      "fields": {
+        "lgbtq_state_policy_score": 25
+      },
+      "method": "sibling propagate: every filled VA city carries 25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/VA"
+    },
+    {
+      "id": 727,
+      "name": "Petersburg",
+      "state": "VA",
+      "fields": {
+        "lgbtq_state_policy_score": 25
+      },
+      "method": "sibling propagate: every filled VA city carries 25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/VA"
+    },
+    {
+      "id": 687,
+      "name": "Waynesboro",
+      "state": "VA",
+      "fields": {
+        "lgbtq_state_policy_score": 25
+      },
+      "method": "sibling propagate: every filled VA city carries 25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/VA"
+    },
+    {
+      "id": 475,
+      "name": "Parkersburg",
+      "state": "WV",
+      "fields": {
+        "lgbtq_state_policy_score": 0.25
+      },
+      "method": "sibling propagate: every filled WV city carries 0.25",
+      "source_url": "https://www.mapresearch.org/equality-maps/profile_state/WV"
+    }
+  ]
+}

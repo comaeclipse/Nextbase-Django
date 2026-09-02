@@ -1,0 +1,62 @@
+{
+  "retrieved_on": "2026-09-02",
+  "source": "AAA Fuel Prices (gasprices.aaa.com), regular unleaded, metro average where AAA publishes one for the city's metro, else the statewide average — the same geography-compatible convention the per-city ingests use (e.g. Abilene metro / OK statewide in data/*_sources.md).",
+  "patches": [
+    {
+      "id": 125,
+      "name": "Lake Forest",
+      "state": "CA",
+      "fields": { "gas_price": "$5.77" },
+      "method": "AAA Orange County metro regular $5.7719, 2026-09-02",
+      "source_url": "https://gasprices.aaa.com/?state=CA"
+    },
+    {
+      "id": 123,
+      "name": "Boulder",
+      "state": "CO",
+      "fields": { "gas_price": "$4.34" },
+      "method": "AAA Boulder-Longmont metro regular $4.3405, 2026-09-02",
+      "source_url": "https://gasprices.aaa.com/?state=CO"
+    },
+    {
+      "id": 124,
+      "name": "Broomfield",
+      "state": "CO",
+      "fields": { "gas_price": "$4.22" },
+      "method": "AAA Denver metro regular $4.2208, 2026-09-02 (Broomfield is in the Denver-Aurora MSA)",
+      "source_url": "https://gasprices.aaa.com/?state=CO"
+    },
+    {
+      "id": 127,
+      "name": "Fort Collins",
+      "state": "CO",
+      "fields": { "gas_price": "$4.28" },
+      "method": "AAA Fort Collins-Loveland metro regular $4.2776, 2026-09-02",
+      "source_url": "https://gasprices.aaa.com/?state=CO"
+    },
+    {
+      "id": 115,
+      "name": "Ashville",
+      "state": "OH",
+      "fields": { "gas_price": "$3.86" },
+      "method": "AAA Columbus metro regular $3.8613, 2026-09-02 (Ashville / Pickaway County is in the Columbus MSA)",
+      "source_url": "https://gasprices.aaa.com/?state=OH"
+    },
+    {
+      "id": 122,
+      "name": "Bellevue",
+      "state": "WA",
+      "fields": { "gas_price": "$5.56" },
+      "method": "AAA Seattle-Bellevue-Everett metro regular $5.5606, 2026-09-02",
+      "source_url": "https://gasprices.aaa.com/?state=WA"
+    },
+    {
+      "id": 130,
+      "name": "Hamilton",
+      "state": "WA",
+      "fields": { "gas_price": "$5.24" },
+      "method": "AAA Mount Vernon-Anacortes metro regular $5.2414, 2026-09-02 (Hamilton is in Skagit County)",
+      "source_url": "https://gasprices.aaa.com/?state=WA"
+    }
+  ]
+}

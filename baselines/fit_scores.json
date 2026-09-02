@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-31T18:30:51.061Z",
-  "verifiedOn": "2026-08-31T18:30:51.061Z",
+  "generatedAt": "2026-09-02T17:46:08.489Z",
+  "verifiedOn": "2026-09-02T17:46:08.489Z",
   "note": "Regression snapshot of Fit Score output for every ranked candidate. NOT a Django parity reference — see baselines/django_scores.json for that, and scripts/generate-score-baseline.ts for why they differ. Regenerate in the same commit as any deliberate scoring or input change.",
-  "candidateCount": 207,
+  "candidateCount": 233,
   "scores": [
     {
       "id": 7,
@@ -520,7 +520,7 @@
       "id": 23,
       "name": "Kuna",
       "state": "ID",
-      "score": 69,
+      "score": 70,
       "breakdown": [
         {
           "key": "affordability",
@@ -536,7 +536,7 @@
         },
         {
           "key": "safety",
-          "score": 82
+          "score": 90
         },
         {
           "key": "inclusivity",
@@ -544,8 +544,8 @@
         }
       ],
       "crime": [
-        "B",
-        "good"
+        "LOW",
+        "neutral"
       ]
     },
     {
@@ -1000,7 +1000,7 @@
       "id": 38,
       "name": "Indian Trail",
       "state": "NC",
-      "score": 65,
+      "score": 73,
       "breakdown": [
         {
           "key": "affordability",
@@ -1016,7 +1016,7 @@
         },
         {
           "key": "safety",
-          "score": 48
+          "score": 90
         },
         {
           "key": "inclusivity",
@@ -1024,8 +1024,8 @@
         }
       ],
       "crime": [
-        "D+",
-        "bad"
+        "LOW",
+        "neutral"
       ]
     },
     {
@@ -2632,7 +2632,7 @@
       "id": 89,
       "name": "Camden",
       "state": "AR",
-      "score": 75,
+      "score": 69,
       "breakdown": [
         {
           "key": "affordability",
@@ -2648,7 +2648,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 30
         },
         {
           "key": "inclusivity",
@@ -2656,8 +2656,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "HIGH",
+        "neutral"
       ]
     },
     {
@@ -3208,7 +3208,7 @@
       "id": 107,
       "name": "Memphis",
       "state": "TN",
-      "score": 82,
+      "score": 76,
       "breakdown": [
         {
           "key": "affordability",
@@ -3224,7 +3224,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 30
         },
         {
           "key": "inclusivity",
@@ -3232,8 +3232,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "HIGH",
+        "neutral"
       ]
     },
     {
@@ -3264,8 +3264,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "MODERATE",
+        "neutral"
       ]
     },
     {
@@ -3336,7 +3336,7 @@
       "id": 111,
       "name": "Grand Junction",
       "state": "CO",
-      "score": 72,
+      "score": 66,
       "breakdown": [
         {
           "key": "affordability",
@@ -3352,7 +3352,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 30
         },
         {
           "key": "inclusivity",
@@ -3360,8 +3360,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "HIGH",
+        "neutral"
       ]
     },
     {
@@ -3392,8 +3392,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "MODERATE",
+        "neutral"
       ]
     },
     {
@@ -3464,7 +3464,7 @@
       "id": 115,
       "name": "Ashville",
       "state": "OH",
-      "score": 73,
+      "score": 79,
       "breakdown": [
         {
           "key": "affordability",
@@ -3480,7 +3480,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 90
         },
         {
           "key": "inclusivity",
@@ -3488,8 +3488,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "LOW",
+        "neutral"
       ]
     },
     {
@@ -3528,7 +3528,7 @@
       "id": 117,
       "name": "Hudson",
       "state": "NH",
-      "score": 66,
+      "score": 72,
       "breakdown": [
         {
           "key": "affordability",
@@ -3544,7 +3544,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 90
         },
         {
           "key": "inclusivity",
@@ -3552,15 +3552,15 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "LOW",
+        "neutral"
       ]
     },
     {
       "id": 118,
       "name": "Watertown",
       "state": "NY",
-      "score": 90,
+      "score": 84,
       "breakdown": [
         {
           "key": "affordability",
@@ -3576,7 +3576,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 30
         },
         {
           "key": "inclusivity",
@@ -3584,8 +3584,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "HIGH",
+        "neutral"
       ]
     },
     {
@@ -3648,15 +3648,15 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "MODERATE",
+        "neutral"
       ]
     },
     {
       "id": 121,
       "name": "Oklahoma City",
       "state": "OK",
-      "score": 87,
+      "score": 81,
       "breakdown": [
         {
           "key": "affordability",
@@ -3672,7 +3672,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 30
         },
         {
           "key": "inclusivity",
@@ -3680,8 +3680,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "HIGH",
+        "neutral"
       ]
     },
     {
@@ -3784,7 +3784,7 @@
       "id": 125,
       "name": "Lake Forest",
       "state": "CA",
-      "score": 58,
+      "score": 64,
       "breakdown": [
         {
           "key": "affordability",
@@ -3800,7 +3800,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 90
         },
         {
           "key": "inclusivity",
@@ -3808,7 +3808,7 @@
         }
       ],
       "crime": [
-        "MODERATE",
+        "LOW",
         "neutral"
       ]
     },
@@ -3872,8 +3872,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "MODERATE",
+        "neutral"
       ]
     },
     {
@@ -3944,7 +3944,7 @@
       "id": 130,
       "name": "Hamilton",
       "state": "WA",
-      "score": 68,
+      "score": 74,
       "breakdown": [
         {
           "key": "affordability",
@@ -3960,7 +3960,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 90
         },
         {
           "key": "inclusivity",
@@ -3968,8 +3968,8 @@
         }
       ],
       "crime": [
-        null,
-        null
+        "LOW",
+        "neutral"
       ]
     },
     {
@@ -4008,7 +4008,7 @@
       "id": 132,
       "name": "McHenry",
       "state": "MS",
-      "score": 82,
+      "score": 88,
       "breakdown": [
         {
           "key": "affordability",
@@ -4017,38 +4017,6 @@
         {
           "key": "cost",
           "score": 100
-        },
-        {
-          "key": "va",
-          "score": 100
-        },
-        {
-          "key": "safety",
-          "score": 60
-        },
-        {
-          "key": "inclusivity",
-          "score": 50
-        }
-      ],
-      "crime": [
-        null,
-        null
-      ]
-    },
-    {
-      "id": 133,
-      "name": "Morrisville",
-      "state": "NC",
-      "score": 75,
-      "breakdown": [
-        {
-          "key": "affordability",
-          "score": 50
-        },
-        {
-          "key": "cost",
-          "score": 85
         },
         {
           "key": "va",
@@ -4065,6 +4033,38 @@
       ],
       "crime": [
         "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 133,
+      "name": "Morrisville",
+      "state": "NC",
+      "score": 69,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 50
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
         "neutral"
       ]
     },
@@ -4136,7 +4136,7 @@
       "id": 136,
       "name": "Waltham",
       "state": "MA",
-      "score": 62,
+      "score": 68,
       "breakdown": [
         {
           "key": "affordability",
@@ -4152,7 +4152,7 @@
         },
         {
           "key": "safety",
-          "score": 60
+          "score": 90
         },
         {
           "key": "inclusivity",
@@ -4160,7 +4160,7 @@
         }
       ],
       "crime": [
-        "MODERATE",
+        "LOW",
         "neutral"
       ]
     },
@@ -5317,6 +5317,38 @@
       ]
     },
     {
+      "id": 237,
+      "name": "Lawton",
+      "state": "OK",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
       "id": 248,
       "name": "Sacramento",
       "state": "CA",
@@ -5341,6 +5373,262 @@
         {
           "key": "inclusivity",
           "score": 100
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 292,
+      "name": "Warner Robins",
+      "state": "GA",
+      "score": 79,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 305,
+      "name": "Augusta",
+      "state": "GA",
+      "score": 69,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 28
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 322,
+      "name": "Carlisle",
+      "state": "PA",
+      "score": 92,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 100
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 333,
+      "name": "Clovis",
+      "state": "NM",
+      "score": 82,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 336,
+      "name": "Corpus Christi",
+      "state": "TX",
+      "score": 74,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 53
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 338,
+      "name": "Dayton",
+      "state": "OH",
+      "score": 83,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 100
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 341,
+      "name": "Del Rio",
+      "state": "TX",
+      "score": 73,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 25
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 357,
+      "name": "Fairbanks",
+      "state": "AK",
+      "score": 70,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 66
         }
       ],
       "crime": [
@@ -5381,6 +5669,102 @@
       ]
     },
     {
+      "id": 411,
+      "name": "Junction City",
+      "state": "KS",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 417,
+      "name": "Killeen",
+      "state": "TX",
+      "score": 78,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 46
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 446,
+      "name": "Minot",
+      "state": "ND",
+      "score": 69,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 0
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
       "id": 475,
       "name": "Parkersburg",
       "state": "WV",
@@ -5413,6 +5797,38 @@
       ]
     },
     {
+      "id": 497,
+      "name": "San Angelo",
+      "state": "TX",
+      "score": 85,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
       "id": 501,
       "name": "Santa Ana",
       "state": "CA",
@@ -5425,6 +5841,38 @@
         {
           "key": "cost",
           "score": 50
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 100
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 526,
+      "name": "Tampa",
+      "state": "FL",
+      "score": 80,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 70
+        },
+        {
+          "key": "cost",
+          "score": 70
         },
         {
           "key": "va",
@@ -6621,6 +7069,390 @@
         {
           "key": "inclusivity",
           "score": 9
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 713,
+      "name": "Monterey",
+      "state": "CA",
+      "score": 62,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 714,
+      "name": "Jacksonville",
+      "state": "NC",
+      "score": 85,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 719,
+      "name": "Panama City",
+      "state": "FL",
+      "score": 70,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 722,
+      "name": "Abilene",
+      "state": "TX",
+      "score": 82,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 723,
+      "name": "Goldsboro",
+      "state": "NC",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 724,
+      "name": "Alamogordo",
+      "state": "NM",
+      "score": 82,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 726,
+      "name": "Albany",
+      "state": "GA",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 727,
+      "name": "Petersburg",
+      "state": "VA",
+      "score": 73,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 728,
+      "name": "Enid",
+      "state": "OK",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 731,
+      "name": "Key West",
+      "state": "FL",
+      "score": 65,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 733,
+      "name": "Altus",
+      "state": "OK",
+      "score": 82,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 734,
+      "name": "Fallon",
+      "state": "NV",
+      "score": 79,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 70
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
         }
       ],
       "crime": [
