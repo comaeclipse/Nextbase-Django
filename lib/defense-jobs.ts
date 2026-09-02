@@ -71,6 +71,44 @@ async function hasSkillBridgeColumns(): Promise<boolean> {
   return skillBridgeColumnsPromise;
 }
 
+/*
+ * Listing lifecycle (issue #313): `last_seen_at` / `closed_at` on
+ * defense_job_listings. A closed listing (its board no longer lists it) stays in
+ * the table for history but must never render, so every read filters
+ * `closed_at IS NULL`. Probed like the SkillBridge columns so the page keeps
+ * serving before scripts/migrate-defense-job-listings.ts has added them.
+ */
+const LIFECYCLE_COLUMNS = ["last_seen_at", "closed_at"] as const;
+
+let lifecycleColumnsPromise: Promise<boolean> | null = null;
+
+async function hasListingLifecycleColumns(): Promise<boolean> {
+  lifecycleColumnsPromise ??= (async () => {
+    try {
+      const sql = getSql();
+      const rows = (await sql.query(
+        `SELECT column_name
+         FROM information_schema.columns
+         WHERE table_schema = 'public'
+           AND table_name = 'defense_job_listings'
+           AND column_name = ANY($1)`,
+        [LIFECYCLE_COLUMNS]
+      )) as { column_name: string }[];
+      const found = new Set(rows.map((r) => r.column_name));
+      return LIFECYCLE_COLUMNS.every((column) => found.has(column));
+    } catch (err) {
+      if (isMissingTable(err)) return false;
+      throw err;
+    }
+  })();
+  return lifecycleColumnsPromise;
+}
+
+/** `<alias>closed_at IS NULL` once the lifecycle columns exist, else a no-op `TRUE`. */
+function openClause(include: boolean, alias = ""): string {
+  return include ? `${alias}closed_at IS NULL` : "TRUE";
+}
+
 function skillBridgeJoin(include: boolean): string {
   if (!include) return "";
   return `LEFT JOIN (
@@ -229,10 +267,13 @@ function likeLiteral(q: string): string {
 export function buildDefenseJobWhere(
   f: DefenseJobFilter,
   params: unknown[],
-  options: { includeSkillBridge?: boolean; listingAlias?: string } = {}
+  options: { includeSkillBridge?: boolean; listingAlias?: string; openOnly?: boolean } = {}
 ): string {
   const clauses: string[] = [];
   const alias = options.listingAlias ? `${options.listingAlias}.` : "";
+  if (options.openOnly) {
+    clauses.push(openClause(true, alias));
+  }
   if (f.sectors?.length) {
     params.push(f.sectors);
     clauses.push(`${alias}sector = ANY($${params.length})`);
@@ -298,9 +339,11 @@ async function fetchFacets(): Promise<DefenseJobFacets> {
   const skillBridgeListingExpr = includeSkillBridge
     ? "COUNT(*) FILTER (WHERE sb.skillbridge_status = 'active')::int"
     : "0::int";
+  const open = openClause(await hasListingLifecycleColumns(), "j.");
   const [sectorRows, employerRows, regionRows, totalRows] = await Promise.all([
     sql.query(
-      `SELECT DISTINCT sector FROM defense_job_listings WHERE sector IS NOT NULL ORDER BY sector`
+      `SELECT DISTINCT j.sector FROM defense_job_listings j
+        WHERE ${open} AND j.sector IS NOT NULL ORDER BY j.sector`
     ),
     sql.query(
       `SELECT COALESCE(j.employer_slug, j.company) AS key,
@@ -308,18 +351,21 @@ async function fetchFacets(): Promise<DefenseJobFacets> {
               ${skillBridgeEmployerExpr} AS skillbridge_active
          FROM defense_job_listings j
          ${join}
+        WHERE ${open}
         GROUP BY COALESCE(j.employer_slug, j.company)
         ORDER BY name ASC`
     ),
     sql.query(
-      `SELECT DISTINCT region FROM defense_job_listings WHERE region IS NOT NULL ORDER BY region`
+      `SELECT DISTINCT j.region FROM defense_job_listings j
+        WHERE ${open} AND j.region IS NOT NULL ORDER BY j.region`
     ),
     sql.query(
       `SELECT COUNT(*)::int AS n,
               ${skillBridgeListingExpr}
                 AS skillbridge_listings
          FROM defense_job_listings j
-         ${join}`
+         ${join}
+        WHERE ${open}`
     ),
   ]);
   return {
@@ -380,6 +426,7 @@ export async function getDefenseJobListingsPage(
   const where = buildDefenseJobWhere(filter, params, {
     includeSkillBridge,
     listingAlias: "j",
+    openOnly: await hasListingLifecycleColumns(),
   });
   const join = skillBridgeJoin(includeSkillBridge);
   const limit = Math.max(1, Math.min(pageSize, 200));
@@ -451,6 +498,7 @@ export async function getDefenseJobMapAggregation(
   const where = buildDefenseJobWhere(filter, params, {
     includeSkillBridge,
     listingAlias: "j",
+    openOnly: await hasListingLifecycleColumns(),
   });
   const join = skillBridgeJoin(includeSkillBridge);
   const geoClause = where
@@ -548,6 +596,7 @@ async function fetchListings(): Promise<DefenseJobListingRow[]> {
     `SELECT ${listingSelect("j", includeSkillBridge)}
      FROM defense_job_listings j
      ${skillBridgeJoin(includeSkillBridge)}
+     WHERE ${openClause(await hasListingLifecycleColumns(), "j.")}
      ORDER BY j.company ASC, j.title ASC`
   );
   return (rows as Record<string, unknown>[]).map(normalizeListingRow);
@@ -715,7 +764,9 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
   }
 
   const sql = getSql();
-  const cityMatch = `LOWER(TRIM(city)) = LOWER($1) AND UPPER(TRIM(state)) = UPPER($2)`;
+  const cityMatch =
+    `LOWER(TRIM(city)) = LOWER($1) AND UPPER(TRIM(state)) = UPPER($2) ` +
+    `AND ${openClause(await hasListingLifecycleColumns())}`;
   try {
     const [empRows, secRows, sampleRows] = await Promise.all([
       sql.query(

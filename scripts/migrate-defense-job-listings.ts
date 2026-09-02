@@ -54,8 +54,41 @@ async function main() {
       snapshot_date date,
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now(),
+      last_seen_at timestamptz NOT NULL DEFAULT now(),
+      closed_at timestamptz,
       CONSTRAINT defense_job_listings_url_key UNIQUE (url)
     )`
+  );
+
+  // Lifecycle columns (issue #313). `last_seen_at` is bumped by every importer
+  // upsert, so a row whose board no longer lists it stops advancing; the sync
+  // script (Phase 3) then sets `closed_at` instead of deleting, and a URL that
+  // reappears is reopened by the importer (closed_at = NULL). Readers filter
+  // `closed_at IS NULL`. Added nullable first so pre-existing rows can be
+  // backfilled from `updated_at` (their last real touch) rather than stamped
+  // with the migration time.
+  await run(
+    "add defense_job_listings.last_seen_at",
+    `ALTER TABLE defense_job_listings ADD COLUMN IF NOT EXISTS last_seen_at timestamptz`
+  );
+  await run(
+    "add defense_job_listings.closed_at",
+    `ALTER TABLE defense_job_listings ADD COLUMN IF NOT EXISTS closed_at timestamptz`
+  );
+  await run(
+    "backfill last_seen_at from updated_at",
+    `UPDATE defense_job_listings SET last_seen_at = updated_at WHERE last_seen_at IS NULL`
+  );
+  await run(
+    "last_seen_at NOT NULL DEFAULT now()",
+    `ALTER TABLE defense_job_listings
+       ALTER COLUMN last_seen_at SET NOT NULL,
+       ALTER COLUMN last_seen_at SET DEFAULT now()`
+  );
+  await run(
+    "index open listings by employer",
+    `CREATE INDEX IF NOT EXISTS defense_job_listings_employer_open_idx
+       ON defense_job_listings (employer_slug, closed_at)`
   );
 
   await run(

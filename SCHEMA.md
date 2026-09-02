@@ -383,7 +383,7 @@ Table: `defense_employers`
 - **ParentCompany**: Grouping label, e.g. `RTX` for its three brands
 - **Sector**: `defense`, `defense_aerospace`, or `corporate`
 - **CountsAsDefense**: Whether presence contributes to the `defense_hub` signal. False for `rtx-corporate` (finance/legal/HR roles are not a defense-industry signal)
-- **AtsKind** / **AtsConfig**: How to refresh this employer automatically (`phenom` + the careers-site facet values). Null for employers with no importer yet
+- **AtsKind** / **AtsConfig**: The board this employer's job listings are scraped from — the repo's single registry of listing sources (issue #313), mirrored from `DEFENSE_EMPLOYER_SEEDS`. `AtsKind` names the vendor (`greenhouse`, `lever`, `ashby`, `eightfold`, `phenom`, `successfactors`, `usajobs`, `radancy`, `manatal`, `gem`, `careers-site`); `AtsConfig` carries what its adapter needs (`board`, `domain`, `site`, `organization`), plus `manual: true` for browser-only boards with no fetchable feed (the sync must skip them loudly, never prune) and `fetcher` where a pull script is committed. For the RTX brands the same fields also drive the aggregate `defense_employer_locations` sync. Null for employers with no known board. `lib/defense-jobs-companies.test.ts` fails if an employer with committed listings leaves it null
 - **Active**: Soft-delete flag; inactive employers vanish from the filter
 
 Seeds live in `lib/defense.ts` (`DEFENSE_EMPLOYER_SEEDS`) and are applied by `scripts/migrate-defense-employers.ts`. Lockheed Martin, General Dynamics, Northrop Grumman, and Boeing are seeded with zero locations; they appear in the filter only once an importer populates them. **System High** and **L3Harris** have no scraper in this repo, so their footprints are hand-sourced in `data/system_high_job_locations.csv` and `data/l3harris_job_locations.csv`; each uses an attested onsite presence signal rather than inventing a work-arrangement breakdown. See the adjacent `*_sources.md` files for source and counting details.
@@ -419,6 +419,29 @@ Two writers favor **near-disjoint** column sets and both use `COALESCE`, so neit
 | `scripts/sync-rtx-employer-locations.ts` | Counts: `*_posting_count`, `snapshot_date`, `latitude`/`longitude` (authoritative for scraped employers; overwrites) |
 
 > **Counting caveat:** per-city posting counts sum to *more* than the employer's job total, because one posting can list several cities. Never add them up to get a job count.
+
+---
+
+## DefenseJobListings
+
+One row per *individual* scraped job opening behind `/defense-jobs` — distinct in granularity from `defense_employer_locations` (aggregate per-city counts). Independent of `locations_location`; not a Fit-score factor. Created by `scripts/migrate-defense-job-listings.ts`, populated by `scripts/import-defense-job-listings.ts` from a per-board CSV (`data/<company>_<ats>_<date>.csv`, or the reconstructed `data/master_defense_jobs.csv` for Shield AI / Palantir / Saronic / Vannevar Labs).
+
+Table: `defense_job_listings`
+
+- **Company** / **EmployerSlug**: The feed's company label and its `defense_employers.slug`, resolved through `lib/defense-jobs-companies.ts` (`COMPANY_SLUG`). Null slug = a label nobody mapped yet; the page then groups by the raw label
+- **Ats**: Vendor label as the CSV carried it (informational; the authoritative board is `defense_employers.ats_kind` / `ats_config`)
+- **Title** / **FieldRaw** / **Sector**: Title; the company-specific business unit; the derived cross-employer sector from `lib/defense-jobs-sectors.ts`
+- **LocationRaw** / **City** / **State** / **Country** / **Region** / **IsRemote** / **Latitude** / **Longitude**: Where. Coordinates come from the importer's `CITY_COORDS` table; international rows keep none
+- **EmploymentType** / **PayMin** / **PayMax** / **PayInterval** / **Education**: Normalized at import; blank where the board is list-level only
+- **Url**: The apply link — **unique**, the upsert key, and the only per-listing identity
+- **SourceFile** / **SnapshotDate**: Which CSV last wrote the row and when
+- **CreatedAt** / **UpdatedAt**: Row bookkeeping
+- **LastSeenAt**: Bumped by every importer upsert, so it advances only while the listing is still on its board. Backfilled from `updated_at` for pre-existing rows (issue #313)
+- **ClosedAt**: Null while open. Set by the sync script when a whole-board pull no longer contains the URL; the importer clears it again if the URL reappears. **Every reader filters `closed_at IS NULL`** (`lib/defense-jobs.ts`); closed rows stay for history
+
+Indexed on `(latitude, longitude)`, `sector`, `employer_slug`, and `(employer_slug, closed_at)`. The reads probe `information_schema` for the lifecycle columns (like the SkillBridge columns) so the page serves before the migration has run.
+
+The importer **never closes anything** — an upsert can only say what is present, not what is gone. Retiring stale listings needs a per-employer whole-board pull (the Phase 3 sync in issue #313), and a failed or empty pull must never prune.
 
 ---
 
