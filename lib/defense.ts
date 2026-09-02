@@ -42,6 +42,19 @@ export interface EmployerSeed {
   parent_company: string;
   sector: EmployerSector;
   counts_as_defense: boolean;
+  /**
+   * The board this employer's job listings are pulled from (issue #313) — the
+   * repo's single registry of scrape sources, mirrored into `defense_employers`.
+   * `ats_kind` names the vendor; `ats_config` carries what its adapter needs:
+   * `board` (greenhouse / lever / ashby / gem / manatal), `domain` (eightfold),
+   * `site` (phenom / successfactors / radancy / careers-site), `organization`
+   * (usajobs). `manual: true` flags a board with no fetchable feed (browser
+   * scraped), which the sync script must skip loudly rather than prune;
+   * `fetcher` points at a committed pull script where one exists. Null means no
+   * known board yet. For the RTX brands the same fields also drive the aggregate
+   * defense_employer_locations sync. lib/defense-jobs-companies.test.ts fails
+   * if an employer with committed listings leaves this null.
+   */
   ats_kind: string | null;
   ats_config: Record<string, unknown> | null;
   /** Legacy "Company|BusinessUnit" pairs from hand-sourced CSVs. */
@@ -165,13 +178,20 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     legacy_aliases: [],
   },
   {
+    // Listings from its Eightfold tenant. The API domain is `ngc.com`, NOT
+    // northropgrumman.com (that returns the SPA shell); page size is fixed at 10
+    // and the ATS 403s two concurrent pulls — see the fetcher.
     slug: "northrop-grumman",
     display_name: "Northrop Grumman",
     parent_company: "Northrop Grumman",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "eightfold",
+    ats_config: {
+      domain: "ngc.com",
+      site: "jobs.northropgrumman.com",
+      fetcher: "scripts/fetch-northrop-grumman-jobs.ts",
+    },
     legacy_aliases: [],
   },
   {
@@ -201,43 +221,50 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
   // employer_slug and so they appear in the unified employer filter. Kratos has
   // no listings yet but is seeded because the user tracks it.
   {
+    // Listings came from its public Lever board (jobs.lever.co/shieldai). An
+    // Ashby board (api.ashbyhq.com/posting-api/job-board/shield-ai) is live
+    // with the same roles as of 2026-09; keep Lever so URLs stay comparable
+    // with the existing rows, and switch when Lever goes dark.
     slug: "shield-ai",
     display_name: "Shield AI",
     parent_company: "Shield AI",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "lever",
+    ats_config: { board: "shieldai", alternate: { kind: "ashby", board: "shield-ai" } },
     legacy_aliases: [],
   },
   {
+    // Listings from its public Lever board (jobs.lever.co/palantir).
     slug: "palantir",
     display_name: "Palantir",
     parent_company: "Palantir Technologies",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "lever",
+    ats_config: { board: "palantir" },
     legacy_aliases: [],
   },
   {
+    // Listings from its public Ashby board (jobs.ashbyhq.com/saronic).
     slug: "saronic",
     display_name: "Saronic",
     parent_company: "Saronic Technologies",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "ashby",
+    ats_config: { board: "saronic" },
     legacy_aliases: [],
   },
   {
+    // Listings from its public Greenhouse board (board token "vannevarlabs").
     slug: "vannevar-labs",
     display_name: "Vannevar Labs",
     parent_company: "Vannevar Labs",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "greenhouse",
+    ats_config: { board: "vannevarlabs" },
     legacy_aliases: [],
   },
   {
@@ -297,8 +324,8 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Castelion",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "manatal",
+    ats_config: { board: "castelion-corporation", site: "www.careers-page.com", manual: true },
     legacy_aliases: [],
   },
   {
@@ -336,8 +363,8 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Firestorm Labs",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "gem",
+    ats_config: { board: "firestorm", site: "jobs.gem.com", manual: true },
     legacy_aliases: [],
   },
   {
@@ -373,8 +400,8 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Palo Alto Networks",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "radancy",
+    ats_config: { site: "jobs.paloaltonetworks.com", tenant: "47263", manual: true },
     legacy_aliases: [],
   },
   {
@@ -398,8 +425,24 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Cyntel Technologies",
     sector: "defense",
     counts_as_defense: true,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "careers-site",
+    ats_config: { site: "cynteltechnologies.com", path: "/job/", manual: true },
+    legacy_aliases: [],
+  },
+  {
+    // Cleared defense/IC services contractor (Chantilly/McLean/Tysons VA,
+    // Hanover MD, Fort Meade): data/software/DevOps/DSP engineering roles for
+    // fully cleared candidates. Listings from its public Lever board
+    // (jobs.lever.co/fantom-corporation). Seeded ahead of its first pull
+    // (issue #313) so the board is on record; no defense_employer_locations
+    // rows until listings land.
+    slug: "fantom-corporation",
+    display_name: "Fantom Corporation",
+    parent_company: "Fantom Corporation",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "lever",
+    ats_config: { board: "fantom-corporation" },
     legacy_aliases: [],
   },
 
@@ -417,8 +460,10 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     parent_company: "Department of the Navy",
     sector: "defense",
     counts_as_defense: false,
-    ats_kind: null,
-    ats_config: null,
+    // USAJOBS Data API (keyed: USAJOBS_API_KEY + USAJOBS_UA). `organization` is
+    // the agency code (NV24 = NAVSEA, not Nevada); the fetcher scopes titles.
+    ats_kind: "usajobs",
+    ats_config: { organization: "NV24", fetcher: "scripts/fetch-usajobs-navsea.ts" },
     legacy_aliases: [],
   },
 
@@ -428,7 +473,10 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
   // importer, same as the general-dynamics / northrop-grumman seeds. This lets
   // transition_employers.defense_employer_slug link them (issue #265). Civilian
   // operators, commercial-cyber employers, and government agencies stay unseeded.
-  { slug: "hii", display_name: "HII", parent_company: "HII", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+  // HII's shipbuilding listings (Newport News + Ingalls + Corporate) come from
+  // its SAP SuccessFactors career site (server-rendered, 50/page). Mission
+  // Technologies is a separate site (jobs.hii-tsd.com), not pulled.
+  { slug: "hii", display_name: "HII", parent_company: "HII", sector: "defense", counts_as_defense: true, ats_kind: "successfactors", ats_config: { site: "careers.huntingtoningalls.com", fetcher: "scripts/fetch-hii-jobs.ts" }, legacy_aliases: [] },
   { slug: "fincantieri-marinette", display_name: "Fincantieri Marinette Marine", parent_company: "Fincantieri", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
   { slug: "austal-usa", display_name: "Austal USA", parent_company: "Austal", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
   { slug: "leonardo-drs", display_name: "Leonardo DRS", parent_company: "Leonardo DRS", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
