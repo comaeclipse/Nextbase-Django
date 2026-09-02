@@ -43,6 +43,16 @@ year**.
    - Find the city police agency and its ORI at <https://cde.ucr.cjis.gov/> →
      search the agency, or via the CDE API (`api.usa.gov/crime/fbi/cde/...`,
      free api.data.gov key).
+   - **Keyless batch path:** the CDE web app's own backend needs no key.
+     `https://cde.ucr.cjis.gov/LATEST/agency/byStateAbbr/{ST}` lists every
+     agency with its ORI, and
+     `https://cde.ucr.cjis.gov/LATEST/summarized/agency/{ORI}/{violent-crime|property-crime}?from=01-YYYY&to=12-YYYY`
+     returns the agency's monthly counts, covered population and rates.
+     `scripts/fetch-cde-tci.ts` turns a list of `(location id, ORI)` pairs
+     into a patch file for `scripts/apply-location-patches.ts`, applying the
+     year rule below automatically (see `cde_tci_backfill_2026-09-02.md`).
+     A town with no municipal agency uses its county sheriff as a disclosed
+     county-wide proxy.
    - Pull, for the chosen year: **violent** offense count (murder + rape +
      robbery + aggravated assault), **property** offense count (burglary +
      larceny-theft + motor-vehicle theft), and the agency's **covered

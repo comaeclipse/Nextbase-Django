@@ -1,0 +1,46 @@
+{
+  "retrieved_on": "2026-09-02",
+  "source": "Per-city research recorded as a dated 'defense_hub_manual revision (issue #55, retrieved 2026-09-02)' section in each city's data/<city>_<st>_sources.md (Bellevue: data/bellevue_wa_defense_hub_sources.md). Closes the last five NULL rows from the issue #20 backfill. defense_hub itself is derived — run scripts/recompute-defense-hub.ts after applying.",
+  "patches": [
+    {
+      "id": 38,
+      "name": "Indian Trail",
+      "state": "NC",
+      "fields": { "defense_hub_manual": true },
+      "method": "Collins Aerospace (RTX) 160,000 sq ft MRO campus in Monroe, NC (same county, ~7 mi), 220+ employees, commercial + military aircraft repair; lateral presence never auto-promotes, so manual=true (borderline, see sources.md)",
+      "source_url": "https://members.unioncountycoc.com/list/member/collins-aerospace-monroe-monroe-4619"
+    },
+    {
+      "id": 110,
+      "name": "Bend",
+      "state": "OR",
+      "fields": { "defense_hub_manual": true },
+      "method": "PCC Schlosser (Precision Castparts) foundry in Redmond, OR (same MSA, ~17 mi), 352 employees, casts airframe/aero-engine/missile components; Tier-2 supplier promoted for consistency with Grand Junction CO / Warren PA (borderline, see sources.md)",
+      "source_url": "https://www.pccstructurals.com/locations/pcc-schlosser.html"
+    },
+    {
+      "id": 100,
+      "name": "Pierre",
+      "state": "SD",
+      "fields": { "defense_hub_manual": false },
+      "method": "explicit veto: no installation in Hughes County (Ellsworth AFB ~190 mi), no defense employer on SD GOED / local employer lists after three research rounds",
+      "source_url": "https://installations.militaryonesource.mil/state/SD/state-installations"
+    },
+    {
+      "id": 108,
+      "name": "Odessa",
+      "state": "TX",
+      "fields": { "defense_hub_manual": false },
+      "method": "explicit veto: Odessa Development Corp major-employer list has no aerospace/defense employer; no installation in Ector/Midland County (nearest Goodfellow AFB ~150 mi)",
+      "source_url": "https://www.odessatex.com/workforce/major-employers/"
+    },
+    {
+      "id": 122,
+      "name": "Bellevue",
+      "state": "WA",
+      "fields": { "defense_hub_manual": true },
+      "method": "Anduril Industries engineering floor (39,851 sq ft, Skyline Tower, July 2025; ~375 Seattle-region employees); Boeing Eastgate campus sold 2021 so Boeing does not count (moderate confidence, see sources.md)",
+      "source_url": "https://news.theregistryps.com/defense-tech-firm-anduril-secures-40000-sqft-at-bellevues-skyline-tower/"
+    }
+  ]
+}

@@ -139,6 +139,33 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   sort: "best",
 };
 
+/**
+ * Faceted per-option match counts. Each record maps an option id (as
+ * `ExploreFilters` holds it) to how many locations would match if that option
+ * were the sole selection in its facet, keeping all other active filters.
+ */
+export type OptionCounts = {
+  climate: Record<string, number>;
+  lifestyle: Record<string, number>;
+  geography: Record<string, number>;
+  vibes: Record<string, number>;
+  healthcare: Record<string, number>;
+  activities: Record<string, number>;
+  baseBranches: Record<string, number>;
+  snow: Record<string, number>;
+  baseMaxDistance: Record<string, number>;
+  cost: Record<string, number>;
+  defenseEcosystem: number;
+  hasWalmart: number;
+  hasCostco: number;
+  noStateIncomeTax: number;
+  retiredPayUntaxed: number;
+  lgbtq: number;
+  noAwb: number;
+  noHcm: number;
+  incomeTaxLow: number;
+};
+
 /** Chips group fields the way the popovers do, not one chip per field. */
 export type ChipKey =
   | "state"
@@ -353,12 +380,14 @@ function CheckCards({
   values,
   onChange,
   columns = 2,
+  counts,
 }: {
   name: string;
   options: Option[];
   values: string[];
   onChange: (next: string[]) => void;
   columns?: 1 | 2;
+  counts?: Record<string, number>;
 }) {
   function toggle(id: string, checked: boolean) {
     onChange(checked ? [...values, id] : values.filter((v) => v !== id));
@@ -368,13 +397,15 @@ function CheckCards({
     <div className={cn("grid gap-2", columns === 2 && "grid-cols-2")}>
       {options.map(({ id, label, icon: Icon }) => {
         const checked = values.includes(id);
+        const count = counts ? counts[id] ?? 0 : null;
         return (
           <Label
             key={id}
             htmlFor={`${name}-${id}`}
             className={cn(
               "flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition-colors hover:bg-accent",
-              checked && "border-primary bg-primary/5"
+              checked && "border-primary bg-primary/5",
+              count === 0 && "text-muted-foreground opacity-50"
             )}
           >
             <Checkbox
@@ -384,6 +415,11 @@ function CheckCards({
             />
             <Icon className="size-4 text-muted-foreground" />
             <span className="text-sm font-medium">{label}</span>
+            {count !== null ? (
+              <span className="ml-auto text-xs tabular-nums text-muted-foreground">
+                {count}
+              </span>
+            ) : null}
           </Label>
         );
       })}
@@ -394,9 +430,11 @@ function CheckCards({
 function BudgetFields({
   filters,
   update,
+  optionCounts,
 }: {
   filters: ExploreFilters;
   update: <K extends keyof ExploreFilters>(key: K, value: ExploreFilters[K]) => void;
+  optionCounts: OptionCounts;
 }) {
   return (
     <div className="space-y-4">
@@ -411,7 +449,7 @@ function BudgetFields({
         <SelectContent>
           {COST_OPTIONS.map((item) => (
             <SelectItem key={item.value} value={item.value}>
-              {item.label}
+              {item.label} · {optionCounts.cost[item.value] ?? 0}
             </SelectItem>
           ))}
         </SelectContent>
@@ -554,11 +592,13 @@ function ToggleRow({
   label,
   checked,
   onCheckedChange,
+  count,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
+  count?: number;
 }) {
   return (
     <Label className="flex cursor-pointer items-center justify-between gap-3 py-1">
@@ -566,7 +606,14 @@ function ToggleRow({
         <Icon className="size-4 text-muted-foreground" />
         {label}
       </span>
-      <Switch checked={checked} onCheckedChange={onCheckedChange} />
+      <span className="flex items-center gap-2">
+        {count !== undefined ? (
+          <span className="text-xs tabular-nums text-muted-foreground">
+            {count}
+          </span>
+        ) : null}
+        <Switch checked={checked} onCheckedChange={onCheckedChange} />
+      </span>
     </Label>
   );
 }
@@ -575,10 +622,12 @@ function MoreFiltersContent({
   filters,
   update,
   employerGroups,
+  optionCounts,
 }: {
   filters: ExploreFilters;
   update: <K extends keyof ExploreFilters>(key: K, value: ExploreFilters[K]) => void;
   employerGroups: [string, { employer: DefenseEmployerRow; cities: number }[]][];
+  optionCounts: OptionCounts;
 }) {
   function toggleEmployer(slug: string, checked: boolean) {
     update(
@@ -601,6 +650,7 @@ function MoreFiltersContent({
           options={VIBE_OPTIONS}
           values={filters.vibes}
           onChange={(next) => update("vibes", next)}
+          counts={optionCounts.vibes}
         />
       </section>
 
@@ -621,7 +671,7 @@ function MoreFiltersContent({
         >
           {SNOW_OPTIONS.map(([value, label]) => (
             <ToggleGroupItem key={value} value={value} className="px-2">
-              {label}
+              {label} ({optionCounts.snow[value] ?? 0})
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
@@ -636,6 +686,7 @@ function MoreFiltersContent({
           options={HEALTHCARE_OPTIONS}
           values={filters.healthcare}
           onChange={(next) => update("healthcare", next)}
+          counts={optionCounts.healthcare}
         />
       </section>
 
@@ -648,6 +699,7 @@ function MoreFiltersContent({
           options={ACTIVITY_OPTIONS}
           values={filters.activities}
           onChange={(next) => update("activities", next)}
+          counts={optionCounts.activities}
         />
       </section>
 
@@ -672,7 +724,7 @@ function MoreFiltersContent({
         >
           {BASE_DISTANCE_OPTIONS.map(([value, label]) => (
             <ToggleGroupItem key={value} value={value} className="px-2">
-              {label}
+              {label} ({optionCounts.baseMaxDistance[value] ?? 0})
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
@@ -680,6 +732,7 @@ function MoreFiltersContent({
           name="base-branch"
           options={BASE_BRANCH_OPTIONS}
           values={filters.baseBranches}
+          counts={optionCounts.baseBranches}
           onChange={(next) => {
             update("baseBranches", next);
             if (next.length > 0 && !filters.baseMaxDistance) {
@@ -701,6 +754,7 @@ function MoreFiltersContent({
           label="Defense industry nearby"
           checked={filters.defenseEcosystem}
           onCheckedChange={(checked) => update("defenseEcosystem", checked)}
+          count={optionCounts.defenseEcosystem}
         />
         {employerGroups.length > 0 ? (
           <div className="space-y-4">
@@ -744,12 +798,14 @@ function MoreFiltersContent({
           label="Has Walmart"
           checked={filters.hasWalmart}
           onCheckedChange={(checked) => update("hasWalmart", checked)}
+          count={optionCounts.hasWalmart}
         />
         <ToggleRow
           icon={Store}
           label="Has Costco"
           checked={filters.hasCostco}
           onCheckedChange={(checked) => update("hasCostco", checked)}
+          count={optionCounts.hasCostco}
         />
       </section>
 
@@ -765,12 +821,14 @@ function MoreFiltersContent({
           label="No state income tax"
           checked={filters.noStateIncomeTax}
           onCheckedChange={(checked) => update("noStateIncomeTax", checked)}
+          count={optionCounts.noStateIncomeTax}
         />
         <ToggleRow
           icon={BadgeCheck}
           label="Military retirement not taxed"
           checked={filters.retiredPayUntaxed}
           onCheckedChange={(checked) => update("retiredPayUntaxed", checked)}
+          count={optionCounts.retiredPayUntaxed}
         />
       </section>
 
@@ -786,18 +844,21 @@ function MoreFiltersContent({
           label="LGBTQ friendly"
           checked={filters.lgbtq}
           onCheckedChange={(checked) => update("lgbtq", checked)}
+          count={optionCounts.lgbtq}
         />
         <ToggleRow
           icon={ShieldCheck}
           label="No assault-weapons ban"
           checked={filters.noAwb}
           onCheckedChange={(checked) => update("noAwb", checked)}
+          count={optionCounts.noAwb}
         />
         <ToggleRow
           icon={ShieldCheck}
           label="No high-capacity magazine limits"
           checked={filters.noHcm}
           onCheckedChange={(checked) => update("noHcm", checked)}
+          count={optionCounts.noHcm}
         />
         {/* "No income tax" lives under Veteran benefits, backed by the verified
             locations_stateinfo.no_income_tax column; this rate band uses the
@@ -807,6 +868,7 @@ function MoreFiltersContent({
           label="Low state income tax (4% or less)"
           checked={filters.incomeTax === "low"}
           onCheckedChange={(checked) => update("incomeTax", checked ? "low" : "")}
+          count={optionCounts.incomeTaxLow}
         />
       </section>
     </div>
@@ -824,6 +886,7 @@ export default function ExploreFilterBar({
   clearFilter,
   stateCounts,
   employerGroups,
+  optionCounts,
   resultCount,
   scenario,
   onScenarioChange,
@@ -835,6 +898,7 @@ export default function ExploreFilterBar({
   clearFilter: (key: ChipKey) => void;
   stateCounts: Record<string, number>;
   employerGroups: [string, { employer: DefenseEmployerRow; cities: number }[]][];
+  optionCounts: OptionCounts;
   resultCount: number;
   scenario: AffordabilityScenario;
   onScenarioChange: (next: AffordabilityScenario) => void;
@@ -867,6 +931,7 @@ export default function ExploreFilterBar({
       filters={filters}
       update={update}
       employerGroups={employerGroups}
+      optionCounts={optionCounts}
     />
   );
 
@@ -897,7 +962,11 @@ export default function ExploreFilterBar({
                   title="Budget"
                   description="Overall cost of living, home price, or both."
                 />
-                <BudgetFields filters={filters} update={update} />
+                <BudgetFields
+                  filters={filters}
+                  update={update}
+                  optionCounts={optionCounts}
+                />
               </PopoverContent>
             </Popover>
 
@@ -921,6 +990,7 @@ export default function ExploreFilterBar({
                   options={CLIMATE_OPTIONS}
                   values={filters.climate}
                   onChange={(next) => update("climate", next)}
+                  counts={optionCounts.climate}
                 />
               </PopoverContent>
             </Popover>
@@ -945,6 +1015,7 @@ export default function ExploreFilterBar({
                   options={LIFESTYLE_OPTIONS}
                   values={filters.lifestyle}
                   onChange={(next) => update("lifestyle", next)}
+                  counts={optionCounts.lifestyle}
                 />
               </PopoverContent>
             </Popover>
@@ -970,6 +1041,7 @@ export default function ExploreFilterBar({
                   values={filters.geography}
                   onChange={(next) => update("geography", next)}
                   columns={1}
+                  counts={optionCounts.geography}
                 />
               </PopoverContent>
             </Popover>
@@ -1079,7 +1151,11 @@ export default function ExploreFilterBar({
                   <Separator />
                   <section className="space-y-4">
                     <SectionHeading title="Budget" />
-                    <BudgetFields filters={filters} update={update} />
+                    <BudgetFields
+                      filters={filters}
+                      update={update}
+                      optionCounts={optionCounts}
+                    />
                   </section>
                   <Separator />
                   <section className="space-y-4">
@@ -1089,6 +1165,7 @@ export default function ExploreFilterBar({
                       options={CLIMATE_OPTIONS}
                       values={filters.climate}
                       onChange={(next) => update("climate", next)}
+                      counts={optionCounts.climate}
                     />
                   </section>
                   <Separator />
@@ -1099,6 +1176,7 @@ export default function ExploreFilterBar({
                       options={LIFESTYLE_OPTIONS}
                       values={filters.lifestyle}
                       onChange={(next) => update("lifestyle", next)}
+                      counts={optionCounts.lifestyle}
                     />
                   </section>
                   <Separator />
@@ -1110,6 +1188,7 @@ export default function ExploreFilterBar({
                       values={filters.geography}
                       onChange={(next) => update("geography", next)}
                       columns={1}
+                      counts={optionCounts.geography}
                     />
                   </section>
                   <Separator />

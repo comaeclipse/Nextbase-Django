@@ -400,7 +400,7 @@ Retrieval notes:
 - Use 1991-2020 normals unless NOAA publishes a newer official normals period.
 - Choose the nearest representative station to the city/metro.
 - Prefer annual normals for precipitation/snow and monthly normals for winter low / summer high / July humidity.
-- `sun_days` may require a different source or proxy. If unavailable from NOAA normals, document the secondary source.
+- `sun_days` is not in NOAA normals. The house convention is mean annual **clear + partly cloudy days** at the nearest NOAA Comparative Climatic Data (CCD-2018) cloudiness station — the same figure consumer climate sites report as "sunny days" (validated against 196 filled cities, median difference 0). Stations with coordinates are checked in at `data/sources/weather/ccd/ccd18_cloudiness_stations.json`; `scripts/derive-sun-days-from-ccd.ts` derives a patch for every candidate missing the value. A secondary source is only needed where no CCD station is within ~110 mi.
 
 Normalization:
 
