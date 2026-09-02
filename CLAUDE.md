@@ -42,6 +42,15 @@ node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-geo-hierarchy.
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-gas-prices.ts [--dry-run]             # /gas -> state_gas_prices
 ```
 
+Issue #55 field backfills (a reviewed patch file per field, one generic applier; each patch carries method + source):
+
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/report-data-quality-gaps.ts                    # live NULL inventory, ranked city candidates
+node node_modules/tsx/dist/cli.mjs scripts/fetch-cde-tci.ts --input <ids+ORIs.json> --out <patch.json>  # tci/crime from the keyless FBI CDE endpoint (no DB)
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/derive-sun-days-from-ccd.ts --out <patch.json>  # sun_days = clear+partly cloudy days, nearest NOAA CCD station
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/apply-location-patches.ts --patch <patch.json> [--dry-run] [--overwrite]  # writes only NULLs unless --overwrite
+```
+
 Pace classification (lifestyle / settlement type):
 
 ```bash

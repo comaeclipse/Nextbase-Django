@@ -1,0 +1,817 @@
+{
+  "retrieved_on": "2026-09-02",
+  "source": "FBI Crime Data Explorer, summarized agency endpoint (cde.ucr.cjis.gov)",
+  "method": "data/sources/crime/TCI_METHODOLOGY.md via lib/crime-index.ts",
+  "patches": [
+    {
+      "id": 112,
+      "name": "Florence",
+      "state": "AL",
+      "fields": {
+        "tci": 131,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Florence Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/AL0410100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "AL0410100",
+        "agency": "Florence Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 213,
+        "property_count": 997,
+        "covered_population": 42260,
+        "violent_rate_per_100k": 504,
+        "property_rate_per_100k": 2359.2,
+        "violent_index": 139,
+        "property_index": 123,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 89,
+      "name": "Camden",
+      "state": "AR",
+      "fields": {
+        "tci": 258,
+        "crime": "High"
+      },
+      "method": "FBI CDE 2023 counts for Camden Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/AR0520100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "AR0520100",
+        "agency": "Camden Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 121,
+        "property_count": 365,
+        "covered_population": 10151,
+        "violent_rate_per_100k": 1192,
+        "property_rate_per_100k": 3595.7,
+        "violent_index": 328,
+        "property_index": 188,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 129,
+      "name": "Goleta",
+      "state": "CA",
+      "fields": {
+        "tci": 62,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Goleta Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/CA042140X/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "CA042140X",
+        "agency": "Goleta Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 56,
+        "property_count": 475,
+        "covered_population": 32281,
+        "violent_rate_per_100k": 173.5,
+        "property_rate_per_100k": 1471.5,
+        "violent_index": 48,
+        "property_index": 77,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 125,
+      "name": "Lake Forest",
+      "state": "CA",
+      "fields": {
+        "tci": 44,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Lake Forest Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/CA030430X/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "CA030430X",
+        "agency": "Lake Forest Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 114,
+        "property_count": 852,
+        "covered_population": 85533,
+        "violent_rate_per_100k": 133.3,
+        "property_rate_per_100k": 996.1,
+        "violent_index": 37,
+        "property_index": 52,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 123,
+      "name": "Boulder",
+      "state": "CO",
+      "fields": {
+        "tci": 131,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Boulder Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/CO0070100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "CO0070100",
+        "agency": "Boulder Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 374,
+        "property_count": 3268,
+        "covered_population": 104232,
+        "violent_rate_per_100k": 358.8,
+        "property_rate_per_100k": 3135.3,
+        "violent_index": 99,
+        "property_index": 164,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 124,
+      "name": "Broomfield",
+      "state": "CO",
+      "fields": {
+        "tci": 83,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Broomfield Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/CO0640100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "CO0640100",
+        "agency": "Broomfield Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 130,
+        "property_count": 1781,
+        "covered_population": 77072,
+        "violent_rate_per_100k": 168.7,
+        "property_rate_per_100k": 2310.8,
+        "violent_index": 46,
+        "property_index": 121,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 127,
+      "name": "Fort Collins",
+      "state": "CO",
+      "fields": {
+        "tci": 105,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Fort Collins Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/CO0350300/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "CO0350300",
+        "agency": "Fort Collins Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 505,
+        "property_count": 4164,
+        "covered_population": 168886,
+        "violent_rate_per_100k": 299,
+        "property_rate_per_100k": 2465.6,
+        "violent_index": 82,
+        "property_index": 129,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 111,
+      "name": "Grand Junction",
+      "state": "CO",
+      "fields": {
+        "tci": 154,
+        "crime": "High"
+      },
+      "method": "FBI CDE 2023 counts for Grand Junction Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/CO0390100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "CO0390100",
+        "agency": "Grand Junction Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 350,
+        "property_count": 2237,
+        "covered_population": 69240,
+        "violent_rate_per_100k": 505.5,
+        "property_rate_per_100k": 3230.8,
+        "violent_index": 139,
+        "property_index": 169,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 23,
+      "name": "Kuna",
+      "state": "ID",
+      "fields": {
+        "tci": 37,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Ada County Sheriff's Office (county sheriff proxy: the town has no municipal police agency in the CDE), indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/ID0010000/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "ID0010000",
+        "agency": "Ada County Sheriff's Office",
+        "agency_kind": "county",
+        "fbi_year": 2023,
+        "violent_count": 281,
+        "property_count": 500,
+        "covered_population": 138487,
+        "violent_rate_per_100k": 202.9,
+        "property_rate_per_100k": 361,
+        "violent_index": 56,
+        "property_index": 19,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 131,
+      "name": "Lexington",
+      "state": "MA",
+      "fields": {
+        "tci": 12,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Lexington Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/MA0092300/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "MA0092300",
+        "agency": "Lexington Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 10,
+        "property_count": 110,
+        "covered_population": 34044,
+        "violent_rate_per_100k": 29.4,
+        "property_rate_per_100k": 323.1,
+        "violent_index": 8,
+        "property_index": 17,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 135,
+      "name": "Quincy",
+      "state": "MA",
+      "fields": {
+        "tci": 77,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Quincy Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/MA0112000/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "MA0112000",
+        "agency": "Quincy Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 352,
+        "property_count": 1151,
+        "covered_population": 102211,
+        "violent_rate_per_100k": 344.4,
+        "property_rate_per_100k": 1126.1,
+        "violent_index": 95,
+        "property_index": 59,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 136,
+      "name": "Waltham",
+      "state": "MA",
+      "fields": {
+        "tci": 57,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Waltham Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/MA0094700/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "MA0094700",
+        "agency": "Waltham Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 160,
+        "property_count": 540,
+        "covered_population": 63797,
+        "violent_rate_per_100k": 250.8,
+        "property_rate_per_100k": 846.4,
+        "violent_index": 69,
+        "property_index": 44,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 132,
+      "name": "McHenry",
+      "state": "MS",
+      "fields": {
+        "tci": 67,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Stone County Sheriff's Office (county sheriff proxy: the town has no municipal police agency in the CDE), indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/MS0660000/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "MS0660000",
+        "agency": "Stone County Sheriff's Office",
+        "agency_kind": "county",
+        "fbi_year": 2023,
+        "violent_count": 41,
+        "property_count": 157,
+        "covered_population": 14625,
+        "violent_rate_per_100k": 280.3,
+        "property_rate_per_100k": 1073.5,
+        "violent_index": 77,
+        "property_index": 56,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 38,
+      "name": "Indian Trail",
+      "state": "NC",
+      "fields": {
+        "tci": 33,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Union County Sheriff's Office (county sheriff proxy: the town has no municipal police agency in the CDE), indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/NC0900000/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "NC0900000",
+        "agency": "Union County Sheriff's Office",
+        "agency_kind": "county",
+        "fbi_year": 2023,
+        "violent_count": 156,
+        "property_count": 1326,
+        "covered_population": 170556,
+        "violent_rate_per_100k": 91.5,
+        "property_rate_per_100k": 777.5,
+        "violent_index": 25,
+        "property_index": 41,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 133,
+      "name": "Morrisville",
+      "state": "NC",
+      "fields": {
+        "tci": 87,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Morrisville Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/NC0921300/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "NC0921300",
+        "agency": "Morrisville Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 40,
+        "property_count": 868,
+        "covered_population": 32259,
+        "violent_rate_per_100k": 124,
+        "property_rate_per_100k": 2690.7,
+        "violent_index": 34,
+        "property_index": 140,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 117,
+      "name": "Hudson",
+      "state": "NH",
+      "fields": {
+        "tci": 32,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Hudson Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/NH0062800/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "NH0062800",
+        "agency": "Hudson Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 19,
+        "property_count": 212,
+        "covered_population": 25669,
+        "violent_rate_per_100k": 74,
+        "property_rate_per_100k": 825.9,
+        "violent_index": 20,
+        "property_index": 43,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 118,
+      "name": "Watertown",
+      "state": "NY",
+      "fields": {
+        "tci": 179,
+        "crime": "High"
+      },
+      "method": "FBI CDE 2023 counts for Watertown Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/NY0220100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "NY0220100",
+        "agency": "Watertown Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 125,
+        "property_count": 1015,
+        "covered_population": 24393,
+        "violent_rate_per_100k": 512.4,
+        "property_rate_per_100k": 4161,
+        "violent_index": 141,
+        "property_index": 217,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 115,
+      "name": "Ashville",
+      "state": "OH",
+      "fields": {
+        "tci": 25,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Ashville Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/OH0650200/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "OH0650200",
+        "agency": "Ashville Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 5,
+        "property_count": 20,
+        "covered_population": 4760,
+        "violent_rate_per_100k": 105,
+        "property_rate_per_100k": 420.2,
+        "violent_index": 29,
+        "property_index": 22,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 121,
+      "name": "Oklahoma City",
+      "state": "OK",
+      "fields": {
+        "tci": 168,
+        "crime": "High"
+      },
+      "method": "FBI CDE 2023 counts for Oklahoma City Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/OK0550600/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "OK0550600",
+        "agency": "Oklahoma City Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 4590,
+        "property_count": 21036,
+        "covered_population": 700764,
+        "violent_rate_per_100k": 655,
+        "property_rate_per_100k": 3001.9,
+        "violent_index": 180,
+        "property_index": 157,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 106,
+      "name": "Scranton",
+      "state": "PA",
+      "fields": {
+        "tci": 80,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Scranton Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/PA0350400/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "PA0350400",
+        "agency": "Scranton Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 236,
+        "property_count": 1088,
+        "covered_population": 75687,
+        "violent_rate_per_100k": 311.8,
+        "property_rate_per_100k": 1437.5,
+        "violent_index": 86,
+        "property_index": 75,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 120,
+      "name": "Warren",
+      "state": "PA",
+      "fields": {
+        "tci": 81,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Warren Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/PA0620100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "PA0620100",
+        "agency": "Warren Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 37,
+        "property_count": 88,
+        "covered_population": 9094,
+        "violent_rate_per_100k": 406.9,
+        "property_rate_per_100k": 967.7,
+        "violent_index": 112,
+        "property_index": 50,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 134,
+      "name": "North Kingstown",
+      "state": "RI",
+      "fields": {
+        "tci": 26,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for North Kingstown Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/RI0050200/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "RI0050200",
+        "agency": "North Kingstown Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 21,
+        "property_count": 163,
+        "covered_population": 27943,
+        "violent_rate_per_100k": 75.2,
+        "property_rate_per_100k": 583.3,
+        "violent_index": 21,
+        "property_index": 30,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 107,
+      "name": "Memphis",
+      "state": "TN",
+      "fields": {
+        "tci": 586,
+        "crime": "High"
+      },
+      "method": "FBI CDE 2023 counts for Memphis Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/TNMPD0000/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "TNMPD0000",
+        "agency": "Memphis Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 16118,
+        "property_count": 53456,
+        "covered_population": 616061,
+        "violent_rate_per_100k": 2616.3,
+        "property_rate_per_100k": 8677.1,
+        "violent_index": 719,
+        "property_index": 453,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 108,
+      "name": "Odessa",
+      "state": "TX",
+      "fields": {
+        "tci": 101,
+        "crime": "Moderate"
+      },
+      "method": "FBI CDE 2023 counts for Odessa Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/TX0680200/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "TX0680200",
+        "agency": "Odessa Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 443,
+        "property_count": 2011,
+        "covered_population": 111922,
+        "violent_rate_per_100k": 395.8,
+        "property_rate_per_100k": 1796.8,
+        "violent_index": 109,
+        "property_index": 94,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 68,
+      "name": "San Antonio",
+      "state": "TX",
+      "fields": {
+        "tci": 238,
+        "crime": "High"
+      },
+      "method": "FBI CDE 2023 counts for San Antonio Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/TXSPD0000/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "TXSPD0000",
+        "agency": "San Antonio Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 10439,
+        "property_count": 80790,
+        "covered_population": 1490047,
+        "violent_rate_per_100k": 700.6,
+        "property_rate_per_100k": 5422,
+        "violent_index": 193,
+        "property_index": 283,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 130,
+      "name": "Hamilton",
+      "state": "WA",
+      "fields": {
+        "tci": 54,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Skagit County Sheriff's Office (county sheriff proxy: the town has no municipal police agency in the CDE), indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/WA0290000/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "WA0290000",
+        "agency": "Skagit County Sheriff's Office",
+        "agency_kind": "county",
+        "fbi_year": 2023,
+        "violent_count": 87,
+        "property_count": 676,
+        "covered_population": 54788,
+        "violent_rate_per_100k": 158.8,
+        "property_rate_per_100k": 1233.8,
+        "violent_index": 44,
+        "property_index": 64,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    },
+    {
+      "id": 137,
+      "name": "Cody",
+      "state": "WY",
+      "fields": {
+        "tci": 57,
+        "crime": "Low"
+      },
+      "method": "FBI CDE 2023 counts for Cody Police Department, indexed per TCI_METHODOLOGY.md",
+      "source_url": "https://cde.ucr.cjis.gov/LATEST/summarized/agency/WY0150100/violent-crime?from=01-2023&to=12-2023",
+      "evidence": {
+        "ori": "WY0150100",
+        "agency": "Cody Police Department",
+        "agency_kind": "city",
+        "fbi_year": 2023,
+        "violent_count": 21,
+        "property_count": 113,
+        "covered_population": 10316,
+        "violent_rate_per_100k": 203.6,
+        "property_rate_per_100k": 1095.4,
+        "violent_index": 56,
+        "property_index": 57,
+        "national_reference": {
+          "violent": 363.8,
+          "property": 1916.7
+        }
+      }
+    }
+  ],
+  "blocked": [
+    {
+      "id": 19,
+      "name": "Malabar",
+      "state": "FL",
+      "ori": "FL0050000",
+      "agency": "Brevard County Sheriff's Office",
+      "reason": "no stored reference year in which the agency reported all 12 months with a non-zero annual violent count (usually a NIBRS coverage gap; a tiny agency with a genuine zero-offense month is also held back on purpose)",
+      "years_tried": [
+        {
+          "year": 2023,
+          "agency_label": "Brevard County Sheriff's Office",
+          "months_reported": 7,
+          "violent_count": 3,
+          "property_count": 14,
+          "population": 254449
+        },
+        {
+          "year": 2022,
+          "agency_label": "Brevard County Sheriff's Office",
+          "months_reported": 1,
+          "violent_count": 484,
+          "property_count": 2485,
+          "population": 255500
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Jackson",
+      "state": "MS",
+      "ori": "MS0250100",
+      "agency": "Jackson Police Department",
+      "reason": "no stored reference year in which the agency reported all 12 months with a non-zero annual violent count (usually a NIBRS coverage gap; a tiny agency with a genuine zero-offense month is also held back on purpose)",
+      "years_tried": [
+        {
+          "year": 2023,
+          "agency_label": "Jackson Police Department",
+          "months_reported": 0,
+          "violent_count": 0,
+          "property_count": 0,
+          "population": 142618
+        },
+        {
+          "year": 2022,
+          "agency_label": "Jackson Police Department",
+          "months_reported": 0,
+          "violent_count": 0,
+          "property_count": 0,
+          "population": 146738
+        }
+      ]
+    }
+  ]
+}

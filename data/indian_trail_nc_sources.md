@@ -84,3 +84,15 @@ No DB write was made for this revision; `defense_hub_manual` remains NULL, match
 Sources:
 - Union County, NC Economic Development — https://www.unioncountync.gov/Home/Components/News/News/2060/1509
 - Economic Development Partnership of North Carolina, ATI Allvac Monroe expansion — https://edpnc.com/news/cir_pz/southwest/
+
+## defense_hub_manual revision (issue #55, retrieved 2026-09-02)
+
+Determination: **TRUE** (borderline; anchor is in Monroe, same county). The 2026-08-19 round declined to promote on aerospace-cluster strength alone because it found no defense-contractor anchor, but it did not consider Collins Aerospace's Monroe campus. Collins Aerospace (an RTX business) operates a 160,000 sq ft MRO facility at 4115 Corporate Center Dr, Monroe, NC (~7 mi crow-fly / ~10 mi drive from Indian Trail, both in Union County): 150+ employees as of July 2021 plus 70+ hires by mid-2022 under a $45M expansion with Monroe/Union County incentives, repairing 6,500+ part numbers for commercial and military aircraft. Monroe is already an RTX employer anchor in `data/employer_geographies.csv`; hub roll-up only travels up the containment graph, never laterally, so Monroe's presence can never promote Indian Trail automatically — `defense_hub_manual` is the only lever. At ~220 people this is an order of magnitude below Binghamton's BAE Endicott, but it is a physical RTX facility in the immediate metro, which is above the bar Warren, PA (ELLWOOD forge) and Grand Junction, CO (supplier cluster) were promoted on in the 2026-08-19 round.
+
+To apply (after merge, from `master`; no Neon write has been made for this revision as of 2026-09-02): `scripts/apply-location-patches.ts --patch data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json`, then `scripts/recompute-defense-hub.ts`. `defense_hub` itself is derived, never written directly.
+
+Sources:
+- Union County Chamber, Collins Aerospace Monroe — https://members.unioncountycoc.com/list/member/collins-aerospace-monroe-monroe-4619
+- Barringer Construction, Collins Aerospace Monroe expansion — https://www.barringerconstruction.com/collins-aerospace-unveils-latest-expansion/
+- NC Airports Association, Collins Aerospace Monroe expansion — https://ncairports.org/collins-aerospace-announces-major-expansion-at-monroe-facility/
+- AVM Magazine, Collins Aerospace Monroe additive-manufacturing center — https://avm-mag.com/collins-aerospace-opens-additive-manufacturing-center-expands-repair-capabilities-at-monroe-n-c-facility
