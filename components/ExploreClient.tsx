@@ -14,8 +14,16 @@ import {
 } from "@/lib/profile";
 import ExploreFilterBar, {
   DEFAULT_FILTERS,
+  CLIMATE_OPTIONS,
+  LIFESTYLE_OPTIONS,
+  GEOGRAPHY_OPTIONS,
+  VIBE_OPTIONS,
+  HEALTHCARE_OPTIONS,
+  ACTIVITY_OPTIONS,
+  BASE_BRANCH_OPTIONS,
   type ChipKey,
   type ExploreFilters,
+  type OptionCounts,
 } from "@/components/explore/ExploreFilterBar";
 import LocationCard from "./LocationCard";
 import StateMap from "./StateMap";
@@ -45,6 +53,63 @@ export type QuickAnnotation = {
   /** Null when the city could not be priced — "not enough data", never "no". */
   check: QuickCheck | null;
 };
+
+/**
+ * Map the filter-bar state onto the shared `FilterParams`. Pure and
+ * module-level so the per-option count passes reuse the identical mapping
+ * (near_base implications, the preference floor) as the live results query.
+ */
+function buildFilterParams(
+  filters: ExploreFilters,
+  preferences: SitePreferences | null
+): FilterParams {
+  // Price inputs are free text elsewhere in the app, so scrape digits.
+  const pmin = filters.priceMin.match(/\d+/);
+  const pmax = filters.priceMax.match(/\d+/);
+  const sessionParams: FilterParams = {
+    snow: filters.snow || null,
+    no_awb: filters.noAwb ? "true" : null,
+    no_hcm: filters.noHcm ? "true" : null,
+    state_filter: filters.state || null,
+    lgbtq_friendly: filters.lgbtq ? "true" : null,
+    climate: filters.climate.join(",") || null,
+    cost_of_living: filters.cost || null,
+    price_min: pmin?.[0] || null,
+    price_max: pmax?.[0] || null,
+    lifestyle: filters.lifestyle.join(",") || null,
+    healthcare:
+      filters.healthcare
+        .map((key) => (key === "va-hospital" ? "va_hospital" : "va_clinic"))
+        .join(",") || null,
+    activities: filters.activities.join(",") || null,
+    geography: filters.geography.join(",") || null,
+    income_tax: filters.incomeTax || null,
+    no_income_tax: filters.noStateIncomeTax ? "true" : null,
+    // "Military retirement not taxed" = no income tax at all OR retired pay
+    // explicitly exempt. `conditional`/`partial` are deliberately excluded:
+    // they'd mislead a retiree who doesn't meet the gate (issue #6).
+    retired_pay_tax: filters.retiredPayUntaxed ? "no_income_tax,exempt" : null,
+    vibes: filters.vibes.join(",") || null,
+    employers: filters.employers.join(",") || null,
+    defense_ecosystem: filters.defenseEcosystem ? "true" : null,
+    near_base:
+      filters.baseMaxDistance || filters.baseBranches.length > 0
+        ? "true"
+        : null,
+    base_branch: filters.baseBranches.join(",") || null,
+    base_max_distance:
+      filters.baseMaxDistance ||
+      (filters.baseBranches.length > 0 ? "50" : null),
+    has_walmart: filters.hasWalmart ? "true" : null,
+    has_costco: filters.hasCostco ? "true" : null,
+    sort: filters.sort === "headroom_desc" ? "best" : filters.sort,
+  };
+  // Saved preferences are a floor, not a default: the filter bar can narrow
+  // further but can never widen past a dealbreaker the visitor saved.
+  return preferences
+    ? applyPreferenceFloor(sessionParams, preferences)
+    : sessionParams;
+}
 
 export default function ExploreClient({
   initialLocations,
@@ -167,54 +232,10 @@ export default function ExploreClient({
     return [...groups.entries()];
   }, [employers, employerIndex]);
 
-  const filterParams = useMemo<FilterParams>(() => {
-    // Price inputs are free text elsewhere in the app, so scrape digits.
-    const pmin = filters.priceMin.match(/\d+/);
-    const pmax = filters.priceMax.match(/\d+/);
-    const sessionParams: FilterParams = {
-      snow: filters.snow || null,
-      no_awb: filters.noAwb ? "true" : null,
-      no_hcm: filters.noHcm ? "true" : null,
-      state_filter: filters.state || null,
-      lgbtq_friendly: filters.lgbtq ? "true" : null,
-      climate: filters.climate.join(",") || null,
-      cost_of_living: filters.cost || null,
-      price_min: pmin?.[0] || null,
-      price_max: pmax?.[0] || null,
-      lifestyle: filters.lifestyle.join(",") || null,
-      healthcare:
-        filters.healthcare
-          .map((key) => (key === "va-hospital" ? "va_hospital" : "va_clinic"))
-          .join(",") || null,
-      activities: filters.activities.join(",") || null,
-      geography: filters.geography.join(",") || null,
-      income_tax: filters.incomeTax || null,
-      no_income_tax: filters.noStateIncomeTax ? "true" : null,
-      // "Military retirement not taxed" = no income tax at all OR retired pay
-      // explicitly exempt. `conditional`/`partial` are deliberately excluded:
-      // they'd mislead a retiree who doesn't meet the gate (issue #6).
-      retired_pay_tax: filters.retiredPayUntaxed ? "no_income_tax,exempt" : null,
-      vibes: filters.vibes.join(",") || null,
-      employers: filters.employers.join(",") || null,
-      defense_ecosystem: filters.defenseEcosystem ? "true" : null,
-      near_base:
-        filters.baseMaxDistance || filters.baseBranches.length > 0
-          ? "true"
-          : null,
-      base_branch: filters.baseBranches.join(",") || null,
-      base_max_distance:
-        filters.baseMaxDistance ||
-        (filters.baseBranches.length > 0 ? "50" : null),
-      has_walmart: filters.hasWalmart ? "true" : null,
-      has_costco: filters.hasCostco ? "true" : null,
-      sort: filters.sort === "headroom_desc" ? "best" : filters.sort,
-    };
-    // Saved preferences are a floor, not a default: the filter bar can narrow
-    // further but can never widen past a dealbreaker the visitor saved.
-    return preferences
-      ? applyPreferenceFloor(sessionParams, preferences)
-      : sessionParams;
-  }, [filters, preferences]);
+  const filterParams = useMemo<FilterParams>(
+    () => buildFilterParams(filters, preferences),
+    [filters, preferences]
+  );
 
   const profileConstraints = useMemo(
     () =>
@@ -256,6 +277,68 @@ export default function ExploreClient({
     }
     return counts;
   }, [employerIndex, filterParams, initialLocations, militaryIndex, stateInfos]);
+
+  // Faceted per-option match counts: for each option, count as if that facet
+  // were set to ONLY that option (replacing the current selection in the same
+  // facet), keeping every other active filter. Reuses buildFilterParams so the
+  // count query is mapped identically to the live results query.
+  const optionCounts = useMemo<OptionCounts>(() => {
+    const countWith = (override: Partial<ExploreFilters>): number =>
+      filterAndSort(
+        initialLocations,
+        stateInfos,
+        buildFilterParams({ ...filters, ...override }, preferences),
+        { employerIndex, militaryIndex }
+      ).length;
+
+    const forMulti = (
+      key: keyof ExploreFilters,
+      options: { id: string }[]
+    ): Record<string, number> => {
+      const out: Record<string, number> = {};
+      for (const { id } of options) {
+        out[id] = countWith({ [key]: [id] } as Partial<ExploreFilters>);
+      }
+      return out;
+    };
+
+    const snow: Record<string, number> = {};
+    for (const v of ["zero", "some", "lots"] as const) {
+      snow[v] = countWith({ snow: v });
+    }
+
+    const baseMaxDistance: Record<string, number> = {};
+    for (const v of ["25", "50", "100"] as const) {
+      baseMaxDistance[v] = countWith({ baseMaxDistance: v });
+    }
+
+    const cost: Record<string, number> = {};
+    for (const v of ["low", "moderate", "high"] as const) {
+      cost[v] = countWith({ cost: v });
+    }
+
+    return {
+      climate: forMulti("climate", CLIMATE_OPTIONS),
+      lifestyle: forMulti("lifestyle", LIFESTYLE_OPTIONS),
+      geography: forMulti("geography", GEOGRAPHY_OPTIONS),
+      vibes: forMulti("vibes", VIBE_OPTIONS),
+      healthcare: forMulti("healthcare", HEALTHCARE_OPTIONS),
+      activities: forMulti("activities", ACTIVITY_OPTIONS),
+      baseBranches: forMulti("baseBranches", BASE_BRANCH_OPTIONS),
+      snow,
+      baseMaxDistance,
+      cost,
+      defenseEcosystem: countWith({ defenseEcosystem: true }),
+      hasWalmart: countWith({ hasWalmart: true }),
+      hasCostco: countWith({ hasCostco: true }),
+      noStateIncomeTax: countWith({ noStateIncomeTax: true }),
+      retiredPayUntaxed: countWith({ retiredPayUntaxed: true }),
+      lgbtq: countWith({ lgbtq: true }),
+      noAwb: countWith({ noAwb: true }),
+      noHcm: countWith({ noHcm: true }),
+      incomeTaxLow: countWith({ incomeTax: "low" }),
+    };
+  }, [filters, preferences, initialLocations, stateInfos, employerIndex, militaryIndex]);
 
   const annotated = useMemo(() => {
     const empty = (location: Location) => ({
@@ -333,6 +416,7 @@ export default function ExploreClient({
           clearFilter={clearFilter}
           stateCounts={stateCounts}
           employerGroups={employerGroups}
+          optionCounts={optionCounts}
           resultCount={annotated.length}
           scenario={scenario}
           onScenarioChange={updateScenario}

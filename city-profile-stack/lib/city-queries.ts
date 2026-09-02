@@ -32,6 +32,7 @@ import {
 import { getGasPrices } from "../../lib/gas-prices";
 import { STATE_NAME_TO_ABBR, resolveStateAbbr } from "../../lib/states";
 import { STATE_GUN_FREEDOM_DATASET } from "../../lib/state-gun-freedom";
+import type { RetiredPayTax } from "../../lib/types";
 
 /** Only features that can exist for an unresearched city are comparable. */
 const COMPARABLE = new Set(
@@ -983,6 +984,360 @@ export async function compareStateGunFreedom(
     sources: STATE_GUN_FREEDOM_DATASET.sources,
     sortedBy: sortBy,
     states: entries.slice(0, limit),
+  };
+}
+
+/* ------------------------------------------------------------------ *
+ * State-level veteran benefits comparison
+ *
+ * Reads the verified veteran-benefit columns on locations_stateinfo (issue
+ * #6 / #42 / #58): how the state taxes military retired pay and Social
+ * Security, the general senior subtraction, and the five benefit flags.
+ * Same scoping as the other state tools -- only states with a candidate
+ * city -- and, like lib/filters.ts, only rows a human has verified
+ * (`vet_benefits_verified_on` set).
+ *
+ * The benefit flags are THREE-VALUED in the database: NULL means the verified
+ * source summary was silent, which is not the same as "no". They are exposed
+ * as "yes" | "no" | "not_recorded" so an LLM can never misread a null, and
+ * `mustHave` filters match only "yes", never "!== no".
+ * ------------------------------------------------------------------ */
+
+export type VeteranBenefitFlag = "yes" | "no" | "not_recorded";
+
+export const VETERAN_BENEFIT_KEYS = [
+  "disabled_vet_property_tax",
+  "employment_preference",
+  "education_benefit",
+  "parks_benefit",
+  "hunt_fish_benefit",
+] as const;
+export type VeteranBenefitKey = (typeof VETERAN_BENEFIT_KEYS)[number];
+
+/** A benefit the user can require; `no_income_tax` is its own column, not a benefit flag. */
+export type VeteranBenefitRequirement = VeteranBenefitKey | "no_income_tax";
+
+export const VETERAN_BENEFIT_LABELS: Record<VeteranBenefitKey, string> = {
+  disabled_vet_property_tax: "property-tax relief for disabled veterans",
+  employment_preference: "veteran hiring preference",
+  education_benefit: "state education or tuition benefit",
+  parks_benefit: "state-park pass or discount",
+  hunt_fish_benefit: "hunting and fishing license privileges",
+};
+
+export type RetiredPayTreatment = RetiredPayTax;
+
+export const RETIRED_PAY_LABELS: Record<RetiredPayTreatment, string> = {
+  no_income_tax: "no state income tax, so military retired pay is untaxed",
+  exempt: "military retired pay fully exempt from state income tax",
+  partial: "military retired pay partially exempt (a capped or phased exclusion -- read the condition)",
+  conditional:
+    "military retired pay exempt only under conditions (age, service dates, income, or residency -- read the condition)",
+  taxed: "military retired pay taxed like other income",
+  unknown: "state treatment of military retired pay not verified",
+};
+
+/** Ascending = most favorable first. Neutral ordering, not a recommendation. */
+const RETIRED_PAY_ORDER: Record<RetiredPayTreatment, number> = {
+  no_income_tax: 0,
+  exempt: 1,
+  partial: 2,
+  conditional: 3,
+  taxed: 4,
+  unknown: 5,
+};
+
+export type SocialSecurityTreatment = "not_taxed" | "partial" | "taxed" | "unknown";
+
+export const SOCIAL_SECURITY_LABELS: Record<SocialSecurityTreatment, string> = {
+  not_taxed: "Social Security benefits not taxed by the state",
+  partial: "Social Security benefits exempt only below an income threshold or past an age gate",
+  taxed: "the federally taxable portion of Social Security benefits is taxed by the state",
+  unknown: "state treatment of Social Security benefits not verified",
+};
+
+export interface StateVeteranBenefitsEntry {
+  state: string;
+  stateName: string | null;
+  /** ISO date a human last checked this row against `sourceUrl`. */
+  verifiedOn: string;
+  sourceUrl: string | null;
+  noIncomeTax: VeteranBenefitFlag;
+  retiredPay: {
+    treatment: RetiredPayTreatment;
+    label: string;
+    /** Dollars per year excluded, when the rule reduces to one figure. */
+    exclusionAmountPerYear: number | null;
+    /** Percent of retired pay excluded, when stated as a percentage. */
+    exclusionPct: number | null;
+    /** The age/income/service/residency gate a scalar can't carry. Must be read for partial/conditional. */
+    condition: string | null;
+  };
+  socialSecurity: {
+    treatment: SocialSecurityTreatment;
+    label: string;
+    /** AGI at or below which a `partial` state exempts benefits entirely. */
+    exemptAtOrBelowAgiSingle: number | null;
+    exemptAtOrBelowAgiMarried: number | null;
+    /** Age at which the exemption gate opens, if any. */
+    minAge: number | null;
+    /** If true, reaching minAge exempts benefits regardless of AGI. */
+    ageExemptsFully: boolean | null;
+  };
+  /** A general senior subtraction from state taxable income (Montana), distinct from the SS rule. */
+  seniorDeduction: {
+    amountPerYear: number;
+    minAge: number | null;
+    perQualifyingPerson: boolean | null;
+    taxYear: number | null;
+  } | null;
+  benefits: Record<VeteranBenefitKey, VeteranBenefitFlag>;
+  /** How many of the five flags are "yes". Ties are not meaningful; "not_recorded" counts as zero. */
+  recordedBenefitCount: number;
+  /** The verified one-line digest of the state's veteran programs. */
+  summary: string | null;
+  /** The city names, only when includeCities was requested (user is choosing between cities). */
+  cities?: string[];
+}
+
+export type StateVeteranBenefitsSort = "retired_pay" | "benefit_count" | "name";
+
+export interface StateVeteranBenefitsResult {
+  scopeNote: string;
+  caveats: string[];
+  sortedBy: StateVeteranBenefitsSort;
+  /** Echo of the filters applied, so the model can say what it excluded. */
+  filters: { retiredPayTax: RetiredPayTreatment[] | null; mustHave: VeteranBenefitRequirement[] | null };
+  states: StateVeteranBenefitsEntry[];
+}
+
+export const STATE_VETERAN_BENEFITS_SCOPE_NOTE =
+  "Covers only states with at least one city in this database and a human-verified benefits row, not all 50 states.";
+
+const STATE_VETERAN_BENEFITS_CAVEATS = [
+  'Benefit flags are three-valued: "not_recorded" means the verified source summary did not mention that benefit -- it is NOT "no", so never say a state lacks a benefit on that basis.',
+  'For "partial" and "conditional" retired-pay treatment the classification alone misleads: the real rule is in retiredPay.condition (age tiers, service dates, income phase-outs, residency gates) and must be relayed.',
+  "State programs only: county/city property-tax programs and federal VA benefits are not included, and the summary is a one-line digest, not the full benefits catalog.",
+  "Social Security treatment covers Social Security benefits only; a pension, IRA, or wages are taxed under the state's ordinary rules, which this tool does not cover.",
+  "Verified as of verifiedOn; these rules change yearly. This is a comparison aid, not tax or legal advice.",
+  'Sorting is a neutral ordering (no income tax, then exempt, partial, conditional, taxed), not a recommendation.',
+];
+
+function flag(v: boolean | null | undefined): VeteranBenefitFlag {
+  if (v === true) return "yes";
+  if (v === false) return "no";
+  return "not_recorded";
+}
+
+function numOrNull(v: unknown): number | null {
+  if (v === null || v === undefined || v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+function asRetiredPay(v: unknown): RetiredPayTreatment {
+  return typeof v === "string" && v in RETIRED_PAY_ORDER ? (v as RetiredPayTreatment) : "unknown";
+}
+
+function asSocialSecurity(v: unknown): SocialSecurityTreatment {
+  return v === "not_taxed" || v === "partial" || v === "taxed" ? v : "unknown";
+}
+
+/** One raw locations_stateinfo row, as the DB returns it (numerics come back as strings). */
+export interface StateVeteranBenefitsRow {
+  state: string;
+  vet_benefits_verified_on: string | Date | null;
+  vet_benefits_source_url: string | null;
+  vet_benefits_summary: string | null;
+  no_income_tax: boolean | null;
+  retired_pay_tax: string | null;
+  retired_pay_exclusion_amount: string | number | null;
+  retired_pay_exclusion_pct: string | number | null;
+  retired_pay_condition: string | null;
+  disabled_vet_property_tax: boolean | null;
+  employment_preference: boolean | null;
+  education_benefit: boolean | null;
+  parks_benefit: boolean | null;
+  hunt_fish_benefit: boolean | null;
+  ss_tax_treatment: string | null;
+  ss_tax_threshold_single: string | number | null;
+  ss_tax_threshold_married: string | number | null;
+  ss_tax_min_age: string | number | null;
+  ss_tax_age_exempts_fully: boolean | null;
+  senior_deduction_amount: string | number | null;
+  senior_deduction_min_age: string | number | null;
+  senior_deduction_per_qualifying_person: boolean | null;
+  senior_deduction_tax_year: string | number | null;
+}
+
+function isoDate(v: string | Date | null): string | null {
+  if (v === null) return null;
+  if (v instanceof Date) return v.toISOString().slice(0, 10);
+  return String(v).slice(0, 10);
+}
+
+/** Shape one verified row for the LLM. Returns null for an unverified row (never surfaced). */
+export function toStateVeteranBenefitsEntry(
+  row: StateVeteranBenefitsRow,
+  cities?: string[]
+): StateVeteranBenefitsEntry | null {
+  const verifiedOn = isoDate(row.vet_benefits_verified_on);
+  if (!verifiedOn) return null;
+  const abbr = resolveStateAbbr(row.state) ?? row.state.trim().toUpperCase();
+  const retiredPay = asRetiredPay(row.retired_pay_tax);
+  const ss = asSocialSecurity(row.ss_tax_treatment);
+  const benefits = {
+    disabled_vet_property_tax: flag(row.disabled_vet_property_tax),
+    employment_preference: flag(row.employment_preference),
+    education_benefit: flag(row.education_benefit),
+    parks_benefit: flag(row.parks_benefit),
+    hunt_fish_benefit: flag(row.hunt_fish_benefit),
+  };
+  const seniorAmount = numOrNull(row.senior_deduction_amount);
+  return {
+    state: abbr,
+    stateName: ABBR_TO_STATE_NAME[abbr] ?? null,
+    verifiedOn,
+    sourceUrl: row.vet_benefits_source_url ?? null,
+    noIncomeTax: flag(row.no_income_tax),
+    retiredPay: {
+      treatment: retiredPay,
+      label: RETIRED_PAY_LABELS[retiredPay],
+      exclusionAmountPerYear: numOrNull(row.retired_pay_exclusion_amount),
+      exclusionPct: numOrNull(row.retired_pay_exclusion_pct),
+      condition: row.retired_pay_condition ?? null,
+    },
+    socialSecurity: {
+      treatment: ss,
+      label: SOCIAL_SECURITY_LABELS[ss],
+      exemptAtOrBelowAgiSingle: numOrNull(row.ss_tax_threshold_single),
+      exemptAtOrBelowAgiMarried: numOrNull(row.ss_tax_threshold_married),
+      minAge: numOrNull(row.ss_tax_min_age),
+      ageExemptsFully: row.ss_tax_age_exempts_fully ?? null,
+    },
+    seniorDeduction:
+      seniorAmount === null
+        ? null
+        : {
+            amountPerYear: seniorAmount,
+            minAge: numOrNull(row.senior_deduction_min_age),
+            perQualifyingPerson: row.senior_deduction_per_qualifying_person ?? null,
+            taxYear: numOrNull(row.senior_deduction_tax_year),
+          },
+    benefits,
+    recordedBenefitCount: VETERAN_BENEFIT_KEYS.filter((k) => benefits[k] === "yes").length,
+    summary: row.vet_benefits_summary ?? null,
+    ...(cities ? { cities: [...cities].sort() } : {}),
+  };
+}
+
+function requirementFlag(e: StateVeteranBenefitsEntry, req: VeteranBenefitRequirement): VeteranBenefitFlag {
+  return req === "no_income_tax" ? e.noIncomeTax : e.benefits[req];
+}
+
+/**
+ * Pure filter + sort over shaped entries (unit-tested; the DB reader below
+ * only feeds it). `mustHave` matches "yes" only -- a "not_recorded" state is
+ * excluded from a must-have filter, the same rule lib/filters.ts applies.
+ */
+export function rankStateVeteranBenefits(
+  entries: StateVeteranBenefitsEntry[],
+  opts: {
+    states?: string[];
+    retiredPayTax?: RetiredPayTreatment[];
+    mustHave?: VeteranBenefitRequirement[];
+    sortBy?: StateVeteranBenefitsSort;
+    limit?: number;
+  } = {}
+): Omit<StateVeteranBenefitsResult, "scopeNote" | "caveats"> {
+  let list = [...entries];
+
+  if (opts.states?.length) {
+    const wanted = new Set(opts.states.map((s) => resolveStateAbbr(s) ?? s.trim().toUpperCase()));
+    list = list.filter((e) => wanted.has(e.state));
+  }
+  const retiredPayTax = opts.retiredPayTax?.length ? [...new Set(opts.retiredPayTax)] : null;
+  if (retiredPayTax) {
+    const wanted = new Set(retiredPayTax);
+    list = list.filter((e) => wanted.has(e.retiredPay.treatment));
+  }
+  const mustHave = opts.mustHave?.length ? [...new Set(opts.mustHave)] : null;
+  if (mustHave) {
+    list = list.filter((e) => mustHave.every((req) => requirementFlag(e, req) === "yes"));
+  }
+
+  const sortBy = opts.sortBy ?? "retired_pay";
+  const byName = (a: StateVeteranBenefitsEntry, b: StateVeteranBenefitsEntry) =>
+    (a.stateName ?? a.state).localeCompare(b.stateName ?? b.state);
+  const byRetiredPay = (a: StateVeteranBenefitsEntry, b: StateVeteranBenefitsEntry) =>
+    RETIRED_PAY_ORDER[a.retiredPay.treatment] - RETIRED_PAY_ORDER[b.retiredPay.treatment];
+  const byBenefitCount = (a: StateVeteranBenefitsEntry, b: StateVeteranBenefitsEntry) =>
+    b.recordedBenefitCount - a.recordedBenefitCount;
+  list.sort((a, b) => {
+    if (sortBy === "name") return byName(a, b);
+    if (sortBy === "benefit_count") return byBenefitCount(a, b) || byRetiredPay(a, b) || byName(a, b);
+    return byRetiredPay(a, b) || byBenefitCount(a, b) || byName(a, b);
+  });
+
+  const limit = opts.limit ?? (opts.states?.length ? list.length : 15);
+  return {
+    sortedBy: sortBy,
+    filters: { retiredPayTax, mustHave },
+    states: list.slice(0, limit),
+  };
+}
+
+/** "Which states don't tax military retired pay / give disabled vets a property-tax break?" */
+export async function compareStateVeteranBenefits(
+  opts: {
+    states?: string[];
+    retiredPayTax?: RetiredPayTreatment[];
+    mustHave?: VeteranBenefitRequirement[];
+    sortBy?: StateVeteranBenefitsSort;
+    limit?: number;
+    includeCities?: boolean;
+  } = {}
+): Promise<StateVeteranBenefitsResult> {
+  const sql = getSql();
+  const cityRows = (await sql.query(`SELECT state, name FROM locations_location WHERE is_candidate`)) as {
+    state: string;
+    name: string;
+  }[];
+  const stateRows = (await sql.query(
+    `SELECT state, vet_benefits_verified_on, vet_benefits_source_url, vet_benefits_summary,
+              no_income_tax, retired_pay_tax, retired_pay_exclusion_amount,
+              retired_pay_exclusion_pct, retired_pay_condition,
+              disabled_vet_property_tax, employment_preference, education_benefit,
+              parks_benefit, hunt_fish_benefit,
+              ss_tax_treatment, ss_tax_threshold_single, ss_tax_threshold_married,
+              ss_tax_min_age, ss_tax_age_exempts_fully,
+              senior_deduction_amount, senior_deduction_min_age,
+              senior_deduction_per_qualifying_person, senior_deduction_tax_year
+         FROM locations_stateinfo
+        WHERE vet_benefits_verified_on IS NOT NULL`
+  )) as StateVeteranBenefitsRow[];
+
+  const citiesByState = new Map<string, string[]>();
+  for (const r of cityRows) {
+    const abbr = resolveStateAbbr(r.state) ?? r.state.trim().toUpperCase();
+    let cities = citiesByState.get(abbr);
+    if (!cities) citiesByState.set(abbr, (cities = []));
+    cities.push(`${r.name}, ${abbr}`);
+  }
+
+  const entries: StateVeteranBenefitsEntry[] = [];
+  for (const row of stateRows) {
+    const abbr = resolveStateAbbr(row.state) ?? row.state.trim().toUpperCase();
+    const cities = citiesByState.get(abbr);
+    if (!cities) continue; // scoped to states we have a city in
+    const entry = toStateVeteranBenefitsEntry(row, opts.includeCities ? cities : undefined);
+    if (entry) entries.push(entry);
+  }
+
+  return {
+    scopeNote: STATE_VETERAN_BENEFITS_SCOPE_NOTE,
+    caveats: STATE_VETERAN_BENEFITS_CAVEATS,
+    ...rankStateVeteranBenefits(entries, opts),
   };
 }
 
