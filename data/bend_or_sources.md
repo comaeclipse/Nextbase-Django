@@ -76,7 +76,7 @@ Sources:
 
 Determination: **TRUE** (borderline; anchor is in Redmond, same MSA). No installation exists in Deschutes County (Oregon's list: Portland 142 FW, Klamath Falls 173 FW, Salem JFHQ), and EDCO's 2026 major-employer list has no prime in Bend proper — Epic Aircraft (544) is civil, and Cv International (50–60 employees, F-35/B-1/F-16 maintenance stands) moved from Bend to Prineville in 2025. The anchor is **PCC Schlosser** (Precision Castparts / PCC Structurals), 345 NE Hemlock Ave, Redmond, OR, ~17 mi from Bend inside the Bend-Redmond MSA: 352 employees per EDCO, casting fracture-critical airframe, aero-engine and **missile** components. It is a Tier-2 supplier rather than a named prime, which is why the research pass scored it under the bar; it is promoted here for consistency with Grand Junction, CO (promoted 2026-08-19 on an aerospace supplier cluster with Lockheed supply-chain participation) and Warren, PA (a forge with a defense-business function). If the house bar is later tightened to primes-only, this is the row to veto with `defense_hub_manual = false`.
 
-Applied via `data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json` (`scripts/apply-location-patches.ts`), then `scripts/recompute-defense-hub.ts`.
+To apply (after merge, from `master`; no Neon write has been made for this revision as of 2026-09-02): `scripts/apply-location-patches.ts --patch data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json`, then `scripts/recompute-defense-hub.ts`. `defense_hub` itself is derived, never written directly.
 
 Sources:
 - DoD MilitaryINSTALLATIONS, Oregon — https://installations.militaryonesource.mil/state/OR/state-installations

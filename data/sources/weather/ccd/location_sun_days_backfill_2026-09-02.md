@@ -15,9 +15,12 @@ before deriving anything:
 | Check (nearest-station CL+PC vs stored `sun_days`) | Result |
 | --- | ---: |
 | median difference | 0 days |
-| mean difference | −1.6 days |
-| within ±10 days | 173 / 196 |
+| mean difference | −1.5 days |
+| within ±10 days | 177 / 196 |
 | within ±20 days | 185 / 196 |
+
+(Recomputed against the checked-in station file and live coordinates on
+2026-09-02.)
 
 So this backfill continues the existing convention rather than introducing a
 second one.
@@ -47,8 +50,8 @@ second one.
 | Eureka, CA | Eureka, CA (24213) | 2 | 77 | 102 | 179 |
 | Goleta, CA | Santa Maria, CA (23273) | 47 | 176 | 110 | 286 |
 | Lake Forest, CA | Long Beach, CA (23129) | 30 | 159 | 119 | 278 |
-| Boulder, CO | Denver, CO (03017) | 27 | 115 | 130 | 245 |
-| Broomfield, CO | Denver, CO (03017) | 16 | 115 | 130 | 245 |
+| Boulder, CO | Denver Intl, CO (03017) | 33 | 115 | 130 | 245 |
+| Broomfield, CO | Denver Intl, CO (03017) | 21 | 115 | 130 | 245 |
 | Grand Junction, CO | Grand Junction, CO (23066) | 3 | 136 | 106 | 242 |
 | Marietta, GA | Atlanta, GA (13874) | 23 | 110 | 107 | 217 |
 | Danville, IL | Indianapolis, IN (93819) | 76 | 88 | 99 | 187 |

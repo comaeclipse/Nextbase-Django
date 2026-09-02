@@ -105,7 +105,7 @@ Sources:
 
 Determination: **FALSE** (explicit veto). South Dakota's only listed installations are the 114th Fighter Wing (Sioux Falls) and Ellsworth AFB (Meade County, ~190 mi); the SD National Guard is headquartered at Camp Rapid, Rapid City. Pierre's economy is state government (largest employer) and Avera St. Mary's (485, largest private employer); the SD GOED major-employer page names no defense employer in Pierre. The local Guard armory (200th Engineer Co.) and the USACE Oahe Project Office are government presence, not a defense-industry employer. Three research rounds (2026-08-11, 2026-08-19, today) found nothing to promote on, so the row is now closed as FALSE rather than left NULL indefinitely.
 
-Applied via `data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json` (`scripts/apply-location-patches.ts`), then `scripts/recompute-defense-hub.ts`.
+To apply (after merge, from `master`; no Neon write has been made for this revision as of 2026-09-02): `scripts/apply-location-patches.ts --patch data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json`, then `scripts/recompute-defense-hub.ts`. `defense_hub` itself is derived, never written directly.
 
 Sources:
 - DoD MilitaryINSTALLATIONS, South Dakota — https://installations.militaryonesource.mil/state/SD/state-installations

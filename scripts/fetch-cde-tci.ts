@@ -129,14 +129,16 @@ function monthsReported(violent: MonthSeries | undefined, property: MonthSeries 
 }
 
 /**
- * The populations map has three lines: "United States", the state name, and
- * the agency. State names are one or two words; agency names are longer, so
- * the agency line is the key with the most words.
+ * The agency's display label. `offenses.actuals` carries only the agency's own
+ * lines ("<Agency> Offenses" / "<Agency> Clearances"), unlike `rates` and
+ * `populations`, which also carry the state and "United States" — and a state
+ * name can tie an agency name on word count ("District of Columbia" vs
+ * "Washington Police Department"), so the label is never inferred from those.
  */
-function agencyLabelFrom(keys: string[]): string {
-  const rest = keys.filter((k) => k !== "United States");
-  if (rest.length === 0) throw new Error("CDE response has no agency population line");
-  return rest.slice().sort((a, b) => b.split(" ").length - a.split(" ").length)[0];
+function agencyLabelFrom(actuals: Record<string, MonthSeries>): string {
+  const key = Object.keys(actuals).find((k) => k.endsWith(" Offenses"));
+  if (!key) throw new Error(`CDE response has no "<Agency> Offenses" line (keys: ${Object.keys(actuals).join(", ")})`);
+  return key.slice(0, -" Offenses".length);
 }
 
 async function pullYear(row: InputRow, year: number): Promise<YearPull> {
@@ -145,7 +147,13 @@ async function pullYear(row: InputRow, year: number): Promise<YearPull> {
     fetchJson(`${BASE}/${row.ori}/violent-crime?${q}`),
     fetchJson(`${BASE}/${row.ori}/property-crime?${q}`),
   ]);
-  const agencyLabel = agencyLabelFrom(Object.keys(v.populations.population));
+  const agencyLabel = agencyLabelFrom(v.offenses.actuals);
+  const expectedHead = row.agency.toLowerCase().split(" ")[0];
+  if (!agencyLabel.toLowerCase().startsWith(expectedHead)) {
+    throw new Error(
+      `Agency mismatch for ${row.ori}: CDE says "${agencyLabel}", input says "${row.agency}"`,
+    );
+  }
   const popSeries = v.populations.population[agencyLabel];
   const population = popSeries ? Math.max(...Object.values(popSeries).map((x) => x ?? 0)) : 0;
   const violentSeries = v.offenses.actuals[`${agencyLabel} Offenses`];
@@ -183,12 +191,6 @@ async function main() {
       if (!usable) {
         console.log(`  skip ${label}`);
         continue;
-      }
-      const expectedHead = row.agency.toLowerCase().split(" ")[0];
-      if (!pull.agency_label.toLowerCase().startsWith(expectedHead)) {
-        throw new Error(
-          `Agency mismatch for ${row.ori}: CDE says "${pull.agency_label}", input says "${row.agency}"`,
-        );
       }
       const reference = NATIONAL_CRIME_REFERENCE_BY_YEAR[year];
       const rates = ratesFromCounts({
@@ -237,7 +239,8 @@ async function main() {
         ori: row.ori,
         agency: row.agency,
         reason:
-          "no stored reference year with 12 reported months and a non-zero violent count (NIBRS gap)",
+          "no stored reference year in which the agency reported all 12 months with a non-zero annual violent count " +
+          "(usually a NIBRS coverage gap; a tiny agency with a genuine zero-offense month is also held back on purpose)",
         years_tried: tried,
       });
     }

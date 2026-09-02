@@ -44,7 +44,7 @@ Sources:
 
 Determination: **FALSE** (explicit veto). The Odessa Development Corporation's major-employer list (Nov 2025) is entirely education, oil & gas, health, retail and government (ECISD 4,017; Halliburton 2,468; Saulsbury 2,061 …) with no aerospace or defense employer. Texas's installation list has nothing in Ector or Midland County; the nearest are Goodfellow AFB (San Angelo, ~150 mi), Dyess AFB (Abilene) and Fort Bliss (El Paso). Midland Army Air Field closed after WWII. Three research rounds found nothing to promote on, so the row is closed as FALSE.
 
-Applied via `data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json` (`scripts/apply-location-patches.ts`), then `scripts/recompute-defense-hub.ts`.
+To apply (after merge, from `master`; no Neon write has been made for this revision as of 2026-09-02): `scripts/apply-location-patches.ts --patch data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json`, then `scripts/recompute-defense-hub.ts`. `defense_hub` itself is derived, never written directly.
 
 Sources:
 - Odessa Development Corporation, major employers — https://www.odessatex.com/workforce/major-employers/

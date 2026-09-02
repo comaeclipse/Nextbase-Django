@@ -147,8 +147,12 @@ async function main() {
 
   console.log(`\n${dryRun ? "Would write" : "Wrote"} ${written} field value(s); skipped ${skipped} already-filled.`);
   if (dryRun) console.log("No write performed.");
-  else if (file.patches.some((p) => "defense_hub_manual" in p.fields)) {
-    console.log("defense_hub_manual changed: run scripts/recompute-defense-hub.ts next.");
+  if (file.patches.some((p) => "defense_hub_manual" in p.fields)) {
+    console.log(
+      written > 0
+        ? "defense_hub_manual is in this patch: run scripts/recompute-defense-hub.ts next (defense_hub is derived, never written here)."
+        : "defense_hub_manual is in this patch but nothing was written (all rows already filled) — recompute-defense-hub.ts would be a no-op.",
+    );
   }
 }
 

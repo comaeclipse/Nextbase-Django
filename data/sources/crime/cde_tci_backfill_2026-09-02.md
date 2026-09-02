@@ -91,7 +91,12 @@ superseded, and a row must not carry a TCI its own label contradicts):
 | Morrisville, NC | Low | Moderate (87) | 90 → 60 |
 
 The other nine already-labelled rows keep a label the TCI agrees with.
-Because these five move the safety factor, regenerate
+
+The Fit score moves on more than these five: `scoreSafety` returns a neutral
+60 for a NULL `crime`, so the 13 rows that had no label at all also change
+(Camden, Grand Junction, Watertown, Oklahoma City and Memphis drop to 30 as
+High; Florence, Fort Collins, Odessa and Warren become Moderate at 60; Ashville,
+Hudson, McHenry and Hamilton rise to 90 as Low). Regenerate
 `baselines/fit_scores.json` (`scripts/generate-score-baseline.ts`) after the
 live apply, in the same commit as the apply log.
 

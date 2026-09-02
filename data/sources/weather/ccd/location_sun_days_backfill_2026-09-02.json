@@ -123,16 +123,16 @@
       "fields": {
         "sun_days": 245
       },
-      "method": "NOAA CCD-2018 mean annual clear (115) + partly cloudy (130) days at DENVER, CO, WBAN 03017, 27 mi from the city",
+      "method": "NOAA CCD-2018 mean annual clear (115) + partly cloudy (130) days at DENVER, CO, WBAN 03017, 33 mi from the city",
       "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
       "evidence": {
         "station": "DENVER, CO",
         "wban": "03017",
-        "distance_miles": 27,
+        "distance_miles": 33,
         "clear_days": 115,
         "partly_cloudy_days": 130,
         "cloudy_days": 120,
-        "station_coord_source": "Denver Stapleton (CCD-2018 Denver record); manual coords"
+        "station_coord_source": "Denver International AP (WBAN 03017); manual coords"
       }
     },
     {
@@ -142,16 +142,16 @@
       "fields": {
         "sun_days": 245
       },
-      "method": "NOAA CCD-2018 mean annual clear (115) + partly cloudy (130) days at DENVER, CO, WBAN 03017, 16 mi from the city",
+      "method": "NOAA CCD-2018 mean annual clear (115) + partly cloudy (130) days at DENVER, CO, WBAN 03017, 21 mi from the city",
       "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
       "evidence": {
         "station": "DENVER, CO",
         "wban": "03017",
-        "distance_miles": 16,
+        "distance_miles": 21,
         "clear_days": 115,
         "partly_cloudy_days": 130,
         "cloudy_days": 120,
-        "station_coord_source": "Denver Stapleton (CCD-2018 Denver record); manual coords"
+        "station_coord_source": "Denver International AP (WBAN 03017); manual coords"
       }
     },
     {

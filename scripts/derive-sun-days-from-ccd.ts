@@ -95,7 +95,7 @@ async function main() {
   const rows = (await sql`
     SELECT id::int AS id, name, state, latitude::float AS lat, longitude::float AS lon
     FROM locations_location
-    WHERE is_candidate AND geo_type = 'city' AND sun_days IS NULL
+    WHERE is_candidate AND sun_days IS NULL
     ORDER BY state, name
   `) as Array<{ id: number; name: string; state: string; lat: number | null; lon: number | null }>;
 

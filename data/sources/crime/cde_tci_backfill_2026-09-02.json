@@ -767,7 +767,7 @@
       "state": "FL",
       "ori": "FL0050000",
       "agency": "Brevard County Sheriff's Office",
-      "reason": "no stored reference year with 12 reported months and a non-zero violent count (NIBRS gap)",
+      "reason": "no stored reference year in which the agency reported all 12 months with a non-zero annual violent count (usually a NIBRS coverage gap; a tiny agency with a genuine zero-offense month is also held back on purpose)",
       "years_tried": [
         {
           "year": 2023,
@@ -793,7 +793,7 @@
       "state": "MS",
       "ori": "MS0250100",
       "agency": "Jackson Police Department",
-      "reason": "no stored reference year with 12 reported months and a non-zero violent count (NIBRS gap)",
+      "reason": "no stored reference year in which the agency reported all 12 months with a non-zero annual violent count (usually a NIBRS coverage gap; a tiny agency with a genuine zero-offense month is also held back on purpose)",
       "years_tried": [
         {
           "year": 2023,

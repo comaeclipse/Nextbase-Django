@@ -498,12 +498,12 @@
   {
    "wban": "03017",
    "name": "DENVER, CO",
-   "lat": 39.7717,
-   "lon": -104.8722,
+   "lat": 39.8561,
+   "lon": -104.6737,
    "cl": 115,
    "pc": 130,
    "cd": 120,
-   "coord_source": "Denver Stapleton (CCD-2018 Denver record); manual coords"
+   "coord_source": "Denver International AP (WBAN 03017); manual coords"
   },
   {
    "wban": "23066",
