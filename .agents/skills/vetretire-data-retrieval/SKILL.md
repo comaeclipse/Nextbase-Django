@@ -29,3 +29,7 @@ they are the ones that have actually gone wrong.
   is derived by `scripts/recompute-defense-hub.ts`.
 - **Follow the two-phase ingest workflow** in the instructions: research artifacts land on
   `master` via PR *before* anything is written to Neon.
+- **A merged PR is not a shipped city.** Phase 2 (the Apply phase, from `master`) is a separate
+  step and it has been skipped fifteen times (issue #302). The merge opens an `apply-pending`
+  issue; `scripts/verify-csv-imports.ts` must exit 0 before that issue is closed or the city is
+  reported as live.

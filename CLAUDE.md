@@ -33,6 +33,7 @@ Data scripts (run with tsx + the env file):
 
 ```bash
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-csv-imports.ts [--json]   # every data/*.csv city exists in locations_location; last step of every Apply phase (issue #302)
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts [--dry-run] [--name "City, ST" | --id N] [--explain] [--audit]
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/fit_scores.json
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/generate-score-baseline.ts   # regenerate baselines/fit_scores.json (same commit as an intended scoring/data change)
