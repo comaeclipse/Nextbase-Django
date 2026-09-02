@@ -1,0 +1,710 @@
+{
+  "retrieved_on": "2026-09-02",
+  "source": "NOAA NCEI Comparative Climatic Data 2018, table 'Cloudiness — Mean Number of Days (Clear, Partly Cloudy, Cloudy)' (clpcdy18.dat, annual columns), station coordinates from the NCEI HOMR WBAN master list; MANUAL entries are stations the master list has no parseable location for. sun_days = annual clear + partly cloudy days at the nearest station (see scripts/derive-sun-days-from-ccd.ts).",
+  "patches": [
+    {
+      "id": 112,
+      "name": "Florence",
+      "state": "AL",
+      "fields": {
+        "sun_days": 201
+      },
+      "method": "NOAA CCD-2018 mean annual clear (100) + partly cloudy (101) days at HUNTSVILLE, AL, WBAN 03856, 52 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "HUNTSVILLE, AL",
+        "wban": "03856",
+        "distance_miles": 52,
+        "clear_days": 100,
+        "partly_cloudy_days": 101,
+        "cloudy_days": 164,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 89,
+      "name": "Camden",
+      "state": "AR",
+      "fields": {
+        "sun_days": 219
+      },
+      "method": "NOAA CCD-2018 mean annual clear (119) + partly cloudy (100) days at LITTLE ROCK, AR, WBAN 13963, 89 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "LITTLE ROCK, AR",
+        "wban": "13963",
+        "distance_miles": 89,
+        "clear_days": 119,
+        "partly_cloudy_days": 100,
+        "cloudy_days": 147,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 113,
+      "name": "Gilbert",
+      "state": "AZ",
+      "fields": {
+        "sun_days": 296
+      },
+      "method": "NOAA CCD-2018 mean annual clear (211) + partly cloudy (85) days at PHOENIX, AZ, WBAN 23183, 18 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "PHOENIX, AZ",
+        "wban": "23183",
+        "distance_miles": 18,
+        "clear_days": 211,
+        "partly_cloudy_days": 85,
+        "cloudy_days": 70,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 91,
+      "name": "Eureka",
+      "state": "CA",
+      "fields": {
+        "sun_days": 179
+      },
+      "method": "NOAA CCD-2018 mean annual clear (77) + partly cloudy (102) days at EUREKA, CA., WBAN 24213, 2 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "EUREKA, CA.",
+        "wban": "24213",
+        "distance_miles": 2,
+        "clear_days": 77,
+        "partly_cloudy_days": 102,
+        "cloudy_days": 186,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 129,
+      "name": "Goleta",
+      "state": "CA",
+      "fields": {
+        "sun_days": 286
+      },
+      "method": "NOAA CCD-2018 mean annual clear (176) + partly cloudy (110) days at SANTA MARIA, CA, WBAN 23273, 47 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "SANTA MARIA, CA",
+        "wban": "23273",
+        "distance_miles": 47,
+        "clear_days": 176,
+        "partly_cloudy_days": 110,
+        "cloudy_days": 80,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 125,
+      "name": "Lake Forest",
+      "state": "CA",
+      "fields": {
+        "sun_days": 278
+      },
+      "method": "NOAA CCD-2018 mean annual clear (159) + partly cloudy (119) days at LONG BEACH, CA, WBAN 23129, 30 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "LONG BEACH, CA",
+        "wban": "23129",
+        "distance_miles": 30,
+        "clear_days": 159,
+        "partly_cloudy_days": 119,
+        "cloudy_days": 87,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 123,
+      "name": "Boulder",
+      "state": "CO",
+      "fields": {
+        "sun_days": 245
+      },
+      "method": "NOAA CCD-2018 mean annual clear (115) + partly cloudy (130) days at DENVER, CO, WBAN 03017, 27 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "DENVER, CO",
+        "wban": "03017",
+        "distance_miles": 27,
+        "clear_days": 115,
+        "partly_cloudy_days": 130,
+        "cloudy_days": 120,
+        "station_coord_source": "Denver Stapleton (CCD-2018 Denver record); manual coords"
+      }
+    },
+    {
+      "id": 124,
+      "name": "Broomfield",
+      "state": "CO",
+      "fields": {
+        "sun_days": 245
+      },
+      "method": "NOAA CCD-2018 mean annual clear (115) + partly cloudy (130) days at DENVER, CO, WBAN 03017, 16 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "DENVER, CO",
+        "wban": "03017",
+        "distance_miles": 16,
+        "clear_days": 115,
+        "partly_cloudy_days": 130,
+        "cloudy_days": 120,
+        "station_coord_source": "Denver Stapleton (CCD-2018 Denver record); manual coords"
+      }
+    },
+    {
+      "id": 111,
+      "name": "Grand Junction",
+      "state": "CO",
+      "fields": {
+        "sun_days": 242
+      },
+      "method": "NOAA CCD-2018 mean annual clear (136) + partly cloudy (106) days at GRAND JUNCTION, CO, WBAN 23066, 3 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "GRAND JUNCTION, CO",
+        "wban": "23066",
+        "distance_miles": 3,
+        "clear_days": 136,
+        "partly_cloudy_days": 106,
+        "cloudy_days": 122,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 77,
+      "name": "Marietta",
+      "state": "GA",
+      "fields": {
+        "sun_days": 217
+      },
+      "method": "NOAA CCD-2018 mean annual clear (110) + partly cloudy (107) days at ATLANTA, GA, WBAN 13874, 23 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "ATLANTA, GA",
+        "wban": "13874",
+        "distance_miles": 23,
+        "clear_days": 110,
+        "partly_cloudy_days": 107,
+        "cloudy_days": 149,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 70,
+      "name": "Danville",
+      "state": "IL",
+      "fields": {
+        "sun_days": 187
+      },
+      "method": "NOAA CCD-2018 mean annual clear (88) + partly cloudy (99) days at INDIANAPOLIS, IN, WBAN 93819, 76 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "INDIANAPOLIS, IN",
+        "wban": "93819",
+        "distance_miles": 76,
+        "clear_days": 88,
+        "partly_cloudy_days": 99,
+        "cloudy_days": 179,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 98,
+      "name": "Shreveport",
+      "state": "LA",
+      "fields": {
+        "sun_days": 214
+      },
+      "method": "NOAA CCD-2018 mean annual clear (114) + partly cloudy (100) days at SHREVEPORT, LA, WBAN 13957, 2 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "SHREVEPORT, LA",
+        "wban": "13957",
+        "distance_miles": 2,
+        "clear_days": 114,
+        "partly_cloudy_days": 100,
+        "cloudy_days": 151,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 131,
+      "name": "Lexington",
+      "state": "MA",
+      "fields": {
+        "sun_days": 201
+      },
+      "method": "NOAA CCD-2018 mean annual clear (98) + partly cloudy (103) days at BOSTON, MA, WBAN 14739, 13 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "BOSTON, MA",
+        "wban": "14739",
+        "distance_miles": 13,
+        "clear_days": 98,
+        "partly_cloudy_days": 103,
+        "cloudy_days": 164,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 135,
+      "name": "Quincy",
+      "state": "MA",
+      "fields": {
+        "sun_days": 201
+      },
+      "method": "NOAA CCD-2018 mean annual clear (98) + partly cloudy (103) days at BOSTON, MA, WBAN 14739, 7 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "BOSTON, MA",
+        "wban": "14739",
+        "distance_miles": 7,
+        "clear_days": 98,
+        "partly_cloudy_days": 103,
+        "cloudy_days": 164,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 136,
+      "name": "Waltham",
+      "state": "MA",
+      "fields": {
+        "sun_days": 201
+      },
+      "method": "NOAA CCD-2018 mean annual clear (98) + partly cloudy (103) days at BOSTON, MA, WBAN 14739, 12 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "BOSTON, MA",
+        "wban": "14739",
+        "distance_miles": 12,
+        "clear_days": 98,
+        "partly_cloudy_days": 103,
+        "cloudy_days": 164,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 132,
+      "name": "McHenry",
+      "state": "MS",
+      "fields": {
+        "sun_days": 218
+      },
+      "method": "NOAA CCD-2018 mean annual clear (102) + partly cloudy (116) days at MOBILE, AL, WBAN 13894, 53 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "MOBILE, AL",
+        "wban": "13894",
+        "distance_miles": 53,
+        "clear_days": 102,
+        "partly_cloudy_days": 116,
+        "cloudy_days": 147,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 78,
+      "name": "Great Falls",
+      "state": "MT",
+      "fields": {
+        "sun_days": 185
+      },
+      "method": "NOAA CCD-2018 mean annual clear (79) + partly cloudy (106) days at GREAT FALLS, MT, WBAN 24143, 4 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "GREAT FALLS, MT",
+        "wban": "24143",
+        "distance_miles": 4,
+        "clear_days": 79,
+        "partly_cloudy_days": 106,
+        "cloudy_days": 180,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 104,
+      "name": "Missoula",
+      "state": "MT",
+      "fields": {
+        "sun_days": 158
+      },
+      "method": "NOAA CCD-2018 mean annual clear (75) + partly cloudy (83) days at MISSOULA, MT, WBAN 24153, 4 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "MISSOULA, MT",
+        "wban": "24153",
+        "distance_miles": 4,
+        "clear_days": 75,
+        "partly_cloudy_days": 83,
+        "cloudy_days": 208,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 133,
+      "name": "Morrisville",
+      "state": "NC",
+      "fields": {
+        "sun_days": 217
+      },
+      "method": "NOAA CCD-2018 mean annual clear (111) + partly cloudy (106) days at RALEIGH, NC, WBAN 13722, 4 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "RALEIGH, NC",
+        "wban": "13722",
+        "distance_miles": 4,
+        "clear_days": 111,
+        "partly_cloudy_days": 106,
+        "cloudy_days": 149,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 99,
+      "name": "Reno",
+      "state": "NV",
+      "fields": {
+        "sun_days": 251
+      },
+      "method": "NOAA CCD-2018 mean annual clear (158) + partly cloudy (93) days at RENO, NV, WBAN 23185, 6 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "RENO, NV",
+        "wban": "23185",
+        "distance_miles": 6,
+        "clear_days": 158,
+        "partly_cloudy_days": 93,
+        "cloudy_days": 114,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 95,
+      "name": "Ithaca",
+      "state": "NY",
+      "fields": {
+        "sun_days": 154
+      },
+      "method": "NOAA CCD-2018 mean annual clear (52) + partly cloudy (102) days at BINGHAMTON, NY, WBAN 04725, 31 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "BINGHAMTON, NY",
+        "wban": "04725",
+        "distance_miles": 31,
+        "clear_days": 52,
+        "partly_cloudy_days": 102,
+        "cloudy_days": 212,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 115,
+      "name": "Ashville",
+      "state": "OH",
+      "fields": {
+        "sun_days": 175
+      },
+      "method": "NOAA CCD-2018 mean annual clear (72) + partly cloudy (103) days at COLUMBUS, OH, WBAN 14821, 19 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "COLUMBUS, OH",
+        "wban": "14821",
+        "distance_miles": 19,
+        "clear_days": 72,
+        "partly_cloudy_days": 103,
+        "cloudy_days": 190,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 121,
+      "name": "Oklahoma City",
+      "state": "OK",
+      "fields": {
+        "sun_days": 235
+      },
+      "method": "NOAA CCD-2018 mean annual clear (139) + partly cloudy (96) days at OKLAHOMA CITY, OK, WBAN 13967, 7 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "OKLAHOMA CITY, OK",
+        "wban": "13967",
+        "distance_miles": 7,
+        "clear_days": 139,
+        "partly_cloudy_days": 96,
+        "cloudy_days": 130,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 110,
+      "name": "Bend",
+      "state": "OR",
+      "fields": {
+        "sun_days": 157
+      },
+      "method": "NOAA CCD-2018 mean annual clear (75) + partly cloudy (82) days at EUGENE, OR, WBAN 24221, 95 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "EUGENE, OR",
+        "wban": "24221",
+        "distance_miles": 95,
+        "clear_days": 75,
+        "partly_cloudy_days": 82,
+        "cloudy_days": 209,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 76,
+      "name": "King of Prussia",
+      "state": "PA",
+      "fields": {
+        "sun_days": 205
+      },
+      "method": "NOAA CCD-2018 mean annual clear (93) + partly cloudy (112) days at PHILADELPHIA, PA, WBAN 13739, 17 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "PHILADELPHIA, PA",
+        "wban": "13739",
+        "distance_miles": 17,
+        "clear_days": 93,
+        "partly_cloudy_days": 112,
+        "cloudy_days": 160,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 96,
+      "name": "Pittsburgh",
+      "state": "PA",
+      "fields": {
+        "sun_days": 162
+      },
+      "method": "NOAA CCD-2018 mean annual clear (59) + partly cloudy (103) days at PITTSBURGH, PA, WBAN 94823, 14 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "PITTSBURGH, PA",
+        "wban": "94823",
+        "distance_miles": 14,
+        "clear_days": 59,
+        "partly_cloudy_days": 103,
+        "cloudy_days": 203,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 120,
+      "name": "Warren",
+      "state": "PA",
+      "fields": {
+        "sun_days": 160
+      },
+      "method": "NOAA CCD-2018 mean annual clear (63) + partly cloudy (97) days at ERIE, PA., WBAN 14860, 56 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "ERIE, PA.",
+        "wban": "14860",
+        "distance_miles": 56,
+        "clear_days": 63,
+        "partly_cloudy_days": 97,
+        "cloudy_days": 205,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 134,
+      "name": "North Kingstown",
+      "state": "RI",
+      "fields": {
+        "sun_days": 201
+      },
+      "method": "NOAA CCD-2018 mean annual clear (98) + partly cloudy (103) days at PROVIDENCE, RI, WBAN 14765, 11 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "PROVIDENCE, RI",
+        "wban": "14765",
+        "distance_miles": 11,
+        "clear_days": 98,
+        "partly_cloudy_days": 103,
+        "cloudy_days": 164,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 100,
+      "name": "Pierre",
+      "state": "SD",
+      "fields": {
+        "sun_days": 211
+      },
+      "method": "NOAA CCD-2018 mean annual clear (104) + partly cloudy (107) days at HURON, SD, WBAN 14936, 103 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "HURON, SD",
+        "wban": "14936",
+        "distance_miles": 103,
+        "clear_days": 104,
+        "partly_cloudy_days": 107,
+        "cloudy_days": 154,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 94,
+      "name": "Rapid City",
+      "state": "SD",
+      "fields": {
+        "sun_days": 226
+      },
+      "method": "NOAA CCD-2018 mean annual clear (111) + partly cloudy (115) days at RAPID CITY, SD, WBAN 24090, 8 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "RAPID CITY, SD",
+        "wban": "24090",
+        "distance_miles": 8,
+        "clear_days": 111,
+        "partly_cloudy_days": 115,
+        "cloudy_days": 139,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 107,
+      "name": "Memphis",
+      "state": "TN",
+      "fields": {
+        "sun_days": 214
+      },
+      "method": "NOAA CCD-2018 mean annual clear (118) + partly cloudy (96) days at MEMPHIS, TN, WBAN 13893, 3 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "MEMPHIS, TN",
+        "wban": "13893",
+        "distance_miles": 3,
+        "clear_days": 118,
+        "partly_cloudy_days": 96,
+        "cloudy_days": 151,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 97,
+      "name": "Amarillo",
+      "state": "TX",
+      "fields": {
+        "sun_days": 261
+      },
+      "method": "NOAA CCD-2018 mean annual clear (157) + partly cloudy (104) days at AMARILLO, TX, WBAN 23047, 7 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "AMARILLO, TX",
+        "wban": "23047",
+        "distance_miles": 7,
+        "clear_days": 157,
+        "partly_cloudy_days": 104,
+        "cloudy_days": 104,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 108,
+      "name": "Odessa",
+      "state": "TX",
+      "fields": {
+        "sun_days": 261
+      },
+      "method": "NOAA CCD-2018 mean annual clear (165) + partly cloudy (96) days at MIDLAND-ODESSA, TX, WBAN 23023, 9 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "MIDLAND-ODESSA, TX",
+        "wban": "23023",
+        "distance_miles": 9,
+        "clear_days": 165,
+        "partly_cloudy_days": 96,
+        "cloudy_days": 104,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 67,
+      "name": "Virginia Beach",
+      "state": "VA",
+      "fields": {
+        "sun_days": 213
+      },
+      "method": "NOAA CCD-2018 mean annual clear (106) + partly cloudy (107) days at NORFOLK, VA, WBAN 13737, 12 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "NORFOLK, VA",
+        "wban": "13737",
+        "distance_miles": 12,
+        "clear_days": 106,
+        "partly_cloudy_days": 107,
+        "cloudy_days": 153,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    },
+    {
+      "id": 122,
+      "name": "Bellevue",
+      "state": "WA",
+      "fields": {
+        "sun_days": 164
+      },
+      "method": "NOAA CCD-2018 mean annual clear (71) + partly cloudy (93) days at SEATTLE C.O., WA, WBAN 24281, 8 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "SEATTLE C.O., WA",
+        "wban": "24281",
+        "distance_miles": 8,
+        "clear_days": 71,
+        "partly_cloudy_days": 93,
+        "cloudy_days": 201,
+        "station_coord_source": "Seattle city office; manual coords"
+      }
+    },
+    {
+      "id": 130,
+      "name": "Hamilton",
+      "state": "WA",
+      "fields": {
+        "sun_days": 164
+      },
+      "method": "NOAA CCD-2018 mean annual clear (71) + partly cloudy (93) days at SEATTLE C.O., WA, WBAN 24281, 65 mi from the city — regional proxy",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "SEATTLE C.O., WA",
+        "wban": "24281",
+        "distance_miles": 65,
+        "clear_days": 71,
+        "partly_cloudy_days": 93,
+        "cloudy_days": 201,
+        "station_coord_source": "Seattle city office; manual coords"
+      }
+    },
+    {
+      "id": 92,
+      "name": "Spokane",
+      "state": "WA",
+      "fields": {
+        "sun_days": 174
+      },
+      "method": "NOAA CCD-2018 mean annual clear (86) + partly cloudy (88) days at SPOKANE, WA, WBAN 24157, 6 mi from the city",
+      "source_url": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+      "evidence": {
+        "station": "SPOKANE, WA",
+        "wban": "24157",
+        "distance_miles": 6,
+        "clear_days": 86,
+        "partly_cloudy_days": 88,
+        "cloudy_days": 191,
+        "station_coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+      }
+    }
+  ],
+  "skipped": []
+}
