@@ -15,7 +15,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, Landmark, Users, Info, RotateCcw } from "lucide-react";
+import { ShieldCheck, Landmark, Users, Info, RotateCcw, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -101,9 +101,16 @@ export default function ProfileClient({
   const chips = describePreferences(prefs);
   const isEmpty = active && surviving.length === 0;
 
+  // Save in place — this page is just the profile. We surface a prompt to go
+  // see the new matches on /explore rather than yanking the visitor there.
   function handleSave() {
     setPreferencesCookie(prefs);
     setJustSaved(true);
+  }
+
+  // The saved cookie is read server-side on /explore; refresh() clears the
+  // client router cache so the grid reflects it immediately.
+  function goToMatches() {
     router.push("/explore");
     router.refresh();
   }
@@ -173,10 +180,20 @@ export default function ProfileClient({
               <RotateCcw className="size-4" aria-hidden="true" />
               Reset
             </Button>
-            {justSaved ? (
-              <span className="text-sm text-muted-foreground">Saved.</span>
-            ) : null}
           </div>
+
+          {justSaved ? (
+            <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
+              <p className="text-sm font-medium">Profile saved.</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                We&apos;ll apply it everywhere you search.
+              </p>
+              <Button onClick={goToMatches} className="mt-2.5 gap-2">
+                See your matches on Explore
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Button>
+            </div>
+          ) : null}
 
           <p className="text-xs text-muted-foreground">
             Saved in a cookie on this device for 180 days — no account needed.
