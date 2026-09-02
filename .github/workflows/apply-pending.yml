@@ -1,0 +1,141 @@
+name: Apply pending
+
+# A merged location CSV is not a live city. The database write is a separate,
+# operator-run Apply phase (AGENTS.md "Applying merged ingests"), and CI has no
+# database access to check whether it happened. So the moment a curated
+# location CSV lands on master this workflow opens (or extends) one tracking
+# issue labeled `apply-pending` that names the files and the runbook. The
+# operator closes it after `scripts/verify-csv-imports.ts` passes. Without
+# this, merged-but-never-imported cities go unnoticed for weeks (issue #302:
+# Meridian, Columbus and Ocean Springs MS; earlier Rio Rancho, Yuma, Roseville).
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "data/*.csv"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: apply-pending
+  cancel-in-progress: false
+
+jobs:
+  flag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find location CSVs this push added or changed
+        id: changed
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ -z "$BEFORE" ] || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            # First push or force-push: fall back to the last commit only.
+            BEFORE="$AFTER~1"
+          fi
+          files=$(git diff --name-only --diff-filter=AM "$BEFORE" "$AFTER" -- 'data/*.csv' || true)
+          rows=""
+          for f in $files; do
+            [ -f "$f" ] || continue
+            # Only a curated location CSV starts with City,State (lib/csv-import-audit.ts).
+            if head -c 200 "$f" | sed '1s/^\xEF\xBB\xBF//' | head -1 | grep -Eq '^City,State(,|$)'; then
+              # City,State from the first data row, tolerating a quoted City.
+              place=$(sed -n '2p' "$f" | awk -F',' '{c=$1; gsub(/^"|"$/,"",c); print c ", " $2}')
+              rows="${rows}- \`${f}\` — ${place}"$'\n'
+            fi
+          done
+          if [ -z "$rows" ]; then
+            echo "No curated location CSV changed."
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "found=true" >> "$GITHUB_OUTPUT"
+          {
+            echo "rows<<EOF"
+            printf '%s' "$rows"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          printf 'Location CSVs in this push:\n%s' "$rows"
+
+      - name: Open or extend the apply-pending issue
+        if: steps.changed.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          ROWS: ${{ steps.changed.outputs.rows }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          gh label create apply-pending \
+            --repo "$REPO" --force --color D93F0B \
+            --description "Merged location CSV(s) not yet imported into Neon; close after scripts/verify-csv-imports.ts passes"
+
+          short="${SHA:0:7}"
+          entry=$(cat <<MSG
+          ### Merged in \`$short\` ([run]($RUN_URL))
+
+          $ROWS
+          MSG
+          )
+
+          existing=$(gh issue list --repo "$REPO" --label apply-pending --state open \
+            --json number --jq '.[0].number // empty')
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$REPO" --body "$entry"
+            echo "Appended to open apply-pending issue #$existing"
+            exit 0
+          fi
+
+          body=$(cat <<MSG
+          One or more curated location CSVs merged to \`master\`, which means their research is
+          on record but **nothing has been written to Neon yet**. Until the Apply phase runs, these
+          cities do not exist on the site (no /explore row, no map dot, no city page).
+
+          $entry
+
+          ### Apply phase (one operator, serially, from a \`master\` checkout, \`--dry-run\` first)
+
+          Order and gotchas: AGENTS.md "Applying merged ingests" and ALL_DATA_RETRIEVAL_INSTRUCTIONS.md
+          Phase 2.
+
+          \`\`\`bash
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts data/<city>_<st>.csv --dry-run
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts data/<city>_<st>.csv
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-bea-rpp.ts --skip-download
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-col-index-from-rpp.ts
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-va-facilities.ts
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/recompute-defense-hub.ts
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-military-proximity.ts
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/classify-pace.ts --name "<City>, <ST>"
+          node --env-file=.env node_modules/tsx/dist/cli.mjs city-profile-stack/scripts/tools/derive-structural-features.ts
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/prepare-map-coordinates.ts
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-location-completeness.ts --name "<City>, <ST>"
+          node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # then generate-score-baseline.ts
+          \`\`\`
+
+          ### Done when
+
+          - [ ] \`scripts/verify-csv-imports.ts\` exits 0 (every \`data/*.csv\` city is in \`locations_location\`)
+          - [ ] Apply-phase artifacts committed (\`data/location-map-coordinates.json\`, \`baselines/fit_scores.json\`, any \`data/va_facilities_sync_*.md\`)
+          - [ ] Production redeployed (Vercel auto-deploy is off; merging does not ship)
+
+          Further CSV merges append to this issue instead of opening a new one. Close it when the
+          checklist is complete.
+          MSG
+          )
+
+          gh issue create --repo "$REPO" \
+            --title "Apply phase pending: location CSV(s) merged without a database import" \
+            --label apply-pending --label data \
+            --body "$body"

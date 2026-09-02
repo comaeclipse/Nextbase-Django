@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BadgeCheck,
   BriefcaseBusiness,
@@ -24,6 +24,8 @@ import {
   type SkillMatchView,
   type SpecialtyMatchView,
 } from "@/lib/career-transition-shared";
+import type { SpecialtyListings } from "@/lib/career-listings-bridge";
+import type { ClientJobListing } from "@/lib/defense-jobs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -336,6 +338,167 @@ function ListingEvidenceCard({ evidence }: { evidence: ListingEvidenceView }) {
   );
 }
 
+function formatOpeningPay(j: ClientJobListing): string | null {
+  if (j.payMin == null && j.payMax == null) return null;
+  const unit =
+    j.payInterval === "hour"
+      ? "/hr"
+      : j.payInterval === "month"
+        ? "/mo"
+        : j.payInterval === "year"
+          ? "/yr"
+          : "";
+  const fmt = (n: number) =>
+    j.payInterval === "hour"
+      ? `$${n.toFixed(0)}`
+      : n >= 1000
+        ? `$${Math.round(n / 1000)}k`
+        : `$${n}`;
+  if (j.payMin != null && j.payMax != null && j.payMin !== j.payMax) {
+    return `${fmt(j.payMin)}–${fmt(j.payMax)}${unit}`;
+  }
+  return `${fmt(j.payMin ?? j.payMax!)}${unit}`;
+}
+
+function openingLocation(j: ClientJobListing): string {
+  if (j.city && j.state) return `${j.city}, ${j.state}`;
+  if (j.isRemote) return "Remote";
+  return j.region ?? j.city ?? "Location not specified";
+}
+
+function OpeningCard({ listing }: { listing: ClientJobListing }) {
+  const pay = formatOpeningPay(listing);
+  return (
+    <a
+      href={listing.url}
+      target="_blank"
+      rel="noreferrer"
+      className="block rounded-lg border bg-card p-4 transition-colors hover:bg-muted/50"
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <p className="font-medium leading-snug">{listing.title}</p>
+          <p className="text-sm text-muted-foreground">{listing.company}</p>
+        </div>
+        <ExternalLink className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+        <Badge variant="outline">{listing.sector}</Badge>
+        {listing.employmentType ? (
+          <Badge variant="secondary">{listing.employmentType}</Badge>
+        ) : null}
+        <span className="ml-auto inline-flex items-center gap-1 text-xs text-muted-foreground">
+          <MapPin className="size-3" />
+          {openingLocation(listing)}
+        </span>
+      </div>
+      {(listing.fieldRaw || pay) && (
+        <p className="mt-2 text-xs text-muted-foreground">
+          {listing.fieldRaw}
+          {listing.fieldRaw && pay ? " · " : ""}
+          {pay ?? ""}
+        </p>
+      )}
+    </a>
+  );
+}
+
+/**
+ * Live defense-job openings for the selected specialty, fetched from
+ * /api/career-transition/listings. The bridge only surfaces listings from
+ * employers mapped to this specialty and matching its keywords; when there is no
+ * match it returns employer career pages instead, which we show as an honest
+ * fallback rather than implying there are no opportunities.
+ */
+// The caller remounts this per specialty (via `key`), so initial state already
+// means "loading, no data" — no synchronous setState reset in the effect needed.
+function LiveOpenings({ branch, code }: { branch: MilitaryBranch; code: string }) {
+  const [data, setData] = useState<SpecialtyListings | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const params = new URLSearchParams({ branch, code });
+    fetch(`/api/career-transition/listings?${params}`, { signal: controller.signal })
+      .then((r) => (r.ok ? (r.json() as Promise<SpecialtyListings>) : null))
+      .then((json) => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch((err: unknown) => {
+        // The abort on unmount rejects the fetch; ignore it (no stale setState).
+        if ((err as { name?: string })?.name === "AbortError") return;
+        setLoading(false);
+      });
+    return () => controller.abort();
+  }, [branch, code]);
+
+  const header = (
+    <div className="flex items-center gap-2">
+      <BriefcaseBusiness className="size-4 text-muted-foreground" />
+      <h3 className="font-semibold">Live openings</h3>
+    </div>
+  );
+
+  if (loading) {
+    return (
+      <section className="space-y-3">
+        {header}
+        <Card className="rounded-lg border-dashed">
+          <CardContent className="p-4 text-sm text-muted-foreground">
+            Loading current openings…
+          </CardContent>
+        </Card>
+      </section>
+    );
+  }
+
+  const hasListings = Boolean(data && data.status === "listings" && data.listings.length > 0);
+
+  return (
+    <section className="space-y-3">
+      {header}
+      {hasListings ? (
+        <>
+          <div className="grid gap-3 xl:grid-cols-2">
+            {data!.listings.map((listing) => (
+              <OpeningCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground">{data!.note}</p>
+        </>
+      ) : (
+        <Card className="rounded-lg border-dashed">
+          <CardContent className="space-y-3 p-4">
+            <p className="text-sm text-muted-foreground">
+              {data?.note ??
+                "No live openings are wired to this specialty yet — check the employer targets above."}
+            </p>
+            {data && data.employerLinks.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {data.employerLinks
+                  .filter((link) => link.website_url)
+                  .map((link) => (
+                    <a
+                      key={link.slug}
+                      href={link.website_url!}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-xs font-medium hover:bg-muted/50"
+                    >
+                      {link.display_name}
+                      <ExternalLink className="size-3" />
+                    </a>
+                  ))}
+              </div>
+            ) : null}
+          </CardContent>
+        </Card>
+      )}
+    </section>
+  );
+}
+
 function EmptyState({ branch }: { branch: MilitaryBranch }) {
   return (
     <Card className="rounded-lg border-dashed">
@@ -533,6 +696,12 @@ export default function CareerTransitionClient({
                 ))}
               </div>
             </section>
+
+            <LiveOpenings
+              key={`${selected.specialty.branch}:${selected.specialty.code}`}
+              branch={selected.specialty.branch}
+              code={selected.specialty.code}
+            />
 
             {selected.listingEvidence.length > 0 ? (
               <section className="space-y-3">

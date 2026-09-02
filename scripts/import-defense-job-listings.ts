@@ -1,14 +1,23 @@
 /*
- * Imports individual defense-industry job listings (master_defense_jobs.csv)
- * into the defense_job_listings table behind /defense-jobs. Re-runnable: rows
- * are upserted on their apply URL, so pulling a larger CSV and re-running is
- * idempotent (pass --clear to replace the table wholesale first).
+ * Imports individual defense-industry job listings (a per-board CSV such as
+ * data/master_defense_jobs.csv or data/<company>_<ats>_<date>.csv) into the
+ * defense_job_listings table behind /defense-jobs. Re-runnable: rows are
+ * upserted on their apply URL, so pulling a larger CSV and re-running is
+ * idempotent (pass --clear to replace the table wholesale first — it truncates
+ * the whole shared table, so never use it for a single-company refresh).
  *
- * Each row is normalized here: company -> employer slug, Title+Field -> a broad
- * sector (lib/defense-jobs-sectors.ts), US city -> coordinates (the small table
- * below — only ~25 US cities appear), and the messy employment/pay spellings ->
- * a small set. International rows keep no coordinates (the map is US-only, like
- * /mosques); they still appear in the list, tagged by region.
+ * Lifecycle (issue #313): every upsert stamps `last_seen_at = now()` and clears
+ * `closed_at`, so a listing that is still on its board keeps advancing and a
+ * previously closed URL that reappears is reopened. This importer never closes
+ * anything — retiring listings missing from a fresh pull is the sync script's
+ * job, because only a whole-board pull can say what is gone.
+ *
+ * Each row is normalized here: company -> employer slug
+ * (lib/defense-jobs-companies.ts), Title+Field -> a broad sector
+ * (lib/defense-jobs-sectors.ts), US city -> coordinates (the small table
+ * below), and the messy employment/pay spellings -> a small set. International
+ * rows keep no coordinates (the map is US-only, like /mosques); they still
+ * appear in the list, tagged by region.
  *
  * Usage:
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-defense-job-listings.ts <csv> [--clear] [--dry-run]
@@ -23,6 +32,7 @@ import {
   normalizeEmployment,
   normalizePayInterval,
 } from "../lib/defense-jobs-sectors";
+import { companySlug } from "../lib/defense-jobs-companies";
 
 type Row = Record<string, string>;
 
@@ -41,34 +51,6 @@ const num = (value: string | undefined): number | null => {
   return Number.isFinite(parsed) ? parsed : null;
 };
 
-/** Company (CSV "Company" column) -> defense_employers slug. Extend as you add feeds. */
-const COMPANY_SLUG: Record<string, string> = {
-  hii: "hii",
-  "huntington ingalls": "hii",
-  "shield ai": "shield-ai",
-  palantir: "palantir",
-  saronic: "saronic",
-  "vannevar labs": "vannevar-labs",
-  kratos: "kratos",
-  anduril: "anduril",
-  "anduril industries": "anduril",
-  epirus: "epirus",
-  air: "air",
-  govini: "air", // Govini rebranded to Air in 2026
-  "chaos industries": "chaos-industries",
-  castelion: "castelion",
-  onebrief: "onebrief",
-  firestorm: "firestorm",
-  hadrian: "hadrian",
-  hermeus: "hermeus",
-  blacksky: "blacksky",
-  "lockheed martin": "lockheed-martin",
-  "palo alto networks": "palo-alto-networks",
-  "bae systems": "bae-systems",
-  "cyntel technologies": "cyntel-technologies",
-  "northrop grumman": "northrop-grumman",
-  "naval sea systems command": "navsea",
-};
 
 /**
  * City centroids for the ~25 US cities that appear in the source. Keyed by
@@ -404,7 +386,7 @@ function parseRow(row: Row, sourceFile: string, today: string): Record22 | null 
 
   return {
     company,
-    employer_slug: COMPANY_SLUG[company.toLowerCase()] ?? null,
+    employer_slug: companySlug(company),
     ats: clean(row.ATS),
     title,
     field_raw: clean(row.Field),
@@ -451,7 +433,10 @@ async function upsertChunk(
   const text =
     `INSERT INTO defense_job_listings (${COLUMNS.join(", ")}) VALUES ` +
     `${rowsSql.join(", ")} ` +
-    `ON CONFLICT (url) DO UPDATE SET ${setClause}, updated_at = now()`;
+    // A URL that is in the feed again is by definition open: bump last_seen_at
+    // and clear any closed_at the sync script set (issue #313).
+    `ON CONFLICT (url) DO UPDATE SET ${setClause}, updated_at = now(), ` +
+    `last_seen_at = now(), closed_at = NULL`;
   await sql.query(text, values);
 }
 
@@ -501,7 +486,7 @@ async function main() {
   console.log(`Parsed ${parsed.length} listing(s), skipped ${skipped} (missing url/title/company).`);
   console.log(`Geocoded (US, on map): ${geocoded}; unmapped/remote/international: ${parsed.length - geocoded}.`);
   if (unknownSlug) {
-    console.log(`Listings with no recognized employer slug: ${unknownSlug} (add to COMPANY_SLUG + lib/defense.ts seeds).`);
+    console.log(`Listings with no recognized employer slug: ${unknownSlug} (add to lib/defense-jobs-companies.ts + lib/defense.ts seeds).`);
   }
   console.log("\nBy company:");
   for (const [k, v] of Object.entries(byCompany).sort((a, b) => b[1] - a[1])) {

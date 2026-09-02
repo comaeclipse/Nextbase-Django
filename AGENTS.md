@@ -102,9 +102,19 @@ single operator**: once, from a `master` checkout, `--dry-run` before each live 
 - Exact order, flags, and per-script gotchas live in the retrieval skill's Apply phase and
   [ALL_DATA_RETRIEVAL_INSTRUCTIONS.md](ALL_DATA_RETRIEVAL_INSTRUCTIONS.md); this section is only
   the collaboration rule (serial, one operator, from `master`, after merge).
-- Every `master` push auto-redeploys Vercel with cold caches, so merged rows appear at once — a
-  deploy is not a separate step. A `needs_review` pace result, though, won't show a lifestyle
-  tag until it is approved.
+- **A merged CSV is not a live city, and nothing notices on its own.** The Apply phase has been
+  skipped after a merge repeatedly (issue #302 found fifteen merged cities absent from the
+  site). Two guards now exist, and both are part of "done":
+  - `.github/workflows/apply-pending.yml` opens (or extends) one `apply-pending` issue the
+    moment a `data/*.csv` location file lands on `master`. Close it only after the next item.
+  - `scripts/verify-csv-imports.ts` is the **last step of every Apply phase**: it reconciles
+    every `data/*.csv` city against `locations_location` (missing rows, and cities a CSV says
+    rank but the DB still has as `is_candidate=false`) and exits non-zero on any gap. Do not
+    report a city as shipped, or close the `apply-pending` issue, while it fails.
+- Vercel auto-deploy is **off** (git-triggered production builds are auto-cancelled), so merging
+  to `master` does not ship: after the Apply phase, deploy production manually (Vercel CLI from a
+  fresh `master` clone). A fresh deploy starts with cold caches, so the new rows appear at once.
+  A `needs_review` pace result, though, won't show a lifestyle tag until it is approved.
 
 ## Scratch files
 
