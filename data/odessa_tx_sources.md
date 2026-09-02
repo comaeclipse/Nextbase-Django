@@ -39,3 +39,15 @@ No DB write was made for this revision; `defense_hub_manual` remains NULL, match
 Sources:
 - Odessa Development Corporation — https://www.odessatex.com/media-center/news/p/item/61896/economic-development-101-fueling-odessas-future
 - Odessa Development Corporation, 2025 wins — https://www.odessatex.com/media-center/news/p/item/65938/odc-caps-2025-with-major-economic-wins
+
+## defense_hub_manual revision (issue #55, retrieved 2026-09-02)
+
+Determination: **FALSE** (explicit veto). The Odessa Development Corporation's major-employer list (Nov 2025) is entirely education, oil & gas, health, retail and government (ECISD 4,017; Halliburton 2,468; Saulsbury 2,061 …) with no aerospace or defense employer. Texas's installation list has nothing in Ector or Midland County; the nearest are Goodfellow AFB (San Angelo, ~150 mi), Dyess AFB (Abilene) and Fort Bliss (El Paso). Midland Army Air Field closed after WWII. Three research rounds found nothing to promote on, so the row is closed as FALSE.
+
+Applied via `data/sources/defense/location_defense_hub_manual_backfill_2026-09-02.json` (`scripts/apply-location-patches.ts`), then `scripts/recompute-defense-hub.ts`.
+
+Sources:
+- Odessa Development Corporation, major employers — https://www.odessatex.com/workforce/major-employers/
+- DoD MilitaryINSTALLATIONS, Texas — https://installations.militaryonesource.mil/state/TX/state-installations
+- Office of the Texas Governor, military installations — https://gov.texas.gov/organization/military/installations
+- Texas State Historical Association, Midland Army Air Field — https://www.tshaonline.org/handbook/entries/midland-army-air-field
