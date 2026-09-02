@@ -113,3 +113,33 @@ air_force,AFSC,3F0X1,Personnel,enlisted,current,official_crosswalk,https://www.o
 marine_corps,NMOS,0111,Administrative Specialist,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-31
 coast_guard,Rating,YN,Yeoman,enlisted,current,official_crosswalk,https://www.onetonline.org/crosswalk/MOC/,2026-08-31
 navy,Designator,3100,Supply Corps Officer,officer,current,curated_mapping,https://www.opm.gov/policy-data-oversight/classification-qualifications/classifying-general-schedule-positions/,2026-08-31
+army,MOS,25B,Information Technology Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/25b-information-technology-specialist,2026-09-02
+army,MOS,25S,Satellite Communication Systems Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/25s-satellite-communication-systems-specialist,2026-09-02
+army,MOS,25U,Signal Operations Support Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/25u-signal-operations-support-specialist,2026-09-02
+navy,Rating,IT,Information Systems Technician,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Information-Warfare/IT/,2026-09-02
+navy,Rating,ITS,Information Systems Technician Submarines,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Information-Warfare/IT/,2026-09-02
+navy,Rating,ITN,Information Systems Technician Submarines - Network,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Information-Warfare/IT/,2026-09-02
+navy,Rating,ITR,Information Systems Technician Submarines - Communications,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Information-Warfare/IT/,2026-09-02
+navy,NEC,741A,Information System Security Manager,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,742A,Network Security Vulnerability Manager,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,745A,Information Systems Technician,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,746A,Information Systems Administrator,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,738A,GCCS-M System Administrator,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,739A,GCCS-M Systems Administrator Advanced,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,H02A,Strategic SHF SATCOM DSCS WGS Operator,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,H04A,Transmission System Technician,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,H05A,JFACC System Administrator,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+navy,NEC,H33A,Cyber Network Defense Infrastructure Specialist,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf,2026-09-02
+marine_corps,MOS,0621,Transmissions System Operator,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+marine_corps,MOS,0627,Satellite Transmissions System Operator,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+marine_corps,MOS,0631,Network Administrator,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+marine_corps,MOS,0639,Network Chief,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+marine_corps,MOS,0671,Data Systems Administrator,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+marine_corps,MOS,0679,Data Systems Chief,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+marine_corps,MOS,0699,Communications Chief,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+marine_corps,MOS,2862,Ground Electronics Systems Maintenance Technician,enlisted,current,official_service_page,https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/,2026-09-02
+air_force,AFSC,1D731A,Network Operations,enlisted,current,official_service_page,https://www.airforce.com/careers/intelligence/cyber-transport-systems,2026-09-02
+air_force,AFSC,1D731B,Systems Operations,enlisted,current,official_service_page,https://www.airforce.com/pay-and-benefits/bonuses/air-force-bonuses,2026-09-02
+air_force,AFSC,1D731D,Security Operations,enlisted,current,official_service_page,https://www.airforce.com/pay-and-benefits/bonuses/air-force-bonuses,2026-09-02
+air_force,AFSC,1D731E,Client Systems Specialist,enlisted,current,official_service_page,https://www.airforce.com/pay-and-benefits/bonuses/air-force-bonuses,2026-09-02
+coast_guard,Rating,IT,Information Systems Technician,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted/it,2026-09-02

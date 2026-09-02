@@ -146,7 +146,12 @@ describe("career-transition taxonomy", () => {
     expect(searchSpecialties(catalog.specialties, "space_force", "cyber")[0]?.code).toBe("5C0X1");
     expect(searchSpecialties(catalog.specialties, "coast_guard", "mission")[0]?.code).toBe("CMS");
     expect(searchSpecialties(catalog.specialties, "navy", "stg")[0]?.code).toBe("STG");
-    expect(searchSpecialties(catalog.specialties, "navy", "submarines")[0]?.code).toBe("STS");
+    // "submarines" now matches several ratings by title — STS plus the ITS/ITN/ITR
+    // Information Systems Technician Submarines ratings — and results sort by code,
+    // so assert STS is among the hits rather than pinning it to first place.
+    expect(
+      searchSpecialties(catalog.specialties, "navy", "submarines").map((s) => s.code)
+    ).toContain("STS");
   });
 
   it("sorts role matches by fit score, then directness", () => {

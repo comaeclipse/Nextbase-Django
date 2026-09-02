@@ -237,3 +237,52 @@ This slice bridges the non-cyber federal occupational series that appear in the 
 - **0501** was kept conservative: only Air Force 6F0X1 (which is in the O*NET 13-2051 crosswalk). Army 36B / Marine 3451 were **not** auto-added, because finance ≠ financial analysis (their work may align better with 0510/0560 accounting/budget/pay series) — exactly the false-positive the `resolveSpecialty` rule guards against.
 - Coast Guard **SK (Storekeeper)** is flagged `status=unknown`: O*NET lists it under Logisticians but marks it an older classification; verify current CG nomenclature before treating it as active.
 - NAVSEA is seeded as a `government_agency` transition employer with `ExistingDefenseEmployerSlug` left blank on purpose (the `defense_employers.slug='navsea'` FK link can be added once the /defense-jobs NAVSEA PR merges and its employer seed runs). Every new specialty carries a NAVSEA employer match, and marquee series (1102/0346/0201/0080/0501) carry `specialty_listing_evidence` rows pointing at the actual ingested USAJOBS postings.
+
+## Information specialist / cleared IT expansion (added 2026-09-02)
+
+This slice covers the high-volume active-duty-to-civilian path from military IT, signal, SATCOM, COMSEC, and cyber-defense operations into cleared enterprise IT, network administration, systems administration, mission-system administration, and information-assurance roles. It deliberately separates ordinary infrastructure IT from offensive/advanced cyber: a Navy IT, Army 25B, Marine 0671, Air Force 1D731B, or Coast Guard IT should not resolve only to SOC or exploitation roles when the stronger civilian market is systems, network, endpoint, and mission IT.
+
+New specialties added:
+
+- Army MOS: 25B, 25S, 25U.
+- Navy ratings: IT, ITS, ITN, ITR.
+- Navy NECs: 741A, 742A, 745A, 746A, 738A, 739A, H02A, H04A, H05A, H33A.
+- Marine Corps MOS: 0621, 0627, 0631, 0639, 0671, 0679, 0699, 2862.
+- Air Force AFSCs: 1D731A, 1D731B, 1D731D, 1D731E.
+- Coast Guard rating: IT.
+
+Specialty source basis:
+
+- Army 25B Information Technology Specialist: https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/25b-information-technology-specialist
+- Army 25S Satellite Communication Systems Specialist: https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/25s-satellite-communication-systems-specialist
+- Army 25U Signal Operations Support Specialist: https://www.goarmy.com/careers-and-jobs/signal-intelligence/locations-stats-frequencies/25u-signal-operations-support-specialist
+- Navy IT community page: https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Information-Warfare/IT/
+- Navy NEC manual, Chapter IV: https://www.mynavyhr.navy.mil/Portals/55/Reference/NEOCS/Vol2/NEC_Chap_4_Apr_25.pdf
+- Marine Corps FY25 JCU active-duty eligible MOS list: https://www.marines.mil/News/Messages/Messages-Display/Article/4219364/fy25-solicitation-of-qualified-marines-for-the-joint-communications-unit/
+- Air Force 1D731A Cyber Transport Systems: https://www.airforce.com/careers/intelligence/cyber-transport-systems
+- Air Force active-duty bonus page listing 1D731B, 1D731D, and 1D731E: https://www.airforce.com/pay-and-benefits/bonuses/air-force-bonuses
+- Coast Guard IT: https://www.gocoastguard.com/careers/enlisted/it
+
+Civilian role basis:
+
+- Network and Computer Systems Administrators, O*NET 15-1244.00: https://www.onetonline.org/link/summary/15-1244.00
+- Computer User Support Specialists, O*NET 15-1232.00: https://www.onetonline.org/link/summary/15-1232.00
+- Telecommunications Equipment Installers and Repairers, O*NET 49-2022.00: https://www.onetonline.org/link/summary/49-2022.00
+- Information Security Analysts, O*NET 15-1299.05: https://www.onetonline.org/link/summary/15-1299.05
+
+Employer/listing evidence:
+
+- Leidos Network Engineer and Field/Base Communications Network Engineer examples: https://careers.leidos.com/jobs/18185808-network-engineer and https://careers.leidos.com/jobs/18094660-field-slash-base-communications-network-engineer
+- SAIC Network Engineer and Junior System Administrator / JEXC2 examples: https://jobs.saic.com/jobs/18175589-network-engineer and https://jobs.saic.com/jobs/18090023-junior-system-administrator
+- GDIT Network Administrator examples: https://www.gdit.com/careers/job/ad66fb5f7/network-administrator/ and https://www.gdit.com/careers/job/f413c21d5/network-administrator-intermediate-tssci-required/
+- Peraton Systems Administrator examples: https://www.careers.peraton.com/jobs/systems-administrator-windows-fort-huachuca-arizona-167245-jobs--information-technology-- and https://www.careers.peraton.com/jobs/systems-administrator-fort-meade-maryland-169161-jobs--information-technology--
+- Lockheed Martin ALIS Systems Administrator example: https://www.lockheedmartinjobs.com/job/orlando/systems-administrator-alis-lask-poland/694/95260743552
+- L3Harris Cyber Intelligence - Systems Administrator example: https://jobs.l3harris.com/job/Salt-Lake-City-Specialist%2C-Cyber-Intelligence-Systems-Administrator-UT-84116/1425072900/
+
+Caveats for this slice:
+
+- Active-duty code status was checked against current public service pages where available. Navy NEC rows still need careful review during future refreshes because NEC titles and availability can shift.
+- `1D7X1` remains as the broad Air Force cyber-defense entry already in the seed; the new `1D731*` rows expose high-signal shred-level transitions for network, systems, security, and client systems.
+- Navy IT NEC rows are platform refinements, not a claim that every IT sailor holds that NEC. The matcher should use them only when the user's service history names the NEC or a clearly equivalent platform.
+- `25U`, `0621`, and some senior chief/chief communications rows are intentionally lower or adjacent where the civilian IT match depends on documented IP-network, systems, COMSEC, or SATCOM duties.
+- Pinned listings are dated snapshots. They are examples for match quality, not claims of current availability.
