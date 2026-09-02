@@ -1,0 +1,2709 @@
+{
+ "source": "NOAA NCEI Comparative Climatic Data 2018, table 'Cloudiness \u2014 Mean Number of Days (Clear, Partly Cloudy, Cloudy)' (clpcdy18.dat, annual columns), station coordinates from the NCEI HOMR WBAN master list; MANUAL entries are stations the master list has no parseable location for.",
+ "ccd_table": "https://www.ncei.noaa.gov/products/land-based-station/comparative-climatic-data",
+ "file": "https://github.com/noaaccd/noaaccd.github.io/blob/master/clpcdy18.dat",
+ "wban_master_list": "https://www.ncei.noaa.gov/access/homr/file/wbanmasterlist.psv.zip",
+ "retrieved_on": "2026-09-02",
+ "stations": [
+  {
+   "wban": "13876",
+   "name": "BIRMINGHAM AP,AL",
+   "lat": 33.56388888888888,
+   "lon": -86.75444444444445,
+   "cl": 99,
+   "pc": 111,
+   "cd": 155,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03856",
+   "name": "HUNTSVILLE, AL",
+   "lat": 34.64111111111111,
+   "lon": -86.77416666666666,
+   "cl": 100,
+   "pc": 101,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13894",
+   "name": "MOBILE, AL",
+   "lat": 30.691111111111113,
+   "lon": -88.24277777777777,
+   "cl": 102,
+   "pc": 116,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13895",
+   "name": "MONTGOMERY, AL",
+   "lat": 32.300555555555555,
+   "lon": -86.39416666666668,
+   "cl": 107,
+   "pc": 107,
+   "cd": 151,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26451",
+   "name": "ANCHORAGE, AK",
+   "lat": 61.175,
+   "lon": -149.9933333333333,
+   "cl": 61,
+   "pc": 65,
+   "cd": 239,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "25308",
+   "name": "ANNETTE, AK",
+   "lat": 55.04333333333333,
+   "lon": -131.57,
+   "cl": 40,
+   "pc": 60,
+   "cd": 265,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "27502",
+   "name": "BARROW, AK",
+   "lat": 71.28666666666666,
+   "lon": -156.76333333333332,
+   "cl": 66,
+   "pc": 52,
+   "cd": 187,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26615",
+   "name": "BETHEL, AK",
+   "lat": 60.78,
+   "lon": -161.83666666666667,
+   "cl": 62,
+   "pc": 65,
+   "cd": 239,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26533",
+   "name": "BETTLES,AK",
+   "lat": 66.91611111111112,
+   "lon": -151.5088888888889,
+   "cl": 86,
+   "pc": 93,
+   "cd": 187,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26415",
+   "name": "BIG DELTA,AK",
+   "lat": 63.995,
+   "lon": -145.71833333333333,
+   "cl": 60,
+   "pc": 93,
+   "cd": 212,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "25624",
+   "name": "COLD BAY,AK",
+   "lat": 55.20666666666667,
+   "lon": -162.72166666666666,
+   "cl": 10,
+   "pc": 50,
+   "cd": 304,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26411",
+   "name": "FAIRBANKS, AK",
+   "lat": 64.81666666666666,
+   "lon": -147.855,
+   "cl": 70,
+   "pc": 86,
+   "cd": 210,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26425",
+   "name": "GULKANA,AK",
+   "lat": 62.16027777777778,
+   "lon": -145.45749999999998,
+   "cl": 67,
+   "pc": 89,
+   "cd": 209,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "25507",
+   "name": "HOMER, AK",
+   "lat": 59.64666666666667,
+   "lon": -151.47666666666666,
+   "cl": 65,
+   "pc": 75,
+   "cd": 225,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "25309",
+   "name": "JUNEAU, AK",
+   "lat": 58.355000000000004,
+   "lon": -134.575,
+   "cl": 44,
+   "pc": 41,
+   "cd": 280,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "25503",
+   "name": "KING SALMON, AK",
+   "lat": 58.67833333333333,
+   "lon": -156.64666666666665,
+   "cl": 51,
+   "pc": 69,
+   "cd": 245,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "25501",
+   "name": "KODIAK, AK",
+   "lat": 57.75,
+   "lon": -152.49166666666665,
+   "cl": 59,
+   "pc": 74,
+   "cd": 232,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26616",
+   "name": "KOTZEBUE, AK",
+   "lat": 66.885,
+   "lon": -162.59666666666666,
+   "cl": 100,
+   "pc": 72,
+   "cd": 193,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26510",
+   "name": "MCGRATH, AK",
+   "lat": 62.95333333333333,
+   "lon": -155.60333333333332,
+   "cl": 67,
+   "pc": 72,
+   "cd": 226,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26617",
+   "name": "NOME, AK",
+   "lat": 64.51333333333334,
+   "lon": -165.44333333333333,
+   "cl": 91,
+   "pc": 69,
+   "cd": 205,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "25713",
+   "name": "ST. PAUL ISLAND, AK",
+   "lat": 57.163333333333334,
+   "lon": -170.22,
+   "cl": 18,
+   "pc": 61,
+   "cd": 287,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26528",
+   "name": "TALKEETNA, AK",
+   "lat": 62.32166666666667,
+   "lon": -150.09166666666667,
+   "cl": 67,
+   "pc": 67,
+   "cd": 225,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "26627",
+   "name": "UNALAKLEET, AK",
+   "lat": null,
+   "lon": null,
+   "cl": 83,
+   "pc": 67,
+   "cd": 215,
+   "coord_source": null
+  },
+  {
+   "wban": "26442",
+   "name": "VALDEZ, AK",
+   "lat": null,
+   "lon": null,
+   "cl": 57,
+   "pc": 57,
+   "cd": 251,
+   "coord_source": null
+  },
+  {
+   "wban": "25339",
+   "name": "YAKUTAT, AK",
+   "lat": 59.50333333333333,
+   "lon": -139.66,
+   "cl": 41,
+   "pc": 46,
+   "cd": 278,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03103",
+   "name": "FLAGSTAFF, AZ",
+   "lat": 35.58555555555556,
+   "lon": -111.67055555555557,
+   "cl": 162,
+   "pc": 102,
+   "cd": 102,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23183",
+   "name": "PHOENIX, AZ",
+   "lat": 33.43611111111111,
+   "lon": -112.00888888888889,
+   "cl": 211,
+   "pc": 85,
+   "cd": 70,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23160",
+   "name": "TUCSON, AZ",
+   "lat": 32.11611111111111,
+   "lon": -110.94055555555556,
+   "cl": 193,
+   "pc": 91,
+   "cd": 81,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23194",
+   "name": "WINSLOW, AZ",
+   "lat": 35.02194444444444,
+   "lon": -110.72194444444445,
+   "cl": 177,
+   "pc": 99,
+   "cd": 89,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23195",
+   "name": "YUMA, AZ",
+   "lat": 32.656666666666666,
+   "lon": -114.60527777777777,
+   "cl": 242,
+   "pc": 71,
+   "cd": 52,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13964",
+   "name": "FORT SMITH, AR",
+   "lat": 35.33638888888889,
+   "lon": -94.36722222222221,
+   "cl": 123,
+   "pc": 95,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13963",
+   "name": "LITTLE ROCK, AR",
+   "lat": 34.74666666666667,
+   "lon": -92.23305555555555,
+   "cl": 119,
+   "pc": 100,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23155",
+   "name": "BAKERSFIELD, CA",
+   "lat": 35.433611111111105,
+   "lon": -119.05583333333333,
+   "cl": 191,
+   "pc": 81,
+   "cd": 93,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23157",
+   "name": "BISHOP, CA",
+   "lat": 37.37305555555555,
+   "lon": -118.36277777777777,
+   "cl": 201,
+   "pc": 89,
+   "cd": 75,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23225",
+   "name": "BLUE CANYON, CA",
+   "lat": 39.275,
+   "lon": -120.70833333333334,
+   "cl": 174,
+   "pc": 64,
+   "cd": 126,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24213",
+   "name": "EUREKA, CA.",
+   "lat": 40.80444444444444,
+   "lon": -124.11388888888888,
+   "cl": 77,
+   "pc": 102,
+   "cd": 186,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93193",
+   "name": "FRESNO, CA",
+   "lat": 36.77611111111111,
+   "lon": -119.71722222222222,
+   "cl": 194,
+   "pc": 73,
+   "cd": 98,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23129",
+   "name": "LONG BEACH, CA",
+   "lat": 33.81777777777778,
+   "lon": -118.15083333333334,
+   "cl": 159,
+   "pc": 119,
+   "cd": 87,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23174",
+   "name": "LOS ANGELES AP, CA",
+   "lat": 33.942499999999995,
+   "lon": -118.40722222222223,
+   "cl": 147,
+   "pc": 116,
+   "cd": 103,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93134",
+   "name": "LOS ANGELES C.O., CA",
+   "lat": 34.0522,
+   "lon": -118.2437,
+   "cl": 186,
+   "pc": 106,
+   "cd": 73,
+   "coord_source": "Los Angeles city office; manual coords"
+  },
+  {
+   "wban": "24215",
+   "name": "MOUNT SHASTA, CA",
+   "lat": 41.31666666666667,
+   "lon": -122.31666666666666,
+   "cl": 164,
+   "pc": 83,
+   "cd": 118,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24257",
+   "name": "REDDING, CA",
+   "lat": 40.509166666666665,
+   "lon": -122.29222222222222,
+   "cl": 172,
+   "pc": 77,
+   "cd": 116,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23232",
+   "name": "SACRAMENTO, CA",
+   "lat": 38.5125,
+   "lon": -121.4925,
+   "cl": 188,
+   "pc": 77,
+   "cd": 100,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23188",
+   "name": "SAN DIEGO, CA",
+   "lat": 32.73361111111111,
+   "lon": -117.18666666666667,
+   "cl": 146,
+   "pc": 117,
+   "cd": 102,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23234",
+   "name": "SAN FRANCISCO AP, CA",
+   "lat": 37.619166666666665,
+   "lon": -122.37388888888889,
+   "cl": 160,
+   "pc": 100,
+   "cd": 105,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23273",
+   "name": "SANTA MARIA, CA",
+   "lat": 34.89888888888889,
+   "lon": -120.4563888888889,
+   "cl": 176,
+   "pc": 110,
+   "cd": 80,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23237",
+   "name": "STOCKTON, CA",
+   "lat": 37.89416666666666,
+   "lon": -121.23722222222223,
+   "cl": 184,
+   "pc": 77,
+   "cd": 104,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23061",
+   "name": "ALAMOSA, CO",
+   "lat": 37.43611111111111,
+   "lon": -105.86555555555555,
+   "cl": 148,
+   "pc": 137,
+   "cd": 81,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93037",
+   "name": "COLORADO SPRINGS, CO",
+   "lat": 39.223055555555554,
+   "lon": -106.86833333333333,
+   "cl": 127,
+   "pc": 120,
+   "cd": 118,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03017",
+   "name": "DENVER, CO",
+   "lat": 39.8561,
+   "lon": -104.6737,
+   "cl": 115,
+   "pc": 130,
+   "cd": 120,
+   "coord_source": "Denver International AP (WBAN 03017); manual coords"
+  },
+  {
+   "wban": "23066",
+   "name": "GRAND JUNCTION, CO",
+   "lat": 39.1225,
+   "lon": -108.5261111111111,
+   "cl": 136,
+   "pc": 106,
+   "cd": 122,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93058",
+   "name": "PUEBLO, CO",
+   "lat": 38.28916666666667,
+   "lon": -104.4961111111111,
+   "cl": 139,
+   "pc": 119,
+   "cd": 107,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94702",
+   "name": "BRIDGEPORT, CT",
+   "lat": 41.163333333333334,
+   "lon": -73.12666666666667,
+   "cl": 99,
+   "pc": 107,
+   "cd": 159,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14740",
+   "name": "HARTFORD, CT",
+   "lat": 41.93888888888888,
+   "lon": -72.68361111111112,
+   "cl": 82,
+   "pc": 108,
+   "cd": 175,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13781",
+   "name": "WILMINGTON, DE",
+   "lat": 39.67833333333333,
+   "lon": -75.60694444444444,
+   "cl": 97,
+   "pc": 104,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93738",
+   "name": "WASHINGTON DULLES AP, D.C.",
+   "lat": 38.94416666666666,
+   "lon": -77.45722222222223,
+   "cl": 92,
+   "pc": 105,
+   "cd": 168,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13743",
+   "name": "WASHINGTON NAT'L AP, D.C.",
+   "lat": 38.852222222222224,
+   "lon": -77.03805555555556,
+   "cl": 96,
+   "pc": 106,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12832",
+   "name": "APALACHICOLA, FL",
+   "lat": 29.733333333333334,
+   "lon": -85.01666666666667,
+   "cl": 128,
+   "pc": 113,
+   "cd": 116,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12834",
+   "name": "DAYTONA BEACH, FL",
+   "lat": 29.180833333333336,
+   "lon": -81.05611111111111,
+   "cl": 97,
+   "pc": 132,
+   "cd": 136,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12835",
+   "name": "FORT MYERS, FL",
+   "lat": 26.586388888888887,
+   "lon": -81.86361111111111,
+   "cl": 98,
+   "pc": 168,
+   "cd": 99,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13889",
+   "name": "JACKSONVILLE, FL",
+   "lat": 30.4925,
+   "lon": -81.69,
+   "cl": 94,
+   "pc": 127,
+   "cd": 144,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12836",
+   "name": "KEY WEST, FL",
+   "lat": 24.555833333333332,
+   "lon": -81.75972222222222,
+   "cl": 104,
+   "pc": 155,
+   "cd": 107,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12839",
+   "name": "MIAMI, FL",
+   "lat": 25.79277777777778,
+   "lon": -80.29055555555556,
+   "cl": 74,
+   "pc": 175,
+   "cd": 115,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12815",
+   "name": "ORLANDO, FL",
+   "lat": 28.428611111111113,
+   "lon": -81.31611111111111,
+   "cl": 89,
+   "pc": 147,
+   "cd": 130,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13899",
+   "name": "PENSACOLA, FL",
+   "lat": 30.473055555555554,
+   "lon": -87.1875,
+   "cl": 105,
+   "pc": 123,
+   "cd": 137,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93805",
+   "name": "TALLAHASSEE, FL",
+   "lat": 30.39638888888889,
+   "lon": -84.35055555555554,
+   "cl": 102,
+   "pc": 129,
+   "cd": 134,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12842",
+   "name": "TAMPA, FL",
+   "lat": 27.975277777777777,
+   "lon": -82.53333333333333,
+   "cl": 101,
+   "pc": 143,
+   "cd": 121,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12844",
+   "name": "WEST PALM BEACH, FL",
+   "lat": 26.68277777777778,
+   "lon": -80.09583333333333,
+   "cl": 75,
+   "pc": 159,
+   "cd": 131,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13873",
+   "name": "ATHENS, GA",
+   "lat": 33.94833333333333,
+   "lon": -83.32666666666667,
+   "cl": 113,
+   "pc": 105,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13874",
+   "name": "ATLANTA, GA",
+   "lat": 33.640277777777776,
+   "lon": -84.42694444444444,
+   "cl": 110,
+   "pc": 107,
+   "cd": 149,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03820",
+   "name": "AUGUSTA,GA",
+   "lat": 33.36972222222222,
+   "lon": -81.96472222222222,
+   "cl": 112,
+   "pc": 106,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93842",
+   "name": "COLUMBUS, GA",
+   "lat": 32.51611111111111,
+   "lon": -84.9388888888889,
+   "cl": 110,
+   "pc": 104,
+   "cd": 151,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03813",
+   "name": "MACON, GA",
+   "lat": 32.69277777777778,
+   "lon": -83.64944444444446,
+   "cl": 112,
+   "pc": 107,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03822",
+   "name": "SAVANNAH, GA",
+   "lat": 32.1275,
+   "lon": -81.2025,
+   "cl": 104,
+   "pc": 110,
+   "cd": 152,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "21504",
+   "name": "HILO, HI",
+   "lat": 19.723333333333333,
+   "lon": -155.0513888888889,
+   "cl": 36,
+   "pc": 132,
+   "cd": 197,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "22521",
+   "name": "HONOLULU,HI",
+   "lat": 21.321944444444444,
+   "lon": -157.92527777777778,
+   "cl": 90,
+   "pc": 181,
+   "cd": 94,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "22516",
+   "name": "KAHULUI, HI",
+   "lat": 20.901944444444442,
+   "lon": -156.43305555555554,
+   "cl": 131,
+   "pc": 145,
+   "cd": 90,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "22536",
+   "name": "LIHUE, HI",
+   "lat": 21.979166666666664,
+   "lon": -159.3413888888889,
+   "cl": 56,
+   "pc": 184,
+   "cd": 125,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24131",
+   "name": "BOISE, ID",
+   "lat": 43.565,
+   "lon": -116.22,
+   "cl": 120,
+   "pc": 90,
+   "cd": 155,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24149",
+   "name": "LEWISTON, ID",
+   "lat": 46.374722222222225,
+   "lon": -117.01444444444445,
+   "cl": 91,
+   "pc": 78,
+   "cd": 196,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24156",
+   "name": "POCATELLO, ID",
+   "lat": 42.913333333333334,
+   "lon": -112.59416666666667,
+   "cl": 106,
+   "pc": 98,
+   "cd": 162,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93809",
+   "name": "CAIRO,IL",
+   "lat": 37.0,
+   "lon": -89.1667,
+   "cl": 113,
+   "pc": 104,
+   "cd": 149,
+   "coord_source": "Cairo IL; manual coords"
+  },
+  {
+   "wban": "94846",
+   "name": "CHICAGO,IL",
+   "lat": 41.97944444444445,
+   "lon": -87.90444444444445,
+   "cl": 84,
+   "pc": 105,
+   "cd": 176,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14923",
+   "name": "MOLINE, IL",
+   "lat": 41.448611111111106,
+   "lon": -90.50666666666666,
+   "cl": 101,
+   "pc": 100,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14842",
+   "name": "PEORIA, IL",
+   "lat": 40.664722222222224,
+   "lon": -89.69166666666668,
+   "cl": 95,
+   "pc": 97,
+   "cd": 172,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94822",
+   "name": "ROCKFORD, IL",
+   "lat": 42.19611111111111,
+   "lon": -89.0925,
+   "cl": 93,
+   "pc": 98,
+   "cd": 174,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93822",
+   "name": "SPRINGFIELD, IL",
+   "lat": 39.843611111111116,
+   "lon": -89.67722222222223,
+   "cl": 104,
+   "pc": 94,
+   "cd": 167,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93817",
+   "name": "EVANSVILLE, IN",
+   "lat": 38.03805555555555,
+   "lon": -87.51805555555555,
+   "cl": 102,
+   "pc": 100,
+   "cd": 163,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14827",
+   "name": "FORT WAYNE, IN",
+   "lat": 40.97777777777778,
+   "lon": -85.19388888888889,
+   "cl": 78,
+   "pc": 102,
+   "cd": 186,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93819",
+   "name": "INDIANAPOLIS, IN",
+   "lat": 39.72,
+   "lon": -86.28666666666666,
+   "cl": 88,
+   "pc": 99,
+   "cd": 179,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14848",
+   "name": "SOUTH BEND, IN",
+   "lat": 41.70666666666667,
+   "lon": -86.31694444444445,
+   "cl": 73,
+   "pc": 100,
+   "cd": 193,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14933",
+   "name": "DES MOINES, IA",
+   "lat": 41.535,
+   "lon": -93.66055555555556,
+   "cl": 105,
+   "pc": 97,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94908",
+   "name": "DUBUQUE,IA",
+   "lat": 42.403055555555554,
+   "lon": -90.70916666666668,
+   "cl": 92,
+   "pc": 99,
+   "cd": 175,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14943",
+   "name": "SIOUX CITY, IA",
+   "lat": 42.403888888888886,
+   "lon": -96.38333333333334,
+   "cl": 104,
+   "pc": 104,
+   "cd": 157,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94910",
+   "name": "WATERLOO, IA",
+   "lat": 42.55694444444444,
+   "lon": -92.4,
+   "cl": 91,
+   "pc": 100,
+   "cd": 174,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13984",
+   "name": "CONCORDIA, KS",
+   "lat": 39.549166666666665,
+   "lon": -97.65194444444445,
+   "cl": 131,
+   "pc": 95,
+   "cd": 140,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13985",
+   "name": "DODGE CITY, KS",
+   "lat": 37.76222222222222,
+   "lon": -99.96444444444445,
+   "cl": 137,
+   "pc": 104,
+   "cd": 124,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23065",
+   "name": "GOODLAND, KS",
+   "lat": 39.3667,
+   "lon": -101.7,
+   "cl": 143,
+   "pc": 117,
+   "cd": 105,
+   "coord_source": "Goodland; manual coords"
+  },
+  {
+   "wban": "13996",
+   "name": "TOPEKA, KS",
+   "lat": 39.06888888888889,
+   "lon": -95.62222222222222,
+   "cl": 114,
+   "pc": 97,
+   "cd": 154,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03928",
+   "name": "WICHITA, KS",
+   "lat": 37.65,
+   "lon": -97.43277777777779,
+   "cl": 128,
+   "pc": 97,
+   "cd": 140,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03889",
+   "name": "JACKSON, KY",
+   "lat": 37.5936,
+   "lon": -83.3172,
+   "cl": 73,
+   "pc": 97,
+   "cd": 195,
+   "coord_source": "Jackson KY; manual coords"
+  },
+  {
+   "wban": "93820",
+   "name": "LEXINGTON, KY",
+   "lat": 38.036944444444444,
+   "lon": -84.60555555555555,
+   "cl": 89,
+   "pc": 101,
+   "cd": 174,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93821",
+   "name": "LOUISVILLE, KY",
+   "lat": 38.17472222222222,
+   "lon": -85.7363888888889,
+   "cl": 93,
+   "pc": 102,
+   "cd": 171,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03816",
+   "name": "PADUCAH, KY",
+   "lat": 37.06083333333333,
+   "lon": -88.77361111111111,
+   "cl": 101,
+   "pc": 97,
+   "cd": 167,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13970",
+   "name": "BATON ROUGE, LA",
+   "lat": 30.533055555555556,
+   "lon": -91.14944444444446,
+   "cl": 99,
+   "pc": 119,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03937",
+   "name": "LAKE CHARLES, LA",
+   "lat": 30.125555555555557,
+   "lon": -93.22277777777778,
+   "cl": 98,
+   "pc": 115,
+   "cd": 152,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12916",
+   "name": "NEW ORLEANS, LA",
+   "lat": 29.99277777777778,
+   "lon": -90.25555555555556,
+   "cl": 101,
+   "pc": 118,
+   "cd": 146,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13957",
+   "name": "SHREVEPORT, LA",
+   "lat": 32.44638888888888,
+   "lon": -93.82555555555555,
+   "cl": 114,
+   "pc": 100,
+   "cd": 151,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14607",
+   "name": "CARIBOU, ME",
+   "lat": 46.870555555555555,
+   "lon": -68.01833333333333,
+   "cl": 59,
+   "pc": 100,
+   "cd": 206,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14764",
+   "name": "PORTLAND, ME",
+   "lat": 43.062777777777775,
+   "lon": -70.30916666666667,
+   "cl": 101,
+   "pc": 99,
+   "cd": 165,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93721",
+   "name": "BALTIMORE, MD",
+   "lat": 39.175,
+   "lon": -76.66944444444445,
+   "cl": 105,
+   "pc": 108,
+   "cd": 152,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14739",
+   "name": "BOSTON, MA",
+   "lat": 42.36416666666667,
+   "lon": -71.00583333333333,
+   "cl": 98,
+   "pc": 103,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94746",
+   "name": "WORCESTER, MA",
+   "lat": 42.26722222222222,
+   "lon": -71.8761111111111,
+   "cl": 90,
+   "pc": 107,
+   "cd": 168,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94849",
+   "name": "ALPENA, MI",
+   "lat": 45.07805555555556,
+   "lon": -83.56027777777777,
+   "cl": 67,
+   "pc": 104,
+   "cd": 194,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94847",
+   "name": "DETROIT, MI",
+   "lat": 42.21527777777778,
+   "lon": -83.34861111111111,
+   "cl": 75,
+   "pc": 105,
+   "cd": 185,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14826",
+   "name": "FLINT, MI",
+   "lat": 42.96555555555556,
+   "lon": -83.74361111111111,
+   "cl": 66,
+   "pc": 105,
+   "cd": 195,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94860",
+   "name": "GRAND RAPIDS, MI",
+   "lat": 42.8825,
+   "lon": -85.52388888888889,
+   "cl": 64,
+   "pc": 96,
+   "cd": 205,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94814",
+   "name": "HOUGHTON LAKE, MI",
+   "lat": 44.35,
+   "lon": -84.66666666666667,
+   "cl": 65,
+   "pc": 100,
+   "cd": 200,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14836",
+   "name": "LANSING, MI",
+   "lat": 42.77861111111111,
+   "lon": -84.58749999999999,
+   "cl": 71,
+   "pc": 104,
+   "cd": 191,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14840",
+   "name": "MUSKEGON, MI",
+   "lat": 43.169444444444444,
+   "lon": -86.23805555555556,
+   "cl": 75,
+   "pc": 88,
+   "cd": 202,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14847",
+   "name": "SAULT STE. MARIE, MI",
+   "lat": 46.4672,
+   "lon": -84.3672,
+   "cl": 66,
+   "pc": 90,
+   "cd": 209,
+   "coord_source": "Sault Ste. Marie; manual coords"
+  },
+  {
+   "wban": "14913",
+   "name": "DULUTH, MN",
+   "lat": 46.842222222222226,
+   "lon": -92.19277777777778,
+   "cl": 77,
+   "pc": 102,
+   "cd": 187,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14918",
+   "name": "INTERNATIONAL FALLS, MN",
+   "lat": 48.56638888888889,
+   "lon": -93.40305555555557,
+   "cl": 76,
+   "pc": 101,
+   "cd": 188,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14922",
+   "name": "MINNEAPOLIS-ST.PAUL, MN",
+   "lat": 44.884166666666665,
+   "lon": -93.215,
+   "cl": 95,
+   "pc": 101,
+   "cd": 169,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14925",
+   "name": "ROCHESTER, MN",
+   "lat": 43.92305555555555,
+   "lon": -92.49777777777778,
+   "cl": 86,
+   "pc": 97,
+   "cd": 182,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14926",
+   "name": "SAINT CLOUD, MN",
+   "lat": 45.54527777777778,
+   "lon": -94.05805555555555,
+   "cl": 97,
+   "pc": 102,
+   "cd": 166,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03940",
+   "name": "JACKSON, MS",
+   "lat": 32.31111111111111,
+   "lon": -90.07583333333334,
+   "cl": 111,
+   "pc": 104,
+   "cd": 150,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13865",
+   "name": "MERIDIAN, MS",
+   "lat": 32.33305555555556,
+   "lon": -88.75111111111111,
+   "cl": 108,
+   "pc": 110,
+   "cd": 148,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93862",
+   "name": "TUPELO, MS",
+   "lat": 34.266666666666666,
+   "lon": -88.76972222222223,
+   "cl": 119,
+   "pc": 97,
+   "cd": 150,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03945",
+   "name": "COLUMBIA, MO",
+   "lat": 38.81805555555556,
+   "lon": -92.20277777777778,
+   "cl": 104,
+   "pc": 91,
+   "cd": 169,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03947",
+   "name": "KANSAS CITY, MO",
+   "lat": 39.299166666666665,
+   "lon": -94.71777777777778,
+   "cl": 120,
+   "pc": 96,
+   "cd": 149,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13994",
+   "name": "ST. LOUIS, MO",
+   "lat": 38.74777777777778,
+   "lon": -90.36,
+   "cl": 101,
+   "pc": 101,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13995",
+   "name": "SPRINGFIELD, MO",
+   "lat": 37.244166666666665,
+   "lon": -93.38666666666667,
+   "cl": 115,
+   "pc": 96,
+   "cd": 155,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24033",
+   "name": "BILLINGS, MT",
+   "lat": 45.808055555555555,
+   "lon": -108.54027777777777,
+   "cl": 89,
+   "pc": 112,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94008",
+   "name": "GLASGOW, MT",
+   "lat": 48.212500000000006,
+   "lon": -106.61416666666666,
+   "cl": 86,
+   "pc": 111,
+   "cd": 168,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24143",
+   "name": "GREAT FALLS, MT",
+   "lat": 47.481944444444444,
+   "lon": -111.36999999999999,
+   "cl": 79,
+   "pc": 106,
+   "cd": 180,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24144",
+   "name": "HELENA, MT",
+   "lat": 46.606944444444444,
+   "lon": -111.98194444444445,
+   "cl": 82,
+   "pc": 104,
+   "cd": 179,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24146",
+   "name": "KALISPELL, MT",
+   "lat": 48.31194444444444,
+   "lon": -114.25416666666666,
+   "cl": 70,
+   "pc": 81,
+   "cd": 214,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24153",
+   "name": "MISSOULA, MT",
+   "lat": 46.91638888888889,
+   "lon": -114.08972222222222,
+   "cl": 75,
+   "pc": 83,
+   "cd": 208,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14935",
+   "name": "GRAND ISLAND, NE",
+   "lat": 40.9675,
+   "lon": -98.30833333333334,
+   "cl": 123,
+   "pc": 102,
+   "cd": 140,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14939",
+   "name": "LINCOLN, NE",
+   "lat": 40.850833333333334,
+   "lon": -96.75888888888889,
+   "cl": 117,
+   "pc": 99,
+   "cd": 149,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14941",
+   "name": "NORFOLK, NE",
+   "lat": 41.98555555555556,
+   "lon": -97.43472222222222,
+   "cl": 117,
+   "pc": 103,
+   "cd": 146,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24023",
+   "name": "NORTH PLATTE, NE",
+   "lat": 41.126111111111115,
+   "lon": -100.68694444444445,
+   "cl": 115,
+   "pc": 109,
+   "cd": 141,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14942",
+   "name": "OMAHA EPPLEY AP, NE",
+   "lat": 41.30222222222222,
+   "lon": -95.89333333333335,
+   "cl": 111,
+   "pc": 105,
+   "cd": 149,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94918",
+   "name": "OMAHA (NORTH), NE",
+   "lat": 41.3103,
+   "lon": -95.8991,
+   "cl": 110,
+   "pc": 102,
+   "cd": 153,
+   "coord_source": "Omaha North; manual coords"
+  },
+  {
+   "wban": "24028",
+   "name": "SCOTTSBLUFF, NE",
+   "lat": 41.87416666666667,
+   "lon": -103.59527777777777,
+   "cl": 115,
+   "pc": 112,
+   "cd": 138,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24032",
+   "name": "VALENTINE, NE",
+   "lat": 42.85722222222223,
+   "lon": -100.54694444444445,
+   "cl": 123,
+   "pc": 105,
+   "cd": 136,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24121",
+   "name": "ELKO, NV",
+   "lat": 40.825,
+   "lon": -115.79166666666667,
+   "cl": 130,
+   "pc": 99,
+   "cd": 136,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23154",
+   "name": "ELY, NV",
+   "lat": 39.29972222222222,
+   "lon": -114.8411111111111,
+   "cl": 131,
+   "pc": 109,
+   "cd": 125,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23169",
+   "name": "LAS VEGAS, NV",
+   "lat": 36.08277777777778,
+   "lon": -115.15361111111112,
+   "cl": 210,
+   "pc": 82,
+   "cd": 73,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23185",
+   "name": "RENO, NV",
+   "lat": 39.49916666666667,
+   "lon": -119.76722222222222,
+   "cl": 158,
+   "pc": 93,
+   "cd": 114,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24128",
+   "name": "WINNEMUCCA, NV",
+   "lat": 40.89611111111111,
+   "lon": -117.80444444444444,
+   "cl": 138,
+   "pc": 89,
+   "cd": 138,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14745",
+   "name": "CONCORD, NH",
+   "lat": 43.203611111111115,
+   "lon": -71.5025,
+   "cl": 90,
+   "pc": 109,
+   "cd": 166,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14755",
+   "name": "MT. WASHINGTON, NH",
+   "lat": null,
+   "lon": null,
+   "cl": 44,
+   "pc": 77,
+   "cd": 244,
+   "coord_source": null
+  },
+  {
+   "wban": "93730",
+   "name": "ATLANTIC CITY AP, NJ",
+   "lat": 39.4575,
+   "lon": -74.5775,
+   "cl": 94,
+   "pc": 111,
+   "cd": 160,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14734",
+   "name": "NEWARK, NJ",
+   "lat": 40.69277777777778,
+   "lon": -74.16888888888889,
+   "cl": 93,
+   "pc": 112,
+   "cd": 160,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23050",
+   "name": "ALBUQUERQUE, NM",
+   "lat": 35.04222222222222,
+   "lon": -106.60638888888889,
+   "cl": 167,
+   "pc": 111,
+   "cd": 87,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23051",
+   "name": "CLAYTON, NM",
+   "lat": 36.44583333333333,
+   "lon": -103.15416666666667,
+   "cl": 162,
+   "pc": 99,
+   "cd": 104,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23009",
+   "name": "ROSWELL, NM",
+   "lat": 33.30138888888889,
+   "lon": -104.53,
+   "cl": 168,
+   "pc": 113,
+   "cd": 84,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14735",
+   "name": "ALBANY, NY",
+   "lat": 42.74805555555556,
+   "lon": -73.80333333333333,
+   "cl": 69,
+   "pc": 111,
+   "cd": 185,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "04725",
+   "name": "BINGHAMTON, NY",
+   "lat": 42.208333333333336,
+   "lon": -75.98,
+   "cl": 52,
+   "pc": 102,
+   "cd": 212,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14733",
+   "name": "BUFFALO, NY",
+   "lat": 42.9405,
+   "lon": -78.7322,
+   "cl": 54,
+   "pc": 103,
+   "cd": 208,
+   "coord_source": "Buffalo Niagara Intl AP; manual coords"
+  },
+  {
+   "wban": "94728",
+   "name": "NEW YORK C.PARK, NY",
+   "lat": 40.7789,
+   "lon": -73.9692,
+   "cl": 107,
+   "pc": 127,
+   "cd": 132,
+   "coord_source": "Central Park; manual coords"
+  },
+  {
+   "wban": "94789",
+   "name": "NEW YORK (JFK AP), NY",
+   "lat": 40.640277777777776,
+   "lon": -73.77833333333334,
+   "cl": 98,
+   "pc": 116,
+   "cd": 152,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14732",
+   "name": "NEW YORK (LAGUARDIA AP), NY",
+   "lat": 40.77722222222222,
+   "lon": -73.87305555555555,
+   "cl": 96,
+   "pc": 117,
+   "cd": 153,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14768",
+   "name": "ROCHESTER, NY",
+   "lat": 43.11888888888889,
+   "lon": -77.67333333333333,
+   "cl": 61,
+   "pc": 104,
+   "cd": 200,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14771",
+   "name": "SYRACUSE, NY",
+   "lat": 43.111111111111114,
+   "lon": -76.10666666666665,
+   "cl": 63,
+   "pc": 98,
+   "cd": 205,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03812",
+   "name": "ASHEVILLE, NC",
+   "lat": 35.43611111111111,
+   "lon": -82.54194444444444,
+   "cl": 99,
+   "pc": 113,
+   "cd": 153,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93729",
+   "name": "CAPE HATTERAS, NC",
+   "lat": 35.266666666666666,
+   "lon": -75.55,
+   "cl": 109,
+   "pc": 101,
+   "cd": 156,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13881",
+   "name": "CHARLOTTE, NC",
+   "lat": 35.214444444444446,
+   "lon": -80.94361111111111,
+   "cl": 109,
+   "pc": 105,
+   "cd": 152,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13723",
+   "name": "GREENSBORO-WNSTN-SALM-HGHPT,NC",
+   "lat": 36.097500000000004,
+   "lon": -79.9375,
+   "cl": 109,
+   "pc": 107,
+   "cd": 150,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13722",
+   "name": "RALEIGH, NC",
+   "lat": 35.8775,
+   "lon": -78.7875,
+   "cl": 111,
+   "pc": 106,
+   "cd": 149,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13748",
+   "name": "WILMINGTON, NC",
+   "lat": 34.27055555555555,
+   "lon": -77.90277777777779,
+   "cl": 111,
+   "pc": 104,
+   "cd": 150,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24011",
+   "name": "BISMARCK, ND",
+   "lat": 46.774166666666666,
+   "lon": -100.7475,
+   "cl": 93,
+   "pc": 107,
+   "cd": 165,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14914",
+   "name": "FARGO, ND",
+   "lat": 46.91555555555556,
+   "lon": -96.81444444444445,
+   "cl": 88,
+   "pc": 109,
+   "cd": 168,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94014",
+   "name": "WILLISTON, ND",
+   "lat": 48.17805555555555,
+   "lon": -103.64194444444445,
+   "cl": 93,
+   "pc": 112,
+   "cd": 160,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14895",
+   "name": "AKRON, OH",
+   "lat": 40.91638888888889,
+   "lon": -81.44250000000001,
+   "cl": 68,
+   "pc": 99,
+   "cd": 198,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93814",
+   "name": "GREATER CINCINNATI AP,OH",
+   "lat": 39.047777777777775,
+   "lon": -84.66666666666667,
+   "cl": 81,
+   "pc": 98,
+   "cd": 186,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14820",
+   "name": "CLEVELAND, OH",
+   "lat": 41.41083333333333,
+   "lon": -81.84944444444444,
+   "cl": 66,
+   "pc": 97,
+   "cd": 202,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14821",
+   "name": "COLUMBUS, OH",
+   "lat": 39.99611111111111,
+   "lon": -82.88805555555557,
+   "cl": 72,
+   "pc": 103,
+   "cd": 190,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "93815",
+   "name": "DAYTON, OH",
+   "lat": 39.901111111111106,
+   "lon": -84.2213888888889,
+   "cl": 77,
+   "pc": 100,
+   "cd": 188,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14891",
+   "name": "MANSFIELD, OH",
+   "lat": 40.82138888888889,
+   "lon": -82.51666666666667,
+   "cl": 73,
+   "pc": 101,
+   "cd": 191,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94830",
+   "name": "TOLEDO, OH",
+   "lat": 41.587500000000006,
+   "lon": -83.80527777777777,
+   "cl": 73,
+   "pc": 107,
+   "cd": 185,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14852",
+   "name": "YOUNGSTOWN, OH",
+   "lat": 41.25888888888889,
+   "lon": -80.67611111111111,
+   "cl": 63,
+   "pc": 97,
+   "cd": 205,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13967",
+   "name": "OKLAHOMA CITY, OK",
+   "lat": 35.393055555555556,
+   "lon": -97.60055555555554,
+   "cl": 139,
+   "pc": 96,
+   "cd": 130,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13968",
+   "name": "TULSA, OK",
+   "lat": 36.19833333333333,
+   "lon": -95.88805555555557,
+   "cl": 127,
+   "pc": 103,
+   "cd": 136,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94224",
+   "name": "ASTORIA, OR",
+   "lat": 46.158055555555556,
+   "lon": -123.8775,
+   "cl": 50,
+   "pc": 76,
+   "cd": 239,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94185",
+   "name": "BURNS,OR",
+   "lat": 43.592222222222226,
+   "lon": -118.9538888888889,
+   "cl": 120,
+   "pc": 94,
+   "cd": 151,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24221",
+   "name": "EUGENE, OR",
+   "lat": 44.121944444444445,
+   "lon": -123.2175,
+   "cl": 75,
+   "pc": 82,
+   "cd": 209,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24225",
+   "name": "MEDFORD, OR",
+   "lat": 42.3725,
+   "lon": -122.87138888888889,
+   "cl": 117,
+   "pc": 79,
+   "cd": 169,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24155",
+   "name": "PENDLETON, OR",
+   "lat": 45.695277777777775,
+   "lon": -118.84027777777777,
+   "cl": 101,
+   "pc": 91,
+   "cd": 173,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24229",
+   "name": "PORTLAND, OR",
+   "lat": 45.58888888888889,
+   "lon": -122.59638888888888,
+   "cl": 68,
+   "pc": 74,
+   "cd": 222,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24232",
+   "name": "SALEM, OR",
+   "lat": 44.90972222222222,
+   "lon": -123.00138888888888,
+   "cl": 77,
+   "pc": 80,
+   "cd": 208,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24235",
+   "name": "SEXTON SUMMIT, OR",
+   "lat": 42.6,
+   "lon": -123.36611111111111,
+   "cl": 126,
+   "pc": 68,
+   "cd": 172,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14737",
+   "name": "ALLENTOWN, PA",
+   "lat": 40.653055555555554,
+   "lon": -75.44027777777778,
+   "cl": 94,
+   "pc": 110,
+   "cd": 161,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14860",
+   "name": "ERIE, PA.",
+   "lat": 42.08166666666667,
+   "lon": -80.17722222222223,
+   "cl": 63,
+   "pc": 97,
+   "cd": 205,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14751",
+   "name": "HARRISBURG, PA",
+   "lat": 40.217222222222226,
+   "lon": -76.85138888888888,
+   "cl": 87,
+   "pc": 109,
+   "cd": 169,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14711",
+   "name": "MIDDLETOWN/HARRISBURG I APT, PA",
+   "lat": 40.19361111111111,
+   "lon": -76.76333333333334,
+   "cl": 85,
+   "pc": 112,
+   "cd": 168,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13739",
+   "name": "PHILADELPHIA, PA",
+   "lat": 39.87027777777778,
+   "lon": -75.24527777777777,
+   "cl": 93,
+   "pc": 112,
+   "cd": 160,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94823",
+   "name": "PITTSBURGH, PA",
+   "lat": 40.49138888888889,
+   "lon": -80.23277777777778,
+   "cl": 59,
+   "pc": 103,
+   "cd": 203,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14777",
+   "name": "AVOCA, PA",
+   "lat": 41.33833333333334,
+   "lon": -75.7238888888889,
+   "cl": 70,
+   "pc": 106,
+   "cd": 189,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14778",
+   "name": "WILLIAMSPORT, PA",
+   "lat": 41.24194444444444,
+   "lon": -76.92194444444445,
+   "cl": 67,
+   "pc": 110,
+   "cd": 188,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94793",
+   "name": "BLOCK IS.,RI",
+   "lat": 41.1681,
+   "lon": -71.5778,
+   "cl": 98,
+   "pc": 113,
+   "cd": 155,
+   "coord_source": "Block Island; manual coords"
+  },
+  {
+   "wban": "14765",
+   "name": "PROVIDENCE, RI",
+   "lat": 41.725,
+   "lon": -71.42833333333334,
+   "cl": 98,
+   "pc": 103,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13880",
+   "name": "CHARLESTON AP,SC",
+   "lat": 32.89861111111111,
+   "lon": -80.04083333333332,
+   "cl": 102,
+   "pc": 109,
+   "cd": 155,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13883",
+   "name": "COLUMBIA, SC",
+   "lat": 33.93833333333333,
+   "lon": -81.12055555555555,
+   "cl": 115,
+   "pc": 103,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03870",
+   "name": "GREENVILLE-SPARTANBURG AP, SC",
+   "lat": 34.89888888888889,
+   "lon": -82.21388888888889,
+   "cl": 121,
+   "pc": 100,
+   "cd": 145,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14929",
+   "name": "ABERDEEN, SD",
+   "lat": 45.44972222222222,
+   "lon": -98.4213888888889,
+   "cl": 101,
+   "pc": 101,
+   "cd": 163,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14936",
+   "name": "HURON, SD",
+   "lat": 44.38527777777778,
+   "lon": -98.22888888888889,
+   "cl": 104,
+   "pc": 107,
+   "cd": 154,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24090",
+   "name": "RAPID CITY, SD",
+   "lat": 44.04527777777778,
+   "lon": -103.05694444444444,
+   "cl": 111,
+   "pc": 115,
+   "cd": 139,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14944",
+   "name": "SIOUX FALLS, SD",
+   "lat": 43.581388888888895,
+   "lon": -96.74138888888889,
+   "cl": 105,
+   "pc": 103,
+   "cd": 157,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13877",
+   "name": "BRISTOL-JHNSN CTY-KNGSPRT,TN",
+   "lat": 36.475,
+   "lon": -82.4075,
+   "cl": 88,
+   "pc": 112,
+   "cd": 165,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13882",
+   "name": "CHATTANOOGA, TN",
+   "lat": 35.03527777777778,
+   "lon": -85.23722222222223,
+   "cl": 104,
+   "pc": 106,
+   "cd": 155,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13891",
+   "name": "KNOXVILLE, TN",
+   "lat": 35.8125,
+   "lon": -83.99277777777777,
+   "cl": 97,
+   "pc": 107,
+   "cd": 162,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13893",
+   "name": "MEMPHIS, TN",
+   "lat": 35.06111111111111,
+   "lon": -89.985,
+   "cl": 118,
+   "pc": 96,
+   "cd": 151,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13897",
+   "name": "NASHVILLE, TN",
+   "lat": 36.125277777777775,
+   "lon": -86.67361111111111,
+   "cl": 102,
+   "pc": 106,
+   "cd": 156,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03841",
+   "name": "OAK RIDGE,TN",
+   "lat": 36.0167,
+   "lon": -84.2333,
+   "cl": 109,
+   "pc": 98,
+   "cd": 158,
+   "coord_source": "Oak Ridge; manual coords"
+  },
+  {
+   "wban": "13962",
+   "name": "ABILENE, TX",
+   "lat": 32.41111111111111,
+   "lon": -99.68166666666667,
+   "cl": 149,
+   "pc": 95,
+   "cd": 121,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23047",
+   "name": "AMARILLO, TX",
+   "lat": 35.21944444444445,
+   "lon": -101.70555555555556,
+   "cl": 157,
+   "pc": 104,
+   "cd": 104,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13958",
+   "name": "AUSTIN, TX",
+   "lat": 30.298333333333336,
+   "lon": -97.70138888888889,
+   "cl": 115,
+   "pc": 114,
+   "cd": 136,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12919",
+   "name": "BROWNSVILLE, TX",
+   "lat": 25.906388888888888,
+   "lon": -97.42555555555556,
+   "cl": 96,
+   "pc": 131,
+   "cd": 138,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12924",
+   "name": "CORPUS CHRISTI, TX",
+   "lat": 27.77,
+   "lon": -97.50083333333333,
+   "cl": 102,
+   "pc": 121,
+   "cd": 142,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03927",
+   "name": "DALLAS-FORT WORTH, TX",
+   "lat": 32.896388888888886,
+   "lon": -97.0411111111111,
+   "cl": 135,
+   "pc": 97,
+   "cd": 133,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "22010",
+   "name": "DEL RIO, TX",
+   "lat": 29.371666666666666,
+   "lon": -100.92277777777778,
+   "cl": 121,
+   "pc": 106,
+   "cd": 138,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23044",
+   "name": "EL PASO, TX",
+   "lat": 31.80666666666667,
+   "lon": -106.37722222222222,
+   "cl": 193,
+   "pc": 100,
+   "cd": 72,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12960",
+   "name": "HOUSTON, TX",
+   "lat": 29.996944444444445,
+   "lon": -95.33944444444444,
+   "cl": 90,
+   "pc": 114,
+   "cd": 161,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23042",
+   "name": "LUBBOCK, TX",
+   "lat": 33.66361111111111,
+   "lon": -101.82222222222222,
+   "cl": 160,
+   "pc": 102,
+   "cd": 103,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23023",
+   "name": "MIDLAND-ODESSA, TX",
+   "lat": 31.9425,
+   "lon": -102.20166666666667,
+   "cl": 165,
+   "pc": 96,
+   "cd": 104,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12917",
+   "name": "PORT ARTHUR, TX",
+   "lat": 29.950555555555553,
+   "lon": -94.02055555555556,
+   "cl": 95,
+   "pc": 117,
+   "cd": 153,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23034",
+   "name": "SAN ANGELO, TX",
+   "lat": 31.358333333333334,
+   "lon": -100.49555555555555,
+   "cl": 154,
+   "pc": 97,
+   "cd": 114,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12921",
+   "name": "SAN ANTONIO, TX",
+   "lat": 29.533333333333335,
+   "lon": -98.46944444444445,
+   "cl": 105,
+   "pc": 119,
+   "cd": 141,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "12912",
+   "name": "VICTORIA, TX",
+   "lat": 28.852222222222224,
+   "lon": -96.91833333333334,
+   "cl": 86,
+   "pc": 118,
+   "cd": 162,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13959",
+   "name": "WACO, TX",
+   "lat": 31.61138888888889,
+   "lon": -97.2286111111111,
+   "cl": 130,
+   "pc": 98,
+   "cd": 136,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13966",
+   "name": "WICHITA FALLS, TX",
+   "lat": 33.985,
+   "lon": -98.49194444444444,
+   "cl": 151,
+   "pc": 93,
+   "cd": 120,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "23176",
+   "name": "MILFORD, UT",
+   "lat": 38.42666666666666,
+   "lon": -113.01166666666667,
+   "cl": 151,
+   "pc": 104,
+   "cd": 111,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24127",
+   "name": "SALT LAKE CITY, UT",
+   "lat": 40.786944444444444,
+   "lon": -111.96805555555555,
+   "cl": 125,
+   "pc": 101,
+   "cd": 139,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14742",
+   "name": "BURLINGTON, VT",
+   "lat": 44.47138888888889,
+   "lon": -73.15333333333334,
+   "cl": 58,
+   "pc": 101,
+   "cd": 206,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13733",
+   "name": "LYNCHBURG, VA",
+   "lat": 37.32666666666667,
+   "lon": -79.20055555555555,
+   "cl": 112,
+   "pc": 107,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13737",
+   "name": "NORFOLK, VA",
+   "lat": 36.894444444444446,
+   "lon": -76.20166666666667,
+   "cl": 106,
+   "pc": 107,
+   "cd": 153,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13740",
+   "name": "RICHMOND, VA",
+   "lat": 37.505,
+   "lon": -77.32,
+   "cl": 100,
+   "pc": 106,
+   "cd": 160,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13741",
+   "name": "ROANOKE, VA",
+   "lat": 37.32527777777778,
+   "lon": -79.97555555555556,
+   "cl": 102,
+   "pc": 112,
+   "cd": 151,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24227",
+   "name": "OLYMPIA, WA",
+   "lat": 46.97083333333334,
+   "lon": -122.90166666666667,
+   "cl": 52,
+   "pc": 84,
+   "cd": 228,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "94240",
+   "name": "QUILLAYUTE, WA",
+   "lat": 47.93416666666666,
+   "lon": -124.56083333333333,
+   "cl": 51,
+   "pc": 75,
+   "cd": 239,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24281",
+   "name": "SEATTLE C.O., WA",
+   "lat": 47.6062,
+   "lon": -122.3321,
+   "cl": 71,
+   "pc": 93,
+   "cd": 201,
+   "coord_source": "Seattle city office; manual coords"
+  },
+  {
+   "wban": "24233",
+   "name": "SEATTLE SEA-TAC AP, WA",
+   "lat": 47.44916666666666,
+   "lon": -122.30805555555555,
+   "cl": 58,
+   "pc": 82,
+   "cd": 226,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24157",
+   "name": "SPOKANE, WA",
+   "lat": 47.62,
+   "lon": -117.53277777777778,
+   "cl": 86,
+   "pc": 88,
+   "cd": 191,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24243",
+   "name": "YAKIMA, WA",
+   "lat": 46.568333333333335,
+   "lon": -120.54277777777777,
+   "cl": 109,
+   "pc": 92,
+   "cd": 164,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03872",
+   "name": "BECKLEY, WV",
+   "lat": 37.78722222222222,
+   "lon": -81.12444444444444,
+   "cl": 60,
+   "pc": 95,
+   "cd": 210,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13866",
+   "name": "CHARLESTON, WV",
+   "lat": 38.37305555555555,
+   "lon": -81.59333333333333,
+   "cl": 65,
+   "pc": 111,
+   "cd": 189,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "13729",
+   "name": "ELKINS, WV",
+   "lat": 38.88944444444444,
+   "lon": -79.85722222222222,
+   "cl": 48,
+   "pc": 103,
+   "cd": 212,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "03860",
+   "name": "HUNTINGTON, WV",
+   "lat": 38.36666666666667,
+   "lon": -82.55805555555555,
+   "cl": 63,
+   "pc": 99,
+   "cd": 203,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14898",
+   "name": "GREEN BAY, WI",
+   "lat": 44.485,
+   "lon": -88.1286111111111,
+   "cl": 85,
+   "pc": 102,
+   "cd": 178,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14920",
+   "name": "LA CROSSE, WI",
+   "lat": 43.87916666666667,
+   "lon": -91.25638888888889,
+   "cl": 95,
+   "pc": 97,
+   "cd": 173,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14837",
+   "name": "MADISON, WI",
+   "lat": 43.13944444444444,
+   "lon": -89.33694444444444,
+   "cl": 89,
+   "pc": 96,
+   "cd": 180,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "14839",
+   "name": "MILWAUKEE, WI",
+   "lat": 42.946666666666665,
+   "lon": -87.89694444444446,
+   "cl": 90,
+   "pc": 100,
+   "cd": 175,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24089",
+   "name": "CASPER, WY",
+   "lat": 42.90833333333333,
+   "lon": -106.46305555555556,
+   "cl": 107,
+   "pc": 111,
+   "cd": 147,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24018",
+   "name": "CHEYENNE, WY",
+   "lat": 41.155833333333334,
+   "lon": -104.81222222222222,
+   "cl": 106,
+   "pc": 127,
+   "cd": 133,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24021",
+   "name": "LANDER, WY",
+   "lat": 42.81666666666667,
+   "lon": -108.73333333333333,
+   "cl": 114,
+   "pc": 122,
+   "cd": 129,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "24029",
+   "name": "SHERIDAN, WY",
+   "lat": 44.77388888888889,
+   "lon": -106.97638888888889,
+   "cl": 95,
+   "pc": 113,
+   "cd": 157,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  },
+  {
+   "wban": "41415",
+   "name": "GUAM, PC",
+   "lat": null,
+   "lon": null,
+   "cl": 16,
+   "pc": 134,
+   "cd": 215,
+   "coord_source": null
+  },
+  {
+   "wban": "21603",
+   "name": "JOHNSTON ISLAND, PC",
+   "lat": null,
+   "lon": null,
+   "cl": 99,
+   "pc": 159,
+   "cd": 107,
+   "coord_source": null
+  },
+  {
+   "wban": "40309",
+   "name": "KOROR, PC",
+   "lat": null,
+   "lon": null,
+   "cl": 4,
+   "pc": 86,
+   "cd": 273,
+   "coord_source": null
+  },
+  {
+   "wban": "40604",
+   "name": "KWAJALEIN- MARSHALL IS., PC",
+   "lat": null,
+   "lon": null,
+   "cl": 17,
+   "pc": 76,
+   "cd": 272,
+   "coord_source": null
+  },
+  {
+   "wban": "40710",
+   "name": "MAJURO- MARSHALL IS, PC",
+   "lat": null,
+   "lon": null,
+   "cl": 7,
+   "pc": 86,
+   "cd": 271,
+   "coord_source": null
+  },
+  {
+   "wban": "61705",
+   "name": "PAGO PAGO- AMER SAMOA, PC",
+   "lat": null,
+   "lon": null,
+   "cl": 12,
+   "pc": 151,
+   "cd": 202,
+   "coord_source": null
+  },
+  {
+   "wban": "40504",
+   "name": "POHNPEI- CAROLINE IS., PC",
+   "lat": null,
+   "lon": null,
+   "cl": 2,
+   "pc": 64,
+   "cd": 298,
+   "coord_source": null
+  },
+  {
+   "wban": "40505",
+   "name": "CHUUK- E. CAROLINE IS., PC",
+   "lat": null,
+   "lon": null,
+   "cl": 0,
+   "pc": 45,
+   "cd": 318,
+   "coord_source": null
+  },
+  {
+   "wban": "41606",
+   "name": "WAKE ISLAND, PC",
+   "lat": null,
+   "lon": null,
+   "cl": 121,
+   "pc": 149,
+   "cd": 94,
+   "coord_source": null
+  },
+  {
+   "wban": "40308",
+   "name": "YAP- W CAROLINE IS., PC",
+   "lat": null,
+   "lon": null,
+   "cl": 5,
+   "pc": 90,
+   "cd": 270,
+   "coord_source": null
+  },
+  {
+   "wban": "11641",
+   "name": "SAN JUAN, PR",
+   "lat": 18.441388888888888,
+   "lon": -66.00222222222222,
+   "cl": 73,
+   "pc": 203,
+   "cd": 89,
+   "coord_source": "NCEI WBAN master list (wbanmasterlist.psv)"
+  }
+ ]
+}
