@@ -15,7 +15,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, Landmark, Users, Info, RotateCcw } from "lucide-react";
+import { ShieldCheck, Landmark, Users, Info, RotateCcw, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +29,6 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 
 import { filterAndSort } from "@/lib/filters";
 import type { LocationRow, StateInfoRow } from "@/lib/types";
@@ -102,9 +101,16 @@ export default function ProfileClient({
   const chips = describePreferences(prefs);
   const isEmpty = active && surviving.length === 0;
 
+  // Save in place — this page is just the profile. We surface a prompt to go
+  // see the new matches on /explore rather than yanking the visitor there.
   function handleSave() {
     setPreferencesCookie(prefs);
     setJustSaved(true);
+  }
+
+  // The saved cookie is read server-side on /explore; refresh() clears the
+  // client router cache so the grid reflects it immediately.
+  function goToMatches() {
     router.push("/explore");
     router.refresh();
   }
@@ -117,51 +123,87 @@ export default function ProfileClient({
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      <header className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Your profile</h1>
-        <p className="text-sm text-muted-foreground">
-          Set the things that rule a place out. We&apos;ll apply them everywhere
-          you search, so you never scroll past a state you&apos;d never move to.
-        </p>
-      </header>
+    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-10">
+        {/* Left column: who this is for + the live consequence + actions. On
+            large screens it sticks while the settings column scrolls. */}
+        <div className="flex flex-col gap-6 lg:sticky lg:top-8 lg:self-start">
+          <header className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight">Your profile</h1>
+            <p className="text-sm text-muted-foreground">
+              Set the things that rule a place out. We&apos;ll apply them
+              everywhere you search, so you never scroll past a state you&apos;d
+              never move to.
+            </p>
+          </header>
 
-      {/* Consequence first: these are removals, not preferences. */}
-      <Card className="mb-6 border-primary/30 bg-primary/5 shadow-none">
-        <CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-semibold tabular-nums">
-              {surviving.length}
-            </span>
-            <span className="text-sm text-muted-foreground">
-              of {locations.length} cities · {survivingStates} of {totalStates}{" "}
-              states remain
-            </span>
+          {/* Consequence first: these are removals, not preferences. */}
+          <Card className="border-primary/30 bg-primary/5 shadow-none">
+            <CardContent className="flex flex-col gap-3 py-4">
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-semibold tabular-nums">
+                  {surviving.length}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  of {locations.length} cities · {survivingStates} of{" "}
+                  {totalStates} states remain
+                </span>
+              </div>
+              {chips.length > 0 ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {chips.map((c) => (
+                    <Badge key={c} variant="secondary" className="font-normal">
+                      {c}
+                    </Badge>
+                  ))}
+                </div>
+              ) : (
+                <span className="text-sm text-muted-foreground">
+                  Nothing set — every city is in play.
+                </span>
+              )}
+            </CardContent>
+          </Card>
+
+          {isEmpty ? (
+            <p className="rounded-lg border border-destructive/40 bg-destructive/5 p-3 text-sm">
+              These settings rule out every city we cover. Loosen one before
+              saving, or you&apos;ll land on an empty Explore page.
+            </p>
+          ) : null}
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Button onClick={handleSave} disabled={isEmpty} className="min-w-32">
+              Save preferences
+            </Button>
+            <Button variant="ghost" onClick={handleReset} disabled={!active}>
+              <RotateCcw className="size-4" aria-hidden="true" />
+              Reset
+            </Button>
           </div>
-          {chips.length > 0 ? (
-            <div className="flex flex-wrap gap-1.5">
-              {chips.map((c) => (
-                <Badge key={c} variant="secondary" className="font-normal">
-                  {c}
-                </Badge>
-              ))}
+
+          {justSaved ? (
+            <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
+              <p className="text-sm font-medium">Profile saved.</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                We&apos;ll apply it everywhere you search.
+              </p>
+              <Button onClick={goToMatches} className="mt-2.5 gap-2">
+                See your matches on Explore
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Button>
             </div>
-          ) : (
-            <span className="text-sm text-muted-foreground">
-              Nothing set — every city is in play.
-            </span>
-          )}
-        </CardContent>
-      </Card>
+          ) : null}
 
-      {isEmpty ? (
-        <p className="mb-6 rounded-lg border border-destructive/40 bg-destructive/5 p-3 text-sm">
-          These settings rule out every city we cover. Loosen one before saving,
-          or you&apos;ll land on an empty Explore page.
-        </p>
-      ) : null}
+          <p className="text-xs text-muted-foreground">
+            Saved in a cookie on this device for 180 days — no account needed.
+            These settings change which places we show you; they don&apos;t
+            change any city&apos;s Fit score.
+          </p>
+        </div>
 
-      <div className="flex flex-col gap-6">
+        {/* Right column: the settings themselves. */}
+        <div className="flex flex-col gap-6">
         {PREFERENCE_GROUPS.map((group) => {
           const facets = PREFERENCE_FACETS.filter((f) => f.group === group.id);
           const Icon = GROUP_ICONS[group.id];
@@ -249,28 +291,8 @@ export default function ProfileClient({
             </Card>
           );
         })}
+        </div>
       </div>
-
-      <Separator className="my-6" />
-
-      <div className="flex flex-wrap items-center gap-3 pb-4">
-        <Button onClick={handleSave} disabled={isEmpty} className="min-w-32">
-          Save preferences
-        </Button>
-        <Button variant="ghost" onClick={handleReset} disabled={!active}>
-          <RotateCcw className="size-4" aria-hidden="true" />
-          Reset
-        </Button>
-        {justSaved ? (
-          <span className="text-sm text-muted-foreground">Saved.</span>
-        ) : null}
-      </div>
-
-      <p className="pb-8 text-xs text-muted-foreground">
-        Saved in a cookie on this device for 180 days — no account needed. These
-        settings change which places we show you; they don&apos;t change any
-        city&apos;s Fit score.
-      </p>
     </main>
   );
 }

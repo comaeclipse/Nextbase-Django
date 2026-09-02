@@ -1,5 +1,9 @@
 import "./globals.css";
 import "./styles/public-nav.css";
+// Self-contained, `.vr-chat-*`-scoped styles — safe to load globally without
+// reaching the pixel-parity pages' own CSS.
+import "./styles/floating-chat.css";
+import FloatingChat from "@/components/chat/FloatingChat";
 
 /*
  * Minimal root layout. No font application here — each ported page sets its
@@ -13,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Site-wide chat launcher; hides itself on the dedicated /chat page. */}
+        <FloatingChat />
+      </body>
     </html>
   );
 }
