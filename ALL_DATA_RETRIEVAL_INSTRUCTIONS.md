@@ -65,10 +65,31 @@ node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/import-csv.ts d
 
 Then the follow-up chain, in order (each is detailed in **Import Paths**): employer link
 backfill → `recompute-defense-hub.ts` → `import-bea-rpp.ts` → `sync-col-index-from-rpp.ts` →
+`sync-va-facilities.ts` → `sync-military-proximity.ts` → `classify-pace.ts --name "City, ST"` →
 `derive-structural-features.ts` → `verify-location-completeness.ts --name "City, ST"`. Regenerate the map crosswalk
 (`prepare-map-coordinates.ts`) and open a second small PR for the artifacts the import
-produced — the updated `data/location-map-coordinates.json` and any dated
+produced — the updated `data/location-map-coordinates.json`, the regenerated
+`baselines/fit_scores.json` (`verify_scores.ts`, then `generate-score-baseline.ts`) and any dated
 `data/va_facilities_sync_YYYY-MM-DD.md` note.
+
+**Phase 2 is the step that gets forgotten.** Merging Phase 1 makes the research look done while
+the city still does not exist on the site — issue #302 found fifteen merged cities that had never
+been imported (twelve absent outright, three still parked as `is_candidate=false` employer
+geographies). Two guards close that gap; neither is optional:
+
+- When a location CSV lands on `master`, `.github/workflows/apply-pending.yml` opens (or extends)
+  a tracking issue labeled `apply-pending` naming the files. It is closed by the operator, not by
+  the merge.
+- Finish every Phase 2 by reconciling the repo against the database. Non-zero exit means a
+  merged CSV has no row (or a city a CSV says ranks is still `is_candidate=false`); each line
+  names the file and the command that repairs it. Do not report a city as shipped while it fails.
+
+```powershell
+node "--env-file=$envFile" node_modules/tsx/dist/cli.mjs scripts/verify-csv-imports.ts
+```
+
+Vercel auto-deploy is off, so merging does not ship either: deploy production manually after the
+Apply phase (see AGENTS.md).
 
 ### Batching
 
