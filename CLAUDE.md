@@ -33,6 +33,7 @@ Data scripts (run with tsx + the env file):
 
 ```bash
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-csv.ts <csv> [--clear] [--dry-run]
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-csv-imports.ts [--json]   # every data/*.csv city exists in locations_location; last step of every Apply phase (issue #302)
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/categorize-climate.ts [--dry-run] [--name "City, ST" | --id N] [--explain] [--audit]
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify_scores.ts   # scoring regression vs baselines/fit_scores.json
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/generate-score-baseline.ts   # regenerate baselines/fit_scores.json (same commit as an intended scoring/data change)
@@ -40,6 +41,15 @@ node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-state-weather
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-geo-hierarchy.ts [--dry-run]           # geo_type/is_candidate/slug + geo_relationships + geo_aliases
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/verify-geo-hierarchy.ts                        # cycles, column-vs-table drift, orphan aliases
 node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/migrate-gas-prices.ts [--dry-run]             # /gas -> state_gas_prices
+```
+
+Issue #55 field backfills (a reviewed patch file per field, one generic applier; each patch carries method + source):
+
+```bash
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/report-data-quality-gaps.ts                    # live NULL inventory, ranked city candidates
+node node_modules/tsx/dist/cli.mjs scripts/fetch-cde-tci.ts --input <ids+ORIs.json> --out <patch.json>  # tci/crime from the keyless FBI CDE endpoint (no DB)
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/derive-sun-days-from-ccd.ts --out <patch.json>  # sun_days = clear+partly cloudy days, nearest NOAA CCD station
+node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/apply-location-patches.ts --patch <patch.json> [--dry-run] [--overwrite]  # writes only NULLs unless --overwrite
 ```
 
 Pace classification (lifestyle / settlement type):

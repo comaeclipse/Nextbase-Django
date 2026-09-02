@@ -1,0 +1,307 @@
+/*
+ * Floating chat launcher + panel. Loaded globally from the root layout, so
+ * every selector is scoped under `.vr-chat-*` and there are no resets, no `*`
+ * rules, and no shadcn CSS variables — nothing here can reach the pixel-parity
+ * pages' own styles. Colors are literal (site blue #2563eb), matching
+ * public-nav.css, since the shipped site is light-themed.
+ */
+
+.vr-chat-fab {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0;
+  border-radius: 9999px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgb(37 99 235 / 35%);
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.vr-chat-fab:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgb(37 99 235 / 45%);
+}
+
+.vr-chat-fab:focus-visible {
+  outline: 3px solid rgb(37 99 235 / 45%);
+  outline-offset: 2px;
+}
+
+.vr-chat-fab-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.vr-chat-panel {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 5.25rem;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  width: min(24rem, calc(100vw - 2rem));
+  height: min(34rem, calc(100vh - 7rem));
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 24px 60px rgb(15 23 42 / 22%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  animation: vr-chat-pop 0.16s ease-out;
+}
+
+@keyframes vr-chat-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.vr-chat-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #eef2f7;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+}
+
+.vr-chat-head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.vr-chat-head-text strong {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.vr-chat-head-text span {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.vr-chat-close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.vr-chat-close:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.vr-chat-close-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.vr-chat-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #f9fafb;
+}
+
+.vr-chat-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vr-chat-intro {
+  margin: 0 0 0.25rem;
+  color: #6b7280;
+  font-size: 0.82rem;
+}
+
+.vr-chat-suggestion {
+  text-align: left;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.65rem;
+  background: #fff;
+  padding: 0.6rem 0.75rem;
+  color: #1f2937;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.vr-chat-suggestion:hover {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.vr-chat-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.vr-chat-row-user {
+  justify-content: flex-end;
+}
+
+.vr-chat-bubble {
+  max-width: 85%;
+  padding: 0.55rem 0.8rem;
+  border-radius: 1rem;
+  background: #fff;
+  border: 1px solid #eef2f7;
+  color: #111827;
+  overflow-wrap: anywhere;
+}
+
+.vr-chat-bubble-user {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+.vr-chat-bubble-user p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.vr-chat-thinking {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.vr-chat-tool {
+  margin: 0.25rem 0;
+  color: #6b7280;
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
+/* Assistant markdown. Scoped so it never touches page content. */
+.vr-chat-md p {
+  margin: 0 0 0.5rem;
+}
+
+.vr-chat-md p:last-child {
+  margin-bottom: 0;
+}
+
+.vr-chat-md ul,
+.vr-chat-md ol {
+  margin: 0 0 0.5rem;
+  padding-left: 1.2rem;
+}
+
+.vr-chat-md li {
+  margin: 0.15rem 0;
+}
+
+.vr-chat-md a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.vr-chat-md strong {
+  font-weight: 600;
+}
+
+.vr-chat-form {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid #eef2f7;
+  background: #fff;
+}
+
+.vr-chat-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vr-chat-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 18%);
+}
+
+.vr-chat-send {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  border: 0;
+  border-radius: 0.65rem;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.vr-chat-send:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.vr-chat-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vr-chat-send-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+@media (max-width: 480px) {
+  .vr-chat-panel {
+    right: 0.5rem;
+    left: 0.5rem;
+    bottom: 4.75rem;
+    width: auto;
+    height: min(32rem, calc(100vh - 6.5rem));
+  }
+}

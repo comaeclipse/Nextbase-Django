@@ -2,6 +2,7 @@
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
@@ -9,6 +10,7 @@ import {
   HEALTH_COVERAGE_OPTIONS,
   HOUSEHOLD_OPTIONS,
   INCOME_FIELDS,
+  LIFESTYLE_LINE_OPTIONS,
   PROFILE_OPTIONS,
   TENURE_OPTIONS,
   affordabilityVintage,
@@ -22,6 +24,15 @@ import type {
   SpendingProfile,
   Tenure,
 } from "@/lib/affordability";
+
+function firstValue(value: number | readonly number[]): number {
+  return typeof value === "number" ? value : (value[0] ?? 0);
+}
+
+function sliderPercent(raw: string): number {
+  const parsed = Number(String(raw).replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(parsed) ? Math.max(-50, Math.min(50, parsed)) : 0;
+}
 
 export default function AffordabilityForm({
   scenario,
@@ -250,6 +261,47 @@ export default function AffordabilityForm({
         <p className="text-[11px] text-muted-foreground">
           {PROFILE_OPTIONS.find((o) => o.id === scenario.spendingProfile)?.hint}
         </p>
+        <div className="mt-2 grid gap-3">
+          <p className="text-xs font-medium text-muted-foreground">
+            Lifestyle line items
+          </p>
+          {LIFESTYLE_LINE_OPTIONS.map((option) => {
+            const value = sliderPercent(scenario[option.key]);
+            return (
+              <div key={option.key} className="grid gap-1.5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <Label htmlFor={`aff-${option.key}`} className="text-xs">
+                    {option.label}
+                  </Label>
+                  <Input
+                    id={`aff-${option.key}`}
+                    inputMode="numeric"
+                    value={scenario[option.key]}
+                    onChange={(e) => set(option.key, e.target.value)}
+                    placeholder="0"
+                    className="h-8 w-20 text-right text-xs"
+                    aria-label={`${option.label} adjustment percent`}
+                  />
+                </div>
+                <Slider
+                  aria-label={`${option.label} adjustment`}
+                  value={[value]}
+                  onValueChange={(next) =>
+                    set(option.key, String(firstValue(next)))
+                  }
+                  min={-50}
+                  max={50}
+                  step={5}
+                />
+                <div className="flex justify-between text-[11px] text-muted-foreground">
+                  <span>-50%</span>
+                  <span>{option.hint}</span>
+                  <span>+50%</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       <section className="grid gap-2">
