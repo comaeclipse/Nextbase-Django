@@ -550,21 +550,21 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     sector: "corporate",
     counts_as_defense: false,
     ats_kind: "oracle_orc",
-    ats_config: { host: "eeho.fa.us2.oraclecloud.com", siteNumber: "CX_1" },
+    ats_config: { host: "eeho.fa.us2.oraclecloud.com", siteNumber: "CX_45001", sitePath: "jobsearch" },
     legacy_aliases: [],
   },
   {
     // Dell Technologies: also Oracle Cloud Recruiting, on its own tenant
-    // (enterpriseplatform.dell.com). Same oracle_orc adapter as Oracle. siteNumber
-    // "CX_1" verified to return data; confirm against the live "careers" site
-    // during adapter work.
+    // (enterpriseplatform.dell.com). Same oracle_orc adapter as Oracle. NOTE: an
+    // unrecognized siteNumber silently returns a small default set, so the real
+    // one is read from the careers page: Dell CX_1001, Oracle CX_45001 (not CX_1).
     slug: "dell",
     display_name: "Dell Technologies",
     parent_company: "Dell Technologies",
     sector: "corporate",
     counts_as_defense: false,
     ats_kind: "oracle_orc",
-    ats_config: { host: "enterpriseplatform.dell.com", siteNumber: "CX_1" },
+    ats_config: { host: "enterpriseplatform.dell.com", siteNumber: "CX_1001", sitePath: "careers" },
     legacy_aliases: [],
   },
   {
