@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-03T00:01:57.539Z",
-  "verifiedOn": "2026-09-03T00:01:57.539Z",
+  "generatedAt": "2026-09-03T02:46:06.826Z",
+  "verifiedOn": "2026-09-03T02:46:06.826Z",
   "note": "Regression snapshot of Fit Score output for every ranked candidate. NOT a Django parity reference — see baselines/django_scores.json for that, and scripts/generate-score-baseline.ts for why they differ. Regenerate in the same commit as any deliberate scoring or input change.",
   "candidateCount": 254,
   "scores": [
@@ -5672,7 +5672,7 @@
       "id": 341,
       "name": "Del Rio",
       "state": "TX",
-      "score": 73,
+      "score": 88,
       "breakdown": [
         {
           "key": "affordability",
@@ -5684,7 +5684,7 @@
         },
         {
           "key": "va",
-          "score": 25
+          "score": 100
         },
         {
           "key": "safety",

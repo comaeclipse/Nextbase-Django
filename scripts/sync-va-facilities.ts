@@ -18,11 +18,19 @@
  * is set when that nearest outpatient-capable site is within
  * OUTPATIENT_ACCESS_RADIUS_MI.
  *
+ * The feed is not exhaustive: some border/rural CBOCs are absent from it, which
+ * once made has_va fall to false for a city with an in-city clinic (issue #303,
+ * Del Rio, TX). Curated supplements in lib/va-facilities-supplements.ts patch
+ * that gap and are merged in before the nearest-site computation; any city left
+ * with no outpatient site inside the radius is reported at the end so a newly
+ * omitted CBOC gets caught instead of silently reading as "no VA access".
+ *
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/sync-va-facilities.ts [--dry-run] [--missing-only]
  */
 import { writeFileSync } from "node:fs";
 import { getSql } from "../lib/db";
 import { assertTargetsExist, parseLocationIds } from "../lib/location-targets";
+import { classifySupplements } from "../lib/va-facilities-supplements";
 const ids = parseLocationIds(process.argv.slice(2), ["--dry-run", "--missing-only"]);
 
 const dryRun = process.argv.includes("--dry-run");
@@ -173,10 +181,27 @@ async function main() {
   console.log(`Source: ${SOURCE_URL}`);
 
   const sites = await fetchVhaSites();
+
+  // Merge curated supplements — real VA sites the feed omits (issue #303). A
+  // supplement the feed has since started returning is skipped and flagged, so
+  // it can be pruned rather than double-counted.
+  const { inject, redundant } = classifySupplements(sites);
+  for (const s of inject) {
+    sites.push({ id: s.id, name: s.name, city: s.city, state: s.state, lat: s.lat, lon: s.lon, kind: s.kind });
+    console.log(`+ supplement ${s.name} (${s.city}, ${s.state}) [${s.kind}] — ${s.reason}`);
+  }
+  for (const r of redundant) {
+    console.warn(
+      `! supplement "${r.supplement.name}" is now in the feed (matched "${r.match.name}", ${r.miles.toFixed(1)} mi); ` +
+        `remove it from VA_FACILITY_SUPPLEMENTS in lib/va-facilities-supplements.ts.`
+    );
+  }
+
   const hospitals = sites.filter((s) => s.kind === "hospital");
   const outpatientCapable = sites.filter((s) => s.kind === "outpatient" || s.kind === "hospital");
   console.log(
-    `Loaded ${sites.length} medical sites (${hospitals.length} medical centers, ${outpatientCapable.length} outpatient-capable).`
+    `Loaded ${sites.length} medical sites (${hospitals.length} medical centers, ${outpatientCapable.length} outpatient-capable)` +
+      `${inject.length ? `, incl. ${inject.length} curated supplement(s)` : ""}.`
   );
 
   const sql = getSql();
@@ -195,6 +220,11 @@ async function main() {
     : cities;
 
   let updated = 0;
+  // Guardrail (issue #303): cities the feed leaves with no outpatient site
+  // within the access radius. A large nearest distance is exactly the signal
+  // that a real in-city CBOC may be missing from the feed, as Del Rio's was —
+  // so surface them for a manual check rather than silently reporting no VA.
+  const noAccess: { city: string; state: string; miles: number; nearest: string }[] = [];
   const notes: string[] = [
     `# VA facilities sync — ${retrievedOn}`,
     "",
@@ -223,6 +253,9 @@ async function main() {
     const nearestHospital = hosp.site.name;
     const distanceHospital = formatMiles(hosp.miles);
     const hasVa = out.miles <= OUTPATIENT_ACCESS_RADIUS_MI;
+    if (!hasVa) {
+      noAccess.push({ city: city.name, state: city.state, miles: out.miles, nearest: nearestVa });
+    }
 
     notes.push(
       `| ${city.name}, ${city.state} | ${nearestVa} | ${nearestKind} | ${distanceToVa.replace(" miles", "")} | ${nearestHospital} | ${distanceHospital.replace(" miles", "")} |`
@@ -256,6 +289,38 @@ async function main() {
     updated++;
   }
 
+  if (inject.length) {
+    notes.push(
+      "",
+      "## Curated supplements merged",
+      "",
+      "VA sites the feed omits, curated in `lib/va-facilities-supplements.ts`:",
+      "",
+      "| Site | City | kind | source | verified |",
+      "| --- | --- | --- | --- | --- |",
+      ...inject.map(
+        (s) => `| ${s.name} | ${s.city}, ${s.state} | ${s.kind} | ${s.source} | ${s.verifiedOn} |`
+      )
+    );
+  }
+
+  // Sort worst-first so the most suspicious (farthest) gaps read at the top.
+  noAccess.sort((a, b) => b.miles - a.miles);
+  if (noAccess.length) {
+    notes.push(
+      "",
+      `## No VA access within ${OUTPATIENT_ACCESS_RADIUS_MI} mi — verify no omitted CBOC`,
+      "",
+      "A large nearest distance can mean the feed is missing a real in-city clinic",
+      "(the issue #303 failure mode). Confirm on va.gov; add any confirmed omission",
+      "to `lib/va-facilities-supplements.ts`.",
+      "",
+      "| City | Nearest outpatient | mi |",
+      "| --- | --- | ---: |",
+      ...noAccess.map((n) => `| ${n.city}, ${n.state} | ${n.nearest} | ${Math.round(n.miles)} |`)
+    );
+  }
+
   const notePath = `data/va_facilities_sync_${retrievedOn}${ids ? `_ids-${[...ids].sort((a,b) => a-b).join("-")}` : ""}.md`;
   if (!dryRun) {
     writeFileSync(notePath, notes.join("\n") + "\n", "utf8");
@@ -265,6 +330,13 @@ async function main() {
   console.log(
     `\n${dryRun ? "Would update" : "Updated"} ${updated} / ${targets.length} cities.`
   );
+  if (noAccess.length) {
+    console.log(
+      `\n${noAccess.length} city/cities have no VA outpatient site within ${OUTPATIENT_ACCESS_RADIUS_MI} mi ` +
+        `(farthest: ${noAccess[0].city}, ${noAccess[0].state} @ ${Math.round(noAccess[0].miles)} mi). ` +
+        `Verify none has an in-city CBOC the feed omits; see the source note.`
+    );
+  }
   console.log("Next: re-run city-profile-stack/scripts/tools/derive-structural-features.ts");
 }
 
