@@ -199,6 +199,70 @@ async function workday(seed: EmployerSeed): Promise<Pulled[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Phenom / BrassRing (BAE) — careers site is a Phenom front over a BrassRing
+// board (reqIds like "125018BR", jobSeqNo "BAE1US...BREXTERNAL"; apply URLs land
+// on sjobs.brassring.com). Pull Phenom's own /widgets refineSearch JSON, not the
+// brassring apply pages. Two non-obvious bits, both learned live: the POST body
+// needs `jobs:true` or the widget returns facet counts with ZERO job rows; and
+// the default sort is non-deterministic (identical requests return different
+// windows), so one from-sweep sees only ~78% of the board — sweep until the
+// unique set stops growing. Prime: list-level, the teaser is enough for the
+// classifier (which keeps every row).
+// ---------------------------------------------------------------------------
+
+interface BrassringJob {
+  title?: string; applyUrl?: string; imApplyUrl?: string;
+  cityStateCountry?: string; cityState?: string; category?: string; descriptionTeaser?: string;
+}
+
+async function brassringPage(site: string, from: number): Promise<{ jobs: BrassringJob[]; total: number }> {
+  const body = {
+    lang: "en_us", deviceType: "desktop", country: "us", pageName: "search-results",
+    ddoKey: "refineSearch", size: 100, from, clientRequestId: Math.random().toString(36).slice(2),
+    jdSource: "facets", keywords: "", global: true, selected_fields: {}, locationData: {},
+    jobs: true, // ← without this the widget returns facet counts only, no job rows
+  };
+  const json = (await withBackoff(() => getJson(`https://${site}/widgets`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest", Referer: `https://${site}/global/en/search-results` },
+    body: JSON.stringify(body),
+  }))) as { refineSearch?: { totalHits?: number; data?: { jobs?: BrassringJob[] } } } | null;
+  // A page that fails after every retry must ABORT (throw), never return a short
+  // pull — a truncated result would wrongly prune live rows in the sync.
+  if (!json) throw new Error(`brassring: ${site} page from=${from} failed after retries`);
+  return { jobs: json.refineSearch?.data?.jobs ?? [], total: json.refineSearch?.totalHits ?? 0 };
+}
+
+async function brassring(seed: EmployerSeed): Promise<Pulled[]> {
+  const site = cfg(seed, "site")!; // jobs.baesystems.com
+  const byUrl = new Map<string, Pulled>();
+  let total = 0;
+  // Non-deterministic sort -> sweep the whole range until a sweep adds < 0.5% new
+  // (converges to ~100% in 3-4 sweeps), capped so a drifting total can't loop.
+  for (let sweep = 0; sweep < 8; sweep++) {
+    const before = byUrl.size;
+    for (let from = 0; ; from += 100) {
+      const { jobs, total: t } = await brassringPage(site, from);
+      if (t) total = t;
+      if (jobs.length === 0) break;
+      for (const j of jobs) {
+        const url = (j.applyUrl || j.imApplyUrl || "").trim();
+        if (!url || byUrl.has(url)) continue;
+        const loc = locate(j.cityStateCountry || j.cityState);
+        byUrl.set(url, {
+          row: baseRow(seed, "BrassRing", { title: j.title ?? "", field: j.category ?? "", location: loc.location, region: loc.region, url }),
+          title: j.title ?? "", description: stripHtml(j.descriptionTeaser), businessUnit: j.category ?? "",
+        });
+      }
+      await sleep(120);
+      if (total && from + 100 >= total) break;
+    }
+    if (total && byUrl.size - before < total * 0.005) break;
+  }
+  return [...byUrl.values()];
+}
+
+// ---------------------------------------------------------------------------
 // Oracle Cloud Recruiting (Oracle, Dell) — findReqs keyword union + detail JD.
 // ---------------------------------------------------------------------------
 
@@ -590,7 +654,7 @@ async function dsdLabs(seed: EmployerSeed): Promise<Pulled[]> {
 
 export const ADAPTERS: Record<string, (seed: EmployerSeed) => Promise<Pulled[]>> = {
   greenhouse, lever, ashby, workday, oracle_orc: oracleOrc, amazon_jobs: amazonJobs, eightfold,
-  successfactors, usajobs, ultipro, dsd_labs: dsdLabs,
+  successfactors, usajobs, brassring, ultipro, dsd_labs: dsdLabs,
 };
 
 /**

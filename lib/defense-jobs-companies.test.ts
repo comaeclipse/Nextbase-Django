@@ -88,6 +88,45 @@ describe("committed listings CSVs", () => {
   });
 });
 
+describe("commercial / dual-use employers stay out of the city defense signals (#336)", () => {
+  /*
+   * The #336 candidates run large commercial boards (Microsoft, AWS, Oracle,
+   * Dell, Cisco, SpaceX, xAI, Tesla). `counts_as_defense: false` is the single
+   * flag that keeps them out of defense_hub / defense_ecosystem, writes no
+   * defense_employer_locations rows (scripts/recompute-defense-hub.ts walks only
+   * counts_as_defense employers), AND routes their listings through the
+   * defense-slice classifier (scripts/defense-jobs-adapters.ts sliceAndFilter).
+   * Flipping any to `true` would ingest its whole board and inflate a city's
+   * apparent defense presence — this test is the tripwire.
+   */
+  const COMMERCIAL = [
+    "oracle", "dell", "microsoft", "amazon-web-services", "cisco", "spacex", "xai", "tesla",
+  ];
+
+  it.each(COMMERCIAL)("%s is seeded counts_as_defense:false", (slug) => {
+    const seed = seedsBySlug.get(slug);
+    expect(seed, `${slug} must be seeded (lib/defense.ts)`).toBeDefined();
+    expect(seed!.counts_as_defense).toBe(false);
+  });
+
+  it("the government-agency / HQ non-promoters are also counts_as_defense:false", () => {
+    // Pre-existing non-promoters (a Navy command; an RTX headquarters) — same
+    // treatment, different reason. Listed here so the exact-set lock below is honest.
+    for (const slug of ["navsea", "rtx-corporate"]) {
+      expect(seedsBySlug.get(slug)?.counts_as_defense).toBe(false);
+    }
+  });
+
+  it("the set of non-promoting employers is exactly the reviewed list", () => {
+    // A NEW counts_as_defense:false seed forces this test to be updated, so adding
+    // one is a conscious act (is it slice-gated? does it write no location rows?)
+    // rather than a silently un-guarded change.
+    const actual = DEFENSE_EMPLOYER_SEEDS.filter((s) => !s.counts_as_defense).map((s) => s.slug).sort();
+    const expected = [...COMMERCIAL, "navsea", "rtx-corporate"].sort();
+    expect(actual).toEqual(expected);
+  });
+});
+
 describe("employer seeds with an ATS", () => {
   it("carry the config key their adapter needs", () => {
     const REQUIRED: Record<string, string[]> = {
@@ -96,6 +135,7 @@ describe("employer seeds with an ATS", () => {
       ashby: ["board"],
       eightfold: ["domain"],
       phenom: ["site"],
+      brassring: ["site"],
       successfactors: ["site"],
       usajobs: ["organization"],
       radancy: ["site", "tenant"],
@@ -107,6 +147,7 @@ describe("employer seeds with an ATS", () => {
       workday: ["host", "tenant", "site"],
       ultipro: ["tenant", "board"], // UKG Recruiting JobBoard (GCI)
       dsd_labs: ["site"], // bespoke self-hosted SSR careers page (DSD Laboratories)
+      tesla: ["site"], // browser-captured cua-api; no ADAPTERS entry (manual pull)
     };
     const bad: string[] = [];
     for (const seed of DEFENSE_EMPLOYER_SEEDS) {
