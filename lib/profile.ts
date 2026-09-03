@@ -20,10 +20,11 @@
 import type { FilterParams } from "./filters";
 import type { StateInfoRow } from "./types";
 import { gunFreedomIndex, UNSETTLED_GUN_LAW_STATES } from "./state-gun-freedom";
+import { BRANCH_LABELS, type MilitaryBranch } from "./career-transition-shared";
 
 export { gunFreedomIndex, UNSETTLED_GUN_LAW_STATES };
 
-const PROFILE_VERSION = 1;
+const PROFILE_VERSION = 2;
 
 export interface SitePreferences {
   version: typeof PROFILE_VERSION;
@@ -39,11 +40,29 @@ export interface SitePreferences {
   retiredPayUntaxed: boolean;
   /** Keep only cities scoring at/above LGBTQ_FRIENDLY_THRESHOLD. */
   lgbtqFriendlyOnly: boolean;
+  /**
+   * Identity, not a filter: the 6-branch career-transition enum
+   * (lib/career-transition-shared.ts), NOT lib/military.ts's 4-branch
+   * SERVICE_BRANCH_SLUGS / the /explore `base_branch` "near an installation"
+   * filter. "" = not set. Never feeds preferencesToFilterParams.
+   */
+  militaryBranch: MilitaryBranch | "";
+  /**
+   * Raw MOS/NEC/AFSC/rating code as typed, uppercased/trimmed on decode.
+   * Not validated against the career-transition catalog here — decode has
+   * no DB access. That resolution happens in app/profile/page.tsx against
+   * the freshly-loaded catalog.
+   */
+  militarySpecialtyCode: string;
 }
 
 /** Slider floor meaning "no minimum" rather than "index must be >= 0". */
 export const GUN_FREEDOM_ANY = 0;
 export const GUN_FREEDOM_STEP = 5;
+
+/** Longest real-world MOS/NEC/AFSC/rating code is well under this. */
+export const MILITARY_SPECIALTY_CODE_MAX_LEN = 16;
+const MILITARY_BRANCH_VALUES = new Set(Object.keys(BRANCH_LABELS));
 
 /**
  * The score `lgbtq_friendly=true` already gates on in lib/filters.ts. Named
@@ -59,6 +78,8 @@ export const DEFAULT_PREFERENCES: SitePreferences = {
   noStateIncomeTax: false,
   retiredPayUntaxed: false,
   lgbtqFriendlyOnly: false,
+  militaryBranch: "",
+  militarySpecialtyCode: "",
 };
 
 /** Boolean preference keys — everything except `version` and the slider. */
@@ -219,6 +240,13 @@ export function describePreferences(p: SitePreferences): string[] {
   if (p.gunFreedomMin > GUN_FREEDOM_ANY) {
     out.push(`Gun Freedom Index ${p.gunFreedomMin}+`);
   }
+  if (p.militaryBranch) {
+    out.push(
+      p.militarySpecialtyCode
+        ? `${BRANCH_LABELS[p.militaryBranch]} · ${p.militarySpecialtyCode}`
+        : BRANCH_LABELS[p.militaryBranch]
+    );
+  }
   return out;
 }
 
@@ -303,6 +331,22 @@ export function decodePreferences(
     if (typeof min === "number" && Number.isFinite(min)) {
       out.gunFreedomMin = Math.max(0, Math.min(100, Math.round(min)));
     }
+
+    if (
+      typeof parsed.militaryBranch === "string" &&
+      MILITARY_BRANCH_VALUES.has(parsed.militaryBranch)
+    ) {
+      out.militaryBranch = parsed.militaryBranch as MilitaryBranch;
+    }
+    if (typeof parsed.militarySpecialtyCode === "string") {
+      out.militarySpecialtyCode = parsed.militarySpecialtyCode
+        .trim()
+        .toUpperCase()
+        .slice(0, MILITARY_SPECIALTY_CODE_MAX_LEN);
+    }
+    // A code with no branch is meaningless — never carry a stale one forward.
+    if (!out.militaryBranch) out.militarySpecialtyCode = "";
+
     return out;
   } catch {
     return null;
