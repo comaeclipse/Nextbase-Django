@@ -42,6 +42,18 @@ export const COMPANY_SLUG: Record<string, string> = {
   "space exploration technologies corp.": "spacex",
   xai: "xai",
   "x.ai": "xai",
+  oracle: "oracle",
+  "oracle corporation": "oracle",
+  dell: "dell",
+  "dell technologies": "dell",
+  microsoft: "microsoft",
+  "microsoft corporation": "microsoft",
+  "amazon web services": "amazon-web-services",
+  aws: "amazon-web-services",
+  cisco: "cisco",
+  "cisco systems": "cisco",
+  tesla: "tesla",
+  "tesla, inc.": "tesla",
 };
 
 /** Resolve a feed's company label to its employer slug, or null when unmapped. */
