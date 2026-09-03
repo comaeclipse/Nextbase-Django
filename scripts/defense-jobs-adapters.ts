@@ -51,8 +51,17 @@ const stripHtml = (h: string | null | undefined): string =>
 function locate(raw: string | undefined, opts: { remote?: boolean } = {}): { location: string; region: string; isUS: boolean } {
   const s = (raw ?? "").trim();
   const remote = opts.remote || /\bremote\b/i.test(s);
-  // City, State, United States|US
-  let m = s.match(/^(.*),\s*([^,]+),\s*(United States|USA?|U\.S\.?)$/i);
+  // Country-FIRST: "United States, <State>[, <City>]" (Eightfold / Microsoft).
+  let m = s.match(/^(?:United States|USA?|U\.S\.?),\s*([^,]+)(?:,\s*(.+))?$/i);
+  if (m) {
+    const state = m[1].trim();
+    const city = (m[2] ?? "").trim();
+    const abbr = resolveStateAbbr(state) ?? state;
+    const isRemote = remote || /remote/i.test(state) || /remote/i.test(city);
+    return { location: city ? `${city}, ${abbr}` : abbr, region: isRemote ? "US/Remote" : NON_CONUS.has(abbr) ? "US (non-CONUS)" : "US (CONUS)", isUS: true };
+  }
+  // Country-LAST: "City, State, United States|US" (Oracle / Workday).
+  m = s.match(/^(.*),\s*([^,]+),\s*(United States|USA?|U\.S\.?)$/i);
   if (m) {
     const abbr = resolveStateAbbr(m[2].trim()) ?? m[2].trim();
     return { location: `${m[1].trim()}, ${abbr}`, region: remote ? "US/Remote" : NON_CONUS.has(abbr) ? "US (non-CONUS)" : "US (CONUS)", isUS: true };
