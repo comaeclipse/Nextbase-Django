@@ -37,6 +37,11 @@ export const COMPANY_SLUG: Record<string, string> = {
   "naval sea systems command": "navsea",
   "fantom corporation": "fantom-corporation",
   fantom: "fantom-corporation",
+  spacex: "spacex",
+  "space exploration technologies": "spacex",
+  "space exploration technologies corp.": "spacex",
+  xai: "xai",
+  "x.ai": "xai",
 };
 
 /** Resolve a feed's company label to its employer slug, or null when unmapped. */

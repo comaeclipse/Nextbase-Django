@@ -497,6 +497,44 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
   { slug: "three-saints-bay", display_name: "Three Saints Bay", parent_company: "Three Saints Bay", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
   { slug: "marine-acoustics", display_name: "Marine Acoustics", parent_company: "Marine Acoustics", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
   { slug: "arcfield", display_name: "Arcfield", parent_company: "Arcfield", sector: "defense", counts_as_defense: true, ats_kind: null, ats_config: null, legacy_aliases: [] },
+
+  // Commercial / dual-use employers with a defense or national-security arm, not
+  // defense primes: they run large commercial job boards (SpaceX also posts
+  // food-service/welding/marine roles; xAI is a consumer-AI company), so unlike a
+  // prime we do NOT count every opening. Seeded now because their boards are on
+  // the existing Greenhouse adapter; `counts_as_defense: false` (the NAVSEA /
+  // RTX-Corporate precedent) keeps them out of defense_hub / defense_ecosystem and
+  // writes NO defense_employer_locations rows. The "which listings count" rule
+  // (a defense-slice filter) is deferred to issue #336; until then no listings are
+  // pulled, only the board is recorded (issue #313).
+  {
+    // Space Exploration Technologies: aerospace/defense (Starshield, NSSL launches)
+    // plus a heavy commercial board (Starlink, launch ops). Greenhouse board
+    // token "spacex" (~2,281 postings; the content=true payload is ~26 MB, so the
+    // adapter must page it or drop content on the list pass).
+    slug: "spacex",
+    display_name: "SpaceX",
+    parent_company: "Space Exploration Technologies Corp.",
+    sector: "defense_aerospace",
+    counts_as_defense: false,
+    ats_kind: "greenhouse",
+    ats_config: { board: "spacex" },
+    legacy_aliases: [],
+  },
+  {
+    // xAI: commercial AI company (Grok) with a thin/emerging defense footprint.
+    // Greenhouse board token "xai" (~253 postings); the careers UI's dept ids are
+    // Greenhouse departments[].id, so a department filter is available for the
+    // eventual defense slice (#336).
+    slug: "xai",
+    display_name: "xAI",
+    parent_company: "xAI",
+    sector: "corporate",
+    counts_as_defense: false,
+    ats_kind: "greenhouse",
+    ats_config: { board: "xai" },
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
