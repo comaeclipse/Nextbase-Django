@@ -35,7 +35,7 @@ const DEFENSE_JOBS_TAG = "defense-jobs";
 const LISTING_COLUMNS = `id, company, employer_slug, ats, title, field_raw, sector,
        location_raw, city, state, country, region, is_remote,
        latitude, longitude, employment_type, pay_min, pay_max,
-       pay_interval, education, url`;
+       pay_interval, education, url, snapshot_date`;
 
 const isMissingTable = (err: unknown): boolean =>
   (err as { code?: string })?.code === "42P01";
@@ -169,6 +169,7 @@ export interface ClientJobListing {
   payInterval: string | null;
   education: string | null;
   url: string;
+  snapshotDate: string | null;
   skillBridgeStatus: string | null;
   skillBridgeParticipationType: string | null;
   skillBridgeSourceUrl: string | null;
@@ -196,6 +197,7 @@ export function toClientListing(r: DefenseJobListingRow): ClientJobListing {
     payInterval: r.pay_interval,
     education: r.education,
     url: r.url,
+    snapshotDate: r.snapshot_date,
     skillBridgeStatus: r.skillbridge_status ?? null,
     skillBridgeParticipationType: r.skillbridge_participation_type ?? null,
     skillBridgeSourceUrl: r.skillbridge_source_url ?? null,
@@ -216,6 +218,10 @@ function normalizeListingRow(r: Record<string, unknown>): DefenseJobListingRow {
       r.skillbridge_verified_at instanceof Date
         ? r.skillbridge_verified_at.toISOString().slice(0, 10)
         : r.skillbridge_verified_at,
+    snapshot_date:
+      r.snapshot_date instanceof Date
+        ? r.snapshot_date.toISOString().slice(0, 10)
+        : r.snapshot_date,
   } as DefenseJobListingRow;
 }
 
@@ -686,7 +692,17 @@ export interface CityHiringSample {
   payMax: number | null;
   payInterval: string | null;
   isRemote: boolean;
+  snapshotDate: string | null;
   url: string;
+}
+
+export interface CityHiringDatasetSummary {
+  /** Open listings that are remote/nationwide and therefore not evidence of a job in this city. */
+  remoteListings: number;
+  /** Open non-remote listings whose scraped location could not be parsed into city+state. */
+  unlocatedListings: number;
+  oldestSnapshotDate: string | null;
+  newestSnapshotDate: string | null;
 }
 
 /**
@@ -715,6 +731,7 @@ export interface CityHiringResult {
   sampleListings: CityHiringSample[];
   /** Deduped by employer slug against `employers`, so a company is never double-counted. */
   trackedEmployers: CityHiringTrackedEmployer[];
+  listingSummary: CityHiringDatasetSummary;
   note: string;
 }
 
@@ -746,6 +763,12 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
     sectors: [],
     sampleListings: [],
     trackedEmployers: [],
+    listingSummary: {
+      remoteListings: 0,
+      unlocatedListings: 0,
+      oldestSnapshotDate: null,
+      newestSnapshotDate: null,
+    },
     note,
     ...over,
   });
@@ -768,7 +791,8 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
     `LOWER(TRIM(city)) = LOWER($1) AND UPPER(TRIM(state)) = UPPER($2) ` +
     `AND ${openClause(await hasListingLifecycleColumns())}`;
   try {
-    const [empRows, secRows, sampleRows] = await Promise.all([
+    const open = openClause(await hasListingLifecycleColumns());
+    const [empRows, secRows, sampleRows, summaryRows] = await Promise.all([
       sql.query(
         `SELECT company AS name, MAX(employer_slug) AS slug, COUNT(*)::int AS count
            FROM defense_job_listings
@@ -786,12 +810,21 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
         [cityRaw, stateAbbr]
       ),
       sql.query(
-        `SELECT company, title, sector, pay_min, pay_max, pay_interval, is_remote, url
+        `SELECT company, title, sector, pay_min, pay_max, pay_interval, is_remote, snapshot_date, url
            FROM defense_job_listings
           WHERE ${cityMatch}
           ORDER BY (pay_max IS NULL) ASC, pay_max DESC, company ASC, title ASC
           LIMIT 8`,
         [cityRaw, stateAbbr]
+      ),
+      sql.query(
+        `SELECT
+            COUNT(*) FILTER (WHERE is_remote)::int AS remote_listings,
+            COUNT(*) FILTER (WHERE NOT is_remote AND (city IS NULL OR state IS NULL))::int AS unlocated_listings,
+            MIN(snapshot_date)::text AS oldest_snapshot_date,
+            MAX(snapshot_date)::text AS newest_snapshot_date
+           FROM defense_job_listings
+          WHERE ${open}`
       ),
     ]);
 
@@ -817,9 +850,24 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
         payMax: r.pay_max == null ? null : Number(r.pay_max),
         payInterval: r.pay_interval == null ? null : String(r.pay_interval),
         isRemote: Boolean(r.is_remote),
+        snapshotDate:
+          r.snapshot_date instanceof Date
+            ? r.snapshot_date.toISOString().slice(0, 10)
+            : r.snapshot_date == null
+              ? null
+              : String(r.snapshot_date),
         url: String(r.url),
       })
     );
+    const summaryRaw = (summaryRows as Record<string, unknown>[])[0] ?? {};
+    const listingSummary: CityHiringDatasetSummary = {
+      remoteListings: Number(summaryRaw.remote_listings ?? 0),
+      unlocatedListings: Number(summaryRaw.unlocated_listings ?? 0),
+      oldestSnapshotDate:
+        summaryRaw.oldest_snapshot_date == null ? null : String(summaryRaw.oldest_snapshot_date),
+      newestSnapshotDate:
+        summaryRaw.newest_snapshot_date == null ? null : String(summaryRaw.newest_snapshot_date),
+    };
 
     // Tracked-employer aggregate counts for this city, minus any employer already
     // represented by scraped listings above (deduped by slug so we never double-count).
@@ -841,11 +889,11 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
     const matched = totalListings > 0 || trackedEmployers.length > 0;
     return base(
       matched
-        ? "Listings are real openings with apply links; tracked-employer figures are aggregate posting counts with no per-job link."
-        : "No defense job listings or tracked-employer postings for that city.",
+        ? "Listings are real openings with apply links; tracked-employer figures are aggregate posting counts with no per-job link. Remote and unlocated listings are counted separately because they are not evidence of a job in this city."
+        : "No defense job listings or tracked-employer postings for that city. Remote and unlocated listings are counted separately because they are not evidence of a job in this city.",
       cityRaw,
       stateAbbr,
-      { matched, totalListings, employers, sectors, sampleListings, trackedEmployers }
+      { matched, totalListings, employers, sectors, sampleListings, trackedEmployers, listingSummary }
     );
   } catch (err) {
     if (isMissingTable(err)) {
@@ -854,3 +902,15 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
     throw err;
   }
 }
+
+/**
+ * Cached per-city wrapper around `hiringInCity`, keyed by the `"City, ST"` string,
+ * for the city detail page's "Defense & Tech Jobs" card. `hiringInCity` already
+ * swallows the missing-table error, so this is safe before the job tables load.
+ */
+export const getCityHiring = (cityInput: string) =>
+  unstable_cache(
+    () => hiringInCity(cityInput),
+    ["defense-jobs:getCityHiring", cityInput],
+    { revalidate: CACHE_REVALIDATE_SECONDS, tags: [DEFENSE_JOBS_TAG] }
+  )();

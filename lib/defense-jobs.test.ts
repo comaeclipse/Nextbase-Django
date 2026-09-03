@@ -4,7 +4,8 @@ vi.mock("next/cache", () => ({
   unstable_cache: (fn: unknown) => fn,
 }));
 
-import { buildDefenseJobWhere, parseDefenseJobFilter } from "./defense-jobs";
+import { buildDefenseJobWhere, parseDefenseJobFilter, toClientListing } from "./defense-jobs";
+import type { DefenseJobListingRow } from "./types";
 
 describe("defense-jobs SkillBridge filter", () => {
   it("parses the active SkillBridge query flag", () => {
@@ -37,5 +38,47 @@ describe("defense-jobs SkillBridge filter", () => {
 
     expect(where).toBe("WHERE FALSE");
     expect(params).toEqual([]);
+  });
+
+  it("composes the open-listing lifecycle filter with other clauses", () => {
+    const params: unknown[] = [];
+    const where = buildDefenseJobWhere({ remote: true }, params, {
+      listingAlias: "j",
+      openOnly: true,
+    });
+
+    expect(where).toBe("WHERE j.closed_at IS NULL AND j.is_remote = TRUE");
+    expect(params).toEqual([]);
+  });
+});
+
+describe("defense-jobs listing freshness", () => {
+  it("passes snapshot_date through the client-facing listing shape", () => {
+    const row: DefenseJobListingRow = {
+      id: 1,
+      company: "Shield AI",
+      employer_slug: "shield-ai",
+      ats: "greenhouse",
+      title: "Systems Engineer",
+      field_raw: "Hivemind",
+      sector: "Autonomy",
+      location_raw: "Dallas, TX",
+      city: "Dallas",
+      state: "TX",
+      country: "US",
+      region: "Texas",
+      is_remote: false,
+      latitude: 32.7767,
+      longitude: -96.797,
+      employment_type: "Full-time",
+      pay_min: null,
+      pay_max: null,
+      pay_interval: null,
+      education: null,
+      url: "https://example.com/job",
+      snapshot_date: "2026-09-01",
+    };
+
+    expect(toClientListing(row).snapshotDate).toBe("2026-09-01");
   });
 });

@@ -100,12 +100,16 @@ export default function DefenseJobsExplorer({
   initialTotal,
   initialCityPoints,
   counts,
+  initialCity = null,
 }: {
   facets: DefenseJobFacets;
   initialListings: JobListing[];
   initialTotal: number;
   initialCityPoints: DefenseJobCityPoint[];
   counts: EmployerCount[];
+  /** "City|ST" deep link from the city page; the initial reads are already
+   *  filtered to it server-side, so this only seeds the selected-city state. */
+  initialCity?: string | null;
 }) {
   // Filter state.
   const [selSectors, setSelSectors] = useState<Set<string>>(new Set());
@@ -115,7 +119,7 @@ export default function DefenseJobsExplorer({
   const [search, setSearch] = useState("");
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [skillBridgeOnly, setSkillBridgeOnly] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(initialCity);
 
   // Server-fed data state (seeded from the unfiltered initial render).
   const [items, setItems] = useState<JobListing[]>(initialListings);

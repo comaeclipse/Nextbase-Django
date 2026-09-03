@@ -14,6 +14,8 @@ const STUB_LISTINGS: SpecialtyListings = {
   keywords: ["electrician"],
   listings: [],
   employerLinks: [],
+  city: null,
+  state: null,
   note: "stub",
 };
 

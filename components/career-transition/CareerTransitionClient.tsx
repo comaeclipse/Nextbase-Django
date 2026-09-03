@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   BadgeCheck,
   BriefcaseBusiness,
@@ -412,13 +413,27 @@ function OpeningCard({ listing }: { listing: ClientJobListing }) {
  */
 // The caller remounts this per specialty (via `key`), so initial state already
 // means "loading, no data" — no synchronous setState reset in the effect needed.
-function LiveOpenings({ branch, code }: { branch: MilitaryBranch; code: string }) {
+function LiveOpenings({
+  branch,
+  code,
+  city,
+  state,
+}: {
+  branch: MilitaryBranch;
+  code: string;
+  city: string | null;
+  state: string | null;
+}) {
   const [data, setData] = useState<SpecialtyListings | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const controller = new AbortController();
     const params = new URLSearchParams({ branch, code });
+    if (city && state) {
+      params.set("city", city);
+      params.set("state", state);
+    }
     fetch(`/api/career-transition/listings?${params}`, { signal: controller.signal })
       .then((r) => (r.ok ? (r.json() as Promise<SpecialtyListings>) : null))
       .then((json) => {
@@ -431,12 +446,14 @@ function LiveOpenings({ branch, code }: { branch: MilitaryBranch; code: string }
         setLoading(false);
       });
     return () => controller.abort();
-  }, [branch, code]);
+  }, [branch, code, city, state]);
 
   const header = (
     <div className="flex items-center gap-2">
       <BriefcaseBusiness className="size-4 text-muted-foreground" />
-      <h3 className="font-semibold">Live openings</h3>
+      <h3 className="font-semibold">
+        {city && state ? `Live openings in ${city}, ${state}` : "Live openings"}
+      </h3>
     </div>
   );
 
@@ -519,9 +536,21 @@ export default function CareerTransitionClient({
 }: {
   catalog: CareerTransitionCatalog;
 }) {
-  const [branch, setBranch] = useState<MilitaryBranch>("army");
+  const searchParams = useSearchParams();
+  const cityParam = searchParams.get("city")?.trim() || null;
+  const stateParam = searchParams.get("state")?.trim() || null;
+  const initialBranchParam = searchParams.get("branch")?.trim().toLowerCase();
+  const initialBranch: MilitaryBranch =
+    initialBranchParam && (BRANCHES as string[]).includes(initialBranchParam)
+      ? (initialBranchParam as MilitaryBranch)
+      : "army";
+  const initialCodeParam = searchParams.get("code")?.trim().toUpperCase();
+
+  const [branch, setBranch] = useState<MilitaryBranch>(initialBranch);
   const [query, setQuery] = useState("");
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [selectedKey, setSelectedKey] = useState<string | null>(
+    initialCodeParam ? `${initialBranch}:${initialCodeParam}` : null
+  );
 
   const branchSpecialties = useMemo(
     () => searchSpecialties(catalog.specialties, branch, query),
@@ -698,9 +727,11 @@ export default function CareerTransitionClient({
             </section>
 
             <LiveOpenings
-              key={`${selected.specialty.branch}:${selected.specialty.code}`}
+              key={`${selected.specialty.branch}:${selected.specialty.code}:${cityParam ?? ""}:${stateParam ?? ""}`}
               branch={selected.specialty.branch}
               code={selected.specialty.code}
+              city={cityParam}
+              state={stateParam}
             />
 
             {selected.listingEvidence.length > 0 ? (

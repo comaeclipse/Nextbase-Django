@@ -73,6 +73,7 @@ year**.
 |---|---|---|---|
 | 2023 (default) | 363.8 | 1916.7 | FBI UCR, *Crime in the Nation 2023* (violent rate stated verbatim in the FBI release; property from the 2023 CDE national estimate) |
 | 2022 | 380.7 | 1954.4 | FBI UCR 2022 national estimates (CDE) |
+| 2020 | 387.8 | 1958.2 | FBI UCR, *Crime in the United States 2020* national estimates |
 
 More than one year is kept on purpose — see the coverage gap below, which forces
 some cities to be indexed against an older year. When you add a year, update
@@ -132,18 +133,16 @@ Melbourne is exactly why the gap section above exists. FBI CDE agency
 
 So Melbourne **cannot** be indexed against 2023. Its consumer-site "903/100k"
 figures are the FBI **2020** count (757 ÷ 83,806) recycled under a newer label.
-To finish Melbourne's TCI, index its **2020** counts against a **2020** national
-baseline:
+Melbourne is indexed against its **2020** counts and the FBI **2020** national
+reference:
 
-1. Pull the 2020 property count from `…/crime/fbi/cde/summarized/agency/FL0050700/property-crime`
-   (needs an api.data.gov key; the DEMO_KEY rate-limits fast).
-2. Add 2020 national rates to `NATIONAL_CRIME_REFERENCE_BY_YEAR` (from the FBI
-   2020 release).
-3. `scripts/compute-tci.ts --name "Melbourne, FL" --violent 757 --property <2020 count> --population 83806 --year 2020`.
+```
+scripts/compute-tci.ts --name "Melbourne, FL" --violent 757 --property 2544 --population 83806 --year 2020
+```
 
-Until then Melbourne's TCI is **blocked on FBI data availability**, not on this
-method. Record the ORI, the per-year table, and the blocked status in
-`data/melbourne_fl_sources.md`.
+That yields `TCI = 194`, `CrimeRating = High`. Record the ORI, counts, same-year
+reference and fake-zero later years in `data/melbourne_fl_sources.md`.
 
 Source: [FBI 2023 Crime in the Nation](https://www.fbi.gov/news/press-releases/fbi-releases-2023-crime-in-the-nation-statistics),
+[FBI 2020 Crime Statistics](https://www.fbi.gov/news/press-releases/fbi-releases-2020-crime-statistics),
 [FBI Crime Data Explorer](https://cde.ucr.cjis.gov/) (agency FL0050700).
