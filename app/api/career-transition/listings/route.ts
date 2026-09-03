@@ -12,7 +12,7 @@ import { listingsForSpecialty } from "@/lib/career-listings-bridge";
  * its keywords, and returns an honest status/fallback otherwise. Keeping the
  * call server-side keeps the bridge's DB imports out of the client bundle.
  *
- * Query params: branch, code. Response: SpecialtyListings JSON, or
+ * Query params: branch, code, optional city/state. Response: SpecialtyListings JSON, or
  * { status: "unmapped", ... } equivalent when the specialty isn't in the catalog.
  */
 export const dynamic = "force-dynamic";
@@ -21,6 +21,8 @@ export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
   const branch = sp.get("branch")?.trim();
   const code = sp.get("code")?.trim();
+  const city = sp.get("city")?.trim() || null;
+  const state = sp.get("state")?.trim() || null;
 
   if (!branch || !code) {
     return NextResponse.json(
@@ -41,6 +43,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const result = await listingsForSpecialty(match);
+  const result = await listingsForSpecialty(match, undefined, { city, state });
   return NextResponse.json(result);
 }

@@ -520,3 +520,155 @@ body:has(> .city-page) { background: var(--bg); }
     line-height: 1.5;
     color: var(--fg-muted);
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Defense & Tech Jobs card (components/city/CityJobsCard.tsx).
+
+   Self-contained and prefixed `.vr-jobs*` on purpose — like the FloatingChat
+   `.vr-chat-*` block, it uses literal colors / the :root tokens above and adds
+   NO document-wide (unscoped `*`/`body`/`a`) selector, so it survives the
+   pixel-parity reset without needing a `:where(.city-page)` wrapper. Reproduces
+   the shadcn "cn-card" LOOK (header + outline action, icon-tile table rows).
+   ────────────────────────────────────────────────────────────────────────── */
+.vr-jobs-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+.vr-jobs-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+.vr-jobs-head-text { min-width: 0; }
+.vr-jobs-heading {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.3;
+}
+.vr-jobs-desc {
+    margin: .2rem 0 0;
+    font-size: .82rem;
+    color: #6b7280;
+    line-height: 1.45;
+}
+.vr-jobs-viewall {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: .4rem .8rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #1f2937;
+    transition: background .15s, border-color .15s;
+}
+.vr-jobs-viewall:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+.vr-jobs-body { display: flex; flex-direction: column; }
+.vr-jobs-row {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: .8rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    color: inherit;
+    transition: background .15s;
+}
+.vr-jobs-row:hover { background: #f9fafb; }
+.vr-jobs-row-static { cursor: default; }
+.vr-jobs-row-static:hover { background: transparent; }
+.vr-jobs-tile {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: #f3f4f6;
+    color: #4b5563;
+}
+.vr-jobs-tile-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+.vr-jobs-label {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.vr-jobs-title {
+    font-size: .9rem;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.vr-jobs-sub {
+    font-size: .78rem;
+    color: #6b7280;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.vr-jobs-right {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    text-align: right;
+}
+.vr-jobs-pay {
+    font-size: .82rem;
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+}
+.vr-jobs-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: .15rem .5rem;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .01em;
+    white-space: nowrap;
+}
+.vr-jobs-mos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+    padding: .85rem 1.5rem;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: .85rem;
+    font-weight: 600;
+    text-align: center;
+    transition: background .15s;
+}
+.vr-jobs-mos:hover { background: #dbeafe; }

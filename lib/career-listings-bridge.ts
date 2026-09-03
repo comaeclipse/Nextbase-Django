@@ -30,6 +30,7 @@ import {
   type DefenseJobListingsPage,
 } from "./defense-jobs";
 import type { SpecialtyMatchView } from "./career-transition";
+import { resolveStateAbbr } from "./states";
 
 export type ListingBridgeStatus = "listings" | "no_hits" | "unmapped";
 
@@ -51,6 +52,8 @@ export interface SpecialtyListings {
   listings: ClientJobListing[];
   /** Every employer match's career URL — the fallback when listings are empty. */
   employerLinks: BridgeEmployerLink[];
+  city: string | null;
+  state: string | null;
   note: string;
 }
 
@@ -63,6 +66,11 @@ export type ListPageFn = (
 
 const MAX_KEYWORDS = 12;
 const MAX_LISTINGS = 25;
+
+export interface SpecialtyListingOptions {
+  city?: string | null;
+  state?: string | null;
+}
 
 /**
  * The terms to OR-search listings with: skill listing_keywords first (the
@@ -100,7 +108,8 @@ export function employerLinksForSpecialty(match: SpecialtyMatchView): BridgeEmpl
  */
 export async function listingsForSpecialty(
   match: SpecialtyMatchView,
-  listPage: ListPageFn = getDefenseJobListingsPage
+  listPage: ListPageFn = getDefenseJobListingsPage,
+  options: SpecialtyListingOptions = {}
 ): Promise<SpecialtyListings> {
   const employerLinks = employerLinksForSpecialty(match);
   const mappedEmployerSlugs = [
@@ -111,6 +120,9 @@ export async function listingsForSpecialty(
     ),
   ];
   const keywords = keywordsForSpecialty(match);
+  const city = options.city?.trim() || null;
+  const state = options.state ? resolveStateAbbr(options.state) : null;
+  const cityFilter = city && state ? `${city}|${state}` : null;
 
   if (mappedEmployerSlugs.length === 0) {
     return {
@@ -119,6 +131,8 @@ export async function listingsForSpecialty(
       keywords,
       listings: [],
       employerLinks,
+      city,
+      state,
       note:
         "No defense employer for this specialty is mapped to live listings yet — " +
         "showing employer career pages instead.",
@@ -133,6 +147,7 @@ export async function listingsForSpecialty(
   for (const term of terms) {
     const filter: DefenseJobFilter = { employers: mappedEmployerSlugs };
     if (term) filter.q = term;
+    if (cityFilter) filter.city = cityFilter;
     const { listings } = await listPage(filter, 1, MAX_LISTINGS);
     for (const row of listings) {
       const listing = toClientListing(row);
@@ -148,10 +163,17 @@ export async function listingsForSpecialty(
     keywords,
     listings,
     employerLinks,
+    city,
+    state,
     note:
       listings.length > 0
-        ? "Live listings from mapped defense employers matching this specialty."
-        : "Mapped employers have no current listings matching this specialty — " +
+        ? cityFilter
+          ? `Live listings in ${city}, ${state} from mapped defense employers matching this specialty.`
+          : "Live listings from mapped defense employers matching this specialty."
+        : cityFilter
+          ? `Mapped employers have no current listings in ${city}, ${state} matching this specialty — ` +
+            "showing employer career pages instead."
+          : "Mapped employers have no current listings matching this specialty — " +
           "showing employer career pages instead.",
   };
 }

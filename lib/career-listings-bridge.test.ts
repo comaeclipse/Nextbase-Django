@@ -65,6 +65,10 @@ function makeListPage(rows: DefenseJobListingRow[]): ListPageFn {
       const q = filter.q.toLowerCase();
       out = out.filter((r) => r.title.toLowerCase().includes(q));
     }
+    if (filter.city) {
+      const [city, state] = filter.city.split("|");
+      out = out.filter((r) => r.city === city && r.state === state);
+    }
     return { listings: out, total: out.length };
   };
 }
@@ -129,6 +133,29 @@ describe("listingsForSpecialty (issue #224)", () => {
     const ids = result.listings.map((l) => l.id).sort((a, b) => a - b);
     expect(ids).toEqual([10, 11, 12]); // 20 and 30 excluded, 12 not duplicated
     expect(result.listings.every((l) => l.company === "general-dynamics")).toBe(true);
+  });
+
+  it("can scope specialty listings to one city and state", async () => {
+    const match = specialtyMatch({
+      employers: [["gd-nassco", "general-dynamics"]],
+      keywords: ["electrician"],
+    });
+    const sanDiego = row(10, "general-dynamics", "Marine Electrician");
+    sanDiego.city = "San Diego";
+    sanDiego.state = "CA";
+    const groton = row(11, "general-dynamics", "Marine Electrician");
+    groton.city = "Groton";
+    groton.state = "CT";
+
+    const result = await listingsForSpecialty(match, makeListPage([sanDiego, groton]), {
+      city: "San Diego",
+      state: "California",
+    });
+
+    expect(result.city).toBe("San Diego");
+    expect(result.state).toBe("CA");
+    expect(result.listings.map((l) => l.id)).toEqual([10]);
+    expect(result.note).toContain("San Diego, CA");
   });
 
   it("derives keywords from skills first, then role titles, deduped and lower-cased", () => {

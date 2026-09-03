@@ -6,19 +6,50 @@ import {
   getDefenseJobFacets,
   getDefenseJobInitialListings,
   getDefenseJobInitialMap,
+  getDefenseJobListingsPage,
+  getDefenseJobMapAggregation,
   toClientListing,
 } from "@/lib/defense-jobs";
 
 export const dynamic = "force-dynamic";
 
-export default async function DefenseJobsPage() {
+/**
+ * Normalize a `?city=` deep link (from the city page's "View all") into the
+ * "City|ST" key the explorer + API filter use. Accepts `|` or `,` as the
+ * separator; returns null unless both parts are present.
+ */
+function normalizeCityParam(raw: string | undefined): string | null {
+  if (!raw) return null;
+  const sep = raw.includes("|") ? "|" : raw.includes(",") ? "," : null;
+  if (!sep) return null;
+  const idx = raw.indexOf(sep);
+  const city = raw.slice(0, idx).trim();
+  const state = raw.slice(idx + 1).trim();
+  return city && state ? `${city}|${state}` : null;
+}
+
+export default async function DefenseJobsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ city?: string }>;
+}) {
+  const initialCity = normalizeCityParam((await searchParams).city);
+  const filter = initialCity ? { city: initialCity } : {};
+
   // Only the first page of listings, the filter-chip options, the city-level map
   // aggregation, and the tracked-employer counts — never all ~12k rows. The
   // client fetches subsequent pages / filtered results from /api/defense-jobs.
+  // When a city deep link is present, the initial reads are filtered to it
+  // server-side so the first paint is already scoped (no unfiltered flash); the
+  // unfiltered reads stay cached for the common no-city case.
   const [facets, firstPage, cityPoints, countRows] = await Promise.all([
     getDefenseJobFacets(),
-    getDefenseJobInitialListings(),
-    getDefenseJobInitialMap(),
+    initialCity
+      ? getDefenseJobListingsPage(filter, 1)
+      : getDefenseJobInitialListings(),
+    initialCity
+      ? getDefenseJobMapAggregation(filter)
+      : getDefenseJobInitialMap(),
     getDefenseEmployerCityCounts(),
   ]);
 
@@ -51,6 +82,7 @@ export default async function DefenseJobsPage() {
         initialTotal={firstPage.total}
         initialCityPoints={cityPoints}
         counts={counts}
+        initialCity={initialCity}
       />
     </div>
   );
