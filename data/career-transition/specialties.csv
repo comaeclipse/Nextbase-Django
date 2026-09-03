@@ -143,3 +143,17 @@ air_force,AFSC,1D731B,Systems Operations,enlisted,current,official_service_page,
 air_force,AFSC,1D731D,Security Operations,enlisted,current,official_service_page,https://www.airforce.com/pay-and-benefits/bonuses/air-force-bonuses,2026-09-02
 air_force,AFSC,1D731E,Client Systems Specialist,enlisted,current,official_service_page,https://www.airforce.com/pay-and-benefits/bonuses/air-force-bonuses,2026-09-02
 coast_guard,Rating,IT,Information Systems Technician,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted/it,2026-09-02
+army,MOS,92Y,Unit Supply Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/support-logistics/transportation-inventory/92y-unit-supply-specialist,2026-09-02
+army,MOS,92F,Petroleum Supply Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/support-logistics/transportation-inventory/92f-petroleum-supply-specialist,2026-09-02
+army,MOS,92W,Water Treatment Specialist,enlisted,current,official_service_page,https://www.goarmy.com/careers-and-jobs/science-medicine/research/92w-water-treatment-specialist,2026-09-02
+navy,Rating,PS,Personnel Specialist,enlisted,current,official_service_page,https://www.navy.com/careers-benefits/careers/business-logistics-administration/personnel-specialist,2026-09-02
+navy,Rating,AZ,Aviation Maintenance Administrationman,enlisted,current,official_service_page,https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Aviation/AZ/,2026-09-02
+air_force,AFSC,2T0X1,Traffic Management,enlisted,current,official_service_page,https://www.airforce.com/careers/logistics-and-administration/traffic-management,2026-09-02
+air_force,AFSC,2T2X1,Air Transportation,enlisted,current,official_service_page,https://www.airforce.com/careers/logistics-and-administration/air-transportation,2026-09-02
+air_force,AFSC,2R2X1,Maintenance Management,enlisted,current,official_service_page,https://www.airforce.com/careers/logistics-and-administration/maintenance-management,2026-09-02
+air_force,AFSC,2R0X1,Maintenance Management Analysis,enlisted,unknown,curated_mapping,https://www.airforce.com/careers/logistics-and-administration/maintenance-management,2026-09-02
+air_force,AFSC,2R1X1,Maintenance Management Production,enlisted,unknown,curated_mapping,https://www.airforce.com/careers/logistics-and-administration/maintenance-management,2026-09-02
+coast_guard,Rating,CS,Culinary Specialist,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted,2026-09-02
+coast_guard,Rating,HS,Health Services Technician,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted,2026-09-02
+coast_guard,Rating,BM,Boatswain's Mate,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted,2026-09-02
+coast_guard,Rating,MK,Machinery Technician,enlisted,current,official_service_page,https://www.gocoastguard.com/careers/enlisted,2026-09-02
