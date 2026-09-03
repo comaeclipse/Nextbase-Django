@@ -54,6 +54,12 @@ export const NATIONAL_CRIME_REFERENCE_BY_YEAR: Record<number, CrimeReference> = 
     propertyRatePer100k: 1954.4,
     source: "FBI UCR 2022 national estimates (Crime Data Explorer)",
   },
+  2020: {
+    year: 2020,
+    violentRatePer100k: 387.8,
+    propertyRatePer100k: 1958.2,
+    source: "FBI UCR, Crime in the United States 2020 national estimates",
+  },
 };
 
 /** The default reference: the newest year with a fully FBI-sourced rate pair. */
@@ -117,6 +123,41 @@ export function ratesFromCounts(input: {
     violentRatePer100k: ratePer100k(input.violentCount, input.population),
     propertyRatePer100k: ratePer100k(input.propertyCount, input.population),
   };
+}
+
+type CrimePeriodSeries = Record<string, number | null> | undefined;
+
+/**
+ * Count FBI CDE periods where both offense families are present. Presence is
+ * separate from non-zero volume: some agencies publish a year-end annual dump
+ * where earlier month keys are zero and December carries the full-year count.
+ */
+export function reportedCrimePeriods(
+  violentPeriods: CrimePeriodSeries,
+  propertyPeriods: CrimePeriodSeries,
+): number {
+  if (!violentPeriods || !propertyPeriods) return 0;
+  let periods = 0;
+  for (const period of Object.keys(violentPeriods)) {
+    if (violentPeriods[period] != null && propertyPeriods[period] != null) periods += 1;
+  }
+  return periods;
+}
+
+export function isUsableFbiAgencyYear(input: {
+  periodsReported: number;
+  expectedPeriods?: number;
+  violentCount: number;
+  propertyCount: number;
+  population: number;
+}): boolean {
+  const expectedPeriods = input.expectedPeriods ?? 12;
+  return (
+    input.periodsReported >= expectedPeriods &&
+    input.violentCount > 0 &&
+    input.propertyCount > 0 &&
+    input.population > 0
+  );
 }
 
 export interface TciBreakdown {
