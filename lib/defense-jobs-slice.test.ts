@@ -80,6 +80,47 @@ describe("classifyDefenseRelevance — dropped (false positives)", () => {
   });
 });
 
+describe("classifyDefenseRelevance — non-defense public sector is dropped", () => {
+  // "Public sector" alone spans defense + civilian; the SLED / education /
+  // healthcare segments are NOT the defense slice and must drop.
+  const dropped: [string, DefenseSliceInput][] = [
+    ["AWS WWPS Education role (the reported false positive)", { title: "Solutions Architect, Education - Mid-Atlantic", businessUnit: "AWS Worldwide Public Sector" }],
+    ["State & Local segment", { title: "Account Manager, Public Sector", businessUnit: "State and Local Government" }],
+    ["SLED bundle", { title: "Public Sector SLED Specialist" }],
+    ["K-12", { title: "Public Sector Account Executive, K-12" }],
+    ["healthcare segment", { title: "Public Sector Solutions Architect", businessUnit: "Healthcare & Life Sciences" }],
+  ];
+  it.each(dropped)("drops: %s", (_label, input) => {
+    expect(classifyDefenseRelevance(input, commercial).relevance).toBeNull();
+  });
+
+  it("still admits a public-sector role with no non-defense segment", () => {
+    const v = classifyDefenseRelevance(
+      { title: "Program Manager", businessUnit: "AWS Worldwide Public Sector" },
+      commercial,
+    );
+    expect(v.relevance).toBe("gov_customer");
+  });
+
+  it("a STRONG signal overrides the veto (DoD role that also names education)", () => {
+    const v = classifyDefenseRelevance(
+      { title: "Solutions Architect, Education", businessUnit: "AWS Worldwide Public Sector", description: "Supports Department of Defense customers." },
+      commercial,
+    );
+    expect(v.relevance).toBe("gov_customer");
+  });
+
+  it("does not veto on 'education' in a JD degree requirement (body only)", () => {
+    // The segment (title + businessUnit) is clean; 'education' appears only in the
+    // description's degree line, which the veto deliberately ignores.
+    const v = classifyDefenseRelevance(
+      { title: "Public Sector Account Manager", businessUnit: "US Federal", description: "Bachelor's degree or equivalent education required." },
+      commercial,
+    );
+    expect(v.relevance).toBe("gov_customer");
+  });
+});
+
 describe("classifyDefenseRelevance — details", () => {
   it("prefers cleared over gov_customer when both present", () => {
     const v = classifyDefenseRelevance(

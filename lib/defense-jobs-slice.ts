@@ -78,6 +78,11 @@ const CLEARANCE_RULES: RegExp[] = [
  * not leak in: no bare "defense" (avoids "defensive coding", "defense in
  * depth"), no bare "federal" (avoids "Federal Reserve", "federal holiday"), no
  * bare "military" (avoids "military-grade").
+ *
+ * These are the STRONG signals — unambiguously defense / national-security. They
+ * admit outright and are never subject to the non-defense-public-sector veto
+ * below (a "Department of Defense" role in an org that also serves schools is
+ * still a defense role).
  */
 const GOV_CUSTOMER_RULES: RegExp[] = [
   /\bdepartment of defense\b/i,
@@ -97,8 +102,40 @@ const GOV_CUSTOMER_RULES: RegExp[] = [
   /\b(?:u\.?s\.?\s+)?federal government\b/i,
   /\bfederal agenc(?:y|ies)\b/i,
   /\bcivilian agenc(?:y|ies)\b/i,
-  /\bpublic sector\b/i,
   /\b(?:u\.?s\.?\s+)?(?:military|armed forces)\b[^.\n]{0,25}\b(?:customer|mission|branch|service|installation|base|program|contract)\b/i,
+];
+
+/*
+ * BROAD public-sector signals. A commercial provider's "public sector" business
+ * (AWS Worldwide Public Sector, Azure's government portfolio) spans BOTH the
+ * defense slice we want and non-defense civilian work — state & local government,
+ * education (AWS calls the bundle "SLED"), healthcare, nonprofits. "Public sector"
+ * alone is therefore not enough: it admits only when the listing shows no
+ * non-defense-public-sector segment (the veto below). A genuinely defense
+ * public-sector role almost always also carries a STRONG signal above (DoD, a
+ * federal agency, GovCloud, …), so this gate loses little recall while dropping
+ * the education / SLED / healthcare roles that used to slip in on "public sector".
+ */
+const GOV_CUSTOMER_BROAD_RULES: RegExp[] = [/\b(?:u\.?s\.?\s+)?public sector\b/i];
+
+/*
+ * Non-defense public-sector segments that VETO a BROAD (public-sector) match.
+ * Matched against the SEGMENT text only (title + business unit) — never the JD
+ * body — because that is where a provider names the customer segment ("… ,
+ * Education - Mid-Atlantic", business unit "State, Local & Education"), whereas
+ * the body's "bachelor's degree or equivalent education" / "healthcare benefits"
+ * would otherwise cause false vetoes. A STRONG signal is never vetoed.
+ */
+const NON_DEFENSE_PUBLIC_SECTOR_RULES: RegExp[] = [
+  /\bstate (?:and|&|,)\s*local\b/i,
+  /\bsled\b/i, // AWS's State/Local/Education bundle
+  /\beducation\b/i,
+  /\bschool districts?\b/i,
+  /\bk-?12\b/i,
+  /\bhealthcare\b/i,
+  /\bpublic health\b/i,
+  /\bnon-?profits?\b/i,
+  /\bmunicipal(?:it(?:y|ies))?\b/i,
 ];
 
 const MAX_SIGNAL_LEN = 120;
@@ -134,8 +171,22 @@ export function classifyDefenseRelevance(
   const cleared = firstMatch(CLEARANCE_RULES, hay);
   if (cleared) return { relevance: "cleared", signal: cleared };
 
+  // Strong signals admit outright.
   const gov = firstMatch(GOV_CUSTOMER_RULES, hay);
   if (gov) return { relevance: "gov_customer", signal: gov };
+
+  // Broad "public sector" admits only when the customer segment (title + business
+  // unit) shows no non-defense (SLED / education / healthcare / municipal) label.
+  const broad = firstMatch(GOV_CUSTOMER_BROAD_RULES, hay);
+  if (broad) {
+    const segment = [input.title, input.businessUnit]
+      .filter((s): s is string => Boolean(s))
+      .join("\n")
+      .toLowerCase();
+    if (!NON_DEFENSE_PUBLIC_SECTOR_RULES.some((r) => r.test(segment))) {
+      return { relevance: "gov_customer", signal: broad };
+    }
+  }
 
   return { relevance: null, signal: null };
 }

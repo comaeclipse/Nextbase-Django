@@ -470,6 +470,15 @@ export interface DefenseJobListingRow {
   education: string | null;
   url: string;
   snapshot_date: string | null;
+  /**
+   * The #336 defense-slice verdict, set by the sync for a `counts_as_defense`
+   * employer's rows: `prime` (a defense pure-play, every listing counts) or, for
+   * a commercial / dual-use employer, the winning signal `cleared` | `gov_customer`.
+   * NULL on pre-#336 rows and on prime CSVs that predate the columns.
+   */
+  defense_relevance?: string | null;
+  /** The substring the classifier matched, for auditability. */
+  defense_signal?: string | null;
   skillbridge_status?: string | null;
   skillbridge_participation_type?: string | null;
   skillbridge_source_url?: string | null;
