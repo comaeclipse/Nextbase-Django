@@ -455,9 +455,8 @@ export interface CityCostBreakdown {
    */
   missingContext: string[];
   /**
-   * Confirmed, informational annotations that also do not change monthlyCost —
-   * on the `va_primary` path, whether the nearest VA primary care is within the
-   * VA 30-minute drive-time standard or beyond it. See lib/affordability.ts.
+   * Confirmed, informational annotations that also do not change monthlyCost
+   * (e.g. drive-time access standards if populated). See lib/affordability.ts.
    */
   notes: string[];
   /**
