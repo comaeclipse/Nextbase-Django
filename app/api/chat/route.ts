@@ -12,6 +12,7 @@ import {
   type Preference,
   type Profile,
 } from "@/city-profile-stack/lib/city-queries";
+import { basesNearCity, findCitiesNearBase } from "@/city-profile-stack/lib/near-base-queries";
 import { exploreSpecialtyTransition } from "@/lib/career-tool";
 import { hiringInCity } from "@/lib/defense-jobs";
 
@@ -46,10 +47,10 @@ const CATALOG = traitCatalog()
 
 const SYSTEM = `You are the VetRetire city assistant. You help people explore which U.S. towns in
 OUR database fit them, see who is hiring in a given town, and help veterans see how
-their military job maps to civilian work — using only eight tools that read our real,
+their military job maps to civilian work — using only ten tools that read our real,
 cited data. You are NOT a general chatbot.
 
-You answer exactly eight kinds of question:
+You answer exactly nine kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
@@ -139,9 +140,9 @@ Non-negotiable honesty rules (obey these while sounding human, per the Voice sec
   spec.
 - If a city isn't in the database, say so plainly (without the word "database") — do not
   guess about it from general knowledge.
-- If the question isn't one of the eight above (e.g. VA disability rules, general chit-chat,
+- If the question isn't one of the nine above (e.g. VA disability rules, general chit-chat,
   writing tasks), warmly decline and steer back to what you can help with — without
-  listing your "eight functions" or narrating your design.
+  listing your "nine functions" or narrating your design.
 - Never surface raw trait keys (employment_opportunity_depth, etc.) — use the hit "label"
   fields or plain English ("job-market depth").
 
@@ -336,6 +337,46 @@ Reporting state veteran benefits (compare_state_veteran_benefits):
   the tax/gas and gun-freedom guidance. Leave includeCities false for state questions; call
   again with includeCities true only when they name cities.
 
+9. "Which towns are near a base?" / "cities within 50 miles of a Navy base" / "what's close to
+   Fort Bragg?" / "what bases are near Pensacola, FL?" — two tools, one per direction:
+   - find_cities_near_base ranks OUR cities by distance to their nearest qualifying
+     installation. Pass "branch" (army | navy | air_force | marine_corps) when they name a
+     service, "installation" when they name a base (their own words — "NAS Pensacola",
+     "Fort Liberty" — the tool resolves it), "states" when they name a region, and
+     "maxDistanceMiles" from their words ("right by" ≈ 25, "near" = the 50 default, "within
+     reach" ≈ 100).
+   - bases_near_city answers the reverse for ONE named "City, ST": the nearest installation,
+     the nearest per service, and everything indexed within the radius.
+   This is proximity to a PUBLIC military installation — not defense employers (that is
+   who_is_hiring) and not the VA (that is the va_outpatient_access trait). Retirees asking
+   about commissary, exchange, or base-clinic access are asking this question.
+   ACT, don't interrogate: when they name a base ("what's near Fort Liberty?"), call
+   find_cities_near_base right away with their words and the default radius — the tool
+   resolves the name and tells you if it's ambiguous. Never ask "which base do you mean"
+   or "how close" before calling; offer a radius refinement AFTER you've shown towns.
+
+Reporting near-a-base answers (find_cities_near_base / bases_near_city):
+- Distances are STRAIGHT-LINE miles from the city center to the installation site — say
+  "about 18 miles as the crow flies", never a drive time, and note when water or mountains
+  likely sit in between.
+- Always name the installation and its service ("NAS Pensacola, Navy, about 8 miles") —
+  a bare "near a base" is not an answer.
+- The installation field tells you how a named base resolved. status "ambiguous": ASK,
+  offering the candidates in plain words — NEVER pick one yourself. status "unknown": say
+  plainly you don't have that base indexed (only Army, Navy, Air Force, and Marine Corps
+  installations are) — do NOT substitute a nearby base or answer from general knowledge.
+  matchedVia "former_name" means it was filed under its other name (Fort Bragg / Fort
+  Liberty) — mention the name on file so the person isn't confused.
+- Only Army, Navy, Air Force, and Marine Corps are indexed. Never claim "no base nearby"
+  for the Coast Guard or Space Force, and never claim a branch filter proves a joint base
+  lacks that service — most joint bases are filed under one owning service. When an
+  installation's branch reads "Army / Air Force", it hosts both; say so.
+- Honor scopeNote and citiesMatched: you screened our cities, not every town near the base.
+  If cities is empty, say no city in our list falls inside that radius and offer a wider
+  one — don't invent a town.
+- Proximity is not access: don't promise commissary, exchange, or clinic privileges, gate
+  hours, or that the base has what they want.
+
 Composed questions (career + place):
 - Some questions ask a career question AND a place question at once, e.g. "EM skills and a
   no-income-tax state near a VA clinic" or "what can a retired 15T do, and where near a VA
@@ -345,7 +386,8 @@ Composed questions (career + place):
   means ask, uncovered means don't invent, always raise SkillBridge).
 - Place half: call the relevant place tool. "Near a VA clinic/hospital" or a described person →
   match_person_to_cities (use the va_outpatient_access trait for VA access, plus any who-they-are
-  traits). A state-tax constraint like "no income tax" → compare_state_taxes_and_gas (incomeTaxPct
+  traits). "Near a base" / "close to Fort X" / "near a Navy base" → find_cities_near_base (pass
+  their branch, installation, states, and radius). A state-tax constraint like "no income tax" → compare_state_taxes_and_gas (incomeTaxPct
   of 0 is a no-income-tax state). "Military retirement not taxed", "disabled-vet property-tax
   break", or any state veteran-benefit constraint → compare_state_veteran_benefits (use its
   retiredPayTax / mustHave filters). A dollar budget → estimate_cost_of_living. match_person_to_cities
@@ -709,6 +751,72 @@ const whoIsHiringTool = tool({
   },
 });
 
+const findCitiesNearBaseTool = tool({
+  description:
+    "Rank the database's cities by distance to the nearest military installation that " +
+    "matches the filters: a service branch, a named installation (the person's own words " +
+    "— \"NAS Pensacola\", \"Fort Liberty\" — resolved by the tool), specific states, and a " +
+    "radius in straight-line miles (default 50). Use for \"which towns are near a base\", " +
+    "\"cities within 50 miles of a Navy base\", \"what's close to Fort Bragg\". Only Army, " +
+    "Navy, Air Force, and Marine Corps installations are indexed. This is proximity to a " +
+    "PUBLIC installation — not defense employers (who_is_hiring) and not VA access.",
+  inputSchema: z.object({
+    branch: z
+      .enum(["army", "navy", "air_force", "marine_corps"])
+      .optional()
+      .describe("Restrict to installations of one service, when the person names one."),
+    installation: z
+      .string()
+      .optional()
+      .describe(
+        'A specific base in the person\'s own words, e.g. "Fort Bragg", "NAS Pensacola", "MCAS Miramar". The tool resolves it; on "ambiguous" or "unknown" you must ask or decline, never guess.'
+      ),
+    states: z
+      .array(z.string())
+      .optional()
+      .describe('Only cities in these states (USPS codes or full names), when the person named a region.'),
+    maxDistanceMiles: z
+      .number()
+      .min(5)
+      .max(150)
+      .optional()
+      .describe("Straight-line radius in miles. Default 50. Use ~25 for \"right by\", ~100 for \"within reach\"."),
+    limit: z.number().int().min(1).max(25).optional().describe("How many cities to return (default 10)."),
+  }),
+  execute: async (args) => {
+    try {
+      return await findCitiesNearBase(args);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
+const basesNearCityTool = tool({
+  description:
+    'List the military installations near ONE of the database\'s cities, given as "City, ST": ' +
+    "the nearest overall, the nearest per service (Army / Navy / Air Force / Marine Corps), " +
+    "and every indexed installation within the radius (default 100 straight-line miles). " +
+    'Use for "what bases are near <city>", "is <city> close to a base", "nearest Navy base ' +
+    'to <city>". City-level only — to rank cities by base proximity use find_cities_near_base.',
+  inputSchema: z.object({
+    city: z.string().describe('The city as "City, ST", e.g. "Pensacola, FL".'),
+    maxDistanceMiles: z
+      .number()
+      .min(5)
+      .max(150)
+      .optional()
+      .describe("Straight-line radius for the withinRadius list. Default 100."),
+  }),
+  execute: async ({ city, maxDistanceMiles }) => {
+    try {
+      return await basesNearCity(city, { maxDistanceMiles });
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -728,6 +836,8 @@ export async function POST(req: Request) {
       compare_state_veteran_benefits: compareVeteranBenefitsTool,
       explore_military_career: exploreCareerTool,
       who_is_hiring: whoIsHiringTool,
+      find_cities_near_base: findCitiesNearBaseTool,
+      bases_near_city: basesNearCityTool,
     },
     // 8 leaves room for a composed career+place turn (e.g. explore_military_career
     // + compare_state_taxes_and_gas + match_person_to_cities) plus the final reply.
