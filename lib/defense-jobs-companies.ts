@@ -55,6 +55,11 @@ export const COMPANY_SLUG: Record<string, string> = {
   "cisco systems": "cisco",
   tesla: "tesla",
   "tesla, inc.": "tesla",
+  gci: "gci",
+  "gci inc": "gci",
+  "gci, inc.": "gci",
+  "dsd laboratories": "dsd-laboratories",
+  "dsd labs": "dsd-laboratories",
 };
 
 /** Resolve a feed's company label to its employer slug, or null when unmapped. */
