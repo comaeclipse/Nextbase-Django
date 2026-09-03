@@ -1,24 +1,26 @@
 # BEA Regional Price Parity match report
 
-- Generated: 2026-08-31
+- Generated: 2026-09-02
 - Vintage: BEA RPP 2024 (MARPP metro areas, PARPP state nonmetropolitan portions)
 - Source: https://www.bea.gov/data/prices-inflation/regional-price-parities-state-and-metro-area
 - Housing RPP is stored for audit but is not used to price housing; rent and home value do that.
 - Statewide SARPP is never used as a fallback.
 
-MSA 596, state nonmetro 69, unmatched 7.
+MSA 619, state nonmetro 75, unmatched 7.
 
 ## Metropolitan statistical areas
 
 | City | BEA geography | All items | Goods | Utilities | Other services |
 | --- | --- | ---: | ---: | ---: | ---: |
 | Aberdeen, MD | Baltimore-Columbia-Towson, MD (Metropolitan Statistical Area) | 104.5 | 102.4 | 110.2 | 101.5 |
+| Abilene, TX | Abilene, TX (Metropolitan Statistical Area) | 90.4 | 93.8 | 81.2 | 96.2 |
 | Abingdon, MD | Baltimore-Columbia-Towson, MD (Metropolitan Statistical Area) | 104.5 | 102.4 | 110.2 | 101.5 |
 | Adelphi, MD | Washington-Arlington-Alexandria, DC-VA-MD-WV (Metropolitan Statistical Area) | 108.9 | 104.8 | 106.7 | 102.3 |
 | Aiea, HI | Urban Honolulu, HI (Metropolitan Statistical Area) | 111.0 | 111.6 | 187.3 | 102.9 |
 | Akron, OH | Akron, OH (Metropolitan Statistical Area) | 93.4 | 93.6 | 96.4 | 98.9 |
-| Albany, NY | Albany-Schenectady-Troy, NY (Metropolitan Statistical Area) | 99.6 | 99.7 | 134.0 | 97.8 |
 | Albany, OR | Albany, OR (Metropolitan Statistical Area) | 102.1 | 105.3 | 104.8 | 100.3 |
+| Albany, GA | Albany, GA (Metropolitan Statistical Area) | 87.7 | 96.3 | 88.3 | 98.7 |
+| Albany, NY | Albany-Schenectady-Troy, NY (Metropolitan Statistical Area) | 99.6 | 99.7 | 134.0 | 97.8 |
 | Albuquerque, NM | Albuquerque, NM (Metropolitan Statistical Area) | 95.5 | 96.1 | 77.9 | 98.5 |
 | Alexandria, LA | Alexandria, LA (Metropolitan Statistical Area) | 85.7 | 93.7 | 71.1 | 95.7 |
 | Allentown, PA | Allentown-Bethlehem-Easton, PA-NJ (Metropolitan Statistical Area) | 100.0 | 100.6 | 107.6 | 97.8 |
@@ -59,6 +61,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Beaufort, SC | Hilton Head Island-Bluffton-Port Royal, SC (Metropolitan Statistical Area) | 98.0 | 96.3 | 88.1 | 98.3 |
 | Beavercreek, OH | Dayton-Kettering-Beavercreek, OH (Metropolitan Statistical Area) | 92.7 | 93.6 | 95.4 | 98.9 |
 | Bedford, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
+| Bellevue, NE | Omaha, NE-IA (Metropolitan Statistical Area) | 91.9 | 94.1 | 76.4 | 93.0 |
 | Bellevue, WA | Seattle-Tacoma-Bellevue, WA (Metropolitan Statistical Area) | 111.1 | 104.0 | 92.8 | 106.8 |
 | Bend, OR | Bend, OR (Metropolitan Statistical Area) | 103.6 | 105.3 | 105.0 | 100.3 |
 | Bethesda, MD | Washington-Arlington-Alexandria, DC-VA-MD-WV (Metropolitan Statistical Area) | 108.9 | 104.8 | 106.7 | 102.3 |
@@ -83,6 +86,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Bridgeport-Stamford-Danbury, CT Metropolitan Statistical Area, CT METROPOLITAN STATISTICAL AREA | Bridgeport-Stamford-Danbury, CT Metropolitan Statistical Area | 106.9 | 97.3 | 147.1 | 102.7 |
 | Bristol, PA | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD (Metropolitan Statistical Area) | 102.6 | 96.8 | 114.4 | 103.1 |
 | Broomfield, CO | Denver-Aurora-Centennial, CO (Metropolitan Statistical Area) | 105.8 | 101.0 | 87.9 | 99.4 |
+| Brunswick, GA | Brunswick-St. Simons, GA (Metropolitan Statistical Area) | 87.7 | 96.3 | 87.3 | 98.7 |
 | Buckley Sfb, CO | Denver-Aurora-Centennial, CO (Metropolitan Statistical Area) | 105.8 | 101.0 | 87.9 | 99.4 |
 | Buffalo, NY | Buffalo-Cheektowaga, NY (Metropolitan Statistical Area) | 95.8 | 99.7 | 129.5 | 97.8 |
 | Burlington, VT | Burlington-South Burlington, VT (Metropolitan Statistical Area) | 100.9 | 97.3 | 125.5 | 101.6 |
@@ -103,8 +107,8 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Chambersburg, PA | Chambersburg, PA (Metropolitan Statistical Area) | 94.6 | 100.7 | 108.3 | 97.7 |
 | Chandler, AZ | Phoenix-Mesa-Chandler, AZ (Metropolitan Statistical Area) | 103.3 | 95.0 | 93.3 | 104.0 |
 | Chantilly, VA | Washington-Arlington-Alexandria, DC-VA-MD-WV (Metropolitan Statistical Area) | 108.9 | 104.8 | 106.7 | 102.3 |
-| Charleston, WV | Charleston, WV (Metropolitan Statistical Area) | 88.7 | 96.3 | 91.7 | 99.8 |
 | Charleston, SC | Charleston-North Charleston, SC (Metropolitan Statistical Area) | 101.0 | 96.3 | 88.2 | 98.3 |
+| Charleston, WV | Charleston, WV (Metropolitan Statistical Area) | 88.7 | 96.3 | 91.7 | 99.8 |
 | Charleston AFB, SC | Charleston-North Charleston, SC (Metropolitan Statistical Area) | 101.0 | 96.3 | 88.2 | 98.3 |
 | Charleston-North Charleston, SC, SC | Charleston-North Charleston, SC (Metropolitan Statistical Area) | 101.0 | 96.3 | 88.2 | 98.3 |
 | Charlotte, NC | Charlotte-Concord-Gastonia, NC-SC (Metropolitan Statistical Area) | 97.3 | 96.6 | 89.2 | 98.2 |
@@ -128,8 +132,8 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Columbia, MD | Baltimore-Columbia-Towson, MD (Metropolitan Statistical Area) | 104.5 | 102.4 | 110.2 | 101.5 |
 | Columbia, SC | Columbia, SC (Metropolitan Statistical Area) | 93.7 | 96.3 | 88.3 | 98.3 |
 | Columbia, SC, SC | Columbia, SC (Metropolitan Statistical Area) | 93.7 | 96.3 | 88.3 | 98.3 |
-| Columbus, OH | Columbus, OH (Metropolitan Statistical Area) | 95.5 | 93.6 | 95.5 | 98.9 |
 | Columbus, GA | Columbus, GA-AL (Metropolitan Statistical Area) | 89.3 | 96.3 | 89.7 | 98.6 |
+| Columbus, OH | Columbus, OH (Metropolitan Statistical Area) | 95.5 | 93.6 | 95.5 | 98.9 |
 | Columbus, GA-AL, GA | Columbus, GA-AL (Metropolitan Statistical Area) | 89.3 | 96.3 | 89.7 | 98.6 |
 | Columbus, OH, OH | Columbus, OH (Metropolitan Statistical Area) | 95.5 | 93.6 | 95.5 | 98.9 |
 | Concord, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
@@ -148,8 +152,8 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Dearborn, MI | Detroit-Warren-Dearborn, MI (Metropolitan Statistical Area) | 100.3 | 98.8 | 107.0 | 102.6 |
 | Denver, CO | Denver-Aurora-Centennial, CO (Metropolitan Statistical Area) | 105.8 | 101.0 | 87.9 | 99.4 |
 | Denver-Aurora-Centennial, CO, CO | Denver-Aurora-Centennial, CO (Metropolitan Statistical Area) | 105.8 | 101.0 | 87.9 | 99.4 |
-| Des Moines, WA | Seattle-Tacoma-Bellevue, WA (Metropolitan Statistical Area) | 111.1 | 104.0 | 92.8 | 106.8 |
 | Des Moines, IA | Des Moines-West Des Moines, IA (Metropolitan Statistical Area) | 91.7 | 93.7 | 84.6 | 92.9 |
+| Des Moines, WA | Seattle-Tacoma-Bellevue, WA (Metropolitan Statistical Area) | 111.1 | 104.0 | 92.8 | 106.8 |
 | Des Moines-West Des Moines, IA, IA | Des Moines-West Des Moines, IA (Metropolitan Statistical Area) | 91.7 | 93.7 | 84.6 | 92.9 |
 | Des Plaines, IL | Chicago-Naperville-Elgin, IL-IN (Metropolitan Statistical Area) | 103.6 | 107.3 | 83.6 | 100.5 |
 | Detroit, MI | Detroit-Warren-Dearborn, MI (Metropolitan Statistical Area) | 100.3 | 98.8 | 107.0 | 102.6 |
@@ -174,6 +178,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Ellsworth AFB, SD | Rapid City, SD (Metropolitan Statistical Area) | 89.2 | 95.5 | 79.1 | 91.9 |
 | Endicott, NY | Binghamton, NY (Metropolitan Statistical Area) | 92.9 | 99.7 | 131.6 | 97.8 |
 | Englewood, CO | Denver-Aurora-Centennial, CO (Metropolitan Statistical Area) | 105.8 | 101.0 | 87.9 | 99.4 |
+| Enid, OK | Enid, OK (Metropolitan Statistical Area) * | 84.3 | 93.8 | 74.4 | 95.5 |
 | Erie, PA | Erie, PA (Metropolitan Statistical Area) | 91.0 | 100.7 | 106.8 | 97.7 |
 | Everett, WA | Seattle-Tacoma-Bellevue, WA (Metropolitan Statistical Area) | 111.1 | 104.0 | 92.8 | 106.8 |
 | Fairbanks, AK | Fairbanks-College, AK (Metropolitan Statistical Area) | 103.2 | 107.3 | 119.8 | 103.3 |
@@ -216,6 +221,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Gibsonia, PA | Pittsburgh, PA (Metropolitan Statistical Area) | 94.7 | 100.7 | 107.7 | 97.7 |
 | Gilbert, AZ | Phoenix-Mesa-Chandler, AZ (Metropolitan Statistical Area) | 103.3 | 95.0 | 93.3 | 104.0 |
 | Glendale, AZ | Phoenix-Mesa-Chandler, AZ (Metropolitan Statistical Area) | 103.3 | 95.0 | 93.3 | 104.0 |
+| Goldsboro, NC | Goldsboro, NC (Metropolitan Statistical Area) | 88.5 | 96.6 | 87.9 | 98.2 |
 | Goleta, CA | Santa Maria-Santa Barbara, CA (Metropolitan Statistical Area) | 108.8 | 105.2 | 149.8 | 100.3 |
 | Goodfellow AFB, TX | San Angelo, TX (Metropolitan Statistical Area) | 92.5 | 93.8 | 81.6 | 96.2 |
 | Goose Creek, SC | Charleston-North Charleston, SC (Metropolitan Statistical Area) | 101.0 | 96.3 | 88.2 | 98.3 |
@@ -268,9 +274,11 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Irving, TX | Dallas-Fort Worth-Arlington, TX (Metropolitan Statistical Area) | 103.1 | 102.8 | 90.7 | 99.7 |
 | Ithaca, NY | Ithaca, NY (Metropolitan Statistical Area) | 103.3 | 99.7 | 131.6 | 97.8 |
 | JBER, AK | Anchorage, AK (Metropolitan Statistical Area) | 105.4 | 107.3 | 111.8 | 103.3 |
-| Jackson, MS | Jackson, MS (Metropolitan Statistical Area) | 89.0 | 96.2 | 78.1 | 96.1 |
 | Jackson, MI | Jackson, MI (Metropolitan Statistical Area) | 91.8 | 93.7 | 97.8 | 99.6 |
+| Jackson, MS | Jackson, MS (Metropolitan Statistical Area) | 89.0 | 96.2 | 78.1 | 96.1 |
+| Jackson, TN | Jackson, TN (Metropolitan Statistical Area) | 85.5 | 96.2 | 72.6 | 95.1 |
 | Jacksonville, FL | Jacksonville, FL (Metropolitan Statistical Area) | 99.5 | 96.2 | 87.5 | 98.9 |
+| Jacksonville, NC | Jacksonville, NC (Metropolitan Statistical Area) | 92.1 | 96.6 | 87.2 | 98.2 |
 | Jacksonville, FL, FL | Jacksonville, FL (Metropolitan Statistical Area) | 99.5 | 96.2 | 87.5 | 98.9 |
 | Jamaica, NY | New York-Newark-Jersey City, NY-NJ (Metropolitan Statistical Area) | 112.6 | 110.3 | 127.0 | 105.8 |
 | Jefferson City, MO | Jefferson City, MO (Metropolitan Statistical Area) | 88.0 | 94.2 | 85.5 | 93.0 |
@@ -286,10 +294,12 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Keyport, WA | Bremerton-Silverdale-Port Orchard, WA (Metropolitan Statistical Area) | 105.6 | 105.0 | 92.0 | 99.5 |
 | Killeen, TX | Killeen-Temple, TX (Metropolitan Statistical Area) | 91.1 | 93.8 | 81.2 | 96.2 |
 | King of Prussia, PA | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD (Metropolitan Statistical Area) | 102.6 | 96.8 | 114.4 | 103.1 |
+| Kingsport, TN | Kingsport-Bristol, TN-VA (Metropolitan Statistical Area) | 86.4 | 96.2 | 75.9 | 95.8 |
 | Kuna, ID | Boise City, ID (Metropolitan Statistical Area) | 98.4 | 96.2 | 70.7 | 99.0 |
 | Kāneʻohe, HI | Urban Honolulu, HI (Metropolitan Statistical Area) | 111.0 | 111.6 | 187.3 | 102.9 |
-| Lafayette, CO | Boulder, CO (Metropolitan Statistical Area) | 105.2 | 96.1 | 82.7 | 99.8 |
 | Lafayette, LA | Lafayette, LA (Metropolitan Statistical Area) | 87.2 | 93.7 | 71.2 | 95.7 |
+| Lafayette, CO | Boulder, CO (Metropolitan Statistical Area) | 105.2 | 96.1 | 82.7 | 99.8 |
+| Lake Charles, LA | Lake Charles, LA (Metropolitan Statistical Area) | 85.9 | 93.7 | 71.7 | 95.7 |
 | Lake Forest, CA | Los Angeles-Long Beach-Anaheim, CA (Metropolitan Statistical Area) | 113.6 | 106.6 | 158.6 | 104.4 |
 | Lakewood, CA | Los Angeles-Long Beach-Anaheim, CA (Metropolitan Statistical Area) | 113.6 | 106.6 | 158.6 | 104.4 |
 | Lancaster, PA | Lancaster, PA (Metropolitan Statistical Area) | 98.3 | 100.7 | 107.3 | 97.7 |
@@ -302,8 +312,8 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Lawrence, KS | Lawrence, KS (Metropolitan Statistical Area) | 90.2 | 94.0 | 89.3 | 93.8 |
 | Lawton, OK | Lawton, OK (Metropolitan Statistical Area) | 85.9 | 93.8 | 73.0 | 95.5 |
 | Lenexa, KS | Kansas City, MO-KS (Metropolitan Statistical Area) | 92.5 | 94.1 | 89.0 | 93.4 |
-| Lexington, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
 | Lexington, KY | Lexington-Fayette, KY (Metropolitan Statistical Area) | 92.9 | 96.2 | 74.6 | 96.9 |
+| Lexington, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
 | Lexington Park, MD | Lexington Park, MD (Metropolitan Statistical Area) | 100.8 | 99.7 | 106.4 | 100.3 |
 | Lincoln, NE | Lincoln, NE (Metropolitan Statistical Area) | 91.6 | 94.1 | 76.8 | 93.0 |
 | Linthicum, MD | Baltimore-Columbia-Towson, MD (Metropolitan Statistical Area) | 104.5 | 102.4 | 110.2 | 101.5 |
@@ -326,16 +336,19 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Lynchburg, VA, VA | Lynchburg, VA (Metropolitan Statistical Area) | 89.4 | 96.8 | 87.8 | 98.6 |
 | Lynnwood, WA | Seattle-Tacoma-Bellevue, WA (Metropolitan Statistical Area) | 111.1 | 104.0 | 92.8 | 106.8 |
 | Madison, WI | Madison, WI (Metropolitan Statistical Area) | 97.3 | 93.8 | 89.8 | 99.4 |
+| Magna, UT | Salt Lake City-Murray, UT (Metropolitan Statistical Area) | 100.9 | 96.4 | 79.0 | 99.0 |
 | Malabar, FL | Palm Bay-Melbourne-Titusville, FL (Metropolitan Statistical Area) | 100.0 | 96.2 | 88.1 | 98.9 |
 | Manassas, VA | Washington-Arlington-Alexandria, DC-VA-MD-WV (Metropolitan Statistical Area) | 108.9 | 104.8 | 106.7 | 102.3 |
 | Manchester, NH | Manchester-Nashua, NH (Metropolitan Statistical Area) | 105.7 | 97.7 | 133.5 | 103.7 |
 | Manchester-Nashua, NH, NH | Manchester-Nashua, NH (Metropolitan Statistical Area) | 105.7 | 97.7 | 133.5 | 103.7 |
 | Manhattan Beach, CA | Los Angeles-Long Beach-Anaheim, CA (Metropolitan Statistical Area) | 113.6 | 106.6 | 158.6 | 104.4 |
+| Maple Grove, MN | Minneapolis-St. Paul-Bloomington, MN-WI (Metropolitan Statistical Area) | 104.8 | 103.1 | 93.5 | 104.4 |
 | Marana, AZ | Tucson, AZ (Metropolitan Statistical Area) | 96.9 | 96.2 | 89.5 | 99.8 |
 | Marietta, GA | Atlanta-Sandy Springs-Roswell, GA (Metropolitan Statistical Area) | 100.1 | 100.4 | 96.2 | 96.7 |
 | Marlborough, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
 | Marysville, CA | Yuba City, CA (Metropolitan Statistical Area) | 104.2 | 105.2 | 160.8 | 100.3 |
 | Mason, OH | Cincinnati, OH-KY-IN (Metropolitan Statistical Area) | 95.4 | 93.8 | 91.0 | 99.0 |
+| McClellan Park, CA | Sacramento-Roseville-Folsom, CA (Metropolitan Statistical Area) | 106.7 | 105.2 | 151.3 | 100.3 |
 | McHenry, MS | Gulfport-Biloxi, MS (Metropolitan Statistical Area) | 90.0 | 96.2 | 76.3 | 96.1 |
 | McLean, VA | Washington-Arlington-Alexandria, DC-VA-MD-WV (Metropolitan Statistical Area) | 108.9 | 104.8 | 106.7 | 102.3 |
 | Mckinney, TX | Dallas-Fort Worth-Arlington, TX (Metropolitan Statistical Area) | 103.1 | 102.8 | 90.7 | 99.7 |
@@ -348,9 +361,10 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Meridian, ID | Boise City, ID (Metropolitan Statistical Area) | 98.4 | 96.2 | 70.7 | 99.0 |
 | Merrimack, NH | Manchester-Nashua, NH (Metropolitan Statistical Area) | 105.7 | 97.7 | 133.5 | 103.7 |
 | Merritt Island, FL | Palm Bay-Melbourne-Titusville, FL (Metropolitan Statistical Area) | 100.0 | 96.2 | 88.1 | 98.9 |
+| Mesa, AZ | Phoenix-Mesa-Chandler, AZ (Metropolitan Statistical Area) | 103.3 | 95.0 | 93.3 | 104.0 |
 | Miamisburg, OH | Dayton-Kettering-Beavercreek, OH (Metropolitan Statistical Area) | 92.7 | 93.6 | 95.4 | 98.9 |
-| Middletown, RI | Providence-Warwick, RI-MA (Metropolitan Statistical Area) | 101.8 | 97.1 | 148.8 | 102.3 |
 | Middletown, PA | Harrisburg-Carlisle, PA (Metropolitan Statistical Area) | 98.7 | 100.7 | 108.1 | 97.7 |
+| Middletown, RI | Providence-Warwick, RI-MA (Metropolitan Statistical Area) | 101.8 | 97.1 | 148.8 | 102.3 |
 | Midland, GA | Columbus, GA-AL (Metropolitan Statistical Area) | 89.3 | 96.3 | 89.7 | 98.6 |
 | Milford, MI | Detroit-Warren-Dearborn, MI (Metropolitan Statistical Area) | 100.3 | 98.8 | 107.0 | 102.6 |
 | Millersville, MD | Baltimore-Columbia-Towson, MD (Metropolitan Statistical Area) | 104.5 | 102.4 | 110.2 | 101.5 |
@@ -363,6 +377,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Missoula, MT | Missoula, MT (Metropolitan Statistical Area) | 96.4 | 96.0 | 72.1 | 98.7 |
 | Mobile, AL | Mobile, AL (Metropolitan Statistical Area) | 88.1 | 96.4 | 84.2 | 96.7 |
 | Monroe, NC | Charlotte-Concord-Gastonia, NC-SC (Metropolitan Statistical Area) | 97.3 | 96.6 | 89.2 | 98.2 |
+| Monterey, CA | Salinas, CA (Metropolitan Statistical Area) | 109.0 | 105.2 | 154.2 | 100.3 |
 | Montgomery, AL | Montgomery, AL (Metropolitan Statistical Area) | 89.7 | 96.4 | 84.9 | 96.7 |
 | Moorestown, NJ | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD (Metropolitan Statistical Area) | 102.6 | 96.8 | 114.4 | 103.1 |
 | Morgantown, WV | Morgantown, WV (Metropolitan Statistical Area) | 93.3 | 96.3 | 92.5 | 99.8 |
@@ -392,6 +407,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Norton Shores, MI | Muskegon-Norton Shores, MI (Metropolitan Statistical Area) | 92.5 | 93.7 | 92.8 | 99.6 |
 | Oak Ridge, TN | Knoxville, TN (Metropolitan Statistical Area) | 92.6 | 96.2 | 71.9 | 95.1 |
 | Oakland, CA | San Francisco-Oakland-Fremont, CA (Metropolitan Statistical Area) | 115.6 | 108.5 | 172.6 | 106.2 |
+| Ocean Springs, MS | Gulfport-Biloxi, MS (Metropolitan Statistical Area) | 90.0 | 96.2 | 76.3 | 96.1 |
 | Oceanside, CA | San Diego-Chula Vista-Carlsbad, CA (Metropolitan Statistical Area) | 111.9 | 108.0 | 174.2 | 99.6 |
 | Odenton, MD | Baltimore-Columbia-Towson, MD (Metropolitan Statistical Area) | 104.5 | 102.4 | 110.2 | 101.5 |
 | Odessa, TX | Odessa, TX (Metropolitan Statistical Area) | 93.9 | 93.8 | 82.9 | 96.2 |
@@ -414,6 +430,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Palm Bay-Melbourne-Titusville, FL, FL | Palm Bay-Melbourne-Titusville, FL (Metropolitan Statistical Area) | 100.0 | 96.2 | 88.1 | 98.9 |
 | Palmdale, CA | Los Angeles-Long Beach-Anaheim, CA (Metropolitan Statistical Area) | 113.6 | 106.6 | 158.6 | 104.4 |
 | Palo Alto, CA | San Jose-Sunnyvale-Santa Clara, CA (Metropolitan Statistical Area) | 110.4 | 105.2 | 156.7 | 100.3 |
+| Panama City, FL | Panama City-Panama City Beach, FL (Metropolitan Statistical Area) | 97.3 | 96.2 | 88.1 | 98.9 |
 | Parkersburg, WV | Parkersburg-Vienna, WV (Metropolitan Statistical Area) | 87.1 | 96.3 | 92.9 | 99.8 |
 | Pasadena, CA | Los Angeles-Long Beach-Anaheim, CA (Metropolitan Statistical Area) | 113.6 | 106.6 | 158.6 | 104.4 |
 | Pascagoula, MS | Gulfport-Biloxi, MS (Metropolitan Statistical Area) | 90.0 | 96.2 | 76.3 | 96.1 |
@@ -424,6 +441,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Pensacola, FL | Pensacola-Ferry Pass-Brent, FL (Metropolitan Statistical Area) | 97.7 | 96.2 | 88.5 | 98.9 |
 | Pensacola-Ferry Pass-Brent, FL, FL | Pensacola-Ferry Pass-Brent, FL (Metropolitan Statistical Area) | 97.7 | 96.2 | 88.5 | 98.9 |
 | Peoria, IL | Peoria, IL (Metropolitan Statistical Area) | 91.2 | 93.6 | 90.5 | 99.6 |
+| Petersburg, VA | Richmond, VA (Metropolitan Statistical Area) | 97.9 | 96.8 | 89.2 | 98.6 |
 | Peterson Afb, CO | Colorado Springs, CO (Metropolitan Statistical Area) | 100.7 | 96.1 | 83.2 | 99.8 |
 | Philadelphia, PA | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD (Metropolitan Statistical Area) | 102.6 | 96.8 | 114.4 | 103.1 |
 | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD, PA | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD (Metropolitan Statistical Area) | 102.6 | 96.8 | 114.4 | 103.1 |
@@ -435,11 +453,12 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Pittsfield, MA | Pittsfield, MA (Metropolitan Statistical Area) | 95.1 | 97.0 | 153.7 | 101.2 |
 | Plano, TX | Dallas-Fort Worth-Arlington, TX (Metropolitan Statistical Area) | 103.1 | 102.8 | 90.7 | 99.7 |
 | Plymouth, MI | Detroit-Warren-Dearborn, MI (Metropolitan Statistical Area) | 100.3 | 98.8 | 107.0 | 102.6 |
+| Plymouth, MN | Minneapolis-St. Paul-Bloomington, MN-WI (Metropolitan Statistical Area) | 104.8 | 103.1 | 93.5 | 104.4 |
 | Pontiac, MI | Detroit-Warren-Dearborn, MI (Metropolitan Statistical Area) | 100.3 | 98.8 | 107.0 | 102.6 |
 | Port Hueneme, CA | Oxnard-Thousand Oaks-Ventura, CA (Metropolitan Statistical Area) | 110.5 | 105.2 | 152.9 | 100.3 |
 | Port Huron, MI | Detroit-Warren-Dearborn, MI (Metropolitan Statistical Area) | 100.3 | 98.8 | 107.0 | 102.6 |
-| Portland, ME | Portland-South Portland, ME (Metropolitan Statistical Area) | 101.9 | 97.2 | 134.6 | 103.2 |
 | Portland, OR | Portland-Vancouver-Hillsboro, OR-WA (Metropolitan Statistical Area) | 105.4 | 105.2 | 107.0 | 100.1 |
+| Portland, ME | Portland-South Portland, ME (Metropolitan Statistical Area) | 101.9 | 97.2 | 134.6 | 103.2 |
 | Portland-South Portland, ME, ME | Portland-South Portland, ME (Metropolitan Statistical Area) | 101.9 | 97.2 | 134.6 | 103.2 |
 | Portland-Vancouver-Hillsboro, OR-WA, OR | Portland-Vancouver-Hillsboro, OR-WA (Metropolitan Statistical Area) | 105.4 | 105.2 | 107.0 | 100.1 |
 | Portsmouth, RI | Providence-Warwick, RI-MA (Metropolitan Statistical Area) | 101.8 | 97.1 | 148.8 | 102.3 |
@@ -516,8 +535,9 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Spokane Valley, WA | Spokane-Spokane Valley, WA (Metropolitan Statistical Area) | 100.3 | 105.0 | 91.2 | 99.5 |
 | Spokane-Spokane Valley, WA, WA | Spokane-Spokane Valley, WA (Metropolitan Statistical Area) | 100.3 | 105.0 | 91.2 | 99.5 |
 | Springdale, AR | Fayetteville-Springdale-Rogers, AR (Metropolitan Statistical Area) | 91.4 | 93.6 | 75.1 | 95.3 |
-| Springfield, IL | Springfield, IL (Metropolitan Statistical Area) | 92.7 | 93.6 | 90.4 | 99.6 |
+| Springfield, MO | Springfield, MO (Metropolitan Statistical Area) | 88.6 | 94.2 | 85.8 | 93.0 |
 | Springfield, VA | Washington-Arlington-Alexandria, DC-VA-MD-WV (Metropolitan Statistical Area) | 108.9 | 104.8 | 106.7 | 102.3 |
+| Springfield, IL | Springfield, IL (Metropolitan Statistical Area) | 92.7 | 93.6 | 90.4 | 99.6 |
 | St Louis Park, MN | Minneapolis-St. Paul-Bloomington, MN-WI (Metropolitan Statistical Area) | 104.8 | 103.1 | 93.5 | 104.4 |
 | St Petersburg, FL | Tampa-St. Petersburg-Clearwater, FL (Metropolitan Statistical Area) | 100.9 | 95.5 | 88.5 | 97.6 |
 | St. Augustine, FL | Jacksonville, FL (Metropolitan Statistical Area) | 99.5 | 96.2 | 87.5 | 98.9 |
@@ -535,6 +555,7 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Stratford, CT | Bridgeport-Stamford-Danbury, CT Metropolitan Statistical Area | 106.9 | 97.3 | 147.1 | 102.7 |
 | Suitland, MD | Washington-Arlington-Alexandria, DC-VA-MD-WV (Metropolitan Statistical Area) | 108.9 | 104.8 | 106.7 | 102.3 |
 | Sunrise, FL | Miami-Fort Lauderdale-West Palm Beach, FL (Metropolitan Statistical Area) | 114.2 | 103.6 | 97.2 | 109.1 |
+| Sykesville, MD | Baltimore-Columbia-Towson, MD (Metropolitan Statistical Area) | 104.5 | 102.4 | 110.2 | 101.5 |
 | Syracuse, NY | Syracuse, NY (Metropolitan Statistical Area) | 95.7 | 99.7 | 133.4 | 97.8 |
 | Tacoma, WA | Seattle-Tacoma-Bellevue, WA (Metropolitan Statistical Area) | 111.1 | 104.0 | 92.8 | 106.8 |
 | Tallahassee, FL | Tallahassee, FL (Metropolitan Statistical Area) | 93.9 | 96.2 | 87.5 | 98.9 |
@@ -554,8 +575,10 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Troy, OH | Dayton-Kettering-Beavercreek, OH (Metropolitan Statistical Area) | 92.7 | 93.6 | 95.4 | 98.9 |
 | Tucson, AZ | Tucson, AZ (Metropolitan Statistical Area) | 96.9 | 96.2 | 89.5 | 99.8 |
 | Tucson, AZ, AZ | Tucson, AZ (Metropolitan Statistical Area) | 96.9 | 96.2 | 89.5 | 99.8 |
+| Tukwila, WA | Seattle-Tacoma-Bellevue, WA (Metropolitan Statistical Area) | 111.1 | 104.0 | 92.8 | 106.8 |
 | Tulsa, OK | Tulsa, OK (Metropolitan Statistical Area) | 89.2 | 93.8 | 73.9 | 95.5 |
 | Twentynine Palms, CA | Riverside-San Bernardino-Ontario, CA (Metropolitan Statistical Area) | 106.4 | 101.4 | 148.6 | 101.3 |
+| Tyler, TX | Tyler, TX (Metropolitan Statistical Area) | 92.2 | 93.8 | 82.9 | 96.2 |
 | Uniontown, OH | Canton-Massillon, OH (Metropolitan Statistical Area) | 89.4 | 93.6 | 96.9 | 98.9 |
 | Urban Honolulu, HI, HI | Urban Honolulu, HI (Metropolitan Statistical Area) | 111.0 | 111.6 | 187.3 | 102.9 |
 | Utica-Rome, NY, NY | Utica-Rome, NY (Metropolitan Statistical Area) | 92.7 | 99.7 | 131.9 | 97.8 |
@@ -592,8 +615,8 @@ MSA 596, state nonmetro 69, unmatched 7.
 | Wichita, KS | Wichita, KS (Metropolitan Statistical Area) | 88.9 | 94.0 | 88.5 | 93.8 |
 | Wichita Falls, TX | Wichita Falls, TX (Metropolitan Statistical Area) | 89.5 | 93.8 | 84.1 | 96.2 |
 | Williamsport, PA | Williamsport, PA (Metropolitan Statistical Area) | 92.3 | 100.7 | 107.5 | 97.7 |
-| Wilmington, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
 | Wilmington, DE | Philadelphia-Camden-Wilmington, PA-NJ-DE-MD (Metropolitan Statistical Area) | 102.6 | 96.8 | 114.4 | 103.1 |
+| Wilmington, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
 | Wilsonville, OR | Portland-Vancouver-Hillsboro, OR-WA (Metropolitan Statistical Area) | 105.4 | 105.2 | 107.0 | 100.1 |
 | Winston-Salem, NC | Winston-Salem, NC (Metropolitan Statistical Area) | 92.0 | 96.6 | 88.4 | 98.2 |
 | Woburn, MA | Boston-Cambridge-Newton, MA-NH (Metropolitan Statistical Area) | 108.3 | 99.7 | 148.8 | 103.6 |
@@ -616,7 +639,9 @@ a published BEA geography, not a silent statewide average.
 
 | City | BEA geography | All items | Goods | Utilities | Other services | Why |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
+| Alamogordo, NM | New Mexico (Nonmetropolitan Portion) | 85.9 | 96.1 | 78.3 | 98.5 | CBSA 10460 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Alexandria, VA | Virginia (Nonmetropolitan Portion) | 88.4 | 96.8 | 88.6 | 98.6 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
+| Altus, OK | Oklahoma (Nonmetropolitan Portion) | 83.6 | 93.8 | 73.8 | 95.5 | CBSA 11060 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Bellevue, IA | Iowa (Nonmetropolitan Portion) | 84.1 | 93.7 | 82.4 | 92.9 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Big Rapids, MI | Michigan (Nonmetropolitan Portion) | 89.0 | 93.7 | 93.5 | 99.6 | CBSA 13660 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Bridgeport, WV | West Virginia (Nonmetropolitan Portion) | 87.0 | 96.3 | 92.2 | 99.8 | CBSA 17220 is not a BEA MSA; using the state nonmetropolitan portion. |
@@ -631,6 +656,7 @@ a published BEA geography, not a silent statewide average.
 | Clarksburg, WV | West Virginia (Nonmetropolitan Portion) | 87.0 | 96.3 | 92.2 | 99.8 | CBSA 17220 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Clovis, NM | New Mexico (Nonmetropolitan Portion) | 85.9 | 96.1 | 78.3 | 98.5 | CBSA 17580 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Cody, WY | Wyoming (Nonmetropolitan Portion) | 91.6 | 95.4 | 78.5 | 100.4 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
+| Columbus, MS | Mississippi (Nonmetropolitan Portion) | 83.6 | 96.2 | 79.1 | 96.1 | CBSA 18060 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Concord, NH | New Hampshire (Nonmetropolitan Portion) | 100.5 | 97.7 | 133.9 | 103.7 | CBSA 18180 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Dahlgren, VA | Virginia (Nonmetropolitan Portion) | 88.4 | 96.8 | 88.6 | 98.6 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Danville, IL | Illinois (Nonmetropolitan Portion) | 87.4 | 93.7 | 90.5 | 99.5 | CBSA 19180 is not a BEA MSA; using the state nonmetropolitan portion. |
@@ -640,6 +666,7 @@ a published BEA geography, not a silent statewide average.
 | East Hartford, CT | Connecticut (Nonmetropolitan Portion) | 97.9 | 97.3 | 152.1 | 102.7 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Elko, NV | Nevada (Nonmetropolitan Portion) | 94.8 | 96.3 | 91.6 | 98.7 | CBSA 21220 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Eureka, CA | California (Nonmetropolitan Portion) | 100.0 | 105.2 | 153.8 | 100.3 | CBSA 21700 is not a BEA MSA; using the state nonmetropolitan portion. |
+| Fallon, NV | Nevada (Nonmetropolitan Portion) | 94.8 | 96.3 | 91.6 | 98.7 | CBSA 21980 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Farmington, CT | Connecticut (Nonmetropolitan Portion) | 97.9 | 97.3 | 152.1 | 102.7 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Forest, MS | Mississippi (Nonmetropolitan Portion) | 83.6 | 96.2 | 79.1 | 96.1 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Fort Campbell, KY | Kentucky (Nonmetropolitan Portion) | 85.3 | 96.2 | 75.0 | 97.0 | CBSA 34460 is not a BEA MSA; using the state nonmetropolitan portion. |
@@ -658,6 +685,7 @@ a published BEA geography, not a silent statewide average.
 | Jamestown, ND | North Dakota (Nonmetropolitan Portion) | 87.3 | 95.7 | 73.0 | 91.2 | CBSA 27420 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Jamestown, NY | New York (Nonmetropolitan Portion) | 91.6 | 99.7 | 131.5 | 97.8 | CBSA 27460 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Kennedy Space Center, FL | Florida (Nonmetropolitan Portion) | 94.0 | 96.2 | 87.3 | 98.9 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
+| Key West, FL | Florida (Nonmetropolitan Portion) | 94.0 | 96.2 | 87.3 | 98.9 | CBSA 28580 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Kingsville, TX | Texas (Nonmetropolitan Portion) | 87.8 | 94.0 | 83.3 | 96.3 | CBSA 28780 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Lake Suzy, FL | Florida (Nonmetropolitan Portion) | 94.0 | 96.2 | 87.3 | 98.9 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Langley Afb, VA | Virginia (Nonmetropolitan Portion) | 88.4 | 96.8 | 88.6 | 98.6 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
@@ -665,8 +693,9 @@ a published BEA geography, not a silent statewide average.
 | Manchester, IA | Iowa (Nonmetropolitan Portion) | 84.1 | 93.7 | 82.4 | 92.9 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Marine Corps Base Kaneohe Bay, HI | Hawaii (Nonmetropolitan Portion) | 106.4 | 111.6 | 203.4 | 102.9 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Mcalester, OK | Oklahoma (Nonmetropolitan Portion) | 83.6 | 93.8 | 73.8 | 95.5 | CBSA 32540 is not a BEA MSA; using the state nonmetropolitan portion. |
-| Middletown, CT | Connecticut (Nonmetropolitan Portion) | 97.9 | 97.3 | 152.1 | 102.7 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
+| Meridian, MS | Mississippi (Nonmetropolitan Portion) | 83.6 | 96.2 | 79.1 | 96.1 | CBSA 32940 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Middletown, NY | New York (Nonmetropolitan Portion) | 91.6 | 99.7 | 131.5 | 97.8 | CBSA 39100 is not a BEA MSA; using the state nonmetropolitan portion. |
+| Middletown, CT | Connecticut (Nonmetropolitan Portion) | 97.9 | 97.3 | 152.1 | 102.7 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | Newport News, VA | Virginia (Nonmetropolitan Portion) | 88.4 | 96.8 | 88.6 | 98.6 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |
 | North Platte, NE | Nebraska (Nonmetropolitan Portion) | 86.3 | 94.1 | 75.1 | 93.0 | CBSA 35820 is not a BEA MSA; using the state nonmetropolitan portion. |
 | Orange, VA | Virginia (Nonmetropolitan Portion) | 88.4 | 96.8 | 88.6 | 98.6 | No CBSA in the pace county crosswalk; using the state nonmetropolitan portion. |

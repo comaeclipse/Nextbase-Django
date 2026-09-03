@@ -10,6 +10,13 @@
       "longitude": -149.284329
     },
     {
+      "name": "Fairbanks",
+      "state": "AK",
+      "census_place_geoid": "0224230",
+      "latitude": 64.836531,
+      "longitude": -147.651745
+    },
+    {
       "name": "Florence",
       "state": "AL",
       "census_place_geoid": "0126896",
@@ -64,6 +71,13 @@
       "census_place_geoid": "0427400",
       "latitude": 33.310345,
       "longitude": -111.743121
+    },
+    {
+      "name": "Mesa",
+      "state": "AZ",
+      "census_place_geoid": "0446000",
+      "latitude": 33.400626,
+      "longitude": -111.716487
     },
     {
       "name": "Phoenix",
@@ -141,6 +155,20 @@
       "census_place_geoid": "0645400",
       "latitude": 33.90087,
       "longitude": -118.420715
+    },
+    {
+      "name": "McClellan Park",
+      "state": "CA",
+      "census_place_geoid": "0644760",
+      "latitude": 38.662896,
+      "longitude": -121.401656
+    },
+    {
+      "name": "Monterey",
+      "state": "CA",
+      "census_place_geoid": "0648872",
+      "latitude": 36.601193,
+      "longitude": -121.88311
     },
     {
       "name": "Palo Alto",
@@ -332,6 +360,13 @@
       "longitude": -81.661603
     },
     {
+      "name": "Key West",
+      "state": "FL",
+      "census_place_geoid": "1236550",
+      "latitude": 24.565063,
+      "longitude": -81.775539
+    },
+    {
       "name": "Malabar",
       "state": "FL",
       "census_place_geoid": "1242625",
@@ -360,6 +395,13 @@
       "longitude": -80.664962
     },
     {
+      "name": "Panama City",
+      "state": "FL",
+      "census_place_geoid": "1254700",
+      "latitude": 30.166271,
+      "longitude": -85.670191
+    },
+    {
       "name": "Pensacola",
       "state": "FL",
       "census_place_geoid": "1255925",
@@ -374,11 +416,39 @@
       "longitude": -84.252272
     },
     {
+      "name": "Tampa",
+      "state": "FL",
+      "census_place_geoid": "1271000",
+      "latitude": 27.970086,
+      "longitude": -82.479673
+    },
+    {
+      "name": "Albany",
+      "state": "GA",
+      "census_place_geoid": "1301052",
+      "latitude": 31.578117,
+      "longitude": -84.176224
+    },
+    {
       "name": "Atlanta",
       "state": "GA",
       "census_place_geoid": "1304000",
       "latitude": 33.762909,
       "longitude": -84.422675
+    },
+    {
+      "name": "Augusta",
+      "state": "GA",
+      "census_place_geoid": "1304204",
+      "latitude": 33.365531,
+      "longitude": -82.073422
+    },
+    {
+      "name": "Brunswick",
+      "state": "GA",
+      "census_place_geoid": "1311560",
+      "latitude": 31.136149,
+      "longitude": -81.466936
     },
     {
       "name": "Columbus",
@@ -407,6 +477,13 @@
       "census_place_geoid": "1378800",
       "latitude": 30.850126,
       "longitude": -83.278833
+    },
+    {
+      "name": "Warner Robins",
+      "state": "GA",
+      "census_place_geoid": "1380508",
+      "latitude": 32.597096,
+      "longitude": -83.653936
     },
     {
       "name": "Honolulu",
@@ -514,6 +591,13 @@
       "longitude": -86.145935
     },
     {
+      "name": "Junction City",
+      "state": "KS",
+      "census_place_geoid": "2035750",
+      "latitude": 39.02722,
+      "longitude": -96.852271
+    },
+    {
       "name": "Lawrence",
       "state": "KS",
       "census_place_geoid": "2038900",
@@ -561,6 +645,13 @@
       "census_place_geoid": "2227155",
       "latitude": 29.784946,
       "longitude": -91.509567
+    },
+    {
+      "name": "Lake Charles",
+      "state": "LA",
+      "census_place_geoid": "2241155",
+      "latitude": 30.19902,
+      "longitude": -93.210835
     },
     {
       "name": "New Orleans",
@@ -626,6 +717,13 @@
       "longitude": -75.821686
     },
     {
+      "name": "Sykesville",
+      "state": "MD",
+      "census_place_geoid": "2476550",
+      "latitude": 39.372069,
+      "longitude": -76.97172
+    },
+    {
       "name": "Bangor",
       "state": "ME",
       "census_place_geoid": "2302795",
@@ -668,6 +766,13 @@
       "longitude": -93.279372
     },
     {
+      "name": "Maple Grove",
+      "state": "MN",
+      "census_place_geoid": "2740166",
+      "latitude": 45.112764,
+      "longitude": -93.462975
+    },
+    {
       "name": "Minneapolis",
       "state": "MN",
       "census_place_geoid": "2743000",
@@ -675,11 +780,32 @@
       "longitude": -93.26832
     },
     {
+      "name": "Plymouth",
+      "state": "MN",
+      "census_place_geoid": "2751730",
+      "latitude": 45.022312,
+      "longitude": -93.462883
+    },
+    {
+      "name": "Springfield",
+      "state": "MO",
+      "census_place_geoid": "2970000",
+      "latitude": 37.194157,
+      "longitude": -93.292642
+    },
+    {
       "name": "St. Charles",
       "state": "MO",
       "census_place_geoid": "2964082",
       "latitude": 38.795702,
       "longitude": -90.515364
+    },
+    {
+      "name": "Columbus",
+      "state": "MS",
+      "census_place_geoid": "2815380",
+      "latitude": 33.508208,
+      "longitude": -88.407128
     },
     {
       "name": "Forest",
@@ -701,6 +827,20 @@
       "census_place_geoid": "GNIS:693920",
       "latitude": 30.70767,
       "longitude": -89.154823
+    },
+    {
+      "name": "Meridian",
+      "state": "MS",
+      "census_place_geoid": "2846640",
+      "latitude": 32.38417,
+      "longitude": -88.689448
+    },
+    {
+      "name": "Ocean Springs",
+      "state": "MS",
+      "census_place_geoid": "2853520",
+      "latitude": 30.402704,
+      "longitude": -88.788647
     },
     {
       "name": "Billings",
@@ -752,11 +892,25 @@
       "longitude": -78.973515
     },
     {
+      "name": "Goldsboro",
+      "state": "NC",
+      "census_place_geoid": "3726880",
+      "latitude": 35.378226,
+      "longitude": -77.971869
+    },
+    {
       "name": "Indian Trail",
       "state": "NC",
       "census_place_geoid": "3733560",
       "latitude": 35.068638,
       "longitude": -80.651152
+    },
+    {
+      "name": "Jacksonville",
+      "state": "NC",
+      "census_place_geoid": "3734200",
+      "latitude": 34.72973,
+      "longitude": -77.393661
     },
     {
       "name": "Morrisville",
@@ -792,6 +946,20 @@
       "census_place_geoid": "3840580",
       "latitude": 46.905851,
       "longitude": -98.693579
+    },
+    {
+      "name": "Minot",
+      "state": "ND",
+      "census_place_geoid": "3853380",
+      "latitude": 48.236125,
+      "longitude": -101.277533
+    },
+    {
+      "name": "Bellevue",
+      "state": "NE",
+      "census_place_geoid": "3103950",
+      "latitude": 41.144932,
+      "longitude": -95.93856
     },
     {
       "name": "Grand Island",
@@ -871,11 +1039,32 @@
       "longitude": -74.245077
     },
     {
+      "name": "Alamogordo",
+      "state": "NM",
+      "census_place_geoid": "3501780",
+      "latitude": 32.883619,
+      "longitude": -105.963607
+    },
+    {
       "name": "Albuquerque",
       "state": "NM",
       "census_place_geoid": "3502000",
       "latitude": 35.10478,
       "longitude": -106.646809
+    },
+    {
+      "name": "Clovis",
+      "state": "NM",
+      "census_place_geoid": "3516420",
+      "latitude": 34.438569,
+      "longitude": -103.194194
+    },
+    {
+      "name": "Las Cruces",
+      "state": "NM",
+      "census_place_geoid": "3539380",
+      "latitude": 32.326444,
+      "longitude": -106.789695
     },
     {
       "name": "Rio Rancho",
@@ -885,11 +1074,25 @@
       "longitude": -106.698867
     },
     {
+      "name": "Carson City",
+      "state": "NV",
+      "census_place_geoid": "3209700",
+      "latitude": 39.15306,
+      "longitude": -119.747368
+    },
+    {
       "name": "Elko",
       "state": "NV",
       "census_place_geoid": "3222500",
       "latitude": 40.838111,
       "longitude": -115.767809
+    },
+    {
+      "name": "Fallon",
+      "state": "NV",
+      "census_place_geoid": "3224100",
+      "latitude": 39.473663,
+      "longitude": -118.777865
     },
     {
       "name": "Las Vegas",
@@ -1032,6 +1235,34 @@
       "longitude": -82.984882
     },
     {
+      "name": "Dayton",
+      "state": "OH",
+      "census_place_geoid": "3921000",
+      "latitude": 39.784743,
+      "longitude": -84.199632
+    },
+    {
+      "name": "Altus",
+      "state": "OK",
+      "census_place_geoid": "4001700",
+      "latitude": 34.657061,
+      "longitude": -99.309046
+    },
+    {
+      "name": "Enid",
+      "state": "OK",
+      "census_place_geoid": "4023950",
+      "latitude": 36.406702,
+      "longitude": -97.869861
+    },
+    {
+      "name": "Lawton",
+      "state": "OK",
+      "census_place_geoid": "4041850",
+      "latitude": 34.617172,
+      "longitude": -98.4214
+    },
+    {
       "name": "Oklahoma City",
       "state": "OK",
       "census_place_geoid": "4055000",
@@ -1072,6 +1303,13 @@
       "census_place_geoid": "4202832",
       "latitude": 41.506438,
       "longitude": -75.550459
+    },
+    {
+      "name": "Carlisle",
+      "state": "PA",
+      "census_place_geoid": "4211272",
+      "latitude": 40.199994,
+      "longitude": -77.204149
     },
     {
       "name": "Erie",
@@ -1121,6 +1359,13 @@
       "census_place_geoid": "4281000",
       "latitude": 41.842916,
       "longitude": -79.143865
+    },
+    {
+      "name": "Newport",
+      "state": "RI",
+      "census_place_geoid": "4449960",
+      "latitude": 41.476681,
+      "longitude": -71.319627
     },
     {
       "name": "North Kingstown",
@@ -1179,6 +1424,20 @@
       "longitude": -96.731962
     },
     {
+      "name": "Jackson",
+      "state": "TN",
+      "census_place_geoid": "4737640",
+      "latitude": 35.65417,
+      "longitude": -88.835335
+    },
+    {
+      "name": "Kingsport",
+      "state": "TN",
+      "census_place_geoid": "4739560",
+      "latitude": 36.51937,
+      "longitude": -82.543393
+    },
+    {
       "name": "Memphis",
       "state": "TN",
       "census_place_geoid": "4748000",
@@ -1200,6 +1459,13 @@
       "longitude": -86.218277
     },
     {
+      "name": "Abilene",
+      "state": "TX",
+      "census_place_geoid": "4801000",
+      "latitude": 32.454514,
+      "longitude": -99.738147
+    },
+    {
       "name": "Amarillo",
       "state": "TX",
       "census_place_geoid": "4803000",
@@ -1214,11 +1480,32 @@
       "longitude": -97.124691
     },
     {
+      "name": "Austin",
+      "state": "TX",
+      "census_place_geoid": "4805000",
+      "latitude": 30.298622,
+      "longitude": -97.754134
+    },
+    {
+      "name": "Corpus Christi",
+      "state": "TX",
+      "census_place_geoid": "4817000",
+      "latitude": 27.754252,
+      "longitude": -97.173385
+    },
+    {
       "name": "Dallas",
       "state": "TX",
       "census_place_geoid": "4819000",
       "latitude": 32.793333,
       "longitude": -96.766513
+    },
+    {
+      "name": "Del Rio",
+      "state": "TX",
+      "census_place_geoid": "4819792",
+      "latitude": 29.373045,
+      "longitude": -100.881851
     },
     {
       "name": "El Paso",
@@ -1249,6 +1536,13 @@
       "longitude": -95.388806
     },
     {
+      "name": "Killeen",
+      "state": "TX",
+      "census_place_geoid": "4839148",
+      "latitude": 31.077669,
+      "longitude": -97.731952
+    },
+    {
       "name": "Odessa",
       "state": "TX",
       "census_place_geoid": "4853388",
@@ -1263,11 +1557,25 @@
       "longitude": -96.747944
     },
     {
+      "name": "San Angelo",
+      "state": "TX",
+      "census_place_geoid": "4864472",
+      "latitude": 31.441078,
+      "longitude": -100.450499
+    },
+    {
       "name": "San Antonio",
       "state": "TX",
       "census_place_geoid": "4865000",
       "latitude": 29.462809,
       "longitude": -98.524635
+    },
+    {
+      "name": "Tyler",
+      "state": "TX",
+      "census_place_geoid": "4874144",
+      "latitude": 32.317258,
+      "longitude": -95.305886
     },
     {
       "name": "Clearfield",
@@ -1282,6 +1590,13 @@
       "census_place_geoid": "4915830",
       "latitude": 41.551464,
       "longitude": -112.125015
+    },
+    {
+      "name": "Magna",
+      "state": "UT",
+      "census_place_geoid": "4947290",
+      "latitude": 40.759538,
+      "longitude": -112.18273
     },
     {
       "name": "Salt Lake City",
@@ -1333,6 +1648,13 @@
       "longitude": -76.244641
     },
     {
+      "name": "Petersburg",
+      "state": "VA",
+      "census_place_geoid": "5161832",
+      "latitude": 37.20473,
+      "longitude": -77.392368
+    },
+    {
       "name": "Virginia Beach",
       "state": "VA",
       "census_place_geoid": "5182000",
@@ -1380,6 +1702,13 @@
       "census_place_geoid": "5367000",
       "latitude": 47.666935,
       "longitude": -117.433322
+    },
+    {
+      "name": "Tukwila",
+      "state": "WA",
+      "census_place_geoid": "5372625",
+      "latitude": 47.476289,
+      "longitude": -122.27574
     },
     {
       "name": "Yakima",
