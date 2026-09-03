@@ -371,6 +371,8 @@ interface Record22 {
   url: string;
   source_file: string;
   snapshot_date: string;
+  defense_relevance: string | null;
+  defense_signal: string | null;
 }
 
 function parseRow(row: Row, sourceFile: string, today: string): Record22 | null {
@@ -408,6 +410,11 @@ function parseRow(row: Row, sourceFile: string, today: string): Record22 | null 
     url,
     source_file: sourceFile,
     snapshot_date: today,
+    // #336 defense-slice tag, set by the sync adapters' classifyDefenseRelevance()
+    // (scripts/defense-jobs-adapters.ts). A prime's own CSV export (no such
+    // columns) leaves these null, same as before the #313 Phase-1 columns existed.
+    defense_relevance: clean(row.DefenseRelevance),
+    defense_signal: clean(row.DefenseSignal),
   };
 }
 
@@ -416,6 +423,7 @@ const COLUMNS: (keyof Record22)[] = [
   "location_raw", "city", "state", "country", "region", "is_remote",
   "latitude", "longitude", "employment_type", "pay_min", "pay_max",
   "pay_interval", "education", "url", "source_file", "snapshot_date",
+  "defense_relevance", "defense_signal",
 ];
 
 async function upsertChunk(
