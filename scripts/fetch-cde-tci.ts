@@ -8,9 +8,12 @@
  * The CDE web app's own backend is keyless (unlike api.usa.gov, which needs
  * an api.data.gov key and rate-limits DEMO_KEY within minutes):
  *   https://cde.ucr.cjis.gov/LATEST/summarized/agency/{ORI}/{violent-crime|property-crime}?from=MM-YYYY&to=MM-YYYY
- * Each response carries the agency's monthly offense counts ("actuals"), its
- * covered population, and per-100k rates. Summing the 12 monthly actuals gives
- * the annual count; population is constant across the year.
+ * Each response carries the agency's period offense counts ("actuals"), its
+ * covered population, and per-100k rates. The current endpoint returns 12
+ * monthly keys for a full-year request, but some agencies report through a
+ * year-end annual dump where 11 monthly keys are zero and December carries the
+ * year total. Summing all keys gives the annual count; population is constant
+ * across the year.
  *
  * Year selection follows the methodology's NIBRS-gap rule: a city is indexed
  * against the newest year in NATIONAL_CRIME_REFERENCE_BY_YEAR for which the
@@ -25,7 +28,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import {
   NATIONAL_CRIME_REFERENCE_BY_YEAR,
+  isUsableFbiAgencyYear,
   ratesFromCounts,
+  reportedCrimePeriods,
   totalCrimeIndexBreakdown,
 } from "../lib/crime-index";
 
@@ -112,23 +117,6 @@ function total(series: MonthSeries | undefined): number {
 }
 
 /**
- * Months the agency actually reported. A small town legitimately logs zero
- * violent offenses in a month, so a month counts when BOTH families are
- * present (non-null) and at least one offense of either kind was recorded;
- * the CDE's placeholder for a non-reporting month is null or an all-zero row.
- */
-function monthsReported(violent: MonthSeries | undefined, property: MonthSeries | undefined): number {
-  if (!violent || !property) return 0;
-  let months = 0;
-  for (const m of Object.keys(violent)) {
-    const v = violent[m];
-    const p = property[m];
-    if (v != null && p != null && v + p > 0) months += 1;
-  }
-  return months;
-}
-
-/**
  * The agency's display label. `offenses.actuals` carries only the agency's own
  * lines ("<Agency> Offenses" / "<Agency> Clearances"), unlike `rates` and
  * `populations`, which also carry the state and "United States" — and a state
@@ -161,7 +149,7 @@ async function pullYear(row: InputRow, year: number): Promise<YearPull> {
   return {
     year,
     agency_label: agencyLabel,
-    months_reported: monthsReported(violentSeries, propertySeries),
+    months_reported: reportedCrimePeriods(violentSeries, propertySeries),
     violent_count: total(violentSeries),
     property_count: total(propertySeries),
     population,
@@ -187,7 +175,12 @@ async function main() {
       const label =
         `${row.name}, ${row.state} ${year}: ${pull.agency_label} pop ${pull.population} ` +
         `violent ${pull.violent_count} property ${pull.property_count} months ${pull.months_reported}`;
-      const usable = pull.months_reported === 12 && pull.violent_count > 0 && pull.population > 0;
+      const usable = isUsableFbiAgencyYear({
+        periodsReported: pull.months_reported,
+        violentCount: pull.violent_count,
+        propertyCount: pull.property_count,
+        population: pull.population,
+      });
       if (!usable) {
         console.log(`  skip ${label}`);
         continue;

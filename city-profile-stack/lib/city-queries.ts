@@ -214,6 +214,7 @@ export interface MatchResult {
   preferenceCount: number;
   citiesScored: number;
   disqualifiedCount: number;
+  scopedStates?: string[];
   /** Reminds the model not to overclaim beyond the scored subset. */
   scopeNote: string;
   ranked: MatchCity[];
@@ -221,6 +222,30 @@ export interface MatchResult {
 
 export const MATCH_SCOPE_NOTE =
   "Results are among cities with profile features in this database, not a claim about all U.S. cities.";
+
+function normalizeStateFilters(states?: string[]): string[] {
+  if (!states?.length) return [];
+  return [
+    ...new Set(
+      states
+        .map((s) => resolveStateAbbr(s) ?? s.trim().toUpperCase())
+        .filter(Boolean)
+    ),
+  ];
+}
+
+export function filterProfileCitiesByStates<T extends { state: string }>(
+  cities: T[],
+  states?: string[]
+): { cities: T[]; scopedStates: string[] } {
+  const scopedStates = normalizeStateFilters(states);
+  if (!scopedStates.length) return { cities, scopedStates: [] };
+  const wanted = new Set(scopedStates);
+  return {
+    cities: cities.filter((city) => wanted.has(resolveStateAbbr(city.state) ?? city.state.trim().toUpperCase())),
+    scopedStates,
+  };
+}
 
 type FeatureCell = { v: number; c: number; p: string };
 
@@ -358,7 +383,7 @@ export function scoreCitiesAgainstProfile(
 /** "Best cities for this person?" — worst-driven so one dealbreaker can't be averaged away. */
 export async function matchProfileToCities(
   profile: Profile,
-  opts: { limit?: number } = {}
+  opts: { limit?: number; states?: string[] } = {}
 ): Promise<MatchResult> {
   validateProfile(profile);
   const sql = getSql();
@@ -368,6 +393,7 @@ export async function matchProfileToCities(
     "SELECT id, name, state FROM locations_location WHERE is_candidate"
   )) as { id: string; name: string; state: string }[];
   const info = new Map(locations.map((l) => [l.id, `${l.name}, ${l.state}`]));
+  const locationById = new Map(locations.map((l) => [l.id, l]));
 
   const rows = (await sql.query(
     "SELECT location_id, feature_key, value, confidence, provenance FROM location_features_resolved"
@@ -375,6 +401,7 @@ export async function matchProfileToCities(
 
   const byCity = new Map<string, Map<string, FeatureCell>>();
   for (const r of rows) {
+    if (!info.has(r.location_id)) continue;
     let m = byCity.get(r.location_id);
     if (!m) byCity.set(r.location_id, (m = new Map()));
     m.set(r.feature_key, { v: Number(r.value), c: Number(r.confidence), p: r.provenance });
@@ -382,11 +409,20 @@ export async function matchProfileToCities(
 
   const cities = [...byCity.entries()].map(([id, features]) => ({
     id,
-    label: info.get(id) ?? id,
+    label: info.get(id)!,
+    state: locationById.get(id)!.state,
     features,
   }));
 
-  return scoreCitiesAgainstProfile(profile, cities, opts);
+  const scoped = filterProfileCitiesByStates(cities, opts.states);
+  const result = scoreCitiesAgainstProfile(profile, scoped.cities, opts);
+  return {
+    ...result,
+    scopedStates: scoped.scopedStates.length ? scoped.scopedStates : undefined,
+    scopeNote: scoped.scopedStates.length
+      ? `${MATCH_SCOPE_NOTE} Scoped to ${scoped.scopedStates.join(", ")}.`
+      : result.scopeNote,
+  };
 }
 
 /* ------------------------------------------------------------------ *
@@ -419,9 +455,8 @@ export interface CityCostBreakdown {
    */
   missingContext: string[];
   /**
-   * Confirmed, informational annotations that also do not change monthlyCost —
-   * on the `va_primary` path, whether the nearest VA primary care is within the
-   * VA 30-minute drive-time standard or beyond it. See lib/affordability.ts.
+   * Confirmed, informational annotations that also do not change monthlyCost
+   * (e.g. drive-time access standards if populated). See lib/affordability.ts.
    */
   notes: string[];
   /**

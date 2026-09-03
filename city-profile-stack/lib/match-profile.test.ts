@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  filterProfileCitiesByStates,
   scoreCitiesAgainstProfile,
   validateProfile,
   type Profile,
@@ -146,5 +147,20 @@ describe("scoreCitiesAgainstProfile unsupported proxies", () => {
         preferences: { low_taxes: { min: 0.6, importance: 0.9 } },
       })
     ).toThrow(/Unknown feature "low_taxes"/);
+  });
+});
+
+describe("filterProfileCitiesByStates", () => {
+  it("accepts full state names and USPS codes before profile scoring", () => {
+    const cities = [
+      { id: "a", label: "Tucson, AZ", state: "AZ" },
+      { id: "b", label: "Las Cruces, NM", state: "NM" },
+      { id: "c", label: "Elko, NV", state: "NV" },
+    ];
+
+    const filtered = filterProfileCitiesByStates(cities, ["Arizona", "nm"]);
+
+    expect(filtered.scopedStates).toEqual(["AZ", "NM"]);
+    expect(filtered.cities.map((c) => c.label)).toEqual(["Tucson, AZ", "Las Cruces, NM"]);
   });
 });

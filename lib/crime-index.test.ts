@@ -5,8 +5,10 @@ import {
   VIOLENT_WEIGHT,
   PROPERTY_WEIGHT,
   crimeLabelFromTci,
+  isUsableFbiAgencyYear,
   ratePer100k,
   ratesFromCounts,
+  reportedCrimePeriods,
   referenceForYear,
   totalCrimeIndex,
   totalCrimeIndexBreakdown,
@@ -120,6 +122,57 @@ describe("shipped national reference", () => {
 describe("referenceForYear", () => {
   it("returns a stored year and rejects an unknown one with guidance", () => {
     expect(referenceForYear(2023).violentRatePer100k).toBe(363.8);
+    expect(referenceForYear(2020)).toMatchObject({
+      year: 2020,
+      violentRatePer100k: 387.8,
+      propertyRatePer100k: 1958.2,
+    });
     expect(() => referenceForYear(1999)).toThrow(/No national reference for FBI year 1999/);
+  });
+});
+
+describe("FBI CDE reporting guardrails", () => {
+  it("counts reported periods by presence, so a valid year-end dump is not mistaken for missing data", () => {
+    const violent = Object.fromEntries(
+      Array.from({ length: 12 }, (_, i) => [`${String(i + 1).padStart(2, "0")}-2020`, i === 11 ? 757 : 0]),
+    );
+    const property = Object.fromEntries(
+      Array.from({ length: 12 }, (_, i) => [`${String(i + 1).padStart(2, "0")}-2020`, i === 11 ? 2544 : 0]),
+    );
+
+    expect(reportedCrimePeriods(violent, property)).toBe(12);
+    expect(isUsableFbiAgencyYear({
+      periodsReported: 12,
+      violentCount: 757,
+      propertyCount: 2544,
+      population: 83_806,
+    })).toBe(true);
+  });
+
+  it("rejects full-year fake-zero CDE placeholders from NIBRS transition gaps", () => {
+    expect(isUsableFbiAgencyYear({
+      periodsReported: 12,
+      violentCount: 0,
+      propertyCount: 0,
+      population: 87_147,
+    })).toBe(false);
+  });
+});
+
+describe("documented Melbourne coverage-gap example", () => {
+  it("indexes the last reliable 2020 FBI agency counts against 2020 national rates", () => {
+    const rates = ratesFromCounts({
+      violentCount: 757,
+      propertyCount: 2544,
+      population: 83_806,
+    });
+    const b = totalCrimeIndexBreakdown(rates, referenceForYear(2020));
+    expect(b).toMatchObject({
+      violentIndex: 233,
+      propertyIndex: 155,
+      tci: 194,
+      label: "High",
+      referenceYear: 2020,
+    });
   });
 });

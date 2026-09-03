@@ -21,10 +21,9 @@ the FBI national rate for the **same year**, equal-weighted, national average
   `https://cde.ucr.cjis.gov/LATEST/agency/byStateAbbr/{ST}`) and writes
   `cde_tci_backfill_2026-09-02.json`; re-runnable.
 - **Year rule:** a city is indexed against the newest stored reference year in
-  which the agency reported all 12 months (a month counts when both families
-  are present and at least one offense of either kind was logged — a small
-  town legitimately has zero-violent months). Otherwise it is **blocked**,
-  never indexed from the CDE's placeholder zero/null.
+  which the agency reported all 12 months. A month counts when both families
+  are present; an all-zero annual total is still rejected so CDE placeholder
+  years from the NIBRS transition are never indexed as real zero-crime years.
 - **County proxy:** five places have no municipal police agency in the CDE
   (Malabar FL, Kuna ID, McHenry MS, Indian Trail NC, Hamilton WA). For those
   the county sheriff's office is used, as the methodology allows, and the
