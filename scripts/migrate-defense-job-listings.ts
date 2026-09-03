@@ -91,6 +91,21 @@ async function main() {
        ON defense_job_listings (employer_slug, closed_at)`
   );
 
+  // Defense-slice tagging (issue #336). For a `counts_as_defense: false`
+  // commercial employer, only the defense slice is ingested; each admitted row
+  // records WHY via `defense_relevance` ('prime' | 'cleared' | 'gov_customer',
+  // from lib/defense-jobs-slice.ts classifyDefenseRelevance) and `defense_signal`
+  // (the matched text). Nullable: pre-#336 rows and prime-employer rows may leave
+  // them unset until the importer/sync backfills. See lib/defense-jobs-slice.ts.
+  await run(
+    "add defense_job_listings.defense_relevance",
+    `ALTER TABLE defense_job_listings ADD COLUMN IF NOT EXISTS defense_relevance text`
+  );
+  await run(
+    "add defense_job_listings.defense_signal",
+    `ALTER TABLE defense_job_listings ADD COLUMN IF NOT EXISTS defense_signal text`
+  );
+
   await run(
     "index defense_job_listings by coordinates",
     `CREATE INDEX IF NOT EXISTS defense_job_listings_coordinates_idx
