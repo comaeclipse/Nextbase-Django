@@ -102,6 +102,9 @@ describe("employer seeds with an ATS", () => {
       manatal: ["board"],
       gem: ["board"],
       "careers-site": ["site"],
+      oracle_orc: ["host", "siteNumber"],
+      amazon_jobs: ["business_category"],
+      workday: ["host", "tenant", "site"],
     };
     const bad: string[] = [];
     for (const seed of DEFENSE_EMPLOYER_SEEDS) {

@@ -535,6 +535,91 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: { board: "xai" },
     legacy_aliases: [],
   },
+
+  // More commercial / dual-use employers (same counts_as_defense:false rationale
+  // as the block above), but on ATSes beyond Greenhouse. Their sync adapters are
+  // not built yet — these seeds only record the board (issue #313, Phase 2/3); no
+  // listings are pulled and the defense-slice policy is #336. See the candidate
+  // notes in #313 for the verified feeds behind each ats_config.
+  {
+    // Oracle: its own Oracle Cloud Recruiting product (Fusion "CX" / ORC). Public
+    // REST finder recruitingCEJobRequisitions, no auth (~2,237 reqs). NEW vendor.
+    slug: "oracle",
+    display_name: "Oracle",
+    parent_company: "Oracle Corporation",
+    sector: "corporate",
+    counts_as_defense: false,
+    ats_kind: "oracle_orc",
+    ats_config: { host: "eeho.fa.us2.oraclecloud.com", siteNumber: "CX_1" },
+    legacy_aliases: [],
+  },
+  {
+    // Dell Technologies: also Oracle Cloud Recruiting, on its own tenant
+    // (enterpriseplatform.dell.com). Same oracle_orc adapter as Oracle. siteNumber
+    // "CX_1" verified to return data; confirm against the live "careers" site
+    // during adapter work.
+    slug: "dell",
+    display_name: "Dell Technologies",
+    parent_company: "Dell Technologies",
+    sector: "corporate",
+    counts_as_defense: false,
+    ats_kind: "oracle_orc",
+    ats_config: { host: "enterpriseplatform.dell.com", siteNumber: "CX_1" },
+    legacy_aliases: [],
+  },
+  {
+    // Microsoft: Eightfold (same adapter family as Lockheed/Northrop), host
+    // apply.careers.microsoft.com. Use /api/pcsx/search?domain=microsoft.com
+    // (~2,213 reqs / ~1,206 US); the /api/apply/v2/jobs path 403s.
+    slug: "microsoft",
+    display_name: "Microsoft",
+    parent_company: "Microsoft Corporation",
+    sector: "corporate",
+    counts_as_defense: false,
+    ats_kind: "eightfold",
+    ats_config: { domain: "microsoft.com", host: "apply.careers.microsoft.com" },
+    legacy_aliases: [],
+  },
+  {
+    // Amazon Web Services: amazon.jobs bespoke public search API (icims-backed).
+    // AWS alone is thousands of rows, so the adapter MUST apply a defense slice,
+    // not a full-board pull (#336) — defense_query anchors that slice. NEW vendor.
+    slug: "amazon-web-services",
+    display_name: "Amazon Web Services (AWS)",
+    parent_company: "Amazon.com, Inc.",
+    sector: "corporate",
+    counts_as_defense: false,
+    ats_kind: "amazon_jobs",
+    ats_config: { business_category: "amazon-web-services", defense_query: "security clearance" },
+    legacy_aliases: [],
+  },
+  {
+    // Cisco: careers.cisco.com is a Phenom front-end over a Workday system of
+    // record (cisco.wd5.myworkdayjobs.com). Pull the Workday CXS JSON API
+    // (POST /wday/cxs/cisco/Cisco_Careers/jobs, ~1,282 reqs). NEW vendor (Workday).
+    slug: "cisco",
+    display_name: "Cisco",
+    parent_company: "Cisco Systems, Inc.",
+    sector: "corporate",
+    counts_as_defense: false,
+    ats_kind: "workday",
+    ats_config: { host: "cisco.wd5.myworkdayjobs.com", tenant: "cisco", site: "Cisco_Careers" },
+    legacy_aliases: [],
+  },
+  {
+    // Tesla: careers use a bespoke cua-api behind Akamai bot protection that hard
+    // -403s server-side requests (curl, no TLS/browser fingerprint). No curl-able
+    // feed — this is a Phase-4 browser-only source (#313). Seeded with no ATS so
+    // the employer is on record; listings need a browser adapter or manual pull.
+    slug: "tesla",
+    display_name: "Tesla",
+    parent_company: "Tesla, Inc.",
+    sector: "corporate",
+    counts_as_defense: false,
+    ats_kind: null,
+    ats_config: null,
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
