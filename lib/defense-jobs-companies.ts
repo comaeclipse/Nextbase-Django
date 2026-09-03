@@ -49,6 +49,7 @@ export const COMPANY_SLUG: Record<string, string> = {
   microsoft: "microsoft",
   "microsoft corporation": "microsoft",
   "amazon web services": "amazon-web-services",
+  "amazon web services (aws)": "amazon-web-services", // seed display_name (lib/defense.ts)
   aws: "amazon-web-services",
   cisco: "cisco",
   "cisco systems": "cisco",

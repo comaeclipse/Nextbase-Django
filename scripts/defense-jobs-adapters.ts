@@ -168,14 +168,24 @@ async function workday(seed: EmployerSeed): Promise<Pulled[]> {
       const page = (await withBackoff(() => getJson(`${cxs}/jobs`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ limit: 20, offset, searchText: query, appliedFacets: {} }) }))) as { jobPostings?: { title: string; externalPath: string }[]; total?: number } | null;
       const rows = page?.jobPostings ?? [];
       if (rows.length === 0) break;
-      for (const r of rows) byPath.set(r.externalPath, { title: r.title });
+      // A row missing externalPath (seen on Cisco's board) would otherwise key the
+      // map on the literal string "undefined" and 404/406 loop below.
+      for (const r of rows) if (r.externalPath) byPath.set(r.externalPath, { title: r.title });
       await sleep(120);
       if (offset + 20 >= (page?.total ?? 0)) break;
     }
   }
   const out: Pulled[] = [];
   for (const [externalPath, { title }] of byPath) {
-    const d = (await withBackoff(() => getJson(`${cxs}${externalPath}`), 4)) as { jobPostingInfo?: { title?: string; jobDescription?: string; location?: string; externalUrl?: string; timeType?: string; remoteType?: string } } | null;
+    // One listing's detail page failing (dead link, transient error) must not sink
+    // the whole employer's pull — skip it and keep going.
+    let d: { jobPostingInfo?: { title?: string; jobDescription?: string; location?: string; externalUrl?: string; timeType?: string; remoteType?: string } } | null;
+    try {
+      d = (await withBackoff(() => getJson(`${cxs}${externalPath}`), 4)) as typeof d;
+    } catch {
+      await sleep(90);
+      continue;
+    }
     await sleep(90);
     const info = d?.jobPostingInfo;
     if (!info) continue;
