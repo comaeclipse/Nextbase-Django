@@ -854,3 +854,15 @@ export async function hiringInCity(cityInput: string): Promise<CityHiringResult>
     throw err;
   }
 }
+
+/**
+ * Cached per-city wrapper around `hiringInCity`, keyed by the `"City, ST"` string,
+ * for the city detail page's "Defense & Tech Jobs" card. `hiringInCity` already
+ * swallows the missing-table error, so this is safe before the job tables load.
+ */
+export const getCityHiring = (cityInput: string) =>
+  unstable_cache(
+    () => hiringInCity(cityInput),
+    ["defense-jobs:getCityHiring", cityInput],
+    { revalidate: CACHE_REVALIDATE_SECONDS, tags: [DEFENSE_JOBS_TAG] }
+  )();

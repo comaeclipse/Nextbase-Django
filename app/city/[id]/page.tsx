@@ -52,6 +52,8 @@ import PublicNav from "@/components/PublicNav";
 import HousingMarketCard from "@/components/HousingMarketCard";
 import CityHousingBurdenCard from "@/components/city/CityHousingBurdenCard";
 import CityAffordabilityCard from "@/components/city/CityAffordabilityCard";
+import CityJobsCard from "@/components/city/CityJobsCard";
+import { getCityHiring } from "@/lib/defense-jobs";
 import { getHousingMarket } from "@/lib/housing-market";
 import { formatNearestBase } from "@/lib/military";
 import { Check, X } from "lucide-react";
@@ -160,6 +162,7 @@ export default async function CityDetailPage({
     metroEmployerIndex,
     airQualityResolved,
     militaryIndex,
+    cityHiring,
   ] =
     await Promise.all([
     stateAbbr ? getStateInfo(stateAbbr) : Promise.resolve(null),
@@ -168,6 +171,9 @@ export default async function CityDetailPage({
     getMetroEmployerIndex(),
     resolveFromAncestry(location.id, chain, getLatestAirQuality),
     getMilitaryProximityIndex(),
+    stateAbbr
+      ? getCityHiring(`${location.name}, ${stateAbbr}`)
+      : Promise.resolve(null),
   ]);
   /*
    * EPA monitors and NOAA stations are keyed by geography, not by containment,
@@ -944,6 +950,13 @@ export default async function CityDetailPage({
               )}
             </div>
           </div>
+
+          {/* Defense & Tech Jobs */}
+          <CityJobsCard
+            hiring={cityHiring}
+            cityName={location.name}
+            stateAbbr={stateAbbr ?? ""}
+          />
 
           {/* State Gun Laws */}
           {stateInfo && (
