@@ -84,6 +84,20 @@ function skillBridgeTypeLabel(value: string | null): string {
   return "SkillBridge";
 }
 
+/**
+ * The #336 "commercial · defense-adjacent" chip. A listing carries a
+ * `defenseRelevance` of `cleared` / `gov_customer` only when it came from a
+ * commercial or dual-use employer (Microsoft, AWS, Oracle, …) and cleared the
+ * defense-slice classifier — so the chip both flags the employer as
+ * defense-adjacent and surfaces WHY that one listing counts. `prime` (a defense
+ * pure-play) and null (legacy rows) are ordinary defense listings, no chip.
+ */
+function defenseAdjacentLabel(relevance: string | null): string | null {
+  if (relevance === "cleared") return "Defense-adjacent · Cleared role";
+  if (relevance === "gov_customer") return "Defense-adjacent · Defense customer";
+  return null;
+}
+
 interface ListResponse {
   listings: JobListing[];
   total: number;
@@ -344,6 +358,7 @@ export default function DefenseJobsExplorer({
               <>
                 {items.map((j) => {
                   const pay = formatPay(j);
+                  const adjacent = defenseAdjacentLabel(j.defenseRelevance);
                   const loc = j.isRemote
                     ? "Remote"
                     : [j.city, j.state].filter(Boolean).join(", ") ||
@@ -370,6 +385,14 @@ export default function DefenseJobsExplorer({
                       </div>
                       <p className="mt-0.5 text-sm text-muted-foreground">{loc}</p>
                       <div className="mt-2 flex flex-wrap gap-1.5">
+                        {adjacent && (
+                          <Badge
+                            variant="outline"
+                            className="border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-300"
+                          >
+                            {adjacent}
+                          </Badge>
+                        )}
                         <Badge variant="secondary">{j.sector}</Badge>
                         {j.fieldRaw && j.fieldRaw !== j.sector && (
                           <Badge variant="outline">{j.fieldRaw}</Badge>
