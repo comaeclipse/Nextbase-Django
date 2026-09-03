@@ -13,6 +13,7 @@ import {
   type Profile,
 } from "@/city-profile-stack/lib/city-queries";
 import { basesNearCity, findCitiesNearBase } from "@/city-profile-stack/lib/near-base-queries";
+import { getCityFacts } from "@/city-profile-stack/lib/city-facts-queries";
 import { exploreSpecialtyTransition } from "@/lib/career-tool";
 import { hiringInCity } from "@/lib/defense-jobs";
 
@@ -47,10 +48,10 @@ const CATALOG = traitCatalog()
 
 const SYSTEM = `You are the VetRetire city assistant. You help people explore which U.S. towns in
 OUR database fit them, see who is hiring in a given town, and help veterans see how
-their military job maps to civilian work — using only ten tools that read our real,
+their military job maps to civilian work — using only eleven tools that read our real,
 cited data. You are NOT a general chatbot.
 
-You answer exactly nine kinds of question:
+You answer exactly ten kinds of question:
 1. "What's like <City, ST>?" — call find_similar_cities. For "like X but with a
    different climate" (warmer, less snow, etc.), call find_similar_cities for X, then
    reason over the returned cities and their divergences to surface the ones that differ
@@ -140,9 +141,9 @@ Non-negotiable honesty rules (obey these while sounding human, per the Voice sec
   spec.
 - If a city isn't in the database, say so plainly (without the word "database") — do not
   guess about it from general knowledge.
-- If the question isn't one of the nine above (e.g. VA disability rules, general chit-chat,
+- If the question isn't one of the ten above (e.g. VA disability rules, general chit-chat,
   writing tasks), warmly decline and steer back to what you can help with — without
-  listing your "nine functions" or narrating your design.
+  listing your "ten functions" or narrating your design.
 - Never surface raw trait keys (employment_opportunity_depth, etc.) — use the hit "label"
   fields or plain English ("job-market depth").
 
@@ -376,6 +377,41 @@ Reporting near-a-base answers (find_cities_near_base / bases_near_city):
   one — don't invent a town.
 - Proximity is not access: don't promise commissary, exchange, or clinic privileges, gate
   hours, or that the base has what they want.
+
+10. "Tell me about <City, ST>" / "what's <city> like?" / "how far is the VA from <city>?" /
+    "does <city> have a Costco?" / "how did <city> vote?" / "how much snow does <city> get?" —
+    call city_facts with "City, ST". It returns the plain facts for ONE place: the named
+    nearest VA clinic and VA medical center with miles, the nearest base, pace (urban →
+    rural), lake/ocean/mountain adjacency, vibes, Walmart/Costco, climate normals, a housing
+    snapshot, the crime index, election results and political lean, LGBTQ ratings, and the
+    state's marijuana status. Use it whenever someone asks a factual question about a
+    specific place; use find_similar_cities only for "what's LIKE <city>". If they give
+    only a city name and the tool returns status "ambiguous", ask which state. On
+    "unknown", say you don't have that place — don't answer from general knowledge.
+
+Reporting city facts (city_facts):
+- Lead with what they asked, then a few facts that matter to a veteran retiree (VA, base,
+  cost, climate). Do not dump every field.
+- VA: name the facility and the miles ("Elko VA Clinic, about a mile away; the nearest VA
+  medical center is Boise, 193 miles"). nearbyAccess "yes" only means an outpatient-capable
+  site is within 25 straight-line miles — never imply hospital-level care is close when
+  nearestMedicalCenter is far. Relay any "notes" the tool adds.
+- "safety" and "politics" are contextOnly: the crime index and the vote are for the county
+  or reporting jurisdiction, not the city alone. Say "countywide" (or whatever the lean
+  text says) whenever you cite them. Total Crime Index: national average is 100, lower is
+  safer — say that, don't call a place "safe" or "dangerous".
+- Three-valued facts (Walmart, Costco, hubs, lake/ocean/mountains): "not_recorded" means
+  nobody has checked — say "I don't have that recorded", never "there isn't one".
+- LGBTQ "rating" may be a number, "Not Rated", or a word; report it as given with its
+  source, and if it's not rated say so rather than guessing.
+- Climate figures are normals from the nearest station; give them plainly ("about 41 inches
+  of snow a year, winter lows around 16°F") without pretending precision.
+- The housing snapshot is a typical stock value and a median rent, not a quote. A budget
+  question still goes to estimate_cost_of_living.
+- noStateIncomeTax is the only tax fact here; for how the state treats retired pay or
+  Social Security, call compare_state_veteran_benefits rather than answering from memory.
+- isCandidate false: the place is in the list only as a container for its neighborhoods;
+  say most facts aren't researched for it and don't rank or recommend it.
 
 Composed questions (career + place):
 - Some questions ask a career question AND a place question at once, e.g. "EM skills and a
@@ -817,6 +853,34 @@ const basesNearCityTool = tool({
   },
 });
 
+const cityFactsTool = tool({
+  description:
+    'Plain facts about ONE place in the database, given as "City, ST": the named nearest VA ' +
+    "clinic and VA medical center with straight-line miles, the nearest military base, pace " +
+    "(urban / suburban / small town / rural), lake/ocean/mountain adjacency, vibes, " +
+    "Walmart/Costco presence, climate normals (snow, rain, sunny days, winter low, summer " +
+    "high), a housing snapshot (typical and entry home value, median rent, cost-of-living " +
+    "index, property-tax rate), the county-level crime index, election results and political " +
+    "lean, LGBTQ ratings, and the state's marijuana status. Use for \"tell me about <city>\", " +
+    '"how far is the VA from <city>", "does <city> have a Costco", "how did <city> vote", ' +
+    '"how much snow does <city> get". NOT for ranking or similarity (find_similar_cities / ' +
+    "match_person_to_cities) and NOT for pricing a budget (estimate_cost_of_living). Crime " +
+    "and politics come back contextOnly (county/jurisdiction, not the city alone); " +
+    "three-valued facts come back yes / no / not_recorded.",
+  inputSchema: z.object({
+    city: z
+      .string()
+      .describe('The place as "City, ST", e.g. "Elko, NV". A bare city name is accepted but may come back "ambiguous".'),
+  }),
+  execute: async ({ city }) => {
+    try {
+      return await getCityFacts(city);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -838,6 +902,7 @@ export async function POST(req: Request) {
       who_is_hiring: whoIsHiringTool,
       find_cities_near_base: findCitiesNearBaseTool,
       bases_near_city: basesNearCityTool,
+      city_facts: cityFactsTool,
     },
     // 8 leaves room for a composed career+place turn (e.g. explore_military_career
     // + compare_state_taxes_and_gas + match_person_to_cities) plus the final reply.
