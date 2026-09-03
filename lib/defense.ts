@@ -464,7 +464,7 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     // USAJOBS Data API (keyed: USAJOBS_API_KEY + USAJOBS_UA). `organization` is
     // the agency code (NV24 = NAVSEA, not Nevada); the fetcher scopes titles.
     ats_kind: "usajobs",
-    ats_config: { organization: "NV24", fetcher: "scripts/fetch-usajobs-navsea.ts" },
+    ats_config: { organization: "NV24", positionTitle: "Acquisition Specialist;Contract Specialist", fetcher: "scripts/fetch-usajobs-navsea.ts" },
     legacy_aliases: [],
   },
 
