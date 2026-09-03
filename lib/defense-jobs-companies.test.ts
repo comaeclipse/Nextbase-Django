@@ -96,6 +96,7 @@ describe("employer seeds with an ATS", () => {
       ashby: ["board"],
       eightfold: ["domain"],
       phenom: ["site"],
+      brassring: ["site"],
       successfactors: ["site"],
       usajobs: ["organization"],
       radancy: ["site", "tenant"],

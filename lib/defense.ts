@@ -407,14 +407,16 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
   },
   {
     // Defense prime (BAE Systems Inc., the US arm; Nashua NH electronic systems,
-    // plus many CONUS sites). Careers on Phenom (refNum BAE1US); listings pulled
-    // from phApp.ddo.eagerLoadRefineSearch, USA/CONUS-only.
+    // plus many CONUS sites). Careers site is a Phenom front over a BrassRing
+    // board (refNum BAE1US); the `brassring` adapter pulls Phenom's /widgets
+    // refineSearch JSON. Named for the system-of-record, like Cisco's `workday`,
+    // so it does NOT collide with the RTX aggregate `phenom` seeds above.
     slug: "bae-systems",
     display_name: "BAE Systems",
     parent_company: "BAE Systems",
     sector: "defense_aerospace",
     counts_as_defense: true,
-    ats_kind: "phenom",
+    ats_kind: "brassring",
     ats_config: { refNum: "BAE1US", site: "jobs.baesystems.com" },
     legacy_aliases: [],
   },
