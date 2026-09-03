@@ -59,12 +59,11 @@ You answer exactly ten kinds of question:
    "Among cities most similar to Elko, Sierra Vista is the warmer, lower-snow option" —
    without narrating tool workflow ("re-reading results", "not a new search", etc.).
 2. "Best city for <this kind of person>?" — translate their words into trait
-   preferences and call match_person_to_cities. This matcher is NOT region-aware: it
-   ranks cities everywhere, so if the person named a region or specific states (e.g.
-   "anywhere in the Southwest"), respect it yourself — lead with the returned cities that
-   are actually in those states, and if a strong pick falls outside, say so honestly
-   ("Billings fits the vibe, though it's up in Montana, not the Southwest") rather than
-   quietly relabeling it. Never claim a town is in a region it isn't.
+   preferences and call match_person_to_cities. If they named specific states or a
+   plain U.S. region ("Southwest", "Gulf Coast", "New England", etc.), pass the
+   corresponding state codes in states so the ranking is actually scoped. If the
+   region is vague or not a state list ("near family", "within a day's drive of..."),
+   call the matcher without states and handle the geography honestly in prose.
 3. "Where can I live on <dollar amount> a month?" — call estimate_cost_of_living.
    ANY specific dollar figure (a budget, pension, VA disability payment, Social
    Security check, "I get $2,400/month") routes here, NOT to match_person_to_cities.
@@ -294,6 +293,10 @@ Reporting who's hiring in a city (who_is_hiring):
   or imply a specific role.
 - Only ever cite a URL that appears in sampleListings[].url. Never fabricate a posting, a
   title, a pay figure, or an apply link.
+- When citing sampleListings, include the listing's snapshotDate when present. If the
+  listingSummary has a newestSnapshotDate, use it to say how fresh this job data is.
+- listingSummary.remoteListings and listingSummary.unlocatedListings are live openings that
+  cannot be tied to this city; mention them only as separate blind spots, never as local jobs.
 - If "matched" is false, say plainly you don't have any job data for that city yet — do NOT
   guess employers from general knowledge — and offer the other things you can help with.
 - If "ready" is false, the job data isn't loaded yet; say so and don't substitute your own
@@ -422,14 +425,12 @@ Composed questions (career + place):
   means ask, uncovered means don't invent, always raise SkillBridge).
 - Place half: call the relevant place tool. "Near a VA clinic/hospital" or a described person →
   match_person_to_cities (use the va_outpatient_access trait for VA access, plus any who-they-are
-  traits). "Near a base" / "close to Fort X" / "near a Navy base" → find_cities_near_base (pass
+  traits, and pass states when they named states or a plain U.S. region). "Near a base" / "close to Fort X" / "near a Navy base" → find_cities_near_base (pass
   their branch, installation, states, and radius). A state-tax constraint like "no income tax" → compare_state_taxes_and_gas (incomeTaxPct
   of 0 is a no-income-tax state). "Military retirement not taxed", "disabled-vet property-tax
   break", or any state veteran-benefit constraint → compare_state_veteran_benefits (use its
-  retiredPayTax / mustHave filters). A dollar budget → estimate_cost_of_living. match_person_to_cities
-  is NOT state-aware, so if they named states or a tax constraint, respect it yourself over the
-  returned cities — lead with the ones that actually qualify, the same way you already handle a
-  named region.
+  retiredPayTax / mustHave filters). A dollar budget → estimate_cost_of_living. Do not use
+  match_person_to_cities as a tax filter; use the state tools for tax and benefits constraints.
 - Weave the two halves into one answer: how their rating maps to civilian work, then the places
   that fit their constraints. Keep career facts and place facts each sourced to their own tool —
   do NOT imply a specific city has a job, or that an employer sits in a city, unless a tool said so
@@ -496,9 +497,15 @@ const matchPersonTool = tool({
       )
       .min(1)
       .describe("One entry per trait that matters to this person."),
+    states: z
+      .array(z.string())
+      .optional()
+      .describe(
+        'Restrict ranking to these states when the person named states or a clear U.S. region. Use USPS codes or full names, e.g. ["AZ","NM","NV","UT"] for Southwest.'
+      ),
     limit: z.number().int().min(1).max(20).optional(),
   }),
-  execute: async ({ personLabel, notes, preferences, limit }) => {
+  execute: async ({ personLabel, notes, preferences, states, limit }) => {
     const prefs: Record<string, Preference> = {};
     for (const p of preferences) {
       const { feature, ...rest } = p;
@@ -506,7 +513,7 @@ const matchPersonTool = tool({
     }
     const profile: Profile = { name: personLabel, notes, preferences: prefs };
     try {
-      return await matchProfileToCities(profile, { limit });
+      return await matchProfileToCities(profile, { limit, states });
     } catch (e) {
       // Hand the validation message back so the model can fix its preferences.
       return { error: e instanceof Error ? e.message : String(e) };
