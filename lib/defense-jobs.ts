@@ -122,6 +122,35 @@ async function hasListingLifecycleColumns(): Promise<boolean> {
   return lifecycleColumnsPromise;
 }
 
+/*
+ * Defense-slice tag (issue #336): `defense_relevance` on defense_job_listings.
+ * The UI surfaces it as a per-listing chip ("Cleared role" / "Defense customer")
+ * for commercial / dual-use employers. Probed like the columns above so the page
+ * keeps serving before scripts/migrate-defense-job-listings.ts has added it —
+ * selecting an absent column would 42703 (not swallowed by isMissingTable).
+ */
+let defenseRelevanceColumnPromise: Promise<boolean> | null = null;
+
+async function hasDefenseRelevanceColumn(): Promise<boolean> {
+  defenseRelevanceColumnPromise ??= (async () => {
+    try {
+      const sql = getSql();
+      const rows = (await sql.query(
+        `SELECT 1
+         FROM information_schema.columns
+         WHERE table_schema = 'public'
+           AND table_name = 'defense_job_listings'
+           AND column_name = 'defense_relevance'`
+      )) as unknown[];
+      return rows.length > 0;
+    } catch (err) {
+      if (isMissingTable(err)) return false;
+      throw err;
+    }
+  })();
+  return defenseRelevanceColumnPromise;
+}
+
 /** `<alias>closed_at IS NULL` once the lifecycle columns exist, else a no-op `TRUE`. */
 function openClause(include: boolean, alias = ""): string {
   return include ? `${alias}closed_at IS NULL` : "TRUE";
@@ -149,18 +178,25 @@ function skillBridgeJoin(include: boolean): string {
     ) sb ON sb.employer_slug = j.employer_slug`;
 }
 
-function listingSelect(alias: string, includeSkillBridge: boolean): string {
+function listingSelect(
+  alias: string,
+  includeSkillBridge: boolean,
+  includeDefenseRelevance: boolean
+): string {
   const base = LISTING_COLUMNS.split(",")
     .map((column) => `${alias}.${column.trim()}`)
     .join(", ");
+  const relevance = includeDefenseRelevance
+    ? `${alias}.defense_relevance`
+    : `NULL::text AS defense_relevance`;
   if (!includeSkillBridge) {
-    return `${base},
+    return `${base}, ${relevance},
        NULL::text AS skillbridge_status,
        NULL::text AS skillbridge_participation_type,
        NULL::text AS skillbridge_source_url,
        NULL::date AS skillbridge_verified_at`;
   }
-  return `${base},
+  return `${base}, ${relevance},
        sb.skillbridge_status,
        sb.skillbridge_participation_type,
        sb.skillbridge_source_url,
@@ -188,6 +224,8 @@ export interface ClientJobListing {
   education: string | null;
   url: string;
   snapshotDate: string | null;
+  /** #336 defense-slice verdict: 'prime' | 'cleared' | 'gov_customer' | null. */
+  defenseRelevance: string | null;
   skillBridgeStatus: string | null;
   skillBridgeParticipationType: string | null;
   skillBridgeSourceUrl: string | null;
@@ -216,6 +254,7 @@ export function toClientListing(r: DefenseJobListingRow): ClientJobListing {
     education: r.education,
     url: r.url,
     snapshotDate: r.snapshot_date,
+    defenseRelevance: r.defense_relevance ?? null,
     skillBridgeStatus: r.skillbridge_status ?? null,
     skillBridgeParticipationType: r.skillbridge_participation_type ?? null,
     skillBridgeSourceUrl: r.skillbridge_source_url ?? null,
@@ -446,6 +485,7 @@ export async function getDefenseJobListingsPage(
 ): Promise<DefenseJobListingsPage> {
   const sql = getSql();
   const includeSkillBridge = await hasSkillBridgeColumns();
+  const includeDefenseRelevance = await hasDefenseRelevanceColumn();
   const params: unknown[] = [];
   const where = buildDefenseJobWhere(filter, params, {
     includeSkillBridge,
@@ -461,7 +501,7 @@ export async function getDefenseJobListingsPage(
   const offsetIdx = params.length;
   try {
     const rows = (await sql.query(
-      `SELECT ${listingSelect("j", includeSkillBridge)}, COUNT(*) OVER()::int AS _total
+      `SELECT ${listingSelect("j", includeSkillBridge, includeDefenseRelevance)}, COUNT(*) OVER()::int AS _total
          FROM defense_job_listings j
          ${join}
          ${where}
@@ -616,8 +656,9 @@ export const getDefenseJobInitialMap = unstable_cache(
 async function fetchListings(): Promise<DefenseJobListingRow[]> {
   const sql = getSql();
   const includeSkillBridge = await hasSkillBridgeColumns();
+  const includeDefenseRelevance = await hasDefenseRelevanceColumn();
   const rows = await sql.query(
-    `SELECT ${listingSelect("j", includeSkillBridge)}
+    `SELECT ${listingSelect("j", includeSkillBridge, includeDefenseRelevance)}
      FROM defense_job_listings j
      ${skillBridgeJoin(includeSkillBridge)}
      WHERE ${openClause(await hasListingLifecycleColumns(), "j.")}
