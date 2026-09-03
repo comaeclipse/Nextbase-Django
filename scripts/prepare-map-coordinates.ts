@@ -41,6 +41,15 @@ const PLACE_ALIASES: Record<string, string> = {
   "Honolulu|HI": "urban honolulu|HI",
   "boise|ID": "boise city|ID",
   "Boise|ID": "boise city|ID",
+  // Consolidated city-county: the Census place is the "(balance)" record.
+  "augusta|GA": "augusta-richmond county consolidated government (balance)|GA",
+  "Augusta|GA": "augusta-richmond county consolidated government (balance)|GA",
+  // The bundle strips the "City" from the consolidated municipality's name.
+  "carson city|NV": "carson|NV",
+  "Carson City|NV": "carson|NV",
+  // Utah's metro townships carry their LSAD in the Census place name.
+  "magna|UT": "magna metro township|UT",
+  "Magna|UT": "magna metro township|UT",
   "nashville|TN": "nashville-davidson metropolitan government (balance)|TN",
   "Nashville|TN": "nashville-davidson metropolitan government (balance)|TN",
   "kāneʻohe|HI": "kaneohe|HI",

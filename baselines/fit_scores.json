@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-02T17:46:08.489Z",
-  "verifiedOn": "2026-09-02T17:46:08.489Z",
+  "generatedAt": "2026-09-03T00:01:57.539Z",
+  "verifiedOn": "2026-09-03T00:01:57.539Z",
   "note": "Regression snapshot of Fit Score output for every ranked candidate. NOT a Django parity reference — see baselines/django_scores.json for that, and scripts/generate-score-baseline.ts for why they differ. Regenerate in the same commit as any deliberate scoring or input change.",
-  "candidateCount": 233,
+  "candidateCount": 254,
   "scores": [
     {
       "id": 7,
@@ -5381,6 +5381,38 @@
       ]
     },
     {
+      "id": 259,
+      "name": "Las Cruces",
+      "state": "NM",
+      "score": 82,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 96
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
       "id": 292,
       "name": "Warner Robins",
       "state": "GA",
@@ -5445,6 +5477,38 @@
       ]
     },
     {
+      "id": 307,
+      "name": "Austin",
+      "state": "TX",
+      "score": 73,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 50
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 100
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
       "id": 322,
       "name": "Carlisle",
       "state": "PA",
@@ -5469,6 +5533,38 @@
         {
           "key": "inclusivity",
           "score": 100
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 324,
+      "name": "Carson City",
+      "state": "NV",
+      "score": 73,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 50
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 42
         }
       ],
       "crime": [
@@ -5761,6 +5857,38 @@
       ],
       "crime": [
         "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 453,
+      "name": "Newport",
+      "state": "RI",
+      "score": 66,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 30
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 38
+        }
+      ],
+      "crime": [
+        "LOW",
         "neutral"
       ]
     },
@@ -7457,6 +7585,550 @@
       ],
       "crime": [
         "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 737,
+      "name": "Springfield",
+      "state": "MO",
+      "score": 78,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 61
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 738,
+      "name": "Jackson",
+      "state": "TN",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 739,
+      "name": "Tyler",
+      "state": "TX",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 740,
+      "name": "Brunswick",
+      "state": "GA",
+      "score": 73,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 741,
+      "name": "Bellevue",
+      "state": "NE",
+      "score": 81,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 85
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 46
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 743,
+      "name": "Meridian",
+      "state": "MS",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 744,
+      "name": "Columbus",
+      "state": "MS",
+      "score": 82,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 745,
+      "name": "Ocean Springs",
+      "state": "MS",
+      "score": 85,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 746,
+      "name": "Mesa",
+      "state": "AZ",
+      "score": 75,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 70
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 75
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 747,
+      "name": "McClellan Park",
+      "state": "CA",
+      "score": 70,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 70
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 748,
+      "name": "Lake Charles",
+      "state": "LA",
+      "score": 76,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 100
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "HIGH",
+        "neutral"
+      ]
+    },
+    {
+      "id": 749,
+      "name": "Sykesville",
+      "state": "MD",
+      "score": 72,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 50
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 750,
+      "name": "Maple Grove",
+      "state": "MN",
+      "score": 81,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 70
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 75
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 751,
+      "name": "Plymouth",
+      "state": "MN",
+      "score": 77,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 50
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 90
+        },
+        {
+          "key": "inclusivity",
+          "score": 75
+        }
+      ],
+      "crime": [
+        "LOW",
+        "neutral"
+      ]
+    },
+    {
+      "id": 752,
+      "name": "Kingsport",
+      "state": "TN",
+      "score": 79,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 85
+        },
+        {
+          "key": "cost",
+          "score": 100
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 753,
+      "name": "Magna",
+      "state": "UT",
+      "score": 70,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 70
+        },
+        {
+          "key": "cost",
+          "score": 70
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 60
+        },
+        {
+          "key": "inclusivity",
+          "score": 50
+        }
+      ],
+      "crime": [
+        "MODERATE",
+        "neutral"
+      ]
+    },
+    {
+      "id": 754,
+      "name": "Tukwila",
+      "state": "WA",
+      "score": 65,
+      "breakdown": [
+        {
+          "key": "affordability",
+          "score": 50
+        },
+        {
+          "key": "cost",
+          "score": 50
+        },
+        {
+          "key": "va",
+          "score": 100
+        },
+        {
+          "key": "safety",
+          "score": 30
+        },
+        {
+          "key": "inclusivity",
+          "score": 95
+        }
+      ],
+      "crime": [
+        "HIGH",
         "neutral"
       ]
     }
