@@ -105,6 +105,7 @@ describe("employer seeds with an ATS", () => {
       oracle_orc: ["host", "siteNumber"],
       amazon_jobs: ["business_category"],
       workday: ["host", "tenant", "site"],
+      tesla: ["site"], // browser-captured cua-api; no ADAPTERS entry (manual pull)
     };
     const bad: string[] = [];
     for (const seed of DEFENSE_EMPLOYER_SEEDS) {

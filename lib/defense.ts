@@ -608,17 +608,21 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     legacy_aliases: [],
   },
   {
-    // Tesla: careers use a bespoke cua-api behind Akamai bot protection that hard
-    // -403s server-side requests (curl, no TLS/browser fingerprint). No curl-able
-    // feed — this is a Phase-4 browser-only source (#313). Seeded with no ATS so
-    // the employer is on record; listings need a browser adapter or manual pull.
+    // Tesla: careers use a bespoke cua-api (/cua-api/apps/careers/state) behind
+    // Akamai + Tesla's own cpr_chlge proof-of-work challenge that hard-403s (then
+    // 429s) server-side requests. No curl-able feed — this is a Phase-4 browser
+    // -captured source (#313). `manual: true` + a `tesla` ats_kind that has NO
+    // adapter in defense-jobs-adapters.ADAPTERS make `--all` skip it loudly; the
+    // browser-capture pull is scripts/fetch-tesla-jobs.ts (decode in
+    // lib/tesla-jobs.ts), bridged into the sync via --from-csv. Commercial /
+    // dual-use (counts_as_defense: false), so only the #336 defense slice counts.
     slug: "tesla",
     display_name: "Tesla",
     parent_company: "Tesla, Inc.",
     sector: "corporate",
     counts_as_defense: false,
-    ats_kind: null,
-    ats_config: null,
+    ats_kind: "tesla",
+    ats_config: { site: "www.tesla.com", careers_url: "https://www.tesla.com/careers/search/", manual: true },
     legacy_aliases: [],
   },
 ];
