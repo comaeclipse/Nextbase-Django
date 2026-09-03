@@ -286,19 +286,20 @@ async function eightfold(seed: EmployerSeed): Promise<Pulled[]> {
 
   if (seed.counts_as_defense) {
     // Defense prime: whole board, list-level (pay/JD are detail-only). Every listing counts.
-    const out: Pulled[] = [];
+    // Dedup by position id — Eightfold pages overlap (esp. under back-off/retry).
+    const byId = new Map<number, P>();
     for (let start = 0; ; start += 10) {
       const json = (await withBackoff(() => getJson(`https://${host}/api/pcsx/search?domain=${domain}&query=&location=&start=${start}&sort_by=timestamp`, { headers: eightfoldHeaders(host) }))) as { data?: { positions?: P[]; count?: number } } | null;
       const positions = json?.data?.positions ?? [];
       if (positions.length === 0) break;
-      for (const p of positions) {
-        const loc = locate((p.locations ?? p.standardizedLocations ?? [])[0]);
-        out.push({ row: baseRow(seed, "Eightfold", { title: p.name, field: p.department ?? "", location: loc.location, region: loc.region, url: `https://${host}/careers/job/${p.id}` }), title: p.name, description: "", businessUnit: p.department ?? "" });
-      }
+      for (const p of positions) byId.set(p.id, p);
       await sleep(150);
       if (start + 10 >= (json?.data?.count ?? 0)) break;
     }
-    return out;
+    return [...byId.values()].map((p) => {
+      const loc = locate((p.locations ?? p.standardizedLocations ?? [])[0]);
+      return { row: baseRow(seed, "Eightfold", { title: p.name, field: p.department ?? "", location: loc.location, region: loc.region, url: `https://${host}/careers/job/${p.id}` }), title: p.name, description: "", businessUnit: p.department ?? "" };
+    });
   }
 
   // Commercial (Microsoft): narrow by precise query terms, US-prefilter, JD from the page JSON-LD.

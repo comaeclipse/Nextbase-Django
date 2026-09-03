@@ -141,6 +141,11 @@ async function runEmployer(seed: EmployerSeed, opts: SyncOpts, fromCsv: string |
     }
   }
 
+  // Dedup by URL (the upsert conflict key): a chunk with two rows sharing a URL
+  // makes Postgres' ON CONFLICT fail (21000). Keep the first occurrence.
+  const seenUrl = new Set<string>();
+  rows = rows.filter((r) => r.URL && !seenUrl.has(r.URL) && (seenUrl.add(r.URL), true));
+
   if (opts.pullOnly) {
     writeCsv(csvPath, rows);
     const byRel: Record<string, number> = {};
