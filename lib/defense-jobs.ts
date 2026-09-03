@@ -74,11 +74,29 @@ async function hasSkillBridgeColumns(): Promise<boolean> {
 /*
  * Listing lifecycle (issue #313): `last_seen_at` / `closed_at` on
  * defense_job_listings. A closed listing (its board no longer lists it) stays in
- * the table for history but must never render, so every read filters
- * `closed_at IS NULL`. Probed like the SkillBridge columns so the page keeps
- * serving before scripts/migrate-defense-job-listings.ts has added them.
+ * the table but must never render, so every read filters `closed_at IS NULL`.
+ * Probed like the SkillBridge columns so the page keeps serving before
+ * scripts/migrate-defense-job-listings.ts has added them.
+ *
+ * Retention (the #313 open call, decided): closed rows are kept for a bounded
+ * window, then hard-deleted by scripts/purge-closed-job-listings.ts — NOT kept
+ * forever. They are invisible to readers and have no consumer, so unbounded
+ * growth on high-churn boards (Northrop/Lockheed shed hundreds per sync) buys
+ * nothing; the only value is the reopen path (a reappearing URL reactivates the
+ * same row, preserving created_at), which the window preserves. See
+ * CLOSED_RETENTION_DAYS.
  */
 const LIFECYCLE_COLUMNS = ["last_seen_at", "closed_at"] as const;
+
+/**
+ * How long a closed (`closed_at IS NOT NULL`) listing is retained before
+ * scripts/purge-closed-job-listings.ts hard-deletes it. 90 days comfortably
+ * exceeds a normal ATS repost gap, so a listing that disappears and returns
+ * inside the window still reopens the original row; a URL gone longer than this
+ * that reappears is legitimately a new posting (a fresh row). Readers are
+ * unaffected either way — they already filter `closed_at IS NULL`.
+ */
+export const CLOSED_RETENTION_DAYS = 90;
 
 let lifecycleColumnsPromise: Promise<boolean> | null = null;
 
