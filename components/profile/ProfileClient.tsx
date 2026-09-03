@@ -143,7 +143,14 @@ export default function ProfileClient({
       ? `${prefs.militaryBranch}:${prefs.militarySpecialtyCode}`
       : null;
   const resolvedMatch = matchKey ? pickerCatalog.matches[matchKey] : undefined;
-  const codeNotInCatalog = Boolean(matchKey) && !resolvedMatch;
+  const hasCuratedContent = Boolean(
+    resolvedMatch && (resolvedMatch.roleTitles.length > 0 || resolvedMatch.skillTitles.length > 0)
+  );
+  // Covers both "not in the catalog at all" and "in the catalog but no
+  // role/skill matches curated yet" — buildCatalog seeds a matches entry for
+  // every specialty, so a resolved match with empty arrays is a real,
+  // reachable case as the seed grows ahead of match curation.
+  const codeNotInCatalog = Boolean(matchKey) && !hasCuratedContent;
   // The teaser is server-rendered from the SAVED cookie — flag when the
   // in-progress edit has drifted from it so the preview isn't misread as live.
   const militaryEditsUnsaved =
@@ -281,7 +288,7 @@ export default function ProfileClient({
             </div>
           ) : null}
 
-          {matchKey && resolvedMatch ? (
+          {matchKey && resolvedMatch && hasCuratedContent ? (
             <div className="flex flex-col gap-2 rounded-lg border border-border p-3">
               {resolvedMatch.roleTitles.length > 0 ? (
                 <div className="flex flex-wrap gap-1.5">
@@ -345,7 +352,7 @@ export default function ProfileClient({
               <Button
                 render={
                   <Link
-                    href={`/career-transition?branch=${saved.militaryBranch}&code=${saved.militarySpecialtyCode}`}
+                    href={`/career-transition?branch=${encodeURIComponent(saved.militaryBranch)}&code=${encodeURIComponent(saved.militarySpecialtyCode)}`}
                   />
                 }
                 nativeButton={false}

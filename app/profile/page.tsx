@@ -37,10 +37,17 @@ export default async function ProfilePage() {
         ) ?? null)
       : null;
 
+  // The teaser is decorative, not core to the page — a transient DB error
+  // here must never fail the whole /profile load for a visitor who saved a
+  // specialty (getCareerTransitionCatalog softens its own errors the same way).
   let initialListingsTeaser: SpecialtyListings | null = null;
   if (savedMatch) {
-    const result = await listingsForSpecialty(savedMatch);
-    initialListingsTeaser = { ...result, listings: result.listings.slice(0, 3) };
+    try {
+      const result = await listingsForSpecialty(savedMatch);
+      initialListingsTeaser = { ...result, listings: result.listings.slice(0, 3) };
+    } catch (err) {
+      console.error("Failed to load job-listing teaser for /profile:", err);
+    }
   }
 
   return (
