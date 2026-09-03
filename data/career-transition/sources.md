@@ -286,3 +286,54 @@ Caveats for this slice:
 - Navy IT NEC rows are platform refinements, not a claim that every IT sailor holds that NEC. The matcher should use them only when the user's service history names the NEC or a clearly equivalent platform.
 - `25U`, `0621`, and some senior chief/chief communications rows are intentionally lower or adjacent where the civilian IT match depends on documented IP-network, systems, COMSEC, or SATCOM duties.
 - Pinned listings are dated snapshots. They are examples for match quality, not claims of current availability.
+
+## Logistics / supply / maintenance-planning expansion (added 2026-09-02)
+
+This slice expands the career-transition matrix for enlisted logistics, supply, transportation, personnel/admin, and maintenance-planning backgrounds from the user-supplied research pass dated 2026-09-02. It keeps the same graph discipline as earlier slices: current postings are pinned examples, not exhaustive coverage, and weak-adjacent specialties remain explicit rather than being forced into procurement.
+
+New or expanded specialties:
+
+- Army MOS: 92Y, 92F, 92W.
+- Navy ratings: PS, AZ.
+- Air Force AFSCs: 2T0X1, 2T2X1, current 2R2X1, and legacy lookup rows 2R0X1 / 2R1X1.
+- Coast Guard ratings: CS, HS, BM, MK; existing SK, AMT, and AET gained additional logistics/planning edges.
+
+Specialty source basis:
+
+- Army 92Y Unit Supply Specialist: https://www.goarmy.com/careers-and-jobs/support-logistics/transportation-inventory/92y-unit-supply-specialist
+- Army 92F Petroleum Supply Specialist: https://www.goarmy.com/careers-and-jobs/support-logistics/transportation-inventory/92f-petroleum-supply-specialist
+- Army 92W Water Treatment Specialist: https://www.goarmy.com/careers-and-jobs/science-medicine/research/92w-water-treatment-specialist
+- Navy Personnel Specialist: https://www.navy.com/careers-benefits/careers/business-logistics-administration/personnel-specialist
+- Navy Aviation Maintenance Administrationman (AZ): https://www.mynavyhr.navy.mil/Career-Management/Community-Management/Enlisted/Aviation/AZ/
+- Air Force Traffic Management (2T0X1): https://www.airforce.com/careers/logistics-and-administration/traffic-management
+- Air Force Air Transportation (2T2X1): https://www.airforce.com/careers/logistics-and-administration/air-transportation
+- Air Force Maintenance Management (current 2R2X1): https://www.airforce.com/careers/logistics-and-administration/maintenance-management
+- Coast Guard enlisted career page for CS, HS, BM, and MK: https://www.gocoastguard.com/careers/enlisted
+
+Civilian role and skill basis:
+
+- O*NET Stockers and Order Fillers / material-control support role, 43-5071.00: https://www.onetonline.org/link/summary/43-5071.00
+- O*NET Purchasing Agents, 13-1022.00: https://www.onetonline.org/link/summary/13-1022.00
+- O*NET Logisticians, 13-1081.00: https://www.onetonline.org/link/summary/13-1081.00
+- O*NET Human Resources Specialists, 13-1071.00: https://www.onetonline.org/link/summary/13-1071.00
+- O*NET Food Service Managers, 11-9051.00: https://www.onetonline.org/link/summary/11-9051.00
+
+Employer/listing evidence pinned from official employer pages or official employer search snapshots:
+
+- Anduril Logistics Coordinator, Herndon VA: https://job-boards.greenhouse.io/andurilindustries/jobs/5203398007
+- Amazon / AWS Logistics Specialist, ADC InfraOps Logistics, Jessup MD: https://www.amazon.jobs/en-gb/jobs/10507207/logistics-specialist-adc-infraops-logistics
+- Amazon / AWS Logistics Specialist, ADC InfraOps Logistics, Manassas/Culpeper VA: https://amazon.jobs/en/jobs/10510054/logistics-specialist-adc-infraops-logistics
+- Amazon / AWS Transportation Procurement Manager, AWS Cloud Logistics, Austin TX: https://www.amazon.jobs/en-gb/jobs/10493152/transportation-procurement-mgr-aws-cloud-logistics-procurement
+- Amazon Supply Chain Specialist, GPCS, Tempe AZ: https://www.amazon.jobs/cs/jobs/10480626/supply-chain-specialist-gpcs-gpcs
+- Boeing / Spirit Defense Associate Supply Chain Procurement Agent, Wichita KS: https://jobs.boeing.com/job/wichita/spirit-defense-associate-supply-chain-procurement-agent/185/99764141152
+- Boeing Associate Procurement Agent, Hialeah FL or Wichita KS: https://jobs.boeing.com/job/hialeah/associate-procurement-agent/185/99905036512
+- Boeing Supply Chain Analyst Level 2-3 - B-52J CERP, Oklahoma City OK: https://jobs.boeing.com/en/job/oklahoma-city/supply-chain-analyst-level-2-3-b-52j-cerp/185/99550189104
+- Leidos Supply Class Planner, Aiea HI: https://careers.leidos.com/jobs/18125267-supply-class-planner
+
+Caveats for this slice:
+
+- The pasted Leidos Logistics & Supply Support Specialist in Beavercreek, OH was not pinned because the official Leidos page returned "This job posting is no longer active" on 2026-09-02.
+- The pasted Lockheed, L3Harris, Northrop Grumman, and GDIT leads should be refreshed in a follow-up pass before adding pinned rows unless an official employer page is captured with role text. Search-result snippets alone are not enough for a durable pinned evidence row when the employer page does not expose the full role content.
+- `2R0X1` and `2R1X1` are kept as `status=unknown` legacy lookup keys because the current Air Force public career page presents the combined Maintenance Management lane as `2R2X1`. This lets older service records resolve without claiming the older AFSCs are current accessions.
+- PS and YN-style personnel/admin specialties are not procurement matches by default. They map to HR and business-operations roles unless the user's record separately shows purchasing, contracting, supply, or material-accountability duties.
+- 92W, HS, BM, MK, AMT, and AET logistics rows are intentionally adjacent where the logistics signal depends on collateral duties such as equipment accountability, medical supply, cargo movement, or maintenance scheduling.
