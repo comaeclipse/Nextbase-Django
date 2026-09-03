@@ -103,6 +103,8 @@ const CITY_COORDS: Record<string, [number, number]> = {
   "mchenry|MS": [30.6969, -88.9995],
   "lexington|MA": [42.4473, -71.2245],
   "chantilly|VA": [38.8943, -77.4311],
+  "tysons corner|VA": [38.9187, -77.2311],
+  "dayton|OH": [39.7589, -84.1916],
   "fort collins|CO": [40.5853, -105.0844],
   "morrisville|NC": [35.8235, -78.8256],
   "bellevue|WA": [47.6101, -122.2015],

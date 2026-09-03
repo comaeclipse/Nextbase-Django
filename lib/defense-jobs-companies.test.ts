@@ -105,6 +105,8 @@ describe("employer seeds with an ATS", () => {
       oracle_orc: ["host", "siteNumber"],
       amazon_jobs: ["business_category"],
       workday: ["host", "tenant", "site"],
+      ultipro: ["tenant", "board"], // UKG Recruiting JobBoard (GCI)
+      dsd_labs: ["site"], // bespoke self-hosted SSR careers page (DSD Laboratories)
     };
     const bad: string[] = [];
     for (const seed of DEFENSE_EMPLOYER_SEEDS) {

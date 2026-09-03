@@ -482,10 +482,115 @@ async function usajobs(seed: EmployerSeed): Promise<Pulled[]> {
 }
 
 // ---------------------------------------------------------------------------
+// UltiPro / UKG Recruiting (GCI) — public JobBoard LoadSearchResults JSON. A
+// defense pure-play (every listing counts), so no slice; curl-able server-side.
+// ---------------------------------------------------------------------------
+
+interface UltiproOpportunity {
+  Id: string;
+  Title: string;
+  FullTime?: boolean;
+  JobCategoryName?: string;
+  BriefDescription?: string;
+  Locations?: { Address?: { City?: string; State?: { Code?: string }; Country?: { Code?: string } } }[];
+}
+
+/** UltiPro carries a structured Address, so build "City, ST" directly (a no-city
+ * row — a remote/state-only req — still counts, it just has no map coordinate). */
+function ultiproLocate(addr?: { City?: string; State?: { Code?: string }; Country?: { Code?: string } }): { location: string; region: string } {
+  const city = addr?.City?.trim();
+  const st = addr?.State?.Code?.trim();
+  const country = addr?.Country?.Code?.trim();
+  if (country && country !== "USA") return { location: [city, country].filter(Boolean).join(", "), region: "International" };
+  if (city && st) return { location: `${city}, ${st}`, region: NON_CONUS.has(st) ? "US (non-CONUS)" : "US (CONUS)" };
+  if (st) return { location: st, region: NON_CONUS.has(st) ? "US (non-CONUS)" : "US (CONUS)" };
+  return { location: city ?? "", region: city ? "US (CONUS)" : "" };
+}
+
+async function ultipro(seed: EmployerSeed): Promise<Pulled[]> {
+  const tenant = cfg(seed, "tenant")!; // e.g. GCI1000GCI
+  const board = cfg(seed, "board")!; // the JobBoard GUID
+  const base = `https://recruiting.ultipro.com/${tenant}/JobBoard/${board}`;
+  const PAGE = 100;
+  const out: Pulled[] = [];
+  const seen = new Set<string>();
+  for (let skip = 0; ; skip += PAGE) {
+    const body = {
+      opportunitySearch: { Top: PAGE, Skip: skip, QueryString: "", OrderBy: [{ Value: "postedDateDesc", PropertyName: "PostedDate", Ascending: false }], Search: "" },
+      matchCriteria: { PreferredJobs: [], Educations: [], LicenseAndCertifications: [], Skills: [], hasNoLicenses: false, SkippedSkills: [] },
+    };
+    const json = (await withBackoff(() => getJson(`${base}/JobBoardView/LoadSearchResults`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }))) as { opportunities?: UltiproOpportunity[]; totalCount?: number } | null;
+    const opps = json?.opportunities ?? [];
+    if (opps.length === 0) break;
+    for (const o of opps) {
+      if (!o.Id || seen.has(o.Id)) continue;
+      seen.add(o.Id);
+      const loc = ultiproLocate(o.Locations?.[0]?.Address);
+      out.push({
+        row: baseRow(seed, "UltiPro", { title: o.Title, field: o.JobCategoryName ?? "", location: loc.location, region: loc.region, url: `${base}/OpportunityDetail?opportunityId=${o.Id}`, employment: o.FullTime ? "Full-time" : "" }),
+        title: o.Title, description: stripHtml(o.BriefDescription), businessUnit: o.JobCategoryName ?? "",
+      });
+    }
+    await sleep(150);
+    if (skip + PAGE >= (json?.totalCount ?? 0)) break;
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// DSD Laboratories — bespoke, self-hosted SSR careers page (no ATS, no JSON
+// feed): regex-parse the <article class="role"> blocks. Small board; a defense
+// pure-play, so every listing counts. Curl-able server-side with a browser UA.
+// ---------------------------------------------------------------------------
+
+/** DSD's freeform role-loc -> CSV Location + Region. Handles "Remote", the
+ * "National Capital Region (…)" label, and pipe-separated multi-site (first wins). */
+function dsdLocate(raw: string): { location: string; region: string } {
+  const first = (raw || "").split("|")[0].trim();
+  if (!first || /^remote$/i.test(first)) return { location: "Remote", region: "US/Remote" };
+  if (/national capital region/i.test(first)) return { location: "Washington, DC", region: "US (CONUS)" };
+  const m = first.match(/^(.*),\s*([^,]+)$/);
+  if (m) {
+    const raw2 = m[2].trim();
+    const abbr = resolveStateAbbr(raw2) ?? (raw2.length === 2 ? raw2.toUpperCase() : null);
+    if (abbr) return { location: `${m[1].trim()}, ${abbr}`, region: NON_CONUS.has(abbr) ? "US (non-CONUS)" : "US (CONUS)" };
+  }
+  return { location: first, region: "US (CONUS)" }; // DSD is a US DoD shop; default US
+}
+
+async function dsdLabs(seed: EmployerSeed): Promise<Pulled[]> {
+  const site = cfg(seed, "site")!; // dsdlabs.com
+  const html = await withBackoff(async () => {
+    const res = await fetch(`https://${site}/careers/`, { headers: { "User-Agent": UA, Accept: "text/html", "Accept-Encoding": "gzip, deflate" } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.text();
+  });
+  // A failed fetch must ABORT (throw) so the sync's never-prune-on-empty guard fires.
+  if (!html) throw new Error(`dsd_labs: ${site}/careers/ fetch failed after retries`);
+  const out: Pulled[] = [];
+  const seen = new Set<string>();
+  for (const block of html.split(/<article class="role">/i).slice(1)) {
+    const url = block.match(/href="(https?:\/\/[^"]*\/careers\/jobs\/[^"]+\/apply)"/i)?.[1];
+    const rawTitle = block.match(/<h3>([\s\S]*?)<\/h3>/i)?.[1];
+    if (!url || !rawTitle || seen.has(url)) continue;
+    seen.add(url);
+    const title = stripHtml(rawTitle);
+    const field = stripHtml(block.match(/class="role-tag">([\s\S]*?)</i)?.[1] ?? "");
+    const clearance = stripHtml(block.match(/class="role-clear\s*">([\s\S]*?)</i)?.[1] ?? "");
+    const loc = dsdLocate(stripHtml(block.match(/class="role-loc">([\s\S]*?)</i)?.[1] ?? ""));
+    out.push({
+      row: baseRow(seed, "DSD Careers", { title, field, team: clearance, location: loc.location, region: loc.region, url }),
+      title, description: stripHtml(block.match(/<p>([\s\S]*?)<\/p>/i)?.[1] ?? ""), businessUnit: field,
+    });
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 
 export const ADAPTERS: Record<string, (seed: EmployerSeed) => Promise<Pulled[]>> = {
   greenhouse, lever, ashby, workday, oracle_orc: oracleOrc, amazon_jobs: amazonJobs, eightfold,
-  successfactors, usajobs,
+  successfactors, usajobs, ultipro, dsd_labs: dsdLabs,
 };
 
 /**

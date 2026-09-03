@@ -621,6 +621,35 @@ export const DEFENSE_EMPLOYER_SEEDS: EmployerSeed[] = [
     ats_config: null,
     legacy_aliases: [],
   },
+  {
+    // GCI (gci.tech) — national-security integrator; every opening is a cleared
+    // intel/cyber role ("TS/SCI with Poly Required"), so a defense pure-play.
+    // Careers run on UltiPro / UKG Recruiting: the public JobBoard
+    // LoadSearchResults JSON API is curl-able server-side (in-process `ultipro`
+    // adapter). tenant + board GUID are the two ids the adapter needs.
+    slug: "gci",
+    display_name: "GCI",
+    parent_company: "GCI",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "ultipro",
+    ats_config: { tenant: "GCI1000GCI", board: "09636f6c-2fa1-4a76-adb9-57dea469416b", careers_url: "https://gci.tech/careers/" },
+    legacy_aliases: [],
+  },
+  {
+    // DSD Laboratories (dsdlabs.com) — DoD/warfighter defense-technology shop, a
+    // pure-play. No ATS: a bespoke, self-hosted SSR careers page. The in-process
+    // `dsd_labs` adapter fetches https://dsdlabs.com/careers/ and regex-parses the
+    // <article class="role"> blocks (curl-able with a browser UA).
+    slug: "dsd-laboratories",
+    display_name: "DSD Laboratories",
+    parent_company: "DSD Laboratories",
+    sector: "defense",
+    counts_as_defense: true,
+    ats_kind: "dsd_labs",
+    ats_config: { site: "dsdlabs.com", careers_url: "https://dsdlabs.com/careers/" },
+    legacy_aliases: [],
+  },
 ];
 
 /** "RTX|Raytheon" -> "raytheon", for CSVs written before employer slugs existed. */
