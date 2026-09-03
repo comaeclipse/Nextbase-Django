@@ -23,6 +23,7 @@
  *   node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/import-defense-job-listings.ts <csv> [--clear] [--dry-run]
  */
 import { basename } from "node:path";
+import { pathToFileURL } from "node:url";
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
@@ -440,18 +441,17 @@ async function upsertChunk(
   await sql.query(text, values);
 }
 
-async function main() {
-  const args = process.argv.slice(2);
-  const dryRun = args.includes("--dry-run");
-  const doClear = args.includes("--clear");
-  const csvPath = args.find((a) => !a.startsWith("--"));
-  if (!csvPath) {
-    console.error(
-      "Usage: import-defense-job-listings <csv> [--clear] [--dry-run]"
-    );
-    process.exit(1);
-  }
-
+/**
+ * Import a listings CSV (upsert on URL; every upsert stamps last_seen_at and
+ * clears closed_at, so a re-listed URL reopens). Reusable by the unified sync
+ * orchestrator (scripts/sync-defense-job-listings.ts). Returns the parsed rows'
+ * URLs so the caller can prune everything else for that employer.
+ */
+export async function importListingsCsv(
+  csvPath: string,
+  opts: { clear?: boolean; dryRun?: boolean } = {},
+): Promise<{ urls: string[]; parsed: number; skipped: number; geocoded: number }> {
+  const { clear: doClear = false, dryRun = false } = opts;
   const today = new Date().toISOString().slice(0, 10);
   const sourceFile = basename(csvPath);
   const rows: Row[] = parse(readFileSync(csvPath, "utf-8"), {
@@ -497,9 +497,10 @@ async function main() {
     console.log(`  ${String(v).padStart(4)}  ${k}`);
   }
 
+  const urls = parsed.map((p) => p.url);
   if (dryRun) {
     console.log("\nDry run complete. No rows written.");
-    return;
+    return { urls, parsed: parsed.length, skipped, geocoded };
   }
 
   const sql = getSql();
@@ -515,9 +516,25 @@ async function main() {
   }
 
   console.log(`\nImport complete. ${parsed.length} listing(s).`);
+  return { urls, parsed: parsed.length, skipped, geocoded };
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+async function main() {
+  const args = process.argv.slice(2);
+  const dryRun = args.includes("--dry-run");
+  const doClear = args.includes("--clear");
+  const csvPath = args.find((a) => !a.startsWith("--"));
+  if (!csvPath) {
+    console.error("Usage: import-defense-job-listings <csv> [--clear] [--dry-run]");
+    process.exit(1);
+  }
+  await importListingsCsv(csvPath, { clear: doClear, dryRun });
+}
+
+// Run as a CLI only when invoked directly (the orchestrator imports the function).
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
