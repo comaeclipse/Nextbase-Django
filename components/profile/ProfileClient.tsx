@@ -15,7 +15,16 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, Landmark, Users, Info, RotateCcw, ArrowRight } from "lucide-react";
+import {
+  ShieldCheck,
+  Landmark,
+  Users,
+  Info,
+  RotateCcw,
+  ArrowRight,
+  BriefcaseBusiness,
+  X as ClearIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,9 +38,31 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
 
 import { filterAndSort } from "@/lib/filters";
 import type { LocationRow, StateInfoRow } from "@/lib/types";
+import {
+  BRANCH_LABELS,
+  type MilitaryBranch,
+  type MilitarySpecialty,
+  type ProfilePickerCatalog,
+} from "@/lib/career-transition-shared";
+import type { SpecialtyListings } from "@/lib/career-listings-bridge";
 import {
   DEFAULT_PREFERENCES,
   GUN_FREEDOM_ANY,
@@ -48,6 +79,12 @@ import {
   type SitePreferences,
 } from "@/lib/profile";
 
+const MILITARY_BRANCHES = Object.keys(BRANCH_LABELS) as MilitaryBranch[];
+const MILITARY_BRANCH_ITEMS = MILITARY_BRANCHES.map((b) => ({
+  value: b,
+  label: BRANCH_LABELS[b],
+}));
+
 const GROUP_ICONS: Record<PreferenceGroup, typeof ShieldCheck> = {
   firearms: ShieldCheck,
   taxes: Landmark,
@@ -63,10 +100,14 @@ export default function ProfileClient({
   locations,
   stateInfos,
   initialPreferences,
+  pickerCatalog,
+  initialListingsTeaser,
 }: {
   locations: LocationRow[];
   stateInfos: StateInfoRow[];
   initialPreferences: SitePreferences | null;
+  pickerCatalog: ProfilePickerCatalog;
+  initialListingsTeaser: SpecialtyListings | null;
 }) {
   const router = useRouter();
   const saved = initialPreferences ?? DEFAULT_PREFERENCES;
@@ -80,6 +121,41 @@ export default function ProfileClient({
     setPrefs((prev) => ({ ...prev, [key]: value }));
     setJustSaved(false);
   }
+
+  // Changing branch invalidates whatever specialty code was picked under the
+  // old branch, mirroring CareerTransitionClient's updateBranch.
+  function updateBranch(next: MilitaryBranch | "") {
+    setPrefs((prev) => ({ ...prev, militaryBranch: next, militarySpecialtyCode: "" }));
+    setJustSaved(false);
+  }
+
+  const branchSpecialties = useMemo(
+    () =>
+      prefs.militaryBranch
+        ? pickerCatalog.specialties.filter((s) => s.branch === prefs.militaryBranch)
+        : [],
+    [pickerCatalog.specialties, prefs.militaryBranch]
+  );
+  const selectedSpecialty =
+    branchSpecialties.find((s) => s.code === prefs.militarySpecialtyCode) ?? null;
+  const matchKey =
+    prefs.militaryBranch && prefs.militarySpecialtyCode
+      ? `${prefs.militaryBranch}:${prefs.militarySpecialtyCode}`
+      : null;
+  const resolvedMatch = matchKey ? pickerCatalog.matches[matchKey] : undefined;
+  const hasCuratedContent = Boolean(
+    resolvedMatch && (resolvedMatch.roleTitles.length > 0 || resolvedMatch.skillTitles.length > 0)
+  );
+  // Covers both "not in the catalog at all" and "in the catalog but no
+  // role/skill matches curated yet" — buildCatalog seeds a matches entry for
+  // every specialty, so a resolved match with empty arrays is a real,
+  // reachable case as the seed grows ahead of match curation.
+  const codeNotInCatalog = Boolean(matchKey) && !hasCuratedContent;
+  // The teaser is server-rendered from the SAVED cookie — flag when the
+  // in-progress edit has drifted from it so the preview isn't misread as live.
+  const militaryEditsUnsaved =
+    prefs.militaryBranch !== saved.militaryBranch ||
+    prefs.militarySpecialtyCode !== saved.militarySpecialtyCode;
 
   // Same filterAndSort the rest of the site runs, so the count on this page and
   // the grid on /explore can never disagree.
@@ -103,9 +179,12 @@ export default function ProfileClient({
 
   // Save in place — this page is just the profile. We surface a prompt to go
   // see the new matches on /explore rather than yanking the visitor there.
+  // refresh() re-derives the server-rendered job-listings teaser from the
+  // just-saved cookie without resetting this component's local `prefs` state.
   function handleSave() {
     setPreferencesCookie(prefs);
     setJustSaved(true);
+    router.refresh();
   }
 
   // The saved cookie is read server-side on /explore; refresh() clears the
@@ -124,6 +203,170 @@ export default function ProfileClient({
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      {/* Identity, not a filter — lives outside the two-column grid so it's
+          never mistaken for something that moves the "X of Y cities" count. */}
+      <Card className="mb-8 shadow-lg shadow-slate-900/5">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <BriefcaseBusiness className="size-4 text-primary" aria-hidden="true" />
+            Military background
+          </CardTitle>
+          <CardDescription>
+            Your branch and MOS/NEC surface matching civilian skills and job leads
+            below. This never filters which places you see.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex items-end gap-2">
+            <div className="flex-1 space-y-1.5">
+              <Label className="text-sm font-medium">Branch of service</Label>
+              <Select
+                items={MILITARY_BRANCH_ITEMS}
+                value={prefs.militaryBranch || null}
+                onValueChange={(v) => updateBranch((v as MilitaryBranch) ?? "")}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a branch" />
+                </SelectTrigger>
+                <SelectContent>
+                  {MILITARY_BRANCHES.map((b) => (
+                    <SelectItem key={b} value={b}>
+                      {BRANCH_LABELS[b]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {prefs.militaryBranch ? (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => updateBranch("")}
+                aria-label="Clear branch"
+              >
+                <ClearIcon className="size-4" aria-hidden="true" />
+              </Button>
+            ) : null}
+          </div>
+
+          {prefs.militaryBranch ? (
+            <div className="space-y-1.5">
+              <Label className="text-sm font-medium">MOS / NEC / AFSC</Label>
+              <Combobox
+                items={branchSpecialties}
+                value={selectedSpecialty}
+                onValueChange={(s: MilitarySpecialty | null) =>
+                  update("militarySpecialtyCode", s ? s.code : "")
+                }
+                itemToStringLabel={(s: MilitarySpecialty) => `${s.code} — ${s.title}`}
+                isItemEqualToValue={(a: MilitarySpecialty, b: MilitarySpecialty) =>
+                  a.branch === b.branch && a.code === b.code
+                }
+              >
+                <ComboboxInput placeholder="Search code or title" className="w-full" />
+                <ComboboxContent>
+                  <ComboboxEmpty>
+                    No {BRANCH_LABELS[prefs.militaryBranch]}{" "}
+                    specialties found — our catalog is a seed and doesn&apos;t
+                    cover every code yet.
+                  </ComboboxEmpty>
+                  <ComboboxList>
+                    {(s: MilitarySpecialty) => (
+                      <ComboboxItem key={`${s.branch}:${s.code}`} value={s}>
+                        <span className="font-medium">{s.code}</span>
+                        <Badge variant="outline" className="ml-1">
+                          {s.code_system}
+                        </Badge>
+                        <span className="ml-1.5 text-muted-foreground">
+                          {s.title}
+                        </span>
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </div>
+          ) : null}
+
+          {matchKey && resolvedMatch && hasCuratedContent ? (
+            <div className="flex flex-col gap-2 rounded-lg border border-border p-3">
+              {resolvedMatch.roleTitles.length > 0 ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {resolvedMatch.roleTitles.map((t) => (
+                    <Badge key={t} variant="secondary" className="font-normal">
+                      {t}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
+              {resolvedMatch.skillTitles.length > 0 ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {resolvedMatch.skillTitles.map((t) => (
+                    <Badge key={t} variant="outline" className="font-normal">
+                      {t}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+          {codeNotInCatalog && prefs.militaryBranch ? (
+            <p className="flex items-start gap-1 text-xs text-muted-foreground/80">
+              <Info className="mt-0.5 size-3 shrink-0" aria-hidden="true" />
+              We don&apos;t have {BRANCH_LABELS[prefs.militaryBranch]}{" "}
+              {prefs.militarySpecialtyCode} in our career-transition data yet. You
+              can still save it — we&apos;ll show matches as soon as we add coverage.
+            </p>
+          ) : null}
+
+          {saved.militaryBranch && saved.militarySpecialtyCode ? (
+            <div className="border-t border-border pt-4">
+              {militaryEditsUnsaved ? (
+                <p className="mb-2 text-xs text-muted-foreground">
+                  Showing openings for your last-saved{" "}
+                  {BRANCH_LABELS[saved.militaryBranch]} {saved.militarySpecialtyCode}.
+                  Save to update this preview.
+                </p>
+              ) : null}
+              {initialListingsTeaser && initialListingsTeaser.listings.length > 0 ? (
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {initialListingsTeaser.listings.map((l) => (
+                    <a
+                      key={l.id}
+                      href={l.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-lg border p-3 text-sm hover:bg-muted/50"
+                    >
+                      <p className="font-medium leading-snug">{l.title}</p>
+                      <p className="text-xs text-muted-foreground">{l.company}</p>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  {initialListingsTeaser?.note ??
+                    "No live openings preview available for this specialty yet."}
+                </p>
+              )}
+              <Button
+                render={
+                  <Link
+                    href={`/career-transition?branch=${encodeURIComponent(saved.militaryBranch)}&code=${encodeURIComponent(saved.militarySpecialtyCode)}`}
+                  />
+                }
+                nativeButton={false}
+                variant="outline"
+                className="mt-3 gap-2"
+              >
+                View full career transition &amp; live listings
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Button>
+            </div>
+          ) : null}
+        </CardContent>
+      </Card>
+
       <div className="grid gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-10">
         {/* Left column: who this is for + the live consequence + actions. On
             large screens it sticks while the settings column scrolls. */}
@@ -176,7 +419,11 @@ export default function ProfileClient({
             <Button onClick={handleSave} disabled={isEmpty} className="min-w-32">
               Save preferences
             </Button>
-            <Button variant="ghost" onClick={handleReset} disabled={!active}>
+            <Button
+              variant="ghost"
+              onClick={handleReset}
+              disabled={!active && !prefs.militaryBranch}
+            >
               <RotateCcw className="size-4" aria-hidden="true" />
               Reset
             </Button>

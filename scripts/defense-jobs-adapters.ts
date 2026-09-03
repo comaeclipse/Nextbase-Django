@@ -355,9 +355,137 @@ function extractJsonLdJd(html: string): string {
 }
 
 // ---------------------------------------------------------------------------
+// SuccessFactors (HII) — server-rendered /search pages; list-level; prime.
+// ---------------------------------------------------------------------------
+
+async function getText(url: string): Promise<string | null> {
+  return withBackoff(async () => {
+    const res = await fetch(url, { headers: { "User-Agent": UA, Accept: "text/html", "Accept-Encoding": "gzip, deflate" } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.text();
+  }, 5);
+}
+
+function decodeEntities(s: string): string {
+  return s.replace(/&amp;/g, "&").replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
+}
+const stripSf = (s: string) => decodeEntities(s.replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ").trim();
+
+async function successfactors(seed: EmployerSeed): Promise<Pulled[]> {
+  const site = cfg(seed, "site")!; // careers.huntingtoningalls.com
+  const base = `https://${site}`;
+  const seen = new Map<string, Pulled>();
+  for (let start = 0; start <= 5000; start += 50) {
+    const html = await getText(`${base}/search/?q=&startrow=${start}&sortColumn=referencedate&sortDirection=desc`);
+    if (!html) break;
+    const blocks = html.split(/<tr[^>]*class="[^"]*data-row[^"]*"/i).slice(1);
+    let n = 0;
+    for (const block of blocks) {
+      const link = block.match(/href="(\/job\/[^"]+)"\s+class="jobTitle-link">([\s\S]*?)<\/a>/i);
+      if (!link) continue;
+      n++;
+      const url = base + link[1];
+      if (seen.has(url)) continue;
+      const title = stripSf(link[2]);
+      const locCell = block.match(/class="colLocation[^"]*"[^>]*>([\s\S]*?)<\/td>/i);
+      const deptCell = block.match(/class="colDepartment[^"]*"[^>]*>([\s\S]*?)<\/td>/i);
+      const locRaw = locCell ? stripSf(locCell[1]).replace(/,\s*United States$/, "") : "";
+      const [city, stateName] = locRaw.split(",").map((p) => p.trim());
+      const abbr = stateName ? resolveStateAbbr(stateName) ?? stateName : "";
+      const location = city && abbr ? `${city}, ${abbr}` : locRaw;
+      const field = deptCell ? stripSf(deptCell[1]) : "";
+      seen.set(url, {
+        row: baseRow(seed, "SuccessFactors", { title, field, location, region: location ? (NON_CONUS.has(abbr) ? "US (non-CONUS)" : "US (CONUS)") : "", url }),
+        title, description: "", businessUnit: field,
+      });
+    }
+    if (n < 50) break;
+    await sleep(400);
+  }
+  return [...seen.values()];
+}
+
+// ---------------------------------------------------------------------------
+// USAJOBS (NAVSEA) — keyed Data API; the query IS the filter, so every returned
+// row is a defense-agency job: pre-tag "prime" (bypasses the commercial slice).
+// ---------------------------------------------------------------------------
+
+const OPM_SERIES: Record<string, string> = {
+  "0080": "Security Administration", "0201": "Human Resources Management", "0301": "Miscellaneous Administration",
+  "0343": "Management and Program Analysis", "0346": "Logistics Management", "0501": "Financial Administration",
+  "1101": "General Business and Industry", "1102": "Contracting", "1910": "Quality Assurance", "2210": "Information Technology Management",
+};
+const USAJOBS_LOCATION_ALIASES: Record<string, string> = {
+  "Naval Base Newport, Rhode Island": "Newport, Rhode Island",
+  "Panama City Naval Surface Warfare Center, Florida": "Panama City, Florida",
+};
+
+function titleCaseUsajobs(raw: string): string {
+  let s = raw.toLowerCase().replace(/\b([a-z])/g, (_m, c: string) => c.toUpperCase());
+  for (const [re, rep] of [[/\bIt\b/g, "IT"], [/\bInfosec\b/g, "INFOSEC"], [/\bEr\/lr\b/gi, "ER/LR"], [/\bHr\b/g, "HR"]] as [RegExp, string][]) s = s.replace(re, rep);
+  return s;
+}
+
+interface UsaDescriptor {
+  PositionURI?: string; PositionTitle?: string; OrganizationName?: string;
+  JobCategory?: { Name?: string; Code?: string }[]; JobGrade?: { Code?: string }[];
+  PositionLocation?: { LocationName?: string }[]; PositionSchedule?: { Name?: string }[];
+  PositionRemuneration?: { MinimumRange?: string; MaximumRange?: string; RateIntervalCode?: string; Description?: string }[];
+  UserArea?: { Details?: { LowGrade?: string; HighGrade?: string } };
+}
+
+async function usajobs(seed: EmployerSeed): Promise<Pulled[]> {
+  const key = process.env.USAJOBS_API_KEY;
+  if (!key) throw new Error("usajobs: USAJOBS_API_KEY not set (keyed adapter — set it + USAJOBS_UA at apply time)");
+  const ua = process.env.USAJOBS_UA || "vetretire-defense-jobs-ingest";
+  const query: Record<string, string> = { Organization: cfg(seed, "organization")!, ResultsPerPage: "500" };
+  const positionTitle = cfg(seed, "positionTitle");
+  if (positionTitle) query.PositionTitle = positionTitle;
+
+  const descriptors: UsaDescriptor[] = [];
+  for (let page = 1; ; page++) {
+    const url = `https://data.usajobs.gov/api/search?${new URLSearchParams({ ...query, Page: String(page) })}`;
+    const json = (await withBackoff(async () => {
+      const res = await fetch(url, { headers: { Host: "data.usajobs.gov", "User-Agent": ua, "Authorization-Key": key } });
+      const text = await res.text();
+      try { return JSON.parse(text); } catch { throw new Error(`usajobs page ${page} not JSON (HTTP ${res.status})`); }
+    })) as { SearchResult?: { SearchResultCountAll?: number; SearchResultItems?: { MatchedObjectDescriptor: UsaDescriptor }[] } } | null;
+    const items = json?.SearchResult?.SearchResultItems ?? [];
+    descriptors.push(...items.map((i) => i.MatchedObjectDescriptor));
+    if (items.length === 0 || descriptors.length >= (json?.SearchResult?.SearchResultCountAll ?? descriptors.length)) break;
+  }
+
+  const out: Pulled[] = [];
+  for (const d of descriptors) {
+    const url = d.PositionURI?.trim().replace(":443", "");
+    const title = titleCaseUsajobs((d.PositionTitle ?? "").trim());
+    if (!url || !title) continue;
+    const cat = d.JobCategory?.[0];
+    const code = cat?.Code?.trim();
+    const seriesName = (code && OPM_SERIES[code]) || cat?.Name?.trim();
+    const field = code ? `${seriesName ?? "Series"} (${code})` : (seriesName ?? "");
+    const locRaw = d.PositionLocation?.[0]?.LocationName?.trim() ?? "";
+    const loc = locate(USAJOBS_LOCATION_ALIASES[locRaw] ?? locRaw);
+    const pay = d.PositionRemuneration?.[0];
+    const row = baseRow(seed, "USAJOBS", {
+      title, field, location: loc.location, region: loc.isUS ? loc.region : "US", url,
+      employment: d.PositionSchedule?.[0]?.Name?.trim() || "Full-time",
+    });
+    row.PayMin = pay?.MinimumRange ?? "";
+    row.PayMax = pay?.MaximumRange ?? "";
+    row.PayInterval = pay?.RateIntervalCode?.toUpperCase() === "PH" ? "hour" : "year";
+    // A defense agency: the Organization+title query IS the slice, so every row counts.
+    row.DefenseRelevance = "prime";
+    out.push({ row, title, description: "", businessUnit: field });
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 
 export const ADAPTERS: Record<string, (seed: EmployerSeed) => Promise<Pulled[]>> = {
   greenhouse, lever, ashby, workday, oracle_orc: oracleOrc, amazon_jobs: amazonJobs, eightfold,
+  successfactors, usajobs,
 };
 
 /**
@@ -369,11 +497,15 @@ export function sliceAndFilter(seed: EmployerSeed, pulled: Pulled[], opts: { inc
   const usOnly = seed.counts_as_defense ? false : !opts.includeInternational;
   const out: Record<string, string>[] = [];
   for (const p of pulled) {
-    const v = classifyDefenseRelevance({ title: p.title, description: p.description, businessUnit: p.businessUnit }, { countsAsDefense: seed.counts_as_defense });
-    if (v.relevance === null) continue;
+    // An adapter may pre-tag a row (e.g. the USAJOBS agency adapter, where the
+    // Organization+title query is itself the slice) — trust that, don't reclassify.
+    if (!p.row.DefenseRelevance) {
+      const v = classifyDefenseRelevance({ title: p.title, description: p.description, businessUnit: p.businessUnit }, { countsAsDefense: seed.counts_as_defense });
+      if (v.relevance === null) continue;
+      p.row.DefenseRelevance = v.relevance;
+      p.row.DefenseSignal = v.signal ?? "";
+    }
     if (usOnly && !(p.row.Region || "").startsWith("US")) continue;
-    p.row.DefenseRelevance = v.relevance;
-    p.row.DefenseSignal = v.signal ?? "";
     out.push(p.row);
   }
   return out;

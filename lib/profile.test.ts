@@ -146,7 +146,7 @@ describe("cookie encoding", () => {
   it("ignores wrongly-typed fields and clamps the slider", () => {
     const raw = encodeURIComponent(
       JSON.stringify({
-        version: 1,
+        version: 2,
         noAssaultWeaponsBan: "yes",
         gunFreedomMin: 500,
       })
@@ -154,6 +154,38 @@ describe("cookie encoding", () => {
     const decoded = decodePreferences(raw);
     expect(decoded?.noAssaultWeaponsBan).toBe(false);
     expect(decoded?.gunFreedomMin).toBe(100);
+  });
+
+  it("round-trips a saved military branch and specialty code", () => {
+    const saved = prefs({ militaryBranch: "navy", militarySpecialtyCode: "AE" });
+    expect(decodePreferences(encodePreferences(saved))).toEqual(saved);
+  });
+
+  it("rejects an unknown branch and normalizes the specialty code", () => {
+    const raw = encodeURIComponent(
+      JSON.stringify({
+        version: 2,
+        militaryBranch: "space_marines",
+        militarySpecialtyCode: " ae ",
+      })
+    );
+    const decoded = decodePreferences(raw);
+    expect(decoded?.militaryBranch).toBe("");
+    // A code with no valid branch is meaningless and must not survive decode.
+    expect(decoded?.militarySpecialtyCode).toBe("");
+  });
+
+  it("uppercases and trims a valid specialty code", () => {
+    const raw = encodeURIComponent(
+      JSON.stringify({
+        version: 2,
+        militaryBranch: "navy",
+        militarySpecialtyCode: " ae ",
+      })
+    );
+    const decoded = decodePreferences(raw);
+    expect(decoded?.militaryBranch).toBe("navy");
+    expect(decoded?.militarySpecialtyCode).toBe("AE");
   });
 });
 
@@ -242,6 +274,17 @@ describe("describePreferences", () => {
       PREFERENCE_FACETS.find((f) => f.key === "noAssaultWeaponsBan")!.label
     );
     expect(chips).toContain("Gun Freedom Index 80+");
+  });
+
+  it("chips a saved branch alone, and branch + code together", () => {
+    expect(describePreferences(prefs({ militaryBranch: "navy" }))).toContain(
+      "Navy"
+    );
+    expect(
+      describePreferences(
+        prefs({ militaryBranch: "navy", militarySpecialtyCode: "AE" })
+      )
+    ).toContain("Navy · AE");
   });
 });
 

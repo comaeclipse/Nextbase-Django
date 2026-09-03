@@ -253,3 +253,38 @@ export function skillBridgeScoreBonus(
 export function effectiveEmployerFitScore(match: EmployerMatchView): number {
   return Math.min(100, match.fit_score + skillBridgeScoreBonus(match.employer));
 }
+
+export interface ProfilePickerMatch {
+  roleTitles: string[];
+  skillTitles: string[];
+}
+
+export interface ProfilePickerCatalog {
+  specialties: MilitarySpecialty[];
+  /** Keyed by `${branch}:${code}`, same composite key CareerTransitionClient uses. */
+  matches: Record<string, ProfilePickerMatch>;
+  source: CareerTransitionCatalog["source"];
+}
+
+/**
+ * Trims the full catalog down to what /profile's picker needs: specialties
+ * (for the branch+search combobox) plus just role/skill TITLES per specialty
+ * (for the resolved-selection chips). Drops employers, listing evidence, and
+ * full role/skill objects — /profile only teases the match, it doesn't render
+ * employer or credential detail (that stays on /career-transition, which
+ * keeps the full catalog). Matches arrive pre-sorted by buildCatalog, so
+ * slicing keeps the top-ranked entries.
+ */
+export function toProfilePickerCatalog(
+  catalog: CareerTransitionCatalog
+): ProfilePickerCatalog {
+  const matches: Record<string, ProfilePickerMatch> = {};
+  for (const m of catalog.matches) {
+    const key = `${m.specialty.branch}:${m.specialty.code}`;
+    matches[key] = {
+      roleTitles: m.roles.slice(0, 4).map((r) => r.role.title),
+      skillTitles: m.skills.slice(0, 6).map((s) => s.skill.title),
+    };
+  }
+  return { specialties: catalog.specialties, matches, source: catalog.source };
+}
