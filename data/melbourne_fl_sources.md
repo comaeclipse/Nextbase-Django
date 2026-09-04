@@ -24,3 +24,5 @@ Retrieved: 2026-09-03. Scope-A ranked-candidate package for issue #278. Melbourn
 - 2020 national FBI reference rates are now encoded in `NATIONAL_CRIME_REFERENCE_BY_YEAR`, so this city can be calculated without custom one-off `--ref-*` values.
 
 Post-import: from merged `master`, run `scripts/import-csv.ts data/melbourne_fl.csv --dry-run`, then live import; run employer link catch-up if needed, `scripts/recompute-defense-hub.ts`, `scripts/import-bea-rpp.ts`, `scripts/sync-col-index-from-rpp.ts`, `scripts/sync-va-facilities.ts`, `scripts/sync-military-proximity.ts`, `scripts/classify-pace.ts --name "Melbourne, FL"`, `city-profile-stack/scripts/tools/derive-structural-features.ts`, `scripts/verify-location-completeness.ts --name "Melbourne, FL"`, `scripts/verify-csv-imports.ts`, and runtime `/explore` / `/city/<id>` checks.
+
+Apply result (2026-09-03): NOAA 1991–2020 monthly normals matched `USC00085612` at 0.6 miles; hourly moisture normals matched `USW00012838` at 1.3 miles. Pace review approved `suburban` for the Space Coast CBSA after reviewing the model's built-form, employment-density, and city-density inputs.
