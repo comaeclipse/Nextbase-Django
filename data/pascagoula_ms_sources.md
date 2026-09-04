@@ -18,3 +18,5 @@ Retrieved: 2026-09-03. Scope-A ranked-candidate package for issue #278. Pascagou
 | Gas | AAA Biloxi-Gulfport-Pascagoula metro average regular gas price was $3.690 ($3.69) on 2026-09-03. Source: https://gasprices.aaa.com/?state=MS |
 
 Post-import: from merged `master`, run `scripts/import-csv.ts data/pascagoula_ms.csv --dry-run`, then live import; `scripts/recompute-defense-hub.ts`, `scripts/import-bea-rpp.ts`, `scripts/sync-col-index-from-rpp.ts`, `scripts/sync-va-facilities.ts`, `scripts/sync-military-proximity.ts`, `scripts/classify-pace.ts --name "Pascagoula, MS"`, `city-profile-stack/scripts/tools/derive-structural-features.ts`, `scripts/verify-location-completeness.ts --name "Pascagoula, MS"`, `scripts/verify-csv-imports.ts`.
+
+Apply result (2026-09-03): NOAA 1991–2020 monthly normals matched `USC00226718` at 5.3 miles; hourly moisture normals matched `USW00013894` at 29.0 miles. The hourly station is regional air-mass context rather than block-level local weather, and its distance is retained on every row. Pace review approved `suburban` after reviewing the Gulfport-Biloxi CBSA's walkability, density, and metro-population inputs.

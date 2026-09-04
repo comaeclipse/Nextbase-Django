@@ -18,3 +18,5 @@ Retrieved: 2026-09-03. Scope-A ranked-candidate package for issue #278. Cedar Ra
 | Gas | AAA Cedar Rapids metro average regular gas price was $3.851 ($3.85) on 2026-09-03. Source: https://gasprices.aaa.com/?state=IA |
 
 Post-import: from merged `master`, run `scripts/import-csv.ts data/cedar_rapids_ia.csv --dry-run`, then live import; `scripts/recompute-defense-hub.ts`, `scripts/import-bea-rpp.ts`, `scripts/sync-col-index-from-rpp.ts`, `scripts/sync-va-facilities.ts`, `scripts/sync-military-proximity.ts`, `scripts/classify-pace.ts --name "Cedar Rapids, IA"`, `city-profile-stack/scripts/tools/derive-structural-features.ts`, `scripts/verify-location-completeness.ts --name "Cedar Rapids, IA"`, `scripts/verify-csv-imports.ts`.
+
+Apply result (2026-09-03): NOAA 1991–2020 monthly and hourly moisture normals both matched `USW00014990` at 5.9 miles. The source-backed pace classifier auto-approved `suburban`.

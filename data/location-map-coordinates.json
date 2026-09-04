@@ -374,6 +374,13 @@
       "longitude": -80.58245
     },
     {
+      "name": "Melbourne",
+      "state": "FL",
+      "census_place_geoid": "1243975",
+      "latitude": 28.110438,
+      "longitude": -80.662717
+    },
+    {
       "name": "Orlando",
       "state": "FL",
       "census_place_geoid": "1253000",
@@ -505,6 +512,13 @@
       "census_place_geoid": "1911080",
       "latitude": 42.070321,
       "longitude": -94.864597
+    },
+    {
+      "name": "Cedar Rapids",
+      "state": "IA",
+      "census_place_geoid": "1912000",
+      "latitude": 41.96419,
+      "longitude": -91.67917
     },
     {
       "name": "Decorah",
@@ -703,6 +717,13 @@
       "longitude": -71.164516
     },
     {
+      "name": "Aberdeen",
+      "state": "MD",
+      "census_place_geoid": "2400125",
+      "latitude": 39.516403,
+      "longitude": -76.174518
+    },
+    {
       "name": "Baltimore",
       "state": "MD",
       "census_place_geoid": "2404000",
@@ -841,6 +862,13 @@
       "census_place_geoid": "2853520",
       "latitude": 30.402704,
       "longitude": -88.788647
+    },
+    {
+      "name": "Pascagoula",
+      "state": "MS",
+      "census_place_geoid": "2855360",
+      "latitude": 30.360067,
+      "longitude": -88.556327
     },
     {
       "name": "Billings",
