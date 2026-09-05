@@ -14,9 +14,8 @@
  * Rows reach the engine two ways:
  *   1. An in-process adapter (ADAPTERS): greenhouse / lever / ashby / workday /
  *      oracle_orc / amazon_jobs / eightfold — driven straight from the seed.
- *   2. --from-csv <path>: for boards without an in-process adapter yet
- *      (successfactors/HII, usajobs) — run their standalone fetcher, hand the
- *      (already-sliced) CSV here to upsert + prune through the same engine.
+ *   2. --from-csv <path>: for a complete reviewed/merged snapshot, including
+ *      manual boards. Uses those exact bytes to upsert + prune; never repulls.
  *
  * Safety (issue #313):
  *   - Default is a DRY RUN (reads the DB, prints the plan, writes nothing). Pass
@@ -36,6 +35,7 @@
  *   ... sync-defense-job-listings.ts --employer anduril --pull-only     # writes the CSV, no DB
  */
 import { writeFileSync, readFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 import { parse } from "csv-parse/sync";
 import { getSql } from "../lib/db";
 import { DEFENSE_EMPLOYER_SEEDS, type EmployerSeed } from "../lib/defense";
@@ -45,17 +45,20 @@ import { ADAPTERS, sliceAndFilter, CSV_HEADER } from "./defense-jobs-adapters";
 const q = (v: unknown): string => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-function writeCsv(path: string, rows: Record<string, string>[]): void {
+export function csvText(rows: Record<string, string>[]): string {
   const lines = [CSV_HEADER.map(q).join(",")];
   for (const r of rows) lines.push(CSV_HEADER.map((c) => q(r[c])).join(","));
-  writeFileSync(path, lines.join("\n") + "\n", "utf-8");
+  return lines.join("\n") + "\n";
+}
+export function writeCsv(path: string, rows: Record<string, string>[]): void {
+  writeFileSync(path, csvText(rows), "utf-8");
 }
 
 function rowsFromCsv(path: string): Record<string, string>[] {
   return parse(readFileSync(path, "utf-8"), { columns: true, skip_empty_lines: true, bom: true });
 }
 
-interface SyncOpts { apply: boolean; noPrune: boolean; force: boolean; pullOnly: boolean; includeInternational: boolean }
+export interface SyncOpts { apply: boolean; noPrune: boolean; force: boolean; pullOnly: boolean; includeInternational: boolean }
 
 /** The lifecycle columns this sync depends on must exist (issue #313 Phase 1). */
 async function ensureSchema(): Promise<void> {
@@ -67,7 +70,7 @@ async function ensureSchema(): Promise<void> {
   }
 }
 
-async function syncEmployer(seed: EmployerSeed, rows: Record<string, string>[], csvPath: string, opts: SyncOpts): Promise<void> {
+export async function syncEmployer(seed: EmployerSeed, rows: Record<string, string>[], csvPath: string, opts: SyncOpts, preserveSnapshot = false): Promise<void> {
   const label = `${seed.display_name} (${seed.slug})`;
   const uniqueUrls = [...new Set(rows.map((r) => r.URL).filter(Boolean))];
 
@@ -98,16 +101,14 @@ async function syncEmployer(seed: EmployerSeed, rows: Record<string, string>[], 
       `${pruneBlocked ? " ⚠ >80% — refusing to prune without --force" : ""}`,
   );
 
+  if (pruneBlocked) throw new Error(`${label}: >80% closure guard; no writes performed`);
   if (!opts.apply) return;
 
-  writeCsv(csvPath, rows); // audit trail, same as a manual ingest
-  await importListingsCsv(csvPath, {}); // upsert + reopen (closed_at = NULL)
+  if (!preserveSnapshot) writeCsv(csvPath, rows);
+  const imported = await importListingsCsv(csvPath, {}); // upsert + reopen (closed_at = NULL)
+  if (imported.skipped || imported.parsed !== uniqueUrls.length) throw new Error(`${label}: importer skipped rows; no prune`);
 
   if (opts.noPrune) return;
-  if (pruneBlocked) {
-    console.log(`  ${label}: prune skipped (>80% guard). Re-run with --force if the board really shrank.`);
-    return;
-  }
   if (toClose.length > 0) {
     await sql.query(
       "UPDATE defense_job_listings SET closed_at = now() WHERE employer_slug = $1 AND closed_at IS NULL AND NOT (url = ANY($2))",
@@ -133,12 +134,7 @@ async function runEmployer(seed: EmployerSeed, opts: SyncOpts, fromCsv: string |
       );
       return;
     }
-    try {
-      rows = sliceAndFilter(seed, await adapter(seed), { includeInternational: opts.includeInternational });
-    } catch (err) {
-      console.log(`  ${seed.display_name} (${seed.slug}): pull FAILED (${(err as Error).message}) — skipping, no prune.`);
-      return;
-    }
+    rows = sliceAndFilter(seed, await adapter(seed), { includeInternational: opts.includeInternational });
   }
 
   // Dedup by URL (the upsert conflict key): a chunk with two rows sharing a URL
@@ -154,7 +150,7 @@ async function runEmployer(seed: EmployerSeed, opts: SyncOpts, fromCsv: string |
     return;
   }
 
-  await syncEmployer(seed, rows, csvPath, opts);
+  await syncEmployer(seed, rows, csvPath, opts, Boolean(fromCsv));
 }
 
 async function main() {
@@ -177,6 +173,7 @@ async function main() {
     console.error("--from-csv is per-employer; use it with --employer, not --all.");
     process.exit(1);
   }
+  if (opts.apply && opts.pullOnly) throw new Error("--apply and --pull-only are mutually exclusive");
 
   console.log(
     opts.pullOnly
@@ -187,8 +184,8 @@ async function main() {
 
   let seeds: EmployerSeed[];
   if (all) {
-    seeds = DEFENSE_EMPLOYER_SEEDS.filter((s) => s.ats_kind && ADAPTERS[s.ats_kind]);
-    console.log(`--all: ${seeds.length} employer(s) with an in-process adapter.\n`);
+    seeds = DEFENSE_EMPLOYER_SEEDS;
+    console.log(`--all: ${seeds.length} registered employers (manual/unsupported boards are reported).\n`);
   } else {
     const seed = DEFENSE_EMPLOYER_SEEDS.find((s) => s.slug === employer);
     if (!seed) { console.error(`Unknown employer slug "${employer}".`); process.exit(1); }
@@ -196,14 +193,21 @@ async function main() {
   }
 
   for (const seed of seeds) {
-    await runEmployer(seed, opts, all ? undefined : fromCsv);
+    try {
+      await runEmployer(seed, opts, all ? undefined : fromCsv);
+    } catch (error) {
+      console.error(`${seed.slug}: FAILED — ${(error as Error).message}`);
+      process.exitCode = 1;
+    }
     if (all) await sleep(300);
   }
 
   console.log(`\n${opts.pullOnly ? "Pull-only" : opts.apply ? "Sync" : "Dry run"} complete.`);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

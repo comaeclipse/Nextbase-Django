@@ -44,6 +44,15 @@ const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/
 const NON_CONUS = new Set(["AK", "HI", "PR", "GU", "VI", "MP", "AS"]);
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+/** An incomplete board must fail, never masquerade as a smaller successful pull. */
+export function assertCompletePage(rows: unknown[], total: number | undefined, offset: number, limit: number): void {
+  if (!Number.isFinite(total) || total! < 0 || !Array.isArray(rows)) throw new Error("Missing board count/rows; completeness unknown");
+  if (rows.length < Math.min(limit, Math.max(0, total! - offset))) throw new Error("Truncated board page; refusing a partial capture");
+}
+export function assertCompleteCount(count: number, total: number): void {
+  if (count < total) throw new Error(`Incomplete board: ${count}/${total} unique listings; no prune`);
+}
+
 const stripHtml = (h: string | null | undefined): string =>
   (h ?? "").replace(/<[^>]+>/g, " ").replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/&#\d+;/g, " ").replace(/&[a-z]+;/gi, " ").replace(/\s+/g, " ").trim();
 
@@ -98,7 +107,7 @@ async function getJson(url: string, init?: RequestInit): Promise<unknown> {
   return res.json();
 }
 
-/** GET/POST with back-off on 429/403 (Eightfold). Returns null after exhausting retries (JD pages). */
+/** GET/POST with back-off; exhausted retries throw and invalidate the entire board. */
 async function withBackoff<T>(fn: () => Promise<T>, tries = 6): Promise<T | null> {
   for (let i = 0; i < tries; i++) {
     try {
@@ -120,8 +129,11 @@ async function withBackoff<T>(fn: () => Promise<T>, tries = 6): Promise<T | null
 async function greenhouse(seed: EmployerSeed): Promise<Pulled[]> {
   const board = cfg(seed, "board");
   const json = (await getJson(`https://boards-api.greenhouse.io/v1/boards/${board}/jobs?content=true`)) as {
+    meta?: { total?: number };
     jobs?: { title: string; location?: { name?: string }; absolute_url: string; departments?: { name: string }[]; content?: string }[];
   };
+  if (!Array.isArray(json.jobs)) throw new Error("greenhouse: missing jobs array");
+  if (json.meta?.total != null) assertCompleteCount(json.jobs.length, json.meta.total);
   return (json.jobs ?? []).map((j) => {
     const field = (j.departments ?? []).map((d) => d.name).join(" / ");
     const loc = locate(j.location?.name);
@@ -146,6 +158,7 @@ async function ashby(seed: EmployerSeed): Promise<Pulled[]> {
   const json = (await getJson(`https://api.ashbyhq.com/posting-api/job-board/${board}?includeCompensation=true`)) as {
     jobs?: { title: string; location?: string; department?: string; team?: string; employmentType?: string; descriptionPlain?: string; jobUrl: string }[];
   };
+  if (!Array.isArray(json.jobs)) throw new Error("ashby: missing jobs array");
   return (json.jobs ?? []).map((j) => {
     const field = [j.department, j.team].filter(Boolean).join(" / ");
     const loc = locate(j.location);
@@ -164,31 +177,39 @@ async function workday(seed: EmployerSeed): Promise<Pulled[]> {
   const cxs = `https://${host}/wday/cxs/${tenant}/${site}`;
   const byPath = new Map<string, { title: string }>();
   for (const query of WORKDAY_QUERIES) {
+    const queryPaths = new Set<string>();
+    let expected = 0;
     for (let offset = 0; ; offset += 20) {
       const page = (await withBackoff(() => getJson(`${cxs}/jobs`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ limit: 20, offset, searchText: query, appliedFacets: {} }) }))) as { jobPostings?: { title: string; externalPath: string }[]; total?: number } | null;
       const rows = page?.jobPostings ?? [];
+      assertCompletePage(rows, page?.total, offset, 20);
+      expected = page!.total!;
       if (rows.length === 0) break;
       // A row missing externalPath (seen on Cisco's board) would otherwise key the
       // map on the literal string "undefined" and 404/406 loop below.
-      for (const r of rows) if (r.externalPath) byPath.set(r.externalPath, { title: r.title });
+      for (const r of rows) {
+        if (!r.externalPath) throw new Error("workday: listing missing externalPath; incomplete capture");
+        byPath.set(r.externalPath, { title: r.title });
+        queryPaths.add(r.externalPath);
+      }
       await sleep(120);
       if (offset + 20 >= (page?.total ?? 0)) break;
     }
+    assertCompleteCount(queryPaths.size, expected);
   }
   const out: Pulled[] = [];
   for (const [externalPath, { title }] of byPath) {
-    // One listing's detail page failing (dead link, transient error) must not sink
-    // the whole employer's pull — skip it and keep going.
+    // A missing detail can hide its defense signal. Fail the board rather than
+    // publishing a partial slice that would retire a still-live listing.
     let d: { jobPostingInfo?: { title?: string; jobDescription?: string; location?: string; externalUrl?: string; timeType?: string; remoteType?: string } } | null;
     try {
       d = (await withBackoff(() => getJson(`${cxs}${externalPath}`), 4)) as typeof d;
-    } catch {
-      await sleep(90);
-      continue;
+    } catch (error) {
+      throw new Error(`workday: incomplete detail capture: ${(error as Error).message}`);
     }
     await sleep(90);
     const info = d?.jobPostingInfo;
-    if (!info) continue;
+    if (!info?.jobDescription) throw new Error("workday: missing job detail/description; cannot classify safely");
     const loc = locate(info.location, { remote: /remote/i.test(info.remoteType ?? "") });
     out.push({
       row: baseRow(seed, "Workday", { title: info.title ?? title, location: loc.location, region: loc.region, url: info.externalUrl ?? `https://${host}/${site}${externalPath}`, employment: /full/i.test(info.timeType ?? "") ? "Full-time" : info.timeType ?? "" }),
@@ -230,6 +251,7 @@ async function brassringPage(site: string, from: number): Promise<{ jobs: Brassr
   // A page that fails after every retry must ABORT (throw), never return a short
   // pull — a truncated result would wrongly prune live rows in the sync.
   if (!json) throw new Error(`brassring: ${site} page from=${from} failed after retries`);
+  assertCompletePage(json.refineSearch?.data?.jobs ?? [], json.refineSearch?.totalHits, from, 100);
   return { jobs: json.refineSearch?.data?.jobs ?? [], total: json.refineSearch?.totalHits ?? 0 };
 }
 
@@ -259,6 +281,7 @@ async function brassring(seed: EmployerSeed): Promise<Pulled[]> {
     }
     if (total && byUrl.size - before < total * 0.005) break;
   }
+  assertCompleteCount(byUrl.size, total);
   return [...byUrl.values()];
 }
 
@@ -282,22 +305,27 @@ async function oracleOrc(seed: EmployerSeed): Promise<Pulled[]> {
   const detailBase = `https://${host}/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails`;
   const byId = new Map<number, { title: string; location?: string }>();
   for (const kw of ORACLE_QUERIES) {
+    const queryIds = new Set<number>();
+    let expected = 0;
     for (let offset = 0; ; offset += 200) {
       const finder = `findReqs;siteNumber=${siteNumber},keyword=${encodeURIComponent(kw)},limit=200,offset=${offset},sortBy=POSTING_DATES_DESC`;
       const json = (await getJson(`${listBase}?onlyData=true&expand=requisitionList.secondaryLocations&finder=${finder}`)) as { items?: { TotalJobsCount?: number; requisitionList?: { Id: number; Title: string; PrimaryLocation?: string }[] }[] };
       const it = json.items?.[0];
       const rows = it?.requisitionList ?? [];
+      assertCompletePage(rows, it?.TotalJobsCount, offset, 200);
+      expected = it!.TotalJobsCount!;
       if (rows.length === 0) break;
-      for (const r of rows) byId.set(r.Id, { title: r.Title, location: r.PrimaryLocation });
+      for (const r of rows) { byId.set(r.Id, { title: r.Title, location: r.PrimaryLocation }); queryIds.add(r.Id); }
       await sleep(120);
       if (offset + 200 >= (it?.TotalJobsCount ?? 0)) break;
     }
+    assertCompleteCount(queryIds.size, expected);
   }
   const out: Pulled[] = [];
   for (const [id, { title, location }] of byId) {
     const d = (await withBackoff(() => getJson(`${detailBase}/${id}?expand=all&onlyData=true`), 4)) as { ExternalDescriptionStr?: string; ExternalQualificationsStr?: string; ExternalResponsibilitiesStr?: string; Department?: string; Organization?: string; JobFamily?: string } | null;
     await sleep(90);
-    if (!d) continue;
+    if (!d?.ExternalDescriptionStr) throw new Error("oracle_orc: missing description; incomplete capture");
     const fullText = stripOracleBoilerplate([d.ExternalDescriptionStr, d.ExternalQualificationsStr, d.ExternalResponsibilitiesStr].map(stripHtml).join(" "));
     const businessUnit = [d.JobFamily, d.Department, d.Organization].filter(Boolean).join(" ");
     const loc = locate(location);
@@ -316,14 +344,20 @@ async function amazonJobs(seed: EmployerSeed): Promise<Pulled[]> {
   const category = cfg(seed, "business_category")!;
   const byId = new Map<string, Pulled>();
   for (const term of AMAZON_QUERIES) {
+    const queryIds = new Set<string>();
+    let expected = 0;
     for (let offset = 0; ; offset += 100) {
       // amazon.jobs' brotli truncates under undici -> force gzip/deflate (getJson does).
       const json = (await getJson(`https://www.amazon.jobs/en/search.json?business_category%5B%5D=${category}&result_limit=100&offset=${offset}&sort=relevant&base_query=${encodeURIComponent(term)}`)) as {
         hits?: number; jobs?: { id_icims: string; title: string; city?: string; state?: string; country_code?: string; normalized_location?: string; job_path: string; business_category?: string; job_family?: string; is_intern?: boolean; description?: string; basic_qualifications?: string; preferred_qualifications?: string; team?: { label?: string } }[];
       };
       const jobs = json.jobs ?? [];
+      assertCompletePage(jobs, json.hits, offset, 100);
+      expected = json.hits!;
       if (jobs.length === 0) break;
       for (const j of jobs) {
+        if (!j.id_icims || !j.job_path) throw new Error("amazon_jobs: incomplete row");
+        queryIds.add(j.id_icims);
         const isUS = (j.country_code ?? "").toUpperCase() === "USA";
         const location = isUS && j.city && j.state ? `${j.city}, ${j.state}` : (j.normalized_location ?? "");
         const businessUnit = [j.business_category, j.team?.label, j.job_family].filter(Boolean).join(" ");
@@ -335,6 +369,7 @@ async function amazonJobs(seed: EmployerSeed): Promise<Pulled[]> {
       await sleep(150);
       if (offset + 100 >= (json.hits ?? 0)) break;
     }
+    assertCompleteCount(queryIds.size, expected);
   }
   return [...byId.values()];
 }
@@ -362,14 +397,18 @@ async function eightfold(seed: EmployerSeed): Promise<Pulled[]> {
     // Defense prime: whole board, list-level (pay/JD are detail-only). Every listing counts.
     // Dedup by position id — Eightfold pages overlap (esp. under back-off/retry).
     const byId = new Map<number, P>();
+    let expected = 0;
     for (let start = 0; ; start += 10) {
       const json = (await withBackoff(() => getJson(`https://${host}/api/pcsx/search?domain=${domain}&query=&location=&start=${start}&sort_by=timestamp`, { headers: eightfoldHeaders(host) }))) as { data?: { positions?: P[]; count?: number } } | null;
       const positions = json?.data?.positions ?? [];
+      assertCompletePage(positions, json?.data?.count, start, 10);
+      expected = json!.data!.count!;
       if (positions.length === 0) break;
       for (const p of positions) byId.set(p.id, p);
       await sleep(150);
       if (start + 10 >= (json?.data?.count ?? 0)) break;
     }
+    assertCompleteCount(byId.size, expected);
     return [...byId.values()].map((p) => {
       const loc = locate((p.locations ?? p.standardizedLocations ?? [])[0]);
       return { row: baseRow(seed, "Eightfold", { title: p.name, field: p.department ?? "", location: loc.location, region: loc.region, url: `https://${host}/careers/job/${p.id}` }), title: p.name, description: "", businessUnit: p.department ?? "" };
@@ -379,15 +418,20 @@ async function eightfold(seed: EmployerSeed): Promise<Pulled[]> {
   // Commercial (Microsoft): narrow by precise query terms, US-prefilter, JD from the page JSON-LD.
   const byId = new Map<number, P>();
   for (const query of EIGHTFOLD_QUERIES) {
+    const queryIds = new Set<number>();
+    let expected = 0;
     for (let start = 0; ; ) {
       const json = (await withBackoff(() => getJson(`https://${host}/api/pcsx/search?domain=${domain}&query=${encodeURIComponent(query)}&start=${start}&num=50&sort_by=relevance`, { headers: eightfoldHeaders(host) }))) as { data?: { positions?: P[]; count?: number } } | null;
       const positions = json?.data?.positions ?? [];
+      assertCompletePage(positions, json?.data?.count, start, positions.length || 1);
+      expected = json!.data!.count!;
       if (positions.length === 0) break;
-      for (const p of positions) byId.set(p.id, p);
+      for (const p of positions) { byId.set(p.id, p); queryIds.add(p.id); }
       start += positions.length;
       await sleep(250);
       if (start >= (json?.data?.count ?? 0)) break;
     }
+    assertCompleteCount(queryIds.size, expected);
   }
   const out: Pulled[] = [];
   for (const p of byId.values()) {
@@ -399,8 +443,9 @@ async function eightfold(seed: EmployerSeed): Promise<Pulled[]> {
       return res.text();
     }, 4)) as string | null;
     await sleep(400);
-    if (!html) continue;
+    if (!html) throw new Error("eightfold: missing detail page");
     const jd = extractJsonLdJd(html);
+    if (!jd) throw new Error("eightfold: missing JobPosting description; incomplete capture");
     out.push({ row: baseRow(seed, "Eightfold", { title: p.name, field: p.department ?? "", location: loc.location, region: loc.region, url: `https://${host}/careers/job/${p.id}`, employment: "Full-time" }), title: p.name, description: jd, businessUnit: p.department ?? "" });
   }
   return out;
@@ -441,12 +486,12 @@ async function successfactors(seed: EmployerSeed): Promise<Pulled[]> {
   const seen = new Map<string, Pulled>();
   for (let start = 0; start <= 5000; start += 50) {
     const html = await getText(`${base}/search/?q=&startrow=${start}&sortColumn=referencedate&sortDirection=desc`);
-    if (!html) break;
+    if (!html) throw new Error("successfactors: empty response; incomplete capture");
     const blocks = html.split(/<tr[^>]*class="[^"]*data-row[^"]*"/i).slice(1);
     let n = 0;
     for (const block of blocks) {
       const link = block.match(/href="(\/job\/[^"]+)"\s+class="jobTitle-link">([\s\S]*?)<\/a>/i);
-      if (!link) continue;
+      if (!link) throw new Error("successfactors: unparseable listing row");
       n++;
       const url = base + link[1];
       if (seen.has(url)) continue;
@@ -464,6 +509,7 @@ async function successfactors(seed: EmployerSeed): Promise<Pulled[]> {
       });
     }
     if (n < 50) break;
+    if (start === 5000) throw new Error("successfactors: pagination cap reached; incomplete capture");
     await sleep(400);
   }
   return [...seen.values()];
@@ -511,10 +557,12 @@ async function usajobs(seed: EmployerSeed): Promise<Pulled[]> {
     const url = `https://data.usajobs.gov/api/search?${new URLSearchParams({ ...query, Page: String(page) })}`;
     const json = (await withBackoff(async () => {
       const res = await fetch(url, { headers: { Host: "data.usajobs.gov", "User-Agent": ua, "Authorization-Key": key } });
+      if (!res.ok) throw new Error(`HTTP ${res.status} usajobs`);
       const text = await res.text();
       try { return JSON.parse(text); } catch { throw new Error(`usajobs page ${page} not JSON (HTTP ${res.status})`); }
     })) as { SearchResult?: { SearchResultCountAll?: number; SearchResultItems?: { MatchedObjectDescriptor: UsaDescriptor }[] } } | null;
     const items = json?.SearchResult?.SearchResultItems ?? [];
+    assertCompletePage(items, Number(json?.SearchResult?.SearchResultCountAll), descriptors.length, 500);
     descriptors.push(...items.map((i) => i.MatchedObjectDescriptor));
     if (items.length === 0 || descriptors.length >= (json?.SearchResult?.SearchResultCountAll ?? descriptors.length)) break;
   }
@@ -523,7 +571,7 @@ async function usajobs(seed: EmployerSeed): Promise<Pulled[]> {
   for (const d of descriptors) {
     const url = d.PositionURI?.trim().replace(":443", "");
     const title = titleCaseUsajobs((d.PositionTitle ?? "").trim());
-    if (!url || !title) continue;
+    if (!url || !title) throw new Error("usajobs: invalid listing row");
     const cat = d.JobCategory?.[0];
     const code = cat?.Code?.trim();
     const seriesName = (code && OPM_SERIES[code]) || cat?.Name?.trim();
@@ -585,9 +633,11 @@ async function ultipro(seed: EmployerSeed): Promise<Pulled[]> {
     };
     const json = (await withBackoff(() => getJson(`${base}/JobBoardView/LoadSearchResults`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }))) as { opportunities?: UltiproOpportunity[]; totalCount?: number } | null;
     const opps = json?.opportunities ?? [];
+    assertCompletePage(opps, json?.totalCount, skip, PAGE);
     if (opps.length === 0) break;
     for (const o of opps) {
-      if (!o.Id || seen.has(o.Id)) continue;
+      if (!o.Id) throw new Error("ultipro: listing missing Id");
+      if (seen.has(o.Id)) throw new Error("ultipro: overlapping pages; completeness unknown");
       seen.add(o.Id);
       const loc = ultiproLocate(o.Locations?.[0]?.Address);
       out.push({
@@ -636,7 +686,8 @@ async function dsdLabs(seed: EmployerSeed): Promise<Pulled[]> {
   for (const block of html.split(/<article class="role">/i).slice(1)) {
     const url = block.match(/href="(https?:\/\/[^"]*\/careers\/jobs\/[^"]+\/apply)"/i)?.[1];
     const rawTitle = block.match(/<h3>([\s\S]*?)<\/h3>/i)?.[1];
-    if (!url || !rawTitle || seen.has(url)) continue;
+    if (!url || !rawTitle) throw new Error("dsd_labs: unparseable role; incomplete capture");
+    if (seen.has(url)) continue;
     seen.add(url);
     const title = stripHtml(rawTitle);
     const field = stripHtml(block.match(/class="role-tag">([\s\S]*?)</i)?.[1] ?? "");

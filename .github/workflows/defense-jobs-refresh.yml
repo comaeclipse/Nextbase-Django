@@ -1,142 +1,105 @@
 name: Defense jobs refresh
 
-# Phase 5 of #313. Weekly, re-pull every seeded board that has an in-process
-# adapter (scripts/sync-defense-job-listings.ts --all --apply retires listings
-# that are gone from their board against Neon), purge closed rows past the
-# retention window (scripts/purge-closed-job-listings.ts), then open a PR with
-# the refreshed audit CSVs. master is branch-protected, so this NEVER pushes to
-# master — a human reviews and merges the PR; the DB write already happened.
-#
-# BLOCKED ON SECRETS until enabled. It no-ops with a clear ::warning:: until you
-# add these in repo Settings -> Secrets and variables -> Actions:
-#   - DATABASE_URL     (required)  Neon connection string, same value as .env
-#   - USAJOBS_API_KEY  (optional)  enables the NAVSEA (usajobs) board; without it
-#   - USAJOBS_UA       (optional)  that one employer is skipped (its pull throws,
-#                                  and a failed pull never prunes — safe)
-# The moment DATABASE_URL exists the Monday cron starts applying to Neon, so add
-# it only when you intend Phase 5 to run. The sync's own guards still hold: an
-# empty/failed pull never prunes, and it refuses to close >80% of an employer's
-# open rows without --force.
-
+# No DATABASE_URL in collection. Merge its PR to trigger serial Apply.
+# Enable Monday collection with DEFENSE_JOBS_SCHEDULE_ENABLED=true.
 on:
   schedule:
-    # Mondays 07:17 UTC (odd minute to dodge the top-of-hour scheduler load).
     - cron: "17 7 * * 1"
   workflow_dispatch:
     inputs:
-      apply:
-        description: "Write to Neon and open a PR (unchecked = dry run: no DB writes, no PR)"
+      publish:
+        description: "Open a snapshot PR (false = collect and retain artifacts only)"
         type: boolean
         default: false
-
+      employers:
+        description: "Optional comma-separated employer slugs; blank collects all boards"
+        type: string
+        default: ""
 permissions:
-  contents: write
-  pull-requests: write
-
+  contents: read
 concurrency:
-  group: defense-jobs-refresh
+  group: defense-jobs-collect
   cancel-in-progress: false
-
 jobs:
-  refresh:
+  collect:
+    if: github.ref == 'refs/heads/master' && (github.event_name == 'workflow_dispatch' || vars.DEFENSE_JOBS_SCHEDULE_ENABLED == 'true')
     runs-on: ubuntu-latest
-    # The big boards (Northrop ~3.7k, Lockheed ~2.2k, Oracle per-req detail) plus
-    # polite rate-limit pacing make a full --all long-running; give it room.
     timeout-minutes: 300
+    env:
+      CAPTURE: data/defense-job-refresh/${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          ref: master
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-
       - run: npm ci
-
-      - name: Preflight — require the DATABASE_URL secret
-        id: pre
+      - name: Collect complete boards without database access
+        id: collect
+        timeout-minutes: 280
+        continue-on-error: true
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: |
-          if [ -z "${DATABASE_URL:-}" ]; then
-            echo "::warning::DATABASE_URL secret is not set — skipping the defense-jobs refresh. Add DATABASE_URL (and optionally USAJOBS_API_KEY/USAJOBS_UA) in repo Settings to enable Phase 5 (issue #313)."
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Decide mode
-        id: mode
-        # A scheduled run always applies. A manual (workflow_dispatch) run applies
-        # only when the apply box is ticked, so it is safe to trigger by hand to
-        # smoke-test connectivity (dry run: reads the DB, writes nothing).
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.apply }}" != "true" ]; then
-            echo "apply=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "apply=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Sync all boards, then purge stale closed rows
-        if: steps.pre.outputs.ready == 'true'
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           USAJOBS_API_KEY: ${{ secrets.USAJOBS_API_KEY }}
           USAJOBS_UA: ${{ secrets.USAJOBS_UA }}
+          EMPLOYERS: ${{ inputs.employers }}
         run: |
           set -euo pipefail
-          # Scripts read process.env directly (lib/db.ts), so no --env-file here.
-          tsx() { node node_modules/tsx/dist/cli.mjs "$@"; }
-          if [ "${{ steps.mode.outputs.apply }}" = "true" ]; then
-            tsx scripts/sync-defense-job-listings.ts --all --apply | tee sync.log
-            tsx scripts/purge-closed-job-listings.ts --apply | tee -a sync.log
-          else
-            echo "Dry run (no DB writes)." | tee sync.log
-            tsx scripts/sync-defense-job-listings.ts --all | tee -a sync.log
-            tsx scripts/purge-closed-job-listings.ts | tee -a sync.log
-          fi
-          # Also surface the run summary in the Actions UI.
-          { echo '### Defense jobs refresh'; echo '```'; tail -n 200 sync.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Open a PR with the refreshed CSVs
-        if: steps.pre.outputs.ready == 'true' && steps.mode.outputs.apply == 'true'
+          args=(collect --run "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}")
+          if [ -n "$EMPLOYERS" ]; then args+=(--employers "$EMPLOYERS"); fi
+          node node_modules/tsx/dist/cli.mjs scripts/refresh-defense-jobs.ts "${args[@]}" 2>&1 | tee .check_collect.log
+      # Mint after the potentially multi-hour pull: app tokens last 1 hour.
+      - uses: actions/create-github-app-token@v2
+        id: app
+        if: (github.event_name == 'schedule' || inputs.publish) && hashFiles(format('{0}/manifest.json', env.CAPTURE)) != ''
+        with:
+          app-id: ${{ secrets.DATA_APP_ID }}
+          private-key: ${{ secrets.DATA_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - name: Open the reviewable snapshot PR
+        if: steps.app.outcome == 'success' && steps.app.outputs.token != ''
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ steps.app.outputs.token }}
           REPO: ${{ github.repository }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
-          # The sync writes a dated audit CSV per employer only when it applied; if
-          # nothing changed on disk there is nothing to open a PR for.
-          if [ -z "$(git status --porcelain data/)" ]; then
-            echo "No CSV changes to commit — boards unchanged since the last refresh."
-            exit 0
-          fi
-
-          date=$(date -u +%Y-%m-%d)
-          # Unique per run so a same-day re-run never collides with an open branch.
-          branch="chore/defense-jobs-refresh-${{ github.run_id }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          gh auth setup-git
+          branch="codex/defense-jobs-refresh-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           git switch -c "$branch"
-          git add data/*.csv
-          git commit -m "chore(#313): weekly defense-jobs refresh ($date)"
+          git config user.name "defense-jobs-refresh[bot]"
+          git config user.email "defense-jobs-refresh[bot]@users.noreply.github.com"
+          git add "$CAPTURE/manifest.json"
+          find "$CAPTURE" -maxdepth 1 -name '*.csv' -print0 | xargs -0 -r git add --
+          git commit -m "Collect defense job snapshots for review"
           git push -u origin "$branch"
-
           {
-            echo "Automated Phase-5 refresh of \`defense_job_listings\` — the DB write already ran; this PR carries the refreshed audit CSVs."
+            echo "Collected snapshots only; no production DB writes. Merge triggers serial Apply of the checksummed snapshots."
             echo
-            echo "Run: $RUN_URL"
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
             echo
-            echo '<details><summary>Sync + purge summary</summary>'
-            echo
-            echo '```'
-            tail -n 200 sync.log
-            echo '```'
-            echo '</details>'
-          } > pr-body.md
-
-          gh pr create --repo "$REPO" --base master --head "$branch" \
-            --title "chore(#313): weekly defense-jobs refresh ($date)" \
-            --label data \
-            --body-file pr-body.md
+            cat .check_defense-refresh-report.md
+            echo "Part of #366. Failed/empty/manual/unconfigured boards have no apply snapshot."
+          } > .check_pr_body.md
+          gh pr create --repo "$REPO" --base master --head "$branch" --title "Defense jobs refresh: ${GITHUB_RUN_ID}" --body-file .check_pr_body.md
+      - name: Publish per-employer report
+        if: always()
+        run: |
+          if [ -f .check_defense-refresh-report.md ]; then cat .check_defense-refresh-report.md >> "$GITHUB_STEP_SUMMARY"; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: defense-job-collection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/defense-job-refresh/${{ github.run_id }}-${{ github.run_attempt }}/
+            .check_collect.log
+            .check_defense-refresh-report.md
+          include-hidden-files: true
+          retention-days: 30
+      - name: Fail visibly when any board failed
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "::error::Collection incomplete. Successful boards may have a review PR; inspect failed and skipped employers in the artifact."
+          exit 1
