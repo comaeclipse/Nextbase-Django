@@ -1,4 +1,5 @@
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -10,6 +11,13 @@ const dirs: string[] = [];
 afterEach(() => { for (const dir of dirs.splice(0)) rmSync(dir, { recursive: true, force: true }); });
 
 describe("reviewed refresh evidence", () => {
+  it("validates every committed manifest and snapshot in data PRs", () => {
+    const files = execFileSync("git", ["ls-files", "data/defense-job-refresh/*/manifest.json"], { encoding: "utf8" }).trim().split(/\r?\n/).filter(Boolean);
+    for (const file of files) {
+      const manifest = validateManifest(JSON.parse(readFileSync(file, "utf8")));
+      for (const entry of manifest.entries) if (entry.status === "collected") readSnapshot(file, entry);
+    }
+  });
   it("rejects unknown/mixed employer rows and duplicates before prune", () => {
     expect(() => validateRefreshRows(text, "gci")).toThrow("mismatched");
     expect(() => validateRefreshRows(text + text.split("\n")[1] + "\n", "air")).toThrow("duplicate");
