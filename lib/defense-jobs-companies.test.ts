@@ -13,6 +13,7 @@ import { parse } from "csv-parse/sync";
 import { describe, expect, it } from "vitest";
 import { DEFENSE_EMPLOYER_SEEDS } from "./defense";
 import { COMPANY_SLUG, companySlug } from "./defense-jobs-companies";
+import { ADAPTERS } from "../scripts/defense-jobs-adapters";
 
 const seedsBySlug = new Map(DEFENSE_EMPLOYER_SEEDS.map((s) => [s.slug, s]));
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -44,6 +45,14 @@ function committedListingCompanies(): Map<string, Set<string>> {
 }
 
 describe("COMPANY_SLUG registry", () => {
+  it("resolves every automatic sync employer's emitted company label", () => {
+    const unmapped = DEFENSE_EMPLOYER_SEEDS
+      .filter((seed) => seed.ats_kind && ADAPTERS[seed.ats_kind])
+      .filter((seed) => companySlug(seed.display_name) !== seed.slug)
+      .map((seed) => `${seed.display_name} -> ${seed.slug}`);
+    expect(unmapped).toEqual([]);
+  });
+
   it("maps every slug to a seeded employer", () => {
     const missing = [...new Set(Object.values(COMPANY_SLUG))].filter((slug) => !seedsBySlug.has(slug));
     expect(missing).toEqual([]);
