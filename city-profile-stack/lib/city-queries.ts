@@ -773,16 +773,38 @@ function roundMoney(n: number | null): number | null {
  * city in this database, same as every other tool here.
  * ------------------------------------------------------------------ */
 
+/**
+ * Where a state's income-tax figure came from, so the model can attribute it:
+ * - "verified"       -- the adjudicated locations_stateinfo.income_tax value.
+ * - "no_income_tax"  -- 0, from the verified locations_stateinfo.no_income_tax flag.
+ * - "legacy"         -- the un-adjudicated per-city locations_location.income_tax,
+ *                       used only where the state table has no verified value yet.
+ * - "unknown"        -- no verified value and the legacy city rows disagree or are absent.
+ */
+export type IncomeTaxSource = "verified" | "no_income_tax" | "legacy" | "unknown";
+
 export interface StateTaxGasEntry {
   state: string;
   stateName: string | null;
   /** Sales tax percentage averaged across this state's curated cities. */
   salesTaxPct: number | null;
-  /** Statewide income tax percentage only when the current rows agree. 0 means no income tax; null means unknown or conflicting. */
+  /**
+   * State top-marginal individual income tax percentage. 0 for a no-income-tax
+   * state; the verified locations_stateinfo rate where adjudicated; otherwise the
+   * legacy per-city rate. null only when unknown. `incomeTaxSource` says which.
+   */
   incomeTaxPct: number | null;
+  incomeTaxSource: IncomeTaxSource;
   gasPricePerGallon: number | null;
   /** The city names, only when includeCities was requested (user is choosing between cities). */
   cities?: string[];
+}
+
+/** One state-owned tax row, as locations_stateinfo returns it (numerics come back as strings). */
+export interface StateInfoTaxRow {
+  state: string;
+  income_tax: string | number | null;
+  no_income_tax: boolean | null;
 }
 
 export type StateTaxGasSort = "combined" | "income_tax" | "sales_tax" | "gas_price";
@@ -798,7 +820,8 @@ export const STATE_TAX_GAS_SCOPE_NOTE =
   "Covers only states with at least one city in this database, not all 50 states.";
 
 const STATE_TAX_GAS_CAVEATS = [
-  "sales_tax is averaged across the curated cities in each state; income_tax is shown only when the state's current city rows agree, and should be replaced by sourced locations_stateinfo values after state-tax normalization",
+  "income_tax is the state's top marginal individual rate: 0 for a no-income-tax state (verified locations_stateinfo.no_income_tax), the sourced locations_stateinfo value where adjudicated, otherwise the legacy per-city rate -- incomeTaxSource labels which, and a top-marginal rate is not what a typical retiree actually pays",
+  "sales_tax is averaged across the curated cities in each state (state + local), not a single statewide rate",
   "gas price is a statewide average, not a price for any particular city",
   '"combined" ranking min-max normalizes income tax, sales tax, and gas price and weights them equally -- it is a neutral ranking, not a cost-of-living verdict',
 ];
@@ -852,6 +875,108 @@ function sortStateEntries(entries: StateTaxGasEntry[], sortBy: StateTaxGasSort):
   });
 }
 
+/**
+ * Resolve a state's income-tax figure, preferring the adjudicated state table
+ * over the legacy per-city column. This is the B3 fix: the old heuristic read
+ * only locations_location.income_tax and showed a value *only when every city
+ * in the state agreed*, which silently returned null for exactly the states
+ * whose verified locations_stateinfo rate differs from the stale per-city one.
+ * A no-income-tax state resolves to 0, never null.
+ */
+export function resolveStateIncomeTax(
+  stateInfo: { income_tax: string | number | null; no_income_tax: boolean | null } | undefined,
+  legacyCityValues: number[]
+): { pct: number | null; source: IncomeTaxSource } {
+  if (stateInfo?.no_income_tax === true) return { pct: 0, source: "no_income_tax" };
+  if (stateInfo && stateInfo.income_tax !== null && stateInfo.income_tax !== undefined) {
+    return { pct: round2(Number(stateInfo.income_tax)), source: "verified" };
+  }
+  const distinct = [...new Set(legacyCityValues)];
+  if (distinct.length === 1) return { pct: round2(distinct[0]), source: "legacy" };
+  return { pct: null, source: "unknown" };
+}
+
+/** One curated city's tax-relevant columns off locations_location. */
+export interface CityTaxRow {
+  state: string;
+  name: string;
+  sales_tax: string | number | null;
+  income_tax: string | number | null;
+}
+
+/**
+ * Pure entry builder: fold curated city rows + the state-owned tax table + the
+ * gas map into one entry per state. Kept side-effect-free so it can be tested
+ * with hand-built rows (same split as rankStateVeteranBenefits).
+ */
+export function buildStateTaxGasEntries(input: {
+  cityRows: CityTaxRow[];
+  stateInfoRows: StateInfoTaxRow[];
+  gasByState: Map<string, number>;
+  includeCities?: boolean;
+}): StateTaxGasEntry[] {
+  const { cityRows, stateInfoRows, gasByState, includeCities } = input;
+
+  const stateInfoByAbbr = new Map<string, StateInfoTaxRow>();
+  for (const s of stateInfoRows) {
+    stateInfoByAbbr.set(resolveStateAbbr(s.state) ?? s.state.trim().toUpperCase(), s);
+  }
+
+  const byState = new Map<
+    string,
+    { salesTaxSum: number; salesTaxN: number; incomeTaxValues: number[]; cities: string[] }
+  >();
+  for (const r of cityRows) {
+    const abbr = resolveStateAbbr(r.state) ?? r.state.trim().toUpperCase();
+    let bucket = byState.get(abbr);
+    if (!bucket)
+      byState.set(abbr, (bucket = { salesTaxSum: 0, salesTaxN: 0, incomeTaxValues: [], cities: [] }));
+    bucket.cities.push(`${r.name}, ${abbr}`);
+    if (r.sales_tax !== null && r.sales_tax !== undefined) {
+      bucket.salesTaxSum += Number(r.sales_tax);
+      bucket.salesTaxN += 1;
+    }
+    if (r.income_tax !== null && r.income_tax !== undefined) {
+      bucket.incomeTaxValues.push(Number(r.income_tax));
+    }
+  }
+
+  return [...byState.entries()].map(([abbr, b]) => {
+    const income = resolveStateIncomeTax(stateInfoByAbbr.get(abbr), b.incomeTaxValues);
+    return {
+      state: abbr,
+      stateName: ABBR_TO_STATE_NAME[abbr] ?? null,
+      salesTaxPct: b.salesTaxN ? round2(b.salesTaxSum / b.salesTaxN) : null,
+      incomeTaxPct: income.pct,
+      incomeTaxSource: income.source,
+      gasPricePerGallon: gasByState.get(abbr) ?? null,
+      ...(includeCities ? { cities: b.cities.sort() } : {}),
+    };
+  });
+}
+
+/** Pure filter + sort + limit over already-built entries. */
+export function rankStateTaxGas(
+  entries: StateTaxGasEntry[],
+  opts: { states?: string[]; sortBy?: StateTaxGasSort; limit?: number } = {}
+): StateTaxGasResult {
+  let scoped = entries;
+  if (opts.states?.length) {
+    const wanted = new Set(opts.states.map((s) => resolveStateAbbr(s) ?? s.trim().toUpperCase()));
+    scoped = scoped.filter((e) => wanted.has(e.state));
+  }
+
+  const sortBy = opts.sortBy ?? "combined";
+  const sorted = sortStateEntries(scoped, sortBy);
+  const limit = opts.limit ?? (opts.states?.length ? sorted.length : 15);
+  return {
+    scopeNote: STATE_TAX_GAS_SCOPE_NOTE,
+    caveats: STATE_TAX_GAS_CAVEATS,
+    sortedBy: sortBy,
+    states: sorted.slice(0, limit),
+  };
+}
+
 /** "Which states have low taxes / cheap gas?" -- scoped to states we have cities in. */
 export async function compareStateTaxesAndGas(
   opts: {
@@ -862,64 +987,27 @@ export async function compareStateTaxesAndGas(
   } = {}
 ): Promise<StateTaxGasResult> {
   const sql = getSql();
-  const rows = (await sql.query(`SELECT state, name, sales_tax, income_tax FROM locations_location WHERE is_candidate`)) as {
-    state: string;
-    name: string;
-    sales_tax: string | null;
-    income_tax: string | null;
-  }[];
-
-  const byState = new Map<
-    string,
-    { salesTaxSum: number; salesTaxN: number; incomeTaxValues: Set<number>; cities: string[] }
-  >();
-  for (const r of rows) {
-    const abbr = resolveStateAbbr(r.state) ?? r.state.trim().toUpperCase();
-    let bucket = byState.get(abbr);
-    if (!bucket)
-      byState.set(abbr, (bucket = { salesTaxSum: 0, salesTaxN: 0, incomeTaxValues: new Set(), cities: [] }));
-    bucket.cities.push(`${r.name}, ${abbr}`);
-    if (r.sales_tax !== null) {
-      bucket.salesTaxSum += Number(r.sales_tax);
-      bucket.salesTaxN += 1;
-    }
-    if (r.income_tax !== null) {
-      bucket.incomeTaxValues.add(Number(r.income_tax));
-    }
-  }
+  const cityRows = (await sql.query(
+    `SELECT state, name, sales_tax, income_tax FROM locations_location WHERE is_candidate`
+  )) as CityTaxRow[];
+  // State-owned income tax, adjudicated in locations_stateinfo (issue #312 B3).
+  // Sales tax has no state-owned column, so it stays city-averaged above.
+  const stateInfoRows = (await sql.query(
+    `SELECT state, income_tax, no_income_tax FROM locations_stateinfo`
+  )) as StateInfoTaxRow[];
 
   // Gas prices already fall back to a committed static dataset when the DB
   // table is unreachable (see lib/gas-prices.ts), so this never throws.
   const gasByState = new Map<string, number>();
   for (const g of (await getGasPrices()).data) gasByState.set(g.state, g.price);
 
-  let entries: StateTaxGasEntry[] = [...byState.entries()].map(([abbr, b]) => {
-    const incomeTaxValues = [...b.incomeTaxValues];
-    return {
-      state: abbr,
-      stateName: ABBR_TO_STATE_NAME[abbr] ?? null,
-      salesTaxPct: b.salesTaxN ? round2(b.salesTaxSum / b.salesTaxN) : null,
-      incomeTaxPct: incomeTaxValues.length === 1 ? round2(incomeTaxValues[0]) : null,
-      gasPricePerGallon: gasByState.get(abbr) ?? null,
-      ...(opts.includeCities ? { cities: b.cities.sort() } : {}),
-    };
+  const entries = buildStateTaxGasEntries({
+    cityRows,
+    stateInfoRows,
+    gasByState,
+    includeCities: opts.includeCities,
   });
-
-  if (opts.states?.length) {
-    const wanted = new Set(opts.states.map((s) => resolveStateAbbr(s) ?? s.trim().toUpperCase()));
-    entries = entries.filter((e) => wanted.has(e.state));
-  }
-
-  const sortBy = opts.sortBy ?? "combined";
-  entries = sortStateEntries(entries, sortBy);
-
-  const limit = opts.limit ?? (opts.states?.length ? entries.length : 15);
-  return {
-    scopeNote: STATE_TAX_GAS_SCOPE_NOTE,
-    caveats: STATE_TAX_GAS_CAVEATS,
-    sortedBy: sortBy,
-    states: entries.slice(0, limit),
-  };
+  return rankStateTaxGas(entries, { states: opts.states, sortBy: opts.sortBy, limit: opts.limit });
 }
 
 /* ------------------------------------------------------------------ *
