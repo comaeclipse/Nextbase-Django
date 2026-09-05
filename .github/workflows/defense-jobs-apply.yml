@@ -1,0 +1,75 @@
+name: Defense jobs Apply
+
+# Scan all pending manifests so GitHub's one pending concurrency slot cannot
+# lose an earlier merged batch. Only merged master can receive DATABASE_URL.
+on:
+  push:
+    branches: [master]
+    paths: ['data/defense-job-refresh/**/manifest.json']
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Write to Neon (false = read-only plan and retention dry run)"
+        type: boolean
+        default: false
+      manifest:
+        description: "Optional committed manifest path; blank processes all pending batches"
+        type: string
+        default: ""
+permissions:
+  contents: read
+concurrency:
+  group: defense-jobs-apply
+  cancel-in-progress: false
+jobs:
+  apply:
+    if: github.ref == 'refs/heads/master' && (github.event_name == 'workflow_dispatch' || vars.DEFENSE_JOBS_APPLY_ENABLED == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Plan, apply, and reconcile reviewed snapshots
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          MANIFEST: ${{ inputs.manifest }}
+          WRITE: ${{ github.event_name == 'push' || inputs.apply }}
+        run: |
+          set -euo pipefail
+          if [ -z "$DATABASE_URL" ]; then echo "::error::DATABASE_URL is not configured"; exit 1; fi
+          args=(apply)
+          if [ -n "$MANIFEST" ]; then args+=(--manifest "$MANIFEST"); fi
+          node node_modules/tsx/dist/cli.mjs scripts/refresh-defense-jobs.ts "${args[@]}" 2>&1 | tee .check_apply.log
+          if [ "$WRITE" = "true" ]; then
+            node node_modules/tsx/dist/cli.mjs scripts/refresh-defense-jobs.ts "${args[@]}" --apply 2>&1 | tee -a .check_apply.log
+          fi
+          node node_modules/tsx/dist/cli.mjs scripts/purge-closed-job-listings.ts 2>&1 | tee -a .check_apply.log
+          if [ "$WRITE" = "true" ]; then
+            node node_modules/tsx/dist/cli.mjs scripts/purge-closed-job-listings.ts --apply 2>&1 | tee -a .check_apply.log
+          fi
+          node node_modules/tsx/dist/cli.mjs scripts/verify-csv-imports.ts 2>&1 | tee -a .check_apply.log
+          git diff --exit-code
+      - name: Publish Apply and retention results
+        if: always()
+        run: |
+          if [ -f .check_defense-refresh-report.md ]; then cat .check_defense-refresh-report.md >> "$GITHUB_STEP_SUMMARY"; fi
+          if [ -f .check_apply.log ]; then
+            { echo; echo '### Apply / retention log'; echo '```'; tail -n 100 .check_apply.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: defense-job-apply-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .check_apply.log
+            .check_defense-refresh-report.md
+          include-hidden-files: true
+          retention-days: 30
