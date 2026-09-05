@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "capturedAt": "2026-09-05T16:23:06.328Z",
+  "sourceCommit": "9e42188f8fd1de20afe03bf14989f7635a85807a",
+  "entries": [
+    {
+      "employer": "kratos",
+      "status": "unsupported",
+      "rows": 0,
+      "message": "No individual-listing adapter (may be an aggregate-only employer)"
+    },
+    {
+      "employer": "air",
+      "status": "collected",
+      "rows": 36,
+      "file": "air_greenhouse_2026-09-05_33977664557-1.csv",
+      "sha256": "6e0812502ae9300f5a2189f10bf9a4c31a0dd3bc653966bc55f3887607d3676e"
+    },
+    {
+      "employer": "navsea",
+      "status": "missing_credentials",
+      "rows": 0,
+      "message": "NAVSEA skipped: USAJOBS_API_KEY is not configured"
+    },
+    {
+      "employer": "xai",
+      "status": "collected",
+      "rows": 3,
+      "file": "xai_greenhouse_2026-09-05_33977664557-1.csv",
+      "sha256": "b16a11e45b55ead9fc5142c0236a08beb4cfd64934c960d24f4bfc1f3085d639"
+    },
+    {
+      "employer": "tesla",
+      "status": "manual",
+      "rows": 0,
+      "message": "Owner must capture this board and use the documented manual refresh path"
+    },
+    {
+      "employer": "gci",
+      "status": "collected",
+      "rows": 65,
+      "file": "gci_ultipro_2026-09-05_33977664557-1.csv",
+      "sha256": "15d9fa960ecbf91d1a7e51949d92d769afa5d1a9e11edc863c9dbee7c241d007"
+    },
+    {
+      "employer": "dsd-laboratories",
+      "status": "collected",
+      "rows": 9,
+      "file": "dsd-laboratories_dsd_labs_2026-09-05_33977664557-1.csv",
+      "sha256": "7e7f2c55b5df4a0f87e4819bc91f4360fae83a933fecdcd73ddbce7d90246688"
+    }
+  ]
+}
