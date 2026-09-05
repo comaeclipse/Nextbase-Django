@@ -26,6 +26,8 @@
 import { unstable_cache } from "next/cache";
 import { getSql } from "./db";
 import { resolveStateAbbr } from "./states";
+import { DEFENSE_EMPLOYER_SEEDS } from "./defense";
+import { COMPANY_SLUG } from "./defense-jobs-companies";
 import type { DefenseEmployerCityCount, DefenseJobListingRow } from "./types";
 
 const CACHE_REVALIDATE_SECONDS = 300;
@@ -973,3 +975,271 @@ export const getCityHiring = (cityInput: string) =>
     ["defense-jobs:getCityHiring", cityInput],
     { revalidate: CACHE_REVALIDATE_SECONDS, tags: [DEFENSE_JOBS_TAG] }
   )();
+
+/* ------------------------------------------------------------------ *
+ * "Where does <employer> hire?" — one employer's footprint across cities
+ *
+ * The mirror of hiringInCity: that pivots on a city, this pivots on an
+ * employer. Two distinct data sources, kept apart the same way the page does:
+ *   - defense_job_listings GROUP BY city  -> real openings with apply links
+ *     (Lockheed, Palantir, Anduril, SpaceX, ...). Cited via who_is_hiring.
+ *   - defense_employer_locations           -> aggregate per-city posting counts
+ *     for tracked primes we hold no per-job link for (the RTX family:
+ *     Raytheon, Collins Aerospace, Pratt & Whitney, RTX Corporate).
+ * An employer can sit in either bucket; some day both.
+ *
+ * The resolver owns the match (issue #221 spirit): code maps free text to a
+ * known employer, or asks (ambiguous) / declines (unknown) -- it never guesses
+ * a nearby company. The universe is the curated DEFENSE_EMPLOYER_SEEDS plus the
+ * COMPANY_SLUG feed aliases, so "we know this employer" is decided by data, not
+ * by the model.
+ * ------------------------------------------------------------------ */
+
+/** How many cities per bucket the tool returns (ranked by count); the true totals ride along. */
+const EMPLOYER_FOOTPRINT_CITY_LIMIT = 40;
+
+function normalizeEmployer(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[.,&'()\-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+interface EmployerIndexEntry {
+  slug: string;
+  name: string;
+  normDisplay: string;
+  firstWord: string;
+}
+
+/** Built once: every known employer, keyed for exact and first-word lookup. */
+interface EmployerIndex {
+  entries: EmployerIndexEntry[];
+  /** normalized key -> set of slugs (display name, slug, parent company, feed aliases). */
+  exact: Map<string, Set<string>>;
+  nameBySlug: Map<string, string>;
+}
+
+let employerIndex: EmployerIndex | null = null;
+
+function getEmployerIndex(): EmployerIndex {
+  if (employerIndex) return employerIndex;
+  const entries: EmployerIndexEntry[] = [];
+  const exact = new Map<string, Set<string>>();
+  const nameBySlug = new Map<string, string>();
+  const addExact = (key: string, slug: string) => {
+    const norm = normalizeEmployer(key);
+    if (!norm) return;
+    let set = exact.get(norm);
+    if (!set) exact.set(norm, (set = new Set()));
+    set.add(slug);
+  };
+  for (const seed of DEFENSE_EMPLOYER_SEEDS) {
+    const normDisplay = normalizeEmployer(seed.display_name);
+    entries.push({ slug: seed.slug, name: seed.display_name, normDisplay, firstWord: normDisplay.split(" ")[0] });
+    nameBySlug.set(seed.slug, seed.display_name);
+    addExact(seed.display_name, seed.slug);
+    addExact(seed.slug, seed.slug);
+    if (seed.parent_company) addExact(seed.parent_company, seed.slug);
+    for (const alias of seed.legacy_aliases ?? []) addExact(alias, seed.slug);
+  }
+  // Feed aliases (the CSV "Company" spellings) point straight at a slug.
+  for (const [alias, slug] of Object.entries(COMPANY_SLUG)) {
+    if (nameBySlug.has(slug)) addExact(alias, slug);
+  }
+  return (employerIndex = { entries, exact, nameBySlug });
+}
+
+export type EmployerResolution =
+  | { status: "resolved"; slug: string; name: string }
+  | { status: "ambiguous"; candidates: string[] }
+  | { status: "unknown" };
+
+/**
+ * Resolve free-text employer input ("Lockheed", "raytheon", "AWS") to exactly
+ * one known employer, or report ambiguity / non-coverage. Exact matches
+ * (display name, slug, parent company, feed alias) win outright; otherwise a
+ * first-word / phrase-prefix match is tried, and more than one hit is ambiguous.
+ */
+export function resolveEmployer(input: string): EmployerResolution {
+  const norm = normalizeEmployer(input);
+  if (!norm) return { status: "unknown" };
+  const idx = getEmployerIndex();
+
+  const finish = (slugs: Set<string> | string[]): EmployerResolution => {
+    const list = [...slugs];
+    if (list.length === 1) return { status: "resolved", slug: list[0], name: idx.nameBySlug.get(list[0]) ?? list[0] };
+    const candidates = list.map((s) => idx.nameBySlug.get(s) ?? s).sort();
+    return { status: "ambiguous", candidates };
+  };
+
+  const exact = idx.exact.get(norm);
+  if (exact && exact.size > 0) return finish(exact);
+
+  const matches = new Set<string>();
+  for (const e of idx.entries) {
+    if (
+      e.firstWord === norm ||
+      e.normDisplay.startsWith(`${norm} `) ||
+      (norm.length >= 4 && norm.startsWith(`${e.normDisplay} `))
+    ) {
+      matches.add(e.slug);
+    }
+  }
+  if (matches.size === 0) return { status: "unknown" };
+  return finish(matches);
+}
+
+export interface EmployerFootprintCity {
+  city: string;
+  state: string;
+  count: number;
+}
+
+export interface EmployerFootprintAggregateCity {
+  city: string;
+  state: string;
+  total: number;
+  onsite: number;
+  hybrid: number;
+  remote: number;
+}
+
+export interface EmployerFootprintResult {
+  ready: boolean;
+  status: EmployerResolution["status"] | "not_loaded";
+  /** The resolved employer, or null when we asked/declined. */
+  employer: { slug: string; name: string } | null;
+  /** Present only when the name was ambiguous — the model should ask which. */
+  candidates?: string[];
+  matched: boolean;
+  /** Open scraped listings for this employer (real openings, apply links exist via who_is_hiring). */
+  totalOpenListings: number;
+  listingCityCount: number;
+  listingCities: EmployerFootprintCity[];
+  /** Aggregate per-city posting counts (tracked prime, no per-job link). */
+  aggregateCityCount: number;
+  aggregateCities: EmployerFootprintAggregateCity[];
+  listingSummary: CityHiringDatasetSummary;
+  note: string;
+}
+
+export async function employerFootprint(input: string): Promise<EmployerFootprintResult> {
+  const empty: CityHiringDatasetSummary = {
+    remoteListings: 0,
+    unlocatedListings: 0,
+    oldestSnapshotDate: null,
+    newestSnapshotDate: null,
+  };
+  const base = (over: Partial<EmployerFootprintResult> & { status: EmployerFootprintResult["status"]; note: string }): EmployerFootprintResult => ({
+    ready: true,
+    employer: null,
+    matched: false,
+    totalOpenListings: 0,
+    listingCityCount: 0,
+    listingCities: [],
+    aggregateCityCount: 0,
+    aggregateCities: [],
+    listingSummary: empty,
+    ...over,
+  });
+
+  const res = resolveEmployer(input);
+  if (res.status === "unknown") {
+    return base({
+      status: "unknown",
+      note:
+        "I don't track that employer. I cover curated defense/tech employers (e.g. Lockheed Martin, Raytheon, Northrop Grumman, Anduril, Palantir, SpaceX). Ask about one of those, or use who_is_hiring for a specific city.",
+    });
+  }
+  if (res.status === "ambiguous") {
+    return base({
+      status: "ambiguous",
+      candidates: res.candidates,
+      note: "That name matches more than one tracked employer — ask which one before answering.",
+    });
+  }
+
+  const { slug, name } = res;
+  const sql = getSql();
+  try {
+    const open = openClause(await hasListingLifecycleColumns());
+    const [cityRows, summaryRows] = await Promise.all([
+      sql.query(
+        `SELECT city, state, COUNT(*)::int AS count
+           FROM defense_job_listings
+          WHERE employer_slug = $1 AND ${open}
+            AND city IS NOT NULL AND state IS NOT NULL
+          GROUP BY city, state
+          ORDER BY count DESC, city ASC`,
+        [slug]
+      ),
+      sql.query(
+        `SELECT
+            COUNT(*)::int AS total_open,
+            COUNT(*) FILTER (WHERE is_remote)::int AS remote_listings,
+            COUNT(*) FILTER (WHERE NOT is_remote AND (city IS NULL OR state IS NULL))::int AS unlocated_listings,
+            MIN(snapshot_date)::text AS oldest_snapshot_date,
+            MAX(snapshot_date)::text AS newest_snapshot_date
+           FROM defense_job_listings
+          WHERE employer_slug = $1 AND ${open}`,
+        [slug]
+      ),
+    ]);
+
+    const allListingCities: EmployerFootprintCity[] = (cityRows as Record<string, unknown>[]).map((r) => ({
+      city: String(r.city),
+      state: String(r.state),
+      count: Number(r.count),
+    }));
+    const summaryRaw = (summaryRows as Record<string, unknown>[])[0] ?? {};
+    const totalOpenListings = Number(summaryRaw.total_open ?? 0);
+    const listingSummary: CityHiringDatasetSummary = {
+      remoteListings: Number(summaryRaw.remote_listings ?? 0),
+      unlocatedListings: Number(summaryRaw.unlocated_listings ?? 0),
+      oldestSnapshotDate: summaryRaw.oldest_snapshot_date == null ? null : String(summaryRaw.oldest_snapshot_date),
+      newestSnapshotDate: summaryRaw.newest_snapshot_date == null ? null : String(summaryRaw.newest_snapshot_date),
+    };
+
+    const allAggregateCities: EmployerFootprintAggregateCity[] = (await getDefenseEmployerCityCounts())
+      .filter((c) => c.employer_slug === slug)
+      .sort((a, b) => b.total - a.total || a.city.localeCompare(b.city))
+      .map((c) => ({ city: c.city, state: c.state, total: c.total, onsite: c.onsite, hybrid: c.hybrid, remote: c.remote }));
+
+    const matched = totalOpenListings > 0 || allAggregateCities.length > 0;
+    const parts: string[] = [];
+    if (allListingCities.length > 0) {
+      parts.push(
+        "listingCities are real open listings with apply links (use who_is_hiring for the actual postings in a city)"
+      );
+    }
+    if (allAggregateCities.length > 0) {
+      parts.push("aggregateCities are aggregate posting counts for a tracked prime — no per-job link, do not invent apply URLs");
+    }
+    if (listingSummary.remoteListings > 0 || listingSummary.unlocatedListings > 0) {
+      parts.push("remote and unlocated listings are counted separately, not tied to any city");
+    }
+    const note = matched
+      ? parts.join("; ") + "."
+      : `We track ${name}, but no open listings or aggregate posting counts are loaded for them right now.`;
+
+    return base({
+      status: "resolved",
+      employer: { slug, name },
+      matched,
+      totalOpenListings,
+      listingCityCount: allListingCities.length,
+      listingCities: allListingCities.slice(0, EMPLOYER_FOOTPRINT_CITY_LIMIT),
+      aggregateCityCount: allAggregateCities.length,
+      aggregateCities: allAggregateCities.slice(0, EMPLOYER_FOOTPRINT_CITY_LIMIT),
+      listingSummary,
+      note,
+    });
+  } catch (err) {
+    if (isMissingTable(err)) {
+      return base({ status: "not_loaded", ready: false, employer: { slug, name }, note: "Job data isn't loaded yet." });
+    }
+    throw err;
+  }
+}
