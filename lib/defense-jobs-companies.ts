@@ -22,6 +22,7 @@ export const COMPANY_SLUG: Record<string, string> = {
   epirus: "epirus",
   air: "air",
   govini: "air", // Govini rebranded to Air in 2026
+  "air (govini)": "air", // seed display_name emitted by the sync adapter
   "chaos industries": "chaos-industries",
   castelion: "castelion",
   onebrief: "onebrief",
