@@ -16,7 +16,7 @@ import { basesNearCity, findCitiesNearBase } from "@/city-profile-stack/lib/near
 import { getCityFacts } from "@/city-profile-stack/lib/city-facts-queries";
 import { getCityClimate } from "@/city-profile-stack/lib/climate-queries";
 import { exploreSpecialtyTransition } from "@/lib/career-tool";
-import { hiringInCity } from "@/lib/defense-jobs";
+import { hiringInCity, employerFootprint } from "@/lib/defense-jobs";
 
 // Streaming + live DB reads: never statically cache.
 export const dynamic = "force-dynamic";
@@ -304,6 +304,21 @@ Reporting who's hiring in a city (who_is_hiring):
   an hourly figure yourself. Many listings have no pay — just leave it out, don't guess.
 - This covers only the defense/tech employers we track, not every job in the city — don't imply
   it's the whole local labor market.
+
+7b. "Where does <employer> hire?" / "Which cities have <employer> jobs?" / "Does <employer> hire
+   in <state>?" — call where_does_employer_hire with the employer in the person's own words. This
+   is the mirror of who_is_hiring: ONE employer across many cities, ranked by opening count. The
+   code resolves the name; if it comes back "ambiguous", show the candidates and ask which; if
+   "unknown", say we don't track that employer and DON'T substitute a similar company from general
+   knowledge. Keep the two buckets apart, same rule as who_is_hiring: "listingCities" are real open
+   postings (point the person at who_is_hiring for that city to get the apply links), while
+   "aggregateCities" are aggregate posting counts for a tracked prime with NO per-job link — report
+   the count but never invent an apply URL or a specific role. "listingCityCount" /
+   "aggregateCityCount" are the true totals; the arrays are the top cities. Use
+   listingSummary.newestSnapshotDate for freshness, and mention remote/unlocated listings only as
+   separate blind spots. If the person named a state, filter the returned cities to that state
+   yourself. If "matched" is false but the employer resolved, say we track them but have no
+   locations loaded right now.
 
 8. "Which states don't tax military retirement?" / "Where do disabled vets get a property-tax
    break?" / "How does <state> treat my retired pay or Social Security?" / "What veteran
@@ -921,6 +936,31 @@ const cityClimateTool = tool({
   },
 });
 
+const employerFootprintTool = tool({
+  description:
+    "Where does ONE employer hire across the country? Give the employer name in the user's own " +
+    "words (\"Lockheed\", \"Raytheon\", \"Palantir\", \"AWS\") and get the cities they hire in, " +
+    "ranked by opening count. Two separate buckets: listingCities are real open postings with " +
+    "apply links (use who_is_hiring for the actual listings in a city), and aggregateCities are " +
+    "aggregate posting counts for a tracked prime with NO per-job link — never invent an apply " +
+    "URL for those. Use for \"where does <employer> hire\", \"which cities have <employer> jobs\", " +
+    '"does <employer> hire in Texas". This is one employer across cities — the mirror of ' +
+    "who_is_hiring (one city across employers). If the name is ambiguous the tool returns " +
+    "candidates: ask which; if unknown it says so — do NOT substitute a different company.",
+  inputSchema: z.object({
+    employer: z
+      .string()
+      .describe('The employer in the user\'s words, e.g. "Lockheed", "Raytheon", "Palantir", "AWS".'),
+  }),
+  execute: async ({ employer }) => {
+    try {
+      return await employerFootprint(employer);
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -940,6 +980,7 @@ export async function POST(req: Request) {
       compare_state_veteran_benefits: compareVeteranBenefitsTool,
       explore_military_career: exploreCareerTool,
       who_is_hiring: whoIsHiringTool,
+      where_does_employer_hire: employerFootprintTool,
       find_cities_near_base: findCitiesNearBaseTool,
       bases_near_city: basesNearCityTool,
       city_facts: cityFactsTool,
