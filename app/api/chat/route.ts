@@ -14,6 +14,7 @@ import {
 } from "@/city-profile-stack/lib/city-queries";
 import { basesNearCity, findCitiesNearBase } from "@/city-profile-stack/lib/near-base-queries";
 import { getCityFacts } from "@/city-profile-stack/lib/city-facts-queries";
+import { getCityClimate } from "@/city-profile-stack/lib/climate-queries";
 import { exploreSpecialtyTransition } from "@/lib/career-tool";
 import { hiringInCity } from "@/lib/defense-jobs";
 
@@ -389,6 +390,22 @@ Reporting near-a-base answers (find_cities_near_base / bases_near_city):
     specific place; use find_similar_cities only for "what's LIKE <city>". If they give
     only a city name and the tool returns status "ambiguous", ask which state. On
     "unknown", say you don't have that place — don't answer from general knowledge.
+
+Climate and air quality (city_climate):
+- Call city_climate for monthly temperatures, precipitation, snowfall, humidity/dew point,
+  or historical bad-air days. Use month 1–12 for a specific month; omit it for all months.
+  Use airQualityYear only for an explicitly requested year; otherwise it returns the latest recorded year.
+- These are long-run climate normals and annual air-quality history, never today's weather,
+  a forecast, or live AQI. Cite the returned vintage and source links when giving numbers;
+  this source attribution is an exception to the conversational machinery guidance above.
+- Temperature comes only from monthly normals. Moisture is station mean dew point in F,
+  not relative humidity percent; disclose a distant station when relevant. Never infer a
+  missing temperature from moisture or substitute the station's temperature.
+- For AQI, name the year and county/metro/nearest-county area, plus observed days. Explain
+  whether bad-air days means above 100 (including sensitive groups) or above 150. Missing
+  measurements are unknown, not clean days. Annual counts cannot answer monthly counts.
+- A missing requested AQI year is unavailable; never quietly substitute another year.
+  Resolve ambiguous places before answering. Null blocks or fields mean not recorded.
 
 Reporting city facts (city_facts):
 - Lead with what they asked, then a few facts that matter to a veteran retiree (VA, base,
@@ -886,6 +903,24 @@ const cityFactsTool = tool({
   },
 });
 
+const cityClimateTool = tool({
+  description: 'Monthly climate normals and historical annual air quality for one "City, ST". ' +
+    'Answers average July high, winter snow, moisture/dew point and bad-air days with source vintage, ' +
+    'AQI year and source area. Not current weather or live AQI. Missing data remains unknown.',
+  inputSchema: z.object({
+    city: z.string().trim().min(1).describe('Place as "City, ST"; a bare name may be ambiguous.'),
+    month: z.number().int().min(1).max(12).optional().describe('Calendar month 1–12; omit for all months.'),
+    airQualityYear: z.number().int().min(1900).max(2100).optional().describe('Exact historical AQI year; omit for latest recorded.'),
+  }),
+  execute: async ({ city, month, airQualityYear }) => {
+    try {
+      return await getCityClimate(city, month, airQualityYear);
+    } catch {
+      return { error: "Climate data could not be read. Do not interpret this as missing measurements or clean air." };
+    }
+  },
+});
+
 export async function POST(req: Request) {
   const { messages, model }: { messages: UIMessage[]; model?: unknown } = await req.json();
   if (model != null && requestedOpenAIModel(model) == null) {
@@ -908,6 +943,7 @@ export async function POST(req: Request) {
       find_cities_near_base: findCitiesNearBaseTool,
       bases_near_city: basesNearCityTool,
       city_facts: cityFactsTool,
+      city_climate: cityClimateTool,
     },
     // 8 leaves room for a composed career+place turn (e.g. explore_military_career
     // + compare_state_taxes_and_gas + match_person_to_cities) plus the final reply.
